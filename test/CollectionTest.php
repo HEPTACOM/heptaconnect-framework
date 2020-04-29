@@ -16,6 +16,8 @@ class CollectionTest extends TestCase
 {
     /**
      * @dataProvider provideValidItems
+     *
+     * @param array<int, mixed> $items
      */
     public function testPassingInValidItemsAndKeepAll(array $items): void
     {
@@ -26,6 +28,8 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider provideInvalidTypeItems
+     *
+     * @param array<int, mixed> $items
      */
     public function testPassingInInvalidTypeItemsAndKeepNone(array $items): void
     {
@@ -75,7 +79,10 @@ class CollectionTest extends TestCase
         $struct->publicString = 'testvaluetofind';
         $collection->push($struct, new SerializationStruct());
         $this->assertNotNull($collection->first());
-        $this->assertEquals($collection->first()->publicString, 'testvaluetofind');
+
+        $firstItem = $collection->first();
+        $this->assertInstanceOf(SerializationStruct::class, $firstItem);
+        $this->assertEquals($firstItem->publicString, 'testvaluetofind');
     }
 
     public function testLast(): void
@@ -87,7 +94,10 @@ class CollectionTest extends TestCase
         $struct->publicString = 'testvaluetofind';
         $collection->push(new SerializationStruct(), $struct);
         $this->assertNotNull($collection->last());
-        $this->assertEquals($collection->last()->publicString, 'testvaluetofind');
+
+        $lastItem = $collection->last();
+        $this->assertInstanceOf(SerializationStruct::class, $lastItem);
+        $this->assertEquals($lastItem->publicString, 'testvaluetofind');
     }
 
     public function testIndexAccess(): void
@@ -126,7 +136,7 @@ class CollectionTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array<int, Struct>>
+     * @return iterable<string, array<int, array<int, Struct>>>
      */
     public function provideValidItems(): iterable
     {
@@ -134,7 +144,7 @@ class CollectionTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array<int, mixed>>
+     * @return iterable<string, array<int, array<int, object>>>
      */
     public function provideInvalidObjectItems(): iterable
     {
@@ -144,7 +154,7 @@ class CollectionTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array<int, mixed>>
+     * @return iterable<string, array<int, array<int, mixed>>>
      */
     public function provideInvalidTypeItems(): iterable
     {
