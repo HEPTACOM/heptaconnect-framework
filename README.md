@@ -1,8 +1,9 @@
-# repo-base
+# HEPTAConnect Dataset Base
 
 ## Description
 
-This is a HEPTAConnect package.
+This is a HEPTAConnect package to provide basic dataset structures like structs and collections.
+Any other dataset library has to use the classes to work with HEPTAConnect utilities.
 Read more under [Overview](../heptaconnect-docs).
 
 
