@@ -7,12 +7,12 @@ use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
- * @covers Heptacom\HeptaConnect\Dataset\Base\Dependency
- * @covers Heptacom\HeptaConnect\Dataset\Base\DependencyCollection
- * @covers Heptacom\HeptaConnect\Dataset\Base\Support\DependencyAwareTrait
- * @covers Heptacom\HeptaConnect\Dataset\Base\Support\DependencyTrait
- * @covers Heptacom\HeptaConnect\Dataset\Base\Support\PrimaryKeyTrait
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Dependency
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\DependencyCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\DependencyAwareTrait
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\DependencyTrait
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\PrimaryKeyTrait
  */
 class DependencyTest extends TestCase
 {
@@ -46,6 +46,7 @@ class DependencyTest extends TestCase
         $dep->setDatasetEntityClass(Dependency::class);
         $dep->setPrimaryKey('17');
 
+        /** @var Dependency $dep */
         $dep = $struct->getDependencies()->offsetGet(1);
         $this->assertEquals(SerializationDatasetEntity::class, $dep->getDatasetEntityClass());
         $this->assertEquals('5', $dep->getPrimaryKey());

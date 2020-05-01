@@ -5,8 +5,10 @@ namespace Heptacom\HeptaConnect\Dataset\Base;
 /**
  * @template T
  */
-abstract class DatasetEntityCollection extends DatasetEntity implements Contract\DatasetEntityCollectionInterface
+abstract class DatasetEntityCollection implements Contract\DatasetEntityCollectionInterface
 {
+    use Support\JsonSerializeObjectVarsTrait;
+
     protected array $items = [];
 
     /**

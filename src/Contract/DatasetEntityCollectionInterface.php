@@ -9,7 +9,7 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
  * @ method T|null first()
  * @ method T|null last()
  */
-interface DatasetEntityCollectionInterface extends \IteratorAggregate, \Countable, \ArrayAccess
+interface DatasetEntityCollectionInterface extends \IteratorAggregate, \Countable, \ArrayAccess, \JsonSerializable
 {
     /**
      * @psalm-param T|object ...$items
