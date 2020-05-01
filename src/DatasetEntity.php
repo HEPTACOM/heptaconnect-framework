@@ -4,6 +4,20 @@ namespace Heptacom\HeptaConnect\Dataset\Base;
 
 abstract class DatasetEntity implements Contract\DatasetEntityInterface
 {
+    protected string $primaryKey = '';
+
+    public function getPrimaryKey(): string
+    {
+        return $this->primaryKey;
+    }
+
+    public function setPrimaryKey(string $primaryKey): self
+    {
+        $this->primaryKey = $primaryKey;
+
+        return $this;
+    }
+
     public function jsonSerialize(): array
     {
         $vars = \get_object_vars($this);

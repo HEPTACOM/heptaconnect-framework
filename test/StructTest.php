@@ -3,7 +3,6 @@
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
-use Heptacom\HeptaConnect\Dataset\Base\DatasetEntity;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
 use PHPStan\Testing\TestCase;
 
@@ -15,7 +14,7 @@ class StructTest extends TestCase
     /**
      * @dataProvider provideStructs
      */
-    public function testSerializationAccessors(DatasetEntity $struct): void
+    public function testSerializationAccessors(DatasetEntityInterface $struct): void
     {
         $deserializedData = $this->codeIt($struct);
 
