@@ -6,10 +6,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface as T;
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 
 /**
- * @method        __construct(T ...$items)
- * @method T|null offsetGet(int|string $key)
- * @method T|null first()
- * @method T|null last()
+ * @extends DatasetEntityCollection<T>
  */
 class UsageStructCollection extends DatasetEntityCollection
 {

@@ -10,7 +10,7 @@ abstract class DatasetEntityCollection extends DatasetEntity implements Contract
     protected array $items = [];
 
     /**
-     * @param T|object ...$items
+     * @psalm-param T|object ...$items
      */
     public function __construct(...$items)
     {
@@ -68,7 +68,7 @@ abstract class DatasetEntityCollection extends DatasetEntity implements Contract
 
     /**
      * @param string|int $offset
-     * @param object|T   $value
+     * @psalm-param object|T   $value
      */
     public function offsetSet($offset, $value)
     {
@@ -117,7 +117,7 @@ abstract class DatasetEntityCollection extends DatasetEntity implements Contract
     }
 
     /**
-     * @param object|T $item
+     * @psalm-param object|T $item
      */
     protected function isValidItem(object $item): bool
     {

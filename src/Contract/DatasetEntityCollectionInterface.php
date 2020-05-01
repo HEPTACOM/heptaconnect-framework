@@ -12,7 +12,7 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
 interface DatasetEntityCollectionInterface extends \IteratorAggregate, \Countable, \ArrayAccess
 {
     /**
-     * @param T|object ...$items
+     * @psalm-param T|object ...$items
      */
     public function push(...$items): void;
 
