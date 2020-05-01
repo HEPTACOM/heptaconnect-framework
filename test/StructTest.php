@@ -35,6 +35,8 @@ class StructTest extends TestCase
         $this->assertIsString($deserializedData['publicDateTime']);
         $this->assertIsInt($deserializedData['publicInt']);
         $this->assertIsFloat($deserializedData['publicFloat']);
+        $this->assertIsString($deserializedData['primaryKey']);
+        $this->assertEquals($deserializedData['primaryKey'], $struct->getPrimaryKey());
     }
 
     /**
@@ -42,7 +44,9 @@ class StructTest extends TestCase
      */
     public function provideStructs(): iterable
     {
-        yield SerializationDatasetEntity::class => [new SerializationDatasetEntity()];
+        yield SerializationDatasetEntity::class => [
+            (new SerializationDatasetEntity())->setPrimaryKey('the primary key of choice'),
+        ];
     }
 
     /**
