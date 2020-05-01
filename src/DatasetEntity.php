@@ -4,6 +4,7 @@ namespace Heptacom\HeptaConnect\Dataset\Base;
 
 abstract class DatasetEntity implements Contract\DatasetEntityInterface
 {
-    use Support\PrimaryKeyTrait;
+    use Support\DependencyAwareTrait;
     use Support\JsonSerializeObjectVarsTrait;
+    use Support\PrimaryKeyTrait;
 }

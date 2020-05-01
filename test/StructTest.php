@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntity
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
  */
 class StructTest extends TestCase
 {
