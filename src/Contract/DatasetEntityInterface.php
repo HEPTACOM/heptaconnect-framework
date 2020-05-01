@@ -6,5 +6,5 @@ interface DatasetEntityInterface extends \JsonSerializable
 {
     public function getPrimaryKey(): string;
 
-    public function setPrimaryKey(string $primaryKey): self;
+    public function setPrimaryKey(string $primaryKey): void;
 }

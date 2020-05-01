@@ -44,9 +44,10 @@ class StructTest extends TestCase
      */
     public function provideStructs(): iterable
     {
-        yield SerializationDatasetEntity::class => [
-            (new SerializationDatasetEntity())->setPrimaryKey('the primary key of choice'),
-        ];
+        $struct = new SerializationDatasetEntity();
+        $struct->setPrimaryKey('the primary key of choice');
+
+        yield SerializationDatasetEntity::class => [$struct];
     }
 
     /**
