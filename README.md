@@ -1,8 +1,8 @@
-# repo-base
+# HEPTAConnect Portal Base
 
 ## Description
 
-This is a HEPTAConnect package.
+This is a HEPTAConnect package that provides base structures for portals.
 Read more under [Overview](../heptaconnect-docs).
 
 

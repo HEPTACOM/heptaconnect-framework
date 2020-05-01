@@ -1,10 +1,9 @@
 {
-    "name": "heptacom/heptaconnect-repository-base",
-    "description": "HEPTAConnect package",
+    "name": "heptacom/heptaconnect-portal-base",
+    "description": "HEPTAConnect base dataset that every other portal is based on",
     "type": "library",
     "keywords": [
-        "heptaconnect-dataset",
-        "heptaconnect-adapter"
+        "heptaconnect-portal"
     ],
     "license": [
         "MIT",
@@ -21,7 +20,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Heptacom\\HeptaConnect\\": "src/"
+            "Heptacom\\HeptaConnect\\Portal\\Base\\": "src/"
         }
     },
     "require-dev": {
@@ -38,7 +37,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Heptacom\\HeptaConnect\\Test\\": "src/"
+            "Heptacom\\HeptaConnect\\Portal\\Base\\Test\\": "src/"
         }
     }
 }
