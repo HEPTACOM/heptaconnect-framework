@@ -2,15 +2,15 @@
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
-use Heptacom\HeptaConnect\Dataset\Base\Struct;
-use Heptacom\HeptaConnect\Dataset\Base\StructCollection;
-use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationStruct;
+use Heptacom\HeptaConnect\Dataset\Base\DatasetEntity;
+use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
+use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\UsageStructCollection;
 use PHPStan\Testing\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Struct
- * @covers \Heptacom\HeptaConnect\Dataset\Base\StructCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntity
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
  */
 class CollectionTest extends TestCase
 {
@@ -64,7 +64,7 @@ class CollectionTest extends TestCase
     public function testClear(): void
     {
         $collection = new UsageStructCollection();
-        $collection->push(new SerializationStruct(), new SerializationStruct());
+        $collection->push(new SerializationDatasetEntity(), new SerializationDatasetEntity());
         $this->assertCount(2, $collection);
         $collection->clear();
         $this->assertCount(0, $collection);
@@ -75,13 +75,13 @@ class CollectionTest extends TestCase
         $collection = new UsageStructCollection();
         $this->assertNull($collection->first());
 
-        $struct = new SerializationStruct();
+        $struct = new SerializationDatasetEntity();
         $struct->publicString = 'testvaluetofind';
-        $collection->push($struct, new SerializationStruct());
+        $collection->push($struct, new SerializationDatasetEntity());
         $this->assertNotNull($collection->first());
 
         $firstItem = $collection->first();
-        $this->assertInstanceOf(SerializationStruct::class, $firstItem);
+        $this->assertInstanceOf(SerializationDatasetEntity::class, $firstItem);
         $this->assertEquals($firstItem->publicString, 'testvaluetofind');
     }
 
@@ -90,20 +90,20 @@ class CollectionTest extends TestCase
         $collection = new UsageStructCollection();
         $this->assertNull($collection->last());
 
-        $struct = new SerializationStruct();
+        $struct = new SerializationDatasetEntity();
         $struct->publicString = 'testvaluetofind';
-        $collection->push(new SerializationStruct(), $struct);
+        $collection->push(new SerializationDatasetEntity(), $struct);
         $this->assertNotNull($collection->last());
 
         $lastItem = $collection->last();
-        $this->assertInstanceOf(SerializationStruct::class, $lastItem);
+        $this->assertInstanceOf(SerializationDatasetEntity::class, $lastItem);
         $this->assertEquals($lastItem->publicString, 'testvaluetofind');
     }
 
     public function testIndexAccess(): void
     {
         $collection = new UsageStructCollection();
-        $collection->offsetSet(799, new SerializationStruct());
+        $collection->offsetSet(799, new SerializationDatasetEntity());
         $this->assertTrue($collection->offsetExists(799));
         $this->assertNotNull($collection->offsetGet(799));
         $collection->offsetUnset(799);
@@ -113,7 +113,7 @@ class CollectionTest extends TestCase
     public function testGenerator(): void
     {
         $collection = new UsageStructCollection();
-        $collection->push(new SerializationStruct());
+        $collection->push(new SerializationDatasetEntity());
         $this->assertIsIterable($collection->getIterator());
         $this->assertCount(1, $collection->getIterator());
 
@@ -125,7 +125,7 @@ class CollectionTest extends TestCase
     public function testSerialization(): void
     {
         $collection = new UsageStructCollection();
-        $collection->push(new SerializationStruct());
+        $collection->push(new SerializationDatasetEntity());
 
         $coded = $this->codeIt($collection);
         $this->assertNotEmpty($coded);
@@ -136,11 +136,11 @@ class CollectionTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array<int, array<int, Struct>>>
+     * @return iterable<string, array<int, array<int, DatasetEntity>>>
      */
     public function provideValidItems(): iterable
     {
-        yield SerializationStruct::class => [[new SerializationStruct()]];
+        yield SerializationDatasetEntity::class => [[new SerializationDatasetEntity()]];
     }
 
     /**
@@ -165,7 +165,7 @@ class CollectionTest extends TestCase
     /**
      * @throws \JsonException
      */
-    protected function codeIt(StructCollection $collection): array
+    protected function codeIt(DatasetEntityCollection $collection): array
     {
         $encoded = \json_encode($collection, \JSON_THROW_ON_ERROR);
         /** @var array<string, mixed> $decoded */

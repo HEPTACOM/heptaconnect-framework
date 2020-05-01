@@ -13,7 +13,7 @@ use IteratorAggregate;
  * @ method T|null first()
  * @ method T|null last()
  */
-abstract class StructCollection extends Struct implements IteratorAggregate, Countable, ArrayAccess
+abstract class DatasetEntityCollection extends DatasetEntity implements IteratorAggregate, Countable, ArrayAccess
 {
     protected array $items = [];
 

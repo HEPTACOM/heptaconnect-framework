@@ -2,9 +2,9 @@
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test\Fixture;
 
-use Heptacom\HeptaConnect\Dataset\Base\Struct;
+use Heptacom\HeptaConnect\Dataset\Base\DatasetEntity;
 
-class SerializationStruct extends Struct
+class SerializationDatasetEntity extends DatasetEntity
 {
     public string $publicString = 'public';
 

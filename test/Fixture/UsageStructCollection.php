@@ -2,8 +2,8 @@
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test\Fixture;
 
-use Heptacom\HeptaConnect\Dataset\Base\Struct as T;
-use Heptacom\HeptaConnect\Dataset\Base\StructCollection;
+use Heptacom\HeptaConnect\Dataset\Base\DatasetEntity as T;
+use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 
 /**
  * @method        __construct(T ...$items)
@@ -11,7 +11,7 @@ use Heptacom\HeptaConnect\Dataset\Base\StructCollection;
  * @method T|null first()
  * @method T|null last()
  */
-class UsageStructCollection extends StructCollection
+class UsageStructCollection extends DatasetEntityCollection
 {
     protected function getT(): string
     {
