@@ -17,48 +17,13 @@ class CollectionTest extends TestCase
     /**
      * @dataProvider provideValidItems
      *
-     * @param array<int, mixed> $items
+     * @param array<int, DatasetEntityInterface> $items
      */
     public function testPassingInValidItemsAndKeepAll(array $items): void
     {
         $collection = new UsageStructCollection();
         $collection->push(...$items);
         $this->assertCount($collection->count(), $items);
-    }
-
-    /**
-     * @dataProvider provideInvalidTypeItems
-     *
-     * @param array<int, mixed> $items
-     */
-    public function testPassingInInvalidTypeItemsAndKeepNone(array $items): void
-    {
-        $collection = new UsageStructCollection();
-
-        try {
-            $collection->push(...$items);
-            $this->fail('No type error');
-        } catch (\TypeError $typeError) {
-        }
-
-        $this->assertNotCount($collection->count(), $items);
-        $this->assertEquals(0, $collection->count());
-    }
-
-    /**
-     * @dataProvider provideInvalidObjectItems
-     */
-    public function testPassingInInvalidObjectItemsAndKeepNone(array $items): void
-    {
-        $collection = new UsageStructCollection();
-
-        try {
-            $collection->push(...$items);
-        } catch (\TypeError $typeError) {
-        }
-
-        $this->assertNotCount($collection->count(), $items);
-        $this->assertEquals(0, $collection->count());
     }
 
     public function testClear(): void
@@ -151,15 +116,6 @@ class CollectionTest extends TestCase
         yield \DateTime::class => [[new \DateTime()]];
         yield \DateInterval::class => [[new \DateInterval('P1D')]];
         yield \Exception::class => [[new \Exception()]];
-    }
-
-    /**
-     * @return iterable<string, array<int, array<int, mixed>>>
-     */
-    public function provideInvalidTypeItems(): iterable
-    {
-        yield 'string' => [['fancy']];
-        yield 'int' => [[123]];
     }
 
     /**

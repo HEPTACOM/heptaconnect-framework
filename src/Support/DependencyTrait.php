@@ -11,9 +11,6 @@ trait DependencyTrait
         return $this->datasetEntityClass;
     }
 
-    /**
-     * psalm-param class-string<DatasetInterface> $datasetEntityClass
-     */
     public function setDatasetEntityClass(string $datasetEntityClass): void
     {
         $this->datasetEntityClass = $datasetEntityClass;

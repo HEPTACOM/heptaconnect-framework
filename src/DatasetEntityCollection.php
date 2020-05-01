@@ -17,6 +17,9 @@ abstract class DatasetEntityCollection extends DatasetEntity implements Contract
         $this->push(...$items);
     }
 
+    /**
+     * @psalm-param T|object ...$items
+     */
     public function push(...$items): void
     {
         $items = \iterator_to_array($this->filterValid($items));

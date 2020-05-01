@@ -5,7 +5,7 @@ namespace Heptacom\HeptaConnect\Dataset\Base;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DependencyInterface;
 
 /**
- * @extends GenericTranslatable<DependencyInterface>
+ * @extends DatasetEntityCollection<DependencyInterface>
  */
 class DependencyCollection extends DatasetEntityCollection
 {
