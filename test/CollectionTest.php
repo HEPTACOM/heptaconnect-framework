@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
-use Heptacom\HeptaConnect\Dataset\Base\DatasetEntity;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\UsageStructCollection;
@@ -136,7 +136,7 @@ class CollectionTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array<int, array<int, DatasetEntity>>>
+     * @return iterable<string, array<int, array<int, DatasetEntityInterface>>>
      */
     public function provideValidItems(): iterable
     {

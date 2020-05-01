@@ -2,6 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntity;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
 use PHPStan\Testing\TestCase;
@@ -27,7 +28,7 @@ class StructTest extends TestCase
      * @depends testSerializationAccessors
      * @dataProvider provideStructs
      */
-    public function testSerializationTypes(DatasetEntity $struct): void
+    public function testSerializationTypes(DatasetEntityInterface $struct): void
     {
         $deserializedData = $this->codeIt($struct);
 
@@ -38,7 +39,7 @@ class StructTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array<int, DatasetEntity>>
+     * @return iterable<string, array<int, DatasetEntityInterface>>
      */
     public function provideStructs(): iterable
     {
@@ -48,7 +49,7 @@ class StructTest extends TestCase
     /**
      * @throws \JsonException
      */
-    protected function codeIt(DatasetEntity $struct): array
+    protected function codeIt(DatasetEntityInterface $struct): array
     {
         $encoded = \json_encode($struct, \JSON_THROW_ON_ERROR);
         /** @var array<string, mixed> $decoded */

@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Dataset\Base;
 
-abstract class DatasetEntity implements \JsonSerializable
+abstract class DatasetEntity implements Contract\DatasetEntityInterface
 {
     public function jsonSerialize(): array
     {

@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test\Fixture;
 
-use Heptacom\HeptaConnect\Dataset\Base\DatasetEntity as T;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface as T;
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 
 /**
