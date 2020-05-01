@@ -2,18 +2,10 @@
 
 namespace Heptacom\HeptaConnect\Dataset\Base;
 
-use ArrayAccess;
-use Countable;
-use IteratorAggregate;
-
 /**
  * @template T
- * @ method        __construct(T ...$items)
- * @ method T|null offsetGet(int|string $key)
- * @ method T|null first()
- * @ method T|null last()
  */
-abstract class DatasetEntityCollection extends DatasetEntity implements IteratorAggregate, Countable, ArrayAccess
+abstract class DatasetEntityCollection extends DatasetEntity implements Contract\DatasetEntityCollectionInterface
 {
     protected array $items = [];
 
@@ -25,9 +17,6 @@ abstract class DatasetEntityCollection extends DatasetEntity implements Iterator
         $this->push(...$items);
     }
 
-    /**
-     * @param T|object ...$items
-     */
     public function push(...$items): void
     {
         $items = \iterator_to_array($this->filterValid($items));

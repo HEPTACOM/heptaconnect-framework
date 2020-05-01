@@ -2,8 +2,8 @@
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityCollectionInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
-use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\UsageStructCollection;
 use PHPStan\Testing\TestCase;
@@ -165,7 +165,7 @@ class CollectionTest extends TestCase
     /**
      * @throws \JsonException
      */
-    protected function codeIt(DatasetEntityCollection $collection): array
+    protected function codeIt(DatasetEntityCollectionInterface $collection): array
     {
         $encoded = \json_encode($collection, \JSON_THROW_ON_ERROR);
         /** @var array<string, mixed> $decoded */
