@@ -17,8 +17,7 @@
     ],
     "require": {
         "php": ">=7.4 <7.5",
-        "heptacom/heptaconnect-dataset-base": "dev-master",
-        "symfony/options-resolver": ">=3 <6"
+        "heptacom/heptaconnect-dataset-base": "dev-master"
     },
     "autoload": {
         "psr-4": {

@@ -2,9 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Contract;
 
-use Symfony\Component\OptionsResolver\Options;
-
 interface EmitContextInterface extends PortalNodeAwareInterface
 {
-    public function getConfig(MappingInterface $mapping): Options;
+    public function getConfig(MappingInterface $mapping): ?\ArrayAccess;
 }
