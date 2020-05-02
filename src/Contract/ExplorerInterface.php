@@ -9,5 +9,8 @@ interface ExplorerInterface
      */
     public function explore(ExploreContextInterface $context): iterable;
 
+    /**
+     * @return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
+     */
     public function supports(): string;
 }

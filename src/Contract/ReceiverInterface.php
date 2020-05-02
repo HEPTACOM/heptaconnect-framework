@@ -16,7 +16,7 @@ interface ReceiverInterface
     ): iterable;
 
     /**
-     * @return array<array-key, string>
+     * @return array<array-key, class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>>
      */
     public function supports(): array;
 }
