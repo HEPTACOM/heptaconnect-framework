@@ -4,5 +4,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Contract;
 
 interface ReceiveContextInterface extends PortalNodeAwareInterface
 {
+    public function getConfig(MappingInterface $mapping): ?\ArrayAccess;
+
     public function markAsFailed(MappingInterface $mapping, \Throwable $throwable): void;
 }
