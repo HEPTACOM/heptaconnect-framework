@@ -11,15 +11,15 @@ use PHPUnit\Framework\TestCase;
  */
 class StorageFallbackTest extends TestCase
 {
-    public function testConfigurationGetFallback(): void
+    public function testGetConfigurationFallback(): void
     {
         $storage = new Fixture\FallbackedStorage();
 
         try {
-            $storage->configurationGet('');
+            $storage->getConfiguration('');
             $this->fail('Method is implemented or does not throw exception');
         } catch (StorageMethodNotImplemented $exception) {
-            $this->assertEquals('configurationGet', $exception->getMethod());
+            $this->assertEquals('getConfiguration', $exception->getMethod());
             $this->assertEquals(Fixture\FallbackedStorage::class, $exception->getClass());
             $this->assertNull($exception->getPrevious());
             $this->assertStringContainsString($exception->getMethod(), $exception->getMessage());
@@ -28,15 +28,15 @@ class StorageFallbackTest extends TestCase
         }
     }
 
-    public function testConfigurationSetFallback(): void
+    public function testSetConfigurationFallback(): void
     {
         $storage = new Fixture\FallbackedStorage();
 
         try {
-            $storage->configurationSet('', []);
+            $storage->setConfiguration('', []);
             $this->fail('Method is implemented or does not throw exception');
         } catch (StorageMethodNotImplemented $exception) {
-            $this->assertEquals('configurationSet', $exception->getMethod());
+            $this->assertEquals('setConfiguration', $exception->getMethod());
             $this->assertEquals(Fixture\FallbackedStorage::class, $exception->getClass());
             $this->assertNull($exception->getPrevious());
             $this->assertStringContainsString($exception->getMethod(), $exception->getMessage());

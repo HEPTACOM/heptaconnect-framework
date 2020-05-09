@@ -9,10 +9,10 @@ interface StorageInterface
     /**
      * @throws StorageMethodNotImplemented
      */
-    public function configurationGet(string $portalNodeId): array;
+    public function getConfiguration(string $portalNodeId): array;
 
     /**
      * @throws StorageMethodNotImplemented
      */
-    public function configurationSet(string $portalNodeId, array $data): array;
+    public function setConfiguration(string $portalNodeId, array $data): array;
 }
