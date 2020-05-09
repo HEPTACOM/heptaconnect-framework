@@ -2,6 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Storage\Base\Support;
 
+use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
 use Heptacom\HeptaConnect\Storage\Base\Exception\StorageMethodNotImplemented;
 
@@ -13,6 +14,16 @@ abstract class StorageFallback implements StorageInterface
     }
 
     public function setConfiguration(string $portalNodeId, array $data): array
+    {
+        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
+    }
+
+    public function createMappingNodeIds(array $datasetEntityClassNames): array
+    {
+        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
+    }
+
+    public function createMappings(MappingCollection $mappings): void
     {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
