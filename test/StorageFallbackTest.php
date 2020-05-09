@@ -21,6 +21,10 @@ class StorageFallbackTest extends TestCase
         } catch (StorageMethodNotImplemented $exception) {
             $this->assertEquals('configurationGet', $exception->getMethod());
             $this->assertEquals(Fixture\FallbackedStorage::class, $exception->getClass());
+            $this->assertNull($exception->getPrevious());
+            $this->assertStringContainsString($exception->getMethod(), $exception->getMessage());
+            $this->assertStringContainsString($exception->getClass(), $exception->getMessage());
+            $this->assertEquals(0, $exception->getCode());
         }
     }
 
@@ -34,6 +38,10 @@ class StorageFallbackTest extends TestCase
         } catch (StorageMethodNotImplemented $exception) {
             $this->assertEquals('configurationSet', $exception->getMethod());
             $this->assertEquals(Fixture\FallbackedStorage::class, $exception->getClass());
+            $this->assertNull($exception->getPrevious());
+            $this->assertStringContainsString($exception->getMethod(), $exception->getMessage());
+            $this->assertStringContainsString($exception->getClass(), $exception->getMessage());
+            $this->assertEquals(0, $exception->getCode());
         }
     }
 }
