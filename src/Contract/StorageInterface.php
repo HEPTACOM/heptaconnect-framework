@@ -23,9 +23,9 @@ interface StorageInterface
      *     class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
      * > $datasetEntityClassNames
      *
-     * @return array<array-key, string>
+     * @return array<array-key, \Heptacom\HeptaConnect\Core\Mapping\MappingNodeStruct>
      */
-    public function createMappingNodeIds(array $datasetEntityClassNames): array;
+    public function createMappingNodes(array $datasetEntityClassNames): array;
 
     public function createMappings(MappingCollection $mappings): void;
 }

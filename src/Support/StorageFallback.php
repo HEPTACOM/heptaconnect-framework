@@ -18,7 +18,7 @@ abstract class StorageFallback implements StorageInterface
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
 
-    public function createMappingNodeIds(array $datasetEntityClassNames): array
+    public function createMappingNodes(array $datasetEntityClassNames): array
     {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
