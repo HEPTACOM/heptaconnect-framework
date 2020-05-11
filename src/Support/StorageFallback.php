@@ -13,7 +13,7 @@ abstract class StorageFallback implements StorageInterface
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
 
-    public function setConfiguration(string $portalNodeId, array $data): array
+    public function setConfiguration(string $portalNodeId, array $data): void
     {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }

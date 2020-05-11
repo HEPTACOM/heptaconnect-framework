@@ -15,7 +15,7 @@ interface StorageInterface
     /**
      * @throws StorageMethodNotImplemented
      */
-    public function setConfiguration(string $portalNodeId, array $data): array;
+    public function setConfiguration(string $portalNodeId, array $data): void;
 
     /**
      * @param array<
