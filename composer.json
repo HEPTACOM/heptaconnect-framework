@@ -6,7 +6,7 @@
         "heptaconnect-dataset"
     ],
     "license": [
-        "MIT",
+        "Apache-2.0",
         "proprietary"
     ],
     "minimum-stability": "stable",
