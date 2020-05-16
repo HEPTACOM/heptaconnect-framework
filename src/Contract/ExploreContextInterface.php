@@ -2,11 +2,12 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Contract;
 
-use Symfony\Component\OptionsResolver\Options;
-
 interface ExploreContextInterface
 {
     public function getPortalNode(): PortalNodeInterface;
 
-    public function getConfig(): Options;
+    /**
+     * @psalm-return \ArrayAccess<array-key, mixed>|null
+     */
+    public function getConfig(): ?\ArrayAccess;
 }

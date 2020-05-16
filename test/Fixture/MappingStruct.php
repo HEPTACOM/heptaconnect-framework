@@ -23,6 +23,6 @@ class MappingStruct implements MappingInterface
 
     public function getDatasetEntityClassName(): string
     {
-        return __METHOD__;
+        return DatasetEntityStruct::class;
     }
 }

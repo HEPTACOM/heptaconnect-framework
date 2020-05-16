@@ -14,9 +14,9 @@ class UnexpectedPortalNodeExceptionTest extends TestCase
     public function testExceptionDetectsTypeCorrectly(): void
     {
         $e = new UnexpectedPortalNodeException(null);
-        $this->assertEquals('null', $e->getType());
+        static::assertEquals('null', $e->getType());
 
         $e = new UnexpectedPortalNodeException(new PortalNode());
-        $this->assertEquals(PortalNode::class, $e->getType());
+        static::assertEquals(PortalNode::class, $e->getType());
     }
 }

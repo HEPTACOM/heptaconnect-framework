@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Portal\Base\MappedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\MappedDatasetEntityStruct
  */
-class MappedDatasetEntityTest extends TestCase
+class MappingCollectionTest extends TestCase
 {
     public function testBuildingMappedStruct(): void
     {
@@ -20,15 +20,14 @@ class MappedDatasetEntityTest extends TestCase
         $mapping = new MappingStruct();
         $struct = new MappedDatasetEntityStruct($mapping, $datasetEntity);
 
-        $this->assertEquals($mapping, $struct->getMapping());
-        $this->assertEquals($datasetEntity, $struct->getDatasetEntity());
+        static::assertEquals($mapping, $struct->getMapping());
+        static::assertEquals($datasetEntity, $struct->getDatasetEntity());
     }
 
     public function testBuildingMappedCollection(): void
     {
         $collection = new MappedDatasetEntityCollection();
-        $collection->push(new MappedDatasetEntityStruct(new MappingStruct(), new DatasetEntityStruct()));
-        $collection->push(new MappingStruct());
-        $this->assertEquals(1, $collection->count());
+        $collection->push([new MappedDatasetEntityStruct(new MappingStruct(), new DatasetEntityStruct())]);
+        static::assertEquals(1, $collection->count());
     }
 }

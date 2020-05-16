@@ -4,5 +4,8 @@ namespace Heptacom\HeptaConnect\Portal\Base\Contract;
 
 interface EmitContextInterface extends PortalNodeAwareInterface
 {
+    /**
+     * @psalm-return \ArrayAccess<array-key, mixed>|null
+     */
     public function getConfig(MappingInterface $mapping): ?\ArrayAccess;
 }

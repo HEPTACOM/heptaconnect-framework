@@ -14,7 +14,7 @@ class MappingDatasetEntityTest extends TestCase
     public function testBuildingMappedCollection(): void
     {
         $collection = new MappingCollection();
-        $collection->push(new MappingStruct());
-        $this->assertEquals(1, $collection->count());
+        $collection->push([new MappingStruct()]);
+        static::assertEquals(1, $collection->count());
     }
 }
