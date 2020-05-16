@@ -2,8 +2,12 @@
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Translatable;
 
+use Heptacom\HeptaConnect\Dataset\Base\Translatable\Contract\TranslatableInterface;
+
 /**
  * @template T
+ * @implements \ArrayAccess<array-key, T>
+ * @implements Contract\TranslatableInterface<T>
  */
 abstract class GenericTranslatable implements \ArrayAccess, Contract\TranslatableInterface
 {
@@ -36,7 +40,7 @@ abstract class GenericTranslatable implements \ArrayAccess, Contract\Translatabl
     }
 
     /**
-     * @psalm-param array-key $offset
+     * @psalm-param array-key|null $offset
      * @psalm-param T|null $value
      */
     public function offsetSet($offset, $value): void
@@ -73,15 +77,25 @@ abstract class GenericTranslatable implements \ArrayAccess, Contract\Translatabl
     }
 
     /**
-     * @psalm-param T|null $value
+     * @psalm-param T $value
+     *
+     * @return TranslatableInterface<T>
      */
-    public function setTranslation(string $localeKey, $value): self
+    public function setTranslation(string $localeKey, $value): TranslatableInterface
     {
-        if (\is_null($value)) {
-            $this->deleteTranslation($localeKey);
-        } elseif ($this->isValidValue($value)) {
+        if (!\is_null($value) && $this->isValidValue($value)) {
             $this->translations[$localeKey] = $value;
         }
+
+        return $this;
+    }
+
+    /**
+     * @return TranslatableInterface<T>
+     */
+    public function removeTranslation(string $localeKey): TranslatableInterface
+    {
+        $this->deleteTranslation($localeKey);
 
         return $this;
     }
@@ -92,7 +106,7 @@ abstract class GenericTranslatable implements \ArrayAccess, Contract\Translatabl
     }
 
     /**
-     * @psalm-param T|null $value
+     * @psalm-param T $value
      */
     abstract protected function isValidValue($value): bool;
 

@@ -4,29 +4,30 @@ namespace Heptacom\HeptaConnect\Dataset\Base;
 
 /**
  * @template T
+ * @implements Contract\DatasetEntityCollectionInterface<T>
  */
 abstract class DatasetEntityCollection implements Contract\DatasetEntityCollectionInterface
 {
     use Support\JsonSerializeObjectVarsTrait;
 
+    /**
+     * @var array<array-key, T>
+     */
     protected array $items = [];
 
     /**
-     * @psalm-param T|object ...$items
+     * @psalm-param array<array-key, T> $items
      */
-    public function __construct(...$items)
+    public function __construct($items = [])
     {
-        $this->push(...$items);
+        $this->push($items);
     }
 
-    /**
-     * @psalm-param T|object ...$items
-     */
-    public function push(...$items): void
+    public function push(array $items): void
     {
         $items = \iterator_to_array($this->filterValid($items));
 
-        if (empty($items)) {
+        if (\count($items) === 0) {
             return;
         }
 
@@ -48,7 +49,7 @@ abstract class DatasetEntityCollection implements Contract\DatasetEntityCollecti
         return \array_values($this->items);
     }
 
-    public function getIterator(): \Generator
+    public function getIterator()
     {
         yield from $this->items;
     }
@@ -72,12 +73,12 @@ abstract class DatasetEntityCollection implements Contract\DatasetEntityCollecti
     }
 
     /**
-     * @param string|int $offset
-     * @psalm-param object|T   $value
+     * @param array-key|null $offset
+     * @psalm-param T   $value
      */
     public function offsetSet($offset, $value)
     {
-        if ($this->isValidItem($value)) {
+        if (!\is_null($offset) && $this->isValidItem($value)) {
             $this->items[$offset] = $value;
         }
     }
@@ -95,7 +96,9 @@ abstract class DatasetEntityCollection implements Contract\DatasetEntityCollecti
      */
     public function first()
     {
-        return \reset($this->items) ?: null;
+        $end = \current($this->items);
+
+        return $end === false ? null : $end;
     }
 
     /**
@@ -103,17 +106,16 @@ abstract class DatasetEntityCollection implements Contract\DatasetEntityCollecti
      */
     public function last()
     {
-        return \end($this->items) ?: null;
+        $end = \end($this->items);
+
+        return $end === false ? null : $end;
     }
 
     abstract protected function getT(): string;
 
     protected function filterValid(iterable $items): \Generator
     {
-        /**
-         * @var string|int $property
-         * @var object|T   $item
-         */
+        /** @var T $item */
         foreach ($items as $key => $item) {
             if ($this->isValidItem($item)) {
                 yield $key => $item;
@@ -122,12 +124,12 @@ abstract class DatasetEntityCollection implements Contract\DatasetEntityCollecti
     }
 
     /**
-     * @psalm-param object|T $item
+     * @psalm-param T $item
      */
-    protected function isValidItem(object $item): bool
+    protected function isValidItem($item): bool
     {
         $expected = $this->getT();
 
-        return $item instanceof $expected;
+        return \is_object($item) && $item instanceof $expected;
     }
 }

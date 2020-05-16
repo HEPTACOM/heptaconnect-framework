@@ -8,13 +8,15 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
  * @ method T|null offsetGet(int|string $key)
  * @ method T|null first()
  * @ method T|null last()
+ * @extends \ArrayAccess<array-key, T>
+ * @extends \IteratorAggregate<array-key, T>
  */
 interface DatasetEntityCollectionInterface extends \IteratorAggregate, \Countable, \ArrayAccess, \JsonSerializable
 {
     /**
-     * @psalm-param T|object ...$items
+     * @psalm-param array<array-key, T> $items
      */
-    public function push(...$items): void;
+    public function push(array $items): void;
 
     public function clear(): void;
 

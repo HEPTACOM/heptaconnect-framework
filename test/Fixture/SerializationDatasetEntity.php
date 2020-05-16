@@ -21,7 +21,7 @@ class SerializationDatasetEntity extends DatasetEntity
 
     public function __construct()
     {
-        $this->publicDateTime = \date_create();
+        $this->publicDateTime = new \DateTime();
         $this->dependencies = new DependencyCollection();
     }
 }

@@ -19,8 +19,8 @@ class TranslatableIntegerTest extends TestCase
         $translatable = new TranslatableInteger();
         $localeKey = 'en-GB';
         $translatable->setTranslation($localeKey, $item);
-        $this->assertEquals($item, $translatable->getTranslation($localeKey));
-        $this->assertEquals(['en-GB'], $translatable->getLocaleKeys());
+        static::assertEquals($item, $translatable->getTranslation($localeKey));
+        static::assertEquals(['en-GB'], $translatable->getLocaleKeys());
     }
 
     /**
@@ -31,8 +31,8 @@ class TranslatableIntegerTest extends TestCase
         $translatable = new TranslatableInteger();
         $localeKey = 'en-GB';
         $translatable[$localeKey] = $item;
-        $this->assertEquals($item, $translatable[$localeKey]);
-        $this->assertEquals(['en-GB'], $translatable->getLocaleKeys());
+        static::assertEquals($item, $translatable[$localeKey]);
+        static::assertEquals(['en-GB'], $translatable->getLocaleKeys());
     }
 
     /**
@@ -43,10 +43,10 @@ class TranslatableIntegerTest extends TestCase
         $translatable = new TranslatableInteger();
         $localeKey = 'en-GB';
         $translatable->setTranslation($localeKey, $anyValue);
-        $this->assertEquals($anyValue, $translatable->getTranslation($localeKey));
-        $translatable->setTranslation($localeKey, null);
-        $this->assertNull($translatable->getTranslation($localeKey));
-        $this->assertEmpty($translatable->getLocaleKeys());
+        static::assertEquals($anyValue, $translatable->getTranslation($localeKey));
+        $translatable->removeTranslation($localeKey);
+        static::assertNull($translatable->getTranslation($localeKey));
+        static::assertEmpty($translatable->getLocaleKeys());
     }
 
     /**
@@ -57,10 +57,10 @@ class TranslatableIntegerTest extends TestCase
         $translatable = new TranslatableInteger();
         $localeKey = 'en-GB';
         $translatable[$localeKey] = $anyValue;
-        $this->assertEquals($anyValue, $translatable[$localeKey]);
+        static::assertEquals($anyValue, $translatable[$localeKey]);
         $translatable[$localeKey] = null;
-        $this->assertNull($translatable[$localeKey]);
-        $this->assertEmpty($translatable->getLocaleKeys());
+        static::assertNull($translatable[$localeKey]);
+        static::assertEmpty($translatable->getLocaleKeys());
     }
 
     /**
@@ -71,11 +71,11 @@ class TranslatableIntegerTest extends TestCase
         $translatable = new TranslatableInteger();
         $localeKey = 'en-GB';
         $translatable[$localeKey] = $anyValue;
-        $this->assertEquals($anyValue, $translatable[$localeKey]);
-        $this->assertTrue(isset($translatable[$localeKey]));
+        static::assertEquals($anyValue, $translatable[$localeKey]);
+        static::assertTrue(isset($translatable[$localeKey]));
         unset($translatable[$localeKey]);
-        $this->assertNull($translatable[$localeKey]);
-        $this->assertEmpty($translatable->getLocaleKeys());
+        static::assertNull($translatable[$localeKey]);
+        static::assertEmpty($translatable->getLocaleKeys());
     }
 
     /**
@@ -86,17 +86,21 @@ class TranslatableIntegerTest extends TestCase
         $translatable = new TranslatableInteger();
         $localeKey = 'en-GB';
         $translatable->offsetSet($localeKey, $anyValue);
-        $this->assertEquals($anyValue, $translatable->offsetGet($localeKey));
-        $this->assertTrue($translatable->offsetExists($localeKey));
+        static::assertEquals($anyValue, $translatable->offsetGet($localeKey));
+        static::assertTrue($translatable->offsetExists($localeKey));
         $translatable->offsetUnset($localeKey);
-        $this->assertNull($translatable->offsetGet($localeKey));
-        $this->assertEmpty($translatable->getLocaleKeys());
+        static::assertNull($translatable->offsetGet($localeKey));
+        static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    public function testChainableCalls(): void
+    /**
+     * @dataProvider provideValidTestCases
+     */
+    public function testChainableCalls(int $anyValue): void
     {
         $translatable = new TranslatableInteger();
-        $this->assertEquals($translatable, $translatable->setTranslation('en-GB', null));
+        static::assertEquals($translatable, $translatable->setTranslation('en-GB', $anyValue));
+        static::assertEquals($translatable, $translatable->removeTranslation('en-GB'));
     }
 
     /**
@@ -109,7 +113,7 @@ class TranslatableIntegerTest extends TestCase
         yield [2];
         yield [3];
         yield [-1000];
-        yield [(int) \PHP_INT_MAX];
-        yield [(int) \PHP_INT_MIN];
+        yield [922337203685477580];
+        yield [-922337203685477580];
     }
 }

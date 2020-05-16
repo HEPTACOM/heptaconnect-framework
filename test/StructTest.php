@@ -19,9 +19,9 @@ class StructTest extends TestCase
     {
         $deserializedData = $this->codeIt($struct);
 
-        $this->assertArrayNotHasKey('privateString', $deserializedData);
-        $this->assertArrayHasKey('protectedString', $deserializedData);
-        $this->assertArrayHasKey('publicString', $deserializedData);
+        static::assertArrayNotHasKey('privateString', $deserializedData);
+        static::assertArrayHasKey('protectedString', $deserializedData);
+        static::assertArrayHasKey('publicString', $deserializedData);
     }
 
     /**
@@ -32,12 +32,12 @@ class StructTest extends TestCase
     {
         $deserializedData = $this->codeIt($struct);
 
-        $this->assertIsString($deserializedData['publicString']);
-        $this->assertIsString($deserializedData['publicDateTime']);
-        $this->assertIsInt($deserializedData['publicInt']);
-        $this->assertIsFloat($deserializedData['publicFloat']);
-        $this->assertIsString($deserializedData['primaryKey']);
-        $this->assertEquals($deserializedData['primaryKey'], $struct->getPrimaryKey());
+        static::assertIsString($deserializedData['publicString']);
+        static::assertIsString($deserializedData['publicDateTime']);
+        static::assertIsInt($deserializedData['publicInt']);
+        static::assertIsFloat($deserializedData['publicFloat']);
+        static::assertIsString($deserializedData['primaryKey']);
+        static::assertEquals($deserializedData['primaryKey'], $struct->getPrimaryKey());
     }
 
     /**

@@ -30,6 +30,15 @@
                 <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::withConsecutive"/>
             </errorLevel>
         </InternalMethod>
+        <RedundantConditionGivenDocblockType>
+            <errorLevel type="info">
+                <file name="../src/Translatable/GenericTranslatable.php"/>
+                <file name="../src/Translatable/TranslatableBoolean.php"/>
+                <file name="../src/Translatable/TranslatableFloat.php"/>
+                <file name="../src/Translatable/TranslatableInteger.php"/>
+                <file name="../src/Translatable/TranslatableString.php"/>
+            </errorLevel>
+        </RedundantConditionGivenDocblockType>
     </issueHandlers>
 
     <plugins>

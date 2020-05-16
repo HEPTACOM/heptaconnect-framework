@@ -9,6 +9,7 @@ class TranslatableDateTime extends GenericTranslatable
 {
     protected function isValidValue($value): bool
     {
+        /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */
         return $value instanceof \DateTimeInterface;
     }
 }

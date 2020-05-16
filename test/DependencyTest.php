@@ -19,27 +19,27 @@ class DependencyTest extends TestCase
     public function testStructDependenciesAreEmptyByDefault(): void
     {
         $struct = new SerializationDatasetEntity();
-        $this->assertEquals(0, $struct->getDependencies()->count());
+        static::assertEquals(0, $struct->getDependencies()->count());
     }
 
     public function testStructAllowDuplicateValuesInDependencies(): void
     {
         $struct = new SerializationDatasetEntity();
-        $struct->getDependencies()->push(
+        $struct->getDependencies()->push([
             new Dependency(SerializationDatasetEntity::class, '1'),
-            new Dependency(SerializationDatasetEntity::class, '1')
-        );
-        $this->assertEquals(2, $struct->getDependencies()->count());
+            new Dependency(SerializationDatasetEntity::class, '1'),
+        ]);
+        static::assertEquals(2, $struct->getDependencies()->count());
     }
 
     public function testStructAllowDifferentValuesInDependencies(): void
     {
         $struct = new SerializationDatasetEntity();
-        $struct->getDependencies()->push(
+        $struct->getDependencies()->push([
             new Dependency(SerializationDatasetEntity::class, '1'),
-            new Dependency(SerializationDatasetEntity::class, '5')
-        );
-        $this->assertEquals(2, $struct->getDependencies()->count());
+            new Dependency(SerializationDatasetEntity::class, '5'),
+        ]);
+        static::assertEquals(2, $struct->getDependencies()->count());
 
         /** @var Dependency $dep */
         $dep = $struct->getDependencies()->offsetGet(0);
@@ -48,7 +48,7 @@ class DependencyTest extends TestCase
 
         /** @var Dependency $dep */
         $dep = $struct->getDependencies()->offsetGet(1);
-        $this->assertEquals(SerializationDatasetEntity::class, $dep->getDatasetEntityClass());
-        $this->assertEquals('5', $dep->getPrimaryKey());
+        static::assertEquals(SerializationDatasetEntity::class, $dep->getDatasetEntityClass());
+        static::assertEquals('5', $dep->getPrimaryKey());
     }
 }

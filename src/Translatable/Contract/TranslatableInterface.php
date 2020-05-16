@@ -13,11 +13,18 @@ interface TranslatableInterface
     public function getTranslation(string $localeKey);
 
     /**
-     * @psalm-param T|null $value
+     * @psalm-param T $value
      *
-     * @param T|null $value
+     * @param T $value
+     *
+     * @return TranslatableInterface<T>
      */
-    public function setTranslation(string $localeKey, $value): self;
+    public function setTranslation(string $localeKey, $value): TranslatableInterface;
+
+    /**
+     * @return TranslatableInterface<T>
+     */
+    public function removeTranslation(string $localeKey): TranslatableInterface;
 
     /**
      * @return array<int, string>
