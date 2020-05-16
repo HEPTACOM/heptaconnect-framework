@@ -29,4 +29,6 @@ interface DatasetEntityCollectionInterface extends \IteratorAggregate, \Countabl
      * @return T|null
      */
     public function last();
+
+    public function filter(callable $filterFn): \Generator;
 }

@@ -18,7 +18,7 @@ abstract class DatasetEntityCollection implements Contract\DatasetEntityCollecti
     /**
      * @psalm-param array<array-key, T> $items
      */
-    public function __construct($items = [])
+    public function __construct(array $items = [])
     {
         $this->push($items);
     }
@@ -109,6 +109,11 @@ abstract class DatasetEntityCollection implements Contract\DatasetEntityCollecti
         $end = \end($this->items);
 
         return $end === false ? null : $end;
+    }
+
+    public function filter(callable $filterFn): \Generator
+    {
+        yield from \array_filter($this->items, $filterFn);
     }
 
     abstract protected function getT(): string;
