@@ -11,7 +11,7 @@ interface MappingInterface
     public function getPortalNodeId(): string;
 
     /**
-     * @return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
+     * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
      */
     public function getDatasetEntityClassName(): string;
 }
