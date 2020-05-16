@@ -23,9 +23,14 @@ interface StorageInterface
      *     class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
      * > $datasetEntityClassNames
      *
-     * @return array<array-key, \Heptacom\HeptaConnect\Core\Mapping\MappingNodeStruct>
+     * @throws StorageMethodNotImplemented
+     *
+     * @psalm-return array<array-key, MappingNodeStructInterface>
      */
     public function createMappingNodes(array $datasetEntityClassNames): array;
 
+    /**
+     * @throws StorageMethodNotImplemented
+     */
     public function createMappings(MappingCollection $mappings): void;
 }

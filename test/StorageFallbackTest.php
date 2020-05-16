@@ -17,14 +17,14 @@ class StorageFallbackTest extends TestCase
 
         try {
             $storage->getConfiguration('');
-            $this->fail('Method is implemented or does not throw exception');
+            static::fail('Method is implemented or does not throw exception');
         } catch (StorageMethodNotImplemented $exception) {
-            $this->assertEquals('getConfiguration', $exception->getMethod());
-            $this->assertEquals(Fixture\FallbackedStorage::class, $exception->getClass());
-            $this->assertNull($exception->getPrevious());
-            $this->assertStringContainsString($exception->getMethod(), $exception->getMessage());
-            $this->assertStringContainsString($exception->getClass(), $exception->getMessage());
-            $this->assertEquals(0, $exception->getCode());
+            static::assertEquals('getConfiguration', $exception->getMethod());
+            static::assertEquals(Fixture\FallbackedStorage::class, $exception->getClass());
+            static::assertNull($exception->getPrevious());
+            static::assertStringContainsString($exception->getMethod(), $exception->getMessage());
+            static::assertStringContainsString($exception->getClass(), $exception->getMessage());
+            static::assertEquals(0, $exception->getCode());
         }
     }
 
@@ -34,14 +34,14 @@ class StorageFallbackTest extends TestCase
 
         try {
             $storage->setConfiguration('', []);
-            $this->fail('Method is implemented or does not throw exception');
+            static::fail('Method is implemented or does not throw exception');
         } catch (StorageMethodNotImplemented $exception) {
-            $this->assertEquals('setConfiguration', $exception->getMethod());
-            $this->assertEquals(Fixture\FallbackedStorage::class, $exception->getClass());
-            $this->assertNull($exception->getPrevious());
-            $this->assertStringContainsString($exception->getMethod(), $exception->getMessage());
-            $this->assertStringContainsString($exception->getClass(), $exception->getMessage());
-            $this->assertEquals(0, $exception->getCode());
+            static::assertEquals('setConfiguration', $exception->getMethod());
+            static::assertEquals(Fixture\FallbackedStorage::class, $exception->getClass());
+            static::assertNull($exception->getPrevious());
+            static::assertStringContainsString($exception->getMethod(), $exception->getMessage());
+            static::assertStringContainsString($exception->getClass(), $exception->getMessage());
+            static::assertEquals(0, $exception->getCode());
         }
     }
 }
