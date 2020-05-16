@@ -27,4 +27,14 @@ abstract class StorageFallback implements StorageInterface
     {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
+
+    public function getRouteTargets(string $sourcePortalNodeId, string $entityClassName): array
+    {
+        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
+    }
+
+    public function addRouteTarget(string $sourcePortalNodeId, string $targetPortalNodeId, string $entityClassName): void
+    {
+        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
+    }
 }

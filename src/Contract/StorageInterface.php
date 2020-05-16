@@ -33,4 +33,20 @@ interface StorageInterface
      * @throws StorageMethodNotImplemented
      */
     public function createMappings(MappingCollection $mappings): void;
+
+    /**
+     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $entityClassName
+     *
+     * @throws StorageMethodNotImplemented
+     *
+     * @psalm-return array<array-key, string>
+     */
+    public function getRouteTargets(string $sourcePortalNodeId, string $entityClassName): array;
+
+    /**
+     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $entityClassName
+     *
+     * @throws StorageMethodNotImplemented
+     */
+    public function addRouteTarget(string $sourcePortalNodeId, string $targetPortalNodeId, string $entityClassName): void;
 }
