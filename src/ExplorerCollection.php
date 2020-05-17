@@ -4,13 +4,11 @@ namespace Heptacom\HeptaConnect\Portal\Base;
 
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 
+/**
+ * @extends DatasetEntityCollection<\Heptacom\HeptaConnect\Portal\Base\Contract\ExplorerInterface>
+ */
 class ExplorerCollection extends DatasetEntityCollection
 {
-    protected function getT(): string
-    {
-        return Contract\ExplorerInterface::class;
-    }
-
     /**
      * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $entityClassName
      *
@@ -21,5 +19,10 @@ class ExplorerCollection extends DatasetEntityCollection
         yield from $this->filter(function (Contract\ExplorerInterface $explorer) use ($entityClassName): bool {
             return $entityClassName === $explorer->supports();
         });
+    }
+
+    protected function getT(): string
+    {
+        return Contract\ExplorerInterface::class;
     }
 }

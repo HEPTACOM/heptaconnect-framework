@@ -4,9 +4,6 @@ namespace Heptacom\HeptaConnect\Portal\Base;
 
 use Heptacom\HeptaConnect\Portal\Base\Contract\MappingInterface;
 
-/**
- * @extends DatasetEntityCollection<Contract\MappingInterface>
- */
 class TypedMappingCollection extends MappingCollection
 {
     /**
@@ -26,18 +23,18 @@ class TypedMappingCollection extends MappingCollection
     }
 
     /**
-     * @param MappingInterface $item
-     */
-    protected function isValidItem($item): bool
-    {
-        return parent::isValidItem($item) && $item->getDatasetEntityClassName() === $this->type;
-    }
-
-    /**
      * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
      */
     public function getType(): string
     {
         return $this->type;
+    }
+
+    /**
+     * @param MappingInterface $item
+     */
+    protected function isValidItem($item): bool
+    {
+        return parent::isValidItem($item) && $item->getDatasetEntityClassName() === $this->type;
     }
 }

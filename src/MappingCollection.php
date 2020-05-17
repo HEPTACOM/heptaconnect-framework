@@ -10,11 +10,6 @@ use Heptacom\HeptaConnect\Portal\Base\Contract\MappingInterface;
  */
 class MappingCollection extends DatasetEntityCollection
 {
-    protected function getT(): string
-    {
-        return Contract\MappingInterface::class;
-    }
-
     /**
      * @return iterable<\Heptacom\HeptaConnect\Portal\Base\TypedMappingCollection>
      */
@@ -31,5 +26,10 @@ class MappingCollection extends DatasetEntityCollection
         }
 
         yield from $typedMappings;
+    }
+
+    protected function getT(): string
+    {
+        return Contract\MappingInterface::class;
     }
 }

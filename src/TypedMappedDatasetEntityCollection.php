@@ -2,9 +2,6 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base;
 
-/**
- * @extends DatasetEntityCollection<MappedDatasetEntityStruct>
- */
 class TypedMappedDatasetEntityCollection extends MappedDatasetEntityCollection
 {
     /**
@@ -24,18 +21,18 @@ class TypedMappedDatasetEntityCollection extends MappedDatasetEntityCollection
     }
 
     /**
-     * @param MappedDatasetEntityStruct $item
-     */
-    protected function isValidItem($item): bool
-    {
-        return parent::isValidItem($item) && $item->getMapping()->getDatasetEntityClassName() === $this->type;
-    }
-
-    /**
      * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
      */
     public function getType(): string
     {
         return $this->type;
+    }
+
+    /**
+     * @param MappedDatasetEntityStruct $item
+     */
+    protected function isValidItem($item): bool
+    {
+        return parent::isValidItem($item) && $item->getMapping()->getDatasetEntityClassName() === $this->type;
     }
 }
