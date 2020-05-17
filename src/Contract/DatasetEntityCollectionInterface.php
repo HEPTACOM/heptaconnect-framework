@@ -30,5 +30,10 @@ interface DatasetEntityCollectionInterface extends \IteratorAggregate, \Countabl
      */
     public function last();
 
+    /**
+     * @param callable(mixed):bool $filterFn
+     *
+     * @psalm-return \Generator<array-key, T>
+     */
     public function filter(callable $filterFn): \Generator;
 }

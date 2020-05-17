@@ -111,6 +111,11 @@ abstract class DatasetEntityCollection implements Contract\DatasetEntityCollecti
         return $end === false ? null : $end;
     }
 
+    /**
+     * @param callable(mixed):bool $filterFn
+     *
+     * @psalm-return \Generator<array-key, T>
+     */
     public function filter(callable $filterFn): \Generator
     {
         yield from \array_filter($this->items, $filterFn);
