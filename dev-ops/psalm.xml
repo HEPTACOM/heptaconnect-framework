@@ -29,6 +29,11 @@
                 <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::withConsecutive"/>
             </errorLevel>
         </InternalMethod>
+        <MixedInferredReturnType>
+            <errorLevel type="info">
+                <file name="test/StorageFallbackTest.php"/>
+            </errorLevel>
+        </MixedInferredReturnType>
     </issueHandlers>
 
     <plugins>

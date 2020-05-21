@@ -2,6 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Storage\Base\Test;
 
+use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 use Heptacom\HeptaConnect\Storage\Base\Exception\StorageMethodNotImplemented;
 use PHPUnit\Framework\TestCase;
 
@@ -11,15 +12,20 @@ use PHPUnit\Framework\TestCase;
  */
 class StorageFallbackTest extends TestCase
 {
-    public function testGetConfigurationFallback(): void
+    /**
+     * @dataProvider provideFallbackedMethods
+     */
+    public function testMethodFallback(string $method, array $args): void
     {
         $storage = new Fixture\FallbackedStorage();
 
         try {
-            $storage->getConfiguration('');
+            static::assertTrue(\method_exists($storage, $method));
+            /* @phpstan-ignore-next-line VariableMethodCallRule */
+            $storage->{$method}(...$args);
             static::fail('Method is implemented or does not throw exception');
         } catch (StorageMethodNotImplemented $exception) {
-            static::assertEquals('getConfiguration', $exception->getMethod());
+            static::assertEquals($method, $exception->getMethod());
             static::assertEquals(Fixture\FallbackedStorage::class, $exception->getClass());
             static::assertNull($exception->getPrevious());
             static::assertStringContainsString($exception->getMethod(), $exception->getMessage());
@@ -28,20 +34,15 @@ class StorageFallbackTest extends TestCase
         }
     }
 
-    public function testSetConfigurationFallback(): void
+    public function provideFallbackedMethods(): iterable
     {
-        $storage = new Fixture\FallbackedStorage();
-
-        try {
-            $storage->setConfiguration('', []);
-            static::fail('Method is implemented or does not throw exception');
-        } catch (StorageMethodNotImplemented $exception) {
-            static::assertEquals('setConfiguration', $exception->getMethod());
-            static::assertEquals(Fixture\FallbackedStorage::class, $exception->getClass());
-            static::assertNull($exception->getPrevious());
-            static::assertStringContainsString($exception->getMethod(), $exception->getMessage());
-            static::assertStringContainsString($exception->getClass(), $exception->getMessage());
-            static::assertEquals(0, $exception->getCode());
-        }
+        /* @psalm-suppress MixedInferredReturnType */
+        yield ['setConfiguration', ['', []]];
+        yield ['getConfiguration', ['']];
+        yield ['createMappingNodes', [[]]];
+        yield ['getMapping', ['', '']];
+        yield ['createMappings', [new MappingCollection()]];
+        yield ['getRouteTargets', ['', '']];
+        yield ['addRouteTarget', ['', '', '']];
     }
 }
