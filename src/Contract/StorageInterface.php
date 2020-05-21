@@ -2,6 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Storage\Base\Contract;
 
+use Heptacom\HeptaConnect\Portal\Base\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 use Heptacom\HeptaConnect\Storage\Base\Exception\StorageMethodNotImplemented;
 
@@ -28,6 +29,11 @@ interface StorageInterface
      * @psalm-return array<array-key, MappingNodeStructInterface>
      */
     public function createMappingNodes(array $datasetEntityClassNames): array;
+
+    /**
+     * @throws StorageMethodNotImplemented
+     */
+    public function getMapping(string $mappingNodeId, string $portalNodeId): ?MappingInterface;
 
     /**
      * @throws StorageMethodNotImplemented
