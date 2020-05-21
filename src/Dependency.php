@@ -2,6 +2,8 @@
 
 namespace Heptacom\HeptaConnect\Dataset\Base;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\KeyInterface;
+
 class Dependency extends DatasetEntity implements Contract\DependencyInterface
 {
     use Support\DependencyTrait;
@@ -9,7 +11,7 @@ class Dependency extends DatasetEntity implements Contract\DependencyInterface
     /**
      * @psalm-param class-string<Contract\DatasetEntityInterface> $datasetEntityClass
      */
-    public function __construct(string $datasetEntityClass, string $primaryKey)
+    public function __construct(string $datasetEntityClass, KeyInterface $primaryKey)
     {
         $this->dependencies = new DependencyCollection();
         $this->datasetEntityClass = $datasetEntityClass;
