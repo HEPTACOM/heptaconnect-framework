@@ -8,7 +8,7 @@ interface DatasetEntityInterface extends \JsonSerializable
 {
     public function getDependencies(): DependencyCollection;
 
-    public function getPrimaryKey(): string;
+    public function getPrimaryKey(): KeyInterface;
 
-    public function setPrimaryKey(string $primaryKey): void;
+    public function setPrimaryKey(KeyInterface $primaryKey): void;
 }
