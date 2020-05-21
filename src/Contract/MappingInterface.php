@@ -10,6 +10,8 @@ interface MappingInterface
 
     public function getPortalNodeId(): string;
 
+    public function getMappingNodeId(): string;
+
     /**
      * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
      */
