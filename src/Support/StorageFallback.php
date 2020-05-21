@@ -2,6 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Storage\Base\Support;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\KeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
@@ -40,6 +41,11 @@ abstract class StorageFallback implements StorageInterface
     }
 
     public function addRouteTarget(string $sourcePortalNodeId, string $targetPortalNodeId, string $entityClassName): void
+    {
+        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
+    }
+
+    public function generateKey(string $datasetEntityClassName): KeyInterface
     {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }

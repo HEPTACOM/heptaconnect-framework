@@ -2,6 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Storage\Base\Contract;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\KeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 use Heptacom\HeptaConnect\Storage\Base\Exception\StorageMethodNotImplemented;
@@ -55,4 +56,9 @@ interface StorageInterface
      * @throws StorageMethodNotImplemented
      */
     public function addRouteTarget(string $sourcePortalNodeId, string $targetPortalNodeId, string $entityClassName): void;
+
+    /**
+     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $datasetEntityClassName
+     */
+    public function generateKey(string $datasetEntityClassName): KeyInterface;
 }
