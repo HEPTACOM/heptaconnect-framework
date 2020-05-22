@@ -2,18 +2,16 @@
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Support;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\KeyInterface;
-
 trait PrimaryKeyTrait
 {
-    protected KeyInterface $primaryKey;
+    protected string $primaryKey = '';
 
-    public function getPrimaryKey(): KeyInterface
+    public function getPrimaryKey(): string
     {
         return $this->primaryKey;
     }
 
-    public function setPrimaryKey(KeyInterface $primaryKey): void
+    public function setPrimaryKey(string $primaryKey): void
     {
         $this->primaryKey = $primaryKey;
     }
