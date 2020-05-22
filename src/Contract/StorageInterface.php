@@ -28,7 +28,7 @@ interface StorageInterface
      *
      * @psalm-return array<array-key, MappingNodeStructInterface>
      */
-    public function createMappingNodes(array $datasetEntityClassNames, KeyInterface $portalNodeId): array;
+    public function createMappingNodes(array $datasetEntityClassNames, PortalNodeKeyInterface $portalNodeId): array;
 
     /**
      * @throws StorageMethodNotImplemented
@@ -57,7 +57,11 @@ interface StorageInterface
     public function addRouteTarget(string $sourcePortalNodeId, string $targetPortalNodeId, string $entityClassName): void;
 
     /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $datasetEntityClassName
+     * @psalm-template T of \Heptacom\HeptaConnect\Storage\Base\Contract\KeyInterface
+     * @psalm-param class-string<T> $keyClassName
+     * @psalm-return KeyInterface&T
+     *
+     * @throws StorageMethodNotImplemented
      */
-    public function generateKey(string $datasetEntityClassName): KeyInterface;
+    public function generateKey(string $keyClassName): KeyInterface;
 }

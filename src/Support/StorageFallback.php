@@ -45,7 +45,7 @@ abstract class StorageFallback implements StorageInterface
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
 
-    public function generateKey(string $datasetEntityClassName): KeyInterface
+    public function generateKey(string $keyClassName): KeyInterface
     {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
