@@ -3,6 +3,7 @@
 namespace Heptacom\HeptaConnect\Storage\Base\Test;
 
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
+use Heptacom\HeptaConnect\Storage\Base\Contract\KeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Exception\StorageMethodNotImplemented;
 use PHPUnit\Framework\TestCase;
 
@@ -39,7 +40,7 @@ class StorageFallbackTest extends TestCase
         /* @psalm-suppress MixedInferredReturnType */
         yield ['setConfiguration', ['', []]];
         yield ['getConfiguration', ['']];
-        yield ['createMappingNodes', [[]]];
+        yield ['createMappingNodes', [[], $this->createMock(KeyInterface::class)]];
         yield ['getMapping', ['', '']];
         yield ['createMappings', [new MappingCollection()]];
         yield ['getRouteTargets', ['', '']];
