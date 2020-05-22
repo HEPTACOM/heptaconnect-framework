@@ -20,7 +20,7 @@ abstract class StorageFallback implements StorageInterface
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
 
-    public function createMappingNodes(array $datasetEntityClassNames, KeyInterface $portalNodeId): array
+    public function createMappingNodes(array $datasetEntityClassNames, StoragePortalNodeKeyInterface $portalNodeId): array
     {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
@@ -45,7 +45,7 @@ abstract class StorageFallback implements StorageInterface
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
 
-    public function generateKey(string $keyClassName): KeyInterface
+    public function generateKey(string $keyClassName): StorageKeyInterface
     {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
