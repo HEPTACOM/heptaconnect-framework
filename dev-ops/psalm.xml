@@ -31,11 +31,11 @@
         </InternalMethod>
         <RedundantConditionGivenDocblockType>
             <errorLevel type="info">
-                <file name="../src/Translatable/GenericTranslatable.php"/>
-                <file name="../src/Translatable/TranslatableBoolean.php"/>
-                <file name="../src/Translatable/TranslatableFloat.php"/>
-                <file name="../src/Translatable/TranslatableInteger.php"/>
-                <file name="../src/Translatable/TranslatableString.php"/>
+                <file name="src/Translatable/GenericTranslatable.php"/>
+                <file name="src/Translatable/TranslatableBoolean.php"/>
+                <file name="src/Translatable/TranslatableFloat.php"/>
+                <file name="src/Translatable/TranslatableInteger.php"/>
+                <file name="src/Translatable/TranslatableString.php"/>
             </errorLevel>
         </RedundantConditionGivenDocblockType>
     </issueHandlers>
