@@ -48,7 +48,7 @@ class StorageFallbackTest extends TestCase
         ]];
         yield ['createMappings', [new MappingCollection()]];
         yield ['getRouteTargets', [$this->createMock(StoragePortalNodeKeyInterface::class), '']];
-        yield ['addRouteTarget', [
+        yield ['createRouteTarget', [
             $this->createMock(StoragePortalNodeKeyInterface::class),
             $this->createMock(StoragePortalNodeKeyInterface::class),
             '',
