@@ -13,12 +13,12 @@ interface StorageInterface
     /**
      * @throws StorageMethodNotImplemented
      */
-    public function getConfiguration(string $portalNodeId): array;
+    public function getConfiguration(StoragePortalNodeKeyInterface $portalNodeId): array;
 
     /**
      * @throws StorageMethodNotImplemented
      */
-    public function setConfiguration(string $portalNodeId, array $data): void;
+    public function setConfiguration(StoragePortalNodeKeyInterface $portalNodeId, array $data): void;
 
     /**
      * @param array<
@@ -30,12 +30,12 @@ interface StorageInterface
      *
      * @psalm-return array<array-key, MappingNodeStructInterface>
      */
-    public function createMappingNodes(array $datasetEntityClassNames, StoragePortalNodeKeyInterface $portalNodeId): array;
+    public function createMappingNodes(array $datasetEntityClassNames, StoragePortalNodeKeyInterface $portalNodeKey): array;
 
     /**
      * @throws StorageMethodNotImplemented
      */
-    public function getMapping(string $mappingNodeId, string $portalNodeId): ?MappingInterface;
+    public function getMapping(string $mappingNodeId, StoragePortalNodeKeyInterface $portalNodeKey): ?MappingInterface;
 
     /**
      * @throws StorageMethodNotImplemented
@@ -47,21 +47,23 @@ interface StorageInterface
      *
      * @throws StorageMethodNotImplemented
      *
-     * @psalm-return array<array-key, string>
+     * @psalm-return array<array-key, StoragePortalNodeKeyInterface>
      */
-    public function getRouteTargets(string $sourcePortalNodeId, string $entityClassName): array;
+    public function getRouteTargets(StoragePortalNodeKeyInterface $sourcePortalNodeKey, string $entityClassName): array;
 
     /**
      * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $entityClassName
      *
      * @throws StorageMethodNotImplemented
      */
-    public function addRouteTarget(string $sourcePortalNodeId, string $targetPortalNodeId, string $entityClassName): void;
+    public function addRouteTarget(
+        StoragePortalNodeKeyInterface $sourcePortalNodeKey,
+        StoragePortalNodeKeyInterface $targetPortalNodeKey,
+        string $entityClassName
+    ): void;
 
     /**
-     * @psalm-template T of \Heptacom\HeptaConnect\Portal\Base\Contract\StorageKeyInterface
-     * @psalm-param class-string<T> $keyClassName
-     * @psalm-return StorageKeyInterface&T
+     * @psalm-param class-string<\Heptacom\HeptaConnect\Portal\Base\Contract\StorageKeyInterface> $keyClassName
      *
      * @throws StorageMethodNotImplemented
      */

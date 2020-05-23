@@ -3,29 +3,30 @@
 namespace Heptacom\HeptaConnect\Storage\Base\Support;
 
 use Heptacom\HeptaConnect\Portal\Base\Contract\MappingInterface;
+use Heptacom\HeptaConnect\Portal\Base\Contract\StorageKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Contract\StoragePortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
-use Heptacom\HeptaConnect\Storage\Base\Contract\KeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
 use Heptacom\HeptaConnect\Storage\Base\Exception\StorageMethodNotImplemented;
 
 abstract class StorageFallback implements StorageInterface
 {
-    public function getConfiguration(string $portalNodeId): array
+    public function getConfiguration(StoragePortalNodeKeyInterface $portalNodeId): array
     {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
 
-    public function setConfiguration(string $portalNodeId, array $data): void
+    public function setConfiguration(StoragePortalNodeKeyInterface $portalNodeId, array $data): void
     {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
 
-    public function createMappingNodes(array $datasetEntityClassNames, StoragePortalNodeKeyInterface $portalNodeId): array
+    public function createMappingNodes(array $datasetEntityClassNames, StoragePortalNodeKeyInterface $portalNodeKey): array
     {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
 
-    public function getMapping(string $mappingNodeId, string $portalNodeId): ?MappingInterface
+    public function getMapping(string $mappingNodeId, StoragePortalNodeKeyInterface $portalNodeKey): ?MappingInterface
     {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
@@ -35,13 +36,16 @@ abstract class StorageFallback implements StorageInterface
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
 
-    public function getRouteTargets(string $sourcePortalNodeId, string $entityClassName): array
+    public function getRouteTargets(StoragePortalNodeKeyInterface $sourcePortalNodeKey, string $entityClassName): array
     {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
 
-    public function addRouteTarget(string $sourcePortalNodeId, string $targetPortalNodeId, string $entityClassName): void
-    {
+    public function addRouteTarget(
+        StoragePortalNodeKeyInterface $sourcePortalNodeKey,
+        StoragePortalNodeKeyInterface $targetPortalNodeKey,
+        string $entityClassName
+    ): void {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
 
