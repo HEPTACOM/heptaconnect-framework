@@ -14,12 +14,12 @@ interface StorageInterface
     /**
      * @throws StorageMethodNotImplemented
      */
-    public function getConfiguration(StoragePortalNodeKeyInterface $portalNodeId): array;
+    public function getConfiguration(StoragePortalNodeKeyInterface $portalNodeKey): array;
 
     /**
      * @throws StorageMethodNotImplemented
      */
-    public function setConfiguration(StoragePortalNodeKeyInterface $portalNodeId, array $data): void;
+    public function setConfiguration(StoragePortalNodeKeyInterface $portalNodeKey, array $data): void;
 
     /**
      * @param array<

@@ -12,12 +12,12 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\StorageMethodNotImplemented;
 
 abstract class StorageFallback implements StorageInterface
 {
-    public function getConfiguration(StoragePortalNodeKeyInterface $portalNodeId): array
+    public function getConfiguration(StoragePortalNodeKeyInterface $portalNodeKey): array
     {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
 
-    public function setConfiguration(StoragePortalNodeKeyInterface $portalNodeId, array $data): void
+    public function setConfiguration(StoragePortalNodeKeyInterface $portalNodeKey, array $data): void
     {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
