@@ -10,7 +10,7 @@ interface MappingInterface
 
     public function getPortalNodeKey(): StoragePortalNodeKeyInterface;
 
-    public function getMappingNodeId(): string;
+    public function getMappingNodeKey(): StorageMappingNodeKeyInterface;
 
     /**
      * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
