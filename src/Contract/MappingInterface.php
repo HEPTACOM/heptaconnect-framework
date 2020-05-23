@@ -8,7 +8,7 @@ interface MappingInterface
 
     public function setExternalId(string $externalId): self;
 
-    public function getPortalNodeId(): string;
+    public function getPortalNodeKey(): StoragePortalNodeKeyInterface;
 
     public function getMappingNodeId(): string;
 

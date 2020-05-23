@@ -17,6 +17,7 @@
     ],
     "require": {
         "php": ">=7.4",
+        "ext-json": "*",
         "heptacom/heptaconnect-dataset-base": "dev-master"
     },
     "autoload": {

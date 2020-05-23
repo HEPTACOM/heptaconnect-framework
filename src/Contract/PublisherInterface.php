@@ -7,5 +7,9 @@ interface PublisherInterface
     /**
      * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $datasetEntityClassName
      */
-    public function publish(string $datasetEntityClassName, string $portalNodeId, string $externalId): MappingInterface;
+    public function publish(
+        string $datasetEntityClassName,
+        StoragePortalNodeKeyInterface $portalNodeId,
+        string $externalId
+    ): MappingInterface;
 }

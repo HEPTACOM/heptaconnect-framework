@@ -2,6 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test;
 
+use Heptacom\HeptaConnect\Portal\Base\Contract\StoragePortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\MappingStruct;
 use PHPUnit\Framework\TestCase;
@@ -14,7 +15,7 @@ class MappingDatasetEntityTest extends TestCase
     public function testBuildingMappedCollection(): void
     {
         $collection = new MappingCollection();
-        $collection->push([new MappingStruct()]);
+        $collection->push([new MappingStruct($this->createMock(StoragePortalNodeKeyInterface::class))]);
         static::assertEquals(1, $collection->count());
     }
 }
