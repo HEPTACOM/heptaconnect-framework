@@ -56,7 +56,7 @@ interface StorageInterface
      *
      * @throws StorageMethodNotImplemented
      */
-    public function addRouteTarget(
+    public function createRouteTarget(
         StoragePortalNodeKeyInterface $sourcePortalNodeKey,
         StoragePortalNodeKeyInterface $targetPortalNodeKey,
         string $entityClassName
