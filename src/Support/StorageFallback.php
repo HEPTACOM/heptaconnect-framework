@@ -39,6 +39,16 @@ abstract class StorageFallback implements StorageInterface
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
 
+    public function addMappingException(MappingInterface $mapping, \Throwable $throwable): void
+    {
+        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
+    }
+
+    public function removeMappingException(MappingInterface $mapping, string $type): void
+    {
+        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
+    }
+
     public function getRouteTargets(StoragePortalNodeKeyInterface $sourcePortalNodeKey, string $entityClassName): array
     {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);

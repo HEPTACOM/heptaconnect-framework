@@ -47,6 +47,18 @@ interface StorageInterface
     public function createMappings(MappingCollection $mappings): void;
 
     /**
+     * @throws StorageMethodNotImplemented
+     */
+    public function addMappingException(MappingInterface $mapping, \Throwable $throwable): void;
+
+    /**
+     * @psalm-param class-string<\Throwable> $type
+     *
+     * @throws StorageMethodNotImplemented
+     */
+    public function removeMappingException(MappingInterface $mapping, string $type): void;
+
+    /**
      * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $entityClassName
      *
      * @throws StorageMethodNotImplemented
