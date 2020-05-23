@@ -1,0 +1,40 @@
+<?php declare(strict_types=1);
+
+namespace Heptacom\HeptaConnect\Portal\Base\Test;
+
+use Heptacom\HeptaConnect\Portal\Base\Contract\EmitterInterface;
+use Heptacom\HeptaConnect\Portal\Base\EmitterCollection;
+use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
+use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\SecondEntity;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @covers \Heptacom\HeptaConnect\Portal\Base\EmitterCollection
+ */
+class EmitterCollectionTest extends TestCase
+{
+    public function testBySupport(): void
+    {
+        $collection = new EmitterCollection();
+
+        $collection->push([
+            $this->getEmitter(FirstEntity::class),
+            $this->getEmitter(SecondEntity::class),
+            $this->getEmitter(FirstEntity::class),
+            $this->getEmitter(SecondEntity::class),
+            $this->getEmitter(FirstEntity::class),
+        ]);
+        static::assertNotEmpty($collection->bySupport(FirstEntity::class));
+        static::assertNotEmpty($collection->bySupport(SecondEntity::class));
+        static::assertCount(3, $collection->bySupport(FirstEntity::class));
+        static::assertCount(2, $collection->bySupport(SecondEntity::class));
+    }
+
+    private function getEmitter(string $support): EmitterInterface
+    {
+        $emitter = $this->createMock(EmitterInterface::class);
+        $emitter->expects(static::any())->method('supports')->willReturn([$support]);
+
+        return $emitter;
+    }
+}

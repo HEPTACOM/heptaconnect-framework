@@ -15,8 +15,12 @@ class UnexpectedPortalNodeExceptionTest extends TestCase
     {
         $e = new UnexpectedPortalNodeException(null);
         static::assertEquals('null', $e->getType());
+        static::assertStringContainsString($e->getType(), $e->getMessage());
+        static::assertEquals(0, $e->getCode());
 
         $e = new UnexpectedPortalNodeException(new PortalNode());
         static::assertEquals(PortalNode::class, $e->getType());
+        static::assertStringContainsString($e->getType(), $e->getMessage());
+        static::assertEquals(0, $e->getCode());
     }
 }

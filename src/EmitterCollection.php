@@ -16,7 +16,7 @@ class EmitterCollection extends DatasetEntityCollection
      */
     public function bySupport(string $entityClassName): iterable
     {
-        yield from $this->filter(function (Contract\EmitterInterface $emitter) use ($entityClassName): bool {
+        return $this->filter(static function (Contract\EmitterInterface $emitter) use ($entityClassName): bool {
             return \in_array($entityClassName, $emitter->supports(), true);
         });
     }

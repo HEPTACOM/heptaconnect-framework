@@ -16,7 +16,7 @@ class ExplorerCollection extends DatasetEntityCollection
      */
     public function bySupport(string $entityClassName): iterable
     {
-        yield from $this->filter(function (Contract\ExplorerInterface $explorer) use ($entityClassName): bool {
+        return $this->filter(static function (Contract\ExplorerInterface $explorer) use ($entityClassName): bool {
             return $entityClassName === $explorer->supports();
         });
     }
