@@ -4,6 +4,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Support;
 
 use Heptacom\HeptaConnect\Portal\Base\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\StorageKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Contract\StorageMappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\StoragePortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
@@ -26,8 +27,10 @@ abstract class StorageFallback implements StorageInterface
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
 
-    public function getMapping(string $mappingNodeId, StoragePortalNodeKeyInterface $portalNodeKey): ?MappingInterface
-    {
+    public function getMapping(
+        StorageMappingNodeKeyInterface $mappingNodeKey,
+        StoragePortalNodeKeyInterface $portalNodeKey
+    ): ?MappingInterface {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
 

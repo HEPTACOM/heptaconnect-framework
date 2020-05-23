@@ -4,6 +4,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Contract;
 
 use Heptacom\HeptaConnect\Portal\Base\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\StorageKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Contract\StorageMappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\StoragePortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 use Heptacom\HeptaConnect\Storage\Base\Exception\StorageMethodNotImplemented;
@@ -35,7 +36,10 @@ interface StorageInterface
     /**
      * @throws StorageMethodNotImplemented
      */
-    public function getMapping(string $mappingNodeId, StoragePortalNodeKeyInterface $portalNodeKey): ?MappingInterface;
+    public function getMapping(
+        StorageMappingNodeKeyInterface $mappingNodeKey,
+        StoragePortalNodeKeyInterface $portalNodeKey
+    ): ?MappingInterface;
 
     /**
      * @throws StorageMethodNotImplemented

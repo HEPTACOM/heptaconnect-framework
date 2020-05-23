@@ -2,6 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Storage\Base\Test;
 
+use Heptacom\HeptaConnect\Portal\Base\Contract\StorageMappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\StoragePortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 use Heptacom\HeptaConnect\Storage\Base\Exception\StorageMethodNotImplemented;
@@ -41,7 +42,10 @@ class StorageFallbackTest extends TestCase
         yield ['setConfiguration', [$this->createMock(StoragePortalNodeKeyInterface::class), []]];
         yield ['getConfiguration', [$this->createMock(StoragePortalNodeKeyInterface::class)]];
         yield ['createMappingNodes', [[], $this->createMock(StoragePortalNodeKeyInterface::class)]];
-        yield ['getMapping', ['', $this->createMock(StoragePortalNodeKeyInterface::class)]];
+        yield ['getMapping', [
+            $this->createMock(StorageMappingNodeKeyInterface::class),
+            $this->createMock(StoragePortalNodeKeyInterface::class),
+        ]];
         yield ['createMappings', [new MappingCollection()]];
         yield ['getRouteTargets', [$this->createMock(StoragePortalNodeKeyInterface::class), '']];
         yield ['addRouteTarget', [
