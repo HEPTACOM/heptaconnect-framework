@@ -39,9 +39,7 @@ class Date extends \DateTime
      */
     public function add($interval)
     {
-        parent::add($this->removeTimeFromInterval($interval));
-
-        return $this;
+        return static::createFromDateTime(parent::add($this->removeTimeFromInterval($interval)));
     }
 
     /**
@@ -51,9 +49,7 @@ class Date extends \DateTime
      */
     public function sub($interval)
     {
-        parent::sub($this->removeTimeFromInterval($interval));
-
-        return $this;
+        return static::createFromDateTime(parent::sub($this->removeTimeFromInterval($interval)));
     }
 
     /**
