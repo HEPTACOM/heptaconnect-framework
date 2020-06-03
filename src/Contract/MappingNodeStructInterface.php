@@ -2,11 +2,11 @@
 
 namespace Heptacom\HeptaConnect\Storage\Base\Contract;
 
-use Heptacom\HeptaConnect\Portal\Base\Contract\StorageMappingNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Contract\MappingNodeKeyInterface;
 
 interface MappingNodeStructInterface
 {
-    public function getKey(): StorageMappingNodeKeyInterface;
+    public function getKey(): MappingNodeKeyInterface;
 
     /**
      * @return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>

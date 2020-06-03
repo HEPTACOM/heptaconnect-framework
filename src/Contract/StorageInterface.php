@@ -4,8 +4,8 @@ namespace Heptacom\HeptaConnect\Storage\Base\Contract;
 
 use Heptacom\HeptaConnect\Portal\Base\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\StorageKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\Contract\StorageMappingNodeKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\Contract\StoragePortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Contract\MappingNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 use Heptacom\HeptaConnect\Storage\Base\Exception\StorageMethodNotImplemented;
 
@@ -14,12 +14,12 @@ interface StorageInterface
     /**
      * @throws StorageMethodNotImplemented
      */
-    public function getConfiguration(StoragePortalNodeKeyInterface $portalNodeKey): array;
+    public function getConfiguration(PortalNodeKeyInterface $portalNodeKey): array;
 
     /**
      * @throws StorageMethodNotImplemented
      */
-    public function setConfiguration(StoragePortalNodeKeyInterface $portalNodeKey, array $data): void;
+    public function setConfiguration(PortalNodeKeyInterface $portalNodeKey, array $data): void;
 
     /**
      * @param array<
@@ -31,14 +31,14 @@ interface StorageInterface
      *
      * @psalm-return array<array-key, MappingNodeStructInterface>
      */
-    public function createMappingNodes(array $datasetEntityClassNames, StoragePortalNodeKeyInterface $portalNodeKey): array;
+    public function createMappingNodes(array $datasetEntityClassNames, PortalNodeKeyInterface $portalNodeKey): array;
 
     /**
      * @throws StorageMethodNotImplemented
      */
     public function getMapping(
-        StorageMappingNodeKeyInterface $mappingNodeKey,
-        StoragePortalNodeKeyInterface $portalNodeKey
+        MappingNodeKeyInterface $mappingNodeKey,
+        PortalNodeKeyInterface $portalNodeKey
     ): ?MappingInterface;
 
     /**
@@ -65,7 +65,7 @@ interface StorageInterface
      *
      * @psalm-return array<array-key, StoragePortalNodeKeyInterface>
      */
-    public function getRouteTargets(StoragePortalNodeKeyInterface $sourcePortalNodeKey, string $entityClassName): array;
+    public function getRouteTargets(PortalNodeKeyInterface $sourcePortalNodeKey, string $entityClassName): array;
 
     /**
      * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $entityClassName
@@ -73,8 +73,8 @@ interface StorageInterface
      * @throws StorageMethodNotImplemented
      */
     public function createRouteTarget(
-        StoragePortalNodeKeyInterface $sourcePortalNodeKey,
-        StoragePortalNodeKeyInterface $targetPortalNodeKey,
+        PortalNodeKeyInterface $sourcePortalNodeKey,
+        PortalNodeKeyInterface $targetPortalNodeKey,
         string $entityClassName
     ): void;
 

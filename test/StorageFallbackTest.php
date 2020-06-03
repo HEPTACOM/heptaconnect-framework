@@ -2,8 +2,8 @@
 
 namespace Heptacom\HeptaConnect\Storage\Base\Test;
 
-use Heptacom\HeptaConnect\Portal\Base\Contract\StorageMappingNodeKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\Contract\StoragePortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Contract\MappingNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 use Heptacom\HeptaConnect\Storage\Base\Exception\StorageMethodNotImplemented;
 use PHPUnit\Framework\TestCase;
@@ -39,18 +39,18 @@ class StorageFallbackTest extends TestCase
     public function provideFallbackedMethods(): iterable
     {
         /* @psalm-suppress MixedInferredReturnType */
-        yield ['setConfiguration', [$this->createMock(StoragePortalNodeKeyInterface::class), []]];
-        yield ['getConfiguration', [$this->createMock(StoragePortalNodeKeyInterface::class)]];
-        yield ['createMappingNodes', [[], $this->createMock(StoragePortalNodeKeyInterface::class)]];
+        yield ['setConfiguration', [$this->createMock(PortalNodeKeyInterface::class), []]];
+        yield ['getConfiguration', [$this->createMock(PortalNodeKeyInterface::class)]];
+        yield ['createMappingNodes', [[], $this->createMock(PortalNodeKeyInterface::class)]];
         yield ['getMapping', [
-            $this->createMock(StorageMappingNodeKeyInterface::class),
-            $this->createMock(StoragePortalNodeKeyInterface::class),
+            $this->createMock(MappingNodeKeyInterface::class),
+            $this->createMock(PortalNodeKeyInterface::class),
         ]];
         yield ['createMappings', [new MappingCollection()]];
-        yield ['getRouteTargets', [$this->createMock(StoragePortalNodeKeyInterface::class), '']];
+        yield ['getRouteTargets', [$this->createMock(PortalNodeKeyInterface::class), '']];
         yield ['createRouteTarget', [
-            $this->createMock(StoragePortalNodeKeyInterface::class),
-            $this->createMock(StoragePortalNodeKeyInterface::class),
+            $this->createMock(PortalNodeKeyInterface::class),
+            $this->createMock(PortalNodeKeyInterface::class),
             '',
         ]];
     }
