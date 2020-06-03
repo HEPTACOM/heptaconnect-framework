@@ -29,6 +29,11 @@
                 <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::withConsecutive"/>
             </errorLevel>
         </InternalMethod>
+        <InvalidDocblock>
+            <errorLevel type="info">
+                <file name="src/Date.php"/>
+            </errorLevel>
+        </InvalidDocblock>
         <RedundantConditionGivenDocblockType>
             <errorLevel type="info">
                 <file name="src/Translatable/GenericTranslatable.php"/>
