@@ -4,14 +4,10 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
 
 /**
  * @template T
- * @ method        __construct(T ...$items)
- * @ method T|null offsetGet(int|string $key)
- * @ method T|null first()
- * @ method T|null last()
  * @extends \ArrayAccess<array-key, T>
  * @extends \IteratorAggregate<array-key, T>
  */
-interface DatasetEntityCollectionInterface extends \IteratorAggregate, \Countable, \ArrayAccess, \JsonSerializable
+interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAccess, \JsonSerializable
 {
     /**
      * @psalm-param array<array-key, T> $items

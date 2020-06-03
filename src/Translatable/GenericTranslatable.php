@@ -110,7 +110,7 @@ abstract class GenericTranslatable implements \ArrayAccess, Contract\Translatabl
      */
     abstract protected function isValidValue($value): bool;
 
-    protected function deleteTranslation(string $offset): void
+    private function deleteTranslation(string $offset): void
     {
         if (\array_key_exists($offset, $this->translations)) {
             unset($this->translations[$offset]);
