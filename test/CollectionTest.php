@@ -98,6 +98,22 @@ class CollectionTest extends TestCase
         static::assertEmpty($coded);
     }
 
+    public function testFilter(): void
+    {
+        $collection = new UsageStructCollection();
+        $changedEntity = new SerializationDatasetEntity();
+        ++$changedEntity->publicInt;
+        $collection->push([
+            new SerializationDatasetEntity(),
+            $changedEntity,
+        ]);
+
+        static::assertCount(2, $collection);
+        static::assertCount(0, $collection->filter(static function (SerializationDatasetEntity $entity): bool {
+            return $entity->publicInt === 0;
+        }));
+    }
+
     /**
      * @return iterable<string, array<int, array<int, DatasetEntityInterface>>>
      */
