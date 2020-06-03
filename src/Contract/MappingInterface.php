@@ -8,9 +8,9 @@ interface MappingInterface
 
     public function setExternalId(string $externalId): self;
 
-    public function getPortalNodeKey(): StoragePortalNodeKeyInterface;
+    public function getPortalNodeKey(): PortalNodeKeyInterface;
 
-    public function getMappingNodeKey(): StorageMappingNodeKeyInterface;
+    public function getMappingNodeKey(): MappingNodeKeyInterface;
 
     /**
      * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>

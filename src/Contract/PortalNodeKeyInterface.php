@@ -2,6 +2,6 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Contract;
 
-interface StorageMappingNodeKeyInterface extends StorageKeyInterface
+interface PortalNodeKeyInterface extends StorageKeyInterface
 {
 }

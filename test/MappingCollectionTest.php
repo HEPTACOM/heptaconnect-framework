@@ -2,8 +2,8 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test;
 
-use Heptacom\HeptaConnect\Portal\Base\Contract\StorageMappingNodeKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\Contract\StoragePortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Contract\MappingNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\MappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\MappedDatasetEntityStruct;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
@@ -27,8 +27,8 @@ class MappingCollectionTest extends TestCase
     {
         $datasetEntity = new DatasetEntityStruct();
         $mapping = new MappingStruct(
-            $this->createMock(StoragePortalNodeKeyInterface::class),
-            $this->createMock(StorageMappingNodeKeyInterface::class)
+            $this->createMock(PortalNodeKeyInterface::class),
+            $this->createMock(MappingNodeKeyInterface::class)
         );
         $struct = new MappedDatasetEntityStruct($mapping, $datasetEntity);
 

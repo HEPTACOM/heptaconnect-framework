@@ -9,7 +9,7 @@ interface PublisherInterface
      */
     public function publish(
         string $datasetEntityClassName,
-        StoragePortalNodeKeyInterface $portalNodeId,
+        PortalNodeKeyInterface $portalNodeId,
         string $externalId
     ): MappingInterface;
 }
