@@ -31,12 +31,24 @@ class DateTest extends TestCase
         static::assertEquals('00:00:00', $date->format('H:i:s'));
     }
 
-    public function testMissingTimeComponentAfterAdd(): void
+    public function testFailOnWrongFormatInput(): void
+    {
+        $date = Date::createDateFromFormat(\DateTimeInterface::ATOM, '');
+        static::assertNull($date);
+    }
+
+    public function testMissingTimeComponentAfterAddButKeepDate(): void
     {
         $date = new Date();
+        $dateOriginal = new \DateTime();
+
         static::assertEquals('00:00:00', $date->format('H:i:s'));
         $date = $date->add(new \DateInterval('PT1H'));
         static::assertEquals('00:00:00', $date->format('H:i:s'));
+        $date = $date->add(new \DateInterval('P5DT5H'));
+        $dateOriginal = $dateOriginal->add(new \DateInterval('P5D'));
+
+        static::assertNotEquals($dateOriginal->format(\DateTimeInterface::ATOM), $date->format(\DateTimeInterface::ATOM));
     }
 
     public function testMissingTimeComponentAfterSub(): void
@@ -61,5 +73,11 @@ class DateTest extends TestCase
         static::assertEquals('00:00:00', $date->format('H:i:s'));
         $date->add(new \DateInterval('PT1H'));
         static::assertEquals('00:00:00', $date->asDateTime()->format('H:i:s'));
+    }
+
+    public function testMissingTimeComponentFromTimestamp(): void
+    {
+        $date = new Date('@1591222533', new \DateTimeZone('UTC'));
+        static::assertEquals('2020-06-03T00:00:00+00:00', $date->format(\DateTimeInterface::ATOM));
     }
 }
