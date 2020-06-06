@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Heptacom\HeptaConnect\Portal\Base\Support\AbstractPortalNodeExtension
  */
-class TestSupportPortalNodeExtension extends TestCase
+class SupportPortalNodeExtensionTest extends TestCase
 {
     public function testSupportsSomething(): void
     {
