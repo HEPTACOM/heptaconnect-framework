@@ -13,6 +13,9 @@ use Heptacom\HeptaConnect\Portal\Base\ReceiverCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Portal\Base\ExplorerCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\EmitterCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\ReceiverCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\PortalNodeExtensionCollection
  */
 class PortalNodeExtensionCollectionTest extends TestCase
