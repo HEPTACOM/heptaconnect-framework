@@ -29,6 +29,11 @@
                 <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::withConsecutive"/>
             </errorLevel>
         </InternalMethod>
+        <LessSpecificImplementedReturnType>
+            <errorLevel type="info">
+                <file name="src/Date.php"/>
+            </errorLevel>
+        </LessSpecificImplementedReturnType>
         <InvalidDocblock>
             <errorLevel type="info">
                 <file name="src/Date.php"/>

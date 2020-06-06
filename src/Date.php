@@ -35,7 +35,7 @@ class Date extends \DateTime
     /**
      * @param \DateInterval $interval
      *
-     * @return static
+     * @return Date
      */
     public function add($interval)
     {
@@ -45,7 +45,7 @@ class Date extends \DateTime
     /**
      * @param \DateInterval $interval
      *
-     * @return static
+     * @return Date
      */
     public function sub($interval)
     {
@@ -58,7 +58,7 @@ class Date extends \DateTime
      * @param int $second
      * @param int $microseconds
      *
-     * @phpstan-return static\(\DateTime\)|false
+     * @phpstan-return static(\DateTime)|false
      *
      * @return static|false
      */
