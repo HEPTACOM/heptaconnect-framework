@@ -33,7 +33,6 @@ class EmitterStackTest extends TestCase
         $emitter1 = $this->createMock(EmitterInterface::class);
         $emitter1->expects(static::once())
             ->method('emit')
-            ->id('emitter1Emit')
             ->willReturnCallback(static function (
                 MappingCollection $col, EmitContextInterface $con, EmitterStackInterface $stack
             ): iterable {
@@ -43,8 +42,6 @@ class EmitterStackTest extends TestCase
         $emitter2 = $this->createMock(EmitterInterface::class);
         $emitter2->expects(static::once())
             ->method('emit')
-            ->after('emitter1Emit')
-            ->id('emitter2Emit')
             ->willReturnCallback(static function (
                 MappingCollection $col, EmitContextInterface $con, EmitterStackInterface $stack
             ): iterable {
@@ -55,7 +52,6 @@ class EmitterStackTest extends TestCase
         $emitter3 = $this->createMock(EmitterInterface::class);
         $emitter3->expects(static::once())
             ->method('emit')
-            ->after('emitter2Emit')
             ->willReturnCallback(static function (
                 MappingCollection $col, EmitContextInterface $con, EmitterStackInterface $stack
             ) use ($result3, $result2, $result1): iterable {

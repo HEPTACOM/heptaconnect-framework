@@ -33,7 +33,6 @@ class ReceiverStackTest extends TestCase
         $receiver1 = $this->createMock(ReceiverInterface::class);
         $receiver1->expects(static::once())
             ->method('receive')
-            ->id('receiver1Receive')
             ->willReturnCallback(static function (
                 MappedDatasetEntityCollection $col, ReceiveContextInterface $con, ReceiverStackInterface $stack
             ): iterable {
@@ -43,8 +42,6 @@ class ReceiverStackTest extends TestCase
         $receiver2 = $this->createMock(ReceiverInterface::class);
         $receiver2->expects(static::once())
             ->method('receive')
-            ->after('receiver1Receive')
-            ->id('receiver2Receive')
             ->willReturnCallback(static function (
                 MappedDatasetEntityCollection $col, ReceiveContextInterface $con, ReceiverStackInterface $stack
             ): iterable {
@@ -55,7 +52,6 @@ class ReceiverStackTest extends TestCase
         $receiver3 = $this->createMock(ReceiverInterface::class);
         $receiver3->expects(static::once())
             ->method('receive')
-            ->after('receiver2Receive')
             ->willReturnCallback(static function (
                 MappedDatasetEntityCollection $col, ReceiveContextInterface $con, ReceiverStackInterface $stack
             ) use ($result3, $result2, $result1): iterable {

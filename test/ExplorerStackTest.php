@@ -31,7 +31,6 @@ class ExplorerStackTest extends TestCase
         $explorer1 = $this->createMock(ExplorerInterface::class);
         $explorer1->expects(static::once())
             ->method('explore')
-            ->id('explorer1Explore')
             ->willReturnCallback(static function (ExploreContextInterface $c, ExplorerStackInterface $stack): iterable {
                 return $stack->next($c);
             });
@@ -39,8 +38,6 @@ class ExplorerStackTest extends TestCase
         $explorer2 = $this->createMock(ExplorerInterface::class);
         $explorer2->expects(static::once())
             ->method('explore')
-            ->after('explorer1Explore')
-            ->id('explorer2Explore')
             ->willReturnCallback(static function (ExploreContextInterface $c, ExplorerStackInterface $stack): iterable {
                 return $stack->next($c);
             })
@@ -49,7 +46,6 @@ class ExplorerStackTest extends TestCase
         $explorer3 = $this->createMock(ExplorerInterface::class);
         $explorer3->expects(static::once())
             ->method('explore')
-            ->after('explorer2Explore')
             ->willReturnCallback(static function (
                 ExploreContextInterface $c, ExplorerStackInterface $stack
             ) use ($result3, $result2, $result1): iterable {
