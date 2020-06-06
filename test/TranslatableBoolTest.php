@@ -11,8 +11,10 @@ use PHPUnit\Framework\TestCase;
  */
 class TranslatableBoolTest extends TestCase
 {
+    use ProvidesBooleanTestsData;
+
     /**
-     * @dataProvider provideValidTestCases
+     * @dataProvider provideValidBooleanTestCases
      */
     public function testInsertTypeInTypeTranslatable(bool $item): void
     {
@@ -24,7 +26,7 @@ class TranslatableBoolTest extends TestCase
     }
 
     /**
-     * @dataProvider provideValidTestCases
+     * @dataProvider provideValidBooleanTestCases
      */
     public function testArrayNotationInsertTypeInTypeTranslatable(bool $item): void
     {
@@ -36,7 +38,7 @@ class TranslatableBoolTest extends TestCase
     }
 
     /**
-     * @dataProvider provideValidTestCases
+     * @dataProvider provideValidBooleanTestCases
      */
     public function testRemovalViaNullValue(bool $anyValue): void
     {
@@ -50,7 +52,7 @@ class TranslatableBoolTest extends TestCase
     }
 
     /**
-     * @dataProvider provideValidTestCases
+     * @dataProvider provideValidBooleanTestCases
      */
     public function testRemovalViaArrayNullAssignment(bool $anyValue): void
     {
@@ -64,7 +66,7 @@ class TranslatableBoolTest extends TestCase
     }
 
     /**
-     * @dataProvider provideValidTestCases
+     * @dataProvider provideValidBooleanTestCases
      */
     public function testRemovalViaUnset(bool $anyValue): void
     {
@@ -79,7 +81,7 @@ class TranslatableBoolTest extends TestCase
     }
 
     /**
-     * @dataProvider provideValidTestCases
+     * @dataProvider provideValidBooleanTestCases
      */
     public function testAccessViaOffset(bool $anyValue): void
     {
@@ -91,14 +93,5 @@ class TranslatableBoolTest extends TestCase
         $translatable->offsetUnset($localeKey);
         static::assertNull($translatable->offsetGet($localeKey));
         static::assertEmpty($translatable->getLocaleKeys());
-    }
-
-    /**
-     * @return iterable<array-key, array<int, bool>>
-     */
-    public function provideValidTestCases(): iterable
-    {
-        yield [true];
-        yield [false];
     }
 }

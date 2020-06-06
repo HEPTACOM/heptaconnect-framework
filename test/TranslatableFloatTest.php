@@ -11,8 +11,10 @@ use PHPUnit\Framework\TestCase;
  */
 class TranslatableFloatTest extends TestCase
 {
+    use ProvidesFloatTestsData;
+
     /**
-     * @dataProvider provideValidTestCases
+     * @dataProvider provideValidFloatTestCases
      */
     public function testInsertTypeInTypeTranslatable(float $item): void
     {
@@ -24,7 +26,7 @@ class TranslatableFloatTest extends TestCase
     }
 
     /**
-     * @dataProvider provideValidTestCases
+     * @dataProvider provideValidFloatTestCases
      */
     public function testArrayNotationInsertTypeInTypeTranslatable(float $item): void
     {
@@ -36,7 +38,7 @@ class TranslatableFloatTest extends TestCase
     }
 
     /**
-     * @dataProvider provideValidTestCases
+     * @dataProvider provideValidFloatTestCases
      */
     public function testRemovalViaNullValue(float $anyValue): void
     {
@@ -50,7 +52,7 @@ class TranslatableFloatTest extends TestCase
     }
 
     /**
-     * @dataProvider provideValidTestCases
+     * @dataProvider provideValidFloatTestCases
      */
     public function testRemovalViaArrayNullAssignment(float $anyValue): void
     {
@@ -64,7 +66,7 @@ class TranslatableFloatTest extends TestCase
     }
 
     /**
-     * @dataProvider provideValidTestCases
+     * @dataProvider provideValidFloatTestCases
      */
     public function testRemovalViaUnset(float $anyValue): void
     {
@@ -79,7 +81,7 @@ class TranslatableFloatTest extends TestCase
     }
 
     /**
-     * @dataProvider provideValidTestCases
+     * @dataProvider provideValidFloatTestCases
      */
     public function testAccessViaOffset(float $anyValue): void
     {
@@ -94,24 +96,12 @@ class TranslatableFloatTest extends TestCase
     }
 
     /**
-     * @dataProvider provideValidTestCases
+     * @dataProvider provideValidFloatTestCases
      */
     public function testChainableCalls(float $anyValue): void
     {
         $translatable = new TranslatableFloat();
         static::assertEquals($translatable, $translatable->setTranslation('en-GB', $anyValue));
         static::assertEquals($translatable, $translatable->removeTranslation('en-GB'));
-    }
-
-    /**
-     * @return iterable<array-key, array<int, float>>
-     */
-    public function provideValidTestCases(): iterable
-    {
-        yield [0.0];
-        yield [1.0];
-        yield [\INF];
-        yield [-\INF];
-        yield [-5e6];
     }
 }

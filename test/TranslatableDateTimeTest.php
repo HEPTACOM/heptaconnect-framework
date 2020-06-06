@@ -11,8 +11,10 @@ use PHPUnit\Framework\TestCase;
  */
 class TranslatableDateTimeTest extends TestCase
 {
+    use ProvidesDateTimeTestsData;
+
     /**
-     * @dataProvider provideValidTestCases
+     * @dataProvider provideValidDateTimeTestCases
      */
     public function testInsertTypeInTypeTranslatable(\DateTimeInterface $item): void
     {
@@ -24,7 +26,7 @@ class TranslatableDateTimeTest extends TestCase
     }
 
     /**
-     * @dataProvider provideValidTestCases
+     * @dataProvider provideValidDateTimeTestCases
      */
     public function testArrayNotationInsertTypeInTypeTranslatable(\DateTimeInterface $item): void
     {
@@ -36,7 +38,7 @@ class TranslatableDateTimeTest extends TestCase
     }
 
     /**
-     * @dataProvider provideValidTestCases
+     * @dataProvider provideValidDateTimeTestCases
      */
     public function testRemovalViaNullValue(\DateTimeInterface $anyValue): void
     {
@@ -50,7 +52,7 @@ class TranslatableDateTimeTest extends TestCase
     }
 
     /**
-     * @dataProvider provideValidTestCases
+     * @dataProvider provideValidDateTimeTestCases
      */
     public function testRemovalViaArrayNullAssignment(\DateTimeInterface $anyValue): void
     {
@@ -64,7 +66,7 @@ class TranslatableDateTimeTest extends TestCase
     }
 
     /**
-     * @dataProvider provideValidTestCases
+     * @dataProvider provideValidDateTimeTestCases
      */
     public function testRemovalViaUnset(\DateTimeInterface $anyValue): void
     {
@@ -79,7 +81,7 @@ class TranslatableDateTimeTest extends TestCase
     }
 
     /**
-     * @dataProvider provideValidTestCases
+     * @dataProvider provideValidDateTimeTestCases
      */
     public function testAccessViaOffset(\DateTimeInterface $anyValue): void
     {
@@ -94,20 +96,12 @@ class TranslatableDateTimeTest extends TestCase
     }
 
     /**
-     * @dataProvider provideValidTestCases
+     * @dataProvider provideValidDateTimeTestCases
      */
     public function testChainableCalls(\DateTimeInterface $anyValue): void
     {
         $translatable = new TranslatableDateTime();
         static::assertEquals($translatable, $translatable->setTranslation('en-GB', $anyValue));
         static::assertEquals($translatable, $translatable->removeTranslation('en-GB'));
-    }
-
-    /**
-     * @return iterable<array-key, array<int, \DateTimeInterface>>
-     */
-    public function provideValidTestCases(): iterable
-    {
-        yield [new \DateTime()];
     }
 }
