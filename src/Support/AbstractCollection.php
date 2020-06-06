@@ -18,14 +18,14 @@ abstract class AbstractCollection implements CollectionInterface
     protected array $items = [];
 
     /**
-     * @psalm-param array<array-key, T> $items
+     * @psalm-param iterable<array-key, T> $items
      */
-    public function __construct(array $items = [])
+    public function __construct(iterable $items = [])
     {
         $this->push($items);
     }
 
-    public function push(array $items): void
+    public function push(iterable $items): void
     {
         $items = \iterator_to_array($this->filterValid($items));
 
