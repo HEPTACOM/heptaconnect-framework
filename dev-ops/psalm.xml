@@ -46,6 +46,10 @@
                 <file name="src/Translatable/TranslatableFloat.php"/>
                 <file name="src/Translatable/TranslatableInteger.php"/>
                 <file name="src/Translatable/TranslatableString.php"/>
+                <file name="src/ScalarCollection/BooleanCollection.php"/>
+                <file name="src/ScalarCollection/FloatCollection.php"/>
+                <file name="src/ScalarCollection/IntegerCollection.php"/>
+                <file name="src/ScalarCollection/StringCollection.php"/>
             </errorLevel>
         </RedundantConditionGivenDocblockType>
     </issueHandlers>
