@@ -9,5 +9,5 @@ interface WebhookServiceInterface
      */
     public function register(string $webhookHandler): WebhookInterface;
 
-    public function scheduleRefresh(WebhookInterface $webhook, \DateTimeInterface $dateTime);
+    public function scheduleRefresh(WebhookInterface $webhook, \DateTimeInterface $dateTime): void;
 }
