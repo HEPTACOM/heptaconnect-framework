@@ -9,7 +9,7 @@ interface EmitterInterface
     /**
      * @return iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\MappedDatasetEntityStruct>
      */
-    public function emit(MappingCollection $mappings, EmitContextInterface $context): iterable;
+    public function emit(MappingCollection $mappings, EmitContextInterface $context, EmitterStackInterface $stack): iterable;
 
     /**
      * @return array<array-key, class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>>

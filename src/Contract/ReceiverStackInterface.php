@@ -4,19 +4,13 @@ namespace Heptacom\HeptaConnect\Portal\Base\Contract;
 
 use Heptacom\HeptaConnect\Portal\Base\MappedDatasetEntityCollection;
 
-interface ReceiverInterface
+interface ReceiverStackInterface
 {
     /**
      * @return iterable<array-key, MappingInterface>
      */
-    public function receive(
+    public function next(
         MappedDatasetEntityCollection $mappedDatasetEntities,
-        ReceiveContextInterface $context,
-        ReceiverStackInterface $stack
+        ReceiveContextInterface $context
     ): iterable;
-
-    /**
-     * @return array<array-key, class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>>
-     */
-    public function supports(): array;
 }

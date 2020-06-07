@@ -1,0 +1,34 @@
+<?php declare(strict_types=1);
+
+namespace Heptacom\HeptaConnect\Portal\Base;
+
+use Heptacom\HeptaConnect\Portal\Base\Contract\EmitContextInterface;
+use Heptacom\HeptaConnect\Portal\Base\Contract\EmitterInterface;
+use Heptacom\HeptaConnect\Portal\Base\Contract\EmitterStackInterface;
+
+class EmitterStack implements EmitterStackInterface
+{
+    /**
+     * @var array<array-key, EmitterInterface>
+     */
+    private array $emitters;
+
+    /**
+     * @param iterable<array-key, EmitterInterface> $emitters
+     */
+    public function __construct(iterable $emitters)
+    {
+        $this->emitters = iterable_to_array($emitters);
+    }
+
+    public function next(MappingCollection $mappings, EmitContextInterface $context): iterable
+    {
+        $emitter = \array_shift($this->emitters);
+
+        if (!$emitter instanceof EmitterInterface) {
+            return [];
+        }
+
+        return $emitter->emit($mappings, $context, $this);
+    }
+}
