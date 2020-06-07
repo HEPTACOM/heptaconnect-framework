@@ -48,7 +48,8 @@
     },
     "extra": {
         "unused": [
-            "bentools/iterable-functions"
+            "bentools/iterable-functions",
+            "psr/http-client"
         ]
     }
 }
