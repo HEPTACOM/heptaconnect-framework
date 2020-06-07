@@ -3,9 +3,10 @@
 namespace Heptacom\HeptaConnect\Storage\Base\Contract;
 
 use Heptacom\HeptaConnect\Portal\Base\Contract\MappingInterface;
-use Heptacom\HeptaConnect\Portal\Base\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Contract\StorageKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Contract\WebhookInterface;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 use Heptacom\HeptaConnect\Storage\Base\Exception\StorageMethodNotImplemented;
 
@@ -84,4 +85,8 @@ interface StorageInterface
      * @throws StorageMethodNotImplemented
      */
     public function generateKey(string $keyClassName): StorageKeyInterface;
+
+    public function createWebhook(string $url, string $handler): WebhookInterface;
+
+    public function getWebhook(string $url): ?WebhookInterface;
 }
