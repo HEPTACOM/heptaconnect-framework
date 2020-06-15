@@ -50,8 +50,39 @@
                 <file name="src/ScalarCollection/FloatCollection.php"/>
                 <file name="src/ScalarCollection/IntegerCollection.php"/>
                 <file name="src/ScalarCollection/StringCollection.php"/>
+                <file name="src/TaggedCollection/AbstractTaggedCollection.php"/>
             </errorLevel>
         </RedundantConditionGivenDocblockType>
+        <InvalidReturnType>
+            <errorLevel type="info">
+                <file name="src/TaggedCollection/TaggedBooleanCollection.php"/>
+                <file name="src/TaggedCollection/TaggedDateCollection.php"/>
+                <file name="src/TaggedCollection/TaggedDateTimeCollection.php"/>
+                <file name="src/TaggedCollection/TaggedFloatCollection.php"/>
+                <file name="src/TaggedCollection/TaggedIntegerCollection.php"/>
+                <file name="src/TaggedCollection/TaggedStringCollection.php"/>
+            </errorLevel>
+        </InvalidReturnType>
+        <InvalidReturnStatement>
+            <errorLevel type="info">
+                <file name="src/TaggedCollection/TaggedBooleanCollection.php"/>
+                <file name="src/TaggedCollection/TaggedDateCollection.php"/>
+                <file name="src/TaggedCollection/TaggedDateTimeCollection.php"/>
+                <file name="src/TaggedCollection/TaggedFloatCollection.php"/>
+                <file name="src/TaggedCollection/TaggedIntegerCollection.php"/>
+                <file name="src/TaggedCollection/TaggedStringCollection.php"/>
+            </errorLevel>
+        </InvalidReturnStatement>
+        <InvalidArgument>
+            <errorLevel type="info">
+                <file name="test/TaggedBooleanCollectionTest.php"/>
+                <file name="test/TaggedDateCollectionTest.php"/>
+                <file name="test/TaggedDateTimeCollectionTest.php"/>
+                <file name="test/TaggedFloatCollectionTest.php"/>
+                <file name="test/TaggedIntegerCollectionTest.php"/>
+                <file name="test/TaggedStringCollectionTest.php"/>
+            </errorLevel>
+        </InvalidArgument>
     </issueHandlers>
 
     <plugins>

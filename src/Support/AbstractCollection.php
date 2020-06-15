@@ -65,7 +65,7 @@ abstract class AbstractCollection implements CollectionInterface
     }
 
     /**
-     * @param string|int $offset
+     * @param array-key $offset
      *
      * @return T|null
      */
@@ -128,7 +128,7 @@ abstract class AbstractCollection implements CollectionInterface
      */
     abstract protected function isValidItem($item): bool;
 
-    private function filterValid(iterable $items): \Generator
+    protected function filterValid(iterable $items): \Generator
     {
         /** @var T $item */
         foreach ($items as $key => $item) {
