@@ -20,13 +20,13 @@ Read more under [Overview](../heptaconnect-docs).
 
 ## Contributing
 
-Thank you for considering contributing to this package! Be sure to sign the [CLA](./CLA.md) after creating the pull request. [![CLA assistant](https://cla-assistant.io/readme/badge/HEPTACOM/heptaconnect-repo-base)](https://cla-assistant.io/HEPTACOM/heptaconnect-repo-base)
+Thank you for considering contributing to this package! Be sure to sign the [CLA](./CLA.md) after creating the pull request. [![CLA assistant](https://cla-assistant.io/readme/badge/HEPTACOM/heptaconnect-portal-base)](https://cla-assistant.io/HEPTACOM/heptaconnect-portal-base)
 
 
 ### Steps to contribute
 
 1. Fork the repository
-2. `git clone yourname/heptaconnect-repo-base`
+2. `git clone yourname/heptaconnect-portal-base`
 3. Make your changes to master branch
 4. Create your Pull-Request
 
