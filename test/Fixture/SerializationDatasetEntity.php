@@ -3,7 +3,6 @@
 namespace Heptacom\HeptaConnect\Dataset\Base\Test\Fixture;
 
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntity;
-use Heptacom\HeptaConnect\Dataset\Base\DependencyCollection;
 
 class SerializationDatasetEntity extends DatasetEntity
 {
@@ -21,7 +20,8 @@ class SerializationDatasetEntity extends DatasetEntity
 
     public function __construct()
     {
+        parent::__construct();
+
         $this->publicDateTime = new \DateTime();
-        $this->dependencies = new DependencyCollection();
     }
 }

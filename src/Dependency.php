@@ -11,7 +11,8 @@ class Dependency extends DatasetEntity implements Contract\DependencyInterface
      */
     public function __construct(string $datasetEntityClass, string $primaryKey)
     {
-        $this->dependencies = new DependencyCollection();
+        parent::__construct();
+
         $this->datasetEntityClass = $datasetEntityClass;
         $this->primaryKey = $primaryKey;
     }
