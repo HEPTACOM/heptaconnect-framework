@@ -94,4 +94,20 @@ class TranslatableBoolTest extends TestCase
         static::assertNull($translatable->offsetGet($localeKey));
         static::assertEmpty($translatable->getLocaleKeys());
     }
+
+    /**
+     * @dataProvider provideValidBooleanTestCases
+     */
+    public function testAccessDenialViaNumericKey(bool $anyValue): void
+    {
+        $translatable = new TranslatableBoolean();
+        $localeKey = '1';
+        $translatable->offsetSet($localeKey, $anyValue);
+        static::assertEquals($anyValue, $translatable->offsetGet($localeKey));
+        static::assertTrue($translatable->offsetExists($localeKey));
+        static::assertFalse($translatable->offsetExists(1));
+        $translatable->offsetUnset($localeKey);
+        static::assertNull($translatable->offsetGet($localeKey));
+        static::assertEmpty($translatable->getLocaleKeys());
+    }
 }

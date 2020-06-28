@@ -43,8 +43,10 @@ class DateTest extends TestCase
         $dateOriginal = new \DateTime();
 
         static::assertEquals('00:00:00', $date->format('H:i:s'));
-        $date = $date->add(new \DateInterval('PT1H'));
+        $interval = new \DateInterval('PT1H');
+        $date = $date->add($interval);
         static::assertEquals('00:00:00', $date->format('H:i:s'));
+        static::assertEquals($interval->format('%h'), '1');
         $date = $date->add(new \DateInterval('P5DT5H'));
         $dateOriginal = $dateOriginal->add(new \DateInterval('P5D'));
 
@@ -78,6 +80,13 @@ class DateTest extends TestCase
     public function testMissingTimeComponentFromTimestamp(): void
     {
         $date = new Date('@1591222533', new \DateTimeZone('UTC'));
+        static::assertEquals('2020-06-03T00:00:00+00:00', $date->format(\DateTimeInterface::ATOM));
+    }
+
+    public function testMissingTimeComponentFromTimestampSetter(): void
+    {
+        $date = new Date('now', new \DateTimeZone('UTC'));
+        $date->setTimestamp(1591222533);
         static::assertEquals('2020-06-03T00:00:00+00:00', $date->format(\DateTimeInterface::ATOM));
     }
 }

@@ -104,4 +104,20 @@ class TranslatableDateTimeTest extends TestCase
         static::assertEquals($translatable, $translatable->setTranslation('en-GB', $anyValue));
         static::assertEquals($translatable, $translatable->removeTranslation('en-GB'));
     }
+
+    /**
+     * @dataProvider provideValidDateTimeTestCases
+     */
+    public function testAccessDenialViaNumericKey(\DateTimeInterface $anyValue): void
+    {
+        $translatable = new TranslatableDateTime();
+        $localeKey = '1';
+        $translatable->offsetSet($localeKey, $anyValue);
+        static::assertEquals($anyValue, $translatable->offsetGet($localeKey));
+        static::assertTrue($translatable->offsetExists($localeKey));
+        static::assertFalse($translatable->offsetExists(1));
+        $translatable->offsetUnset($localeKey);
+        static::assertNull($translatable->offsetGet($localeKey));
+        static::assertEmpty($translatable->getLocaleKeys());
+    }
 }

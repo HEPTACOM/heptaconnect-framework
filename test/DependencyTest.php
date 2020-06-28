@@ -7,6 +7,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntity
  * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Dependency
  * @covers \Heptacom\HeptaConnect\Dataset\Base\DependencyCollection
@@ -20,6 +21,8 @@ class DependencyTest extends TestCase
     public function testStructDependenciesAreEmptyByDefault(): void
     {
         $struct = new SerializationDatasetEntity();
+        static::assertEquals(0, $struct->getDependencies()->count());
+        $struct = new Dependency(SerializationDatasetEntity::class, '1');
         static::assertEquals(0, $struct->getDependencies()->count());
     }
 
@@ -37,10 +40,13 @@ class DependencyTest extends TestCase
     {
         $struct = new SerializationDatasetEntity();
         $struct->getDependencies()->push([
-            new Dependency(SerializationDatasetEntity::class, '1'),
+            new Dependency(Dependency::class, '1'),
             new Dependency(SerializationDatasetEntity::class, '5'),
         ]);
         static::assertEquals(2, $struct->getDependencies()->count());
+        /** @var Dependency $dep */
+        $dep = $struct->getDependencies()->offsetGet(1);
+        $dep->setDatasetEntityClass(SerializationDatasetEntity::class);
 
         /** @var Dependency $dep */
         $dep = $struct->getDependencies()->offsetGet(0);
