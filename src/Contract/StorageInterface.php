@@ -107,7 +107,7 @@ interface StorageInterface
     /**
      * @throws StorageMethodNotImplemented
      */
-    public function listPortalNodes(?string $className): PortalNodeStorageKeyCollection;
+    public function listPortalNodes(?string $className = null): PortalNodeStorageKeyCollection;
 
     /**
      * @throws StorageMethodNotImplemented
