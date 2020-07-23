@@ -8,6 +8,8 @@ use Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\WebhookInterface;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeStorageKeyCollection;
+use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
 use Heptacom\HeptaConnect\Storage\Base\Exception\StorageMethodNotImplemented;
 
 interface StorageInterface
@@ -86,7 +88,35 @@ interface StorageInterface
      */
     public function generateKey(string $keyClassName): StorageKeyInterface;
 
+    /**
+     * @throws StorageMethodNotImplemented
+     */
     public function createWebhook(string $url, string $handler): WebhookInterface;
 
+    /**
+     * @throws StorageMethodNotImplemented
+     */
     public function getWebhook(string $url): ?WebhookInterface;
+
+    /**
+     * @throws NotFoundException
+     * @throws StorageMethodNotImplemented
+     */
+    public function getPortalNode(PortalNodeKeyInterface $portalNodeKey): string;
+
+    /**
+     * @throws StorageMethodNotImplemented
+     */
+    public function listPortalNodes(?string $className): PortalNodeStorageKeyCollection;
+
+    /**
+     * @throws StorageMethodNotImplemented
+     */
+    public function addPortalNode(string $className): PortalNodeKeyInterface;
+
+    /**
+     * @throws NotFoundException
+     * @throws StorageMethodNotImplemented
+     */
+    public function removePortalNode(PortalNodeKeyInterface $portalNodeKey): void;
 }
