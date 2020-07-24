@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Portal\Base\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\WebhookInterface;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeStorageKeyCollection;
+use Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
 use Heptacom\HeptaConnect\Storage\Base\Exception\StorageMethodNotImplemented;
 
@@ -20,6 +21,11 @@ abstract class StorageFallback implements StorageInterface
     }
 
     public function setConfiguration(PortalNodeKeyInterface $portalNodeKey, array $data): void
+    {
+        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
+    }
+
+    public function getMappingNode(string $datasetEntityClassName, PortalNodeKeyInterface $portalNodeKey, string $externalId): ?MappingNodeStructInterface
     {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }

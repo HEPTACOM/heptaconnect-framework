@@ -24,6 +24,8 @@ interface StorageInterface
      */
     public function setConfiguration(PortalNodeKeyInterface $portalNodeKey, array $data): void;
 
+    public function getMappingNode(string $datasetEntityClassName, PortalNodeKeyInterface $portalNodeKey, string $externalId): ?MappingNodeStructInterface;
+
     /**
      * @param array<
      *     array-key,
