@@ -66,7 +66,7 @@ interface StorageInterface
      *
      * @throws StorageMethodNotImplemented
      *
-     * @psalm-return array<array-key, StoragePortalNodeKeyInterface>
+     * @psalm-return array<array-key, \Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeKeyInterface>
      */
     public function getRouteTargets(PortalNodeKeyInterface $sourcePortalNodeKey, string $entityClassName): array;
 
