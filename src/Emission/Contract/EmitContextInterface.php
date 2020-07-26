@@ -2,8 +2,8 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Emission\Contract;
 
-use Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeAwareInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeAwareInterface;
 
 interface EmitContextInterface extends PortalNodeAwareInterface
 {
