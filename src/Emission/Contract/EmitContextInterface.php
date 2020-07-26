@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Portal\Base\Contract;
+namespace Heptacom\HeptaConnect\Portal\Base\Emission\Contract;
 
 interface EmitContextInterface extends PortalNodeAwareInterface
 {
