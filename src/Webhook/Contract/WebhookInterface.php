@@ -13,5 +13,5 @@ interface WebhookInterface
     /**
      * @return class-string<\Psr\Http\Client\ClientInterface>
      */
-    public function getHandler();
+    public function getHandler(): string;
 }
