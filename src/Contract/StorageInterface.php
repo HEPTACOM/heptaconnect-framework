@@ -93,7 +93,7 @@ interface StorageInterface
     /**
      * @throws StorageMethodNotImplemented
      */
-    public function createWebhook(string $url, string $handler): WebhookInterface;
+    public function createWebhook(string $url, string $handler, ?array $payload = null): WebhookInterface;
 
     /**
      * @throws StorageMethodNotImplemented
