@@ -2,7 +2,6 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Portal\Contract;
 
-use Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 
 interface PortalNodeAwareInterface

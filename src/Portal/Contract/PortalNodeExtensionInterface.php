@@ -15,7 +15,7 @@ interface PortalNodeExtensionInterface
     public function getReceiverDecorators(): ReceiverCollection;
 
     /**
-     * @return class-string<\Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeInterface>
+     * @return class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeInterface>
      */
     public function supports(): string;
 }

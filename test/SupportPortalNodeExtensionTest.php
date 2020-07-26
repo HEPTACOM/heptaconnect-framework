@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test;
 
-use Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeInterface;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeInterface;
 use Heptacom\HeptaConnect\Portal\Base\Support\AbstractPortalNodeExtension;
 use PHPUnit\Framework\TestCase;
 

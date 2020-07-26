@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Exception;
 
-use Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeInterface;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeInterface;
 use Throwable;
 
 class UnexpectedPortalNodeException extends \RuntimeException
