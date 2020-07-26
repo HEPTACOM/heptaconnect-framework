@@ -2,12 +2,12 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test;
 
-use Heptacom\HeptaConnect\Portal\Base\Exception\UnexpectedPortalNodeException;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnexpectedPortalNodeException;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\PortalNode;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Portal\Base\Exception\UnexpectedPortalNodeException
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnexpectedPortalNodeException
  */
 class UnexpectedPortalNodeExceptionTest extends TestCase
 {

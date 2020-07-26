@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Portal\Base\Exception;
+namespace Heptacom\HeptaConnect\Portal\Base\Portal\Exception;
 
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeInterface;
 use Throwable;
