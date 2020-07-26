@@ -2,9 +2,9 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base;
 
-use Heptacom\HeptaConnect\Portal\Base\Contract\ReceiverStackInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiveContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverInterface;
+use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverStackInterface;
 
 class ReceiverStack implements ReceiverStackInterface
 {
