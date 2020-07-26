@@ -3,8 +3,8 @@
 namespace Heptacom\HeptaConnect\Portal\Base\Test;
 
 use Heptacom\HeptaConnect\Portal\Base\Contract\MappingNodeKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\StorageKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\WebhookKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\MappingNodeStorageKeyCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeStorageKeyCollection;

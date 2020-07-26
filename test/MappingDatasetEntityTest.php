@@ -3,9 +3,9 @@
 namespace Heptacom\HeptaConnect\Portal\Base\Test;
 
 use Heptacom\HeptaConnect\Portal\Base\Contract\MappingNodeKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\MappingStruct;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use PHPUnit\Framework\TestCase;
 
 /**

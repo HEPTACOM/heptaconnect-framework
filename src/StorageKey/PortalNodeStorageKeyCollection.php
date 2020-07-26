@@ -3,10 +3,10 @@
 namespace Heptacom\HeptaConnect\Portal\Base\StorageKey;
 
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
-use Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<\Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeKeyInterface>
+ * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface>
  */
 class PortalNodeStorageKeyCollection extends AbstractCollection
 {
