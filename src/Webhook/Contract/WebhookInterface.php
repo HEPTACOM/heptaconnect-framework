@@ -14,4 +14,6 @@ interface WebhookInterface
      * @return class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\WebhookHandlerContract>
      */
     public function getHandler(): string;
+
+    public function getPayload(): ?array;
 }

@@ -7,7 +7,7 @@ interface WebhookServiceInterface
     /**
      * @param class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\WebhookHandlerContract> $webhookHandler
      */
-    public function register(string $webhookHandler): WebhookInterface;
+    public function register(string $webhookHandler, ?array $payload = null): WebhookInterface;
 
     public function scheduleRefresh(WebhookInterface $webhook, \DateTimeInterface $dateTime): void;
 }
