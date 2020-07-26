@@ -10,16 +10,18 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
 class EmitterStack implements EmitterStackInterface
 {
     /**
-     * @var array<array-key, EmitterInterface>
+     * @var array<array-key, \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterInterface>
      */
     private array $emitters;
 
     /**
-     * @param iterable<array-key, EmitterInterface> $emitters
+     * @param iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterInterface> $emitters
      */
     public function __construct(iterable $emitters)
     {
-        $this->emitters = iterable_to_array($emitters);
+        /** @var array<array-key, \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterInterface> $arrayEmitters */
+        $arrayEmitters = iterable_to_array($emitters);
+        $this->emitters = $arrayEmitters;
     }
 
     public function next(MappingCollection $mappings, EmitContextInterface $context): iterable

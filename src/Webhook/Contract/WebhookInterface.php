@@ -11,7 +11,7 @@ interface WebhookInterface
     public function getUrl(): string;
 
     /**
-     * @return class-string<\Psr\Http\Client\ClientInterface>
+     * @return class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\WebhookHandlerContract>
      */
     public function getHandler(): string;
 }
