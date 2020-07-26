@@ -2,6 +2,8 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Contract;
 
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\WebhookKeyInterface;
+
 interface WebhookInterface
 {
     public function getKey(): WebhookKeyInterface;

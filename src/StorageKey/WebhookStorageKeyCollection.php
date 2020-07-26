@@ -3,10 +3,10 @@
 namespace Heptacom\HeptaConnect\Portal\Base\StorageKey;
 
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
-use Heptacom\HeptaConnect\Portal\Base\Contract\WebhookKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\WebhookKeyInterface;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<\Heptacom\HeptaConnect\Portal\Base\Contract\WebhookKeyInterface>
+ * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\WebhookKeyInterface>
  */
 class WebhookStorageKeyCollection extends AbstractCollection
 {
