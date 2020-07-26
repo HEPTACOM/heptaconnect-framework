@@ -2,8 +2,6 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract;
 
-use Heptacom\HeptaConnect\Portal\Base\Contract\StorageKeyInterface;
-
 interface WebhookKeyInterface extends StorageKeyInterface
 {
 }
