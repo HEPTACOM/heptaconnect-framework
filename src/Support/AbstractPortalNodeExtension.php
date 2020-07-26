@@ -5,7 +5,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Support;
 use Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeExtensionInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
-use Heptacom\HeptaConnect\Portal\Base\ExplorerCollection;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\ReceiverCollection;
 
 abstract class AbstractPortalNodeExtension implements PortalNodeExtensionInterface

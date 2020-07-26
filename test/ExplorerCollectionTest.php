@@ -3,13 +3,13 @@
 namespace Heptacom\HeptaConnect\Portal\Base\Test;
 
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerInterface;
-use Heptacom\HeptaConnect\Portal\Base\ExplorerCollection;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\SecondEntity;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Portal\Base\ExplorerCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection
  */
 class ExplorerCollectionTest extends TestCase
 {
