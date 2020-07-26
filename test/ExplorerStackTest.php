@@ -6,11 +6,11 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerStackInterface;
-use Heptacom\HeptaConnect\Portal\Base\ExplorerStack;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Portal\Base\ExplorerStack
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack
  */
 class ExplorerStackTest extends TestCase
 {

@@ -33,7 +33,7 @@
             <errorLevel type="info">
                 <!-- Can be removed when bentools/iterable-functions supports psalm -->
                 <referencedProperty name="Heptacom\HeptaConnect\Portal\Base\EmitterStack::$emitters"/>
-                <referencedProperty name="Heptacom\HeptaConnect\Portal\Base\ExplorerStack::$explorers"/>
+                <referencedProperty name="Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack::$explorers"/>
                 <referencedProperty name="Heptacom\HeptaConnect\Portal\Base\ReceiverStack::$receivers"/>
             </errorLevel>
         </MixedPropertyTypeCoercion>
