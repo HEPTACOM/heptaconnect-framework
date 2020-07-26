@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base;
 
-use Heptacom\HeptaConnect\Portal\Base\Contract\MappingInterface;
+use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 
 class TypedMappingCollection extends MappingCollection
 {
@@ -13,7 +13,7 @@ class TypedMappingCollection extends MappingCollection
 
     /**
      * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $type
-     * @psalm-param array<array-key, \Heptacom\HeptaConnect\Portal\Base\Contract\MappingInterface> $items
+     * @psalm-param array<array-key, \Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface> $items
      */
     public function __construct(string $type, array $items = [])
     {

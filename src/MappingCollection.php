@@ -3,7 +3,7 @@
 namespace Heptacom\HeptaConnect\Portal\Base;
 
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
-use Heptacom\HeptaConnect\Portal\Base\Contract\MappingInterface;
+use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 
 /**
  * @extends DatasetEntityCollection<Contract\MappingInterface>
