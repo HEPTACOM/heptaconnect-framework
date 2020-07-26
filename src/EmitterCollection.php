@@ -12,17 +12,17 @@ class EmitterCollection extends DatasetEntityCollection
     /**
      * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $entityClassName
      *
-     * @return iterable<\Heptacom\HeptaConnect\Portal\Base\Contract\EmitterInterface>
+     * @return iterable<\Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterInterface>
      */
     public function bySupport(string $entityClassName): iterable
     {
-        return $this->filter(static function (Contract\EmitterInterface $emitter) use ($entityClassName): bool {
+        return $this->filter(static function (Emission\Contract\EmitterInterface $emitter) use ($entityClassName): bool {
             return \in_array($entityClassName, $emitter->supports(), true);
         });
     }
 
     protected function getT(): string
     {
-        return Contract\EmitterInterface::class;
+        return Emission\Contract\EmitterInterface::class;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test;
 
-use Heptacom\HeptaConnect\Portal\Base\Contract\EmitterInterface;
+use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterInterface;
 use Heptacom\HeptaConnect\Portal\Base\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\SecondEntity;
