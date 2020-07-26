@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Storage\Base\Test;
 
-use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
+use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Exception\StorageMethodNotImplemented;
