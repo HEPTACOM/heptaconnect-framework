@@ -2,9 +2,9 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base;
 
-use Heptacom\HeptaConnect\Portal\Base\Contract\ExploreContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\ExplorerInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\ExplorerStackInterface;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
 
 class ExplorerStack implements ExplorerStackInterface
 {
