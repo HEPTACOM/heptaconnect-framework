@@ -1,12 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Portal\Base;
+namespace Heptacom\HeptaConnect\Portal\Base\Mapping;
 
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
+use Heptacom\HeptaConnect\Portal\Base\TypedMappingCollection;
 
 /**
- * @extends DatasetEntityCollection<Contract\MappingInterface>
+ * @extends \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection<\Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface>
  */
 class MappingCollection extends DatasetEntityCollection
 {
@@ -30,6 +31,6 @@ class MappingCollection extends DatasetEntityCollection
 
     protected function getT(): string
     {
-        return Contract\MappingInterface::class;
+        return MappingInterface::class;
     }
 }
