@@ -2,9 +2,9 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Emission;
 
+use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
-use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack;
 use Heptacom\HeptaConnect\Portal\Base\MappedDatasetEntityStruct;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
