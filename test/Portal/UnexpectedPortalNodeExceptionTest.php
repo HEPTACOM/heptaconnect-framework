@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Portal\Base\Test;
+namespace Heptacom\HeptaConnect\Portal\Base\Test\Portal;
 
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnexpectedPortalNodeException;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\PortalNode;
