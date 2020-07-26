@@ -2,8 +2,6 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Exploration\Contract;
 
-use Heptacom\HeptaConnect\Portal\Base\Contract\ExplorerStackInterface;
-
 interface ExplorerInterface
 {
     /**

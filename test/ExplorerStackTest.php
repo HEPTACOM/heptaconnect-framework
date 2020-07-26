@@ -3,9 +3,9 @@
 namespace Heptacom\HeptaConnect\Portal\Base\Test;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
-use Heptacom\HeptaConnect\Portal\Base\Contract\ExplorerStackInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerInterface;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerStackInterface;
 use Heptacom\HeptaConnect\Portal\Base\ExplorerStack;
 use PHPUnit\Framework\TestCase;
 

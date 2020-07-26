@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Portal\Base\Contract;
-
-use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
+namespace Heptacom\HeptaConnect\Portal\Base\Exploration\Contract;
 
 interface ExplorerStackInterface
 {
