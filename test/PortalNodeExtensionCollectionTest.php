@@ -2,11 +2,11 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test;
 
-use Heptacom\HeptaConnect\Portal\Base\Contract\ExplorerInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeExtensionInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\ReceiverInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerInterface;
 use Heptacom\HeptaConnect\Portal\Base\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\PortalNodeExtensionCollection;
 use Heptacom\HeptaConnect\Portal\Base\ReceiverCollection;

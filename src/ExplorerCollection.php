@@ -5,14 +5,14 @@ namespace Heptacom\HeptaConnect\Portal\Base;
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 
 /**
- * @extends DatasetEntityCollection<\Heptacom\HeptaConnect\Portal\Base\Contract\ExplorerInterface>
+ * @extends DatasetEntityCollection<\Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerInterface>
  */
 class ExplorerCollection extends DatasetEntityCollection
 {
     /**
      * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $entityClassName
      *
-     * @return iterable<\Heptacom\HeptaConnect\Portal\Base\Contract\ExplorerInterface>
+     * @return iterable<\Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerInterface>
      */
     public function bySupport(string $entityClassName): iterable
     {

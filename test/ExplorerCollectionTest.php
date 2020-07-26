@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test;
 
-use Heptacom\HeptaConnect\Portal\Base\Contract\ExplorerInterface;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerInterface;
 use Heptacom\HeptaConnect\Portal\Base\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\SecondEntity;
