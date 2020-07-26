@@ -2,8 +2,8 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test;
 
-use Heptacom\HeptaConnect\Portal\Base\MappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\MappedDatasetEntityStruct;
+use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -15,7 +15,7 @@ use Heptacom\HeptaConnect\Portal\Base\TypedMappedDatasetEntityCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Portal\Base\MappedDatasetEntityCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\MappedDatasetEntityStruct
  * @covers \Heptacom\HeptaConnect\Portal\Base\MappingCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\TypedMappedDatasetEntityCollection

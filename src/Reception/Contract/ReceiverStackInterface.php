@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Reception\Contract;
 
-use Heptacom\HeptaConnect\Portal\Base\MappedDatasetEntityCollection;
+use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 
 interface ReceiverStackInterface
 {

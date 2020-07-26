@@ -2,6 +2,8 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base;
 
+use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
+
 class TypedMappedDatasetEntityCollection extends MappedDatasetEntityCollection
 {
     /**
