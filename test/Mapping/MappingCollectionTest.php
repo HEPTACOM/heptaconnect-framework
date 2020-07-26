@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Portal\Base\Test;
+namespace Heptacom\HeptaConnect\Portal\Base\Test\Mapping;
 
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct;
