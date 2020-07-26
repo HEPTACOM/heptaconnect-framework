@@ -6,7 +6,7 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeInterface;
 
 interface ExploreContextInterface
 {
-    public function getPortalNode(): PortalNodeInterface;
+    public function getPortalNode(): ?PortalNodeInterface;
 
     /**
      * @psalm-return \ArrayAccess<array-key, mixed>|null
