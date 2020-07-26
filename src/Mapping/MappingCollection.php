@@ -4,7 +4,6 @@ namespace Heptacom\HeptaConnect\Portal\Base\Mapping;
 
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
-use Heptacom\HeptaConnect\Portal\Base\TypedMappingCollection;
 
 /**
  * @extends \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection<\Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface>
@@ -12,7 +11,7 @@ use Heptacom\HeptaConnect\Portal\Base\TypedMappingCollection;
 class MappingCollection extends DatasetEntityCollection
 {
     /**
-     * @return iterable<\Heptacom\HeptaConnect\Portal\Base\TypedMappingCollection>
+     * @return iterable<\Heptacom\HeptaConnect\Portal\Base\Mapping\TypedMappingCollection>
      */
     public function groupByType(): iterable
     {
