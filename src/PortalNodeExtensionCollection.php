@@ -4,6 +4,7 @@ namespace Heptacom\HeptaConnect\Portal\Base;
 
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
 use Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeExtensionInterface;
+use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 
 /**
  * @extends AbstractCollection<\Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeExtensionInterface>

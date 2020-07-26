@@ -6,7 +6,7 @@ use Heptacom\HeptaConnect\Portal\Base\Contract\ExplorerInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeExtensionInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\ReceiverInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterInterface;
-use Heptacom\HeptaConnect\Portal\Base\EmitterCollection;
+use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\PortalNodeExtensionCollection;
 use Heptacom\HeptaConnect\Portal\Base\ReceiverCollection;
@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Portal\Base\ExplorerCollection
- * @covers \Heptacom\HeptaConnect\Portal\Base\EmitterCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\ReceiverCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\PortalNodeExtensionCollection
  */

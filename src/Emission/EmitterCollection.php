@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Portal\Base;
+namespace Heptacom\HeptaConnect\Portal\Base\Emission;
 
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 
@@ -16,13 +16,13 @@ class EmitterCollection extends DatasetEntityCollection
      */
     public function bySupport(string $entityClassName): iterable
     {
-        return $this->filter(static function (Emission\Contract\EmitterInterface $emitter) use ($entityClassName): bool {
+        return $this->filter(static function (Contract\EmitterInterface $emitter) use ($entityClassName): bool {
             return \in_array($entityClassName, $emitter->supports(), true);
         });
     }
 
     protected function getT(): string
     {
-        return Emission\Contract\EmitterInterface::class;
+        return Contract\EmitterInterface::class;
     }
 }

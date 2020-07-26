@@ -3,13 +3,13 @@
 namespace Heptacom\HeptaConnect\Portal\Base\Test;
 
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterInterface;
-use Heptacom\HeptaConnect\Portal\Base\EmitterCollection;
+use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\SecondEntity;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Portal\Base\EmitterCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection
  */
 class EmitterCollectionTest extends TestCase
 {
