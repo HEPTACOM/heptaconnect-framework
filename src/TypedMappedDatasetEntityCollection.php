@@ -13,7 +13,7 @@ class TypedMappedDatasetEntityCollection extends MappedDatasetEntityCollection
 
     /**
      * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $type
-     * @psalm-param array<array-key, \Heptacom\HeptaConnect\Portal\Base\MappedDatasetEntityStruct> $items
+     * @psalm-param array<array-key, \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct> $items
      */
     public function __construct(string $type, array $items = [])
     {

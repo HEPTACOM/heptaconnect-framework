@@ -7,7 +7,7 @@ use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 interface EmitterStackInterface
 {
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\MappedDatasetEntityStruct>
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct>
      */
     public function next(MappingCollection $mappings, EmitContextInterface $context): iterable;
 }
