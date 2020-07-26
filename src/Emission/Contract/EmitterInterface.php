@@ -2,7 +2,6 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Emission\Contract;
 
-use Heptacom\HeptaConnect\Portal\Base\Contract\EmitterStackInterface;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 
 interface EmitterInterface

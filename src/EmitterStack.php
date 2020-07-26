@@ -2,8 +2,8 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base;
 
-use Heptacom\HeptaConnect\Portal\Base\Contract\EmitterStackInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterInterface;
+use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
 
 class EmitterStack implements EmitterStackInterface
