@@ -2,6 +2,9 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Contract;
 
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+
 interface MappingInterface
 {
     public function getExternalId(): ?string;
