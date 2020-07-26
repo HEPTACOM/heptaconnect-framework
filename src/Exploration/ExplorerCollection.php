@@ -12,7 +12,7 @@ class ExplorerCollection extends DatasetEntityCollection
     /**
      * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $entityClassName
      *
-     * @return iterable<\Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerInterface>
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerInterface>
      */
     public function bySupport(string $entityClassName): iterable
     {
