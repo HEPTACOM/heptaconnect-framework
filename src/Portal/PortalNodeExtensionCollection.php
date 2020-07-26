@@ -1,13 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Portal\Base;
+namespace Heptacom\HeptaConnect\Portal\Base\Portal;
 
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeExtensionInterface;
+use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
 
 /**
- * @extends AbstractCollection<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeExtensionInterface>
+ * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeExtensionInterface>
  */
 class PortalNodeExtensionCollection extends AbstractCollection
 {
