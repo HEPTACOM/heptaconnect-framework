@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Portal\Base;
-
-use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
+namespace Heptacom\HeptaConnect\Portal\Base\Mapping;
 
 class TypedMappedDatasetEntityCollection extends MappedDatasetEntityCollection
 {
