@@ -8,14 +8,14 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\PortalNodeExtensionCollection;
-use Heptacom\HeptaConnect\Portal\Base\ReceiverCollection;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverInterface;
+use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection
- * @covers \Heptacom\HeptaConnect\Portal\Base\ReceiverCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\PortalNodeExtensionCollection
  */
 class PortalNodeExtensionCollectionTest extends TestCase
