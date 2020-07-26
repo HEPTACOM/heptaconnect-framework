@@ -3,11 +3,11 @@
 namespace Heptacom\HeptaConnect\Portal\Base;
 
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
-use Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeExtensionInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeExtensionInterface;
 
 /**
- * @extends AbstractCollection<\Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeExtensionInterface>
+ * @extends AbstractCollection<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeExtensionInterface>
  */
 class PortalNodeExtensionCollection extends AbstractCollection
 {
