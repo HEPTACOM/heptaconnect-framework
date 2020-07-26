@@ -5,7 +5,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Emission;
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 
 /**
- * @extends DatasetEntityCollection<\Heptacom\HeptaConnect\Portal\Base\Contract\EmitterInterface>
+ * @extends \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection<\Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterInterface>
  */
 class EmitterCollection extends DatasetEntityCollection
 {
