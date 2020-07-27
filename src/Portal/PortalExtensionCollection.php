@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeExtensionInterface>
+ * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionInterface>
  */
 class PortalExtensionCollection extends AbstractCollection
 {
