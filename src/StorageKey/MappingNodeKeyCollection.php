@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterfac
 /**
  * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface>
  */
-class MappingNodeStorageKeyCollection extends AbstractCollection
+class MappingNodeKeyCollection extends AbstractCollection
 {
     protected function isValidItem($item): bool
     {

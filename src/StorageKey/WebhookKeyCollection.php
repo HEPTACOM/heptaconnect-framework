@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\WebhookKeyInterface;
 /**
  * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\WebhookKeyInterface>
  */
-class WebhookStorageKeyCollection extends AbstractCollection
+class WebhookKeyCollection extends AbstractCollection
 {
     protected function isValidItem($item): bool
     {
