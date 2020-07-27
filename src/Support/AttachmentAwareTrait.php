@@ -21,6 +21,10 @@ trait AttachmentAwareTrait
 
     public function hasAttached(string $class): bool
     {
+        if (!\class_exists($class)) {
+            return false;
+        }
+
         return $this->attachments->filter(
             fn (DatasetEntityInterface $entity): bool => $entity instanceof $class
         )->valid();
@@ -28,6 +32,10 @@ trait AttachmentAwareTrait
 
     public function getAttachment(string $class): ?DatasetEntityInterface
     {
+        if (!\class_exists($class)) {
+            return null;
+        }
+
         $iterator = $this->attachments->filter(
             fn (DatasetEntityInterface $entity): bool => $entity instanceof $class
         );
@@ -37,6 +45,10 @@ trait AttachmentAwareTrait
 
     public function unattach(string $class): void
     {
+        if (!\class_exists($class)) {
+            return;
+        }
+
         $this->attachments = new AttachmentCollection(iterable_to_array($this->attachments->filter(
             fn (DatasetEntityInterface $entity): bool => !$entity instanceof $class
         )));

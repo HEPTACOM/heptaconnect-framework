@@ -41,4 +41,16 @@ class AttachmentTest extends TestCase
         $struct->unattach(SerializationDatasetEntity::class);
         static::assertEquals(0, $struct->getAttachments()->count());
     }
+
+    public function testNonExistingClasses(): void
+    {
+        $struct = new SerializationDatasetEntity();
+        $struct->attach(new SerializationDatasetEntity());
+        static::assertEquals(1, $struct->getAttachments()->count());
+        static::assertFalse($struct->hasAttached('Unknown🙃Class'));
+        $struct->unattach('Unknown🙃Class');
+        static::assertEquals(1, $struct->getAttachments()->count());
+        static::assertNull($struct->getAttachment('Unknown🙃Class'));
+        static::assertEquals(1, $struct->getAttachments()->count());
+    }
 }
