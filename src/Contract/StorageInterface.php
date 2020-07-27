@@ -81,7 +81,7 @@ interface StorageInterface
     ): void;
 
     /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Portal\Base\Contract\StorageKeyInterface> $keyClassName
+     * @psalm-param class-string<\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface> $keyClassName
      *
      * @throws StorageMethodNotImplemented
      */
