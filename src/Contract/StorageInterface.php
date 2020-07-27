@@ -11,6 +11,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeStorageKeyCollection;
 use Heptacom\HeptaConnect\Portal\Base\Webhook\Contract\WebhookInterface;
 use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
 use Heptacom\HeptaConnect\Storage\Base\Exception\StorageMethodNotImplemented;
+use Heptacom\HeptaConnect\Storage\Base\MappingNodeStructCollection;
 
 interface StorageInterface
 {
@@ -33,10 +34,8 @@ interface StorageInterface
      * > $datasetEntityClassNames
      *
      * @throws StorageMethodNotImplemented
-     *
-     * @psalm-return array<array-key, MappingNodeStructInterface>
      */
-    public function createMappingNodes(array $datasetEntityClassNames, PortalNodeKeyInterface $portalNodeKey): array;
+    public function createMappingNodes(array $datasetEntityClassNames, PortalNodeKeyInterface $portalNodeKey): MappingNodeStructCollection;
 
     /**
      * @throws StorageMethodNotImplemented
@@ -67,10 +66,8 @@ interface StorageInterface
      * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $entityClassName
      *
      * @throws StorageMethodNotImplemented
-     *
-     * @psalm-return array<array-key, \Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface>
      */
-    public function getRouteTargets(PortalNodeKeyInterface $sourcePortalNodeKey, string $entityClassName): array;
+    public function getRouteTargets(PortalNodeKeyInterface $sourcePortalNodeKey, string $entityClassName): PortalNodeStorageKeyCollection;
 
     /**
      * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $entityClassName
