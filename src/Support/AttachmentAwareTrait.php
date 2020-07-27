@@ -34,4 +34,11 @@ trait AttachmentAwareTrait
 
         return $iterator->valid() ? $iterator->current() : null;
     }
+
+    public function unattach(string $class): void
+    {
+        $this->attachments = new AttachmentCollection(iterable_to_array($this->attachments->filter(
+            fn (DatasetEntityInterface $entity): bool => !$entity instanceof $class
+        )));
+    }
 }

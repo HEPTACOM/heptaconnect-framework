@@ -32,4 +32,13 @@ class AttachmentTest extends TestCase
         static::assertNotNull($struct->getAttachment(SerializationDatasetEntity::class));
         static::assertNull($struct->getAttachment(Dependency::class));
     }
+
+    public function testUnattach(): void
+    {
+        $struct = new SerializationDatasetEntity();
+        $struct->attach(new SerializationDatasetEntity());
+        static::assertEquals(1, $struct->getAttachments()->count());
+        $struct->unattach(SerializationDatasetEntity::class);
+        static::assertEquals(0, $struct->getAttachments()->count());
+    }
 }

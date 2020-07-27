@@ -23,6 +23,11 @@ interface DatasetEntityInterface extends \JsonSerializable
      */
     public function getAttachment(string $class): ?DatasetEntityInterface;
 
+    /**
+     * @psalm-param class-string $class
+     */
+    public function unattach(string $class): void;
+
     public function getPrimaryKey(): string;
 
     public function setPrimaryKey(string $primaryKey): void;
