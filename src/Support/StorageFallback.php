@@ -7,7 +7,7 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeStorageKeyCollection;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Portal\Base\Webhook\Contract\WebhookInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
@@ -58,7 +58,7 @@ abstract class StorageFallback implements StorageInterface
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
 
-    public function getRouteTargets(PortalNodeKeyInterface $sourcePortalNodeKey, string $entityClassName): PortalNodeStorageKeyCollection
+    public function getRouteTargets(PortalNodeKeyInterface $sourcePortalNodeKey, string $entityClassName): PortalNodeKeyCollection
     {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
@@ -91,7 +91,7 @@ abstract class StorageFallback implements StorageInterface
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
 
-    public function listPortalNodes(?string $className = null): PortalNodeStorageKeyCollection
+    public function listPortalNodes(?string $className = null): PortalNodeKeyCollection
     {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
