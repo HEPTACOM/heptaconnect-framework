@@ -3,7 +3,7 @@
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Portal;
 
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnexpectedPortalNodeException;
-use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\PortalNode;
+use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\Portal;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,8 +18,8 @@ class UnexpectedPortalNodeExceptionTest extends TestCase
         static::assertStringContainsString($e->getType(), $e->getMessage());
         static::assertEquals(0, $e->getCode());
 
-        $e = new UnexpectedPortalNodeException(new PortalNode());
-        static::assertEquals(PortalNode::class, $e->getType());
+        $e = new UnexpectedPortalNodeException(new Portal());
+        static::assertEquals(Portal::class, $e->getType());
         static::assertStringContainsString($e->getType(), $e->getMessage());
         static::assertEquals(0, $e->getCode());
     }

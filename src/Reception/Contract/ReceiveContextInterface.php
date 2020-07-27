@@ -3,9 +3,9 @@
 namespace Heptacom\HeptaConnect\Portal\Base\Reception\Contract;
 
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeAwareInterface;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalAwareInterface;
 
-interface ReceiveContextInterface extends PortalNodeAwareInterface
+interface ReceiveContextInterface extends PortalAwareInterface
 {
     /**
      * @psalm-return \ArrayAccess<array-key, mixed>|null

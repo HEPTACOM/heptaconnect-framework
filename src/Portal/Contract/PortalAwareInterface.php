@@ -4,7 +4,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Portal\Contract;
 
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 
-interface PortalNodeAwareInterface
+interface PortalAwareInterface
 {
-    public function getPortalNode(MappingInterface $mapping): ?PortalNodeInterface;
+    public function getPortalNode(MappingInterface $mapping): ?PortalInterface;
 }

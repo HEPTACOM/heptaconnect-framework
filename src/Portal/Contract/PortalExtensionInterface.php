@@ -6,7 +6,7 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
 
-interface PortalNodeExtensionInterface
+interface PortalExtensionInterface
 {
     public function getExplorerDecorators(): ExplorerCollection;
 

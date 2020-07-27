@@ -2,11 +2,11 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Exploration\Contract;
 
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeInterface;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalInterface;
 
 interface ExploreContextInterface
 {
-    public function getPortalNode(): ?PortalNodeInterface;
+    public function getPortalNode(): ?PortalInterface;
 
     /**
      * @psalm-return \ArrayAccess<array-key, mixed>|null
