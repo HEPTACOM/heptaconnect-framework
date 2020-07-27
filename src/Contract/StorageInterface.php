@@ -88,6 +88,8 @@ interface StorageInterface
     public function generateKey(string $keyClassName): StorageKeyInterface;
 
     /**
+     * @psalm-param class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\WebhookHandlerContract> $handler
+     *
      * @throws StorageMethodNotImplemented
      */
     public function createWebhook(string $url, string $handler, ?array $payload = null): WebhookInterface;
@@ -104,11 +106,15 @@ interface StorageInterface
     public function getPortalNode(PortalNodeKeyInterface $portalNodeKey): string;
 
     /**
+     * @psalm-param class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalInterface> $className
+     *
      * @throws StorageMethodNotImplemented
      */
     public function listPortalNodes(?string $className = null): PortalNodeKeyCollection;
 
     /**
+     * @psalm-param class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalInterface> $className
+     *
      * @throws StorageMethodNotImplemented
      */
     public function addPortalNode(string $className): PortalNodeKeyInterface;
