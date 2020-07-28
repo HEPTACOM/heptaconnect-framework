@@ -5,11 +5,11 @@ namespace Heptacom\HeptaConnect\Portal\Base\Portal;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalInterface;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalInterface>
+ * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>
  */
 class PortalCollection extends AbstractCollection
 {
@@ -17,7 +17,7 @@ class PortalCollection extends AbstractCollection
     {
         $result = new EmitterCollection();
 
-        /** @var PortalInterface $extension */
+        /** @var PortalContract $extension */
         foreach ($this->getIterator() as $extension) {
             $result->push($extension->getEmitters()->getIterator());
         }
@@ -29,7 +29,7 @@ class PortalCollection extends AbstractCollection
     {
         $result = new ExplorerCollection();
 
-        /** @var PortalInterface $extension */
+        /** @var PortalContract $extension */
         foreach ($this->getIterator() as $extension) {
             $result->push($extension->getExplorers()->getIterator());
         }
@@ -41,7 +41,7 @@ class PortalCollection extends AbstractCollection
     {
         $result = new ReceiverCollection();
 
-        /** @var PortalInterface $extension */
+        /** @var PortalContract $extension */
         foreach ($this->getIterator() as $extension) {
             $result->push($extension->getReceivers()->getIterator());
         }
@@ -52,6 +52,6 @@ class PortalCollection extends AbstractCollection
     protected function isValidItem($item): bool
     {
         /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */
-        return $item instanceof PortalInterface;
+        return $item instanceof PortalContract;
     }
 }

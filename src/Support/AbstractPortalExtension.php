@@ -4,8 +4,8 @@ namespace Heptacom\HeptaConnect\Portal\Base\Support;
 
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionInterface;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
 
 abstract class AbstractPortalExtension implements PortalExtensionInterface
@@ -27,6 +27,6 @@ abstract class AbstractPortalExtension implements PortalExtensionInterface
 
     public function supports(): string
     {
-        return PortalInterface::class;
+        return PortalContract::class;
     }
 }

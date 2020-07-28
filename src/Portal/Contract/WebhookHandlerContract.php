@@ -26,5 +26,5 @@ abstract class WebhookHandlerContract
         return $this->responseFactory->createResponse(404);
     }
 
-    protected abstract function getDecorated(): WebhookHandlerContract;
+    abstract protected function getDecorated(): WebhookHandlerContract;
 }

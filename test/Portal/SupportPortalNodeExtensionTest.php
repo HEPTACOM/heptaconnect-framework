@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Portal;
 
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalInterface;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Support\AbstractPortalExtension;
 use PHPUnit\Framework\TestCase;
 
@@ -15,7 +15,7 @@ class SupportPortalNodeExtensionTest extends TestCase
     {
         $extension = new class() extends AbstractPortalExtension {
         };
-        static::assertTrue(\is_a($extension->supports(), PortalInterface::class, true));
+        static::assertTrue(\is_a($extension->supports(), PortalContract::class, true));
     }
 
     public function testHasEmitterDecorators(): void
