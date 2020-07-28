@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Exploration;
 
-use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerInterface;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\SecondEntity;
@@ -30,9 +30,9 @@ class ExplorerCollectionTest extends TestCase
         static::assertCount(2, $collection->bySupport(SecondEntity::class));
     }
 
-    private function getExplorer(string $support): ExplorerInterface
+    private function getExplorer(string $support): ExplorerContract
     {
-        $explorer = $this->createMock(ExplorerInterface::class);
+        $explorer = $this->createMock(ExplorerContract::class);
         $explorer->expects(static::any())->method('supports')->willReturn($support);
 
         return $explorer;

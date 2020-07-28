@@ -4,7 +4,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Test\Exploration;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
-use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerInterface;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerStackInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack;
 use PHPUnit\Framework\TestCase;
@@ -28,14 +28,14 @@ class ExplorerStackTest extends TestCase
         $result2 = $this->createMock(DatasetEntityInterface::class);
         $result3 = $this->createMock(DatasetEntityInterface::class);
 
-        $explorer1 = $this->createMock(ExplorerInterface::class);
+        $explorer1 = $this->createMock(ExplorerContract::class);
         $explorer1->expects(static::once())
             ->method('explore')
             ->willReturnCallback(static function (ExploreContextInterface $c, ExplorerStackInterface $stack): iterable {
                 return $stack->next($c);
             });
 
-        $explorer2 = $this->createMock(ExplorerInterface::class);
+        $explorer2 = $this->createMock(ExplorerContract::class);
         $explorer2->expects(static::once())
             ->method('explore')
             ->willReturnCallback(static function (ExploreContextInterface $c, ExplorerStackInterface $stack): iterable {
@@ -43,7 +43,7 @@ class ExplorerStackTest extends TestCase
             })
         ;
 
-        $explorer3 = $this->createMock(ExplorerInterface::class);
+        $explorer3 = $this->createMock(ExplorerContract::class);
         $explorer3->expects(static::once())
             ->method('explore')
             ->willReturnCallback(static function (

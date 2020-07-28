@@ -4,7 +4,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Test\Portal;
 
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
-use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerInterface;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionInterface;
 use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection;
@@ -45,17 +45,17 @@ class PortalNodeExtensionCollectionTest extends TestCase
     {
         $ext1 = $this->createMock(PortalExtensionInterface::class);
         $ext1->method('getExplorerDecorators')->willReturn(new ExplorerCollection([
-            $this->createMock(ExplorerInterface::class),
+            $this->createMock(ExplorerContract::class),
         ]));
 
         $ext2 = $this->createMock(PortalExtensionInterface::class);
         $ext2->method('getExplorerDecorators')->willReturn(new ExplorerCollection([
-            $this->createMock(ExplorerInterface::class),
+            $this->createMock(ExplorerContract::class),
         ]));
 
         $ext3 = $this->createMock(PortalExtensionInterface::class);
         $ext3->method('getExplorerDecorators')->willReturn(new ExplorerCollection([
-            $this->createMock(ExplorerInterface::class),
+            $this->createMock(ExplorerContract::class),
         ]));
 
         $collection = new PortalExtensionCollection([$ext1, $ext2, $ext3]);
