@@ -5,7 +5,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Test\Reception;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiveContextInterface;
-use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverInterface;
+use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverStackInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack;
 use PHPUnit\Framework\TestCase;
@@ -30,7 +30,7 @@ class ReceiverStackTest extends TestCase
         $result2 = $this->createMock(MappingInterface::class);
         $result3 = $this->createMock(MappingInterface::class);
 
-        $receiver1 = $this->createMock(ReceiverInterface::class);
+        $receiver1 = $this->createMock(ReceiverContract::class);
         $receiver1->expects(static::once())
             ->method('receive')
             ->willReturnCallback(static function (
@@ -39,7 +39,7 @@ class ReceiverStackTest extends TestCase
                 return $stack->next($col, $con);
             });
 
-        $receiver2 = $this->createMock(ReceiverInterface::class);
+        $receiver2 = $this->createMock(ReceiverContract::class);
         $receiver2->expects(static::once())
             ->method('receive')
             ->willReturnCallback(static function (
@@ -49,7 +49,7 @@ class ReceiverStackTest extends TestCase
             })
         ;
 
-        $receiver3 = $this->createMock(ReceiverInterface::class);
+        $receiver3 = $this->createMock(ReceiverContract::class);
         $receiver3->expects(static::once())
             ->method('receive')
             ->willReturnCallback(static function (

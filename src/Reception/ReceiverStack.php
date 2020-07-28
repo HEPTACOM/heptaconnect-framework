@@ -4,18 +4,18 @@ namespace Heptacom\HeptaConnect\Portal\Base\Reception;
 
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiveContextInterface;
-use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverInterface;
+use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverStackInterface;
 
 class ReceiverStack implements ReceiverStackInterface
 {
     /**
-     * @var array<array-key, ReceiverInterface>
+     * @var array<array-key, ReceiverContract>
      */
     private array $receivers;
 
     /**
-     * @param iterable<array-key, ReceiverInterface> $receivers
+     * @param iterable<array-key, ReceiverContract> $receivers
      */
     public function __construct(iterable $receivers)
     {
@@ -26,7 +26,7 @@ class ReceiverStack implements ReceiverStackInterface
     {
         $receiver = \array_shift($this->receivers);
 
-        if (!$receiver instanceof ReceiverInterface) {
+        if (!$receiver instanceof ReceiverContract) {
             return [];
         }
 

@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionInterface;
 use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection;
-use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverInterface;
+use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
 use PHPUnit\Framework\TestCase;
 
@@ -66,17 +66,17 @@ class PortalNodeExtensionCollectionTest extends TestCase
     {
         $ext1 = $this->createMock(PortalExtensionInterface::class);
         $ext1->method('getReceiverDecorators')->willReturn(new ReceiverCollection([
-            $this->createMock(ReceiverInterface::class),
+            $this->createMock(ReceiverContract::class),
         ]));
 
         $ext2 = $this->createMock(PortalExtensionInterface::class);
         $ext2->method('getReceiverDecorators')->willReturn(new ReceiverCollection([
-            $this->createMock(ReceiverInterface::class),
+            $this->createMock(ReceiverContract::class),
         ]));
 
         $ext3 = $this->createMock(PortalExtensionInterface::class);
         $ext3->method('getReceiverDecorators')->willReturn(new ReceiverCollection([
-            $this->createMock(ReceiverInterface::class),
+            $this->createMock(ReceiverContract::class),
         ]));
 
         $collection = new PortalExtensionCollection([$ext1, $ext2, $ext3]);

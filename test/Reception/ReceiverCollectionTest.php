@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Reception;
 
-use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverInterface;
+use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\SecondEntity;
@@ -30,9 +30,9 @@ class ReceiverCollectionTest extends TestCase
         static::assertCount(2, $collection->bySupport(SecondEntity::class));
     }
 
-    private function getReceiver(string $support): ReceiverInterface
+    private function getReceiver(string $support): ReceiverContract
     {
-        $receiver = $this->createMock(ReceiverInterface::class);
+        $receiver = $this->createMock(ReceiverContract::class);
         $receiver->expects(static::any())->method('supports')->willReturn([$support]);
 
         return $receiver;
