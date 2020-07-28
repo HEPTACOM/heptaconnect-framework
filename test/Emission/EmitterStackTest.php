@@ -3,7 +3,7 @@
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Emission;
 
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
-use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterInterface;
+use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct;
@@ -30,7 +30,7 @@ class EmitterStackTest extends TestCase
         $result2 = $this->createMock(MappedDatasetEntityStruct::class);
         $result3 = $this->createMock(MappedDatasetEntityStruct::class);
 
-        $emitter1 = $this->createMock(EmitterInterface::class);
+        $emitter1 = $this->createMock(EmitterContract::class);
         $emitter1->expects(static::once())
             ->method('emit')
             ->willReturnCallback(static function (
@@ -39,7 +39,7 @@ class EmitterStackTest extends TestCase
                 return $stack->next($col, $con);
             });
 
-        $emitter2 = $this->createMock(EmitterInterface::class);
+        $emitter2 = $this->createMock(EmitterContract::class);
         $emitter2->expects(static::once())
             ->method('emit')
             ->willReturnCallback(static function (
@@ -49,7 +49,7 @@ class EmitterStackTest extends TestCase
             })
         ;
 
-        $emitter3 = $this->createMock(EmitterInterface::class);
+        $emitter3 = $this->createMock(EmitterContract::class);
         $emitter3->expects(static::once())
             ->method('emit')
             ->willReturnCallback(static function (

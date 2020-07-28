@@ -4,15 +4,15 @@ namespace Heptacom\HeptaConnect\Portal\Base\Emission\Contract;
 
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
 
-interface EmitterInterface
+abstract class EmitterContract
 {
     /**
      * @return iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct>
      */
-    public function emit(MappingCollection $mappings, EmitContextInterface $context, EmitterStackInterface $stack): iterable;
+    abstract public function emit(MappingCollection $mappings, EmitContextInterface $context, EmitterStackInterface $stack): iterable;
 
     /**
      * @return array<array-key, class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>>
      */
-    public function supports(): array;
+    abstract public function supports(): array;
 }

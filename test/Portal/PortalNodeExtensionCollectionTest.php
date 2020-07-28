@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Portal;
 
-use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterInterface;
+use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
@@ -24,17 +24,17 @@ class PortalNodeExtensionCollectionTest extends TestCase
     {
         $ext1 = $this->createMock(PortalExtensionInterface::class);
         $ext1->method('getEmitterDecorators')->willReturn(new EmitterCollection([
-            $this->createMock(EmitterInterface::class),
+            $this->createMock(EmitterContract::class),
         ]));
 
         $ext2 = $this->createMock(PortalExtensionInterface::class);
         $ext2->method('getEmitterDecorators')->willReturn(new EmitterCollection([
-            $this->createMock(EmitterInterface::class),
+            $this->createMock(EmitterContract::class),
         ]));
 
         $ext3 = $this->createMock(PortalExtensionInterface::class);
         $ext3->method('getEmitterDecorators')->willReturn(new EmitterCollection([
-            $this->createMock(EmitterInterface::class),
+            $this->createMock(EmitterContract::class),
         ]));
 
         $collection = new PortalExtensionCollection([$ext1, $ext2, $ext3]);

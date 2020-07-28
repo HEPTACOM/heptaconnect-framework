@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Emission;
 
-use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterInterface;
+use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\SecondEntity;
@@ -30,9 +30,9 @@ class EmitterCollectionTest extends TestCase
         static::assertCount(2, $collection->bySupport(SecondEntity::class));
     }
 
-    private function getEmitter(string $support): EmitterInterface
+    private function getEmitter(string $support): EmitterContract
     {
-        $emitter = $this->createMock(EmitterInterface::class);
+        $emitter = $this->createMock(EmitterContract::class);
         $emitter->expects(static::any())->method('supports')->willReturn([$support]);
 
         return $emitter;
