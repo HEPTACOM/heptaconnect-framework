@@ -106,14 +106,14 @@ interface StorageInterface
     public function getPortalNode(PortalNodeKeyInterface $portalNodeKey): string;
 
     /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalInterface> $className
+     * @psalm-param class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract> $className
      *
      * @throws StorageMethodNotImplemented
      */
     public function listPortalNodes(?string $className = null): PortalNodeKeyCollection;
 
     /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalInterface> $className
+     * @psalm-param class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract> $className
      *
      * @throws StorageMethodNotImplemented
      */
