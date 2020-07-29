@@ -13,7 +13,7 @@ use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
  */
 class PortalCollection extends AbstractCollection
 {
-    public function getEmitterDecorators(): EmitterCollection
+    public function getEmitters(): EmitterCollection
     {
         $result = new EmitterCollection();
 
@@ -25,7 +25,7 @@ class PortalCollection extends AbstractCollection
         return $result;
     }
 
-    public function getExplorerDecorators(): ExplorerCollection
+    public function getExplorers(): ExplorerCollection
     {
         $result = new ExplorerCollection();
 
@@ -37,7 +37,7 @@ class PortalCollection extends AbstractCollection
         return $result;
     }
 
-    public function getReceiverDecorators(): ReceiverCollection
+    public function getReceivers(): ReceiverCollection
     {
         $result = new ReceiverCollection();
 
