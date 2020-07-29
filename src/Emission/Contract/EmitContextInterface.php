@@ -7,8 +7,5 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalAwareInterface;
 
 interface EmitContextInterface extends PortalAwareInterface
 {
-    /**
-     * @psalm-return \ArrayAccess<array-key, mixed>|null
-     */
-    public function getConfig(MappingInterface $mapping): ?\ArrayAccess;
+    public function getConfig(MappingInterface $mapping): ?array;
 }

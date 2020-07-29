@@ -8,8 +8,5 @@ interface ExploreContextInterface
 {
     public function getPortal(): ?PortalContract;
 
-    /**
-     * @psalm-return \ArrayAccess<array-key, mixed>|null
-     */
-    public function getConfig(): ?\ArrayAccess;
+    public function getConfig(): ?array;
 }
