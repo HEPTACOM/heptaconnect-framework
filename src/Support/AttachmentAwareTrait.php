@@ -49,8 +49,10 @@ trait AttachmentAwareTrait
             return;
         }
 
-        $this->attachments = new AttachmentCollection(iterable_to_array($this->attachments->filter(
-            fn (DatasetEntityInterface $entity): bool => !$entity instanceof $class
-        )));
+        /** @var array<array-key, DatasetEntityInterface> $newItems */
+        $newItems = iterable_to_array($this->attachments->filter(
+            fn (DatasetEntityInterface $entity): bool => !$entity instanceof $class)
+        );
+        $this->attachments = new AttachmentCollection($newItems);
     }
 }
