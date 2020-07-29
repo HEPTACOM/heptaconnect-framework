@@ -88,7 +88,7 @@ interface StorageInterface
     public function generateKey(string $keyClassName): StorageKeyInterface;
 
     /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\WebhookHandlerContract> $handler
+     * @psalm-param class-string<\Heptacom\HeptaConnect\Portal\Base\Webhook\Contract\WebhookHandlerContract> $handler
      *
      * @throws StorageMethodNotImplemented
      */
