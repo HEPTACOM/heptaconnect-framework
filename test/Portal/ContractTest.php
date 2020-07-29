@@ -17,5 +17,6 @@ class ContractTest extends TestCase
         static::assertEquals(0, $portal->getEmitters()->count());
         static::assertEquals(0, $portal->getExplorers()->count());
         static::assertEquals(0, $portal->getReceivers()->count());
+        static::assertCount(0, $portal->getConfigurationTemplate()->resolve());
     }
 }
