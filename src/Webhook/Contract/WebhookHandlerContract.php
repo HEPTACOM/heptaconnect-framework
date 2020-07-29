@@ -1,8 +1,7 @@
 <?php declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Portal\Base\Portal\Contract;
+namespace Heptacom\HeptaConnect\Portal\Base\Webhook\Contract;
 
-use Heptacom\HeptaConnect\Portal\Base\Webhook\Contract\WebhookInterface;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseFactoryInterface;

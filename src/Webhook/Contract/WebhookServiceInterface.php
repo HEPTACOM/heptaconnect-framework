@@ -5,7 +5,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Webhook\Contract;
 interface WebhookServiceInterface
 {
     /**
-     * @param class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\WebhookHandlerContract> $webhookHandler
+     * @param class-string<\Heptacom\HeptaConnect\Portal\Base\Webhook\Contract\WebhookHandlerContract> $webhookHandler
      */
     public function register(string $webhookHandler, ?array $payload = null): WebhookInterface;
 
