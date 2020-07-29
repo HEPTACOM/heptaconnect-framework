@@ -5,11 +5,11 @@ namespace Heptacom\HeptaConnect\Portal\Base\Portal;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionInterface;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionInterface>
+ * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract>
  */
 class PortalExtensionCollection extends AbstractCollection
 {
@@ -17,7 +17,7 @@ class PortalExtensionCollection extends AbstractCollection
     {
         $result = new EmitterCollection();
 
-        /** @var PortalExtensionInterface $extension */
+        /** @var PortalExtensionContract $extension */
         foreach ($this->getIterator() as $extension) {
             $result->push($extension->getEmitterDecorators()->getIterator());
         }
@@ -29,7 +29,7 @@ class PortalExtensionCollection extends AbstractCollection
     {
         $result = new ExplorerCollection();
 
-        /** @var PortalExtensionInterface $extension */
+        /** @var PortalExtensionContract $extension */
         foreach ($this->getIterator() as $extension) {
             $result->push($extension->getExplorerDecorators()->getIterator());
         }
@@ -41,7 +41,7 @@ class PortalExtensionCollection extends AbstractCollection
     {
         $result = new ReceiverCollection();
 
-        /** @var PortalExtensionInterface $extension */
+        /** @var PortalExtensionContract $extension */
         foreach ($this->getIterator() as $extension) {
             $result->push($extension->getReceiverDecorators()->getIterator());
         }
@@ -52,6 +52,6 @@ class PortalExtensionCollection extends AbstractCollection
     protected function isValidItem($item): bool
     {
         /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */
-        return $item instanceof PortalExtensionInterface;
+        return $item instanceof PortalExtensionContract;
     }
 }

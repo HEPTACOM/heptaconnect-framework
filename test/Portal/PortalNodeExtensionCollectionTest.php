@@ -6,7 +6,7 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionInterface;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
@@ -22,17 +22,17 @@ class PortalNodeExtensionCollectionTest extends TestCase
 {
     public function testEmitterDecoratorAggregation(): void
     {
-        $ext1 = $this->createMock(PortalExtensionInterface::class);
+        $ext1 = $this->createMock(PortalExtensionContract::class);
         $ext1->method('getEmitterDecorators')->willReturn(new EmitterCollection([
             $this->createMock(EmitterContract::class),
         ]));
 
-        $ext2 = $this->createMock(PortalExtensionInterface::class);
+        $ext2 = $this->createMock(PortalExtensionContract::class);
         $ext2->method('getEmitterDecorators')->willReturn(new EmitterCollection([
             $this->createMock(EmitterContract::class),
         ]));
 
-        $ext3 = $this->createMock(PortalExtensionInterface::class);
+        $ext3 = $this->createMock(PortalExtensionContract::class);
         $ext3->method('getEmitterDecorators')->willReturn(new EmitterCollection([
             $this->createMock(EmitterContract::class),
         ]));
@@ -43,17 +43,17 @@ class PortalNodeExtensionCollectionTest extends TestCase
 
     public function testExplorerDecoratorAggregation(): void
     {
-        $ext1 = $this->createMock(PortalExtensionInterface::class);
+        $ext1 = $this->createMock(PortalExtensionContract::class);
         $ext1->method('getExplorerDecorators')->willReturn(new ExplorerCollection([
             $this->createMock(ExplorerContract::class),
         ]));
 
-        $ext2 = $this->createMock(PortalExtensionInterface::class);
+        $ext2 = $this->createMock(PortalExtensionContract::class);
         $ext2->method('getExplorerDecorators')->willReturn(new ExplorerCollection([
             $this->createMock(ExplorerContract::class),
         ]));
 
-        $ext3 = $this->createMock(PortalExtensionInterface::class);
+        $ext3 = $this->createMock(PortalExtensionContract::class);
         $ext3->method('getExplorerDecorators')->willReturn(new ExplorerCollection([
             $this->createMock(ExplorerContract::class),
         ]));
@@ -64,17 +64,17 @@ class PortalNodeExtensionCollectionTest extends TestCase
 
     public function testReceiverDecoratorAggregation(): void
     {
-        $ext1 = $this->createMock(PortalExtensionInterface::class);
+        $ext1 = $this->createMock(PortalExtensionContract::class);
         $ext1->method('getReceiverDecorators')->willReturn(new ReceiverCollection([
             $this->createMock(ReceiverContract::class),
         ]));
 
-        $ext2 = $this->createMock(PortalExtensionInterface::class);
+        $ext2 = $this->createMock(PortalExtensionContract::class);
         $ext2->method('getReceiverDecorators')->willReturn(new ReceiverCollection([
             $this->createMock(ReceiverContract::class),
         ]));
 
-        $ext3 = $this->createMock(PortalExtensionInterface::class);
+        $ext3 = $this->createMock(PortalExtensionContract::class);
         $ext3->method('getReceiverDecorators')->willReturn(new ReceiverCollection([
             $this->createMock(ReceiverContract::class),
         ]));

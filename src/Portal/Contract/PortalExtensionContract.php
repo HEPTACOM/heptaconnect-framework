@@ -1,14 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Portal\Base\Support;
+namespace Heptacom\HeptaConnect\Portal\Base\Portal\Contract;
 
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
 
-abstract class AbstractPortalExtension implements PortalExtensionInterface
+abstract class PortalExtensionContract
 {
     public function getExplorerDecorators(): ExplorerCollection
     {
@@ -25,8 +23,8 @@ abstract class AbstractPortalExtension implements PortalExtensionInterface
         return new ReceiverCollection();
     }
 
-    public function supports(): string
-    {
-        return PortalContract::class;
-    }
+    /**
+     * @return class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>
+     */
+    public abstract function supports(): string;
 }
