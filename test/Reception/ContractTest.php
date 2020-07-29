@@ -15,7 +15,7 @@ class ContractTest extends TestCase
 {
     public function testExtendingReceiverContract(): void
     {
-        $receiver = new class extends ReceiverContract {
+        $receiver = new class() extends ReceiverContract {
             public function receive(
                 MappedDatasetEntityCollection $mappedDatasetEntities,
                 ReceiveContextInterface $context,

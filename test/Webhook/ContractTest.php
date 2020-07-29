@@ -13,7 +13,7 @@ class ContractTest extends TestCase
     public function testExtendingWebhookHandlerContract(): void
     {
         $this->expectNotToPerformAssertions();
-        new class extends WebhookHandlerContract {
+        new class() extends WebhookHandlerContract {
             protected function getDecorated(): WebhookHandlerContract
             {
                 return $this;

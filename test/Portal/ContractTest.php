@@ -12,7 +12,8 @@ class ContractTest extends TestCase
 {
     public function testExtendingPortalContract(): void
     {
-        $portal = new class extends PortalContract {};
+        $portal = new class() extends PortalContract {
+        };
         static::assertEquals(0, $portal->getEmitters()->count());
         static::assertEquals(0, $portal->getExplorers()->count());
         static::assertEquals(0, $portal->getReceivers()->count());

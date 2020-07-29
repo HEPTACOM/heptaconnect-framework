@@ -16,7 +16,7 @@ class ContractTest extends TestCase
 {
     public function testExtendingEmitterContract(): void
     {
-        $emitter = new class extends EmitterContract{
+        $emitter = new class() extends EmitterContract {
             public function emit(MappingCollection $mappings, EmitContextInterface $context, EmitterStackInterface $stack): iterable
             {
                 yield from [];

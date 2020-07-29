@@ -16,7 +16,7 @@ class ServiceDiscoveryTest extends TestCase
 {
     private static $originalStrategies = [];
 
-    static function setUpBeforeClass(): void
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
         self::$originalStrategies = ServiceDiscovery::getStrategies();

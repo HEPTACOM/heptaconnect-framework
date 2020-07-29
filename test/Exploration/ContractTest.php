@@ -15,7 +15,7 @@ class ContractTest extends TestCase
 {
     public function testExtendingExplorerContract(): void
     {
-        $explorer = new class extends ExplorerContract {
+        $explorer = new class() extends ExplorerContract {
             public function explore(ExploreContextInterface $context, ExplorerStackInterface $stack): iterable
             {
                 yield from [];

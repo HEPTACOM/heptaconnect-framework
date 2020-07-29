@@ -13,7 +13,7 @@ class WebhookServiceStrategy implements DiscoveryStrategy
         return [
             [
                 'condition' => fn () => \is_a($type, WebhookServiceInterface::class, true),
-                'class' => fn () => new class implements WebhookServiceInterface {
+                'class' => fn () => new class() implements WebhookServiceInterface {
                     public function register(string $webhookHandler, ?array $payload = null): WebhookInterface
                     {
                         throw new \RuntimeException();
