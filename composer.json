@@ -17,7 +17,8 @@
     ],
     "require": {
         "php": ">=7.4",
-        "ext-json": "*"
+        "ext-json": "*",
+        "bentools/iterable-functions": ">=1"
     },
     "autoload": {
         "psr-4": {
@@ -45,5 +46,10 @@
         "psr-4": {
             "Heptacom\\HeptaConnect\\Dataset\\Base\\Test\\": "test/"
         }
+    },
+    "extra": {
+        "unused": [
+            "bentools/iterable-functions"
+        ]
     }
 }
