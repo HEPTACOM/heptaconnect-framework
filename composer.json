@@ -41,7 +41,8 @@
         "infection/infection": ">=0.15",
         "friendsofphp/php-cs-fixer": ">=2",
         "maglnet/composer-require-checker": ">=2",
-        "icanhazstring/composer-unused": ">=0.7"
+        "icanhazstring/composer-unused": ">=0.7",
+        "nyholm/psr7": ">=1"
     },
     "conflict": {
         "nikic/php-parser": "4.7.0"
