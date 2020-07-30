@@ -11,6 +11,9 @@ use Heptacom\HeptaConnect\Dataset\Base\Translatable\Contract\TranslatableInterfa
  */
 abstract class GenericTranslatable implements \ArrayAccess, Contract\TranslatableInterface
 {
+    /**
+     * @psalm-var T[]
+     */
     protected array $translations = [];
 
     /**
@@ -28,7 +31,7 @@ abstract class GenericTranslatable implements \ArrayAccess, Contract\Translatabl
     /**
      * @psalm-param array-key $offset
      *
-     * @return T|null
+     * @psalm-return T|null
      */
     public function offsetGet($offset)
     {
@@ -69,7 +72,7 @@ abstract class GenericTranslatable implements \ArrayAccess, Contract\Translatabl
     }
 
     /**
-     * @return T|null
+     * @psalm-return T|null
      */
     public function getTranslation(string $localeKey)
     {
@@ -79,7 +82,7 @@ abstract class GenericTranslatable implements \ArrayAccess, Contract\Translatabl
     /**
      * @psalm-param T $value
      *
-     * @return TranslatableInterface<T>
+     * @psalm-return TranslatableInterface<T>
      */
     public function setTranslation(string $localeKey, $value): TranslatableInterface
     {
@@ -91,7 +94,7 @@ abstract class GenericTranslatable implements \ArrayAccess, Contract\Translatabl
     }
 
     /**
-     * @return TranslatableInterface<T>
+     * @psalm-return TranslatableInterface<T>
      */
     public function removeTranslation(string $localeKey): TranslatableInterface
     {
