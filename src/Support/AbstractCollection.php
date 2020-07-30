@@ -98,7 +98,7 @@ abstract class AbstractCollection implements CollectionInterface
      */
     public function first()
     {
-        $end = \current($this->items);
+        $end = \reset($this->items);
 
         return $end === false ? null : $end;
     }
