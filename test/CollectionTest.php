@@ -109,9 +109,7 @@ class CollectionTest extends TestCase
         ]);
 
         static::assertCount(2, $collection);
-        static::assertCount(0, $collection->filter(static function (SerializationDatasetEntity $entity): bool {
-            return $entity->publicInt === 0;
-        }));
+        static::assertCount(0, $collection->filter(fn (SerializationDatasetEntity $entity) => $entity->publicInt === 0));
     }
 
     /**
