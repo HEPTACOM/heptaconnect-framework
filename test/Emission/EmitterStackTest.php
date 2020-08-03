@@ -33,21 +33,12 @@ class EmitterStackTest extends TestCase
         $emitter1 = $this->createMock(EmitterContract::class);
         $emitter1->expects(static::once())
             ->method('emit')
-            ->willReturnCallback(static function (
-                MappingCollection $col, EmitContextInterface $con, EmitterStackInterface $stack
-            ): iterable {
-                return $stack->next($col, $con);
-            });
+            ->willReturnCallback(fn ($col, $con, $stack) => $stack->next($col, $con));
 
         $emitter2 = $this->createMock(EmitterContract::class);
         $emitter2->expects(static::once())
             ->method('emit')
-            ->willReturnCallback(static function (
-                MappingCollection $col, EmitContextInterface $con, EmitterStackInterface $stack
-            ): iterable {
-                return $stack->next($col, $con);
-            })
-        ;
+            ->willReturnCallback(fn ($col, $con, $stack) => $stack->next($col, $con));
 
         $emitter3 = $this->createMock(EmitterContract::class);
         $emitter3->expects(static::once())

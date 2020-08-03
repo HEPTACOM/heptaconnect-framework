@@ -3,6 +3,7 @@
 namespace Heptacom\HeptaConnect\Portal\Base\Emission;
 
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
+use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 
 /**
  * @extends \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection<\Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract>
@@ -16,13 +17,11 @@ class EmitterCollection extends DatasetEntityCollection
      */
     public function bySupport(string $entityClassName): iterable
     {
-        return $this->filter(static function (Contract\EmitterContract $emitter) use ($entityClassName): bool {
-            return \in_array($entityClassName, $emitter->supports(), true);
-        });
+        return $this->filter(fn (EmitterContract $emitter) => \in_array($entityClassName, $emitter->supports(), true));
     }
 
     protected function getT(): string
     {
-        return Contract\EmitterContract::class;
+        return EmitterContract::class;
     }
 }

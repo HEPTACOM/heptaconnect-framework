@@ -33,20 +33,12 @@ class ReceiverStackTest extends TestCase
         $receiver1 = $this->createMock(ReceiverContract::class);
         $receiver1->expects(static::once())
             ->method('receive')
-            ->willReturnCallback(static function (
-                MappedDatasetEntityCollection $col, ReceiveContextInterface $con, ReceiverStackInterface $stack
-            ): iterable {
-                return $stack->next($col, $con);
-            });
+            ->willReturnCallback(fn ($col, $con, $stack) => $stack->next($col, $con));
 
         $receiver2 = $this->createMock(ReceiverContract::class);
         $receiver2->expects(static::once())
             ->method('receive')
-            ->willReturnCallback(static function (
-                MappedDatasetEntityCollection $col, ReceiveContextInterface $con, ReceiverStackInterface $stack
-            ): iterable {
-                return $stack->next($col, $con);
-            })
+            ->willReturnCallback(fn ($col, $con, $stack) => $stack->next($col, $con))
         ;
 
         $receiver3 = $this->createMock(ReceiverContract::class);

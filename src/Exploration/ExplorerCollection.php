@@ -3,6 +3,7 @@
 namespace Heptacom\HeptaConnect\Portal\Base\Exploration;
 
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 
 /**
  * @extends DatasetEntityCollection<\Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract>
@@ -16,13 +17,11 @@ class ExplorerCollection extends DatasetEntityCollection
      */
     public function bySupport(string $entityClassName): iterable
     {
-        return $this->filter(static function (Contract\ExplorerContract $explorer) use ($entityClassName): bool {
-            return $entityClassName === $explorer->supports();
-        });
+        return $this->filter(fn (ExplorerContract $explorer) => $entityClassName === $explorer->supports());
     }
 
     protected function getT(): string
     {
-        return Contract\ExplorerContract::class;
+        return ExplorerContract::class;
     }
 }

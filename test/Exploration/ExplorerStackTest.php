@@ -31,17 +31,12 @@ class ExplorerStackTest extends TestCase
         $explorer1 = $this->createMock(ExplorerContract::class);
         $explorer1->expects(static::once())
             ->method('explore')
-            ->willReturnCallback(static function (ExploreContextInterface $c, ExplorerStackInterface $stack): iterable {
-                return $stack->next($c);
-            });
+            ->willReturnCallback(fn (ExploreContextInterface $c, ExplorerStackInterface $stack) => $stack->next($c));
 
         $explorer2 = $this->createMock(ExplorerContract::class);
         $explorer2->expects(static::once())
             ->method('explore')
-            ->willReturnCallback(static function (ExploreContextInterface $c, ExplorerStackInterface $stack): iterable {
-                return $stack->next($c);
-            })
-        ;
+            ->willReturnCallback(fn (ExploreContextInterface $c, ExplorerStackInterface $stack) => $stack->next($c));
 
         $explorer3 = $this->createMock(ExplorerContract::class);
         $explorer3->expects(static::once())
