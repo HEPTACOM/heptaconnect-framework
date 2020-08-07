@@ -8,8 +8,6 @@ interface CronjobInterface
 {
     public function getKey(): CronjobKeyInterface;
 
-    public function getCronExpression(): string;
-
     /**
      * @return class-string<\Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobHandlerContract>
      */
