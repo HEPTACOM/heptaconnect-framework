@@ -1,6 +1,6 @@
 {
     "name": "heptacom/heptaconnect-storage-base",
-    "description": "HEPTAConnect base storage that every other storage provider is based on",
+    "description": "HEPTAconnect base storage that every other storage provider is based on",
     "type": "library",
     "keywords": [
         "heptaconnect-storage"

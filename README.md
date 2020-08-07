@@ -1,9 +1,9 @@
-# HEPTAConnect Storage Base
+# HEPTAconnect Storage Base
 #### This is part of HEPTACOM solutions for medium and large enterprises.
 
 ## Description
 
-This is a HEPTAConnect package that provides base structures for storage providers.
+This is a HEPTAconnect package that provides base structures for storage providers.
 Read more under [Overview](../heptaconnect-docs).
 
 
