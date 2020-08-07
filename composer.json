@@ -1,6 +1,6 @@
 {
     "name": "heptacom/heptaconnect-dataset-base",
-    "description": "HEPTAConnect base dataset that every other dataset is based on",
+    "description": "HEPTAconnect base dataset that every other dataset is based on",
     "type": "library",
     "keywords": [
         "heptaconnect-dataset"

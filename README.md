@@ -1,10 +1,10 @@
-# HEPTAConnect Dataset Base
+# HEPTAconnect Dataset Base
 #### This is part of HEPTACOM solutions for medium and large enterprises.
 
 ## Description
 
-This is a HEPTAConnect package to provide basic dataset structures like structs and collections.
-Any other dataset library has to use the classes to work with HEPTAConnect utilities.
+This is a HEPTAconnect package to provide basic dataset structures like structs and collections.
+Any other dataset library has to use the classes to work with HEPTAconnect utilities.
 Read more under [Overview](../heptaconnect-docs).
 
 
