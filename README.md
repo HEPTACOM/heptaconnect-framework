@@ -1,9 +1,9 @@
-# HEPTAConnect Portal Base
+# HEPTAconnect Portal Base
 #### This is part of HEPTACOM solutions for medium and large enterprises.
 
 ## Description
 
-This is a HEPTAConnect package that provides base structures for portals.
+This is a HEPTAconnect package that provides base structures for portals.
 Read more under [Overview](../heptaconnect-docs).
 
 

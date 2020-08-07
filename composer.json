@@ -1,6 +1,6 @@
 {
     "name": "heptacom/heptaconnect-portal-base",
-    "description": "HEPTAConnect base dataset that every other portal is based on",
+    "description": "HEPTAconnect base dataset that every other portal is based on",
     "type": "library",
     "keywords": [
         "heptaconnect-portal"
