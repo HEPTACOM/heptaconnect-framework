@@ -3,6 +3,7 @@
 namespace Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract;
 
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalStorageInterface;
 
 interface CronjobContextInterface
 {
@@ -11,4 +12,6 @@ interface CronjobContextInterface
     public function getConfig(): ?array;
 
     public function getCronjob(): CronjobInterface;
+
+    public function getStorage(): PortalStorageInterface;
 }
