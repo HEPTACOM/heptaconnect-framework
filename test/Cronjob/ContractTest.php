@@ -2,8 +2,8 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Cronjob;
 
+use Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobHandlerContract;
-use Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,7 +20,7 @@ class ContractTest extends TestCase
                 return $this;
             }
 
-            public function handle(CronjobInterface $cronjob): void
+            public function handle(CronjobContextInterface $context): void
             {
             }
         };

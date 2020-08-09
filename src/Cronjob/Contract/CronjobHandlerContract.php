@@ -4,7 +4,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract;
 
 abstract class CronjobHandlerContract
 {
-    abstract public function handle(CronjobInterface $cronjob): void;
+    abstract public function handle(CronjobContextInterface $context): void;
 
     abstract protected function getDecorated(): CronjobHandlerContract;
 }
