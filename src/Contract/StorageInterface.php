@@ -139,4 +139,31 @@ interface StorageInterface
      * @throws StorageMethodNotImplemented
      */
     public function removeCronjob(CronjobKeyInterface $cronjobKey): void;
+
+    /**
+     * @throws StorageMethodNotImplemented
+     */
+    public function setPortalStorageValue(PortalNodeKeyInterface $portalNodeKey, string $key, string $value, string $type): void;
+
+    /**
+     * @throws StorageMethodNotImplemented
+     */
+    public function unsetPortalStorageValue(PortalNodeKeyInterface $portalNodeKey, string $key): void;
+
+    /**
+     * @throws NotFoundException
+     * @throws StorageMethodNotImplemented
+     */
+    public function getPortalStorageValue(PortalNodeKeyInterface $portalNodeKey, string $key): string;
+
+    /**
+     * @throws NotFoundException
+     * @throws StorageMethodNotImplemented
+     */
+    public function getPortalStorageType(PortalNodeKeyInterface $portalNodeKey, string $key): string;
+
+    /**
+     * @throws StorageMethodNotImplemented
+     */
+    public function hasPortalStorageValue(PortalNodeKeyInterface $portalNodeKey, string $key): bool;
 }

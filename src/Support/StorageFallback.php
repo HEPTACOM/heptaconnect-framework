@@ -13,6 +13,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Portal\Base\Webhook\Contract\WebhookInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
+use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
 use Heptacom\HeptaConnect\Storage\Base\Exception\StorageMethodNotImplemented;
 use Heptacom\HeptaConnect\Storage\Base\MappingNodeStructCollection;
 
@@ -114,6 +115,31 @@ abstract class StorageFallback implements StorageInterface
     }
 
     public function removeCronjob(CronjobKeyInterface $cronjobKey): void
+    {
+        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
+    }
+
+    public function setPortalStorageValue(PortalNodeKeyInterface $portalNodeKey, string $key, string $value, string $type): void
+    {
+        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
+    }
+
+    public function unsetPortalStorageValue(PortalNodeKeyInterface $portalNodeKey, string $key): void
+    {
+        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
+    }
+
+    public function getPortalStorageValue(PortalNodeKeyInterface $portalNodeKey, string $key): string
+    {
+        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
+    }
+
+    public function getPortalStorageType(PortalNodeKeyInterface $portalNodeKey, string $key): string
+    {
+        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
+    }
+
+    public function hasPortalStorageValue(PortalNodeKeyInterface $portalNodeKey, string $key): bool
     {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
