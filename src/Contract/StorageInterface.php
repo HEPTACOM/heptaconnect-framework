@@ -94,7 +94,7 @@ interface StorageInterface
      *
      * @throws StorageMethodNotImplemented
      */
-    public function createWebhook(string $url, string $handler, ?array $payload = null): WebhookInterface;
+    public function createWebhook(PortalNodeKeyInterface $portalNodeKey, string $url, string $handler, ?array $payload = null): WebhookInterface;
 
     /**
      * @throws StorageMethodNotImplemented
