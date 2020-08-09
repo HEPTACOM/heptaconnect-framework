@@ -20,7 +20,7 @@ abstract class WebhookHandlerContract
         $this->streamFactory = Psr17FactoryDiscovery::findStreamFactory();
     }
 
-    public function handle(RequestInterface $request, WebhookInterface $webhook): ResponseInterface
+    public function handle(RequestInterface $request, WebhookContextInterface $context): ResponseInterface
     {
         return $this->responseFactory->createResponse(404);
     }
