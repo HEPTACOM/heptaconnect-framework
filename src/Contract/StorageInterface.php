@@ -132,7 +132,7 @@ interface StorageInterface
      *
      * @throws StorageMethodNotImplemented
      */
-    public function createCronjob(string $cronExpression, string $handler, \DateTimeInterface $nextExecution, ?array $payload = null): CronjobInterface;
+    public function createCronjob(PortalNodeKeyInterface $portalNodeKey, string $cronExpression, string $handler, \DateTimeInterface $nextExecution, ?array $payload = null): CronjobInterface;
 
     /**
      * @throws NotFoundException

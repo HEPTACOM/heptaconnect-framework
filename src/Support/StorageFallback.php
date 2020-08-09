@@ -108,7 +108,7 @@ abstract class StorageFallback implements StorageInterface
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
 
-    public function createCronjob(string $cronExpression, string $handler, \DateTimeInterface $nextExecution, ?array $payload = null): CronjobInterface
+    public function createCronjob(PortalNodeKeyInterface $portalNodeKey, string $cronExpression, string $handler, \DateTimeInterface $nextExecution, ?array $payload = null): CronjobInterface
     {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
