@@ -55,6 +55,16 @@ interface StorageInterface
     /**
      * @throws StorageMethodNotImplemented
      */
+    public function updateMappings(MappingCollection $mappings): void;
+
+    /**
+     * @throws StorageMethodNotImplemented
+     */
+    public function deleteMappings(MappingCollection $mappings): void;
+
+    /**
+     * @throws StorageMethodNotImplemented
+     */
     public function addMappingException(MappingInterface $mapping, \Throwable $throwable): void;
 
     /**
