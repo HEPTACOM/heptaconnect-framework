@@ -6,5 +6,5 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 
 interface PortalAwareInterface
 {
-    public function getPortal(MappingInterface $mapping): ?PortalContract;
+    public function getPortal(MappingInterface $mapping): PortalContract;
 }

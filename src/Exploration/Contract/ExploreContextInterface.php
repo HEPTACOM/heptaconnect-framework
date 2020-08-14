@@ -7,7 +7,7 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalStorageInterface;
 
 interface ExploreContextInterface
 {
-    public function getPortal(): ?PortalContract;
+    public function getPortal(): PortalContract;
 
     public function getConfig(): ?array;
 
