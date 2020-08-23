@@ -27,7 +27,7 @@ interface TranslatableInterface
     public function removeTranslation(string $localeKey): TranslatableInterface;
 
     /**
-     * @return array<int, string>
+     * @return array<string>
      */
     public function getLocaleKeys(): array;
 }

@@ -105,7 +105,10 @@ abstract class GenericTranslatable implements \ArrayAccess, Contract\Translatabl
 
     public function getLocaleKeys(): array
     {
-        return \array_filter(\array_keys($this->translations), 'is_string');
+        /** @var string[] $stringKeys */
+        $stringKeys = \array_filter(\array_keys($this->translations), 'is_string');
+
+        return \array_values($stringKeys);
     }
 
     /**
