@@ -1,7 +1,7 @@
 {
     "name": "heptacom/heptaconnect-dataset-base",
-    "description": "HEPTAconnect base dataset that every other dataset is based on",
     "type": "library",
+    "description": "HEPTAconnect base dataset that every other dataset is based on",
     "keywords": [
         "heptaconnect-dataset"
     ],
@@ -9,7 +9,6 @@
         "AGPL-3.0-or-later",
         "proprietary"
     ],
-    "minimum-stability": "stable",
     "authors": [
         {
             "name": "HEPTACOM GmbH"
@@ -20,36 +19,35 @@
         "ext-json": "*",
         "bentools/iterable-functions": ">=1"
     },
+    "require-dev": {
+        "ergebnis/composer-normalize": ">=2.7",
+        "friendsofphp/php-cs-fixer": ">=2",
+        "icanhazstring/composer-unused": ">=0.7",
+        "infection/infection": ">=0.15",
+        "maglnet/composer-require-checker": ">=2",
+        "phpstan/extension-installer": ">=1",
+        "phpstan/phpstan": ">=0.12",
+        "phpstan/phpstan-deprecation-rules": ">=0.12",
+        "phpstan/phpstan-phpunit": ">=0.12",
+        "phpstan/phpstan-strict-rules": ">=0.12",
+        "phpunit/phpunit": ">=9.1 <10",
+        "psalm/plugin-phpunit": ">=0.10",
+        "vimeo/psalm": ">=3"
+    },
+    "extra": {
+        "unused": [
+            "bentools/iterable-functions"
+        ]
+    },
     "autoload": {
         "psr-4": {
             "Heptacom\\HeptaConnect\\Dataset\\Base\\": "src/"
         }
-    },
-    "require-dev": {
-        "phpunit/phpunit": ">=9.1 <10",
-        "phpstan/phpstan": ">=0.12",
-        "phpstan/extension-installer": ">=1",
-        "phpstan/phpstan-phpunit": ">=0.12",
-        "phpstan/phpstan-deprecation-rules": ">=0.12",
-        "phpstan/phpstan-strict-rules": ">=0.12",
-        "psalm/plugin-phpunit": ">=0.10",
-        "vimeo/psalm": ">=3",
-        "infection/infection": ">=0.15",
-        "friendsofphp/php-cs-fixer": ">=2",
-        "maglnet/composer-require-checker": ">=2",
-        "icanhazstring/composer-unused": ">=0.7"
-    },
-    "conflict": {
-        "nikic/php-parser": "4.7.0"
     },
     "autoload-dev": {
         "psr-4": {
             "Heptacom\\HeptaConnect\\Dataset\\Base\\Test\\": "test/"
         }
     },
-    "extra": {
-        "unused": [
-            "bentools/iterable-functions"
-        ]
-    }
+    "minimum-stability": "stable"
 }
