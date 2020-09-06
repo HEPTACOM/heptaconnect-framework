@@ -39,8 +39,6 @@ class StorageFallbackTest extends TestCase
     public function provideFallbackedMethods(): iterable
     {
         /* @psalm-suppress MixedInferredReturnType */
-        yield ['setConfiguration', [$this->createMock(PortalNodeKeyInterface::class), []]];
-        yield ['getConfiguration', [$this->createMock(PortalNodeKeyInterface::class)]];
         yield ['createMappingNodes', [[], $this->createMock(PortalNodeKeyInterface::class)]];
         yield ['getMapping', [
             $this->createMock(MappingNodeKeyInterface::class),
