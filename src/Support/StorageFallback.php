@@ -18,16 +18,6 @@ use Heptacom\HeptaConnect\Storage\Base\MappingNodeStructCollection;
 
 abstract class StorageFallback implements StorageInterface
 {
-    public function getConfiguration(PortalNodeKeyInterface $portalNodeKey): array
-    {
-        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
-    }
-
-    public function setConfiguration(PortalNodeKeyInterface $portalNodeKey, ?array $data): void
-    {
-        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
-    }
-
     public function getMappingNode(string $datasetEntityClassName, PortalNodeKeyInterface $portalNodeKey, string $externalId): ?MappingNodeStructInterface
     {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);

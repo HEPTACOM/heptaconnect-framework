@@ -17,16 +17,6 @@ use Heptacom\HeptaConnect\Storage\Base\MappingNodeStructCollection;
 
 interface StorageInterface
 {
-    /**
-     * @throws StorageMethodNotImplemented
-     */
-    public function getConfiguration(PortalNodeKeyInterface $portalNodeKey): array;
-
-    /**
-     * @throws StorageMethodNotImplemented
-     */
-    public function setConfiguration(PortalNodeKeyInterface $portalNodeKey, ?array $data): void;
-
     public function getMappingNode(string $datasetEntityClassName, PortalNodeKeyInterface $portalNodeKey, string $externalId): ?MappingNodeStructInterface;
 
     /**
