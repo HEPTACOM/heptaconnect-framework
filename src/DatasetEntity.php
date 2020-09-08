@@ -2,6 +2,8 @@
 
 namespace Heptacom\HeptaConnect\Dataset\Base;
 
+use Heptacom\HeptaConnect\Dataset\Base\Support\DatasetEntityTracker;
+
 abstract class DatasetEntity implements Contract\DatasetEntityInterface
 {
     use Support\AttachmentAwareTrait;
@@ -9,9 +11,22 @@ abstract class DatasetEntity implements Contract\DatasetEntityInterface
     use Support\JsonSerializeObjectVarsTrait;
     use Support\PrimaryKeyTrait;
 
-    public function __construct()
+    final public function __construct()
     {
+        DatasetEntityTracker::report($this);
+
         $this->attachments = new AttachmentCollection();
         $this->dependencies = new DependencyCollection();
+
+        $this->initialize();
+    }
+
+    final public function __clone()
+    {
+        DatasetEntityTracker::report($this);
+    }
+
+    protected function initialize(): void
+    {
     }
 }
