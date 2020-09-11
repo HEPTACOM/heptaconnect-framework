@@ -9,7 +9,7 @@ interface MappingInterface
 {
     public function getExternalId(): ?string;
 
-    public function setExternalId(string $externalId): self;
+    public function setExternalId(?string $externalId): self;
 
     public function getPortalNodeKey(): PortalNodeKeyInterface;
 
