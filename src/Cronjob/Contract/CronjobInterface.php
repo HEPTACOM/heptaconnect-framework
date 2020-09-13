@@ -17,4 +17,8 @@ interface CronjobInterface
     public function getHandler(): string;
 
     public function getPayload(): ?array;
+
+    public function getCronExpression(): string;
+
+    public function getQueuedUntil(): \DateTimeInterface;
 }
