@@ -2,10 +2,8 @@
 
 namespace Heptacom\HeptaConnect\Storage\Base\Contract;
 
-use Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\CronjobKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
@@ -118,17 +116,4 @@ interface StorageInterface
      * @throws StorageMethodNotImplemented
      */
     public function removePortalNode(PortalNodeKeyInterface $portalNodeKey): void;
-
-    /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobHandlerContract> $handler
-     *
-     * @throws StorageMethodNotImplemented
-     */
-    public function createCronjob(PortalNodeKeyInterface $portalNodeKey, string $cronExpression, string $handler, \DateTimeInterface $nextExecution, ?array $payload = null): CronjobInterface;
-
-    /**
-     * @throws NotFoundException
-     * @throws StorageMethodNotImplemented
-     */
-    public function removeCronjob(CronjobKeyInterface $cronjobKey): void;
 }
