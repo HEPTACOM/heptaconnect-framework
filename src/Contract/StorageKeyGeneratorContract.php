@@ -13,4 +13,14 @@ abstract class StorageKeyGeneratorContract
      * @throws UnsupportedStorageKeyException
      */
     abstract public function generateKey(string $keyClassName): StorageKeyInterface;
+
+    /**
+     * @throws UnsupportedStorageKeyException
+     */
+    abstract public function serialize(StorageKeyInterface $key): string;
+
+    /**
+     * @throws UnsupportedStorageKeyException
+     */
+    abstract public function deserialize(string $keyData): StorageKeyInterface;
 }
