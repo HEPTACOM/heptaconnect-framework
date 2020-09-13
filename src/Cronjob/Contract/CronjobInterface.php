@@ -9,7 +9,7 @@ interface CronjobInterface
 {
     public function getPortalNodeKey(): PortalNodeKeyInterface;
 
-    public function getKey(): CronjobKeyInterface;
+    public function getCronjobKey(): CronjobKeyInterface;
 
     /**
      * @return class-string<\Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobHandlerContract>
