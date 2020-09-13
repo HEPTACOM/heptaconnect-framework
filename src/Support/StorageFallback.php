@@ -111,29 +111,4 @@ abstract class StorageFallback implements StorageInterface
     {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
-
-    public function setPortalStorageValue(PortalNodeKeyInterface $portalNodeKey, string $key, string $value, string $type): void
-    {
-        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
-    }
-
-    public function unsetPortalStorageValue(PortalNodeKeyInterface $portalNodeKey, string $key): void
-    {
-        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
-    }
-
-    public function getPortalStorageValue(PortalNodeKeyInterface $portalNodeKey, string $key): string
-    {
-        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
-    }
-
-    public function getPortalStorageType(PortalNodeKeyInterface $portalNodeKey, string $key): string
-    {
-        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
-    }
-
-    public function hasPortalStorageValue(PortalNodeKeyInterface $portalNodeKey, string $key): bool
-    {
-        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
-    }
 }

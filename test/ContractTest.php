@@ -5,6 +5,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Test;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\ConfigurationStorageContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\PortalStorageContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use PHPUnit\Framework\TestCase;
 
@@ -24,6 +25,35 @@ class ContractTest extends TestCase
 
             public function setConfiguration(PortalNodeKeyInterface $portalNodeKey, ?array $data): void
             {
+            }
+        };
+    }
+
+    public function testExtendingPortalStorage(): void
+    {
+        $this->expectNotToPerformAssertions();
+        new class() extends PortalStorageContract {
+            public function set(PortalNodeKeyInterface $portalNodeKey, string $key, string $value, string $type): void
+            {
+            }
+
+            public function unset(PortalNodeKeyInterface $portalNodeKey, string $key): void
+            {
+            }
+
+            public function getValue(PortalNodeKeyInterface $portalNodeKey, string $key): string
+            {
+                return '';
+            }
+
+            public function getType(PortalNodeKeyInterface $portalNodeKey, string $key): string
+            {
+                return '';
+            }
+
+            public function has(PortalNodeKeyInterface $portalNodeKey, string $key): bool
+            {
+                return false;
             }
         };
     }
