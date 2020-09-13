@@ -4,6 +4,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract;
 
 use Heptacom\HeptaConnect\Portal\Base\Cronjob\Exception\InvalidCronExpressionException;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\CronjobKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
 interface CronjobServiceInterface
 {
@@ -12,7 +13,12 @@ interface CronjobServiceInterface
      *
      * @throws InvalidCronExpressionException
      */
-    public function register(string $cronjobHandler, string $cronExpression, ?array $payload = null): CronjobInterface;
+    public function register(
+        PortalNodeKeyInterface $portalNodeKey,
+        string $cronjobHandler,
+        string $cronExpression,
+        ?array $payload = null
+    ): CronjobInterface;
 
     public function unregister(CronjobKeyInterface $cronjobKey): void;
 }
