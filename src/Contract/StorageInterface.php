@@ -6,9 +6,6 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
-use Heptacom\HeptaConnect\Portal\Base\Webhook\Contract\WebhookInterface;
-use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
 use Heptacom\HeptaConnect\Storage\Base\Exception\StorageMethodNotImplemented;
 use Heptacom\HeptaConnect\Storage\Base\MappingNodeStructCollection;
 
@@ -60,22 +57,4 @@ interface StorageInterface
      * @throws StorageMethodNotImplemented
      */
     public function removeMappingException(MappingInterface $mapping, string $type): void;
-
-    /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $entityClassName
-     *
-     * @throws StorageMethodNotImplemented
-     */
-    public function getRouteTargets(PortalNodeKeyInterface $sourcePortalNodeKey, string $entityClassName): PortalNodeKeyCollection;
-
-    /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $entityClassName
-     *
-     * @throws StorageMethodNotImplemented
-     */
-    public function createRouteTarget(
-        PortalNodeKeyInterface $sourcePortalNodeKey,
-        PortalNodeKeyInterface $targetPortalNodeKey,
-        string $entityClassName
-    ): void;
 }
