@@ -78,16 +78,4 @@ interface StorageInterface
         PortalNodeKeyInterface $targetPortalNodeKey,
         string $entityClassName
     ): void;
-
-    /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Portal\Base\Webhook\Contract\WebhookHandlerContract> $handler
-     *
-     * @throws StorageMethodNotImplemented
-     */
-    public function createWebhook(PortalNodeKeyInterface $portalNodeKey, string $url, string $handler, ?array $payload = null): WebhookInterface;
-
-    /**
-     * @throws StorageMethodNotImplemented
-     */
-    public function getWebhook(string $url): ?WebhookInterface;
 }

@@ -69,14 +69,4 @@ abstract class StorageFallback implements StorageInterface
     ): void {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
-
-    public function createWebhook(PortalNodeKeyInterface $portalNodeKey, string $url, string $handler, ?array $payload = null): WebhookInterface
-    {
-        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
-    }
-
-    public function getWebhook(string $url): ?WebhookInterface
-    {
-        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
-    }
 }
