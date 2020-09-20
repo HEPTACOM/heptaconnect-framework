@@ -3,8 +3,6 @@
 namespace Heptacom\HeptaConnect\Storage\Base\Support;
 
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
-use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
@@ -19,28 +17,6 @@ abstract class StorageFallback implements StorageInterface
     }
 
     public function createMappingNodes(array $datasetEntityClassNames, PortalNodeKeyInterface $portalNodeKey): MappingNodeStructCollection
-    {
-        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
-    }
-
-    public function getMapping(
-        MappingNodeKeyInterface $mappingNodeKey,
-        PortalNodeKeyInterface $portalNodeKey
-    ): ?MappingInterface {
-        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
-    }
-
-    public function createMappings(MappingCollection $mappings): void
-    {
-        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
-    }
-
-    public function updateMappings(MappingCollection $mappings): void
-    {
-        throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
-    }
-
-    public function deleteMappings(MappingCollection $mappings): void
     {
         throw new StorageMethodNotImplemented(static::class, __FUNCTION__);
     }
