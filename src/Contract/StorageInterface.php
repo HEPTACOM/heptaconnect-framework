@@ -3,24 +3,10 @@
 namespace Heptacom\HeptaConnect\Storage\Base\Contract;
 
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Exception\StorageMethodNotImplemented;
-use Heptacom\HeptaConnect\Storage\Base\MappingNodeStructCollection;
 
 interface StorageInterface
 {
-    public function getMappingNode(string $datasetEntityClassName, PortalNodeKeyInterface $portalNodeKey, string $externalId): ?MappingNodeStructInterface;
-
-    /**
-     * @param array<
-     *     array-key,
-     *     class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
-     * > $datasetEntityClassNames
-     *
-     * @throws StorageMethodNotImplemented
-     */
-    public function createMappingNodes(array $datasetEntityClassNames, PortalNodeKeyInterface $portalNodeKey): MappingNodeStructCollection;
-
     /**
      * @throws StorageMethodNotImplemented
      */
