@@ -10,13 +10,13 @@ abstract class PortalNodeRepositoryContract
 {
     /**
      * @psalm-return class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>
+     *
      * @throws NotFoundException
      * @throws UnsupportedStorageKeyException
      */
     abstract public function read(PortalNodeKeyInterface $portalNodeKey): string;
 
     /**
-     * @return iterable
      * @psalm-return iterable<Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface>
      */
     abstract public function listAll(): iterable;
@@ -29,6 +29,7 @@ abstract class PortalNodeRepositoryContract
 
     /**
      * @psalm-param class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract> $className
+     *
      * @throws UnsupportedStorageKeyException
      */
     abstract public function create(string $className): iterable;

@@ -12,6 +12,7 @@ abstract class WebhookRepositoryContract
 {
     /**
      * @psalm-param class-string<\Heptacom\HeptaConnect\Portal\Base\Webhook\Contract\WebhookHandlerContract> $handler
+     *
      * @throws UnsupportedStorageKeyException
      */
     abstract public function create(
@@ -29,6 +30,7 @@ abstract class WebhookRepositoryContract
 
     /**
      * @psalm-return iterable<\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\WebhookKeyInterface>
+     *
      * @throws UnsupportedStorageKeyException
      */
     abstract public function listByUrl(string $url): iterable;

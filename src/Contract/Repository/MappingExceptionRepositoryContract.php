@@ -24,6 +24,7 @@ abstract class MappingExceptionRepositoryContract
 
     /**
      * @psalm-param class-string<\Throwable> $type
+     *
      * @throws UnsupportedStorageKeyException
      */
     abstract public function listByMappingAndType(MappingKeyInterface $mappingKey, string $type): iterable;

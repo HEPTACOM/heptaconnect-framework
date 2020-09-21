@@ -19,6 +19,7 @@ abstract class MappingRepositoryContract
 
     /**
      * @psalm-return iterable<\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingKeyInterface>
+     *
      * @throws UnsupportedStorageKeyException
      */
     abstract public function listByNodes(

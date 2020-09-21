@@ -12,6 +12,7 @@ abstract class RouteRepositoryContract
 {
     /**
      * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $entityClassName
+     *
      * @throws NotFoundException
      * @throws UnsupportedStorageKeyException
      */
@@ -20,6 +21,7 @@ abstract class RouteRepositoryContract
     /**
      * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $entityClassName
      * @psalm-return iterable<\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\RouteKeyInterface>
+     *
      * @throws UnsupportedStorageKeyException
      */
     abstract public function listBySourceAndEntityType(
@@ -29,6 +31,7 @@ abstract class RouteRepositoryContract
 
     /**
      * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $entityClassName
+     *
      * @throws UnsupportedStorageKeyException
      */
     abstract public function create(
