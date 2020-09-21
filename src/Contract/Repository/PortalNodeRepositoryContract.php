@@ -32,7 +32,7 @@ abstract class PortalNodeRepositoryContract
      *
      * @throws UnsupportedStorageKeyException
      */
-    abstract public function create(string $className): iterable;
+    abstract public function create(string $className): PortalNodeKeyInterface;
 
     /**
      * @throws NotFoundException
