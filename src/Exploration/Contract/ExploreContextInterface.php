@@ -2,6 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Exploration\Contract;
 
+use Heptacom\HeptaConnect\Portal\Base\Parallelization\Support\ResourceLockFacade;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalStorageInterface;
 
@@ -12,4 +13,6 @@ interface ExploreContextInterface
     public function getConfig(): ?array;
 
     public function getStorage(): PortalStorageInterface;
+
+    public function getResourceLocker(): ResourceLockFacade;
 }

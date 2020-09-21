@@ -3,6 +3,7 @@
 namespace Heptacom\HeptaConnect\Portal\Base\Reception\Contract;
 
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
+use Heptacom\HeptaConnect\Portal\Base\Parallelization\Support\ResourceLockFacade;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalAwareInterface;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalStorageInterface;
 
@@ -13,4 +14,6 @@ interface ReceiveContextInterface extends PortalAwareInterface
     public function markAsFailed(MappingInterface $mapping, \Throwable $throwable): void;
 
     public function getStorage(MappingInterface $mapping): PortalStorageInterface;
+
+    public function getResourceLocker(): ResourceLockFacade;
 }
