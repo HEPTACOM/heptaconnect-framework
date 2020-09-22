@@ -28,6 +28,13 @@ abstract class MappingRepositoryContract
     ): iterable;
 
     /**
+     * @psalm-return iterable<\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingKeyInterface>
+     *
+     * @throws UnsupportedStorageKeyException
+     */
+    abstract public function listByMappingNode(MappingNodeKeyInterface $mappingNodeKey): iterable;
+
+    /**
      * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $datasetEntityType
      * @psalm-return iterable<\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingKeyInterface>
      *

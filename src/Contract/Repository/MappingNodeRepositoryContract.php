@@ -36,4 +36,10 @@ abstract class MappingNodeRepositoryContract
         string $datasetEntityClassName,
         PortalNodeKeyInterface $portalNodeKey
     ): MappingNodeKeyInterface;
+
+    /**
+     * @throws NotFoundException
+     * @throws UnsupportedStorageKeyException
+     */
+    abstract public function delete(MappingNodeKeyInterface $key): void;
 }
