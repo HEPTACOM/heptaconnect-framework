@@ -1,5 +1,6 @@
 {
     "name": "heptacom/heptaconnect-dataset-base",
+    "version": "0.0.1",
     "type": "library",
     "description": "HEPTAconnect base dataset that every other dataset is based on",
     "keywords": [
@@ -48,6 +49,5 @@
         "psr-4": {
             "Heptacom\\HeptaConnect\\Dataset\\Base\\Test\\": "test/"
         }
-    },
-    "minimum-stability": "stable"
+    }
 }
