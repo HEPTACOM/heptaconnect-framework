@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Translatable\Contract\TranslatableInterfa
  * @implements \ArrayAccess<array-key, T>
  * @implements Contract\TranslatableInterface<T>
  */
-abstract class GenericTranslatable implements \ArrayAccess, Contract\TranslatableInterface
+abstract class GenericTranslatable implements \ArrayAccess, \JsonSerializable, Contract\TranslatableInterface
 {
     /**
      * @psalm-var T[]
@@ -109,6 +109,11 @@ abstract class GenericTranslatable implements \ArrayAccess, Contract\Translatabl
         $stringKeys = \array_filter(\array_keys($this->translations), 'is_string');
 
         return \array_values($stringKeys);
+    }
+
+    public function jsonSerialize()
+    {
+        return $this->translations;
     }
 
     /**
