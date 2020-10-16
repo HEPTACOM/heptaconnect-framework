@@ -5,6 +5,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Portal\Contract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
+use Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterCollection;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class PortalExtensionContract
@@ -22,6 +23,11 @@ abstract class PortalExtensionContract
     public function getReceiverDecorators(): ReceiverCollection
     {
         return new ReceiverCollection();
+    }
+
+    public function getStatusReporterDecorators(): StatusReporterCollection
+    {
+        return new StatusReporterCollection();
     }
 
     public function extendConfiguration(OptionsResolver $template): OptionsResolver

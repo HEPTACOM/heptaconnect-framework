@@ -7,6 +7,7 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
+use Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterCollection;
 
 /**
  * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract>
@@ -44,6 +45,18 @@ class PortalExtensionCollection extends AbstractCollection
         /** @var PortalExtensionContract $extension */
         foreach ($this->getIterator() as $extension) {
             $result->push($extension->getReceiverDecorators()->getIterator());
+        }
+
+        return $result;
+    }
+
+    public function getStatusReporters(): StatusReporterCollection
+    {
+        $result = new StatusReporterCollection();
+
+        /** @var PortalExtensionContract $extension */
+        foreach ($this->getIterator() as $extension) {
+            $result->push($extension->getStatusReporterDecorators()->getIterator());
         }
 
         return $result;
