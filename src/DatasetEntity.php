@@ -26,6 +26,11 @@ abstract class DatasetEntity implements Contract\DatasetEntityInterface
         DatasetEntityTracker::report($this);
     }
 
+    final public function __wakeup()
+    {
+        DatasetEntityTracker::report($this);
+    }
+
     protected function initialize(): void
     {
     }
