@@ -40,12 +40,6 @@ abstract class ReceiverContract
                 continue;
             }
 
-            if ($mapping->getExternalId() === null) {
-                $context->markAsFailed($mapping, new MissingExternalIdException());
-
-                continue;
-            }
-
             yield $mapping;
         }
 
