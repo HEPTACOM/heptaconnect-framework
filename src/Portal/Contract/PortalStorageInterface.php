@@ -8,6 +8,8 @@ interface PortalStorageInterface
 
     public function set(string $key, $value): void;
 
+    public function list(): iterable;
+
     public function has(string $key): bool;
 
     public function unset(string $key): void;
