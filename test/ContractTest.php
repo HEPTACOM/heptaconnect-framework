@@ -51,6 +51,11 @@ class ContractTest extends TestCase
                 return '';
             }
 
+            public function list(PortalNodeKeyInterface $portalNodeKey): iterable
+            {
+                return [];
+            }
+
             public function has(PortalNodeKeyInterface $portalNodeKey, string $key): bool
             {
                 return false;

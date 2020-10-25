@@ -34,5 +34,10 @@ abstract class PortalStorageContract
     /**
      * @throws UnsupportedStorageKeyException
      */
+    abstract public function list(PortalNodeKeyInterface $portalNodeKey): iterable;
+
+    /**
+     * @throws UnsupportedStorageKeyException
+     */
     abstract public function has(PortalNodeKeyInterface $portalNodeKey, string $key): bool;
 }
