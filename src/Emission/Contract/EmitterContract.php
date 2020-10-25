@@ -3,6 +3,7 @@
 namespace Heptacom\HeptaConnect\Portal\Base\Emission\Contract;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Support\DatasetEntityTracker;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
@@ -33,6 +34,8 @@ abstract class EmitterContract
                 }
             } catch (\Throwable $exception) {
                 // TODO: mark as failed
+                DatasetEntityTracker::retrieve();
+                DatasetEntityTracker::listen();
 
                 continue;
             }
