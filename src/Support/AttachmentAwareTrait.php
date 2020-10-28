@@ -16,6 +16,12 @@ trait AttachmentAwareTrait
 
     public function attach(DatasetEntityInterface $attachment): void
     {
+        $className = \get_class($attachment);
+
+        if ($this->hasAttached($className)) {
+            $this->unattach($className);
+        }
+
         $this->attachments->push([$attachment]);
     }
 
