@@ -33,7 +33,7 @@ abstract class EmitterContract
                     throw new UnsupportedDatasetEntityException();
                 }
             } catch (\Throwable $exception) {
-                // TODO: mark as failed
+                $context->markAsFailed($mapping, $exception);
                 DatasetEntityTracker::retrieve();
                 DatasetEntityTracker::listen();
 

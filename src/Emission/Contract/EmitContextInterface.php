@@ -13,5 +13,7 @@ interface EmitContextInterface extends PortalAwareInterface
 
     public function getStorage(MappingInterface $mapping): PortalStorageInterface;
 
+    public function markAsFailed(MappingInterface $mapping, \Throwable $throwable): void;
+
     public function getResourceLocker(): ResourceLockFacade;
 }
