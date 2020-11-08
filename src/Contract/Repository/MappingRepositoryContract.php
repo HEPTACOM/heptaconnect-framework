@@ -3,9 +3,12 @@
 namespace Heptacom\HeptaConnect\Storage\Base\Contract\Repository;
 
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
+use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
+use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\MappingKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 
@@ -46,6 +49,18 @@ abstract class MappingRepositoryContract
     ): iterable;
 
     /**
+     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $datasetEntityClassName
+     * @psalm-return string[]
+     *
+     * @throws UnsupportedStorageKeyException
+     */
+    abstract public function listUnsavedExternalIds(
+        PortalNodeKeyInterface $portalNodeKey,
+        string $datasetEntityClassName,
+        array $externalIdsToCheck
+    ): array;
+
+    /**
      * @throws UnsupportedStorageKeyException
      */
     abstract public function create(
@@ -53,6 +68,11 @@ abstract class MappingRepositoryContract
         MappingNodeKeyInterface $mappingNodeKey,
         ?string $externalId
     ): MappingKeyInterface;
+
+    /**
+     * @throws UnsupportedStorageKeyException
+     */
+    abstract public function createList(MappingCollection $mappings): MappingKeyCollection;
 
     /**
      * @throws NotFoundException
