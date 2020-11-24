@@ -3,53 +3,53 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config ../vendor/vimeo/psalm/config.xsd"
-    cacheDirectory=".build/psalm"
+    cacheDirectory="../.build/psalm"
     errorLevel="1"
 >
     <issueHandlers>
         <LessSpecificReturnType errorLevel="info" />
         <LessSpecificImplementedReturnType>
             <errorLevel type="info">
-                <file name="src/Date.php"/>
+                <file name="../src/Date.php"/>
             </errorLevel>
         </LessSpecificImplementedReturnType>
         <InvalidDocblock>
             <errorLevel type="info">
-                <file name="src/Date.php"/>
+                <file name="../src/Date.php"/>
             </errorLevel>
         </InvalidDocblock>
         <RedundantConditionGivenDocblockType>
             <errorLevel type="info">
-                <file name="src/Translatable/GenericTranslatable.php"/>
-                <file name="src/Translatable/TranslatableBoolean.php"/>
-                <file name="src/Translatable/TranslatableFloat.php"/>
-                <file name="src/Translatable/TranslatableInteger.php"/>
-                <file name="src/Translatable/TranslatableString.php"/>
-                <file name="src/ScalarCollection/BooleanCollection.php"/>
-                <file name="src/ScalarCollection/FloatCollection.php"/>
-                <file name="src/ScalarCollection/IntegerCollection.php"/>
-                <file name="src/ScalarCollection/StringCollection.php"/>
-                <file name="src/TaggedCollection/AbstractTaggedCollection.php"/>
+                <file name="../src/Translatable/GenericTranslatable.php"/>
+                <file name="../src/Translatable/TranslatableBoolean.php"/>
+                <file name="../src/Translatable/TranslatableFloat.php"/>
+                <file name="../src/Translatable/TranslatableInteger.php"/>
+                <file name="../src/Translatable/TranslatableString.php"/>
+                <file name="../src/ScalarCollection/BooleanCollection.php"/>
+                <file name="../src/ScalarCollection/FloatCollection.php"/>
+                <file name="../src/ScalarCollection/IntegerCollection.php"/>
+                <file name="../src/ScalarCollection/StringCollection.php"/>
+                <file name="../src/TaggedCollection/AbstractTaggedCollection.php"/>
             </errorLevel>
         </RedundantConditionGivenDocblockType>
         <InvalidReturnType>
             <errorLevel type="info">
-                <file name="src/TaggedCollection/TaggedBooleanCollection.php"/>
-                <file name="src/TaggedCollection/TaggedDateCollection.php"/>
-                <file name="src/TaggedCollection/TaggedDateTimeCollection.php"/>
-                <file name="src/TaggedCollection/TaggedFloatCollection.php"/>
-                <file name="src/TaggedCollection/TaggedIntegerCollection.php"/>
-                <file name="src/TaggedCollection/TaggedStringCollection.php"/>
+                <file name="../src/TaggedCollection/TaggedBooleanCollection.php"/>
+                <file name="../src/TaggedCollection/TaggedDateCollection.php"/>
+                <file name="../src/TaggedCollection/TaggedDateTimeCollection.php"/>
+                <file name="../src/TaggedCollection/TaggedFloatCollection.php"/>
+                <file name="../src/TaggedCollection/TaggedIntegerCollection.php"/>
+                <file name="../src/TaggedCollection/TaggedStringCollection.php"/>
             </errorLevel>
         </InvalidReturnType>
         <InvalidReturnStatement>
             <errorLevel type="info">
-                <file name="src/TaggedCollection/TaggedBooleanCollection.php"/>
-                <file name="src/TaggedCollection/TaggedDateCollection.php"/>
-                <file name="src/TaggedCollection/TaggedDateTimeCollection.php"/>
-                <file name="src/TaggedCollection/TaggedFloatCollection.php"/>
-                <file name="src/TaggedCollection/TaggedIntegerCollection.php"/>
-                <file name="src/TaggedCollection/TaggedStringCollection.php"/>
+                <file name="../src/TaggedCollection/TaggedBooleanCollection.php"/>
+                <file name="../src/TaggedCollection/TaggedDateCollection.php"/>
+                <file name="../src/TaggedCollection/TaggedDateTimeCollection.php"/>
+                <file name="../src/TaggedCollection/TaggedFloatCollection.php"/>
+                <file name="../src/TaggedCollection/TaggedIntegerCollection.php"/>
+                <file name="../src/TaggedCollection/TaggedStringCollection.php"/>
             </errorLevel>
         </InvalidReturnStatement>
     </issueHandlers>
@@ -59,9 +59,9 @@
     </plugins>
 
     <projectFiles>
-        <directory name="src/" />
+        <directory name="../src" />
         <ignoreFiles>
-            <directory name="vendor/" />
+            <directory name="../vendor" />
         </ignoreFiles>
     </projectFiles>
 </psalm>
