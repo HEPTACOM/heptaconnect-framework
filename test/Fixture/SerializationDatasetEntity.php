@@ -18,9 +18,9 @@ class SerializationDatasetEntity extends DatasetEntity
 
     private string $privateString = 'private';
 
-    public function __construct()
+    protected function initialize(): void
     {
-        parent::__construct();
+        parent::initialize();
 
         $this->publicDateTime = new \DateTime();
     }
