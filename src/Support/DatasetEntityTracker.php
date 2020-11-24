@@ -18,7 +18,7 @@ abstract class DatasetEntityTracker
 
     public static function report(DatasetEntity $entity): void
     {
-        if (empty(self::$contextStack)) {
+        if (\count(self::$contextStack) === 0) {
             return;
         }
 
@@ -28,13 +28,19 @@ abstract class DatasetEntityTracker
             }
         }
 
+        /** @var string|int|null $key */
         $key = \array_key_last(self::$contextStack);
-        \array_push(self::$contextStack[$key], $entity);
+
+        if (\is_null($key)) {
+            return;
+        }
+
+        self::$contextStack[$key][] = $entity;
     }
 
     public static function listen(): void
     {
-        \array_push(self::$contextStack, []);
+        self::$contextStack[] = [];
     }
 
     public static function retrieve(): TrackedEntityCollection

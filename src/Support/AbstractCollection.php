@@ -130,7 +130,10 @@ abstract class AbstractCollection implements CollectionInterface
 
     protected function filterValid(iterable $items): \Generator
     {
-        /** @var T $item */
+        /**
+         * @var int $key
+         * @psalm-var T $item
+         */
         foreach ($items as $key => $item) {
             if ($this->isValidItem($item)) {
                 yield $key => $item;
