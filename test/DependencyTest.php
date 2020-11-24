@@ -22,8 +22,6 @@ class DependencyTest extends TestCase
     {
         $struct = new SerializationDatasetEntity();
         static::assertEquals(0, $struct->getDependencies()->count());
-        $struct = new Dependency(SerializationDatasetEntity::class, '1');
-        static::assertEquals(0, $struct->getDependencies()->count());
     }
 
     public function testStructAllowDuplicateValuesInDependencies(): void

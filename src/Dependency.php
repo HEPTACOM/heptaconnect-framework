@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Dataset\Base;
 
-class Dependency extends DatasetEntity implements Contract\DependencyInterface
+class Dependency implements Contract\DependencyInterface
 {
     use Support\DependencyTrait;
 
@@ -11,8 +11,6 @@ class Dependency extends DatasetEntity implements Contract\DependencyInterface
      */
     public function __construct(string $datasetEntityClass, string $primaryKey)
     {
-        parent::__construct();
-
         $this->datasetEntityClass = $datasetEntityClass;
         $this->primaryKey = $primaryKey;
     }
