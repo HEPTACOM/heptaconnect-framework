@@ -6,8 +6,14 @@ use Heptacom\HeptaConnect\Dataset\Base\DatasetEntity;
 
 abstract class DatasetEntityTracker
 {
+    /**
+     * @psalm-var array<class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>, bool>
+     */
     private static array $deniedClasses = [];
 
+    /**
+     * @psalm-var array<array<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>>
+     */
     private static array $contextStack = [];
 
     public static function report(DatasetEntity $entity): void
@@ -36,11 +42,17 @@ abstract class DatasetEntityTracker
         return new TrackedEntityCollection(\array_pop(self::$contextStack) ?? []);
     }
 
+    /**
+     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $className
+     */
     public static function allow(string $className): void
     {
         unset(self::$deniedClasses[$className]);
     }
 
+    /**
+     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $className
+     */
     public static function deny(string $className): void
     {
         self::$deniedClasses[$className] = true;
