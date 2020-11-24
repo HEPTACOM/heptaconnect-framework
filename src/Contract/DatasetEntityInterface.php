@@ -5,7 +5,7 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\DependencyCollection;
 
-interface DatasetEntityInterface extends \JsonSerializable
+interface DatasetEntityInterface extends AttachableInterface, PrimaryKeyAwareInterface, \JsonSerializable
 {
     public function getDependencies(): DependencyCollection;
 
@@ -27,8 +27,4 @@ interface DatasetEntityInterface extends \JsonSerializable
      * @psalm-param class-string $class
      */
     public function unattach(string $class): void;
-
-    public function getPrimaryKey(): ?string;
-
-    public function setPrimaryKey(?string $primaryKey): void;
 }

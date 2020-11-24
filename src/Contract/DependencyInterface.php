@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
 
-interface DependencyInterface extends DatasetEntityInterface
+interface DependencyInterface extends AttachableInterface
 {
     /**
      * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
