@@ -1,11 +1,11 @@
 {
     "name": "heptacom/heptaconnect-portal-base",
-    "version": "0.0.1",
     "type": "library",
     "description": "HEPTAconnect base dataset that every other portal is based on",
     "keywords": [
         "heptaconnect-portal"
     ],
+    "version": "0.0.1",
     "license": [
         "AGPL-3.0-or-later",
         "proprietary"
