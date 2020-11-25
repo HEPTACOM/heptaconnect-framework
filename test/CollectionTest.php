@@ -15,6 +15,8 @@ use PHPUnit\Framework\TestCase;
  */
 class CollectionTest extends TestCase
 {
+    use ProvidesJsonSerializer;
+
     /**
      * @dataProvider provideValidItems
      *
@@ -112,12 +114,14 @@ class CollectionTest extends TestCase
     {
         $collection = new UsageStructCollection();
         $collection->push([new SerializationDatasetEntity()]);
+        $collection->offsetSet(17, new SerializationDatasetEntity());
+        $collection[42] = new SerializationDatasetEntity();
 
-        $coded = $this->codeIt($collection);
+        $coded = $this->jsonEncodeAndDecode($collection);
         static::assertNotEmpty($coded);
 
         $collection->clear();
-        $coded = $this->codeIt($collection);
+        $coded = $this->jsonEncodeAndDecode($collection);
         static::assertEmpty($coded);
     }
 
@@ -151,17 +155,5 @@ class CollectionTest extends TestCase
         yield \DateTime::class => [[new \DateTime()]];
         yield \DateInterval::class => [[new \DateInterval('P1D')]];
         yield \Exception::class => [[new \Exception()]];
-    }
-
-    /**
-     * @throws \JsonException
-     */
-    protected function codeIt(UsageStructCollection $collection): array
-    {
-        $encoded = \json_encode($collection, \JSON_THROW_ON_ERROR);
-        /** @var array<string, mixed> $decoded */
-        $decoded = \json_decode($encoded, true, 512, \JSON_THROW_ON_ERROR);
-
-        return $decoded;
     }
 }

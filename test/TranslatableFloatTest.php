@@ -13,6 +13,7 @@ class TranslatableFloatTest extends TestCase
 {
     use ProvidesFloatTestsData;
     use ProvidesInvalidTestsData;
+    use ProvidesJsonSerializer;
 
     /**
      * @dataProvider provideValidFloatTestCases
@@ -130,5 +131,12 @@ class TranslatableFloatTest extends TestCase
         $translatable = new TranslatableFloat();
         $translatable->setTranslation('en-GB', $item);
         static::assertCount(0, $translatable->getLocaleKeys());
+    }
+
+    public function testSerialization(): void
+    {
+        $translatable = new TranslatableFloat();
+        $translatable->setTranslation('en-GB', 3.142);
+        static::assertEquals(['en-GB' => 3.142], $this->jsonEncodeAndDecode($translatable));
     }
 }

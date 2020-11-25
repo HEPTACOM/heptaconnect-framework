@@ -13,6 +13,7 @@ class TranslatableStringTest extends TestCase
 {
     use ProvidesInvalidTestsData;
     use ProvidesStringTestsData;
+    use ProvidesJsonSerializer;
 
     /**
      * @dataProvider provideValidStringTestCases
@@ -130,5 +131,12 @@ class TranslatableStringTest extends TestCase
         $translatable = new TranslatableString();
         $translatable->setTranslation('en-GB', $item);
         static::assertCount(0, $translatable->getLocaleKeys());
+    }
+
+    public function testSerialization(): void
+    {
+        $translatable = new TranslatableString();
+        $translatable->setTranslation('en-GB', 'What is this kind of text?');
+        static::assertEquals(['en-GB' => 'What is this kind of text?'], $this->jsonEncodeAndDecode($translatable));
     }
 }

@@ -13,6 +13,7 @@ class TranslatableIntegerTest extends TestCase
 {
     use ProvidesIntegerTestsData;
     use ProvidesInvalidTestsData;
+    use ProvidesJsonSerializer;
 
     /**
      * @dataProvider provideValidIntegerTestCases
@@ -130,5 +131,12 @@ class TranslatableIntegerTest extends TestCase
         $translatable = new TranslatableInteger();
         $translatable->setTranslation('en-GB', $item);
         static::assertCount(0, $translatable->getLocaleKeys());
+    }
+
+    public function testSerialization(): void
+    {
+        $translatable = new TranslatableInteger();
+        $translatable->setTranslation('en-GB', 1234567890);
+        static::assertEquals(['en-GB' => 1234567890], $this->jsonEncodeAndDecode($translatable));
     }
 }

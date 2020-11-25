@@ -14,6 +14,7 @@ class TranslatableDateTest extends TestCase
 {
     use ProvidesDateTestsData;
     use ProvidesInvalidTestsData;
+    use ProvidesJsonSerializer;
 
     /**
      * @dataProvider provideValidDateTestCases
@@ -131,5 +132,16 @@ class TranslatableDateTest extends TestCase
         $translatable = new TranslatableDate();
         $translatable->setTranslation('en-GB', $item);
         static::assertCount(0, $translatable->getLocaleKeys());
+    }
+
+    public function testSerialization(): void
+    {
+        $translatable = new TranslatableDate();
+        $translatable->setTranslation('en-GB', new Date('2010-11-20T14:30:50.000Z', new \DateTimeZone('UTC')));
+        static::assertEquals(['en-GB' => [
+            'date' => '2010-11-20 00:00:00.000000',
+            'timezone_type' => \DateTimeZone::AMERICA,
+            'timezone' => 'Z',
+        ]], $this->jsonEncodeAndDecode($translatable));
     }
 }

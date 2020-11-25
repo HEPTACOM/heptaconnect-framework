@@ -13,6 +13,7 @@ class TranslatableDateTimeTest extends TestCase
 {
     use ProvidesDateTimeTestsData;
     use ProvidesInvalidTestsData;
+    use ProvidesJsonSerializer;
 
     /**
      * @dataProvider provideValidDateTimeTestCases
@@ -130,5 +131,16 @@ class TranslatableDateTimeTest extends TestCase
         $translatable = new TranslatableDateTime();
         $translatable->setTranslation('en-GB', $item);
         static::assertCount(0, $translatable->getLocaleKeys());
+    }
+
+    public function testSerialization(): void
+    {
+        $translatable = new TranslatableDateTime();
+        $translatable->setTranslation('en-GB', new \DateTime('2010-11-20T14:30:50.000Z', new \DateTimeZone('UTC')));
+        static::assertEquals(['en-GB' => [
+            'date' => '2010-11-20 14:30:50.000000',
+            'timezone_type' => \DateTimeZone::AMERICA,
+            'timezone' => 'Z',
+        ]], $this->jsonEncodeAndDecode($translatable));
     }
 }
