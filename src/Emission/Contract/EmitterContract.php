@@ -40,7 +40,9 @@ abstract class EmitterContract
                 continue;
             }
 
-            yield new MappedDatasetEntityStruct($mapping, $entity);
+            if ($entity instanceof DatasetEntityInterface) {
+                yield new MappedDatasetEntityStruct($mapping, $entity);
+            }
         }
 
         return $stack->next($mappings, $context);
