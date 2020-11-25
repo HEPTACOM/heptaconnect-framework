@@ -4,8 +4,14 @@ namespace Heptacom\HeptaConnect\Portal\Base\Portal\Contract;
 
 interface PortalStorageInterface
 {
+    /**
+     * @return mixed
+     */
     public function get(string $key);
 
+    /**
+     * @param mixed $value
+     */
     public function set(string $key, $value): void;
 
     public function list(): iterable;

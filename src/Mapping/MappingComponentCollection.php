@@ -14,6 +14,7 @@ class MappingComponentCollection extends DatasetEntityCollection
 {
     /**
      * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>[]
+     *
      * @return string[]
      */
     public function getDatasetEntityClassNames(): array
@@ -68,7 +69,7 @@ class MappingComponentCollection extends DatasetEntityCollection
 
     /**
      * @psalm-param $datasetEntityClassName class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
-     * @psalm-return iterable<\Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract>
+     * @psalm-return \Generator<\Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract>
      */
     public function filterByDatasetEntityClassName(string $datasetEntityClassName): \Generator
     {
@@ -79,7 +80,7 @@ class MappingComponentCollection extends DatasetEntityCollection
     }
 
     /**
-     * @psalm-return iterable<\Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract>
+     * @psalm-return \Generator<\Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract>
      */
     public function filterByPortalNodeKey(PortalNodeKeyInterface $portalNodeKey): \Generator
     {

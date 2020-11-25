@@ -33,7 +33,6 @@ class ResourceLockFacade
         return !$isLocked;
     }
 
-
     public function doLocked(
         callable $callable,
         string $resourceKey,
