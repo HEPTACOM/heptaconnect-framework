@@ -74,8 +74,7 @@ class MappingComponentCollection extends DatasetEntityCollection
     public function filterByDatasetEntityClassName(string $datasetEntityClassName): \Generator
     {
         return $this->filter(
-            static fn (MappingComponentStructContract $mappingComponent): bool =>
-                $mappingComponent->getDatasetEntityClassName() === $datasetEntityClassName
+            static fn (MappingComponentStructContract $mc): bool => $mc->getDatasetEntityClassName() === $datasetEntityClassName
         );
     }
 
@@ -85,8 +84,7 @@ class MappingComponentCollection extends DatasetEntityCollection
     public function filterByPortalNodeKey(PortalNodeKeyInterface $portalNodeKey): \Generator
     {
         return $this->filter(
-            static fn (MappingComponentStructContract $mappingComponent): bool =>
-                $mappingComponent->getPortalNodeKey()->equals($portalNodeKey)
+            static fn (MappingComponentStructContract $mc): bool => $mc->getPortalNodeKey()->equals($portalNodeKey)
         );
     }
 
