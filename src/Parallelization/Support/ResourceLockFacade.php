@@ -22,12 +22,13 @@ class ResourceLockFacade
         int $secondToWaits = 1
     ): bool {
         $countIterations = $iterations > 0;
+        $isLocked = false;
 
         while (
             ($isLocked = $this->resourceLocking->isLocked($resourceKey, $owner)) &&
             (!$countIterations || $iterations-- > 0)
         ) {
-            sleep($secondToWaits);
+            \sleep($secondToWaits);
         }
 
         return !$isLocked;
