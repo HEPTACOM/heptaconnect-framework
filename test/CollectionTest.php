@@ -120,6 +120,38 @@ class CollectionTest extends TestCase
 
         $coded = $this->jsonEncodeAndDecode($collection);
         static::assertNotEmpty($coded);
+        static::assertEquals([
+            [
+                'publicString' => 'public',
+                'publicDateTime' => '2010-11-20T14:30:50+00:00',
+                'publicInt' => 42,
+                'publicFloat' => 13.37,
+                'protectedString' => 'protected',
+                'attachments' => [],
+                'dependencies' => [],
+                'primaryKey' => null,
+            ],
+            [
+                'publicString' => 'public',
+                'publicDateTime' => '2010-11-20T14:30:50+00:00',
+                'publicInt' => 42,
+                'publicFloat' => 13.37,
+                'protectedString' => 'protected',
+                'attachments' => [],
+                'dependencies' => [],
+                'primaryKey' => null,
+            ],
+            [
+                'publicString' => 'public',
+                'publicDateTime' => '2010-11-20T14:30:50+00:00',
+                'publicInt' => 42,
+                'publicFloat' => 13.37,
+                'protectedString' => 'protected',
+                'attachments' => [],
+                'dependencies' => [],
+                'primaryKey' => null,
+            ]
+        ], $coded);
 
         $collection->clear();
         $coded = $this->jsonEncodeAndDecode($collection);

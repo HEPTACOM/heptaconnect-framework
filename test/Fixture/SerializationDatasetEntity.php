@@ -22,6 +22,6 @@ class SerializationDatasetEntity extends DatasetEntity
     {
         parent::initialize();
 
-        $this->publicDateTime = new \DateTime();
+        $this->publicDateTime = new \DateTime('2010-11-20T14:30:50.000Z', new \DateTimeZone('UTC'));
     }
 }
