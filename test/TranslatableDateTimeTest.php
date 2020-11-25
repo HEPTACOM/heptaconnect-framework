@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
 class TranslatableDateTimeTest extends TestCase
 {
     use ProvidesDateTimeTestsData;
+    use ProvidesInvalidTestsData;
 
     /**
      * @dataProvider provideValidDateTimeTestCases
@@ -119,5 +120,15 @@ class TranslatableDateTimeTest extends TestCase
         $translatable->offsetUnset($localeKey);
         static::assertNull($translatable->offsetGet($localeKey));
         static::assertEmpty($translatable->getLocaleKeys());
+    }
+
+    /**
+     * @dataProvider provideInvalidTestCases
+     */
+    public function testInsertOtherTypeInTypeCollection($item): void
+    {
+        $translatable = new TranslatableDateTime();
+        $translatable->setTranslation('en-GB', $item);
+        static::assertCount(0, $translatable->getLocaleKeys());
     }
 }

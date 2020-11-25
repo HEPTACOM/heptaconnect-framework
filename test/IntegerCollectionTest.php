@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
 class IntegerCollectionTest extends TestCase
 {
     use ProvidesIntegerTestsData;
+    use ProvidesInvalidTestsData;
 
     /**
      * @dataProvider provideValidIntegerTestCases
@@ -22,5 +23,15 @@ class IntegerCollectionTest extends TestCase
         $collection->push([$item]);
         static::assertCount(1, $collection);
         static::assertEquals($item, $collection[0]);
+    }
+
+    /**
+     * @dataProvider provideInvalidTestCases
+     */
+    public function testInsertOtherTypeInTypeCollection($item): void
+    {
+        $collection = new IntegerCollection();
+        $collection->push([$item]);
+        static::assertCount(0, $collection);
     }
 }

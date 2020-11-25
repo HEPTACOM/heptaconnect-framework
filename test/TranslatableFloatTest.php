@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
 class TranslatableFloatTest extends TestCase
 {
     use ProvidesFloatTestsData;
+    use ProvidesInvalidTestsData;
 
     /**
      * @dataProvider provideValidFloatTestCases
@@ -119,5 +120,15 @@ class TranslatableFloatTest extends TestCase
         $translatable->offsetUnset($localeKey);
         static::assertNull($translatable->offsetGet($localeKey));
         static::assertEmpty($translatable->getLocaleKeys());
+    }
+
+    /**
+     * @dataProvider provideInvalidTestCases
+     */
+    public function testInsertOtherTypeInTypeCollection($item): void
+    {
+        $translatable = new TranslatableFloat();
+        $translatable->setTranslation('en-GB', $item);
+        static::assertCount(0, $translatable->getLocaleKeys());
     }
 }

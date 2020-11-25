@@ -17,6 +17,7 @@ use PHPUnit\Framework\TestCase;
 class TaggedDateTimeCollectionTest extends TestCase
 {
     use ProvidesDateTimeTestsData;
+    use ProvidesInvalidTestsData;
 
     /**
      * @dataProvider provideValidDateTimeTestCases
@@ -71,5 +72,15 @@ class TaggedDateTimeCollectionTest extends TestCase
         $tagged = new TaggedDateTimeCollection();
         static::assertEquals('1', $tagged->offsetGet(1)->getTag());
         static::assertTrue($tagged->offsetExists('1'));
+    }
+
+    /**
+     * @dataProvider provideInvalidTestCases
+     */
+    public function testInsertOtherTypeInTypeCollection($item): void
+    {
+        $collection = new TaggedDateTimeCollection();
+        $collection->push([$item]);
+        static::assertCount(0, $collection);
     }
 }

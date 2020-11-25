@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
 class TranslatableBoolTest extends TestCase
 {
     use ProvidesBooleanTestsData;
+    use ProvidesInvalidTestsData;
 
     /**
      * @dataProvider provideValidBooleanTestCases
@@ -109,5 +110,15 @@ class TranslatableBoolTest extends TestCase
         $translatable->offsetUnset($localeKey);
         static::assertNull($translatable->offsetGet($localeKey));
         static::assertEmpty($translatable->getLocaleKeys());
+    }
+
+    /**
+     * @dataProvider provideInvalidTestCases
+     */
+    public function testInsertOtherTypeInTypeCollection($item): void
+    {
+        $translatable = new TranslatableBoolean();
+        $translatable->setTranslation('en-GB', $item);
+        static::assertCount(0, $translatable->getLocaleKeys());
     }
 }

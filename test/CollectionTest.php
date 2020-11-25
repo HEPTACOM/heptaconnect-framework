@@ -26,6 +26,29 @@ class CollectionTest extends TestCase
         static::assertCount($collection->count(), $items);
     }
 
+    /**
+     * @dataProvider provideInvalidObjectItems
+     *
+     * @param array<int, DatasetEntityInterface> $items
+     */
+    public function testPassingInInvalidItemsAndKeepAll(array $items): void
+    {
+        $collection = new UsageStructCollection($items);
+        static::assertEquals(0, $collection->count());
+
+        foreach ($items as $key => $item) {
+            $collection->offsetSet($key, $item);
+        }
+
+        static::assertEquals(0, $collection->count());
+
+        foreach ($items as $key => $item) {
+            $collection[$key] = $item;
+        }
+
+        static::assertEquals(0, $collection->count());
+    }
+
     public function testClear(): void
     {
         $collection = new UsageStructCollection();

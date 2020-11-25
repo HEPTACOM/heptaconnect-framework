@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 class DateCollectionTest extends TestCase
 {
     use ProvidesDateTestsData;
+    use ProvidesInvalidTestsData;
 
     /**
      * @dataProvider provideValidDateTestCases
@@ -23,5 +24,15 @@ class DateCollectionTest extends TestCase
         $collection->push([$item]);
         static::assertCount(1, $collection);
         static::assertEquals($item, $collection[0]);
+    }
+
+    /**
+     * @dataProvider provideInvalidTestCases
+     */
+    public function testInsertOtherTypeInTypeCollection($item): void
+    {
+        $collection = new DateCollection();
+        $collection->push([$item]);
+        static::assertCount(0, $collection);
     }
 }

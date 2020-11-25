@@ -17,6 +17,7 @@ use PHPUnit\Framework\TestCase;
 class TaggedFloatCollectionTest extends TestCase
 {
     use ProvidesFloatTestsData;
+    use ProvidesInvalidTestsData;
 
     /**
      * @dataProvider provideValidFloatTestCases
@@ -71,5 +72,15 @@ class TaggedFloatCollectionTest extends TestCase
         $tagged = new TaggedFloatCollection();
         static::assertEquals('1', $tagged->offsetGet(1)->getTag());
         static::assertTrue($tagged->offsetExists('1'));
+    }
+
+    /**
+     * @dataProvider provideInvalidTestCases
+     */
+    public function testInsertOtherTypeInTypeCollection($item): void
+    {
+        $collection = new TaggedFloatCollection();
+        $collection->push([$item]);
+        static::assertCount(0, $collection);
     }
 }

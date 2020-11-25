@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
 class TranslatableIntegerTest extends TestCase
 {
     use ProvidesIntegerTestsData;
+    use ProvidesInvalidTestsData;
 
     /**
      * @dataProvider provideValidIntegerTestCases
@@ -119,5 +120,15 @@ class TranslatableIntegerTest extends TestCase
         $translatable->offsetUnset($localeKey);
         static::assertNull($translatable->offsetGet($localeKey));
         static::assertEmpty($translatable->getLocaleKeys());
+    }
+
+    /**
+     * @dataProvider provideInvalidTestCases
+     */
+    public function testInsertOtherTypeInTypeCollection($item): void
+    {
+        $translatable = new TranslatableInteger();
+        $translatable->setTranslation('en-GB', $item);
+        static::assertCount(0, $translatable->getLocaleKeys());
     }
 }

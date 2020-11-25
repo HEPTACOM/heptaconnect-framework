@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
  */
 class StringCollectionTest extends TestCase
 {
+    use ProvidesInvalidTestsData;
     use ProvidesStringTestsData;
 
     /**
@@ -22,5 +23,15 @@ class StringCollectionTest extends TestCase
         $collection->push([$item]);
         static::assertCount(1, $collection);
         static::assertEquals($item, $collection[0]);
+    }
+
+    /**
+     * @dataProvider provideInvalidTestCases
+     */
+    public function testInsertOtherTypeInTypeCollection($item): void
+    {
+        $collection = new StringCollection();
+        $collection->push([$item]);
+        static::assertCount(0, $collection);
     }
 }

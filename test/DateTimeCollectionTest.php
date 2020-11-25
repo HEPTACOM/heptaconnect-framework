@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
 class DateTimeCollectionTest extends TestCase
 {
     use ProvidesDateTimeTestsData;
+    use ProvidesInvalidTestsData;
 
     /**
      * @dataProvider provideValidDateTimeTestCases
@@ -22,5 +23,15 @@ class DateTimeCollectionTest extends TestCase
         $collection->push([$item]);
         static::assertCount(1, $collection);
         static::assertEquals($item, $collection[0]);
+    }
+
+    /**
+     * @dataProvider provideInvalidTestCases
+     */
+    public function testInsertOtherTypeInTypeCollection($item): void
+    {
+        $collection = new DateTimeCollection();
+        $collection->push([$item]);
+        static::assertCount(0, $collection);
     }
 }

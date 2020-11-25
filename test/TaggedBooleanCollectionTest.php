@@ -17,6 +17,7 @@ use PHPUnit\Framework\TestCase;
 class TaggedBooleanCollectionTest extends TestCase
 {
     use ProvidesBooleanTestsData;
+    use ProvidesInvalidTestsData;
 
     /**
      * @dataProvider provideValidBooleanTestCases
@@ -71,5 +72,15 @@ class TaggedBooleanCollectionTest extends TestCase
         $tagged = new TaggedBooleanCollection();
         static::assertEquals('1', $tagged->offsetGet(1)->getTag());
         static::assertTrue($tagged->offsetExists('1'));
+    }
+
+    /**
+     * @dataProvider provideInvalidTestCases
+     */
+    public function testInsertOtherTypeInTypeCollection($item): void
+    {
+        $collection = new TaggedBooleanCollection();
+        $collection->push([$item]);
+        static::assertCount(0, $collection);
     }
 }

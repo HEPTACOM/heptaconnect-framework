@@ -16,6 +16,7 @@ use PHPUnit\Framework\TestCase;
  */
 class TaggedStringCollectionTest extends TestCase
 {
+    use ProvidesInvalidTestsData;
     use ProvidesStringTestsData;
 
     /**
@@ -71,5 +72,15 @@ class TaggedStringCollectionTest extends TestCase
         $tagged = new TaggedStringCollection();
         static::assertEquals('1', $tagged->offsetGet(1)->getTag());
         static::assertTrue($tagged->offsetExists('1'));
+    }
+
+    /**
+     * @dataProvider provideInvalidTestCases
+     */
+    public function testInsertOtherTypeInTypeCollection($item): void
+    {
+        $collection = new TaggedStringCollection();
+        $collection->push([$item]);
+        static::assertCount(0, $collection);
     }
 }
