@@ -7,6 +7,8 @@ use Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableDate;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Date
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\DatasetEntityTracker
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\GenericTranslatable
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableDate
  */

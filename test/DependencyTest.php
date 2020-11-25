@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Dependency
  * @covers \Heptacom\HeptaConnect\Dataset\Base\DependencyCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\DatasetEntityTracker
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\DependencyAwareTrait
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\DependencyTrait
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\PrimaryKeyTrait
