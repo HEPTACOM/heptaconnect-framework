@@ -34,8 +34,8 @@ abstract class EmitterContract
                 }
             } catch (\Throwable $exception) {
                 $context->markAsFailed($mapping, $exception);
-                DatasetEntityTracker::retrieve();
-                DatasetEntityTracker::listen();
+                DatasetEntityTracker::instance()->retrieve();
+                DatasetEntityTracker::instance()->listen();
 
                 continue;
             }
