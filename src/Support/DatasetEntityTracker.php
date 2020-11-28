@@ -4,63 +4,74 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Support;
 
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntity;
 
-abstract class DatasetEntityTracker
+class DatasetEntityTracker
 {
     /**
      * @psalm-var array<class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>, bool>
      */
-    private static array $deniedClasses = [];
+    private array $deniedClasses = [];
 
     /**
      * @psalm-var array<array<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>>
      */
-    private static array $contextStack = [];
+    private array $contextStack = [];
 
-    public static function report(DatasetEntity $entity): void
+    public function report(DatasetEntity $entity): void
     {
-        if (\count(self::$contextStack) === 0) {
+        if (\count($this->contextStack) === 0) {
             return;
         }
 
-        foreach (self::$deniedClasses as $deniedClass => $_) {
+        foreach ($this->deniedClasses as $deniedClass => $_) {
             if ($entity instanceof $deniedClass) {
                 return;
             }
         }
 
         /** @var string|int|null $key */
-        $key = \array_key_last(self::$contextStack);
+        $key = \array_key_last($this->contextStack);
 
         if (\is_null($key)) {
             return;
         }
 
-        self::$contextStack[$key][] = $entity;
+        $this->contextStack[$key][] = $entity;
     }
 
-    public static function listen(): void
+    public function listen(): void
     {
-        self::$contextStack[] = [];
+        $this->contextStack[] = [];
     }
 
-    public static function retrieve(): TrackedEntityCollection
+    public function retrieve(): TrackedEntityCollection
     {
-        return new TrackedEntityCollection(\array_pop(self::$contextStack) ?? []);
-    }
-
-    /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $className
-     */
-    public static function allow(string $className): void
-    {
-        unset(self::$deniedClasses[$className]);
+        return new TrackedEntityCollection(\array_pop($this->contextStack) ?? []);
     }
 
     /**
      * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $className
      */
-    public static function deny(string $className): void
+    public function allow(string $className): void
     {
-        self::$deniedClasses[$className] = true;
+        unset($this->deniedClasses[$className]);
+    }
+
+    /**
+     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $className
+     */
+    public function deny(string $className): void
+    {
+        $this->deniedClasses[$className] = true;
+    }
+
+    public static function instance(): DatasetEntityTracker
+    {
+        static $instance = null;
+
+        if (!$instance) {
+            $instance = new DatasetEntityTracker();
+        }
+
+        return $instance;
     }
 }

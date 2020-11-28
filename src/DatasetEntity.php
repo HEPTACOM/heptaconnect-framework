@@ -13,7 +13,7 @@ abstract class DatasetEntity implements Contract\DatasetEntityInterface
 
     final public function __construct()
     {
-        DatasetEntityTracker::report($this);
+        DatasetEntityTracker::instance()->report($this);
 
         $this->attachments = new AttachmentCollection();
         $this->dependencies = new DependencyCollection();
@@ -23,12 +23,12 @@ abstract class DatasetEntity implements Contract\DatasetEntityInterface
 
     final public function __clone()
     {
-        DatasetEntityTracker::report($this);
+        DatasetEntityTracker::instance()->report($this);
     }
 
     final public function __wakeup()
     {
-        DatasetEntityTracker::report($this);
+        DatasetEntityTracker::instance()->report($this);
     }
 
     protected function initialize(): void
