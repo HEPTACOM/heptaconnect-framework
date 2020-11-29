@@ -66,9 +66,10 @@ class DatasetEntityTracker
 
     public static function instance(): DatasetEntityTracker
     {
+        /** @var DatasetEntityTracker|null $instance */
         static $instance = null;
 
-        if (!$instance) {
+        if (!$instance instanceof DatasetEntityTracker) {
             $instance = new DatasetEntityTracker();
         }
 

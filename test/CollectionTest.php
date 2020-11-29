@@ -150,7 +150,7 @@ class CollectionTest extends TestCase
                 'attachments' => [],
                 'dependencies' => [],
                 'primaryKey' => null,
-            ]
+            ],
         ], $coded);
 
         $collection->clear();
