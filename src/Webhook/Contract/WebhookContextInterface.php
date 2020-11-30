@@ -2,16 +2,9 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Webhook\Contract;
 
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalStorageInterface;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeContextInterface;
 
-interface WebhookContextInterface
+interface WebhookContextInterface extends PortalNodeContextInterface
 {
-    public function getPortal(): PortalContract;
-
-    public function getConfig(): ?array;
-
     public function getWebhook(): WebhookInterface;
-
-    public function getStorage(): PortalStorageInterface;
 }
