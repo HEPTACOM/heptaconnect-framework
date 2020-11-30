@@ -3,6 +3,7 @@
 namespace Heptacom\HeptaConnect\Portal\Base\Emission\Contract;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityTrackerContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\DatasetEntityTracker;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct;
@@ -34,8 +35,8 @@ abstract class EmitterContract
                 }
             } catch (\Throwable $exception) {
                 $context->markAsFailed($mapping, $exception);
-                DatasetEntityTracker::instance()->retrieve();
-                DatasetEntityTracker::instance()->listen();
+                $this->getDatasetEntityTracker()->retrieve();
+                $this->getDatasetEntityTracker()->listen();
 
                 continue;
             }
@@ -59,6 +60,11 @@ abstract class EmitterContract
         EmitContextInterface $context
     ): ?DatasetEntityInterface {
         return null;
+    }
+
+    protected function getDatasetEntityTracker(): DatasetEntityTrackerContract
+    {
+        return DatasetEntityTracker::instance();
     }
 
     private function isSupported(?DatasetEntityInterface $entity): bool
