@@ -52,6 +52,16 @@
                 <file name="../src/TaggedCollection/TaggedStringCollection.php"/>
             </errorLevel>
         </InvalidReturnStatement>
+        <MixedReturnTypeCoercion>
+            <errorLevel type="info">
+                <file name="../src/TaggedCollection/TaggedBooleanCollection.php"/>
+                <file name="../src/TaggedCollection/TaggedDateCollection.php"/>
+                <file name="../src/TaggedCollection/TaggedDateTimeCollection.php"/>
+                <file name="../src/TaggedCollection/TaggedFloatCollection.php"/>
+                <file name="../src/TaggedCollection/TaggedIntegerCollection.php"/>
+                <file name="../src/TaggedCollection/TaggedStringCollection.php"/>
+            </errorLevel>
+        </MixedReturnTypeCoercion>
     </issueHandlers>
 
     <plugins>
