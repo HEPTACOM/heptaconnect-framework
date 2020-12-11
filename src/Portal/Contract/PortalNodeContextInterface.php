@@ -4,6 +4,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Portal\Contract;
 
 use Heptacom\HeptaConnect\Portal\Base\Parallelization\Support\ResourceLockFacade;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Psr\Container\ContainerInterface;
 
 interface PortalNodeContextInterface
 {
@@ -16,4 +17,6 @@ interface PortalNodeContextInterface
     public function getResourceLocker(): ResourceLockFacade;
 
     public function getStorage(): PortalStorageInterface;
+
+    public function getContainer(): ContainerInterface;
 }
