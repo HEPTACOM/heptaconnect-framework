@@ -34,4 +34,12 @@ abstract class PortalContract
     {
         return new OptionsResolver();
     }
+
+    public function getServices(): array
+    {
+        return [
+            'portal' => $this,
+            static::class => $this,
+        ];
+    }
 }

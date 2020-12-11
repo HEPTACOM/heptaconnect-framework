@@ -35,6 +35,15 @@ abstract class PortalExtensionContract
         return $template;
     }
 
+    public function extendServices(array $services): array
+    {
+        $services['portal_extensions'] ??= [];
+        $services['portal_extensions'][] = $this;
+        $services[static::class] = $this;
+
+        return $services;
+    }
+
     /**
      * @return class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>
      */
