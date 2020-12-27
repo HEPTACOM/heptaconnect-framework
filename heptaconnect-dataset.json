@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "https://github.com/HEPTACOM/heptaconnect-dataset-base/blob/master/heptaconnect-dataset.json",
+    "$id": "https://raw.githubusercontent.com/HEPTACOM/heptaconnect-dataset-base/master/heptaconnect-dataset.json",
     "definitions": {
         "Date": {
             "type": "string",
