@@ -37,7 +37,6 @@ abstract class PortalExtensionContract
 
     public function extendServices(array $services): array
     {
-        $services['portal_extensions'] ??= [];
         $services['portal_extensions'][] = $this;
         $services[static::class] = $this;
 
