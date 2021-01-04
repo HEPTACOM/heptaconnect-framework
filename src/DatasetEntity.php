@@ -11,6 +11,7 @@ abstract class DatasetEntity implements Contract\DatasetEntityInterface
     use Support\DependencyAwareTrait;
     use Support\JsonSerializeObjectVarsTrait;
     use Support\PrimaryKeyTrait;
+    use Support\SetStateTrait;
 
     final public function __construct()
     {

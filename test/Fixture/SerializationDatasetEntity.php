@@ -19,6 +19,66 @@ class SerializationDatasetEntity extends DatasetEntity
 
     private string $privateString = 'private';
 
+    public function getPublicString(): string
+    {
+        return $this->publicString;
+    }
+
+    public function setPublicString(string $publicString): void
+    {
+        $this->publicString = $publicString;
+    }
+
+    public function getPublicDateTime(): \DateTimeInterface
+    {
+        return $this->publicDateTime;
+    }
+
+    public function setPublicDateTime(\DateTimeInterface $publicDateTime): void
+    {
+        $this->publicDateTime = $publicDateTime;
+    }
+
+    public function getPublicInt(): int
+    {
+        return $this->publicInt;
+    }
+
+    public function setPublicInt(int $publicInt): void
+    {
+        $this->publicInt = $publicInt;
+    }
+
+    public function getPublicFloat(): float
+    {
+        return $this->publicFloat;
+    }
+
+    public function setPublicFloat(float $publicFloat): void
+    {
+        $this->publicFloat = $publicFloat;
+    }
+
+    public function getProtectedString(): string
+    {
+        return $this->protectedString;
+    }
+
+    public function setProtectedString(string $protectedString): void
+    {
+        $this->protectedString = $protectedString;
+    }
+
+    public function getPrivateString(): string
+    {
+        return $this->privateString;
+    }
+
+    public function setPrivateString(string $privateString): void
+    {
+        $this->privateString = $privateString;
+    }
+
     protected function initialize(): void
     {
         parent::initialize();

@@ -12,6 +12,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface;
 abstract class AbstractCollection implements CollectionInterface
 {
     use JsonSerializeObjectVarsTrait;
+    use SetStateTrait;
 
     /**
      * @var array<array-key, T>
@@ -24,6 +25,15 @@ abstract class AbstractCollection implements CollectionInterface
     public function __construct(iterable $items = [])
     {
         $this->push($items);
+    }
+
+    public static function __set_state(array $an_array)
+    {
+        $result = static::createStaticFromArray($an_array);
+
+        $result->push($an_array['items'] ?? []);
+
+        return $result;
     }
 
     public function push(iterable $items): void

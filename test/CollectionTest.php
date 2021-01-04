@@ -15,6 +15,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\DatasetEntityTracker
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\JsonSerializeObjectVarsTrait
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\SetStateTrait
  */
 class CollectionTest extends TestCase
 {
@@ -172,6 +173,18 @@ class CollectionTest extends TestCase
 
         static::assertCount(2, $collection);
         static::assertCount(0, $collection->filter(fn (SerializationDatasetEntity $entity) => $entity->publicInt === 0));
+    }
+
+    public function testSetState(): void
+    {
+        $collection = UsageStructCollection::__set_state([
+            'items' => [
+                new SerializationDatasetEntity(),
+                new SerializationDatasetEntity(),
+                new class() extends SerializationDatasetEntity {},
+            ],
+        ]);
+        static::assertCount(3, $collection);
     }
 
     /**
