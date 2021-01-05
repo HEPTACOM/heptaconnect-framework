@@ -58,7 +58,7 @@ abstract class ReceiverContract
     ): void {
     }
 
-    private function isSupported(DatasetEntityInterface $entity): bool
+    protected final function isSupported(DatasetEntityInterface $entity): bool
     {
         foreach ($this->supports() as $dataType) {
             if (\is_a($entity, $dataType, false)) {
