@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 abstract class EntityReflectorContract
 {
     abstract public function reflectEntities(
-        MappedDatasetEntityCollection $entities,
-        PortalNodeKeyInterface $portalNodeKey
+        MappedDatasetEntityCollection $mappedEntities,
+        PortalNodeKeyInterface $targetPortalNodeKey
     ): void;
 }
