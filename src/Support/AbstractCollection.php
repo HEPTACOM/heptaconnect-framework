@@ -30,8 +30,12 @@ abstract class AbstractCollection implements CollectionInterface
     public static function __set_state(array $an_array)
     {
         $result = static::createStaticFromArray($an_array);
+        /** @var array|mixed $items */
+        $items = $an_array['items'] ?? [];
 
-        $result->push($an_array['items'] ?? []);
+        if (\is_array($items) && $items !== []) {
+            $result->push($items);
+        }
 
         return $result;
     }

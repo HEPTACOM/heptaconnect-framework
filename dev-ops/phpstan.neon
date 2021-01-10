@@ -9,3 +9,6 @@ parameters:
 		-
 			message: '#Return type \([a-zA-Z0-9\\_]+\) of method [a-zA-Z0-9\\_]+::(add|sub)\(\) should be covariant with return type \(static\(DateTime\)\) of method DateTime::(add|sub)\(\)#'
 			path: ../src/Date.php
+		-
+			message: '#Unsafe usage of new static\(\)#'
+			path: ../src/Support/SetStateTrait.php

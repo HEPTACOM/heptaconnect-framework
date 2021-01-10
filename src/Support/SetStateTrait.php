@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Support;
 
+/**
+ * @psalm-consistent-constructor
+ */
 trait SetStateTrait
 {
     public static function __set_state(array $an_array)
@@ -10,11 +13,19 @@ trait SetStateTrait
         return static::createStaticFromArray($an_array);
     }
 
+    /**
+     * @return static
+     */
     private static function createStaticFromArray(array $an_array)
     {
         $result = new static();
 
+        /** @var mixed $value */
         foreach ($an_array as $key => $value) {
+            if (\is_numeric($key)) {
+                continue;
+            }
+
             $setter = 'set'.\ucfirst($key);
 
             try {

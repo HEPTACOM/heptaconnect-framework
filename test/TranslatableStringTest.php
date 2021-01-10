@@ -3,10 +3,12 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
+use Heptacom\HeptaConnect\Dataset\Base\Translatable\GenericTranslatable;
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableString;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\SetStateTrait
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\GenericTranslatable
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableString
  */
@@ -122,6 +124,33 @@ class TranslatableStringTest extends TestCase
         $translatable->offsetUnset($localeKey);
         static::assertNull($translatable->offsetGet($localeKey));
         static::assertEmpty($translatable->getLocaleKeys());
+    }
+
+    /**
+     * @dataProvider provideValidStringTestCases
+     */
+    public function testSetState(string $anyValue): void
+    {
+        /** @var GenericTranslatable $translatable */
+        $translatable = TranslatableString::__set_state([
+            'translations' => [
+                'en-GB' => $anyValue,
+            ],
+        ]);
+        static::assertCount(1, $translatable->getLocaleKeys());
+        static::assertEquals($anyValue, $translatable->getTranslation('en-GB'));
+    }
+
+    /**
+     * @dataProvider provideValidStringTestCases
+     */
+    public function testInvalidSetStateValues(string $anyValue): void
+    {
+        /** @var GenericTranslatable $translatable */
+        $translatable = TranslatableString::__set_state([
+            'translations' => $anyValue,
+        ]);
+        static::assertCount(0, $translatable->getLocaleKeys());
     }
 
     /**

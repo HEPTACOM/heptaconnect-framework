@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Translatable;
 
+use Heptacom\HeptaConnect\Dataset\Base\Support\SetStateTrait;
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\Contract\TranslatableInterface;
 
 /**
@@ -12,10 +13,32 @@ use Heptacom\HeptaConnect\Dataset\Base\Translatable\Contract\TranslatableInterfa
  */
 abstract class GenericTranslatable implements \ArrayAccess, \JsonSerializable, Contract\TranslatableInterface
 {
+    use SetStateTrait;
+
     /**
      * @psalm-var T[]
      */
     protected array $translations = [];
+
+    public static function __set_state(array $an_array)
+    {
+        $result = static::createStaticFromArray($an_array);
+        /** @var array|mixed $items */
+        $items = $an_array['translations'] ?? [];
+
+        if (\is_array($items) && $items !== []) {
+            /** @var T|mixed $value */
+            foreach ($items as $localeKey => $value) {
+                if (\is_numeric($localeKey)) {
+                    continue;
+                }
+
+                $result->setTranslation($localeKey, $value);
+            }
+        }
+
+        return $result;
+    }
 
     /**
      * @psalm-param array-key $offset

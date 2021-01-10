@@ -3,10 +3,12 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
+use Heptacom\HeptaConnect\Dataset\Base\Translatable\GenericTranslatable;
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableFloat;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\SetStateTrait
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\GenericTranslatable
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableFloat
  */
@@ -122,6 +124,33 @@ class TranslatableFloatTest extends TestCase
         $translatable->offsetUnset($localeKey);
         static::assertNull($translatable->offsetGet($localeKey));
         static::assertEmpty($translatable->getLocaleKeys());
+    }
+
+    /**
+     * @dataProvider provideValidFloatTestCases
+     */
+    public function testSetState(float $anyValue): void
+    {
+        /** @var GenericTranslatable $translatable */
+        $translatable = TranslatableFloat::__set_state([
+            'translations' => [
+                'en-GB' => $anyValue,
+            ],
+        ]);
+        static::assertCount(1, $translatable->getLocaleKeys());
+        static::assertEquals($anyValue, $translatable->getTranslation('en-GB'));
+    }
+
+    /**
+     * @dataProvider provideValidFloatTestCases
+     */
+    public function testInvalidSetStateValues(float $anyValue): void
+    {
+        /** @var GenericTranslatable $translatable */
+        $translatable = TranslatableFloat::__set_state([
+            'translations' => $anyValue,
+        ]);
+        static::assertCount(0, $translatable->getLocaleKeys());
     }
 
     /**

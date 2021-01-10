@@ -3,10 +3,12 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
+use Heptacom\HeptaConnect\Dataset\Base\Translatable\GenericTranslatable;
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableDateTime;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\SetStateTrait
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\GenericTranslatable
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableDateTime
  */
@@ -122,6 +124,35 @@ class TranslatableDateTimeTest extends TestCase
         $translatable->offsetUnset($localeKey);
         static::assertNull($translatable->offsetGet($localeKey));
         static::assertEmpty($translatable->getLocaleKeys());
+    }
+
+    /**
+     * @dataProvider provideValidDateTimeTestCases
+     */
+    public function testSetState(\DateTimeInterface $anyValue): void
+    {
+        /** @var GenericTranslatable $translatable */
+        $translatable = TranslatableDateTime::__set_state([
+            'translations' => [
+                'en-GB' => $anyValue,
+            ],
+        ]);
+        static::assertCount(1, $translatable->getLocaleKeys());
+        static::assertEquals($anyValue, $translatable->getTranslation('en-GB'));
+    }
+
+    /**
+     * @dataProvider provideValidDateTimeTestCases
+     */
+    public function testInvalidSetStateValues(\DateTimeInterface $anyValue): void
+    {
+        /** @var GenericTranslatable $translatable */
+        $translatable = TranslatableDateTime::__set_state([
+            'translations' => [
+                'en-GB' => $anyValue,
+            ],
+        ]);
+        static::assertCount(1, $translatable->getLocaleKeys());
     }
 
     /**

@@ -62,6 +62,11 @@
                 <file name="../src/TaggedCollection/TaggedStringCollection.php"/>
             </errorLevel>
         </MixedReturnTypeCoercion>
+        <UnsafeInstantiation>
+            <errorLevel type="info">
+                <file name="../src/Support/SetStateTrait.php"/>
+            </errorLevel>
+        </UnsafeInstantiation>
     </issueHandlers>
 
     <plugins>
