@@ -13,6 +13,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
 abstract class AbstractTaggedCollection extends AbstractCollection
 {
     /**
+     * @psalm-param array-key $offset
      * @psalm-return \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TagItem<T>
      */
     public function offsetGet($offset)
