@@ -34,6 +34,14 @@ trait SetStateTrait
                 continue;
             }
 
+            if (\is_null($value)) {
+                $firstParameter = $method->getParameters()[0] ?? null;
+
+                if ($firstParameter instanceof \ReflectionParameter && !$firstParameter->allowsNull()) {
+                    continue;
+                }
+            }
+
             if (!$method->isPublic()) {
                 continue;
             }
