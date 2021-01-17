@@ -64,7 +64,7 @@ class AttachmentTest extends TestCase
     public function testKeySynchronizationInAttachments(): void
     {
         $prime = new SerializationDatasetEntity();
-        $second = new class () extends SerializationDatasetEntity implements ForeignKeyAwareInterface {
+        $second = new class() extends SerializationDatasetEntity implements ForeignKeyAwareInterface {
             use ForeignKeyTrait;
 
             public function getForeignDatasetEntityClassName(): string
@@ -73,7 +73,7 @@ class AttachmentTest extends TestCase
             }
         };
         $prime->attach($second);
-        $third = new class () extends SerializationDatasetEntity implements ForeignKeyAwareInterface {
+        $third = new class() extends SerializationDatasetEntity implements ForeignKeyAwareInterface {
             use ForeignKeyTrait;
 
             public function getForeignDatasetEntityClassName(): string
@@ -82,7 +82,7 @@ class AttachmentTest extends TestCase
             }
         };
         $prime->attach($third);
-        $fourth = new class () extends SerializationDatasetEntity {
+        $fourth = new class() extends SerializationDatasetEntity {
             public function getForeignDatasetEntityClassName(): string
             {
                 return SerializationDatasetEntity::class;
