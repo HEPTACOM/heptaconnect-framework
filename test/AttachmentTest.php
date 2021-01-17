@@ -3,7 +3,10 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Dependency;
+use Heptacom\HeptaConnect\Dataset\Base\Support\ForeignKeyTrait;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
 use PHPUnit\Framework\TestCase;
 
@@ -15,6 +18,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\DatasetEntityTracker
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\ForeignKeyTrait
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\PrimaryKeyTrait
  */
 class AttachmentTest extends TestCase
@@ -55,5 +59,43 @@ class AttachmentTest extends TestCase
         static::assertEquals(1, $struct->getAttachments()->count());
         static::assertNull($struct->getAttachment('Unknown🙃Class'));
         static::assertEquals(1, $struct->getAttachments()->count());
+    }
+
+    public function testKeySynchronizationInAttachments(): void
+    {
+        $prime = new SerializationDatasetEntity();
+        $second = new class () extends SerializationDatasetEntity implements ForeignKeyAwareInterface {
+            use ForeignKeyTrait;
+
+            public function getForeignDatasetEntityClassName(): string
+            {
+                return SerializationDatasetEntity::class;
+            }
+        };
+        $prime->attach($second);
+        $third = new class () extends SerializationDatasetEntity implements ForeignKeyAwareInterface {
+            use ForeignKeyTrait;
+
+            public function getForeignDatasetEntityClassName(): string
+            {
+                return DatasetEntityInterface::class;
+            }
+        };
+        $prime->attach($third);
+        $fourth = new class () extends SerializationDatasetEntity {
+            public function getForeignDatasetEntityClassName(): string
+            {
+                return SerializationDatasetEntity::class;
+            }
+        };
+        $prime->attach($fourth);
+
+        $second->setForeignKey(\bin2hex(\random_bytes(32)));
+        $third->setForeignKey($oldThird = \bin2hex(\random_bytes(32)));
+        $prime->setPrimaryKey(\bin2hex(\random_bytes(32)));
+
+        static::assertSame($prime->getPrimaryKey(), $second->getForeignKey());
+        static::assertNotSame($prime->getPrimaryKey(), $third->getForeignKey());
+        static::assertSame($oldThird, $third->getForeignKey());
     }
 }
