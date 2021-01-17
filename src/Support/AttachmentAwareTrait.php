@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Dataset\Base\Support;
 
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface;
 
 trait AttachmentAwareTrait
 {
@@ -15,7 +15,7 @@ trait AttachmentAwareTrait
         return $this->attachments;
     }
 
-    public function attach(DatasetEntityInterface $attachment): void
+    public function attach(AttachableInterface $attachment): void
     {
         $className = \get_class($attachment);
 
@@ -33,18 +33,18 @@ trait AttachmentAwareTrait
         }
 
         return $this->attachments->filter(
-            fn (DatasetEntityInterface $entity): bool => $entity instanceof $class
+            fn (AttachableInterface $attachment): bool => $attachment instanceof $class
         )->valid();
     }
 
-    public function getAttachment(string $class): ?DatasetEntityInterface
+    public function getAttachment(string $class): ?AttachableInterface
     {
         if (!\class_exists($class)) {
             return null;
         }
 
         $iterator = $this->attachments->filter(
-            fn (DatasetEntityInterface $entity): bool => $entity instanceof $class
+            fn (AttachableInterface $attachment): bool => $attachment instanceof $class
         );
 
         return $iterator->valid() ? $iterator->current() : null;
@@ -56,9 +56,9 @@ trait AttachmentAwareTrait
             return;
         }
 
-        /** @var array<array-key, DatasetEntityInterface> $newItems */
+        /** @var array<array-key, AttachableInterface> $newItems */
         $newItems = iterable_to_array($this->attachments->filter(
-            fn (DatasetEntityInterface $entity): bool => !$entity instanceof $class)
+            fn (AttachableInterface $attachment): bool => !$attachment instanceof $class)
         );
         $this->attachments = new AttachmentCollection($newItems);
     }

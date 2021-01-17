@@ -12,7 +12,7 @@ interface DatasetEntityInterface extends AttachableInterface, PrimaryKeyAwareInt
 
     public function getAttachments(): AttachmentCollection;
 
-    public function attach(DatasetEntityInterface $attachment): void;
+    public function attach(AttachableInterface $attachment): void;
 
     /**
      * @psalm-param class-string $class
@@ -22,7 +22,7 @@ interface DatasetEntityInterface extends AttachableInterface, PrimaryKeyAwareInt
     /**
      * @psalm-param class-string $class
      */
-    public function getAttachment(string $class): ?DatasetEntityInterface;
+    public function getAttachment(string $class): ?AttachableInterface;
 
     /**
      * @psalm-param class-string $class
