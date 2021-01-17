@@ -6,6 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Support\ForeignKeyTrait;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -13,6 +14,8 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\UnsharableOwnerException;
 
 class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyAwareInterface, MappingInterface
 {
+    use ForeignKeyTrait;
+
     protected ?string $datasetEntityClassName = null;
 
     protected ?string $externalId = null;
@@ -78,16 +81,6 @@ class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyA
     public function getForeignDatasetEntityClassName(): string
     {
         return $this->getDatasetEntityClassName();
-    }
-
-    public function getForeignKey(): ?string
-    {
-        return $this->externalId;
-    }
-
-    public function setForeignKey(?string $foreignKey): void
-    {
-        $this->externalId = $foreignKey;
     }
 
     /**
