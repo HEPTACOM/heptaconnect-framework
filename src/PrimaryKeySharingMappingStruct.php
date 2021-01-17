@@ -7,6 +7,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\ForeignKeyTrait;
+use Heptacom\HeptaConnect\Dataset\Base\Support\PrimaryKeyTrait;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -44,12 +45,12 @@ class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyA
 
     public function getExternalId(): ?string
     {
-        return $this->getForeignKey();
+        return $this->externalId;
     }
 
-    public function setExternalId(?string $externalId): MappingInterface
+    public function setExternalId(?string $externalId): self
     {
-        $this->setForeignKey($externalId);
+        $this->externalId = $externalId;
 
         return $this;
     }
