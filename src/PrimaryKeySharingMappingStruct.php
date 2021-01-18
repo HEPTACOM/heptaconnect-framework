@@ -11,9 +11,8 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsharableOwnerException;
-use Serializable;
 
-class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyAwareInterface, MappingInterface, Serializable
+class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyAwareInterface, MappingInterface
 {
     use ForeignKeyTrait;
 
@@ -26,8 +25,7 @@ class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyA
     protected ?MappingNodeKeyInterface $mappingNodeKey = null;
 
     /**
-     * @var array|\WeakReference[]
-     * @psalm-var array<array-key, \WeakReference<DatasetEntityInterface>>
+     * @var array|DatasetEntityInterface[]
      */
     protected $owners = [];
 
@@ -101,11 +99,7 @@ class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyA
      */
     public function getOwners(): iterable
     {
-        foreach ($this->owners as $owner) {
-            if (($o = $owner->get()) instanceof DatasetEntityInterface) {
-                yield $o;
-            }
-        }
+        yield from $this->owners;
     }
 
     /**
@@ -118,36 +112,8 @@ class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyA
             throw new UnsharableOwnerException($this->getForeignDatasetEntityClassName(), $this->getForeignKey(), $owner);
         }
 
-        $this->owners[] = \WeakReference::create($owner);
+        $this->owners[] = $owner;
         $owner->attach($this);
         $owner->setPrimaryKey($this->getForeignKey());
-    }
-
-    public function serialize()
-    {
-        $vars = \get_object_vars($this);
-
-        foreach ($vars['owners'] as &$owner) {
-            $owner = $owner->get();
-        }
-
-        return \serialize($vars);
-    }
-
-    public function unserialize($serialized)
-    {
-        $vars = \unserialize($serialized);
-
-        if (\array_key_exists('owners', $vars) && \is_array($vars['owners'])) {
-            foreach ($vars['owners'] as &$owner) {
-                $owner = \WeakReference::create($owner);
-            }
-        }
-
-        foreach ($vars as $key => $value) {
-            if (\property_exists($this, $key)) {
-                $this->{$key} = $value;
-            }
-        }
     }
 }
