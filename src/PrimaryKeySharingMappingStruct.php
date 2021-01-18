@@ -11,8 +11,9 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsharableOwnerException;
+use Serializable;
 
-class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyAwareInterface, MappingInterface
+class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyAwareInterface, MappingInterface, Serializable
 {
     use ForeignKeyTrait;
 
@@ -120,5 +121,33 @@ class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyA
         $this->owners[] = \WeakReference::create($owner);
         $owner->attach($this);
         $owner->setPrimaryKey($this->getForeignKey());
+    }
+
+    public function serialize()
+    {
+        $vars = \get_object_vars($this);
+
+        foreach ($vars['owners'] as &$owner) {
+            $owner = $owner->get();
+        }
+
+        return \serialize($vars);
+    }
+
+    public function unserialize($serialized)
+    {
+        $vars = \unserialize($serialized);
+
+        if (\array_key_exists('owners', $vars) && \is_array($vars['owners'])) {
+            foreach ($vars['owners'] as &$owner) {
+                $owner = \WeakReference::create($owner);
+            }
+        }
+
+        foreach ($vars as $key => $value) {
+            if (\property_exists($this, $key)) {
+                $this->{$key} = $value;
+            }
+        }
     }
 }
