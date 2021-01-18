@@ -81,6 +81,21 @@ class ContractTest extends TestCase
                     }
                 };
             }
+
+            public function generateKeys(string $keyClassName, int $count): iterable
+            {
+                yield from [];
+            }
+
+            public function serialize(StorageKeyInterface $key): string
+            {
+                return '';
+            }
+
+            public function deserialize(string $keyData): StorageKeyInterface
+            {
+                $this->generateKey($keyData);
+            }
         };
     }
 }
