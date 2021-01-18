@@ -7,7 +7,6 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\ForeignKeyTrait;
-use Heptacom\HeptaConnect\Dataset\Base\Support\PrimaryKeyTrait;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -82,6 +81,17 @@ class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyA
     public function getForeignDatasetEntityClassName(): string
     {
         return $this->getDatasetEntityClassName();
+    }
+
+    public function setForeignKey(?string $foreignKey): void
+    {
+        $this->foreignKey = $foreignKey;
+
+        foreach ($this->getOwners() as $owner) {
+            if ($owner->getPrimaryKey() !== $foreignKey) {
+                $owner->setPrimaryKey($foreignKey);
+            }
+        }
     }
 
     /**
