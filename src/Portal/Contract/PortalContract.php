@@ -37,9 +37,6 @@ abstract class PortalContract
 
     public function getServices(): array
     {
-        return [
-            'portal' => $this,
-            static::class => $this,
-        ];
+        return [];
     }
 }
