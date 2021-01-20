@@ -42,7 +42,7 @@ abstract class AbstractCollection implements CollectionInterface
 
     public function push(iterable $items): void
     {
-        $items = \iterator_to_array($this->filterValid($items));
+        $items = \iterable_to_array($this->filterValid($items));
 
         if (\count($items) === 0) {
             return;
