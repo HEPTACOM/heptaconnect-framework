@@ -20,6 +20,9 @@ abstract class GenericTranslatable implements \ArrayAccess, \JsonSerializable, C
      */
     protected array $translations = [];
 
+    /**
+     * @return static
+     */
     public static function __set_state(array $an_array)
     {
         $result = static::createStaticFromArray($an_array);
