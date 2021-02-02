@@ -17,8 +17,6 @@ abstract class DatasetEntity implements Contract\DatasetEntityInterface
     {
         $this->attachments = new AttachmentCollection();
         $this->dependencies = new DependencyCollection();
-
-        $this->initialize();
     }
 
     public function setPrimaryKey(?string $primaryKey): void
@@ -35,12 +33,5 @@ abstract class DatasetEntity implements Contract\DatasetEntityInterface
                 }
             }
         }
-    }
-
-    /**
-     * @deprecated Use __construct() instead.
-     */
-    protected function initialize(): void
-    {
     }
 }

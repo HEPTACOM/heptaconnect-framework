@@ -19,6 +19,13 @@ class SerializationDatasetEntity extends DatasetEntity
 
     private string $privateString = 'private';
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->publicDateTime = new \DateTime('2010-11-20T14:30:50.000Z', new \DateTimeZone('UTC'));
+    }
+
     public function getPublicString(): string
     {
         return $this->publicString;
@@ -77,12 +84,5 @@ class SerializationDatasetEntity extends DatasetEntity
     public function setPrivateString(string $privateString): void
     {
         $this->privateString = $privateString;
-    }
-
-    protected function initialize(): void
-    {
-        parent::initialize();
-
-        $this->publicDateTime = new \DateTime('2010-11-20T14:30:50.000Z', new \DateTimeZone('UTC'));
     }
 }
