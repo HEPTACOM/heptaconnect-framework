@@ -42,7 +42,7 @@ abstract class MappingNodeRepositoryContract
     ): iterable;
 
     /**
-     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $datasetEntityClassName
+     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $datasetEntityClassName
      *
      * @throws UnsupportedStorageKeyException
      *
@@ -54,7 +54,7 @@ abstract class MappingNodeRepositoryContract
     ): MappingNodeKeyInterface;
 
     /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $datasetEntityClassName
+     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $datasetEntityClassName
      *
      * @throws UnsupportedStorageKeyException
      */

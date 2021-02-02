@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Exception;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Throwable;
 
 class UnsharableOwnerException extends \Exception
@@ -12,9 +12,9 @@ class UnsharableOwnerException extends \Exception
 
     private ?string $expectedPrimaryKey;
 
-    private DatasetEntityInterface $owner;
+    private DatasetEntityContract $owner;
 
-    public function __construct(string $expectedDatasetEntityClassName, ?string $expectedPrimaryKey, DatasetEntityInterface $owner, Throwable $previous = null)
+    public function __construct(string $expectedDatasetEntityClassName, ?string $expectedPrimaryKey, DatasetEntityContract $owner, Throwable $previous = null)
     {
         parent::__construct(\sprintf(
                 'Owner of class %s with primary key %s does not match %s and %s',
@@ -39,7 +39,7 @@ class UnsharableOwnerException extends \Exception
         return $this->expectedPrimaryKey;
     }
 
-    public function getOwner(): DatasetEntityInterface
+    public function getOwner(): DatasetEntityContract
     {
         return $this->owner;
     }

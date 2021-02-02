@@ -9,7 +9,7 @@ interface MappingNodeStructInterface
     public function getKey(): MappingNodeKeyInterface;
 
     /**
-     * @return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
+     * @return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
     public function getDatasetEntityClassName(): string;
 }

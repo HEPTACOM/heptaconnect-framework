@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Storage\Base;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface;
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\ForeignKeyTrait;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
@@ -25,7 +25,7 @@ class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyA
     protected ?MappingNodeKeyInterface $mappingNodeKey = null;
 
     /**
-     * @var array|DatasetEntityInterface[]
+     * @var array|DatasetEntityContract[]
      */
     protected $owners = [];
 
@@ -94,8 +94,8 @@ class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyA
     }
 
     /**
-     * @return iterable|DatasetEntityInterface[]
-     * @psalm-return iterable<array-key, DatasetEntityInterface>
+     * @return iterable|DatasetEntityContract[]
+     * @psalm-return iterable<array-key, DatasetEntityContract>
      */
     public function getOwners(): iterable
     {
@@ -105,7 +105,7 @@ class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyA
     /**
      * @throws UnsharableOwnerException
      */
-    public function addOwner(DatasetEntityInterface $owner): void
+    public function addOwner(DatasetEntityContract $owner): void
     {
         if (\get_class($owner) !== $this->getForeignDatasetEntityClassName()
             || $owner->getPrimaryKey() !== $this->getForeignKey()) {
