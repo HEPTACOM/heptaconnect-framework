@@ -8,13 +8,11 @@ use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityTrackerContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntity
  * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Dependency
  * @covers \Heptacom\HeptaConnect\Dataset\Base\DependencyCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\DatasetEntityTracker
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\DependencyAwareTrait
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\DependencyTrait
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\PrimaryKeyTrait

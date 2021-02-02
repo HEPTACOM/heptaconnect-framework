@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Dataset\Base;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface;
-use Heptacom\HeptaConnect\Dataset\Base\Support\DatasetEntityTracker;
 
 abstract class DatasetEntity implements Contract\DatasetEntityInterface
 {
@@ -14,24 +13,12 @@ abstract class DatasetEntity implements Contract\DatasetEntityInterface
     use Support\PrimaryKeyTrait;
     use Support\SetStateTrait;
 
-    final public function __construct()
+    public function __construct()
     {
-        DatasetEntityTracker::instance()->report($this);
-
         $this->attachments = new AttachmentCollection();
         $this->dependencies = new DependencyCollection();
 
         $this->initialize();
-    }
-
-    final public function __clone()
-    {
-        DatasetEntityTracker::instance()->report($this);
-    }
-
-    final public function __wakeup()
-    {
-        DatasetEntityTracker::instance()->report($this);
     }
 
     public function setPrimaryKey(?string $primaryKey): void
@@ -50,6 +37,9 @@ abstract class DatasetEntity implements Contract\DatasetEntityInterface
         }
     }
 
+    /**
+     * @deprecated Use __construct() instead.
+     */
     protected function initialize(): void
     {
     }
