@@ -8,7 +8,7 @@ class Dependency implements Contract\DependencyInterface
     use Support\DependencyTrait;
 
     /**
-     * @psalm-param class-string<Contract\DatasetEntityInterface> $datasetEntityClass
+     * @psalm-param class-string<Contract\DatasetEntityContract> $datasetEntityClass
      */
     public function __construct(string $datasetEntityClass, string $primaryKey)
     {

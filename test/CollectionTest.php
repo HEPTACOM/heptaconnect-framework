@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\UsageStructCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntity
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\JsonSerializeObjectVarsTrait
@@ -22,7 +22,7 @@ class CollectionTest extends TestCase
     /**
      * @dataProvider provideValidItems
      *
-     * @param array<int, DatasetEntityInterface> $items
+     * @param array<int, DatasetEntityContract> $items
      */
     public function testPassingInValidItemsAndKeepAll(array $items): void
     {
@@ -33,7 +33,7 @@ class CollectionTest extends TestCase
     /**
      * @dataProvider provideInvalidObjectItems
      *
-     * @param array<int, DatasetEntityInterface> $items
+     * @param array<int, DatasetEntityContract> $items
      */
     public function testPassingInInvalidItemsAndKeepAll(array $items): void
     {
@@ -186,7 +186,7 @@ class CollectionTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array<int, array<int, DatasetEntityInterface>>>
+     * @return iterable<string, array<int, array<int, DatasetEntityContract>>>
      */
     public function provideValidItems(): iterable
     {

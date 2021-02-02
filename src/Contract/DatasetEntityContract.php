@@ -1,17 +1,23 @@
 <?php
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Dataset\Base;
+namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
+use Heptacom\HeptaConnect\Dataset\Base\DependencyCollection;
+use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
+use Heptacom\HeptaConnect\Dataset\Base\Support\DependencyAwareTrait;
+use Heptacom\HeptaConnect\Dataset\Base\Support\JsonSerializeObjectVarsTrait;
+use Heptacom\HeptaConnect\Dataset\Base\Support\PrimaryKeyTrait;
+use Heptacom\HeptaConnect\Dataset\Base\Support\SetStateTrait;
 
-abstract class DatasetEntity implements Contract\DatasetEntityInterface
+abstract class DatasetEntityContract implements AttachableInterface, PrimaryKeyAwareInterface, \JsonSerializable
 {
-    use Support\AttachmentAwareTrait;
-    use Support\DependencyAwareTrait;
-    use Support\JsonSerializeObjectVarsTrait;
-    use Support\PrimaryKeyTrait;
-    use Support\SetStateTrait;
+    use AttachmentAwareTrait;
+    use DependencyAwareTrait;
+    use JsonSerializeObjectVarsTrait;
+    use PrimaryKeyTrait;
+    use SetStateTrait;
 
     public function __construct()
     {

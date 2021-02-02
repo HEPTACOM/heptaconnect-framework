@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
-use Heptacom\HeptaConnect\Dataset\Base\DatasetEntity;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\TrackedEntityCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
 use PHPUnit\Framework\TestCase;
@@ -21,7 +21,7 @@ class TrackedEntityCollectionTest extends TestCase
     /**
      * @dataProvider provideValidTestCases
      */
-    public function testInsertTypeInTypeCollection(DatasetEntityInterface $entity): void
+    public function testInsertTypeInTypeCollection(DatasetEntityContract $entity): void
     {
         $collection = new TrackedEntityCollection();
         $collection->push([$entity]);
@@ -42,7 +42,7 @@ class TrackedEntityCollectionTest extends TestCase
     public function provideValidTestCases(): iterable
     {
         yield [new SerializationDatasetEntity()];
-        yield [new class() extends DatasetEntity {
+        yield [new class() extends DatasetEntityContract {
         }];
     }
 }

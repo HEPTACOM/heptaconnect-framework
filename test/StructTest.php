@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntity
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\JsonSerializeObjectVarsTrait
@@ -18,7 +18,7 @@ class StructTest extends TestCase
     /**
      * @dataProvider provideStructs
      */
-    public function testSerializationAccessors(DatasetEntityInterface $struct): void
+    public function testSerializationAccessors(DatasetEntityContract $struct): void
     {
         $deserializedData = $this->codeIt($struct);
 
@@ -31,7 +31,7 @@ class StructTest extends TestCase
      * @depends testSerializationAccessors
      * @dataProvider provideStructs
      */
-    public function testSerializationTypes(DatasetEntityInterface $struct): void
+    public function testSerializationTypes(DatasetEntityContract $struct): void
     {
         $deserializedData = $this->codeIt($struct);
 
@@ -44,7 +44,7 @@ class StructTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array<int, DatasetEntityInterface>>
+     * @return iterable<string, array<int, DatasetEntityContract>>
      */
     public function provideStructs(): iterable
     {
@@ -57,7 +57,7 @@ class StructTest extends TestCase
     /**
      * @throws \JsonException
      */
-    protected function codeIt(DatasetEntityInterface $struct): array
+    protected function codeIt(DatasetEntityContract $struct): array
     {
         $encoded = \json_encode($struct, \JSON_THROW_ON_ERROR);
         /** @var array<string, mixed> $decoded */

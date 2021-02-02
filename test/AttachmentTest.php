@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Dependency;
 use Heptacom\HeptaConnect\Dataset\Base\Support\ForeignKeyTrait;
@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntity
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait
@@ -76,7 +76,7 @@ class AttachmentTest extends TestCase
 
             public function getForeignDatasetEntityClassName(): string
             {
-                return DatasetEntityInterface::class;
+                return DatasetEntityContract::class;
             }
         };
         $prime->attach($third);

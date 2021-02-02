@@ -3,19 +3,19 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Support;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 
 trait DependencyTrait
 {
     use PrimaryKeyTrait;
 
     /**
-     * @psalm-var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
+     * @psalm-var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
-    protected string $datasetEntityClass = DatasetEntityInterface::class;
+    protected string $datasetEntityClass = DatasetEntityContract::class;
 
     /**
-     * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
+     * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
     public function getDatasetEntityClass(): string
     {
@@ -23,7 +23,7 @@ trait DependencyTrait
     }
 
     /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $datasetEntityClass
+     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $datasetEntityClass
      */
     public function setDatasetEntityClass(string $datasetEntityClass): void
     {

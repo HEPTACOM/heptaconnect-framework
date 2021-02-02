@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
 interface ForeignKeyAwareInterface
 {
     /**
-     * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
+     * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
     public function getForeignDatasetEntityClassName(): string;
 
