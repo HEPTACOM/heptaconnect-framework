@@ -2,16 +2,16 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Mapping;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 
 class MappedDatasetEntityStruct
 {
     protected MappingInterface $mapping;
 
-    protected DatasetEntityInterface $datasetEntity;
+    protected DatasetEntityContract $datasetEntity;
 
-    public function __construct(MappingInterface $mapping, DatasetEntityInterface $datasetEntity)
+    public function __construct(MappingInterface $mapping, DatasetEntityContract $datasetEntity)
     {
         $this->mapping = $mapping;
         $this->datasetEntity = $datasetEntity;
@@ -22,7 +22,7 @@ class MappedDatasetEntityStruct
         return $this->mapping;
     }
 
-    public function getDatasetEntity(): DatasetEntityInterface
+    public function getDatasetEntity(): DatasetEntityContract
     {
         return $this->datasetEntity;
     }

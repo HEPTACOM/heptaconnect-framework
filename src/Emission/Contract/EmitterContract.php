@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Emission\Contract;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
@@ -37,7 +37,7 @@ abstract class EmitterContract
                 continue;
             }
 
-            if ($entity instanceof DatasetEntityInterface) {
+            if ($entity instanceof DatasetEntityContract) {
                 yield new MappedDatasetEntityStruct($mapping, $entity);
             }
         }
@@ -46,7 +46,7 @@ abstract class EmitterContract
     }
 
     /**
-     * @return array<array-key, class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>>
+     * @return array<array-key, class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>>
      */
     abstract public function supports(): array;
 
@@ -54,11 +54,11 @@ abstract class EmitterContract
         PortalContract $portal,
         MappingInterface $mapping,
         EmitContextInterface $context
-    ): ?DatasetEntityInterface {
+    ): ?DatasetEntityContract {
         return null;
     }
 
-    private function isSupported(?DatasetEntityInterface $entity): bool
+    private function isSupported(?DatasetEntityContract $entity): bool
     {
         if ($entity === null) {
             return false;

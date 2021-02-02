@@ -7,12 +7,12 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 class TypedMappingCollection extends MappingCollection
 {
     /**
-     * @psalm-var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
+     * @psalm-var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
     private string $type;
 
     /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $type
+     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $type
      * @psalm-param array<array-key, \Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface> $items
      */
     public function __construct(string $type, array $items = [])
@@ -23,7 +23,7 @@ class TypedMappingCollection extends MappingCollection
     }
 
     /**
-     * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
+     * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
     public function getType(): string
     {

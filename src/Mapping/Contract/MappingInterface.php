@@ -16,7 +16,7 @@ interface MappingInterface
     public function getMappingNodeKey(): MappingNodeKeyInterface;
 
     /**
-     * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
+     * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
     public function getDatasetEntityClassName(): string;
 }

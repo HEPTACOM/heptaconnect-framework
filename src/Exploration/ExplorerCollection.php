@@ -11,7 +11,7 @@ use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 class ExplorerCollection extends DatasetEntityCollection
 {
     /**
-     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $entityClassName
+     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityClassName
      *
      * @return iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract>
      */

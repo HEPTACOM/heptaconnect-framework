@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Reception\Contract;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct;
@@ -46,19 +46,19 @@ abstract class ReceiverContract
     }
 
     /**
-     * @return array<array-key, class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>>
+     * @return array<array-key, class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>>
      */
     abstract public function supports(): array;
 
     protected function run(
         PortalContract $portal,
         MappingInterface $mapping,
-        DatasetEntityInterface $entity,
+        DatasetEntityContract $entity,
         ReceiveContextInterface $context
     ): void {
     }
 
-    protected final function isSupported(DatasetEntityInterface $entity): bool
+    protected final function isSupported(DatasetEntityContract $entity): bool
     {
         foreach ($this->supports() as $dataType) {
             if (\is_a($entity, $dataType, false)) {

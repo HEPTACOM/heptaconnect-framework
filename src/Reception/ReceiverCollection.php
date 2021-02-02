@@ -11,7 +11,7 @@ use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 class ReceiverCollection extends DatasetEntityCollection
 {
     /**
-     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $entityClassName
+     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityClassName
      *
      * @return iterable<\Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract>
      */

@@ -12,7 +12,7 @@ abstract class MappingComponentStructContract implements \JsonSerializable
     abstract public function getPortalNodeKey(): PortalNodeKeyInterface;
 
     /**
-     * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
+     * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
     abstract public function getDatasetEntityClassName(): string;
 

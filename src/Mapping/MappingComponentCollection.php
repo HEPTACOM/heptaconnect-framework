@@ -13,14 +13,14 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 class MappingComponentCollection extends DatasetEntityCollection
 {
     /**
-     * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>[]
+     * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>[]
      *
      * @return string[]
      */
     public function getDatasetEntityClassNames(): array
     {
         /** @var string[] $result */
-        /** @psalm-var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>[] $result */
+        /** @psalm-var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>[] $result */
         $result = [];
 
         /** @var MappingComponentStructContract $mappingComponent */
@@ -68,7 +68,7 @@ class MappingComponentCollection extends DatasetEntityCollection
     }
 
     /**
-     * @psalm-param $datasetEntityClassName class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
+     * @psalm-param $datasetEntityClassName class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      * @psalm-return \Generator<\Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract>
      */
     public function filterByDatasetEntityClassName(string $datasetEntityClassName): \Generator

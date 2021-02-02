@@ -11,7 +11,7 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 class EmitterCollection extends DatasetEntityCollection
 {
     /**
-     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface> $entityClassName
+     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityClassName
      *
      * @return iterable<\Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract>
      */

@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Exploration;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerStackInterface;
@@ -24,9 +24,9 @@ class ExplorerStackTest extends TestCase
 
     public function testStackCallsEveryone(): void
     {
-        $result1 = $this->createMock(DatasetEntityInterface::class);
-        $result2 = $this->createMock(DatasetEntityInterface::class);
-        $result3 = $this->createMock(DatasetEntityInterface::class);
+        $result1 = $this->createMock(DatasetEntityContract::class);
+        $result2 = $this->createMock(DatasetEntityContract::class);
+        $result3 = $this->createMock(DatasetEntityContract::class);
 
         $explorer1 = $this->createMock(ExplorerContract::class);
         $explorer1->expects(static::once())

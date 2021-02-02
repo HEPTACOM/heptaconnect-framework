@@ -14,7 +14,7 @@ interface RouteInterface
     public function getSourceKey(): PortalNodeKeyInterface;
 
     /**
-     * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
+     * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
     public function getEntityClassName(): string;
 }

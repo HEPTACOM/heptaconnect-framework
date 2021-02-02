@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityE
 abstract class ExplorerContract
 {
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
     public function explore(ExploreContextInterface $context, ExplorerStackInterface $stack): iterable
     {
@@ -30,12 +30,12 @@ abstract class ExplorerContract
     }
 
     /**
-     * @return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
+     * @return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
     abstract public function supports(): string;
 
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
     protected function run(PortalContract $portal, ExploreContextInterface $context): iterable
     {
