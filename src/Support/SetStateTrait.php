@@ -8,6 +8,9 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Support;
  */
 trait SetStateTrait
 {
+    /**
+     * @return static
+     */
     public static function __set_state(array $an_array)
     {
         return static::createStaticFromArray($an_array);
