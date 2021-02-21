@@ -7,11 +7,6 @@
     },
     "mutators": {
         "@default": true,
-        "OneZeroInteger": {
-            "ignore": [
-                "Heptacom\\HeptaConnect\\Dataset\\Base\\Date"
-            ]
-        },
         "DecrementInteger": {
             "ignore": [
                 "Heptacom\\HeptaConnect\\Dataset\\Base\\Date"
