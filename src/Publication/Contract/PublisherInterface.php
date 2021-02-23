@@ -2,7 +2,6 @@
 
 namespace Heptacom\HeptaConnect\Portal\Base\Publication\Contract;
 
-use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
@@ -15,7 +14,7 @@ interface PublisherInterface
         string $datasetEntityClassName,
         PortalNodeKeyInterface $portalNodeId,
         string $externalId
-    ): MappingInterface;
+    ): void;
 
     public function publishBatch(MappingCollection $mappings): void;
 }
