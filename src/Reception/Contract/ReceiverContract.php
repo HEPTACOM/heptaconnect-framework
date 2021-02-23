@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Reception\Contract;
 
@@ -58,7 +59,7 @@ abstract class ReceiverContract
     ): void {
     }
 
-    protected final function isSupported(DatasetEntityContract $entity): bool
+    final protected function isSupported(DatasetEntityContract $entity): bool
     {
         foreach ($this->supports() as $dataType) {
             if (\is_a($entity, $dataType, false)) {
