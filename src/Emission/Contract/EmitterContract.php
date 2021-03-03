@@ -18,6 +18,55 @@ abstract class EmitterContract
      */
     public function emit(MappingCollection $mappings, EmitContextInterface $context, EmitterStackInterface $stack): iterable
     {
+        yield from $this->emitCurrent($mappings, $context);
+
+        return $this->emitNext($stack, $mappings, $context);
+    }
+
+    /**
+     * @return array<array-key, class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>>
+     */
+    abstract public function supports(): array;
+
+    protected function run(
+        PortalContract $portal,
+        MappingInterface $mapping,
+        EmitContextInterface $context
+    ): ?DatasetEntityContract {
+        return null;
+    }
+
+    final protected function isSupported(?DatasetEntityContract $entity): bool
+    {
+        if ($entity === null) {
+            return false;
+        }
+
+        foreach ($this->supports() as $dataType) {
+            if (\is_a($entity, $dataType, false)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct>
+     */
+    final protected function emitNext(
+        EmitterStackInterface $stack,
+        MappingCollection $mappings,
+        EmitContextInterface $context
+    ): iterable {
+        return $stack->next($mappings, $context);
+    }
+
+    /**
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct>
+     */
+    final protected function emitCurrent(MappingCollection $mappings, EmitContextInterface $context): iterable
+    {
         /** @var MappingInterface $mapping */
         foreach ($mappings as $mapping) {
             if ($mapping->getExternalId() === null) {
@@ -42,35 +91,5 @@ abstract class EmitterContract
                 yield new MappedDatasetEntityStruct($mapping, $entity);
             }
         }
-
-        return $stack->next($mappings, $context);
-    }
-
-    /**
-     * @return array<array-key, class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>>
-     */
-    abstract public function supports(): array;
-
-    protected function run(
-        PortalContract $portal,
-        MappingInterface $mapping,
-        EmitContextInterface $context
-    ): ?DatasetEntityContract {
-        return null;
-    }
-
-    private function isSupported(?DatasetEntityContract $entity): bool
-    {
-        if ($entity === null) {
-            return false;
-        }
-
-        foreach ($this->supports() as $dataType) {
-            if (\is_a($entity, $dataType, false)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

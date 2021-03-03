@@ -20,30 +20,9 @@ abstract class ReceiverContract
         ReceiveContextInterface $context,
         ReceiverStackInterface $stack
     ): iterable {
-        /** @var MappedDatasetEntityStruct $mappedDatasetEntity */
-        foreach ($mappedDatasetEntities as $mappedDatasetEntity) {
-            $mapping = $mappedDatasetEntity->getMapping();
-            $portal = $context->getPortal($mapping);
-            $entity = $mappedDatasetEntity->getDatasetEntity();
+        yield from $this->receiveCurrent($mappedDatasetEntities, $context);
 
-            if (!$this->isSupported($entity)) {
-                $context->markAsFailed($mapping, new UnsupportedDatasetEntityException());
-
-                continue;
-            }
-
-            try {
-                $this->run($portal, $mapping, $entity, $context);
-            } catch (\Throwable $throwable) {
-                $context->markAsFailed($mapping, $throwable);
-
-                continue;
-            }
-
-            yield $mapping;
-        }
-
-        return $stack->next($mappedDatasetEntities, $context);
+        return $this->receiveNext($stack, $mappedDatasetEntities, $context);
     }
 
     /**
@@ -68,5 +47,47 @@ abstract class ReceiverContract
         }
 
         return false;
+    }
+
+    /**
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface>
+     */
+    final protected function receiveNext(
+        ReceiverStackInterface $stack,
+        MappedDatasetEntityCollection $mappedDatasetEntities,
+        ReceiveContextInterface $context
+    ): iterable {
+        return $stack->next($mappedDatasetEntities, $context);
+    }
+
+    /**
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface>
+     */
+    final protected function receiveCurrent(
+        MappedDatasetEntityCollection $mappedDatasetEntities,
+        ReceiveContextInterface $context
+    ): iterable {
+        /** @var MappedDatasetEntityStruct $mappedDatasetEntity */
+        foreach ($mappedDatasetEntities as $mappedDatasetEntity) {
+            $mapping = $mappedDatasetEntity->getMapping();
+            $portal = $context->getPortal($mapping);
+            $entity = $mappedDatasetEntity->getDatasetEntity();
+
+            if (!$this->isSupported($entity)) {
+                $context->markAsFailed($mapping, new UnsupportedDatasetEntityException());
+
+                continue;
+            }
+
+            try {
+                $this->run($portal, $mapping, $entity, $context);
+            } catch (\Throwable $throwable) {
+                $context->markAsFailed($mapping, $throwable);
+
+                continue;
+            }
+
+            yield $mapping;
+        }
     }
 }
