@@ -90,4 +90,38 @@ abstract class ReceiverContract
             yield $mapping;
         }
     }
+
+    /**
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface>
+     */
+    final protected function receiveNextForExtends(
+        ReceiverStackInterface $stack,
+        MappedDatasetEntityCollection $mappedDatasetEntities,
+        ReceiveContextInterface $context
+    ): iterable {
+        foreach ($this->receiveNext($stack, $mappedDatasetEntities, $context) as $key => $mapping) {
+            $portal = $context->getPortal($mapping);
+            $entities = $mappedDatasetEntities->filter(
+                static fn (MappedDatasetEntityStruct $o): bool => $o->getMapping()->getDatasetEntityClassName() === $mapping->getDatasetEntityClassName() &&
+                    $o->getMapping()->getMappingNodeKey()->equals($mapping->getMappingNodeKey()) &&
+                    $o->getMapping()->getPortalNodeKey()->equals($mapping->getPortalNodeKey())
+            );
+
+            foreach ($entities as $entity) {
+                if (!$this->isSupported($entity)) {
+                    break;
+                }
+
+                try {
+                    $this->run($portal, $mapping, $entity, $context);
+                } catch (\Throwable $throwable) {
+                    $context->markAsFailed($mapping, $throwable);
+
+                    break;
+                }
+            }
+
+            yield $key => $mapping;
+        }
+    }
 }
