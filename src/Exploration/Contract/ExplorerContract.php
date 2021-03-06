@@ -64,4 +64,32 @@ abstract class ExplorerContract
             // TODO: log this
         }
     }
+
+    /**
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     */
+    final protected function exploreNextIfAllowed(ExploreContextInterface $context, ExplorerStackInterface $stack): iterable
+    {
+        try {
+            foreach ($this->exploreNext($stack, $context) as $key => $entity) {
+                if ($this->isSupported($entity)) {
+                    if ($this->isAllowed($entity, $context->getPortal(), $context)) {
+                        yield $key => $entity;
+                    }
+                } else {
+                    throw new UnsupportedDatasetEntityException();
+                }
+            }
+        } catch (\Throwable $exception) {
+            // TODO: log this
+        }
+    }
+
+    protected function isAllowed(
+        DatasetEntityContract $entity,
+        PortalContract $portal,
+        ExploreContextInterface $context
+    ): bool {
+        return true;
+    }
 }
