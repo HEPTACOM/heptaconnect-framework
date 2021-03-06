@@ -92,4 +92,51 @@ abstract class EmitterContract
             }
         }
     }
+
+    protected function runToExtend(
+        PortalContract $portal,
+        MappingInterface $mapping,
+        DatasetEntityContract $entity,
+        EmitContextInterface $context
+    ): ?DatasetEntityContract {
+        return $entity;
+    }
+
+    /**
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct>
+     */
+    final protected function emitNextToExtend(
+        EmitterStackInterface $stack,
+        MappingCollection $mappings,
+        EmitContextInterface $context
+    ): iterable {
+        foreach ($this->emitNext($stack, $mappings, $context) as $key => $mappedDatasetEntity) {
+            $mapping = $mappedDatasetEntity->getMapping();
+
+            if ($mapping->getExternalId() === null) {
+                throw new MissingExternalIdException();
+            }
+
+            $portal = $context->getPortal($mapping);
+            $entity = $mappedDatasetEntity->getDatasetEntity();
+
+            try {
+                $entity = $this->runToExtend($portal, $mapping, $entity, $context);
+
+                if (!$this->isSupported($entity)) {
+                    yield $key => $mappedDatasetEntity;
+
+                    continue;
+                }
+            } catch (\Throwable $exception) {
+                $context->markAsFailed($mapping, $exception);
+
+                continue;
+            }
+
+            if ($entity instanceof DatasetEntityContract) {
+                yield $key => new MappedDatasetEntityStruct($mapping, $entity);
+            }
+        }
+    }
 }
