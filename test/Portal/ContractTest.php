@@ -20,8 +20,6 @@ class ContractTest extends TestCase
         static::assertEquals(0, $portal->getReceivers()->count());
         static::assertCount(0, $portal->getConfigurationTemplate()->resolve());
 
-        $services = $portal->getServices();
-        static::assertArrayHasKey('portal', $services);
-        static::assertEquals($portal, $services['portal']);
+        $portal->getServices();
     }
 }
