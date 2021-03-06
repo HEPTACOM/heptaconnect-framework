@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Fixture;
 
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Webhook\Contract\WebhookInterface;
 use Heptacom\HeptaConnect\Portal\Base\Webhook\Contract\WebhookServiceInterface;
 use Http\Discovery\Strategy\DiscoveryStrategy;
@@ -15,8 +16,11 @@ class WebhookServiceStrategy implements DiscoveryStrategy
             [
                 'condition' => fn () => \is_a($type, WebhookServiceInterface::class, true),
                 'class' => fn () => new class() implements WebhookServiceInterface {
-                    public function register(string $webhookHandler, ?array $payload = null): WebhookInterface
-                    {
+                    public function register(
+                        PortalNodeKeyInterface $portalNodeKey,
+                        string $webhookHandler,
+                        ?array $payload = null
+                    ): WebhookInterface {
                         throw new \RuntimeException();
                     }
 
