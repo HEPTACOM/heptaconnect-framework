@@ -11,7 +11,6 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use PHPUnit\Framework\TestCase;
 
@@ -45,11 +44,8 @@ class ContractTest extends TestCase
     public function testAttachingEmitterContract(): void
     {
         $emitter = new class() extends EmitterContract {
-            protected function run(
-                PortalContract $portal,
-                MappingInterface $mapping,
-                EmitContextInterface $context
-            ): ?DatasetEntityContract {
+            protected function run(MappingInterface $mapping, EmitContextInterface $context): ?DatasetEntityContract
+            {
                 $good = new FirstEntity();
                 $good->setPrimaryKey('good');
 
@@ -71,7 +67,6 @@ class ContractTest extends TestCase
             }
 
             protected function runToExtend(
-                PortalContract $portal,
                 MappingInterface $mapping,
                 DatasetEntityContract $entity,
                 EmitContextInterface $context

@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract;
 
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
-
 abstract class StatusReporterContract
 {
     public const TOPIC_HEALTH = 'health';
@@ -19,14 +17,10 @@ abstract class StatusReporterContract
 
     public function report(StatusReportingContextInterface $context, StatusReporterStackInterface $stack): array
     {
-        return \array_merge(
-            [$this->supportsTopic() => false],
-            $stack->next($context),
-            $this->run($context->getPortal(), $context),
-        );
+        return \array_merge([$this->supportsTopic() => false], $stack->next($context), $this->run($context));
     }
 
-    protected function run(PortalContract $portal, StatusReportingContextInterface $context): array
+    protected function run(StatusReportingContextInterface $context): array
     {
         return [];
     }

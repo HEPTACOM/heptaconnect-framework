@@ -7,7 +7,6 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityException;
 
 abstract class ReceiverContract
@@ -31,7 +30,6 @@ abstract class ReceiverContract
     abstract public function supports(): array;
 
     protected function run(
-        PortalContract $portal,
         MappingInterface $mapping,
         DatasetEntityContract $entity,
         ReceiveContextInterface $context
@@ -70,7 +68,6 @@ abstract class ReceiverContract
         /** @var MappedDatasetEntityStruct $mappedDatasetEntity */
         foreach ($mappedDatasetEntities as $mappedDatasetEntity) {
             $mapping = $mappedDatasetEntity->getMapping();
-            $portal = $context->getPortal($mapping);
             $entity = $mappedDatasetEntity->getDatasetEntity();
 
             if (!$this->isSupported($entity)) {
@@ -80,7 +77,7 @@ abstract class ReceiverContract
             }
 
             try {
-                $this->run($portal, $mapping, $entity, $context);
+                $this->run($mapping, $entity, $context);
             } catch (\Throwable $throwable) {
                 $context->markAsFailed($mapping, $throwable);
 
@@ -100,7 +97,6 @@ abstract class ReceiverContract
         ReceiveContextInterface $context
     ): iterable {
         foreach ($this->receiveNext($stack, $mappedDatasetEntities, $context) as $key => $mapping) {
-            $portal = $context->getPortal($mapping);
             $entities = $mappedDatasetEntities->filter(
                 static fn (MappedDatasetEntityStruct $o): bool => $o->getMapping()->getDatasetEntityClassName() === $mapping->getDatasetEntityClassName() &&
                     $o->getMapping()->getMappingNodeKey()->equals($mapping->getMappingNodeKey()) &&
@@ -113,7 +109,7 @@ abstract class ReceiverContract
                 }
 
                 try {
-                    $this->run($portal, $mapping, $entity, $context);
+                    $this->run($mapping, $entity, $context);
                 } catch (\Throwable $throwable) {
                     $context->markAsFailed($mapping, $throwable);
 

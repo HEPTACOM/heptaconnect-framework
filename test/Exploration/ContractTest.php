@@ -7,7 +7,6 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerStackInterface;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use PHPUnit\Framework\TestCase;
 
@@ -39,7 +38,7 @@ class ContractTest extends TestCase
     public function testSkippingExplorerContract(): void
     {
         $explorer = new class() extends ExplorerContract {
-            protected function run(PortalContract $portal, ExploreContextInterface $context): iterable
+            protected function run(ExploreContextInterface $context): iterable
             {
                 $good = new FirstEntity();
                 $good->setPrimaryKey('good');
@@ -66,11 +65,8 @@ class ContractTest extends TestCase
                 return FirstEntity::class;
             }
 
-            protected function isAllowed(
-                DatasetEntityContract $entity,
-                PortalContract $portal,
-                ExploreContextInterface $context
-            ): bool {
+            protected function isAllowed(DatasetEntityContract $entity, ExploreContextInterface $context): bool
+            {
                 return $entity->getPrimaryKey() === 'good';
             }
         };

@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Exploration\Contract;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityException;
 
 abstract class ExplorerContract
@@ -27,7 +26,7 @@ abstract class ExplorerContract
     /**
      * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
-    protected function run(PortalContract $portal, ExploreContextInterface $context): iterable
+    protected function run(ExploreContextInterface $context): iterable
     {
         return [];
     }
@@ -53,7 +52,7 @@ abstract class ExplorerContract
     final protected function exploreCurrent(ExploreContextInterface $context): \Generator
     {
         try {
-            foreach ($this->run($context->getPortal(), $context) as $key => $entity) {
+            foreach ($this->run($context) as $key => $entity) {
                 if ($this->isSupported($entity)) {
                     yield $key => $entity;
                 } else {
@@ -73,7 +72,7 @@ abstract class ExplorerContract
         try {
             foreach ($this->exploreNext($stack, $context) as $key => $entity) {
                 if ($this->isSupported($entity)) {
-                    if ($this->isAllowed($entity, $context->getPortal(), $context)) {
+                    if ($this->isAllowed($entity, $context)) {
                         yield $key => $entity;
                     }
                 } else {
@@ -85,11 +84,8 @@ abstract class ExplorerContract
         }
     }
 
-    protected function isAllowed(
-        DatasetEntityContract $entity,
-        PortalContract $portal,
-        ExploreContextInterface $context
-    ): bool {
+    protected function isAllowed(DatasetEntityContract $entity, ExploreContextInterface $context): bool
+    {
         return true;
     }
 }

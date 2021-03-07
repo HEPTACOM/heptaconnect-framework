@@ -7,7 +7,6 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\MissingExternalIdException;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityException;
 
@@ -29,7 +28,6 @@ abstract class EmitterContract
     abstract public function supports(): array;
 
     protected function run(
-        PortalContract $portal,
         MappingInterface $mapping,
         EmitContextInterface $context
     ): ?DatasetEntityContract {
@@ -73,10 +71,8 @@ abstract class EmitterContract
                 throw new MissingExternalIdException();
             }
 
-            $portal = $context->getPortal($mapping);
-
             try {
-                $entity = $this->run($portal, $mapping, $context);
+                $entity = $this->run($mapping, $context);
 
                 if (!$this->isSupported($entity)) {
                     throw new UnsupportedDatasetEntityException();
@@ -94,7 +90,6 @@ abstract class EmitterContract
     }
 
     protected function runToExtend(
-        PortalContract $portal,
         MappingInterface $mapping,
         DatasetEntityContract $entity,
         EmitContextInterface $context
@@ -117,11 +112,10 @@ abstract class EmitterContract
                 throw new MissingExternalIdException();
             }
 
-            $portal = $context->getPortal($mapping);
             $entity = $mappedDatasetEntity->getDatasetEntity();
 
             try {
-                $entity = $this->runToExtend($portal, $mapping, $entity, $context);
+                $entity = $this->runToExtend($mapping, $entity, $context);
 
                 if (!$this->isSupported($entity)) {
                     yield $key => $mappedDatasetEntity;
