@@ -97,19 +97,20 @@ abstract class ReceiverContract
         ReceiveContextInterface $context
     ): iterable {
         foreach ($this->receiveNext($stack, $mappedDatasetEntities, $context) as $key => $mapping) {
-            $entities = $mappedDatasetEntities->filter(
+            $mappedEntities = $mappedDatasetEntities->filter(
                 static fn (MappedDatasetEntityStruct $o): bool => $o->getMapping()->getDatasetEntityClassName() === $mapping->getDatasetEntityClassName() &&
                     $o->getMapping()->getMappingNodeKey()->equals($mapping->getMappingNodeKey()) &&
                     $o->getMapping()->getPortalNodeKey()->equals($mapping->getPortalNodeKey())
             );
 
-            foreach ($entities as $entity) {
-                if (!$this->isSupported($entity)) {
+            /** @var MappedDatasetEntityStruct $mappedEntity */
+            foreach ($mappedEntities as $mappedEntity) {
+                if (!$this->isSupported($mappedEntity->getDatasetEntity())) {
                     break;
                 }
 
                 try {
-                    $this->run($mapping, $entity, $context);
+                    $this->run($mapping, $mappedEntity->getDatasetEntity(), $context);
                 } catch (\Throwable $throwable) {
                     $context->markAsFailed($mapping, $throwable);
 
