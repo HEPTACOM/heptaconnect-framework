@@ -57,7 +57,10 @@ class DeepObjectIteratorContract
             foreach ((new \ReflectionClass($object))->getProperties() as $prop) {
                 $prop->setAccessible(true);
 
-                yield $prop->getValue($object);
+                try {
+                    yield $prop->getValue($object);
+                } catch (\Throwable $_) {
+                }
             }
         } catch (\Throwable $_) {
         }
