@@ -13,7 +13,7 @@ interface PortalStorageInterface
     /**
      * @param mixed $value
      */
-    public function set(string $key, $value): void;
+    public function set(string $key, $value, ?\DateInterval $ttl = null): void;
 
     public function list(): iterable;
 
