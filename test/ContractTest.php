@@ -33,8 +33,13 @@ class ContractTest extends TestCase
     {
         $this->expectNotToPerformAssertions();
         new class() extends PortalStorageContract {
-            public function set(PortalNodeKeyInterface $portalNodeKey, string $key, string $value, string $type): void
-            {
+            public function set(
+                PortalNodeKeyInterface $portalNodeKey,
+                string $key,
+                string $value,
+                string $type,
+                ?\DateInterval $ttl = null
+            ): void {
             }
 
             public function unset(PortalNodeKeyInterface $portalNodeKey, string $key): void
