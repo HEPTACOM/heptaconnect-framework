@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Contract;
 
@@ -19,10 +20,10 @@ abstract class JobPayloadStorageContract
     abstract public function remove(JobPayloadKeyInterface $processPayloadKey): void;
 
     /**
-     * @return \Heptacom\HeptaConnect\Storage\Base\Contract\JobPayloadKeyInterface[]
-     * @psalm-return iterable<\Heptacom\HeptaConnect\Storage\Base\Contract\ProcessPayloadKeyInterface>
      *@throws UnsupportedStorageKeyException
      *
+     * @return \Heptacom\HeptaConnect\Storage\Base\Contract\JobPayloadKeyInterface[]
+     * @psalm-return iterable<\Heptacom\HeptaConnect\Storage\Base\Contract\ProcessPayloadKeyInterface>
      */
     abstract public function list(): iterable;
 

@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Contract;
 
@@ -20,6 +21,7 @@ abstract class StorageKeyGeneratorContract
      * @psalm-param class-string<\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface> $keyClassName
      *
      * @throws UnsupportedStorageKeyException
+     *
      * @return StorageKeyInterface[]
      * @psalm-return iterable<int, \Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface>
      */
