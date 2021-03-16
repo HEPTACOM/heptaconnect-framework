@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityE
 abstract class ExplorerContract
 {
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string>
      */
     public function explore(ExploreContextInterface $context, ExplorerStackInterface $stack): iterable
     {
@@ -24,7 +24,7 @@ abstract class ExplorerContract
     abstract public function supports(): string;
 
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string>
      */
     protected function run(ExploreContextInterface $context): iterable
     {
@@ -37,7 +37,7 @@ abstract class ExplorerContract
     }
 
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string>
      */
     final protected function exploreNext(
         ExplorerStackInterface $stack,
@@ -47,9 +47,9 @@ abstract class ExplorerContract
     }
 
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string>
      */
-    final protected function exploreCurrent(ExploreContextInterface $context): \Generator
+    final protected function exploreCurrent(ExploreContextInterface $context): iterable
     {
         try {
             foreach ($this->run($context) as $key => $entity) {
@@ -65,7 +65,7 @@ abstract class ExplorerContract
     }
 
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string>
      */
     final protected function exploreNextIfAllowed(ExploreContextInterface $context, ExplorerStackInterface $stack): iterable
     {
