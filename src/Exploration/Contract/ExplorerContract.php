@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityE
 abstract class ExplorerContract
 {
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string>
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string|int>
      */
     public function explore(ExploreContextInterface $context, ExplorerStackInterface $stack): iterable
     {
@@ -24,7 +24,7 @@ abstract class ExplorerContract
     abstract public function supports(): string;
 
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string>
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string|int>
      */
     protected function run(ExploreContextInterface $context): iterable
     {
@@ -32,15 +32,15 @@ abstract class ExplorerContract
     }
 
     /**
-     * @param DatasetEntityContract|string|null $entity
+     * @param DatasetEntityContract|string|int|null $entity
      */
     final protected function isSupported($entity): bool
     {
-        return \is_a($entity, $this->supports(), false) || \is_string($entity);
+        return \is_a($entity, $this->supports(), false) || \is_string($entity) || \is_int($entity);
     }
 
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string>
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string|int>
      */
     final protected function exploreNext(
         ExplorerStackInterface $stack,
@@ -50,7 +50,7 @@ abstract class ExplorerContract
     }
 
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string>
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string|int>
      */
     final protected function exploreCurrent(ExploreContextInterface $context): iterable
     {
@@ -68,7 +68,7 @@ abstract class ExplorerContract
     }
 
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string>
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string|int>
      */
     final protected function exploreNextIfAllowed(ExploreContextInterface $context, ExplorerStackInterface $stack): iterable
     {
