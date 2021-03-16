@@ -40,13 +40,8 @@ class ContractTest extends TestCase
         $explorer = new class() extends ExplorerContract {
             protected function run(ExploreContextInterface $context): iterable
             {
-                $good = new FirstEntity();
-                $good->setPrimaryKey('good');
-                yield $good;
-
-                $bad = new FirstEntity();
-                $bad->setPrimaryKey('bad');
-                yield $bad;
+                yield 'good';
+                yield 'bad';
             }
 
             public function supports(): string
