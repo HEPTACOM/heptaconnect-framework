@@ -31,9 +31,12 @@ abstract class ExplorerContract
         return [];
     }
 
-    final protected function isSupported(DatasetEntityContract $entity): bool
+    /**
+     * @param DatasetEntityContract|string|null $entity
+     */
+    final protected function isSupported($entity): bool
     {
-        return \is_a($entity, $this->supports(), false);
+        return \is_a($entity, $this->supports(), false) || \is_string($entity);
     }
 
     /**
