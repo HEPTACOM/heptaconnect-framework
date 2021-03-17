@@ -8,7 +8,7 @@ interface PortalStorageInterface
     /**
      * @return mixed
      */
-    public function get(string $key);
+    public function get(string $key, $default = null);
 
     /**
      * @param mixed $value
