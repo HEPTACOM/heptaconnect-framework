@@ -60,9 +60,9 @@ class ContractTest extends TestCase
                 return FirstEntity::class;
             }
 
-            protected function isAllowed(DatasetEntityContract $entity, ExploreContextInterface $context): bool
+            protected function isAllowed(string $externalId, ?DatasetEntityContract $entity, ExploreContextInterface $context): bool
             {
-                return $entity->getPrimaryKey() === 'good';
+                return $externalId === 'good';
             }
         };
         static::assertEquals(FirstEntity::class, $explorer->supports());

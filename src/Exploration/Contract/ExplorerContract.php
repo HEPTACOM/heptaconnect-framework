@@ -75,7 +75,7 @@ abstract class ExplorerContract
         try {
             foreach ($this->exploreNext($stack, $context) as $key => $entity) {
                 if ($this->isSupported($entity)) {
-                    if ($this->isAllowed($entity, $context)) {
+                    if ($this->performAllowanceCheck($entity, $context)) {
                         yield $key => $entity;
                     }
                 } else {
@@ -87,7 +87,27 @@ abstract class ExplorerContract
         }
     }
 
-    protected function isAllowed(DatasetEntityContract $entity, ExploreContextInterface $context): bool
+    /**
+     * @param DatasetEntityContract|string|int $entity
+     */
+    final protected function performAllowanceCheck($entity, ExploreContextInterface $context): bool
+    {
+        if (\is_string($entity)) {
+            return $this->isAllowed($entity, null, $context);
+        }
+
+        if (\is_int($entity)) {
+            return $this->isAllowed((string) $entity, null, $context);
+        }
+
+        if ($entity instanceof DatasetEntityContract && !\is_null($entity->getPrimaryKey())) {
+            return $this->isAllowed($entity->getPrimaryKey(), $entity, $context);
+        }
+
+        return false;
+    }
+
+    protected function isAllowed(string $externalId, ?DatasetEntityContract $entity, ExploreContextInterface $context): bool
     {
         return true;
     }
