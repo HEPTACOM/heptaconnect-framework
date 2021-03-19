@@ -21,6 +21,8 @@ abstract class MappingRepositoryContract
     abstract public function read(MappingKeyInterface $key): MappingInterface;
 
     /**
+     * TODO: Reduce return value to a single item
+     *
      * @psalm-return iterable<\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingKeyInterface>
      *
      * @throws UnsupportedStorageKeyException
