@@ -10,6 +10,7 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiveContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverStackInterface;
+use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use PHPUnit\Framework\TestCase;
 
@@ -68,18 +69,12 @@ class ContractTest extends TestCase
         static::assertSame(FirstEntity::class, $decoratingReceiver->supports());
 
         $context = $this->createMock(ReceiveContextInterface::class);
-        $stack = $this->createMock(ReceiverStackInterface::class);
         $mapping = $this->createMock(MappingInterface::class);
         $mappedEntities = new MappedDatasetEntityCollection([new MappedDatasetEntityStruct($mapping, new FirstEntity())]);
 
         $mapping->method('getExternalId')->willReturn('');
-        $stack->method('next')->willReturn($receiver->receive($mappedEntities, $context, $stack));
 
-        static::assertCount(1, $receiver->receive(
-            $mappedEntities,
-            $context,
-            $this->createMock(ReceiverStackInterface::class)
-        ));
-        static::assertCount(1, $decoratingReceiver->receive($mappedEntities, $context, $stack));
+        static::assertCount(1, (new ReceiverStack([$receiver]))->next($mappedEntities, $context));
+        static::assertCount(1, (new ReceiverStack([$receiver, $decoratingReceiver]))->next($mappedEntities, $context));
     }
 }

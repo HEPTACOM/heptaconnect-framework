@@ -14,8 +14,7 @@ abstract class ExplorerContract
     public function explore(ExploreContextInterface $context, ExplorerStackInterface $stack): iterable
     {
         yield from $this->exploreCurrent($context);
-
-        return $this->exploreNext($context, $stack);
+        yield from $this->exploreNext($context, $stack);
     }
 
     /**

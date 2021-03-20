@@ -18,8 +18,7 @@ abstract class EmitterContract
     public function emit(MappingCollection $mappings, EmitContextInterface $context, EmitterStackInterface $stack): iterable
     {
         yield from $this->emitCurrent($mappings, $context);
-
-        return $this->emitNext($stack, $mappings, $context);
+        yield from $this->emitNext($stack, $mappings, $context);
     }
 
     /**
@@ -55,55 +54,7 @@ abstract class EmitterContract
         MappingCollection $mappings,
         EmitContextInterface $context
     ): iterable {
-        return $stack->next($mappings, $context);
-    }
-
-    /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct>
-     */
-    final protected function emitCurrent(MappingCollection $mappings, EmitContextInterface $context): iterable
-    {
-        /** @var MappingInterface $mapping */
-        foreach ($mappings as $mapping) {
-            if ($mapping->getExternalId() === null) {
-                throw new MissingExternalIdException();
-            }
-
-            try {
-                $entity = $this->run($mapping, $context);
-
-                if (!$this->isSupported($entity)) {
-                    throw new UnsupportedDatasetEntityException();
-                }
-            } catch (\Throwable $exception) {
-                $context->markAsFailed($mapping, $exception);
-
-                continue;
-            }
-
-            if ($entity instanceof DatasetEntityContract) {
-                yield new MappedDatasetEntityStruct($mapping, $entity);
-            }
-        }
-    }
-
-    protected function runToExtend(
-        MappingInterface $mapping,
-        DatasetEntityContract $entity,
-        EmitContextInterface $context
-    ): ?DatasetEntityContract {
-        return $entity;
-    }
-
-    /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct>
-     */
-    final protected function emitNextToExtend(
-        EmitterStackInterface $stack,
-        MappingCollection $mappings,
-        EmitContextInterface $context
-    ): iterable {
-        foreach ($this->emitNext($stack, $mappings, $context) as $key => $mappedDatasetEntity) {
+        foreach ($stack->next($mappings, $context) as $key => $mappedDatasetEntity) {
             $mapping = $mappedDatasetEntity->getMapping();
 
             if ($mapping->getExternalId() === null) {
@@ -113,7 +64,7 @@ abstract class EmitterContract
             $entity = $mappedDatasetEntity->getDatasetEntity();
 
             try {
-                $entity = $this->runToExtend($mapping, $entity, $context);
+                $entity = $this->extend($mapping, $entity, $context);
 
                 if (!$this->isSupported($entity)) {
                     yield $key => $mappedDatasetEntity;
@@ -130,5 +81,42 @@ abstract class EmitterContract
                 yield $key => new MappedDatasetEntityStruct($mapping, $entity);
             }
         }
+    }
+
+    /**
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct>
+     */
+    final protected function emitCurrent(MappingCollection $mappings, EmitContextInterface $context): iterable
+    {
+        /** @var MappingInterface $mapping */
+        foreach ($mappings as $mapping) {
+            if ($mapping->getExternalId() === null) {
+                throw new MissingExternalIdException();
+            }
+
+            try {
+                $entity = $this->run($mapping, $context);
+
+                if ($entity !== null && !$this->isSupported($entity)) {
+                    throw new UnsupportedDatasetEntityException();
+                }
+            } catch (\Throwable $exception) {
+                $context->markAsFailed($mapping, $exception);
+
+                continue;
+            }
+
+            if ($entity instanceof DatasetEntityContract) {
+                yield new MappedDatasetEntityStruct($mapping, $entity);
+            }
+        }
+    }
+
+    protected function extend(
+        MappingInterface $mapping,
+        DatasetEntityContract $entity,
+        EmitContextInterface $context
+    ): ?DatasetEntityContract {
+        return $entity;
     }
 }

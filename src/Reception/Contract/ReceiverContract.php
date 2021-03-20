@@ -20,8 +20,7 @@ abstract class ReceiverContract
         ReceiverStackInterface $stack
     ): iterable {
         yield from $this->receiveCurrent($mappedDatasetEntities, $context);
-
-        return $this->receiveNext($stack, $mappedDatasetEntities, $context);
+        yield from $this->receiveNext($stack, $mappedDatasetEntities, $context);
     }
 
     /**

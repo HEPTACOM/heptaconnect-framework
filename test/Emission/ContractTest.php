@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
+use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
@@ -58,15 +59,7 @@ class ContractTest extends TestCase
             }
         };
         $decoratingEmitter = new class() extends EmitterContract {
-            public function emit(
-                MappingCollection $mappings,
-                EmitContextInterface $context,
-                EmitterStackInterface $stack
-            ): iterable {
-                return $this->emitNextToExtend($stack, $mappings, $context);
-            }
-
-            protected function runToExtend(
+            protected function extend(
                 MappingInterface $mapping,
                 DatasetEntityContract $entity,
                 EmitContextInterface $context
@@ -85,19 +78,16 @@ class ContractTest extends TestCase
         static::assertSame(FirstEntity::class, $decoratingEmitter->supports());
 
         $context = $this->createMock(EmitContextInterface::class);
-        $stack = $this->createMock(EmitterStackInterface::class);
         $mapping = $this->createMock(MappingInterface::class);
         $mappings = new MappingCollection([$mapping]);
 
         $mapping->method('getExternalId')->willReturn('');
-        $stack->method('next')->willReturn($emitter->emit($mappings, $context, $stack));
 
-        $emitted = new MappedDatasetEntityCollection($emitter->emit(
-            $mappings,
-            $context,
-            $this->createMock(EmitterStackInterface::class)
-        ));
-        $decoratedEmitted = new MappedDatasetEntityCollection($decoratingEmitter->emit($mappings, $context, $stack));
+        $emitted = new MappedDatasetEntityCollection((new EmitterStack([$emitter]))->next($mappings, $context));
+        $decoratedEmitted = new MappedDatasetEntityCollection(
+            (new EmitterStack([$decoratingEmitter, $emitter]))
+                ->next($mappings, $context)
+        );
 
         static::assertCount(1, $emitted);
         static::assertCount(0, $emitted->first()->getDatasetEntity()->getAttachments());

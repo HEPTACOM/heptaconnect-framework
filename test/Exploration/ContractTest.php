@@ -7,6 +7,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerStackInterface;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use PHPUnit\Framework\TestCase;
 
@@ -64,14 +65,8 @@ class ContractTest extends TestCase
         static::assertEquals(FirstEntity::class, $decoratingExplorer->supports());
 
         $context = $this->createMock(ExploreContextInterface::class);
-        $stack = $this->createMock(ExplorerStackInterface::class);
 
-        $stack->method('next')->willReturn($explorer->explore($context, $stack));
-
-        static::assertCount(1, $decoratingExplorer->explore($context, $stack));
-        static::assertCount(2, $explorer->explore(
-            $context,
-            $this->createMock(ExplorerStackInterface::class)
-        ));
+        static::assertCount(1, (new ExplorerStack([$decoratingExplorer, $explorer]))->next($context));
+        static::assertCount(2, (new ExplorerStack([$explorer]))->next($context));
     }
 }
