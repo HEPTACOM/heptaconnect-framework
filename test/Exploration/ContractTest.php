@@ -50,11 +50,6 @@ class ContractTest extends TestCase
             }
         };
         $decoratingExplorer = new class() extends ExplorerContract {
-            public function explore(ExploreContextInterface $context, ExplorerStackInterface $stack): iterable
-            {
-                return $this->exploreNextIfAllowed($context, $stack);
-            }
-
             public function supports(): string
             {
                 return FirstEntity::class;

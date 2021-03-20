@@ -15,7 +15,7 @@ abstract class ExplorerContract
     {
         yield from $this->exploreCurrent($context);
 
-        return $this->exploreNext($stack, $context);
+        return $this->exploreNext($context, $stack);
     }
 
     /**
@@ -43,21 +43,15 @@ abstract class ExplorerContract
      * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string|int>
      */
     final protected function exploreNext(
-        ExplorerStackInterface $stack,
-        ExploreContextInterface $context
+        ExploreContextInterface $context,
+        ExplorerStackInterface $stack
     ): iterable {
-        return $stack->next($context);
-    }
-
-    /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string|int>
-     */
-    final protected function exploreCurrent(ExploreContextInterface $context): iterable
-    {
         try {
-            foreach ($this->run($context) as $key => $entity) {
+            foreach ($stack->next($context) as $key => $entity) {
                 if ($this->isSupported($entity)) {
-                    yield $key => $entity;
+                    if ($this->performAllowanceCheck($entity, $context)) {
+                        yield $key => $entity;
+                    }
                 } else {
                     throw new UnsupportedDatasetEntityException();
                 }
@@ -70,14 +64,12 @@ abstract class ExplorerContract
     /**
      * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string|int>
      */
-    final protected function exploreNextIfAllowed(ExploreContextInterface $context, ExplorerStackInterface $stack): iterable
+    final protected function exploreCurrent(ExploreContextInterface $context): iterable
     {
         try {
-            foreach ($this->exploreNext($stack, $context) as $key => $entity) {
+            foreach ($this->run($context) as $key => $entity) {
                 if ($this->isSupported($entity)) {
-                    if ($this->performAllowanceCheck($entity, $context)) {
-                        yield $key => $entity;
-                    }
+                    yield $key => $entity;
                 } else {
                     throw new UnsupportedDatasetEntityException();
                 }
