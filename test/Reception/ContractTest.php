@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Reception;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct;
@@ -28,9 +29,9 @@ class ContractTest extends TestCase
                 yield from [];
             }
 
-            public function supports(): array
+            public function supports(): string
             {
-                return [];
+                return DatasetEntityContract::class;
             }
         };
         static::assertCount(0, $receiver->receive(
@@ -38,15 +39,15 @@ class ContractTest extends TestCase
             $this->createMock(ReceiveContextInterface::class),
             $this->createMock(ReceiverStackInterface::class)
         ));
-        static::assertEmpty($receiver->supports());
+        static::assertSame($receiver->supports(), DatasetEntityContract::class);
     }
 
     public function testAttachmentReadingReceiverContract(): void
     {
         $receiver = new class() extends ReceiverContract {
-            public function supports(): array
+            public function supports(): string
             {
-                return [FirstEntity::class];
+                return FirstEntity::class;
             }
         };
         $decoratingReceiver = new class() extends ReceiverContract {
@@ -58,13 +59,13 @@ class ContractTest extends TestCase
                 return $this->receiveNextForExtends($stack, $mappedDatasetEntities, $context);
             }
 
-            public function supports(): array
+            public function supports(): string
             {
-                return [FirstEntity::class];
+                return FirstEntity::class;
             }
         };
-        static::assertContains(FirstEntity::class, $receiver->supports());
-        static::assertContains(FirstEntity::class, $decoratingReceiver->supports());
+        static::assertSame(FirstEntity::class, $receiver->supports());
+        static::assertSame(FirstEntity::class, $decoratingReceiver->supports());
 
         $context = $this->createMock(ReceiveContextInterface::class);
         $stack = $this->createMock(ReceiverStackInterface::class);

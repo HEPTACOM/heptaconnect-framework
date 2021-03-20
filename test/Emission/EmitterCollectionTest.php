@@ -34,7 +34,7 @@ class EmitterCollectionTest extends TestCase
     private function getEmitter(string $support): EmitterContract
     {
         $emitter = $this->createMock(EmitterContract::class);
-        $emitter->expects(static::any())->method('supports')->willReturn([$support]);
+        $emitter->expects(static::any())->method('supports')->willReturn($support);
 
         return $emitter;
     }

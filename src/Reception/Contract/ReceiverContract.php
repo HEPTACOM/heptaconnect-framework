@@ -25,9 +25,9 @@ abstract class ReceiverContract
     }
 
     /**
-     * @return array<array-key, class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>>
+     * @return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
-    abstract public function supports(): array;
+    abstract public function supports(): string;
 
     protected function run(
         MappingInterface $mapping,
@@ -38,13 +38,7 @@ abstract class ReceiverContract
 
     final protected function isSupported(DatasetEntityContract $entity): bool
     {
-        foreach ($this->supports() as $dataType) {
-            if (\is_a($entity, $dataType, false)) {
-                return true;
-            }
-        }
-
-        return false;
+        return \is_a($entity, $this->supports(), false);
     }
 
     /**

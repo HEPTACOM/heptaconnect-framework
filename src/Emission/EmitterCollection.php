@@ -18,7 +18,7 @@ class EmitterCollection extends DatasetEntityCollection
      */
     public function bySupport(string $entityClassName): iterable
     {
-        return $this->filter(fn (EmitterContract $emitter) => \in_array($entityClassName, $emitter->supports(), true));
+        return $this->filter(static fn (EmitterContract $emitter) => $entityClassName === $emitter->supports());
     }
 
     protected function getT(): string

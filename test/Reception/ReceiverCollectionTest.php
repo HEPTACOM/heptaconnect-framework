@@ -34,7 +34,7 @@ class ReceiverCollectionTest extends TestCase
     private function getReceiver(string $support): ReceiverContract
     {
         $receiver = $this->createMock(ReceiverContract::class);
-        $receiver->expects(static::any())->method('supports')->willReturn([$support]);
+        $receiver->expects(static::any())->method('supports')->willReturn($support);
 
         return $receiver;
     }

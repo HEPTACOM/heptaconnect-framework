@@ -28,12 +28,12 @@ class ContractTest extends TestCase
                 yield from [];
             }
 
-            public function supports(): array
+            public function supports(): string
             {
-                return [];
+                return DatasetEntityContract::class;
             }
         };
-        static::assertEmpty($emitter->supports());
+        static::assertSame(DatasetEntityContract::class, $emitter->supports());
         static::assertCount(0, $emitter->emit(
             new MappingCollection(),
             $this->createMock(EmitContextInterface::class),
@@ -52,9 +52,9 @@ class ContractTest extends TestCase
                 return $good;
             }
 
-            public function supports(): array
+            public function supports(): string
             {
-                return [FirstEntity::class];
+                return FirstEntity::class;
             }
         };
         $decoratingEmitter = new class() extends EmitterContract {
@@ -76,13 +76,13 @@ class ContractTest extends TestCase
                 return $entity;
             }
 
-            public function supports(): array
+            public function supports(): string
             {
-                return [FirstEntity::class];
+                return FirstEntity::class;
             }
         };
-        static::assertContains(FirstEntity::class, $emitter->supports());
-        static::assertContains(FirstEntity::class, $decoratingEmitter->supports());
+        static::assertSame(FirstEntity::class, $emitter->supports());
+        static::assertSame(FirstEntity::class, $decoratingEmitter->supports());
 
         $context = $this->createMock(EmitContextInterface::class);
         $stack = $this->createMock(EmitterStackInterface::class);

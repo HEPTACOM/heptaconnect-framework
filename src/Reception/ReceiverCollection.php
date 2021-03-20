@@ -18,7 +18,7 @@ class ReceiverCollection extends DatasetEntityCollection
      */
     public function bySupport(string $entityClassName): iterable
     {
-        return $this->filter(fn (ReceiverContract $emitter) => \in_array($entityClassName, $emitter->supports(), true));
+        return $this->filter(fn (ReceiverContract $emitter) => $entityClassName === $emitter->supports());
     }
 
     protected function getT(): string

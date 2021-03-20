@@ -23,9 +23,9 @@ abstract class EmitterContract
     }
 
     /**
-     * @return array<array-key, class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>>
+     * @return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
-    abstract public function supports(): array;
+    abstract public function supports(): string;
 
     protected function run(
         MappingInterface $mapping,
@@ -40,13 +40,11 @@ abstract class EmitterContract
             return false;
         }
 
-        foreach ($this->supports() as $dataType) {
-            if (\is_a($entity, $dataType, false)) {
-                return true;
-            }
+        if (!\is_a($entity, $this->supports(), false)) {
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     /**
