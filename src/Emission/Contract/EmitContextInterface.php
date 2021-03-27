@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Emission\Contract;
 
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\StatelessContextInterface;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeContextInterface;
 
-interface EmitContextInterface extends StatelessContextInterface
+interface EmitContextInterface extends PortalNodeContextInterface
 {
 }
