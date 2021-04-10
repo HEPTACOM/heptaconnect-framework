@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Support;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface;
+
 /**
  * @psalm-consistent-constructor
  */
@@ -33,6 +35,24 @@ trait SetStateTrait
 
             try {
                 $method = new \ReflectionMethod($result, $setter);
+            } catch (\ReflectionException $exception) {
+                $getter = 'get'.\ucfirst($key);
+
+                try {
+                    $method = new \ReflectionMethod($result, $getter);
+                } catch (\Throwable $ignored) {
+                    continue;
+                }
+
+                if (!self::isCallable($method)) {
+                    continue;
+                }
+
+                $initialValue = $method->invoke($result);
+
+                if ($initialValue instanceof CollectionInterface && $value instanceof CollectionInterface) {
+                    $initialValue->push($value);
+                }
             } catch (\Throwable $ignored) {
                 continue;
             }
@@ -45,15 +65,7 @@ trait SetStateTrait
                 }
             }
 
-            if (!$method->isPublic()) {
-                continue;
-            }
-
-            if ($method->isAbstract()) {
-                continue;
-            }
-
-            if ($method->isStatic()) {
+            if (!self::isCallable($method)) {
                 continue;
             }
 
@@ -61,5 +73,10 @@ trait SetStateTrait
         }
 
         return $result;
+    }
+
+    private static function isCallable(\ReflectionMethod $method): bool
+    {
+        return $method->isPublic() && !$method->isAbstract() && !$method->isStatic();
     }
 }
