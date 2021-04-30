@@ -7,13 +7,18 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiveContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverStackInterface;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
-class ReceiverStack implements ReceiverStackInterface
+class ReceiverStack implements ReceiverStackInterface, LoggerAwareInterface
 {
     /**
      * @var array<array-key, ReceiverContract>
      */
     private array $receivers;
+
+    private LoggerInterface $logger;
 
     /**
      * @param iterable<array-key, ReceiverContract> $receivers
@@ -21,6 +26,12 @@ class ReceiverStack implements ReceiverStackInterface
     public function __construct(iterable $receivers)
     {
         $this->receivers = iterable_to_array($receivers);
+        $this->logger = new NullLogger();
+    }
+
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
     }
 
     public function next(MappedDatasetEntityCollection $mappedDatasetEntities, ReceiveContextInterface $context): iterable
@@ -30,6 +41,8 @@ class ReceiverStack implements ReceiverStackInterface
         if (!$receiver instanceof ReceiverContract) {
             return [];
         }
+
+        $this->logger->debug(\sprintf('Execute FlowComponent receiver: %s', \get_class($receiver)));
 
         return $receiver->receive($mappedDatasetEntities, $context, $this);
     }
