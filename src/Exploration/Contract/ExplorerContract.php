@@ -5,6 +5,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Exploration\Contract;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityException;
+use Psr\Log\LoggerInterface;
 
 abstract class ExplorerContract
 {
@@ -56,7 +57,12 @@ abstract class ExplorerContract
                 }
             }
         } catch (\Throwable $exception) {
-            // TODO: log this
+            /** @var LoggerInterface $logger */
+            $logger = $context->getContainer()->get(LoggerInterface::class);
+            $logger->critical(\sprintf(
+                'FlowComponent explorer encountered exception in exploreNext(): %s',
+                $exception->getMessage()
+            ));
         }
     }
 
@@ -74,7 +80,12 @@ abstract class ExplorerContract
                 }
             }
         } catch (\Throwable $exception) {
-            // TODO: log this
+            /** @var LoggerInterface $logger */
+            $logger = $context->getContainer()->get(LoggerInterface::class);
+            $logger->critical(\sprintf(
+                'FlowComponent explorer encountered exception in exploreCurrent(): %s',
+                $exception->getMessage()
+            ));
         }
     }
 
