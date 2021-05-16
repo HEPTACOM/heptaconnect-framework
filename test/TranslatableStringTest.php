@@ -169,4 +169,28 @@ class TranslatableStringTest extends TestCase
         $translatable->setTranslation('en-GB', 'What is this kind of text?');
         static::assertEquals(['en-GB' => 'What is this kind of text?'], $this->jsonEncodeAndDecode($translatable));
     }
+
+    /**
+     * @dataProvider provideValidStringTestCases
+     */
+    public function testValidFallback(string $anyValue): void
+    {
+        $translatable = new TranslatableString();
+
+        $translatable->setFallback($anyValue);
+        static::assertSame($anyValue, $translatable->getFallback());
+        $translatable->removeFallback();
+        static::assertNull($translatable->getFallback());
+    }
+
+    /**
+     * @dataProvider provideInvalidTestCases
+     */
+    public function testInvalidFallback($anyValue): void
+    {
+        $translatable = new TranslatableString();
+
+        $translatable->setFallback($anyValue);
+        static::assertNull($translatable->getFallback());
+    }
 }

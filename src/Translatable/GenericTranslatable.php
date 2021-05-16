@@ -21,6 +21,12 @@ abstract class GenericTranslatable implements \ArrayAccess, \JsonSerializable, C
     protected array $translations = [];
 
     /**
+     * @deprecated 1.0.0 Uncomment to allow deserialization
+     * @psalm-var T|null
+     * protected $fallback = null;
+     */
+
+    /**
      * @return static
      */
     public static function __set_state(array $an_array)
@@ -66,7 +72,7 @@ abstract class GenericTranslatable implements \ArrayAccess, \JsonSerializable, C
             return null;
         }
 
-        return $this->translations[$offset] ?? null;
+        return $this->getTranslation($offset);
     }
 
     /**
@@ -101,9 +107,15 @@ abstract class GenericTranslatable implements \ArrayAccess, \JsonSerializable, C
     /**
      * @psalm-return T|null
      */
-    public function getTranslation(string $localeKey)
+    public function getTranslation(string $localeKey, bool $returnFallback = false)
     {
-        return $this->translations[$localeKey] ?? null;
+        /* @deprecated 1.0.0 */
+        if ($localeKey === 'default') {
+            @\trigger_error('The key "default" for translations is deprecated. Use getFallback instead.', \E_USER_DEPRECATED);
+            $this->removeFallback();
+        }
+
+        return $this->translations[$localeKey] ?? ($returnFallback ? $this->getFallback() : null);
     }
 
     /**
@@ -115,6 +127,12 @@ abstract class GenericTranslatable implements \ArrayAccess, \JsonSerializable, C
     {
         if (!\is_null($value) && $this->isValidValue($value)) {
             $this->translations[$localeKey] = $value;
+
+            /* @deprecated 1.0.0 */
+            if ($localeKey === 'default') {
+                @\trigger_error('The key "default" for translations is deprecated. Use setFallback instead.', \E_USER_DEPRECATED);
+                $this->removeFallback();
+            }
         }
 
         return $this;
@@ -126,6 +144,49 @@ abstract class GenericTranslatable implements \ArrayAccess, \JsonSerializable, C
     public function removeTranslation(string $localeKey): TranslatableInterface
     {
         $this->deleteTranslation($localeKey);
+
+        /* @deprecated 1.0.0 */
+        if ($localeKey === 'default') {
+            @\trigger_error('The key "default" for translations is deprecated. Use removeFallback instead.', \E_USER_DEPRECATED);
+            $this->removeFallback();
+        }
+
+        return $this;
+    }
+
+    /**
+     * @psalm-return T|null
+     */
+    public function getFallback()
+    {
+        /* @deprecated 1.0.0 */
+        if (!isset($this->fallback)) {
+            $this->fallback = null;
+        }
+
+        return $this->fallback;
+    }
+
+    /**
+     * @psalm-param T $value
+     *
+     * @psalm-return TranslatableInterface<T>
+     */
+    public function setFallback($value): TranslatableInterface
+    {
+        if (\is_null($value) || $this->isValidValue($value)) {
+            $this->fallback = $value;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @psalm-return TranslatableInterface<T>
+     */
+    public function removeFallback(): TranslatableInterface
+    {
+        $this->fallback = null;
 
         return $this;
     }

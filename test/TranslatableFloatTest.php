@@ -169,4 +169,28 @@ class TranslatableFloatTest extends TestCase
         $translatable->setTranslation('en-GB', 3.142);
         static::assertEquals(['en-GB' => 3.142], $this->jsonEncodeAndDecode($translatable));
     }
+
+    /**
+     * @dataProvider provideValidFloatTestCases
+     */
+    public function testValidFallback(float $anyValue): void
+    {
+        $translatable = new TranslatableFloat();
+
+        $translatable->setFallback($anyValue);
+        static::assertSame($anyValue, $translatable->getFallback());
+        $translatable->removeFallback();
+        static::assertNull($translatable->getFallback());
+    }
+
+    /**
+     * @dataProvider provideInvalidTestCases
+     */
+    public function testInvalidFallback($anyValue): void
+    {
+        $translatable = new TranslatableFloat();
+
+        $translatable->setFallback($anyValue);
+        static::assertNull($translatable->getFallback());
+    }
 }

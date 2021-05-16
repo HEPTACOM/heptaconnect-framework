@@ -169,4 +169,28 @@ class TranslatableIntegerTest extends TestCase
         $translatable->setTranslation('en-GB', 1234567890);
         static::assertEquals(['en-GB' => 1234567890], $this->jsonEncodeAndDecode($translatable));
     }
+
+    /**
+     * @dataProvider provideValidIntegerTestCases
+     */
+    public function testValidFallback(int $anyValue): void
+    {
+        $translatable = new TranslatableInteger();
+
+        $translatable->setFallback($anyValue);
+        static::assertSame($anyValue, $translatable->getFallback());
+        $translatable->removeFallback();
+        static::assertNull($translatable->getFallback());
+    }
+
+    /**
+     * @dataProvider provideInvalidTestCases
+     */
+    public function testInvalidFallback($anyValue): void
+    {
+        $translatable = new TranslatableInteger();
+
+        $translatable->setFallback($anyValue);
+        static::assertNull($translatable->getFallback());
+    }
 }

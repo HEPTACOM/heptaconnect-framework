@@ -175,4 +175,28 @@ class TranslatableDateTimeTest extends TestCase
             'timezone' => 'Z',
         ]], $this->jsonEncodeAndDecode($translatable));
     }
+
+    /**
+     * @dataProvider provideValidDateTimeTestCases
+     */
+    public function testValidFallback(\DateTimeInterface $anyValue): void
+    {
+        $translatable = new TranslatableDateTime();
+
+        $translatable->setFallback($anyValue);
+        static::assertSame($anyValue, $translatable->getFallback());
+        $translatable->removeFallback();
+        static::assertNull($translatable->getFallback());
+    }
+
+    /**
+     * @dataProvider provideInvalidTestCases
+     */
+    public function testInvalidFallback($anyValue): void
+    {
+        $translatable = new TranslatableDateTime();
+
+        $translatable->setFallback($anyValue);
+        static::assertNull($translatable->getFallback());
+    }
 }

@@ -159,4 +159,28 @@ class TranslatableBoolTest extends TestCase
         $translatable->setTranslation('en-GB', true);
         static::assertEquals(['en-GB' => true], $this->jsonEncodeAndDecode($translatable));
     }
+
+    /**
+     * @dataProvider provideValidBooleanTestCases
+     */
+    public function testValidFallback(bool $anyValue): void
+    {
+        $translatable = new TranslatableBoolean();
+
+        $translatable->setFallback($anyValue);
+        static::assertSame($anyValue, $translatable->getFallback());
+        $translatable->removeFallback();
+        static::assertNull($translatable->getFallback());
+    }
+
+    /**
+     * @dataProvider provideInvalidTestCases
+     */
+    public function testInvalidFallback($anyValue): void
+    {
+        $translatable = new TranslatableBoolean();
+
+        $translatable->setFallback($anyValue);
+        static::assertNull($translatable->getFallback());
+    }
 }
