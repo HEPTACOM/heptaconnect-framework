@@ -67,7 +67,14 @@ abstract class EmitterContract
                 $entity = $this->extend($mapping, $entity, $context);
 
                 if (!$this->isSupported($entity)) {
-                    yield $key => $mappedDatasetEntity;
+                    $context->markAsFailed($mapping, new \Exception(
+                        \sprintf(
+                            'Emitter "%s" returned object of unsupported type. Expected "%s" but got "%s".',
+                            static::class,
+                            $this->supports(),
+                            \get_class($entity)
+                        )
+                    ));
 
                     continue;
                 }
@@ -97,7 +104,7 @@ abstract class EmitterContract
             try {
                 $entity = $this->run($mapping, $context);
 
-                if ($entity !== null && !$this->isSupported($entity)) {
+                if (!$this->isSupported($entity)) {
                     throw new UnsupportedDatasetEntityException();
                 }
             } catch (\Throwable $exception) {
@@ -116,7 +123,7 @@ abstract class EmitterContract
         MappingInterface $mapping,
         DatasetEntityContract $entity,
         EmitContextInterface $context
-    ): ?DatasetEntityContract {
+    ): DatasetEntityContract {
         return $entity;
     }
 }

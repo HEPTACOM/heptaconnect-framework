@@ -63,7 +63,7 @@ class ContractTest extends TestCase
                 MappingInterface $mapping,
                 DatasetEntityContract $entity,
                 EmitContextInterface $context
-            ): ?DatasetEntityContract {
+            ): DatasetEntityContract {
                 $entity->attach(new class() implements AttachableInterface {});
 
                 return $entity;
