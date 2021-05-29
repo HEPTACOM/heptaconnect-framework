@@ -17,5 +17,5 @@ abstract class MappingComponentStructContract implements \JsonSerializable
      */
     abstract public function getDatasetEntityClassName(): string;
 
-    abstract public function getExternalId(): ?string;
+    abstract public function getExternalId(): string;
 }

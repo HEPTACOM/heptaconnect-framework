@@ -15,12 +15,12 @@ class MappingComponentStruct extends MappingComponentStructContract
      */
     protected string $datasetEntityClassName;
 
-    protected ?string $externalId = null;
+    protected string $externalId;
 
     /**
      * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $datasetEntityClassName
      */
-    public function __construct(PortalNodeKeyInterface $portalNodeKey, string $datasetEntityClassName, ?string $externalId)
+    public function __construct(PortalNodeKeyInterface $portalNodeKey, string $datasetEntityClassName, string $externalId)
     {
         $this->portalNodeKey = $portalNodeKey;
         $this->datasetEntityClassName = $datasetEntityClassName;
@@ -40,7 +40,7 @@ class MappingComponentStruct extends MappingComponentStructContract
         return $this->datasetEntityClassName;
     }
 
-    public function getExternalId(): ?string
+    public function getExternalId(): string
     {
         return $this->externalId;
     }

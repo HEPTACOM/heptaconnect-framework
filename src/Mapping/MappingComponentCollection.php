@@ -56,13 +56,7 @@ class MappingComponentCollection extends DatasetEntityCollection
 
         /** @var MappingComponentStructContract $mappingComponent */
         foreach ($this->getIterator() as $mappingComponent) {
-            $externalId = $mappingComponent->getExternalId();
-
-            if (!\is_string($externalId)) {
-                continue;
-            }
-
-            $preResult[$externalId] = $externalId;
+            $preResult[$mappingComponent->getExternalId()] = $mappingComponent->getExternalId();
         }
 
         return \array_values($preResult);
