@@ -1,12 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Storage\Base\Contract;
+namespace Heptacom\HeptaConnect\Storage\Base\Contract\Repository;
 
+use Heptacom\HeptaConnect\Storage\Base\Contract\JobPayloadKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 
-abstract class JobPayloadStorageContract
+abstract class JobPayloadRepositoryContract
 {
     /**
      * @throws UnsupportedStorageKeyException
@@ -17,23 +18,23 @@ abstract class JobPayloadStorageContract
      * @throws NotFoundException
      * @throws UnsupportedStorageKeyException
      */
-    abstract public function remove(JobPayloadKeyInterface $processPayloadKey): void;
+    abstract public function remove(JobPayloadKeyInterface $jobPayloadKey): void;
 
     /**
-     *@throws UnsupportedStorageKeyException
+     * @throws UnsupportedStorageKeyException
      *
      * @return \Heptacom\HeptaConnect\Storage\Base\Contract\JobPayloadKeyInterface[]
-     * @psalm-return iterable<\Heptacom\HeptaConnect\Storage\Base\Contract\ProcessPayloadKeyInterface>
+     * @psalm-return iterable<\Heptacom\HeptaConnect\Storage\Base\Contract\JobPayloadKeyInterface>
      */
     abstract public function list(): iterable;
 
     /**
      * @throws UnsupportedStorageKeyException
      */
-    abstract public function has(JobPayloadKeyInterface $processPayloadKey): bool;
+    abstract public function has(JobPayloadKeyInterface $jobPayloadKey): bool;
 
     /**
      * @throws UnsupportedStorageKeyException
      */
-    abstract public function get(JobPayloadKeyInterface $processPayloadKey): object;
+    abstract public function get(JobPayloadKeyInterface $jobPayloadKey): object;
 }
