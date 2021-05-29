@@ -5,6 +5,8 @@ namespace Heptacom\HeptaConnect\Storage\Base\Contract\Repository;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingExceptionKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 
@@ -14,7 +16,8 @@ abstract class MappingExceptionRepositoryContract
      * @throws UnsupportedStorageKeyException
      */
     abstract public function create(
-        MappingKeyInterface $mappingKey,
+        PortalNodeKeyInterface $portalNodeKey,
+        MappingNodeKeyInterface $mappingNodeKey,
         \Throwable $throwable
     ): MappingExceptionKeyInterface;
 
