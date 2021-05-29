@@ -12,7 +12,7 @@ abstract class JobPayloadRepositoryContract
     /**
      * @throws UnsupportedStorageKeyException
      */
-    abstract public function add(object $payload): JobPayloadKeyInterface;
+    abstract public function add(array $payload): JobPayloadKeyInterface;
 
     /**
      * @throws NotFoundException
@@ -36,5 +36,5 @@ abstract class JobPayloadRepositoryContract
     /**
      * @throws UnsupportedStorageKeyException
      */
-    abstract public function get(JobPayloadKeyInterface $jobPayloadKey): object;
+    abstract public function get(JobPayloadKeyInterface $jobPayloadKey): array;
 }
