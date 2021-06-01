@@ -3,23 +3,16 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 
 /**
- * @template T
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<T>
+ * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
  */
-abstract class DatasetEntityCollection extends Support\AbstractCollection implements AttachableInterface
+class DatasetEntityCollection extends AbstractObjectCollection
 {
-    abstract protected function getT(): string;
-
-    /**
-     * @psalm-param T $item
-     */
-    protected function isValidItem($item): bool
+    protected function getT(): string
     {
-        $expected = $this->getT();
-
-        return \is_object($item) && $item instanceof $expected;
+        return DatasetEntityContract::class;
     }
 }
