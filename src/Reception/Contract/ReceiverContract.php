@@ -29,7 +29,6 @@ abstract class ReceiverContract
     abstract public function supports(): string;
 
     protected function run(
-        MappingInterface $mapping,
         DatasetEntityContract $entity,
         ReceiveContextInterface $context
     ): void {
@@ -70,7 +69,7 @@ abstract class ReceiverContract
             }
 
             try {
-                $this->run($mapping, $entity, $context);
+                $this->run($entity, $context);
             } catch (\Throwable $throwable) {
                 $context->markAsFailed($mapping->getMappingNodeKey(), $throwable);
 
@@ -103,7 +102,7 @@ abstract class ReceiverContract
                 }
 
                 try {
-                    $this->run($mapping, $mappedEntity->getDatasetEntity(), $context);
+                    $this->run($mappedEntity->getDatasetEntity(), $context);
                 } catch (\Throwable $throwable) {
                     $context->markAsFailed($mapping->getMappingNodeKey(), $throwable);
 
