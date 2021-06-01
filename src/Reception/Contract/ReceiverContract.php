@@ -64,7 +64,7 @@ abstract class ReceiverContract
             $entity = $mappedDatasetEntity->getDatasetEntity();
 
             if (!$this->isSupported($entity)) {
-                $context->markAsFailed($mapping, new UnsupportedDatasetEntityException());
+                $context->markAsFailed($mapping->getMappingNodeKey(), new UnsupportedDatasetEntityException());
 
                 continue;
             }
@@ -72,7 +72,7 @@ abstract class ReceiverContract
             try {
                 $this->run($mapping, $entity, $context);
             } catch (\Throwable $throwable) {
-                $context->markAsFailed($mapping, $throwable);
+                $context->markAsFailed($mapping->getMappingNodeKey(), $throwable);
 
                 continue;
             }
@@ -105,7 +105,7 @@ abstract class ReceiverContract
                 try {
                     $this->run($mapping, $mappedEntity->getDatasetEntity(), $context);
                 } catch (\Throwable $throwable) {
-                    $context->markAsFailed($mapping, $throwable);
+                    $context->markAsFailed($mapping->getMappingNodeKey(), $throwable);
 
                     break;
                 }
