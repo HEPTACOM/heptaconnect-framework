@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Reception\Contract;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
-use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityException;
