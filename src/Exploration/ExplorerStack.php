@@ -24,7 +24,7 @@ class ExplorerStack implements ExplorerStackInterface, LoggerAwareInterface
      */
     public function __construct(iterable $explorers)
     {
-        $this->explorers = iterable_to_array($explorers);
+        $this->explorers = \iterable_to_array($explorers);
         $this->logger = new NullLogger();
     }
 

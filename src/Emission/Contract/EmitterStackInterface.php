@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Emission\Contract;
 
-use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
-
 interface EmitterStackInterface
 {
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct>
+     * @param string[] $externalIds
+     *
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
-    public function next(MappingCollection $mappings, EmitContextInterface $context): iterable;
+    public function next(iterable $externalIds, EmitContextInterface $context): iterable;
+
+    public function supports(): string;
 }
