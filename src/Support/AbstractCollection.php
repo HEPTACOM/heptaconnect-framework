@@ -140,7 +140,7 @@ abstract class AbstractCollection implements CollectionInterface
 
     public function map(callable $mapFn): iterable
     {
-        yield from \array_map($mapFn, $this->items);
+        yield from \array_map($mapFn, $this->items, \array_keys($this->items));
     }
 
     /**

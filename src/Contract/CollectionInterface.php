@@ -34,5 +34,8 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
      */
     public function filter(callable $filterFn): \Generator;
 
+    /**
+     * @psalm-param callable(T, array-key):mixed $mapFn
+     */
     public function map(callable $mapFn): iterable;
 }
