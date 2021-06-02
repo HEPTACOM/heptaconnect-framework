@@ -42,7 +42,7 @@ abstract class AbstractCollection implements CollectionInterface
 
     public function push(iterable $items): void
     {
-        $items = iterable_to_array($this->filterValid($items));
+        $items = \iterable_to_array($this->filterValid($items));
 
         if (\count($items) === 0) {
             return;
@@ -136,6 +136,11 @@ abstract class AbstractCollection implements CollectionInterface
     public function filter(callable $filterFn): \Generator
     {
         yield from \array_filter($this->items, $filterFn);
+    }
+
+    public function map(callable $mapFn): iterable
+    {
+        yield from \array_map($mapFn, $this->items, \array_keys($this->items));
     }
 
     /**
