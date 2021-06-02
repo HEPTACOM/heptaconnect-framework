@@ -25,7 +25,7 @@ class ReceiverStack implements ReceiverStackInterface, LoggerAwareInterface
      */
     public function __construct(iterable $receivers)
     {
-        $this->receivers = iterable_to_array($receivers);
+        $this->receivers = \iterable_to_array($receivers);
         $this->logger = new NullLogger();
     }
 

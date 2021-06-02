@@ -7,4 +7,5 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeContextInterface
 
 interface EmitContextInterface extends PortalNodeContextInterface
 {
+    public function markAsFailed(string $externalId, string $datasetEntityClassName, \Throwable $throwable): void;
 }

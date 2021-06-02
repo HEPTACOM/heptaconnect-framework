@@ -6,7 +6,6 @@ namespace Heptacom\HeptaConnect\Portal\Base\Emission;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
-use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -18,16 +17,19 @@ class EmitterStack implements EmitterStackInterface, LoggerAwareInterface
      */
     private array $emitters;
 
+    private string $entityClassName;
+
     private LoggerInterface $logger;
 
     /**
      * @param iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract> $emitters
      */
-    public function __construct(iterable $emitters)
+    public function __construct(iterable $emitters, string $entityClassName)
     {
         /** @var array<array-key, \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract> $arrayEmitters */
-        $arrayEmitters = iterable_to_array($emitters);
+        $arrayEmitters = \iterable_to_array($emitters);
         $this->emitters = $arrayEmitters;
+        $this->entityClassName = $entityClassName;
         $this->logger = new NullLogger();
     }
 
@@ -36,7 +38,7 @@ class EmitterStack implements EmitterStackInterface, LoggerAwareInterface
         $this->logger = $logger;
     }
 
-    public function next(MappingCollection $mappings, EmitContextInterface $context): iterable
+    public function next(iterable $externalIds, EmitContextInterface $context): iterable
     {
         $emitter = \array_shift($this->emitters);
 
@@ -46,6 +48,11 @@ class EmitterStack implements EmitterStackInterface, LoggerAwareInterface
 
         $this->logger->debug(\sprintf('Execute FlowComponent emitter: %s', \get_class($emitter)));
 
-        return $emitter->emit($mappings, $context, $this);
+        return $emitter->emit($externalIds, $context, $this);
+    }
+
+    public function supports(): string
+    {
+        return $this->entityClassName;
     }
 }

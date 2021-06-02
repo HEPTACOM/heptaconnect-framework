@@ -67,7 +67,7 @@ class MappingCollectionTest extends TestCase
         ]);
         static::assertCount(4, $collection);
         /** @var array<class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>, \Heptacom\HeptaConnect\Portal\Base\Mapping\TypedMappingCollection> $groupByType */
-        $groupByType = iterable_to_array($collection->groupByType());
+        $groupByType = \iterable_to_array($collection->groupByType());
         static::assertCount(3, $groupByType);
         static::assertArrayHasKey(DatasetEntityStruct::class, $groupByType);
         static::assertArrayHasKey(FirstEntity::class, $groupByType);
