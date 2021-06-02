@@ -24,7 +24,7 @@ class ContractTest extends TestCase
     public function testExtendingEmitterContract(): void
     {
         $emitter = new class() extends EmitterContract {
-            public function emit(MappingCollection $mappings, EmitContextInterface $context, EmitterStackInterface $stack): iterable
+            public function emit(iterable $externalIds, EmitContextInterface $context, EmitterStackInterface $stack): iterable
             {
                 yield from [];
             }
@@ -45,7 +45,7 @@ class ContractTest extends TestCase
     public function testAttachingEmitterContract(): void
     {
         $emitter = new class() extends EmitterContract {
-            protected function run(MappingInterface $mapping, EmitContextInterface $context): ?DatasetEntityContract
+            protected function run(string $externalId, EmitContextInterface $context): ?DatasetEntityContract
             {
                 $good = new FirstEntity();
                 $good->setPrimaryKey('good');
@@ -60,7 +60,6 @@ class ContractTest extends TestCase
         };
         $decoratingEmitter = new class() extends EmitterContract {
             protected function extend(
-                MappingInterface $mapping,
                 DatasetEntityContract $entity,
                 EmitContextInterface $context
             ): DatasetEntityContract {
@@ -83,9 +82,9 @@ class ContractTest extends TestCase
 
         $mapping->method('getExternalId')->willReturn('');
 
-        $emitted = new MappedDatasetEntityCollection((new EmitterStack([$emitter]))->next($mappings, $context));
+        $emitted = new MappedDatasetEntityCollection((new EmitterStack([$emitter], $emitter->supports()))->next($mappings, $context));
         $decoratedEmitted = new MappedDatasetEntityCollection(
-            (new EmitterStack([$decoratingEmitter, $emitter]))
+            (new EmitterStack([$decoratingEmitter, $emitter], $emitter->supports()))
                 ->next($mappings, $context)
         );
 
