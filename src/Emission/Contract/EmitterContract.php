@@ -5,6 +5,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Emission\Contract;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityException;
+use Psr\Log\LoggerInterface;
 
 abstract class EmitterContract
 {
@@ -59,6 +60,17 @@ abstract class EmitterContract
         foreach ($stack->next($externalIds, $context) as $key => $entity) {
             $primaryKey = $entity->getPrimaryKey();
 
+            if (\is_null($primaryKey)) {
+                /** @var LoggerInterface $logger */
+                $logger = $context->getContainer()->get(LoggerInterface::class);
+                $logger->error(\sprintf(
+                    'Emitter "%s" returned an entity with empty primary key. Skipping.',
+                    static::class
+                ));
+
+                continue;
+            }
+
             try {
                 $entity = $this->extend($entity, $context);
 
@@ -94,6 +106,17 @@ abstract class EmitterContract
     final protected function emitCurrent(iterable $externalIds, EmitContextInterface $context): iterable
     {
         foreach ($externalIds as $externalId) {
+            if (\is_null($externalId)) {
+                /** @var LoggerInterface $logger */
+                $logger = $context->getContainer()->get(LoggerInterface::class);
+                $logger->error(\sprintf(
+                    'Empty primary key was passed to emitter "%s". Skipping.',
+                    static::class
+                ));
+
+                continue;
+            }
+
             try {
                 $entity = $this->run($externalId, $context);
 
