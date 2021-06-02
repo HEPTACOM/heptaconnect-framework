@@ -18,7 +18,10 @@ abstract class EmitterContract
     {
         $externalIds = \iterable_to_array($externalIds);
 
-        yield from $this->emitCurrent($externalIds, $context);
+        if (!$context->isDirectEmission()) {
+            yield from $this->emitCurrent($externalIds, $context);
+        }
+
         yield from $this->emitNext($stack, $externalIds, $context);
     }
 
