@@ -16,6 +16,26 @@
                 <referencedProperty name="Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack::$receivers"/>
             </errorLevel>
         </MixedPropertyTypeCoercion>
+
+        <!-- never trust user input -->
+        <RedundantCondition>
+            <errorLevel type="info">
+                <file name="../src/Emission/Contract/EmitterContract.php"/>
+                <file name="../src/Exploration/Contract/ExplorerContract.php"/>
+            </errorLevel>
+        </RedundantCondition>
+        <!-- never trust user input -->
+        <RedundantConditionGivenDocblockType>
+            <errorLevel type="info">
+                <file name="../src/Emission/Contract/EmitterContract.php"/>
+            </errorLevel>
+        </RedundantConditionGivenDocblockType>
+        <!-- never trust user input -->
+        <DocblockTypeContradiction>
+            <errorLevel type="info">
+                <file name="../src/Emission/Contract/EmitterContract.php"/>
+            </errorLevel>
+        </DocblockTypeContradiction>
     </issueHandlers>
 
     <plugins>
