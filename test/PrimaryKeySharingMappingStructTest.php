@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Test;
 
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\PrimaryKeySharingMappingStruct;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\Simple;
 use PHPUnit\Framework\TestCase;
@@ -14,9 +16,13 @@ class PrimaryKeySharingMappingStructTest extends TestCase
 {
     public function testPrimaryKeySharing(): void
     {
-        $struct = new PrimaryKeySharingMappingStruct();
+        $struct = new PrimaryKeySharingMappingStruct(
+            Simple::class,
+            null,
+            $this->createMock(PortalNodeKeyInterface::class),
+            $this->createMock(MappingNodeKeyInterface::class),
+        );
         $struct->setForeignKey('foobar');
-        $struct->setDatasetEntityClassName(Simple::class);
 
         $entity1 = new Simple();
         $entity1->setPrimaryKey($struct->getForeignKey());
@@ -32,9 +38,13 @@ class PrimaryKeySharingMappingStructTest extends TestCase
 
     public function testSerialization(): void
     {
-        $struct = new PrimaryKeySharingMappingStruct();
+        $struct = new PrimaryKeySharingMappingStruct(
+            Simple::class,
+            null,
+            $this->createMock(PortalNodeKeyInterface::class),
+            $this->createMock(MappingNodeKeyInterface::class),
+        );
         $struct->setForeignKey('foobar');
-        $struct->setDatasetEntityClassName(Simple::class);
 
         $entity1 = new Simple();
         $entity1->setPrimaryKey($struct->getForeignKey());

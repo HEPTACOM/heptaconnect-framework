@@ -19,9 +19,9 @@ class UnsharableOwnerException extends \Exception
         parent::__construct(\sprintf(
                 'Owner of class %s with primary key %s does not match %s and %s',
                 \get_class($owner),
-                $owner->getPrimaryKey(),
+                $owner->getPrimaryKey() ?? '<null>',
                 $expectedDatasetEntityClassName,
-                $expectedPrimaryKey
+                $expectedPrimaryKey ?? '<null>'
             ), 0, $previous);
 
         $this->expectedDatasetEntityClassName = $expectedDatasetEntityClassName;

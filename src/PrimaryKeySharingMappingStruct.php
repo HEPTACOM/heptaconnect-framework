@@ -16,29 +16,40 @@ class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyA
 {
     use ForeignKeyTrait;
 
-    protected ?string $datasetEntityClassName = null;
+    /**
+     * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     */
+    protected string $datasetEntityClassName;
 
     protected ?string $externalId = null;
 
-    protected ?PortalNodeKeyInterface $portalNodeKey = null;
+    protected PortalNodeKeyInterface $portalNodeKey;
 
-    protected ?MappingNodeKeyInterface $mappingNodeKey = null;
+    protected MappingNodeKeyInterface $mappingNodeKey;
 
     /**
-     * @var array|DatasetEntityContract[]
+     * @var DatasetEntityContract[]
      */
     protected $owners = [];
+
+    /**
+     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $datasetEntityClassName
+     */
+    public function __construct(
+        string $datasetEntityClassName,
+        ?string $externalId,
+        PortalNodeKeyInterface $portalNodeKey,
+        MappingNodeKeyInterface $mappingNodeKey
+    ) {
+        $this->datasetEntityClassName = $datasetEntityClassName;
+        $this->externalId = $externalId;
+        $this->portalNodeKey = $portalNodeKey;
+        $this->mappingNodeKey = $mappingNodeKey;
+    }
 
     public function getDatasetEntityClassName(): string
     {
         return $this->datasetEntityClassName;
-    }
-
-    public function setDatasetEntityClassName(string $datasetEntityClassName): self
-    {
-        $this->datasetEntityClassName = $datasetEntityClassName;
-
-        return $this;
     }
 
     public function getExternalId(): ?string
@@ -58,23 +69,9 @@ class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyA
         return $this->portalNodeKey;
     }
 
-    public function setPortalNodeKey(PortalNodeKeyInterface $portalNodeKey): self
-    {
-        $this->portalNodeKey = $portalNodeKey;
-
-        return $this;
-    }
-
     public function getMappingNodeKey(): MappingNodeKeyInterface
     {
         return $this->mappingNodeKey;
-    }
-
-    public function setMappingNodeKey(MappingNodeKeyInterface $mappingNodeKey): self
-    {
-        $this->mappingNodeKey = $mappingNodeKey;
-
-        return $this;
     }
 
     public function getForeignDatasetEntityClassName(): string
@@ -99,7 +96,7 @@ class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyA
      */
     public function getOwners(): iterable
     {
-        yield from $this->owners;
+        return $this->owners;
     }
 
     /**
