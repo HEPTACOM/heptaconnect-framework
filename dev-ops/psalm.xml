@@ -17,6 +17,16 @@
             </errorLevel>
         </MixedPropertyTypeCoercion>
 
+        <!-- Not unnecessary for all (IDEs, other toolings) -->
+        <UnnecessaryVarAnnotation>
+            <errorLevel type="info">
+                <file name="../src/Mapping/MappingComponentCollection.php"/>
+                <file name="../src/Portal/PortalCollection.php"/>
+                <file name="../src/Portal/PortalExtensionCollection.php"/>
+                <file name="../src/Reception/Contract/ReceiverContract.php"/>
+            </errorLevel>
+        </UnnecessaryVarAnnotation>
+
         <!-- never trust user input -->
         <RedundantCondition>
             <errorLevel type="info">

@@ -6,49 +6,38 @@ namespace Heptacom\HeptaConnect\Portal\Base\Support\Contract;
 class DeepObjectIteratorContract
 {
     /**
+     * @param object|iterable $object
+     *
      * @return iterable|object[]
      * @psalm-return iterable<array-key, object>
      */
-    public function iterate($datasetEntity): iterable
+    public function iterate($object): iterable
     {
-        $toIterate = [$datasetEntity];
+        $toIterate = [$object];
         $alreadyChecked = [];
 
         do {
             $newIterables = [];
 
+            /** @var mixed $iterable */
             foreach ($toIterate as $iterable) {
                 if (\is_object($iterable)) {
                     $objectHash = \spl_object_hash($iterable);
 
-                    if (\in_array($objectHash, $alreadyChecked)) {
+                    if (\in_array($objectHash, $alreadyChecked, true)) {
                         continue;
                     }
 
                     $alreadyChecked[] = $objectHash;
                     yield $iterable;
-                }
-
-                if (\is_callable($strategy = $this->getStrategy($iterable))) {
-                    $newIterables[] = \iterator_to_array($strategy($iterable));
+                    $newIterables[] = \iterable_to_array($this->iterateProperties($iterable));
+                } elseif (\is_iterable($iterable)) {
+                    $newIterables[] = \iterable_to_array($this->iterateIterable($iterable));
                 }
             }
 
             $toIterate = \array_merge([], ...$newIterables);
         } while ($toIterate !== []);
-    }
-
-    private function getStrategy($any): ?callable
-    {
-        if (\is_object($any)) {
-            return [$this, 'iterateProperties'];
-        }
-
-        if (\is_iterable($any)) {
-            return [$this, 'iterateIterable'];
-        }
-
-        return null;
     }
 
     private function iterateProperties(object $object): iterable

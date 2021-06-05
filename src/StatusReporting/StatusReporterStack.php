@@ -19,7 +19,9 @@ class StatusReporterStack implements StatusReporterStackInterface
      */
     public function __construct(iterable $statusReporters)
     {
-        $this->statusReporters = \iterable_to_array($statusReporters);
+        /** @var StatusReporterContract[] $rewindableStatusReporters */
+        $rewindableStatusReporters = \iterable_to_array($statusReporters);
+        $this->statusReporters = $rewindableStatusReporters;
     }
 
     public function next(StatusReportingContextInterface $context): array

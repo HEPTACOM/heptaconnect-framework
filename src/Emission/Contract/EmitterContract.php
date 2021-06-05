@@ -16,13 +16,14 @@ abstract class EmitterContract
      */
     public function emit(iterable $externalIds, EmitContextInterface $context, EmitterStackInterface $stack): iterable
     {
-        $externalIds = \iterable_to_array($externalIds);
+        /** @var string[] $rewindableExternalIds */
+        $rewindableExternalIds = \iterable_to_array($externalIds);
 
         if (!$context->isDirectEmission()) {
-            yield from $this->emitCurrent($externalIds, $context);
+            yield from $this->emitCurrent($rewindableExternalIds, $context);
         }
 
-        yield from $this->emitNext($stack, $externalIds, $context);
+        yield from $this->emitNext($stack, $rewindableExternalIds, $context);
     }
 
     /**

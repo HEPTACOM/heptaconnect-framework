@@ -6,6 +6,8 @@ namespace Heptacom\HeptaConnect\Portal\Base\Portal\Contract;
 interface PortalStorageInterface
 {
     /**
+     * @psalm-param mixed|null $default
+     *
      * @return mixed
      */
     public function get(string $key, $default = null);

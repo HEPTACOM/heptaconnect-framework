@@ -36,7 +36,11 @@ abstract class ExplorerContract
      */
     final protected function isSupported($entity): bool
     {
-        return \is_a($entity, $this->supports(), false) || \is_string($entity) || \is_int($entity);
+        if (\is_null($entity)) {
+            return false;
+        }
+
+        return \is_string($entity) || \is_int($entity) || \is_a($entity, $this->supports(), false);
     }
 
     /**
@@ -102,8 +106,10 @@ abstract class ExplorerContract
             return $this->isAllowed((string) $entity, null, $context);
         }
 
-        if ($entity instanceof DatasetEntityContract && !\is_null($entity->getPrimaryKey())) {
-            return $this->isAllowed($entity->getPrimaryKey(), $entity, $context);
+        $primaryKey = $entity->getPrimaryKey();
+
+        if ($entity instanceof DatasetEntityContract && !\is_null($primaryKey)) {
+            return $this->isAllowed($primaryKey, $entity, $context);
         }
 
         return false;

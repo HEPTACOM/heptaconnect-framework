@@ -19,7 +19,9 @@ class DeepCloneContract
     public function deepClone($any)
     {
         $copier = new DeepCopy();
+        /** @var T $result */
+        $result = $copier->copy($any);
 
-        return $copier->copy($any);
+        return $result;
     }
 }
