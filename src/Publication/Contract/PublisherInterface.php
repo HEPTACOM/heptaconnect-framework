@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Publication\Contract;
 
-use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
+use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
 interface PublisherInterface
@@ -19,5 +19,5 @@ interface PublisherInterface
         string $externalId
     ): void;
 
-    public function publishBatch(MappingCollection $mappings): void;
+    public function publishBatch(MappingComponentCollection $mappings): void;
 }
