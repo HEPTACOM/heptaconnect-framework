@@ -3,10 +3,12 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base;
 
+use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
+
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection<\Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface>
+ * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection<\Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface>
  */
-class AttachmentCollection extends DatasetEntityCollection
+class AttachmentCollection extends AbstractObjectCollection
 {
     protected function getT(): string
     {

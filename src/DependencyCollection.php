@@ -4,11 +4,12 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Dataset\Base;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DependencyInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 
 /**
- * @extends DatasetEntityCollection<DependencyInterface>
+ * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection<\Heptacom\HeptaConnect\Dataset\Base\Contract\DependencyInterface>
  */
-class DependencyCollection extends DatasetEntityCollection
+class DependencyCollection extends AbstractObjectCollection
 {
     use Support\DependencyTrait;
 
