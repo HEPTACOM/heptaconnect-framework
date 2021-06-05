@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct;
-use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
+use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,9 +18,10 @@ class EmitterStackTest extends TestCase
 {
     public function testEmptyStackDoesNotFail(): void
     {
-        $stack = new EmitterStack([]);
+        $stack = new EmitterStack([], FirstEntity::class);
+        static::assertEquals(FirstEntity::class, $stack->supports());
         static::assertCount(0, $stack->next(
-            new MappingCollection(),
+            [],
             $this->createMock(EmitContextInterface::class)
         ));
     }
@@ -45,15 +46,15 @@ class EmitterStackTest extends TestCase
         $emitter3->expects(static::once())
             ->method('emit')
             ->willReturnCallback(static function (
-                MappingCollection $col, EmitContextInterface $con, EmitterStackInterface $stack
+                iterable $ids, EmitContextInterface $con, EmitterStackInterface $stack
             ) use ($result3, $result2, $result1): iterable {
                 yield $result1;
                 yield $result2;
                 yield $result3;
-                yield from $stack->next($col, $con);
+                yield from $stack->next($ids, $con);
             });
 
-        $stack = new EmitterStack([$emitter1, $emitter2, $emitter3]);
-        static::assertCount(3, $stack->next(new MappingCollection(), $this->createMock(EmitContextInterface::class)));
+        $stack = new EmitterStack([$emitter1, $emitter2, $emitter3], FirstEntity::class);
+        static::assertCount(3, $stack->next([], $this->createMock(EmitContextInterface::class)));
     }
 }

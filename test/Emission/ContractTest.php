@@ -5,15 +5,15 @@ namespace Heptacom\HeptaConnect\Portal\Base\Test\Emission;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack;
-use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
-use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
-use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract
@@ -36,7 +36,7 @@ class ContractTest extends TestCase
         };
         static::assertSame(DatasetEntityContract::class, $emitter->supports());
         static::assertCount(0, $emitter->emit(
-            new MappingCollection(),
+            [],
             $this->createMock(EmitContextInterface::class),
             $this->createMock(EmitterStackInterface::class)
         ));
@@ -59,10 +59,8 @@ class ContractTest extends TestCase
             }
         };
         $decoratingEmitter = new class() extends EmitterContract {
-            protected function extend(
-                DatasetEntityContract $entity,
-                EmitContextInterface $context
-            ): DatasetEntityContract {
+            protected function extend(DatasetEntityContract $entity, EmitContextInterface $context): DatasetEntityContract
+            {
                 $entity->attach(new class() implements AttachableInterface {});
 
                 return $entity;
@@ -77,20 +75,21 @@ class ContractTest extends TestCase
         static::assertSame(FirstEntity::class, $decoratingEmitter->supports());
 
         $context = $this->createMock(EmitContextInterface::class);
-        $mapping = $this->createMock(MappingInterface::class);
-        $mappings = new MappingCollection([$mapping]);
+        $container = $this->createMock(ContainerInterface::class);
+        $logger = $this->createMock(LoggerInterface::class);
+        $externalIds = ['good'];
 
-        $mapping->method('getExternalId')->willReturn('');
+        $container->method('get')->willReturn($logger);
 
-        $emitted = new MappedDatasetEntityCollection((new EmitterStack([$emitter], $emitter->supports()))->next($mappings, $context));
-        $decoratedEmitted = new MappedDatasetEntityCollection(
+        $emitted = new DatasetEntityCollection((new EmitterStack([$emitter], $emitter->supports()))->next($externalIds, $context));
+        $decoratedEmitted = new DatasetEntityCollection(
             (new EmitterStack([$decoratingEmitter, $emitter], $emitter->supports()))
-                ->next($mappings, $context)
+                ->next($externalIds, $context)
         );
 
         static::assertCount(1, $emitted);
-        static::assertCount(0, $emitted->first()->getDatasetEntity()->getAttachments());
+        static::assertCount(0, $emitted->first()->getAttachments());
         static::assertCount(1, $decoratedEmitted);
-        static::assertCount(1, $decoratedEmitted->first()->getDatasetEntity()->getAttachments());
+        static::assertCount(1, $decoratedEmitted->first()->getAttachments());
     }
 }
