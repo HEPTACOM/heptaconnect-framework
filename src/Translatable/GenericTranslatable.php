@@ -10,6 +10,8 @@ use Heptacom\HeptaConnect\Dataset\Base\Translatable\Contract\TranslatableInterfa
  * @template T
  * @implements \ArrayAccess<array-key, T>
  * @implements Contract\TranslatableInterface<T>
+ *
+ * @property T|null $fallback
  */
 abstract class GenericTranslatable implements \ArrayAccess, \JsonSerializable, Contract\TranslatableInterface
 {

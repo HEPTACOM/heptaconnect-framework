@@ -48,6 +48,7 @@ trait SetStateTrait
                     continue;
                 }
 
+                /** @var mixed $initialValue */
                 $initialValue = $method->invoke($result);
 
                 if ($initialValue instanceof CollectionInterface && $value instanceof CollectionInterface) {

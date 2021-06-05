@@ -25,7 +25,6 @@ abstract class AbstractTaggedCollection extends AbstractCollection
             return $tag;
         }
 
-        /** @psalm-var TagItem<T> $tag */
         $tag = new TagItem($this->createEmptyCollection(), $offset);
         $this->offsetSet($offset, $tag);
 

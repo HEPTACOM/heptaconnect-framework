@@ -67,6 +67,30 @@
                 <file name="../src/Support/SetStateTrait.php"/>
             </errorLevel>
         </UnsafeInstantiation>
+        <!-- @deprecated 1.0.0 -->
+        <UndefinedThisPropertyFetch>
+            <errorLevel type="info">
+                <file name="../src/Translatable/GenericTranslatable.php"/>
+            </errorLevel>
+        </UndefinedThisPropertyFetch>
+        <!-- @deprecated 1.0.0 -->
+        <UndefinedThisPropertyAssignment>
+            <errorLevel type="info">
+                <file name="../src/Translatable/GenericTranslatable.php"/>
+            </errorLevel>
+        </UndefinedThisPropertyAssignment>
+        <!-- @deprecated 1.0.0 -->
+        <MixedReturnStatement>
+            <errorLevel type="info">
+                <file name="../src/Translatable/GenericTranslatable.php"/>
+            </errorLevel>
+        </MixedReturnStatement>
+        <!-- @deprecated 1.0.0 -->
+        <MixedInferredReturnType>
+            <errorLevel type="info">
+                <file name="../src/Translatable/GenericTranslatable.php"/>
+            </errorLevel>
+        </MixedInferredReturnType>
     </issueHandlers>
 
     <plugins>
