@@ -92,4 +92,41 @@ class ContractTest extends TestCase
         static::assertCount(1, $decoratedEmitted);
         static::assertCount(1, $decoratedEmitted->first()->getAttachments());
     }
+
+    public function testRunMethodExtensionWhenImplemented()
+    {
+        $emitter = new class() extends EmitterContract {
+            protected function run(string $externalId, EmitContextInterface $context): ?DatasetEntityContract
+            {
+                return null;
+            }
+
+            public function supports(): string
+            {
+                return FirstEntity::class;
+            }
+        };
+
+        $context = $this->createMock(EmitContextInterface::class);
+        $context->expects(static::once())->method('markAsFailed');
+        $externalIds = ['foo'];
+
+        \iterable_to_array((new EmitterStack([$emitter], $emitter->supports()))->next($externalIds, $context));
+    }
+
+    public function testRunMethodExtensionWhenNotImplemented()
+    {
+        $emitter = new class() extends EmitterContract {
+            public function supports(): string
+            {
+                return FirstEntity::class;
+            }
+        };
+
+        $context = $this->createMock(EmitContextInterface::class);
+        $context->expects(static::never())->method('markAsFailed');
+        $externalIds = ['foo'];
+
+        \iterable_to_array((new EmitterStack([$emitter], $emitter->supports()))->next($externalIds, $context));
+    }
 }

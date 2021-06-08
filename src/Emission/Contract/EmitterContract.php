@@ -9,6 +9,8 @@ use Psr\Log\LoggerInterface;
 
 abstract class EmitterContract
 {
+    private ?string $runDeclaringClass = null;
+
     /**
      * @param string[] $externalIds
      *
@@ -125,6 +127,12 @@ abstract class EmitterContract
                 $entity = $this->run($externalId, $context);
 
                 if (!$this->isSupported($entity)) {
+                    $this->runDeclaringClass ??= (new \ReflectionMethod($this, 'run'))->getDeclaringClass()->getName();
+
+                    if ($this->runDeclaringClass === self::class) {
+                        continue;
+                    }
+
                     throw new UnsupportedDatasetEntityException(\sprintf('Emitter "%s" returned object of unsupported type. Expected "%s" but got "%s".', static::class, $this->supports(), $entity === null ? 'null' : \get_class($entity)));
                 }
             } catch (\Throwable $exception) {
