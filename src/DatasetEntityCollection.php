@@ -15,4 +15,22 @@ class DatasetEntityCollection extends AbstractObjectCollection
     {
         return DatasetEntityContract::class;
     }
+
+    /**
+     * @return DatasetEntityCollection[]
+     */
+    public function groupByType(): iterable
+    {
+        $groups = [];
+
+        /** @var DatasetEntityContract $item */
+        foreach ($this->items as $item) {
+            $groups[\get_class($item)][] = $item;
+        }
+
+        /** @var DatasetEntityContract[] $group */
+        foreach ($groups as $type => $group) {
+            yield $type => new static($group);
+        }
+    }
 }
