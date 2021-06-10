@@ -7,10 +7,25 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterCollection;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-abstract class PortalContract
+abstract class PortalContract implements ContainerAwareInterface
 {
+
+    private ?ContainerInterface $container;
+
+    public function getContainer(): ?ContainerInterface
+    {
+        return $this->container;
+    }
+
+    public function setContainer(?ContainerInterface $container = null): void
+    {
+        $this->container = $container;
+    }
+
     public function getExplorers(): ExplorerCollection
     {
         return new ExplorerCollection();
