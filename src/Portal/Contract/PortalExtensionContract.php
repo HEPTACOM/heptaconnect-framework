@@ -41,6 +41,11 @@ abstract class PortalExtensionContract
         return $services;
     }
 
+    public function getPath(): string
+    {
+        return \dirname((new \ReflectionClass($this))->getFileName(), 2);
+    }
+
     /**
      * @return class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>
      */
