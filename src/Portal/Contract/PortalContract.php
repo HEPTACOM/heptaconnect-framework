@@ -55,4 +55,9 @@ abstract class PortalContract implements ContainerAwareInterface
     {
         return [];
     }
+
+    public function getPath(): string
+    {
+        return \dirname((new \ReflectionClass($this))->getFileName(), 2);
+    }
 }

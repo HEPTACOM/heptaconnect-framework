@@ -22,4 +22,17 @@ class ContractTest extends TestCase
 
         $portal->getServices();
     }
+
+    public function testOverridingPathOfPortalContract(): void
+    {
+        $portal = new class() extends PortalContract {
+            public function getPath(): string
+            {
+                return __DIR__;
+            }
+        };
+        static::assertEquals(__DIR__, $portal->getPath());
+
+        $portal->getServices();
+    }
 }
