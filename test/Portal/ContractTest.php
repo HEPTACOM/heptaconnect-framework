@@ -21,8 +21,6 @@ class ContractTest extends TestCase
         static::assertEquals(0, $portal->getExplorers()->count());
         static::assertEquals(0, $portal->getReceivers()->count());
         static::assertCount(0, $portal->getConfigurationTemplate()->resolve());
-
-        $portal->getServices();
     }
 
     public function testOverridingPathOfPortalContract(): void
@@ -34,8 +32,6 @@ class ContractTest extends TestCase
             }
         };
         static::assertEquals(__DIR__, $portal->getPath());
-
-        $portal->getServices();
     }
 
     public function testExtendingPortalExtensionContract(): void

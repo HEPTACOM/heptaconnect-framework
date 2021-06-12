@@ -36,7 +36,10 @@ abstract class PortalContract
         return new OptionsResolver();
     }
 
-    public function getServices(): array
+    /**
+     * @deprecated You should use services.xml / services.yml under ../resources/config. Will be removed in 0.2.0
+     */
+    protected final function getServices(): array
     {
         return [];
     }
