@@ -26,7 +26,10 @@ abstract class PortalContract
         return new ReceiverCollection();
     }
 
-    public function getStatusReporters(): StatusReporterCollection
+    /**
+     * @deprecated Your status reporter will be automatically detected. Will be removed in 0.2.0
+     */
+    final protected function getStatusReporters(): StatusReporterCollection
     {
         return new StatusReporterCollection();
     }
