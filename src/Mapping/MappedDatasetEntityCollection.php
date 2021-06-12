@@ -11,16 +11,12 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
  */
 class MappedDatasetEntityCollection extends AbstractObjectCollection
 {
-    protected function getT(): string
-    {
-        return MappedDatasetEntityStruct::class;
-    }
-
     /**
-     * @return MappedDatasetEntityCollection[]
+     * @return iterable<MappedDatasetEntityCollection>
      */
     public function groupByPortalNode(): iterable
     {
+        /** @var PortalNodeKeyInterface[] $portalNodeKeys */
         $portalNodeKeys = [];
         $groups = [];
 
@@ -28,10 +24,6 @@ class MappedDatasetEntityCollection extends AbstractObjectCollection
         foreach ($this->items as $item) {
             $portalNodeKeyHash = null;
 
-            /**
-             * @var string $hash
-             * @var PortalNodeKeyInterface $portalNodeKey
-             */
             foreach ($portalNodeKeys as $hash => $portalNodeKey) {
                 if ($portalNodeKey->equals($item->getMapping()->getPortalNodeKey())) {
                     $portalNodeKeyHash = $hash;
@@ -49,7 +41,12 @@ class MappedDatasetEntityCollection extends AbstractObjectCollection
         }
 
         foreach ($groups as $group) {
-            yield new static($group);
+            yield new self($group);
         }
+    }
+
+    protected function getT(): string
+    {
+        return MappedDatasetEntityStruct::class;
     }
 }

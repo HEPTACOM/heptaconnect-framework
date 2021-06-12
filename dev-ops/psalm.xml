@@ -20,6 +20,7 @@
         <!-- Not unnecessary for all (IDEs, other toolings) -->
         <UnnecessaryVarAnnotation>
             <errorLevel type="info">
+                <file name="../src/Mapping/MappedDatasetEntityCollection.php"/>
                 <file name="../src/Mapping/MappingComponentCollection.php"/>
                 <file name="../src/Portal/PortalCollection.php"/>
                 <file name="../src/Portal/PortalExtensionCollection.php"/>

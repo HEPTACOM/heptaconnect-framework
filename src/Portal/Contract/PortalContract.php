@@ -36,16 +36,19 @@ abstract class PortalContract
         return new OptionsResolver();
     }
 
+    public function getPath(): string
+    {
+        /** @var string $path */
+        $path = (new \ReflectionClass($this))->getFileName();
+
+        return \dirname($path, 2);
+    }
+
     /**
      * @deprecated You should use services.xml / services.yml under ../resources/config. Will be removed in 0.2.0
      */
-    protected final function getServices(): array
+    final protected function getServices(): array
     {
         return [];
-    }
-
-    public function getPath(): string
-    {
-        return \dirname((new \ReflectionClass($this))->getFileName(), 2);
     }
 }

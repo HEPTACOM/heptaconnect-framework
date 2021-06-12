@@ -36,21 +36,24 @@ abstract class PortalExtensionContract
         return $template;
     }
 
-    /**
-     * @deprecated You should use services.xml / services.yml under ../resources/config. Will be removed in 0.2.0
-     */
-    protected final function extendServices(array $services): array
-    {
-        return $services;
-    }
-
     public function getPath(): string
     {
-        return \dirname((new \ReflectionClass($this))->getFileName(), 2);
+        /** @var string $path */
+        $path = (new \ReflectionClass($this))->getFileName();
+
+        return \dirname($path, 2);
     }
 
     /**
      * @return class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>
      */
     abstract public function supports(): string;
+
+    /**
+     * @deprecated You should use services.xml / services.yml under ../resources/config. Will be removed in 0.2.0
+     */
+    final protected function extendServices(array $services): array
+    {
+        return $services;
+    }
 }
