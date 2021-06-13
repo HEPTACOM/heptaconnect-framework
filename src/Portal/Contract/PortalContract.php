@@ -16,7 +16,10 @@ abstract class PortalContract
         return new ExplorerCollection();
     }
 
-    public function getEmitters(): EmitterCollection
+    /**
+     * @deprecated Your emitters will be automatically detected. Will be removed in 0.2.0
+     */
+    final protected function getEmitters(): EmitterCollection
     {
         return new EmitterCollection();
     }

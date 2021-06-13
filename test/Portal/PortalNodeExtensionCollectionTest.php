@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Portal;
 
-use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
-use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
@@ -21,27 +19,6 @@ use PHPUnit\Framework\TestCase;
  */
 class PortalNodeExtensionCollectionTest extends TestCase
 {
-    public function testEmitterDecoratorAggregation(): void
-    {
-        $ext1 = $this->createMock(PortalExtensionContract::class);
-        $ext1->method('getEmitterDecorators')->willReturn(new EmitterCollection([
-            $this->createMock(EmitterContract::class),
-        ]));
-
-        $ext2 = $this->createMock(PortalExtensionContract::class);
-        $ext2->method('getEmitterDecorators')->willReturn(new EmitterCollection([
-            $this->createMock(EmitterContract::class),
-        ]));
-
-        $ext3 = $this->createMock(PortalExtensionContract::class);
-        $ext3->method('getEmitterDecorators')->willReturn(new EmitterCollection([
-            $this->createMock(EmitterContract::class),
-        ]));
-
-        $collection = new PortalExtensionCollection([$ext1, $ext2, $ext3]);
-        static::assertCount(3, $collection->getEmitterDecorators());
-    }
-
     public function testExplorerDecoratorAggregation(): void
     {
         $ext1 = $this->createMock(PortalExtensionContract::class);

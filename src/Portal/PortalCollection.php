@@ -14,18 +14,6 @@ use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
  */
 class PortalCollection extends AbstractCollection
 {
-    public function getEmitters(): EmitterCollection
-    {
-        $result = new EmitterCollection();
-
-        /** @var PortalContract $extension */
-        foreach ($this->getIterator() as $extension) {
-            $result->push($extension->getEmitters()->getIterator());
-        }
-
-        return $result;
-    }
-
     public function getExplorers(): ExplorerCollection
     {
         $result = new ExplorerCollection();

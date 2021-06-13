@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Portal;
 
-use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
-use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
@@ -21,27 +19,6 @@ use PHPUnit\Framework\TestCase;
  */
 class PortalCollectionTest extends TestCase
 {
-    public function testEmitterAggregation(): void
-    {
-        $ext1 = $this->createMock(PortalContract::class);
-        $ext1->method('getEmitters')->willReturn(new EmitterCollection([
-            $this->createMock(EmitterContract::class),
-        ]));
-
-        $ext2 = $this->createMock(PortalContract::class);
-        $ext2->method('getEmitters')->willReturn(new EmitterCollection([
-            $this->createMock(EmitterContract::class),
-        ]));
-
-        $ext3 = $this->createMock(PortalContract::class);
-        $ext3->method('getEmitters')->willReturn(new EmitterCollection([
-            $this->createMock(EmitterContract::class),
-        ]));
-
-        $collection = new PortalCollection([$ext1, $ext2, $ext3]);
-        static::assertCount(3, $collection->getEmitters());
-    }
-
     public function testExplorerAggregation(): void
     {
         $ext1 = $this->createMock(PortalContract::class);
