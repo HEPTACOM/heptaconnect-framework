@@ -13,18 +13,6 @@ use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
  */
 class PortalExtensionCollection extends AbstractCollection
 {
-    public function getExplorerDecorators(): ExplorerCollection
-    {
-        $result = new ExplorerCollection();
-
-        /** @var PortalExtensionContract $extension */
-        foreach ($this->getIterator() as $extension) {
-            $result->push($extension->getExplorerDecorators()->getIterator());
-        }
-
-        return $result;
-    }
-
     public function getReceiverDecorators(): ReceiverCollection
     {
         $result = new ReceiverCollection();

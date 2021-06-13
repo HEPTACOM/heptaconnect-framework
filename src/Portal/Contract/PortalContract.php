@@ -11,7 +11,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class PortalContract
 {
-    public function getExplorers(): ExplorerCollection
+    /**
+     * @deprecated Your explorers will be automatically detected. Will be removed in 0.2.0
+     */
+    final protected function getExplorers(): ExplorerCollection
     {
         return new ExplorerCollection();
     }
