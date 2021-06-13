@@ -27,7 +27,10 @@ abstract class PortalExtensionContract
         return new EmitterCollection();
     }
 
-    public function getReceiverDecorators(): ReceiverCollection
+    /**
+     * @deprecated Your receivers will be automatically detected. Will be removed in 0.2.0
+     */
+    final protected function getReceiverDecorators(): ReceiverCollection
     {
         return new ReceiverCollection();
     }

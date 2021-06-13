@@ -27,7 +27,10 @@ abstract class PortalContract
         return new EmitterCollection();
     }
 
-    public function getReceivers(): ReceiverCollection
+    /**
+     * @deprecated Your receivers will be automatically detected. Will be removed in 0.2.0
+     */
+    final protected function getReceivers(): ReceiverCollection
     {
         return new ReceiverCollection();
     }

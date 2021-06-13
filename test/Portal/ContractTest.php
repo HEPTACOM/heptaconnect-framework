@@ -17,7 +17,6 @@ class ContractTest extends TestCase
     {
         $portal = new class() extends PortalContract {
         };
-        static::assertEquals(0, $portal->getReceivers()->count());
         static::assertCount(0, $portal->getConfigurationTemplate()->resolve());
     }
 
@@ -40,7 +39,6 @@ class ContractTest extends TestCase
                 return self::class;
             }
         };
-        static::assertEquals(0, $portalExt->getReceiverDecorators()->count());
         static::assertCount(0, $portalExt->extendConfiguration(new OptionsResolver())->resolve());
     }
 
