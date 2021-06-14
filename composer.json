@@ -18,8 +18,8 @@
     "require": {
         "php": ">=7.4",
         "ext-json": "*",
-        "heptacom/heptaconnect-dataset-base": ">=0.0.1",
-        "heptacom/heptaconnect-portal-base": ">=0.0.1"
+        "heptacom/heptaconnect-dataset-base": "self.version",
+        "heptacom/heptaconnect-portal-base": "self.version"
     },
     "conflict": {
         "nikic/php-parser": "4.7.0"
