@@ -1,11 +1,11 @@
 {
     "name": "heptacom/heptaconnect-storage-base",
+    "version": "0.1.0",
     "type": "library",
     "description": "HEPTAconnect base storage that every other storage provider is based on",
     "keywords": [
         "heptaconnect-storage"
     ],
-    "version": "0.0.1",
     "license": [
         "AGPL-3.0-or-later",
         "proprietary"
