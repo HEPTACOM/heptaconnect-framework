@@ -56,6 +56,11 @@ abstract class PortalContract
         return \dirname($path, 2);
     }
 
+    public function hasAutomaticPsr4Prototyping(): bool
+    {
+        return true;
+    }
+
     /**
      * @deprecated You should use services.xml / services.yml under ../resources/config. Will be removed in 0.2.0
      */

@@ -56,6 +56,11 @@ abstract class PortalExtensionContract
         return \dirname($path, 2);
     }
 
+    public function hasAutomaticPsr4Prototyping(): bool
+    {
+        return true;
+    }
+
     /**
      * @return class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>
      */
