@@ -1,11 +1,11 @@
 {
     "name": "heptacom/heptaconnect-storage-base",
+    "version": "0.1.0",
     "type": "library",
     "description": "HEPTAconnect base storage that every other storage provider is based on",
     "keywords": [
         "heptaconnect-storage"
     ],
-    "version": "0.0.1",
     "license": [
         "AGPL-3.0-or-later",
         "proprietary"
@@ -18,8 +18,8 @@
     "require": {
         "php": ">=7.4",
         "ext-json": "*",
-        "heptacom/heptaconnect-dataset-base": ">=0.0.1",
-        "heptacom/heptaconnect-portal-base": ">=0.0.1"
+        "heptacom/heptaconnect-dataset-base": "self.version",
+        "heptacom/heptaconnect-portal-base": "self.version"
     },
     "conflict": {
         "nikic/php-parser": "4.7.0"
