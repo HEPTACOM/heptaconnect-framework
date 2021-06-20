@@ -11,22 +11,34 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class PortalContract
 {
-    public function getExplorers(): ExplorerCollection
+    /**
+     * @deprecated Your explorers will be automatically detected. Will be removed in 0.2.0
+     */
+    final protected function getExplorers(): ExplorerCollection
     {
         return new ExplorerCollection();
     }
 
-    public function getEmitters(): EmitterCollection
+    /**
+     * @deprecated Your emitters will be automatically detected. Will be removed in 0.2.0
+     */
+    final protected function getEmitters(): EmitterCollection
     {
         return new EmitterCollection();
     }
 
-    public function getReceivers(): ReceiverCollection
+    /**
+     * @deprecated Your receivers will be automatically detected. Will be removed in 0.2.0
+     */
+    final protected function getReceivers(): ReceiverCollection
     {
         return new ReceiverCollection();
     }
 
-    public function getStatusReporters(): StatusReporterCollection
+    /**
+     * @deprecated Your status reporter will be automatically detected. Will be removed in 0.2.0
+     */
+    final protected function getStatusReporters(): StatusReporterCollection
     {
         return new StatusReporterCollection();
     }
@@ -36,7 +48,23 @@ abstract class PortalContract
         return new OptionsResolver();
     }
 
-    public function getServices(): array
+    public function getPath(): string
+    {
+        /** @var string $path */
+        $path = (new \ReflectionClass($this))->getFileName();
+
+        return \dirname($path, 2);
+    }
+
+    public function hasAutomaticPsr4Prototyping(): bool
+    {
+        return true;
+    }
+
+    /**
+     * @deprecated You should use services.xml / services.yml under ../resources/config. Will be removed in 0.2.0
+     */
+    final protected function getServices(): array
     {
         return [];
     }

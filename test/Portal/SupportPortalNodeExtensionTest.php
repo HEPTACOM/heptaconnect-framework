@@ -24,39 +24,6 @@ class SupportPortalNodeExtensionTest extends TestCase
         static::assertTrue(\is_a($extension->supports(), PortalContract::class, true));
     }
 
-    public function testHasEmitterDecorators(): void
-    {
-        $extension = new class() extends PortalExtensionContract {
-            public function supports(): string
-            {
-                return PortalContract::class;
-            }
-        };
-        static::assertCount(0, $extension->getEmitterDecorators());
-    }
-
-    public function testHasExplorerDecorators(): void
-    {
-        $extension = new class() extends PortalExtensionContract {
-            public function supports(): string
-            {
-                return PortalContract::class;
-            }
-        };
-        static::assertCount(0, $extension->getExplorerDecorators());
-    }
-
-    public function testHasReceiverDecorators(): void
-    {
-        $extension = new class() extends PortalExtensionContract {
-            public function supports(): string
-            {
-                return PortalContract::class;
-            }
-        };
-        static::assertCount(0, $extension->getReceiverDecorators());
-    }
-
     public function testConfigurationExtension(): void
     {
         $extension = new class() extends PortalExtensionContract {
