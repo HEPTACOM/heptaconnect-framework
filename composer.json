@@ -56,5 +56,11 @@
             "type": "path",
             "url": "../**"
         }
+    },
+    "support": {
+        "issues": "https://github.com/HEPTACOM/heptaconnect-storage-base/issues",
+        "source": "https://github.com/HEPTACOM/heptaconnect-storage-base",
+        "docs": "https://connect.heptacom.de/",
+        "rss": "https://connect.heptacom.de/feed/rss2.xml"
     }
 }
