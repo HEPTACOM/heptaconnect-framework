@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder;
 
@@ -42,7 +43,7 @@ trait ResolveArgumentsTrait
         $name = $type instanceof \ReflectionNamedType ? $type->getName() : (string) $type;
 
         if ($function instanceof \ReflectionMethod) {
-            $lcName = strtolower($name);
+            $lcName = \strtolower($name);
             switch ($lcName) {
                 case 'self':
                     return $function->getDeclaringClass()->name;

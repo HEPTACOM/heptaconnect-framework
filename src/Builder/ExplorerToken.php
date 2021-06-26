@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder;
 
@@ -47,10 +48,9 @@ class ExplorerToken
         $this->isAllowed = $isAllowed;
     }
 
-
     public function build(): ExplorerContract
     {
-        return new class ($this->type, $this->run, $this->isAllowed) extends ExplorerContract {
+        return new class($this->type, $this->run, $this->isAllowed) extends ExplorerContract {
             use ResolveArgumentsTrait;
 
             private string $type;

@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder;
 
@@ -49,7 +50,7 @@ class EmitterToken
 
     public function build(): EmitterContract
     {
-        return new class ($this->type, $this->run, $this->extend) extends EmitterContract {
+        return new class($this->type, $this->run, $this->extend) extends EmitterContract {
             use ResolveArgumentsTrait;
 
             private string $type;

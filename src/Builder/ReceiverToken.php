@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder;
 
@@ -36,7 +37,7 @@ class ReceiverToken
 
     public function build(): ReceiverContract
     {
-        return new class ($this->type, $this->run) extends ReceiverContract {
+        return new class($this->type, $this->run) extends ReceiverContract {
             use ResolveArgumentsTrait;
 
             private string $type;
