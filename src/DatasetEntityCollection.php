@@ -11,11 +11,6 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
  */
 class DatasetEntityCollection extends AbstractObjectCollection
 {
-    protected function getT(): string
-    {
-        return DatasetEntityContract::class;
-    }
-
     /**
      * @return DatasetEntityCollection[]
      */
@@ -32,5 +27,10 @@ class DatasetEntityCollection extends AbstractObjectCollection
         foreach ($groups as $type => $group) {
             yield $type => new static($group);
         }
+    }
+
+    protected function getT(): string
+    {
+        return DatasetEntityContract::class;
     }
 }
