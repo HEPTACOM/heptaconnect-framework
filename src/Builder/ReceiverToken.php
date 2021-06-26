@@ -5,6 +5,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Builder;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiveContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
+use Psr\Container\ContainerInterface;
 
 class ReceiverToken
 {
@@ -36,6 +37,8 @@ class ReceiverToken
     public function build(): ReceiverContract
     {
         return new class ($this->type, $this->run) extends ReceiverContract {
+            use ResolveArgumentsTrait;
+
             private string $type;
 
             /** @var callable|null */
@@ -57,8 +60,20 @@ class ReceiverToken
                 ReceiveContextInterface $context
             ): void {
                 if (\is_callable($run = $this->runMethod)) {
-                    // TODO: dependency injection
-                    $run($entity);
+                    $arguments = $this->resolveArguments($run, $context->getContainer(), function (
+                        int $propertyIndex,
+                        string $propertyName,
+                        string $propertyType,
+                        ContainerInterface $container
+                    ) use ($entity) {
+                        if (\is_a($propertyType, $this->supports(), true)) {
+                            return $entity;
+                        }
+
+                        return $container->get($propertyType);
+                    });
+
+                    $run(...$arguments);
 
                     return;
                 }

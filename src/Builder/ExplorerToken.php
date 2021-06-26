@@ -5,6 +5,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Builder;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
+use Psr\Container\ContainerInterface;
 
 class ExplorerToken
 {
@@ -50,6 +51,8 @@ class ExplorerToken
     public function build(): ExplorerContract
     {
         return new class ($this->type, $this->run, $this->isAllowed) extends ExplorerContract {
+            use ResolveArgumentsTrait;
+
             private string $type;
 
             /** @var callable|null */
@@ -73,8 +76,16 @@ class ExplorerToken
             protected function run(ExploreContextInterface $context): iterable
             {
                 if (\is_callable($run = $this->runMethod)) {
-                    // TODO: dependency injection
-                    return $run();
+                    $arguments = $this->resolveArguments($run, $context->getContainer(), function (
+                        int $propertyIndex,
+                        string $propertyName,
+                        string $propertyType,
+                        ContainerInterface $container
+                    ) {
+                        return $container->get($propertyType);
+                    });
+
+                    return $run(...$arguments);
                 }
 
                 return parent::run($context);
@@ -86,8 +97,22 @@ class ExplorerToken
                 ExploreContextInterface $context
             ): bool {
                 if (\is_callable($isAllowed = $this->isAllowedMethod)) {
-                    // TODO: dependency injection
-                    return $isAllowed($externalId, $entity);
+                    $arguments = $this->resolveArguments($isAllowed, $context->getContainer(), function (
+                        int $propertyIndex,
+                        string $propertyName,
+                        string $propertyType,
+                        ContainerInterface $container
+                    ) use ($externalId, $entity) {
+                        if ($propertyType === 'string') {
+                            return $externalId;
+                        } elseif (\is_a($propertyType, $this->supports(), true)) {
+                            return $entity;
+                        }
+
+                        return $container->get($propertyType);
+                    });
+
+                    return $isAllowed(...$arguments);
                 }
 
                 return parent::isAllowed($externalId, $entity, $context);

@@ -5,6 +5,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Builder;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
+use Psr\Container\ContainerInterface;
 
 class EmitterToken
 {
@@ -49,6 +50,8 @@ class EmitterToken
     public function build(): EmitterContract
     {
         return new class ($this->type, $this->run, $this->extend) extends EmitterContract {
+            use ResolveArgumentsTrait;
+
             private string $type;
 
             /** @var callable|null */
@@ -74,8 +77,20 @@ class EmitterToken
                 EmitContextInterface $context
             ): ?DatasetEntityContract {
                 if (\is_callable($run = $this->runMethod)) {
-                    // TODO: dependency injection
-                    return $run($externalId);
+                    $arguments = $this->resolveArguments($run, $context->getContainer(), function (
+                        int $propertyIndex,
+                        string $propertyName,
+                        string $propertyType,
+                        ContainerInterface $container
+                    ) use ($externalId) {
+                        if ($propertyType === 'string') {
+                            return $externalId;
+                        }
+
+                        return $container->get($propertyType);
+                    });
+
+                    return $run(...$arguments);
                 }
 
                 return parent::run($externalId, $context);
@@ -86,8 +101,20 @@ class EmitterToken
                 EmitContextInterface $context
             ): DatasetEntityContract {
                 if (\is_callable($extend = $this->extendMethod)) {
-                    // TODO: dependency injection
-                    return $extend($entity);
+                    $arguments = $this->resolveArguments($extend, $context->getContainer(), function (
+                        int $propertyIndex,
+                        string $propertyName,
+                        string $propertyType,
+                        ContainerInterface $container
+                    ) use ($entity) {
+                        if (\is_a($propertyType, $this->supports(), true)) {
+                            return $entity;
+                        }
+
+                        return $container->get($propertyType);
+                    });
+
+                    return $extend(...$arguments);
                 }
 
                 return parent::extend($entity, $context);
