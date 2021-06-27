@@ -88,7 +88,7 @@ class EmitterToken
                             return $externalId;
                         }
 
-                        return $container->get($propertyType);
+                        return $this->resolveFromContainer($container, $propertyType, $propertyName);
                     });
 
                     return $run(...$arguments);
@@ -112,7 +112,7 @@ class EmitterToken
                             return $entity;
                         }
 
-                        return $container->get($propertyType);
+                        return $this->resolveFromContainer($container, $propertyType, $propertyName);
                     });
 
                     return $extend(...$arguments);

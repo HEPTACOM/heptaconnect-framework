@@ -71,7 +71,7 @@ class ReceiverToken
                             return $entity;
                         }
 
-                        return $container->get($propertyType);
+                        return $this->resolveFromContainer($container, $propertyType, $propertyName);
                     });
 
                     $run(...$arguments);

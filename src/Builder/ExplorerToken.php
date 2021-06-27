@@ -82,7 +82,7 @@ class ExplorerToken
                         string $propertyType,
                         ContainerInterface $container
                     ) {
-                        return $container->get($propertyType);
+                        return $this->resolveFromContainer($container, $propertyType, $propertyName);
                     });
 
                     return $run(...$arguments);
@@ -109,7 +109,7 @@ class ExplorerToken
                             return $entity;
                         }
 
-                        return $container->get($propertyType);
+                        return $this->resolveFromContainer($container, $propertyType, $propertyName);
                     });
 
                     return $isAllowed(...$arguments);
