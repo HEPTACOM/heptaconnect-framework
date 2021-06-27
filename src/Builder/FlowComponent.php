@@ -90,4 +90,11 @@ class FlowComponent
             unset(self::$receiverTokens[$key]);
         }
     }
+
+    public function reset(): void
+    {
+        self::$explorerTokens = [];
+        self::$emitterTokens = [];
+        self::$receiverTokens = [];
+    }
 }
