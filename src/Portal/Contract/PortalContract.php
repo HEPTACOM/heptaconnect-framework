@@ -11,6 +11,24 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class PortalContract
 {
+    public function getConfigurationTemplate(): OptionsResolver
+    {
+        return new OptionsResolver();
+    }
+
+    public function getPath(): string
+    {
+        /** @var string $path */
+        $path = (new \ReflectionClass($this))->getFileName();
+
+        return \dirname($path, 2);
+    }
+
+    public function hasAutomaticPsr4Prototyping(): bool
+    {
+        return true;
+    }
+
     /**
      * @deprecated Your explorers will be automatically detected. Will be removed in 0.2.0
      */
@@ -41,24 +59,6 @@ abstract class PortalContract
     final protected function getStatusReporters(): StatusReporterCollection
     {
         return new StatusReporterCollection();
-    }
-
-    public function getConfigurationTemplate(): OptionsResolver
-    {
-        return new OptionsResolver();
-    }
-
-    public function getPath(): string
-    {
-        /** @var string $path */
-        $path = (new \ReflectionClass($this))->getFileName();
-
-        return \dirname($path, 2);
-    }
-
-    public function hasAutomaticPsr4Prototyping(): bool
-    {
-        return true;
     }
 
     /**
