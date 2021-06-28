@@ -7,22 +7,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class PortalExtensionContract
 {
+    use PathMethodsTrait;
+
     public function extendConfiguration(OptionsResolver $template): OptionsResolver
     {
         return $template;
-    }
-
-    public function getPath(): string
-    {
-        /** @var string $path */
-        $path = (new \ReflectionClass($this))->getFileName();
-
-        return \dirname($path, 2);
-    }
-
-    public function hasAutomaticPsr4Prototyping(): bool
-    {
-        return true;
     }
 
     /**
