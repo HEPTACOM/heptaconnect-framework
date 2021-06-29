@@ -23,12 +23,25 @@ class ContractTest extends TestCase
     public function testOverridingPathOfPortalContract(): void
     {
         $portal = new class() extends PortalContract {
-            public function getPath(): string
+            public function getPsr4(): array
             {
-                return __DIR__;
+                return ['__NAMESPACE__' => '__DIR__'];
+            }
+
+            public function getContainerConfigurationPath(): string
+            {
+                return '__DIR__';
+            }
+
+            public function getFlowComponentsPath(): string
+            {
+                return '__DIR__';
             }
         };
-        static::assertEquals(__DIR__, $portal->getPath());
+
+        static::assertEquals(['__NAMESPACE__' => '__DIR__'], $portal->getPsr4());
+        static::assertEquals('__DIR__', $portal->getContainerConfigurationPath());
+        static::assertEquals('__DIR__', $portal->getFlowComponentsPath());
     }
 
     public function testExtendingPortalExtensionContract(): void
@@ -50,11 +63,24 @@ class ContractTest extends TestCase
                 return self::class;
             }
 
-            public function getPath(): string
+            public function getPsr4(): array
             {
-                return __DIR__;
+                return ['__NAMESPACE__' => '__DIR__'];
+            }
+
+            public function getContainerConfigurationPath(): string
+            {
+                return '__DIR__';
+            }
+
+            public function getFlowComponentsPath(): string
+            {
+                return '__DIR__';
             }
         };
-        static::assertEquals(__DIR__, $portalExt->getPath());
+
+        static::assertEquals(['__NAMESPACE__' => '__DIR__'], $portalExt->getPsr4());
+        static::assertEquals('__DIR__', $portalExt->getContainerConfigurationPath());
+        static::assertEquals('__DIR__', $portalExt->getFlowComponentsPath());
     }
 }

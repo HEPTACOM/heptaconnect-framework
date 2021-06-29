@@ -57,8 +57,8 @@ trait ResolveArgumentsTrait
 
     private function resolveFromContainer(ContainerInterface $container, string $propertyType, string $propertyName)
     {
-        if ($container->has($propertyType . ' $' . $propertyName)) {
-            return $container->get($propertyType . ' $' . $propertyName);
+        if ($container->has($propertyType.' $'.$propertyName)) {
+            return $container->get($propertyType.' $'.$propertyName);
         }
 
         return $container->get($propertyType);
