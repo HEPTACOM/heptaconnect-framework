@@ -14,6 +14,9 @@ class FlowComponent
     /** @var ReceiverToken[] */
     private static array $receiverTokens = [];
 
+    /** @var StatusReporterToken[] */
+    private static array $statusReporterTokens = [];
+
     public static function explorer(string $type, ?callable $run = null, ?callable $isAllowed = null): ExplorerBuilder
     {
         self::$explorerTokens[] = $token = new ExplorerToken($type);
@@ -58,6 +61,18 @@ class FlowComponent
         return $builder;
     }
 
+    public static function statusReporter(string $topic, ?callable $run = null): StatusReporterBuilder
+    {
+        self::$statusReporterTokens[] = $token = new StatusReporterToken($topic);
+        $builder = new StatusReporterBuilder($token);
+
+        if (\is_callable($run)) {
+            $builder->run($run);
+        }
+
+        return $builder;
+    }
+
     /**
      * @return iterable<\Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract>
      */
@@ -88,6 +103,17 @@ class FlowComponent
         foreach (self::$receiverTokens as $key => $receiverToken) {
             yield $receiverToken->build();
             unset(self::$receiverTokens[$key]);
+        }
+    }
+
+    /**
+     * @return iterable<\Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract>
+     */
+    public function buildStatusReporters(): iterable
+    {
+        foreach (self::$statusReporterTokens as $key => $statusReporterToken) {
+            yield $statusReporterToken->build();
+            unset(self::$statusReporterTokens[$key]);
         }
     }
 
