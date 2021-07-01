@@ -14,8 +14,9 @@ trait PathMethodsTrait
         if (\file_exists($composerJsonPath)) {
             $composerJson = \json_decode(\file_get_contents($composerJsonPath), true);
             $portals = $composerJson['extra']['heptaconnect']['portals'] ?? [];
+            $portalExtensions = $composerJson['extra']['heptaconnect']['portalExtensions'] ?? [];
 
-            if (\in_array(static::class, $portals)) {
+            if (\in_array(static::class, [...$portals, ...$portalExtensions])) {
                 $psr4 = $composerJson['autoload']['psr-4'];
 
                 if ($psr4) {
