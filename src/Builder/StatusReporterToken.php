@@ -39,20 +39,20 @@ class StatusReporterToken
         return new class($this->topic, $this->run) extends StatusReporterContract {
             use ResolveArgumentsTrait;
 
-            private string $type;
+            private string $topic;
 
             /** @var callable|null */
             private $runMethod;
 
-            public function __construct(string $type, ?callable $run)
+            public function __construct(string $topic, ?callable $run)
             {
-                $this->type = $type;
+                $this->topic = $topic;
                 $this->runMethod = $run;
             }
 
             public function supportsTopic(): string
             {
-                return $this->type;
+                return $this->topic;
             }
 
             protected function run(StatusReportingContextInterface $context): array
@@ -67,7 +67,20 @@ class StatusReporterToken
                         return $this->resolveFromContainer($container, $propertyType, $propertyName);
                     });
 
-                    return $run(...$arguments);
+                    try {
+                        $result = $run(...$arguments);
+
+                        if (\is_bool($result)) {
+                            return [$this->supportsTopic() => $result];
+                        }
+
+                        return $result;
+                    } catch (\Throwable $throwable) {
+                        return [
+                            $this->supportsTopic() => false,
+                            'exception' => $throwable->getMessage(),
+                        ];
+                    }
                 }
 
                 return parent::run($context);
