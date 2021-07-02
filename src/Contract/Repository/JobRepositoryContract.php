@@ -3,23 +3,22 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Contract\Repository;
 
-use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\JobInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\JobKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\JobPayloadKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
+use Heptacom\HeptaConnect\Storage\Base\Repository\JobAdd;
 
 abstract class JobRepositoryContract
 {
     /**
+     * @param JobAdd[] $jobAdds
+     *
+     * @return JobKeyInterface[]
+     *
      * @throws UnsupportedStorageKeyException
      */
-    abstract public function add(
-        MappingComponentStructContract $mapping,
-        string $jobType,
-        ?JobPayloadKeyInterface $jobPayloadKey
-    ): JobKeyInterface;
+    abstract public function add(array $jobAdds): array;
 
     /**
      * @throws NotFoundException
