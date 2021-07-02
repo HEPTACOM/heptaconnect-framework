@@ -3,15 +3,18 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder;
 
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeContextInterface;
 use Psr\Container\ContainerInterface;
 
 trait ResolveArgumentsTrait
 {
     protected function resolveArguments(
         callable $method,
-        ContainerInterface $container,
+        PortalNodeContextInterface $context,
         callable $resolveArgument
     ): array {
+        $container = $context->getContainer();
+
         if (\is_array($method)) {
             $reflection = new \ReflectionMethod($method[0], $method[1]);
         } elseif (\is_object($method) && !$method instanceof \Closure) {
@@ -23,12 +26,18 @@ trait ResolveArgumentsTrait
         $arguments = [];
 
         foreach ($reflection->getParameters() as $key => $param) {
-            $arguments[] = $resolveArgument(
-                (int) $key,
-                $param->getName(),
-                $this->getType($param, $reflection),
-                $container
-            );
+            $type = $this->getType($param, $reflection);
+
+            if (\is_a($type, PortalNodeContextInterface::class, true)) {
+                $arguments[] = $context;
+            } else {
+                $arguments[] = $resolveArgument(
+                    (int) $key,
+                    $param->getName(),
+                    $type,
+                    $container
+                );
+            }
         }
 
         return $arguments;

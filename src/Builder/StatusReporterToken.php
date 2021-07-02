@@ -58,7 +58,7 @@ class StatusReporterToken
             protected function run(StatusReportingContextInterface $context): array
             {
                 if (\is_callable($run = $this->runMethod)) {
-                    $arguments = $this->resolveArguments($run, $context->getContainer(), function (
+                    $arguments = $this->resolveArguments($run, $context, function (
                         int $propertyIndex,
                         string $propertyName,
                         string $propertyType,

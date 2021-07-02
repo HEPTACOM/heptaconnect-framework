@@ -78,7 +78,7 @@ class EmitterToken
                 EmitContextInterface $context
             ): ?DatasetEntityContract {
                 if (\is_callable($run = $this->runMethod)) {
-                    $arguments = $this->resolveArguments($run, $context->getContainer(), function (
+                    $arguments = $this->resolveArguments($run, $context, function (
                         int $propertyIndex,
                         string $propertyName,
                         string $propertyType,
@@ -102,7 +102,7 @@ class EmitterToken
                 EmitContextInterface $context
             ): DatasetEntityContract {
                 if (\is_callable($extend = $this->extendMethod)) {
-                    $arguments = $this->resolveArguments($extend, $context->getContainer(), function (
+                    $arguments = $this->resolveArguments($extend, $context, function (
                         int $propertyIndex,
                         string $propertyName,
                         string $propertyType,

@@ -76,7 +76,7 @@ class ExplorerToken
             protected function run(ExploreContextInterface $context): iterable
             {
                 if (\is_callable($run = $this->runMethod)) {
-                    $arguments = $this->resolveArguments($run, $context->getContainer(), function (
+                    $arguments = $this->resolveArguments($run, $context, function (
                         int $propertyIndex,
                         string $propertyName,
                         string $propertyType,
@@ -97,7 +97,7 @@ class ExplorerToken
                 ExploreContextInterface $context
             ): bool {
                 if (\is_callable($isAllowed = $this->isAllowedMethod)) {
-                    $arguments = $this->resolveArguments($isAllowed, $context->getContainer(), function (
+                    $arguments = $this->resolveArguments($isAllowed, $context, function (
                         int $propertyIndex,
                         string $propertyName,
                         string $propertyType,

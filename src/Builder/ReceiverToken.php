@@ -61,7 +61,7 @@ class ReceiverToken
                 ReceiveContextInterface $context
             ): void {
                 if (\is_callable($run = $this->runMethod)) {
-                    $arguments = $this->resolveArguments($run, $context->getContainer(), function (
+                    $arguments = $this->resolveArguments($run, $context, function (
                         int $propertyIndex,
                         string $propertyName,
                         string $propertyType,
