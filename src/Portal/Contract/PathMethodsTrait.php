@@ -40,7 +40,7 @@ trait PathMethodsTrait
     {
         return \implode(\DIRECTORY_SEPARATOR, [
             $this->getPath(),
-            'resources',
+            'Resources',
             'config',
         ]);
     }
@@ -49,7 +49,8 @@ trait PathMethodsTrait
     {
         return \implode(\DIRECTORY_SEPARATOR, [
             $this->getPath(),
-            'flow-components',
+            'Resources',
+            'flow-component',
         ]);
     }
 
