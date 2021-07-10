@@ -9,6 +9,9 @@ use Heptacom\HeptaConnect\Portal\Base\Webhook\Contract\WebhookInterface;
 use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 
+/**
+ * @internal
+ */
 abstract class WebhookRepositoryContract
 {
     /**
