@@ -32,6 +32,18 @@ abstract class ReceiverContract
     ): void {
     }
 
+    protected function batch(TypedDatasetEntityCollection $entities, ReceiveContextInterface $context): void
+    {
+        /** @var DatasetEntityContract $entity */
+        foreach ($entities as $entity) {
+            try {
+                $this->run($entity, $context);
+            } catch (\Throwable $throwable) {
+                $context->markAsFailed($entity, $throwable);
+            }
+        }
+    }
+
     final protected function isSupported(DatasetEntityContract $entity): bool
     {
         return \is_a($entity, $this->supports(), false);
@@ -55,24 +67,17 @@ abstract class ReceiverContract
         TypedDatasetEntityCollection $entities,
         ReceiveContextInterface $context
     ): iterable {
-        /** @var DatasetEntityContract $entity */
-        foreach ($entities as $entity) {
-            if (!$this->isSupported($entity)) {
+        if (!\is_a($entities->getType(), $this->supports(), true)) {
+            foreach ($entities as $entity) {
                 $context->markAsFailed($entity, new UnsupportedDatasetEntityException());
-
-                continue;
             }
 
-            try {
-                $this->run($entity, $context);
-            } catch (\Throwable $throwable) {
-                $context->markAsFailed($entity, $throwable);
-
-                continue;
-            }
-
-            yield $entity;
+            return;
         }
+
+        $this->batch($entities, $context);
+
+        yield from $entities->getIterator();
     }
 
     /**
@@ -83,20 +88,22 @@ abstract class ReceiverContract
         TypedDatasetEntityCollection $entities,
         ReceiveContextInterface $context
     ): iterable {
-        foreach ($this->receiveNext($stack, $entities, $context) as $key => $entity) {
-            if (!$this->isSupported($entity)) {
-                break;
+        if (!\is_a($entities->getType(), $this->supports(), true)) {
+            foreach ($entities as $entity) {
+                $context->markAsFailed($entity, new UnsupportedDatasetEntityException());
             }
 
+            return;
+        }
+
+        foreach ($this->receiveNext($stack, $entities, $context) as $entity) {
             try {
                 $this->run($entity, $context);
             } catch (\Throwable $throwable) {
                 $context->markAsFailed($entity, $throwable);
-
-                break;
             }
-
-            yield $key => $entity;
         }
+
+        yield from $entities->getIterator();
     }
 }
