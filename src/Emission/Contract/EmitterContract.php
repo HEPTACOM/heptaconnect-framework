@@ -116,7 +116,7 @@ abstract class EmitterContract
         /** @var LoggerInterface $logger */
         $logger = $context->getContainer()->get(LoggerInterface::class);
 
-        $externalIds = iterable_filter($externalIds, function ($externalId) use ($context, $logger): bool {
+        $externalIds = \iterable_filter($externalIds, function ($externalId) use ($logger): bool {
             if (!\is_string($externalId)) {
                 $logger->error(\sprintf(
                     'Empty primary key was passed to emitter "%s". Skipping.',
