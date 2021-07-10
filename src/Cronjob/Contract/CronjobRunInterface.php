@@ -7,6 +7,9 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\CronjobKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\CronjobRunKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
+/**
+ * @internal
+ */
 interface CronjobRunInterface
 {
     public function getPortalNodeKey(): PortalNodeKeyInterface;

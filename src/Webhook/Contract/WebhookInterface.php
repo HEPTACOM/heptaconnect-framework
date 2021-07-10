@@ -6,6 +6,9 @@ namespace Heptacom\HeptaConnect\Portal\Base\Webhook\Contract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\WebhookKeyInterface;
 
+/**
+ * @internal
+ */
 interface WebhookInterface
 {
     public function getPortalNodeKey(): PortalNodeKeyInterface;

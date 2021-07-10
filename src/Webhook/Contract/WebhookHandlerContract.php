@@ -9,6 +9,9 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 
+/**
+ * @internal
+ */
 abstract class WebhookHandlerContract
 {
     protected ResponseFactoryInterface $responseFactory;

@@ -7,6 +7,8 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\WebhookKeyInterface;
 
 /**
+ * @internal
+ *
  * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\WebhookKeyInterface>
  */
 class WebhookKeyCollection extends AbstractCollection
