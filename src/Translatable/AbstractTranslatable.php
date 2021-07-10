@@ -13,7 +13,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Translatable\Contract\TranslatableInterfa
  *
  * @property T|null $fallback
  */
-abstract class GenericTranslatable implements \ArrayAccess, \JsonSerializable, Contract\TranslatableInterface
+abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, Contract\TranslatableInterface
 {
     use SetStateTrait;
 

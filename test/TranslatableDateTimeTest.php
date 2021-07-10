@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
-use Heptacom\HeptaConnect\Dataset\Base\Translatable\GenericTranslatable;
+use Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable;
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableDateTime;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\SetStateTrait
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\GenericTranslatable
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableDateTime
  */
 class TranslatableDateTimeTest extends TestCase
@@ -131,7 +131,7 @@ class TranslatableDateTimeTest extends TestCase
      */
     public function testSetState(\DateTimeInterface $anyValue): void
     {
-        /** @var GenericTranslatable $translatable */
+        /** @var AbstractTranslatable $translatable */
         $translatable = TranslatableDateTime::__set_state([
             'translations' => [
                 'en-GB' => $anyValue,
@@ -146,7 +146,7 @@ class TranslatableDateTimeTest extends TestCase
      */
     public function testInvalidSetStateValues(\DateTimeInterface $anyValue): void
     {
-        /** @var GenericTranslatable $translatable */
+        /** @var AbstractTranslatable $translatable */
         $translatable = TranslatableDateTime::__set_state([
             'translations' => [
                 'en-GB' => $anyValue,

@@ -6,9 +6,9 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Translatable;
 use Heptacom\HeptaConnect\Dataset\Base\Date;
 
 /**
- * @extends GenericTranslatable<\Heptacom\HeptaConnect\Dataset\Base\Date>
+ * @extends AbstractTranslatable<\Heptacom\HeptaConnect\Dataset\Base\Date>
  */
-class TranslatableDate extends GenericTranslatable
+class TranslatableDate extends AbstractTranslatable
 {
     protected function isValidValue($value): bool
     {

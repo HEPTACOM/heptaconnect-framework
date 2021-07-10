@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Dataset\Base\Translatable;
 
 /**
- * @extends GenericTranslatable<\DateTimeInterface>
+ * @extends AbstractTranslatable<\DateTimeInterface>
  */
-class TranslatableDateTime extends GenericTranslatable
+class TranslatableDateTime extends AbstractTranslatable
 {
     protected function isValidValue($value): bool
     {

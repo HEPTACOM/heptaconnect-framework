@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
-use Heptacom\HeptaConnect\Dataset\Base\Translatable\GenericTranslatable;
+use Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable;
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableInteger;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\SetStateTrait
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\GenericTranslatable
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableInteger
  */
 class TranslatableIntegerTest extends TestCase
@@ -131,7 +131,7 @@ class TranslatableIntegerTest extends TestCase
      */
     public function testSetState(int $anyValue): void
     {
-        /** @var GenericTranslatable $translatable */
+        /** @var AbstractTranslatable $translatable */
         $translatable = TranslatableInteger::__set_state([
             'translations' => [
                 'en-GB' => $anyValue,
@@ -146,7 +146,7 @@ class TranslatableIntegerTest extends TestCase
      */
     public function testInvalidSetStateValues(int $anyValue): void
     {
-        /** @var GenericTranslatable $translatable */
+        /** @var AbstractTranslatable $translatable */
         $translatable = TranslatableInteger::__set_state([
             'translations' => $anyValue,
         ]);

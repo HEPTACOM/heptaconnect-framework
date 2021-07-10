@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Dataset\Base\Translatable;
 
 /**
- * @extends GenericTranslatable<bool>
+ * @extends AbstractTranslatable<bool>
  */
-class TranslatableBoolean extends GenericTranslatable
+class TranslatableBoolean extends AbstractTranslatable
 {
     protected function isValidValue($value): bool
     {
