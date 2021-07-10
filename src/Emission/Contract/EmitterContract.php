@@ -111,38 +111,57 @@ abstract class EmitterContract
      */
     final protected function emitCurrent(iterable $externalIds, EmitContextInterface $context): iterable
     {
-        foreach ($externalIds as $externalId) {
-            if (\is_null($externalId)) {
-                /** @var LoggerInterface $logger */
-                $logger = $context->getContainer()->get(LoggerInterface::class);
+        /** @var LoggerInterface $logger */
+        $logger = $context->getContainer()->get(LoggerInterface::class);
+
+        $externalIds = iterable_filter($externalIds, function ($externalId) use ($context, $logger): bool {
+            if (!\is_string($externalId)) {
                 $logger->error(\sprintf(
                     'Empty primary key was passed to emitter "%s". Skipping.',
                     static::class
                 ));
 
+                return false;
+            }
+
+            return true;
+        });
+
+        /** @var DatasetEntityContract|null $entity */
+        foreach ($this->batch($externalIds, $context) as $entity) {
+            if (!$this->isSupported($entity)) {
+                $this->runDeclaringClass ??= (new \ReflectionMethod($this, 'run'))->getDeclaringClass()->getName();
+
+                if ($this->runDeclaringClass === self::class) {
+                    continue;
+                }
+
+                $logger->error(\sprintf(
+                    'Emitter "%s" returned object of unsupported type. Expected "%s" but got "%s".',
+                    static::class,
+                    $this->supports(),
+                    $entity === null ? 'null' : \get_class($entity)
+                ));
+
                 continue;
             }
 
+            yield $entity;
+        }
+    }
+
+    /**
+     * @param iterable<string> $externalIds
+     *
+     * @return iterable<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|null>
+     */
+    protected function batch(iterable $externalIds, EmitContextInterface $context): iterable
+    {
+        foreach ($externalIds as $externalId) {
             try {
-                $entity = $this->run($externalId, $context);
-
-                if (!$this->isSupported($entity)) {
-                    $this->runDeclaringClass ??= (new \ReflectionMethod($this, 'run'))->getDeclaringClass()->getName();
-
-                    if ($this->runDeclaringClass === self::class) {
-                        continue;
-                    }
-
-                    throw new UnsupportedDatasetEntityException(\sprintf('Emitter "%s" returned object of unsupported type. Expected "%s" but got "%s".', static::class, $this->supports(), $entity === null ? 'null' : \get_class($entity)));
-                }
+                yield $this->run($externalId, $context);
             } catch (\Throwable $exception) {
                 $context->markAsFailed($externalId, $this->supports(), $exception);
-
-                continue;
-            }
-
-            if ($entity instanceof DatasetEntityContract) {
-                yield $entity;
             }
         }
     }
