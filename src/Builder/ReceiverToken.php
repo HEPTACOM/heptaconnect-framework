@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Builder;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiveContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Psr\Container\ContainerInterface;
@@ -11,6 +12,9 @@ use Psr\Container\ContainerInterface;
 class ReceiverToken
 {
     private string $type;
+
+    /** @var callable|null */
+    private $batch = null;
 
     /** @var callable|null */
     private $run = null;
@@ -25,6 +29,16 @@ class ReceiverToken
         return $this->type;
     }
 
+    public function getBatch(): ?callable
+    {
+        return $this->batch;
+    }
+
+    public function setBatch(?callable $batch): void
+    {
+        $this->batch = $batch;
+    }
+
     public function getRun(): ?callable
     {
         return $this->run;
@@ -37,23 +51,53 @@ class ReceiverToken
 
     public function build(): ReceiverContract
     {
-        return new class($this->type, $this->run) extends ReceiverContract {
+        return new class($this->type, $this->batch, $this->run) extends ReceiverContract {
             use ResolveArgumentsTrait;
 
             private string $type;
 
             /** @var callable|null */
+            private $batchMethod;
+
+            /** @var callable|null */
             private $runMethod;
 
-            public function __construct(string $type, ?callable $run)
+            public function __construct(string $type, ?callable $batch, ?callable $run)
             {
                 $this->type = $type;
+                $this->batchMethod = $batch;
                 $this->runMethod = $run;
             }
 
             public function supports(): string
             {
                 return $this->type;
+            }
+
+            protected function batch(
+                TypedDatasetEntityCollection $entities,
+                ReceiveContextInterface $context
+            ): void {
+                if (\is_callable($batch = $this->batchMethod)) {
+                    $arguments = $this->resolveArguments($batch, $context, function (
+                        int $propertyIndex,
+                        string $propertyName,
+                        string $propertyType,
+                        ContainerInterface $container
+                    ) use ($entities) {
+                        if (\is_a($propertyType, TypedDatasetEntityCollection::class, true)) {
+                            return $entities;
+                        }
+
+                        return $this->resolveFromContainer($container, $propertyType, $propertyName);
+                    });
+
+                    $batch(...$arguments);
+
+                    return;
+                }
+
+                parent::batch($entities, $context);
             }
 
             protected function run(

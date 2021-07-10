@@ -73,13 +73,17 @@ class FlowComponent implements LoggerAwareInterface
         return $builder;
     }
 
-    public static function receiver(string $type, ?callable $run = null): ReceiverBuilder
+    public static function receiver(string $type, ?callable $run = null, ?callable $batch = null): ReceiverBuilder
     {
         self::$receiverTokens[] = $token = new ReceiverToken($type);
         $builder = new ReceiverBuilder($token);
 
         if (\is_callable($run)) {
             $builder->run($run);
+        }
+
+        if (\is_callable($batch)) {
+            $builder->batch($batch);
         }
 
         return $builder;
@@ -132,6 +136,13 @@ TXT
     public function buildReceivers(): iterable
     {
         foreach (self::$receiverTokens as $key => $receiverToken) {
+            if (\is_callable($receiverToken->getRun()) && \is_callable($receiverToken->getBatch())) {
+                $this->logger->warning(<<<'TXT'
+ReceiverBuilder: You implement both "run" and "batch". The "run" method will not be executed.
+TXT
+                );
+            }
+
             yield $receiverToken->build();
             unset(self::$receiverTokens[$key]);
         }
