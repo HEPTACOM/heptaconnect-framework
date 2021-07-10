@@ -11,6 +11,8 @@ abstract class EmitterContract
 {
     private ?string $runDeclaringClass = null;
 
+    private ?string $batchDeclaringClass = null;
+
     /**
      * @param string[] $externalIds
      *
@@ -131,8 +133,9 @@ abstract class EmitterContract
         foreach ($this->batch($externalIds, $context) as $entity) {
             if (!$this->isSupported($entity)) {
                 $this->runDeclaringClass ??= (new \ReflectionMethod($this, 'run'))->getDeclaringClass()->getName();
+                $this->batchDeclaringClass ??= (new \ReflectionMethod($this, 'batch'))->getDeclaringClass()->getName();
 
-                if ($this->runDeclaringClass === self::class) {
+                if ($this->runDeclaringClass === self::class && $this->batchDeclaringClass === self::class) {
                     continue;
                 }
 
