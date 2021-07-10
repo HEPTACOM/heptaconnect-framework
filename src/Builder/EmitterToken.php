@@ -13,6 +13,9 @@ class EmitterToken
     private string $type;
 
     /** @var callable|null */
+    private $batch = null;
+
+    /** @var callable|null */
     private $run = null;
 
     /** @var callable|null */
@@ -26,6 +29,16 @@ class EmitterToken
     public function getType(): string
     {
         return $this->type;
+    }
+
+    public function getBatch(): ?callable
+    {
+        return $this->batch;
+    }
+
+    public function setBatch(?callable $batch): void
+    {
+        $this->batch = $batch;
     }
 
     public function getRun(): ?callable
@@ -50,10 +63,13 @@ class EmitterToken
 
     public function build(): EmitterContract
     {
-        return new class($this->type, $this->run, $this->extend) extends EmitterContract {
+        return new class($this->type, $this->batch, $this->run, $this->extend) extends EmitterContract {
             use ResolveArgumentsTrait;
 
             private string $type;
+
+            /** @var callable|null */
+            private $batchMethod;
 
             /** @var callable|null */
             private $runMethod;
@@ -61,9 +77,10 @@ class EmitterToken
             /** @var callable|null */
             private $extendMethod;
 
-            public function __construct(string $type, ?callable $run, ?callable $extend)
+            public function __construct(string $type, ?callable $batch, ?callable $run, ?callable $extend)
             {
                 $this->type = $type;
+                $this->batchMethod = $batch;
                 $this->runMethod = $run;
                 $this->extendMethod = $extend;
             }
@@ -71,6 +88,28 @@ class EmitterToken
             public function supports(): string
             {
                 return $this->type;
+            }
+
+            protected function batch(iterable $externalIds, EmitContextInterface $context): iterable
+            {
+                if (\is_callable($batch = $this->batchMethod)) {
+                    $arguments = $this->resolveArguments($batch, $context, function (
+                        int $propertyIndex,
+                        string $propertyName,
+                        string $propertyType,
+                        ContainerInterface $container
+                    ) use ($externalIds) {
+                        if ($propertyType === 'iterable' && $propertyName === 'externalIds') {
+                            return $externalIds;
+                        }
+
+                        return $this->resolveFromContainer($container, $propertyType, $propertyName);
+                    });
+
+                    return $batch(...$arguments);
+                }
+
+                return parent::batch($externalIds, $context);
             }
 
             protected function run(

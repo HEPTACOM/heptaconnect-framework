@@ -3,7 +3,11 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder;
 
-class FlowComponent
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
+
+class FlowComponent implements LoggerAwareInterface
 {
     /** @var ExplorerToken[] */
     private static array $explorerTokens = [];
@@ -16,6 +20,18 @@ class FlowComponent
 
     /** @var StatusReporterToken[] */
     private static array $statusReporterTokens = [];
+
+    private LoggerInterface $logger;
+
+    public function __construct()
+    {
+        $this->logger = new NullLogger();
+    }
+
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
 
     public static function explorer(string $type, ?callable $run = null, ?callable $isAllowed = null): ExplorerBuilder
     {
@@ -33,8 +49,12 @@ class FlowComponent
         return $builder;
     }
 
-    public static function emitter(string $type, ?callable $run = null, ?callable $extend = null): EmitterBuilder
-    {
+    public static function emitter(
+        string $type,
+        ?callable $run = null,
+        ?callable $extend = null,
+        ?callable $batch = null
+    ): EmitterBuilder {
         self::$emitterTokens[] = $token = new EmitterToken($type);
         $builder = new EmitterBuilder($token);
 
@@ -44,6 +64,10 @@ class FlowComponent
 
         if (\is_callable($extend)) {
             $builder->extend($extend);
+        }
+
+        if (\is_callable($batch)) {
+            $builder->batch($batch);
         }
 
         return $builder;
@@ -90,6 +114,13 @@ class FlowComponent
     public function buildEmitters(): iterable
     {
         foreach (self::$emitterTokens as $key => $emitterToken) {
+            if (\is_callable($emitterToken->getRun()) && \is_callable($emitterToken->getBatch())) {
+                $this->logger->warning(<<<'TXT'
+EmitterBuilder: You implement both "run" and "batch". The "run" method will not be executed.
+TXT
+                );
+            }
+
             yield $emitterToken->build();
             unset(self::$emitterTokens[$key]);
         }
