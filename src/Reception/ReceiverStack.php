@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Reception;
 
-use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
+use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiveContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverStackInterface;
@@ -34,7 +34,7 @@ class ReceiverStack implements ReceiverStackInterface, LoggerAwareInterface
         $this->logger = $logger;
     }
 
-    public function next(MappedDatasetEntityCollection $mappedDatasetEntities, ReceiveContextInterface $context): iterable
+    public function next(TypedDatasetEntityCollection $entities, ReceiveContextInterface $context): iterable
     {
         $receiver = \array_shift($this->receivers);
 
@@ -44,6 +44,6 @@ class ReceiverStack implements ReceiverStackInterface, LoggerAwareInterface
 
         $this->logger->debug(\sprintf('Execute FlowComponent receiver: %s', \get_class($receiver)));
 
-        return $receiver->receive($mappedDatasetEntities, $context, $this);
+        return $receiver->receive($entities, $context, $this);
     }
 }
