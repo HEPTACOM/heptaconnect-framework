@@ -5,8 +5,8 @@ namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
-use Heptacom\HeptaConnect\Portal\Base\Builder\ReceiverToken;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiveContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Opis\Closure\SerializableClosure;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
-use Heptacom\HeptaConnect\Portal\Base\Builder\EmitterToken;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Token\EmitterToken;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Opis\Closure\SerializableClosure;

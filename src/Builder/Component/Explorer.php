@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
-use Heptacom\HeptaConnect\Portal\Base\Builder\ExplorerToken;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Opis\Closure\SerializableClosure;

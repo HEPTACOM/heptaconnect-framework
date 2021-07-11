@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
-use Heptacom\HeptaConnect\Portal\Base\Builder\StatusReporterToken;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Token\StatusReporterToken;
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract;
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReportingContextInterface;
 use Opis\Closure\SerializableClosure;

@@ -1,7 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Portal\Base\Builder;
+namespace Heptacom\HeptaConnect\Portal\Base\Builder\Builder;
+
+use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken;
 
 class ExplorerBuilder
 {

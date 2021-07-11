@@ -3,10 +3,18 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder;
 
+use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\EmitterBuilder;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\ExplorerBuilder;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\ReceiverBuilder;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\StatusReporterBuilder;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Component\Emitter;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Component\Explorer;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Component\Receiver;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Component\StatusReporter;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Token\EmitterToken;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Token\StatusReporterToken;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\NullLogger;
