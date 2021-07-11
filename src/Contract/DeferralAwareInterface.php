@@ -7,5 +7,7 @@ interface DeferralAwareInterface
 {
     public function defer(callable $fn): void;
 
+    public function copyDeferrals(DeferralAwareInterface $target): void;
+
     public function resolveDeferrals(): void;
 }
