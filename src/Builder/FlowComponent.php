@@ -3,6 +3,10 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder;
 
+use Heptacom\HeptaConnect\Portal\Base\Builder\Component\Emitter;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Component\Explorer;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Component\Receiver;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Component\StatusReporter;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\NullLogger;
@@ -102,7 +106,7 @@ class FlowComponent implements LoggerAwareInterface
     public function buildExplorers(): iterable
     {
         foreach (self::$explorerTokens as $key => $explorerToken) {
-            yield $explorerToken->build();
+            yield new Explorer($explorerToken);
             unset(self::$explorerTokens[$key]);
         }
     }
@@ -120,7 +124,7 @@ TXT
                 );
             }
 
-            yield $emitterToken->build();
+            yield new Emitter($emitterToken);
             unset(self::$emitterTokens[$key]);
         }
     }
@@ -138,7 +142,7 @@ TXT
                 );
             }
 
-            yield $receiverToken->build();
+            yield new Receiver($receiverToken);
             unset(self::$receiverTokens[$key]);
         }
     }
@@ -149,7 +153,7 @@ TXT
     public function buildStatusReporters(): iterable
     {
         foreach (self::$statusReporterTokens as $key => $statusReporterToken) {
-            yield $statusReporterToken->build();
+            yield new StatusReporter($statusReporterToken);
             unset(self::$statusReporterTokens[$key]);
         }
     }
