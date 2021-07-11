@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Portal\Base\Builder\ReceiverToken;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiveContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
+use Opis\Closure\SerializableClosure;
 use Psr\Container\ContainerInterface;
 
 class Receiver extends ReceiverContract
@@ -17,17 +18,17 @@ class Receiver extends ReceiverContract
 
     private string $type;
 
-    /** @var callable|null */
+    /** @var SerializableClosure|null */
     private $batchMethod;
 
-    /** @var callable|null */
+    /** @var SerializableClosure|null */
     private $runMethod;
 
     public function __construct(ReceiverToken $token)
     {
         $this->type = $token->getType();
-        $this->batchMethod = $token->getBatch();
-        $this->runMethod = $token->getRun();
+        $this->batchMethod = \is_callable($token->getBatch()) ? new SerializableClosure($token->getBatch()) : null;
+        $this->runMethod = \is_callable($token->getRun()) ? new SerializableClosure($token->getRun()) : null;
     }
 
     public function supports(): string
@@ -39,7 +40,8 @@ class Receiver extends ReceiverContract
         TypedDatasetEntityCollection $entities,
         ReceiveContextInterface $context
     ): void {
-        if (\is_callable($batch = $this->batchMethod)) {
+        if ($this->batchMethod instanceof SerializableClosure &&
+            \is_callable($batch = $this->batchMethod->getClosure())) {
             $arguments = $this->resolveArguments($batch, $context, function (
                 int $propertyIndex,
                 string $propertyName,
@@ -65,7 +67,8 @@ class Receiver extends ReceiverContract
         DatasetEntityContract $entity,
         ReceiveContextInterface $context
     ): void {
-        if (\is_callable($run = $this->runMethod)) {
+        if ($this->runMethod instanceof SerializableClosure &&
+            \is_callable($run = $this->runMethod->getClosure())) {
             $arguments = $this->resolveArguments($run, $context, function (
                 int $propertyIndex,
                 string $propertyName,

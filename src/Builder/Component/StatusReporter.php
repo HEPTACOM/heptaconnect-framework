@@ -7,6 +7,7 @@ use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\StatusReporterToken;
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract;
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReportingContextInterface;
+use Opis\Closure\SerializableClosure;
 use Psr\Container\ContainerInterface;
 
 class StatusReporter extends StatusReporterContract
@@ -15,13 +16,13 @@ class StatusReporter extends StatusReporterContract
 
     private string $topic;
 
-    /** @var callable|null */
+    /** @var SerializableClosure|null */
     private $runMethod;
 
     public function __construct(StatusReporterToken $token)
     {
         $this->topic = $token->getTopic();
-        $this->runMethod = $token->getRun();
+        $this->runMethod = \is_callable($token->getRun()) ? new SerializableClosure($token->getRun()) : null;
     }
 
     public function supportsTopic(): string
@@ -31,7 +32,8 @@ class StatusReporter extends StatusReporterContract
 
     protected function run(StatusReportingContextInterface $context): array
     {
-        if (\is_callable($run = $this->runMethod)) {
+        if ($this->runMethod instanceof SerializableClosure &&
+            \is_callable($run = $this->runMethod->getClosure())) {
             $arguments = $this->resolveArguments($run, $context, function (
                 int $propertyIndex,
                 string $propertyName,

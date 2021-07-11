@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\Builder\EmitterToken;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
+use Opis\Closure\SerializableClosure;
 use Psr\Container\ContainerInterface;
 
 class Emitter extends EmitterContract
@@ -16,21 +17,21 @@ class Emitter extends EmitterContract
 
     private string $type;
 
-    /** @var callable|null */
+    /** @var SerializableClosure|null */
     private $batchMethod;
 
-    /** @var callable|null */
+    /** @var SerializableClosure|null */
     private $runMethod;
 
-    /** @var callable|null */
+    /** @var SerializableClosure|null */
     private $extendMethod;
 
     public function __construct(EmitterToken $token)
     {
         $this->type = $token->getType();
-        $this->batchMethod = $token->getBatch();
-        $this->runMethod = $token->getRun();
-        $this->extendMethod = $token->getExtend();
+        $this->batchMethod = \is_callable($token->getBatch()) ? new SerializableClosure($token->getBatch()) : null;
+        $this->runMethod = \is_callable($token->getRun()) ? new SerializableClosure($token->getRun()) : null;
+        $this->extendMethod = \is_callable($token->getExtend()) ? new SerializableClosure($token->getExtend()) : null;
     }
 
     public function supports(): string
@@ -40,7 +41,8 @@ class Emitter extends EmitterContract
 
     protected function batch(iterable $externalIds, EmitContextInterface $context): iterable
     {
-        if (\is_callable($batch = $this->batchMethod)) {
+        if ($this->batchMethod instanceof SerializableClosure &&
+            \is_callable($batch = $this->batchMethod->getClosure())) {
             $arguments = $this->resolveArguments($batch, $context, function (
                 int $propertyIndex,
                 string $propertyName,
@@ -64,7 +66,8 @@ class Emitter extends EmitterContract
         string $externalId,
         EmitContextInterface $context
     ): ?DatasetEntityContract {
-        if (\is_callable($run = $this->runMethod)) {
+        if ($this->runMethod instanceof SerializableClosure &&
+            \is_callable($run = $this->runMethod->getClosure())) {
             $arguments = $this->resolveArguments($run, $context, function (
                 int $propertyIndex,
                 string $propertyName,
@@ -88,7 +91,8 @@ class Emitter extends EmitterContract
         DatasetEntityContract $entity,
         EmitContextInterface $context
     ): DatasetEntityContract {
-        if (\is_callable($extend = $this->extendMethod)) {
+        if ($this->extendMethod instanceof SerializableClosure &&
+            \is_callable($extend = $this->extendMethod->getClosure())) {
             $arguments = $this->resolveArguments($extend, $context, function (
                 int $propertyIndex,
                 string $propertyName,

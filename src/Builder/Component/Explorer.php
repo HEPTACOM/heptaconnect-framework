@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\Builder\ExplorerToken;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
+use Opis\Closure\SerializableClosure;
 use Psr\Container\ContainerInterface;
 
 class Explorer extends ExplorerContract
@@ -16,17 +17,17 @@ class Explorer extends ExplorerContract
 
     private string $type;
 
-    /** @var callable|null */
+    /** @var SerializableClosure|null */
     private $runMethod;
 
-    /** @var callable|null */
+    /** @var SerializableClosure|null */
     private $isAllowedMethod;
 
     public function __construct(ExplorerToken $token)
     {
         $this->type = $token->getType();
-        $this->runMethod = $token->getRun();
-        $this->isAllowedMethod = $token->getIsAllowed();
+        $this->runMethod = \is_callable($token->getRun()) ? new SerializableClosure($token->getRun()) : null;
+        $this->isAllowedMethod = \is_callable($token->getIsAllowed()) ? new SerializableClosure($token->getIsAllowed()) : null;
     }
 
     public function supports(): string
@@ -36,7 +37,8 @@ class Explorer extends ExplorerContract
 
     protected function run(ExploreContextInterface $context): iterable
     {
-        if (\is_callable($run = $this->runMethod)) {
+        if ($this->runMethod instanceof SerializableClosure &&
+            \is_callable($run = $this->runMethod->getClosure())) {
             $arguments = $this->resolveArguments($run, $context, function (
                 int $propertyIndex,
                 string $propertyName,
@@ -57,7 +59,8 @@ class Explorer extends ExplorerContract
         ?DatasetEntityContract $entity,
         ExploreContextInterface $context
     ): bool {
-        if (\is_callable($isAllowed = $this->isAllowedMethod)) {
+        if ($this->isAllowedMethod instanceof SerializableClosure &&
+            \is_callable($isAllowed = $this->isAllowedMethod->getClosure())) {
             $arguments = $this->resolveArguments($isAllowed, $context, function (
                 int $propertyIndex,
                 string $propertyName,
