@@ -113,15 +113,17 @@ abstract class EmitterContract
      */
     final protected function emitCurrent(iterable $externalIds, EmitContextInterface $context): iterable
     {
-        /** @var LoggerInterface $logger */
+        /** @var LoggerInterface|null $logger */
         $logger = $context->getContainer()->get(LoggerInterface::class);
 
         $externalIds = \iterable_filter($externalIds, function ($externalId) use ($logger): bool {
             if (!\is_string($externalId)) {
-                $logger->error(\sprintf(
-                    'Empty primary key was passed to emitter "%s". Skipping.',
-                    static::class
-                ));
+                if ($logger instanceof LoggerInterface) {
+                    $logger->error(\sprintf(
+                        'Empty primary key was passed to emitter "%s". Skipping.',
+                        static::class
+                    ));
+                }
 
                 return false;
             }
@@ -139,12 +141,14 @@ abstract class EmitterContract
                     continue;
                 }
 
-                $logger->error(\sprintf(
-                    'Emitter "%s" returned object of unsupported type. Expected "%s" but got "%s".',
-                    static::class,
-                    $this->supports(),
-                    $entity === null ? 'null' : \get_class($entity)
-                ));
+                if ($logger instanceof LoggerInterface) {
+                    $logger->error(\sprintf(
+                        'Emitter "%s" returned object of unsupported type. Expected "%s" but got "%s".',
+                        static::class,
+                        $this->supports(),
+                        $entity === null ? 'null' : \get_class($entity)
+                    ));
+                }
 
                 continue;
             }

@@ -107,8 +107,22 @@ class ContractTest extends TestCase
             }
         };
 
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects(static::once())->method('error');
+
+        $container = $this->createMock(ContainerInterface::class);
+        $container->method('get')->willReturnCallback(function (string $id) use ($logger) {
+            switch ($id) {
+                case LoggerInterface::class:
+                    return $logger;
+            }
+
+            return null;
+        });
+
         $context = $this->createMock(EmitContextInterface::class);
-        $context->expects(static::once())->method('markAsFailed');
+        $context->method('getContainer')->willReturn($container);
+
         $externalIds = ['foo'];
 
         \iterable_to_array((new EmitterStack([$emitter], $emitter->supports()))->next($externalIds, $context));

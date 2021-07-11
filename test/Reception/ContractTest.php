@@ -4,9 +4,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Reception;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
-use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
-use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
-use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct;
+use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiveContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverStackInterface;
@@ -23,7 +21,7 @@ class ContractTest extends TestCase
     {
         $receiver = new class() extends ReceiverContract {
             public function receive(
-                MappedDatasetEntityCollection $mappedDatasetEntities,
+                TypedDatasetEntityCollection $entities,
                 ReceiveContextInterface $context,
                 ReceiverStackInterface $stack
             ): iterable {
@@ -36,7 +34,7 @@ class ContractTest extends TestCase
             }
         };
         static::assertCount(0, $receiver->receive(
-            new MappedDatasetEntityCollection(),
+            new TypedDatasetEntityCollection(DatasetEntityContract::class, []),
             $this->createMock(ReceiveContextInterface::class),
             $this->createMock(ReceiverStackInterface::class)
         ));
@@ -53,11 +51,11 @@ class ContractTest extends TestCase
         };
         $decoratingReceiver = new class() extends ReceiverContract {
             public function receive(
-                MappedDatasetEntityCollection $mappedDatasetEntities,
+                TypedDatasetEntityCollection $entities,
                 ReceiveContextInterface $context,
                 ReceiverStackInterface $stack
             ): iterable {
-                return $this->receiveNextForExtends($stack, $mappedDatasetEntities, $context);
+                return $this->receiveNextForExtends($stack, $entities, $context);
             }
 
             public function supports(): string
@@ -69,12 +67,12 @@ class ContractTest extends TestCase
         static::assertSame(FirstEntity::class, $decoratingReceiver->supports());
 
         $context = $this->createMock(ReceiveContextInterface::class);
-        $mapping = $this->createMock(MappingInterface::class);
-        $mappedEntities = new MappedDatasetEntityCollection([new MappedDatasetEntityStruct($mapping, new FirstEntity())]);
+        $entities = new TypedDatasetEntityCollection(FirstEntity::class, [new FirstEntity()]);
 
-        $mapping->method('getExternalId')->willReturn('');
+        $singleStack = [$receiver];
+        static::assertCount(\count($singleStack), (new ReceiverStack($singleStack))->next($entities, $context));
 
-        static::assertCount(1, (new ReceiverStack([$receiver]))->next($mappedEntities, $context));
-        static::assertCount(1, (new ReceiverStack([$receiver, $decoratingReceiver]))->next($mappedEntities, $context));
+        $decoratedStack = [$receiver, $decoratingReceiver];
+        static::assertCount(\count($decoratedStack), (new ReceiverStack($decoratedStack))->next($entities, $context));
     }
 }
