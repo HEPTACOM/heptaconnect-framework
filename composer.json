@@ -1,6 +1,6 @@
 {
     "name": "heptacom/heptaconnect-dataset-base",
-    "version": "0.4.0",
+    "version": "0.5.0",
     "type": "library",
     "description": "HEPTAconnect base dataset that every other dataset is based on",
     "keywords": [
