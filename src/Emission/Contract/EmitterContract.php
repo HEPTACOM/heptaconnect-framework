@@ -113,7 +113,6 @@ abstract class EmitterContract
      */
     final protected function emitCurrent(iterable $externalIds, EmitContextInterface $context): iterable
     {
-        /** @var LoggerInterface|null $logger */
         $logger = $context->getContainer()->get(LoggerInterface::class);
 
         $externalIds = \iterable_filter($externalIds, function ($externalId) use ($logger): bool {

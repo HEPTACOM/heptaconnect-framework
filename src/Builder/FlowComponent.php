@@ -4,11 +4,13 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Builder;
 
 use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerAwareTrait;
 use Psr\Log\NullLogger;
 
 class FlowComponent implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     /** @var ExplorerToken[] */
     private static array $explorerTokens = [];
 
@@ -21,16 +23,9 @@ class FlowComponent implements LoggerAwareInterface
     /** @var StatusReporterToken[] */
     private static array $statusReporterTokens = [];
 
-    private LoggerInterface $logger;
-
     public function __construct()
     {
         $this->logger = new NullLogger();
-    }
-
-    public function setLogger(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
     }
 
     public static function explorer(string $type, ?callable $run = null, ?callable $isAllowed = null): ExplorerBuilder
