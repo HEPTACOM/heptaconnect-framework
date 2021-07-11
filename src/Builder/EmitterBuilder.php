@@ -12,6 +12,13 @@ class EmitterBuilder
         $this->token = $token;
     }
 
+    public function batch(callable $batch): self
+    {
+        $this->token->setBatch($batch);
+
+        return $this;
+    }
+
     public function run(callable $run): self
     {
         $this->token->setRun($run);

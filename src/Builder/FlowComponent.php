@@ -3,8 +3,14 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder;
 
-class FlowComponent
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\NullLogger;
+
+class FlowComponent implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     /** @var ExplorerToken[] */
     private static array $explorerTokens = [];
 
@@ -16,6 +22,11 @@ class FlowComponent
 
     /** @var StatusReporterToken[] */
     private static array $statusReporterTokens = [];
+
+    public function __construct()
+    {
+        $this->logger = new NullLogger();
+    }
 
     public static function explorer(string $type, ?callable $run = null, ?callable $isAllowed = null): ExplorerBuilder
     {
@@ -33,8 +44,12 @@ class FlowComponent
         return $builder;
     }
 
-    public static function emitter(string $type, ?callable $run = null, ?callable $extend = null): EmitterBuilder
-    {
+    public static function emitter(
+        string $type,
+        ?callable $run = null,
+        ?callable $extend = null,
+        ?callable $batch = null
+    ): EmitterBuilder {
         self::$emitterTokens[] = $token = new EmitterToken($type);
         $builder = new EmitterBuilder($token);
 
@@ -46,16 +61,24 @@ class FlowComponent
             $builder->extend($extend);
         }
 
+        if (\is_callable($batch)) {
+            $builder->batch($batch);
+        }
+
         return $builder;
     }
 
-    public static function receiver(string $type, ?callable $run = null): ReceiverBuilder
+    public static function receiver(string $type, ?callable $run = null, ?callable $batch = null): ReceiverBuilder
     {
         self::$receiverTokens[] = $token = new ReceiverToken($type);
         $builder = new ReceiverBuilder($token);
 
         if (\is_callable($run)) {
             $builder->run($run);
+        }
+
+        if (\is_callable($batch)) {
+            $builder->batch($batch);
         }
 
         return $builder;
@@ -90,6 +113,13 @@ class FlowComponent
     public function buildEmitters(): iterable
     {
         foreach (self::$emitterTokens as $key => $emitterToken) {
+            if (\is_callable($emitterToken->getRun()) && \is_callable($emitterToken->getBatch())) {
+                $this->logger->warning(<<<'TXT'
+EmitterBuilder: You implement both "run" and "batch". The "run" method will not be executed.
+TXT
+                );
+            }
+
             yield $emitterToken->build();
             unset(self::$emitterTokens[$key]);
         }
@@ -101,6 +131,13 @@ class FlowComponent
     public function buildReceivers(): iterable
     {
         foreach (self::$receiverTokens as $key => $receiverToken) {
+            if (\is_callable($receiverToken->getRun()) && \is_callable($receiverToken->getBatch())) {
+                $this->logger->warning(<<<'TXT'
+ReceiverBuilder: You implement both "run" and "batch". The "run" method will not be executed.
+TXT
+                );
+            }
+
             yield $receiverToken->build();
             unset(self::$receiverTokens[$key]);
         }

@@ -4,22 +4,21 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Reception\Contract;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
-use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
-use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct;
+use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityException;
 
 abstract class ReceiverContract
 {
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface>
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
     public function receive(
-        MappedDatasetEntityCollection $mappedDatasetEntities,
+        TypedDatasetEntityCollection $entities,
         ReceiveContextInterface $context,
         ReceiverStackInterface $stack
     ): iterable {
-        yield from $this->receiveCurrent($mappedDatasetEntities, $context);
-        yield from $this->receiveNext($stack, $mappedDatasetEntities, $context);
+        yield from $this->receiveCurrent($entities, $context);
+        yield from $this->receiveNext($stack, $entities, $context);
     }
 
     /**
@@ -33,83 +32,78 @@ abstract class ReceiverContract
     ): void {
     }
 
+    protected function batch(TypedDatasetEntityCollection $entities, ReceiveContextInterface $context): void
+    {
+        /** @var DatasetEntityContract $entity */
+        foreach ($entities as $entity) {
+            try {
+                $this->run($entity, $context);
+            } catch (\Throwable $throwable) {
+                $context->markAsFailed($entity, $throwable);
+            }
+        }
+    }
+
     final protected function isSupported(DatasetEntityContract $entity): bool
     {
         return \is_a($entity, $this->supports(), false);
     }
 
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface>
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
     final protected function receiveNext(
         ReceiverStackInterface $stack,
-        MappedDatasetEntityCollection $mappedDatasetEntities,
+        TypedDatasetEntityCollection $entities,
         ReceiveContextInterface $context
     ): iterable {
-        return $stack->next($mappedDatasetEntities, $context);
+        return $stack->next($entities, $context);
     }
 
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface>
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
     final protected function receiveCurrent(
-        MappedDatasetEntityCollection $mappedDatasetEntities,
+        TypedDatasetEntityCollection $entities,
         ReceiveContextInterface $context
     ): iterable {
-        /** @var MappedDatasetEntityStruct $mappedDatasetEntity */
-        foreach ($mappedDatasetEntities as $mappedDatasetEntity) {
-            $mapping = $mappedDatasetEntity->getMapping();
-            $entity = $mappedDatasetEntity->getDatasetEntity();
-
-            if (!$this->isSupported($entity)) {
-                $context->markAsFailed($mapping->getMappingNodeKey(), new UnsupportedDatasetEntityException());
-
-                continue;
+        if (!\is_a($entities->getType(), $this->supports(), true)) {
+            foreach ($entities as $entity) {
+                $context->markAsFailed($entity, new UnsupportedDatasetEntityException());
             }
 
-            try {
-                $this->run($entity, $context);
-            } catch (\Throwable $throwable) {
-                $context->markAsFailed($mapping->getMappingNodeKey(), $throwable);
-
-                continue;
-            }
-
-            yield $mapping;
+            return;
         }
+
+        $this->batch($entities, $context);
+
+        yield from $entities->getIterator();
     }
 
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface>
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
     final protected function receiveNextForExtends(
         ReceiverStackInterface $stack,
-        MappedDatasetEntityCollection $mappedDatasetEntities,
+        TypedDatasetEntityCollection $entities,
         ReceiveContextInterface $context
     ): iterable {
-        foreach ($this->receiveNext($stack, $mappedDatasetEntities, $context) as $key => $mapping) {
-            $mappedEntities = $mappedDatasetEntities->filter(
-                static fn (MappedDatasetEntityStruct $o): bool => $o->getMapping()->getDatasetEntityClassName() === $mapping->getDatasetEntityClassName() &&
-                    $o->getMapping()->getMappingNodeKey()->equals($mapping->getMappingNodeKey()) &&
-                    $o->getMapping()->getPortalNodeKey()->equals($mapping->getPortalNodeKey())
-            );
-
-            /** @var MappedDatasetEntityStruct $mappedEntity */
-            foreach ($mappedEntities as $mappedEntity) {
-                if (!$this->isSupported($mappedEntity->getDatasetEntity())) {
-                    break;
-                }
-
-                try {
-                    $this->run($mappedEntity->getDatasetEntity(), $context);
-                } catch (\Throwable $throwable) {
-                    $context->markAsFailed($mapping->getMappingNodeKey(), $throwable);
-
-                    break;
-                }
+        if (!\is_a($entities->getType(), $this->supports(), true)) {
+            foreach ($entities as $entity) {
+                $context->markAsFailed($entity, new UnsupportedDatasetEntityException());
             }
 
-            yield $key => $mapping;
+            return;
         }
+
+        foreach ($this->receiveNext($stack, $entities, $context) as $entity) {
+            try {
+                $this->run($entity, $context);
+            } catch (\Throwable $throwable) {
+                $context->markAsFailed($entity, $throwable);
+            }
+        }
+
+        yield from $entities->getIterator();
     }
 }
