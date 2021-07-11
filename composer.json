@@ -18,7 +18,8 @@
     "require": {
         "php": ">=7.4",
         "ext-json": "*",
-        "bentools/iterable-functions": ">=1"
+        "bentools/iterable-functions": ">=1",
+        "opis/closure": "^3.6"
     },
     "require-dev": {
         "dq5studios/psalm-junit": ">=2",
