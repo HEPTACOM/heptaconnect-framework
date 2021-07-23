@@ -138,6 +138,13 @@ abstract class AbstractCollection implements CollectionInterface
         yield from \array_map($mapFn, $this->items, \array_keys($this->items));
     }
 
+    public function column(string $valueAccessor, ?string $keyAccessor = null): iterable
+    {
+        foreach ($this as $key => $value) {
+            yield $this->executeAccessor($value, $keyAccessor, $key) => $this->executeAccessor($value, $valueAccessor, $value);
+        }
+    }
+
     /**
      * @psalm-param T $item
      */
@@ -154,5 +161,35 @@ abstract class AbstractCollection implements CollectionInterface
                 yield $key => $item;
             }
         }
+    }
+
+    /**
+     * @param mixed $item
+     * @param mixed $fallback
+     * @return mixed
+     */
+    protected function executeAccessor($item, ?string $accessor, $fallback)
+    {
+        if (!\is_string($accessor)) {
+            return $fallback;
+        }
+
+        if (\is_object($item)) {
+            if (\method_exists($item, $accessor)) {
+                return $item->$accessor();
+            }
+
+            if (\property_exists($item, $accessor)) {
+                return $item->$accessor;
+            }
+
+            return $fallback;
+        }
+
+        if (\is_array($item)) {
+            return $item[$accessor] ?? $fallback;
+        }
+
+        return $fallback;
     }
 }

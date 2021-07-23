@@ -38,4 +38,6 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
      * @psalm-param callable(T, array-key):mixed|callable(T):mixed $mapFn
      */
     public function map(callable $mapFn): iterable;
+
+    public function column(string $valueAccessor, ?string $keyAccessor = null): iterable;
 }
