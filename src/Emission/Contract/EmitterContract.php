@@ -35,10 +35,8 @@ abstract class EmitterContract
      */
     abstract public function supports(): string;
 
-    protected function run(
-        string $externalId,
-        EmitContextInterface $context
-    ): ?DatasetEntityContract {
+    protected function run(string $externalId, EmitContextInterface $context): ?DatasetEntityContract
+    {
         return null;
     }
 
@@ -172,10 +170,8 @@ abstract class EmitterContract
         }
     }
 
-    protected function extend(
-        DatasetEntityContract $entity,
-        EmitContextInterface $context
-    ): DatasetEntityContract {
+    protected function extend(DatasetEntityContract $entity, EmitContextInterface $context): DatasetEntityContract
+    {
         return $entity;
     }
 }

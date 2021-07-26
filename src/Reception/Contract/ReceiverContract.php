@@ -26,10 +26,8 @@ abstract class ReceiverContract
      */
     abstract public function supports(): string;
 
-    protected function run(
-        DatasetEntityContract $entity,
-        ReceiveContextInterface $context
-    ): void {
+    protected function run(DatasetEntityContract $entity, ReceiveContextInterface $context): void
+    {
     }
 
     protected function batch(TypedDatasetEntityCollection $entities, ReceiveContextInterface $context): void
