@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Reception\Contract;
 
+use Heptacom\HeptaConnect\Core\Reception\PostProcessing\MarkAsFailedData;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityException;
@@ -37,7 +38,7 @@ abstract class ReceiverContract
             try {
                 $this->run($entity, $context);
             } catch (\Throwable $throwable) {
-                $context->markAsFailed($entity, $throwable);
+                $context->getPostProcessingBag()->add(new MarkAsFailedData($entity, $throwable));
             }
         }
     }
@@ -67,7 +68,7 @@ abstract class ReceiverContract
     ): iterable {
         if (!\is_a($entities->getType(), $this->supports(), true)) {
             foreach ($entities as $entity) {
-                $context->markAsFailed($entity, new UnsupportedDatasetEntityException());
+                $context->getPostProcessingBag()->add(new MarkAsFailedData($entity, new UnsupportedDatasetEntityException()));
             }
 
             return;
@@ -88,7 +89,7 @@ abstract class ReceiverContract
     ): iterable {
         if (!\is_a($entities->getType(), $this->supports(), true)) {
             foreach ($entities as $entity) {
-                $context->markAsFailed($entity, new UnsupportedDatasetEntityException());
+                $context->getPostProcessingBag()->add(new MarkAsFailedData($entity, new UnsupportedDatasetEntityException()));
             }
 
             return;
@@ -98,7 +99,7 @@ abstract class ReceiverContract
             try {
                 $this->run($entity, $context);
             } catch (\Throwable $throwable) {
-                $context->markAsFailed($entity, $throwable);
+                $context->getPostProcessingBag()->add(new MarkAsFailedData($entity, new UnsupportedDatasetEntityException()));
             }
         }
 
