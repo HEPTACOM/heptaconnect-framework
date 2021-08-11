@@ -10,9 +10,9 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 abstract class JobPayloadRepositoryContract
 {
     /**
-     * @return JobPayloadKeyInterface[]
-     *
      * @throws UnsupportedStorageKeyException
+     *
+     * @return JobPayloadKeyInterface[]
      */
     abstract public function add(array $payloads): array;
 
