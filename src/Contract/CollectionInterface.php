@@ -11,7 +11,7 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
 interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAccess, \JsonSerializable
 {
     /**
-     * @psalm-param iterable<array-key, T> $items
+     * @psalm-param iterable<int, T> $items
      */
     public function push(iterable $items): void;
 

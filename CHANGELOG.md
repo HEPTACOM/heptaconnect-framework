@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Amend typehint for `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::__construct`, `\Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection::__construct` and `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::push` to improve static code analysis.
+
+### Fixed
+
+- Change signature `\Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection::__construct` to allow iterables instead of array like other collections
+
 ## [0.6.0] - 2021-07-26
 
 ### Added

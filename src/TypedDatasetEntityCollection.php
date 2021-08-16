@@ -14,9 +14,9 @@ class TypedDatasetEntityCollection extends DatasetEntityCollection
 
     /**
      * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $type
-     * @psalm-param array<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $items
+     * @psalm-param iterable<int, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $items
      */
-    public function __construct(string $type, array $items = [])
+    public function __construct(string $type, iterable $items = [])
     {
         $this->type = $type;
 
