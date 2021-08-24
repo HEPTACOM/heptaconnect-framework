@@ -39,4 +39,7 @@ abstract class JobPayloadRepositoryContract
      * @throws UnsupportedStorageKeyException
      */
     abstract public function get(JobPayloadKeyInterface $jobPayloadKey): array;
+
+    abstract public function cleanup(): void;
+
 }
