@@ -14,9 +14,9 @@ class TypedMappingCollection extends MappingCollection
 
     /**
      * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $type
-     * @psalm-param array<array-key, \Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface> $items
+     * @psalm-param iterable<int, \Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface> $items
      */
-    public function __construct(string $type, array $items = [])
+    public function __construct(string $type, iterable $items = [])
     {
         $this->type = $type;
 

@@ -66,6 +66,19 @@ class ContractTest extends TestCase
             {
                 return false;
             }
+
+            public function clear(PortalNodeKeyInterface $portalNodeKey): void
+            {
+            }
+
+            public function getMultiple(PortalNodeKeyInterface $portalNodeKey, array $keys): array
+            {
+                return [];
+            }
+
+            public function deleteMultiple(PortalNodeKeyInterface $portalNodeKey, array $keys): void
+            {
+            }
         };
     }
 
