@@ -47,4 +47,19 @@ abstract class PortalStorageContract
      * @throws UnsupportedStorageKeyException
      */
     abstract public function has(PortalNodeKeyInterface $portalNodeKey, string $key): bool;
+
+    /**
+     * @throws UnsupportedStorageKeyException
+     */
+    abstract public function clear(PortalNodeKeyInterface $portalNodeKey): void;
+
+    /**
+     * @throws UnsupportedStorageKeyException
+     */
+    abstract public function getMultiple(PortalNodeKeyInterface $portalNodeKey, array $keys): array;
+
+    /**
+     * @throws UnsupportedStorageKeyException
+     */
+    abstract public function deleteMultiple(PortalNodeKeyInterface $portalNodeKey, array $keys): void;
 }
