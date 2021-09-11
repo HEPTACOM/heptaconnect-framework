@@ -18,6 +18,7 @@
     "require": {
         "php": ">=7.4",
         "ext-json": "*",
+        "bentools/iterable-functions": ">=1 <2",
         "heptacom/heptaconnect-dataset-base": "self.version",
         "heptacom/heptaconnect-portal-base": "self.version"
     },
