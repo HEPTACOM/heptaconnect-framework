@@ -14,9 +14,9 @@ abstract class JobRepositoryContract
     /**
      * @param JobAdd[] $jobAdds
      *
-     * @return JobKeyInterface[]
-     *
      * @throws UnsupportedStorageKeyException
+     *
+     * @return JobKeyInterface[]
      */
     abstract public function add(array $jobAdds): array;
 
