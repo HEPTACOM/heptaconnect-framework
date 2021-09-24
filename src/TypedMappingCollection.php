@@ -41,6 +41,6 @@ class TypedMappingCollection extends MappingCollection
             return false;
         }
 
-        return $item->getDatasetEntityClassName() === $this->type;
+        return $item->getEntityType() === $this->type;
     }
 }

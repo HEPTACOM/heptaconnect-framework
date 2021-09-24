@@ -8,30 +8,30 @@ use Throwable;
 
 class UnsharableOwnerException extends \Exception
 {
-    private string $expectedDatasetEntityClassName;
+    private string $expectedEntityType;
 
     private ?string $expectedPrimaryKey;
 
     private DatasetEntityContract $owner;
 
-    public function __construct(string $expectedDatasetEntityClassName, ?string $expectedPrimaryKey, DatasetEntityContract $owner, Throwable $previous = null)
+    public function __construct(string $expectedEntityType, ?string $expectedPrimaryKey, DatasetEntityContract $owner, Throwable $previous = null)
     {
         parent::__construct(\sprintf(
                 'Owner of class %s with primary key %s does not match %s and %s',
                 \get_class($owner),
                 $owner->getPrimaryKey() ?? '<null>',
-                $expectedDatasetEntityClassName,
+                $expectedEntityType,
                 $expectedPrimaryKey ?? '<null>'
             ), 0, $previous);
 
-        $this->expectedDatasetEntityClassName = $expectedDatasetEntityClassName;
+        $this->expectedEntityType = $expectedEntityType;
         $this->expectedPrimaryKey = $expectedPrimaryKey;
         $this->owner = $owner;
     }
 
-    public function getExpectedDatasetEntityClassName(): string
+    public function getExpectedEntityType(): string
     {
-        return $this->expectedDatasetEntityClassName;
+        return $this->expectedEntityType;
     }
 
     public function getExpectedPrimaryKey(): ?string

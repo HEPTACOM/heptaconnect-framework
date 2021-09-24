@@ -51,14 +51,14 @@ abstract class MappingRepositoryContract
     ): iterable;
 
     /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $datasetEntityClassName
+     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
      * @psalm-return string[]
      *
      * @throws UnsupportedStorageKeyException
      */
     abstract public function listUnsavedExternalIds(
         PortalNodeKeyInterface $portalNodeKey,
-        string $datasetEntityClassName,
+        string $entityType,
         array $externalIdsToCheck
     ): array;
 

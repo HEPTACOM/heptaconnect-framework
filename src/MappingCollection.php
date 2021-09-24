@@ -20,7 +20,7 @@ class MappingCollection extends AbstractObjectCollection
 
         /** @var MappingInterface $mapping */
         foreach ($this->items as $mapping) {
-            $entityClassName = $mapping->getDatasetEntityClassName();
+            $entityClassName = $mapping->getEntityType();
 
             $typedMappings[$entityClassName] ??= new TypedMappingCollection($entityClassName);
             $typedMappings[$entityClassName]->push([$mapping]);

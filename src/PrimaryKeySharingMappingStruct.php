@@ -19,7 +19,7 @@ class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyA
     /**
      * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
-    protected string $datasetEntityClassName;
+    protected string $entityType;
 
     protected ?string $externalId = null;
 
@@ -33,23 +33,23 @@ class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyA
     protected $owners = [];
 
     /**
-     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $datasetEntityClassName
+     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
      */
     public function __construct(
-        string $datasetEntityClassName,
+        string $entityType,
         ?string $externalId,
-        PortalNodeKeyInterface $portalNodeKey,
+        PortalNodeKeyInterface  $portalNodeKey,
         MappingNodeKeyInterface $mappingNodeKey
     ) {
-        $this->datasetEntityClassName = $datasetEntityClassName;
+        $this->entityType = $entityType;
         $this->externalId = $externalId;
         $this->portalNodeKey = $portalNodeKey;
         $this->mappingNodeKey = $mappingNodeKey;
     }
 
-    public function getDatasetEntityClassName(): string
+    public function getEntityType(): string
     {
-        return $this->datasetEntityClassName;
+        return $this->entityType;
     }
 
     public function getExternalId(): ?string
@@ -74,9 +74,9 @@ class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyA
         return $this->mappingNodeKey;
     }
 
-    public function getForeignDatasetEntityClassName(): string
+    public function getForeignEntityType(): string
     {
-        return $this->getDatasetEntityClassName();
+        return $this->getEntityType();
     }
 
     public function setForeignKey(?string $foreignKey): void
@@ -104,9 +104,9 @@ class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyA
      */
     public function addOwner(DatasetEntityContract $owner): void
     {
-        if (\get_class($owner) !== $this->getForeignDatasetEntityClassName()
+        if (\get_class($owner) !== $this->getForeignEntityType()
             || $owner->getPrimaryKey() !== $this->getForeignKey()) {
-            throw new UnsharableOwnerException($this->getForeignDatasetEntityClassName(), $this->getForeignKey(), $owner);
+            throw new UnsharableOwnerException($this->getForeignEntityType(), $this->getForeignKey(), $owner);
         }
 
         $this->owners[] = $owner;
