@@ -34,7 +34,7 @@ abstract class DatasetEntityContract implements AttachableInterface, DeferralAwa
 
             /** @var ForeignKeyAwareInterface $aware */
             foreach ($this->getAttachments()->filter(
-                static fn ($o) => $o instanceof ForeignKeyAwareInterface && $o->getForeignDatasetEntityClassName() === static::class
+                static fn ($o) => $o instanceof ForeignKeyAwareInterface && $o->getForeignEntityType() === static::class
             ) as $aware) {
                 if ($aware->getForeignKey() !== $primaryKey) {
                     $aware->setForeignKey($primaryKey);
