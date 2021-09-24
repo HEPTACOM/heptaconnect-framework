@@ -9,12 +9,12 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 interface PublisherInterface
 {
     /**
-     * @deprecated Use publishBatch instead
+     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
+     *@deprecated Use publishBatch instead
      *
-     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $datasetEntityClassName
      */
     public function publish(
-        string $datasetEntityClassName,
+        string $entityType,
         PortalNodeKeyInterface $portalNodeId,
         string $externalId
     ): void;

@@ -18,7 +18,7 @@ class MappingComponentCollection extends AbstractObjectCollection
      *
      * @return string[]
      */
-    public function getDatasetEntityClassNames(): array
+    public function getEntityTypes(): array
     {
         /** @var string[] $result */
         /** @psalm-var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>[] $result */
@@ -26,8 +26,8 @@ class MappingComponentCollection extends AbstractObjectCollection
 
         /** @var MappingComponentStructContract $mappingComponent */
         foreach ($this->getIterator() as $mappingComponent) {
-            if (!\in_array($mappingComponent->getDatasetEntityClassName(), $result, true)) {
-                $result[] = $mappingComponent->getDatasetEntityClassName();
+            if (!\in_array($mappingComponent->getEntityType(), $result, true)) {
+                $result[] = $mappingComponent->getEntityType();
             }
         }
 
@@ -63,13 +63,13 @@ class MappingComponentCollection extends AbstractObjectCollection
     }
 
     /**
-     * @psalm-param $datasetEntityClassName class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @psalm-param $entityType class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      * @psalm-return \Generator<\Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract>
      */
-    public function filterByDatasetEntityClassName(string $datasetEntityClassName): \Generator
+    public function filterByEntityType(string $entityType): \Generator
     {
         return $this->filter(
-            static fn (MappingComponentStructContract $mc): bool => $mc->getDatasetEntityClassName() === $datasetEntityClassName
+            static fn (MappingComponentStructContract $mc): bool => $mc->getEntityType() === $entityType
         );
     }
 
