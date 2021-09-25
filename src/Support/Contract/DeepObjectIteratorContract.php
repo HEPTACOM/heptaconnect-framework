@@ -22,13 +22,13 @@ class DeepObjectIteratorContract
             /** @var mixed $iterable */
             foreach ($toIterate as $iterable) {
                 if (\is_object($iterable)) {
-                    $objectHash = \spl_object_hash($iterable);
+                    $class = \get_class($iterable);
 
-                    if (\in_array($objectHash, $alreadyChecked, true)) {
+                    if (\in_array($iterable, $alreadyChecked[$class] ?? [], true)) {
                         continue;
                     }
 
-                    $alreadyChecked[] = $objectHash;
+                    $alreadyChecked[$class][] = $iterable;
                     yield $iterable;
                     $newIterables[] = \iterable_to_array($this->iterateProperties($iterable));
                 } elseif (\is_iterable($iterable)) {
