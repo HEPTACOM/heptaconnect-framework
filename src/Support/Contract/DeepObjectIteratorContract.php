@@ -43,11 +43,13 @@ class DeepObjectIteratorContract
     private function iterateProperties(object $object): iterable
     {
         try {
-            foreach ((new \ReflectionClass($object))->getProperties() as $prop) {
-                $prop->setAccessible(true);
-
+            foreach ($this->getPropertiesAccessor($object) as $prop) {
                 try {
-                    yield $prop->getValue($object);
+                    $value = $prop->getValue($object);
+
+                    if (\is_object($value) || \is_iterable($value) || (\is_array($value) && $value !== [])) {
+                        yield $value;
+                    }
                 } catch (\Throwable $_) {
                 }
             }
@@ -58,5 +60,25 @@ class DeepObjectIteratorContract
     private function iterateIterable(iterable $iterable): iterable
     {
         yield from $iterable;
+    }
+
+    private function getPropertiesAccessor(object $object): array
+    {
+        $class = \get_class($object);
+        $result = $this->reflectionProperties[$class] ?? null;
+
+        if (\is_array($result)) {
+            return $result;
+        }
+
+        $preResult = new \ReflectionClass($class);
+        $result = [];
+
+        foreach ($preResult->getProperties() as $property) {
+            $property->setAccessible(true);
+            $result[] = $property;
+        }
+
+        return $this->reflectionProperties[$class] = $result;
     }
 }
