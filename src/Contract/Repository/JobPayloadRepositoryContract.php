@@ -41,5 +41,4 @@ abstract class JobPayloadRepositoryContract
     abstract public function get(JobPayloadKeyInterface $jobPayloadKey): array;
 
     abstract public function cleanup(): void;
-
 }
