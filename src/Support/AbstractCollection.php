@@ -166,6 +166,7 @@ abstract class AbstractCollection implements CollectionInterface
     /**
      * @param mixed $item
      * @param mixed $fallback
+     *
      * @return mixed
      */
     protected function executeAccessor($item, ?string $accessor, $fallback)
