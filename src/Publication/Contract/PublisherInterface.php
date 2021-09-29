@@ -10,8 +10,8 @@ interface PublisherInterface
 {
     /**
      * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
-     *@deprecated Use publishBatch instead
      *
+     * @deprecated Use publishBatch instead
      */
     public function publish(
         string $entityType,

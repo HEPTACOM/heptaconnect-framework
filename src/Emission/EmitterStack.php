@@ -17,19 +17,19 @@ class EmitterStack implements EmitterStackInterface, LoggerAwareInterface
      */
     private array $emitters;
 
-    private string $entityClassName;
+    private string $entityType;
 
     private LoggerInterface $logger;
 
     /**
      * @param iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract> $emitters
      */
-    public function __construct(iterable $emitters, string $entityClassName)
+    public function __construct(iterable $emitters, string $entityType)
     {
         /** @var array<array-key, \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract> $arrayEmitters */
         $arrayEmitters = \iterable_to_array($emitters);
         $this->emitters = $arrayEmitters;
-        $this->entityClassName = $entityClassName;
+        $this->entityType = $entityType;
         $this->logger = new NullLogger();
     }
 
@@ -53,6 +53,6 @@ class EmitterStack implements EmitterStackInterface, LoggerAwareInterface
 
     public function supports(): string
     {
-        return $this->entityClassName;
+        return $this->entityType;
     }
 }
