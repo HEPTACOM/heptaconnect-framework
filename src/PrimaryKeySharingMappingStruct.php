@@ -38,7 +38,7 @@ class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyA
     public function __construct(
         string $entityType,
         ?string $externalId,
-        PortalNodeKeyInterface  $portalNodeKey,
+        PortalNodeKeyInterface $portalNodeKey,
         MappingNodeKeyInterface $mappingNodeKey
     ) {
         $this->entityType = $entityType;

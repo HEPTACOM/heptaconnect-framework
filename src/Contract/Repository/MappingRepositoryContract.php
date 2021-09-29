@@ -40,14 +40,14 @@ abstract class MappingRepositoryContract
     abstract public function listByMappingNode(MappingNodeKeyInterface $mappingNodeKey): iterable;
 
     /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $datasetEntityType
+     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
      * @psalm-return iterable<\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingKeyInterface>
      *
      * @throws UnsupportedStorageKeyException
      */
     abstract public function listByPortalNodeAndType(
         PortalNodeKeyInterface $portalNodeKey,
-        string $datasetEntityType
+        string $entityType
     ): iterable;
 
     /**

@@ -18,24 +18,24 @@ abstract class RouteRepositoryContract
     abstract public function read(RouteKeyInterface $key): RouteInterface;
 
     /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityClassName
+     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
      * @psalm-return iterable<\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\RouteKeyInterface>
      *
      * @throws UnsupportedStorageKeyException
      */
     abstract public function listBySourceAndEntityType(
         PortalNodeKeyInterface $sourceKey,
-        string $entityClassName
+        string $entityType
     ): iterable;
 
     /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityClassName
+     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
      *
      * @throws UnsupportedStorageKeyException
      */
     abstract public function create(
         PortalNodeKeyInterface $sourceKey,
         PortalNodeKeyInterface $targetKey,
-        string $entityClassName
+        string $entityType
     ): RouteKeyInterface;
 }
