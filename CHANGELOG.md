@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+* Add class `Heptacom\HeptaConnect\Core\Component\ExceptionCodeLogger` intended as a decorator to prepend the exception code to log messages if available
+
 ## [0.7.0] - 2021-09-25
 
 ### Added
