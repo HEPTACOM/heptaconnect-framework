@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Change composer dependency `bentools/iterable-functions: >=1` to `bentools/iterable-functions: >=1 <2`
 - Change method name of `\Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface` in global refactoring effort to `\Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface::getForeignEntityType`
 - Change method call in `\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract::setPrimaryKey` to use refactored method name of `\Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface::getForeignEntityType`
 

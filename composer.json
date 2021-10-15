@@ -18,7 +18,7 @@
     "require": {
         "php": ">=7.4",
         "ext-json": "*",
-        "bentools/iterable-functions": ">=1",
+        "bentools/iterable-functions": ">=1 <2",
         "opis/closure": "^3.6"
     },
     "require-dev": {
