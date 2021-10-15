@@ -63,13 +63,13 @@ class MappingCollectionTest extends TestCase
     public function testTypedMapping(): void
     {
         $datasetEntityMapping = $this->createMock(MappingStruct::class);
-        $datasetEntityMapping->method('getDatasetEntityClassName')->willReturn(DatasetEntityStruct::class);
+        $datasetEntityMapping->method('getEntityType')->willReturn(DatasetEntityStruct::class);
 
         $firstMapping = $this->createMock(MappingStruct::class);
-        $firstMapping->method('getDatasetEntityClassName')->willReturn(FirstEntity::class);
+        $firstMapping->method('getEntityType')->willReturn(FirstEntity::class);
 
         $secondMapping = $this->createMock(MappingStruct::class);
-        $secondMapping->method('getDatasetEntityClassName')->willReturn(SecondEntity::class);
+        $secondMapping->method('getEntityType')->willReturn(SecondEntity::class);
 
         $collection = new MappingCollection([$firstMapping]);
         $collection->push([
@@ -95,17 +95,17 @@ class MappingCollectionTest extends TestCase
     public function testTypedMappedDatasetEntityCollection(): void
     {
         $datasetEntityMapping = $this->createMock(MappingStruct::class);
-        $datasetEntityMapping->method('getDatasetEntityClassName')->willReturn(DatasetEntityStruct::class);
+        $datasetEntityMapping->method('getEntityType')->willReturn(DatasetEntityStruct::class);
         $dataset = $this->createMock(MappedDatasetEntityStruct::class);
         $dataset->method('getMapping')->willReturn($datasetEntityMapping);
 
         $firstMapping = $this->createMock(MappingStruct::class);
-        $firstMapping->method('getDatasetEntityClassName')->willReturn(FirstEntity::class);
+        $firstMapping->method('getEntityType')->willReturn(FirstEntity::class);
         $first = $this->createMock(MappedDatasetEntityStruct::class);
         $first->method('getMapping')->willReturn($firstMapping);
 
         $secondMapping = $this->createMock(MappingStruct::class);
-        $secondMapping->method('getDatasetEntityClassName')->willReturn(SecondEntity::class);
+        $secondMapping->method('getEntityType')->willReturn(SecondEntity::class);
         $second = $this->createMock(MappedDatasetEntityStruct::class);
         $second->method('getMapping')->willReturn($secondMapping);
 

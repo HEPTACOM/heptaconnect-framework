@@ -12,5 +12,5 @@ interface MappingNodeStructInterface
     /**
      * @return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
-    public function getDatasetEntityClassName(): string;
+    public function getEntityType(): string;
 }
