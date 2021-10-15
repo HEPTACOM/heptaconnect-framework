@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Change method name of `\Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface` in global refactoring effort to `\Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface::getForeignEntityType`
+- Change method call in `\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract::setPrimaryKey` to use refactored method name of `\Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface::getForeignEntityType`
+
 ## [0.7.0] - 2021-09-25
 
 ### Changed

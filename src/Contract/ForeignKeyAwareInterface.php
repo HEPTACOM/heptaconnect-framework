@@ -8,7 +8,7 @@ interface ForeignKeyAwareInterface
     /**
      * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
-    public function getForeignDatasetEntityClassName(): string;
+    public function getForeignEntityType(): string;
 
     public function getForeignKey(): ?string;
 
