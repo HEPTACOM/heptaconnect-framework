@@ -41,7 +41,7 @@ class MappingStruct implements MappingInterface
         return $this->mappingNodeKey;
     }
 
-    public function getDatasetEntityClassName(): string
+    public function getEntityType(): string
     {
         return DatasetEntityStruct::class;
     }
