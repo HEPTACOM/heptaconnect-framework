@@ -47,12 +47,12 @@ abstract class JobRepositoryContract
     /**
      * @throws UnsupportedStorageKeyException
      */
-    abstract public function start(JobKeyInterface $jobKey, ?\DateTime $time): void;
+    abstract public function start(JobKeyInterface $jobKey, ?\DateTimeInterface $time): void;
 
     /**
      * @throws UnsupportedStorageKeyException
      */
-    abstract public function finish(JobKeyInterface $jobKey, ?\DateTime $time): void;
+    abstract public function finish(JobKeyInterface $jobKey, ?\DateTimeInterface $time): void;
 
     abstract public function cleanup(): void;
 }
