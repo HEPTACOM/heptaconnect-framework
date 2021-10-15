@@ -15,7 +15,7 @@ abstract class MappingComponentStructContract implements \JsonSerializable
     /**
      * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
-    abstract public function getDatasetEntityClassName(): string;
+    abstract public function getEntityType(): string;
 
     abstract public function getExternalId(): string;
 }
