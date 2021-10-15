@@ -9,9 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Amend typehint for `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::__construct`, `\Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection::__construct` and `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::push` to improve static code analysis.
 - Change method name of `\Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface` in global refactoring effort to `\Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface::getForeignEntityType`
 - Change method call in `\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract::setPrimaryKey` to use refactored method name of `\Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface::getForeignEntityType`
+
+## [0.7.0] - 2021-09-25
+
+### Changed
+
+- Amend typehint for `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::__construct`, `\Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection::__construct` and `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::push` to improve static code analysis.
 
 ### Fixed
 
@@ -48,7 +53,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Rename `\Heptacom\HeptaConnect\Dataset\Base\Translatable\GenericTranslatable` to `\Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable`
-- Added `\Heptacom\HeptaConnect\Dataset\Base\Contract\DeferralAwareInterface` to `\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract`
+- Add `\Heptacom\HeptaConnect\Dataset\Base\Contract\DeferralAwareInterface` to `\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract`
 
 ## [0.4.0] - 2021-07-03
 
