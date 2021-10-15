@@ -113,7 +113,7 @@ class ContractTest extends TestCase
 
             public function deserialize(string $keyData): StorageKeyInterface
             {
-                $this->generateKey($keyData);
+                return $this->generateKey($keyData);
             }
         };
     }
