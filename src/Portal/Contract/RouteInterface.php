@@ -17,5 +17,5 @@ interface RouteInterface
     /**
      * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
-    public function getEntityClassName(): string;
+    public function getEntityType(): string;
 }

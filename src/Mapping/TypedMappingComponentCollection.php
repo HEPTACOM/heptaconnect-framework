@@ -36,6 +36,6 @@ class TypedMappingComponentCollection extends MappingComponentCollection
      */
     protected function isValidItem($item): bool
     {
-        return parent::isValidItem($item) && $item->getDatasetEntityClassName() === $this->type;
+        return parent::isValidItem($item) && $item->getEntityType() === $this->type;
     }
 }

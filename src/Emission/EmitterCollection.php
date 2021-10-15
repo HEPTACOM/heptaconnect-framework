@@ -12,13 +12,13 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 class EmitterCollection extends AbstractObjectCollection
 {
     /**
-     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityClassName
+     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
      *
      * @return iterable<\Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract>
      */
-    public function bySupport(string $entityClassName): iterable
+    public function bySupport(string $entityType): iterable
     {
-        return $this->filter(static fn (EmitterContract $emitter) => $entityClassName === $emitter->supports());
+        return $this->filter(static fn (EmitterContract $emitter) => $entityType === $emitter->supports());
     }
 
     protected function getT(): string

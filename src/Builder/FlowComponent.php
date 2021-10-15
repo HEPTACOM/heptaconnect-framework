@@ -171,5 +171,6 @@ TXT
         self::$explorerTokens = [];
         self::$emitterTokens = [];
         self::$receiverTokens = [];
+        self::$statusReporterTokens = [];
     }
 }

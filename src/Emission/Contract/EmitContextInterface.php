@@ -9,5 +9,5 @@ interface EmitContextInterface extends PortalNodeContextInterface
 {
     public function isDirectEmission(): bool;
 
-    public function markAsFailed(string $externalId, string $datasetEntityClassName, \Throwable $throwable): void;
+    public function markAsFailed(string $externalId, string $entityType, \Throwable $throwable): void;
 }

@@ -4,7 +4,7 @@
 ## Description
 
 This is a HEPTAconnect package that provides base structures for portals.
-Read more under [Overview](../heptaconnect-docs).
+Read more in the [documentation](https://heptaconnect.io/).
 
 
 ## System requirements

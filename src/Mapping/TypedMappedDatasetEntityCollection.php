@@ -34,6 +34,6 @@ class TypedMappedDatasetEntityCollection extends MappedDatasetEntityCollection
      */
     protected function isValidItem($item): bool
     {
-        return parent::isValidItem($item) && $item->getMapping()->getDatasetEntityClassName() === $this->type;
+        return parent::isValidItem($item) && $item->getMapping()->getEntityType() === $this->type;
     }
 }
