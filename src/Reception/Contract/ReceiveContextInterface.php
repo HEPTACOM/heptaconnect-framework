@@ -12,7 +12,7 @@ interface ReceiveContextInterface extends PortalNodeContextInterface
 {
     public function getEntityStatus(): EntityStatusContract;
 
-    public function getEventDispatcher() : EventDispatcherInterface;
+    public function getEventDispatcher(): EventDispatcherInterface;
 
     public function getPostProcessingBag(): PostProcessorDataBag;
 }
