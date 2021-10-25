@@ -36,7 +36,7 @@ class DeepObjectIteratorContract
                 }
             }
 
-            $toIterate = \array_merge([], ...$newIterables);
+            $toIterate = \array_merge([], ...\array_map('array_values', $newIterables));
         } while ($toIterate !== []);
     }
 
