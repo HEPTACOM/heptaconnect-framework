@@ -26,6 +26,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change a method call in `\Heptacom\HeptaConnect\Storage\Base\MappingCollection::groupByType` to use the refactored method name of `\Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface::getEntityType`
 - Change a method call in `\Heptacom\HeptaConnect\Storage\Base\TypedMappingCollection::isValidItem` to use the refactored method name of `\Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface::getEntityType`
 
+### Removed
+
+- Remove implementation `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract::listBySourceAndEntityType` in favour of `\Heptacom\HeptaConnect\Storage\Base\Contract\ReceptionRouteListActionInterface::list`, `\Heptacom\HeptaConnect\Storage\Base\Contract\RouteOverviewActionInterface::overview` and `\Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeActionInterface::find` that allows for optimizations for different use-cases
+
 ## [0.7.0] - 2021-09-25
 
 ### Added

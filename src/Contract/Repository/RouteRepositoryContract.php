@@ -19,17 +19,6 @@ abstract class RouteRepositoryContract
 
     /**
      * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
-     * @psalm-return iterable<\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\RouteKeyInterface>
-     *
-     * @throws UnsupportedStorageKeyException
-     */
-    abstract public function listBySourceAndEntityType(
-        PortalNodeKeyInterface $sourceKey,
-        string $entityType
-    ): iterable;
-
-    /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
      *
      * @throws UnsupportedStorageKeyException
      */
