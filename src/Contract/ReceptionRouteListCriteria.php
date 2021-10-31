@@ -7,7 +7,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 
 class ReceptionRouteListCriteria
 {
-    protected PortalNodeKeyInterface $from;
+    protected PortalNodeKeyInterface $source;
 
     /**
      * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
@@ -19,18 +19,18 @@ class ReceptionRouteListCriteria
      */
     public function __construct(PortalNodeKeyInterface $from, string $entityType)
     {
-        $this->from = $from;
+        $this->source = $from;
         $this->entityType = $entityType;
     }
 
-    public function getFrom(): PortalNodeKeyInterface
+    public function getSource(): PortalNodeKeyInterface
     {
-        return $this->from;
+        return $this->source;
     }
 
-    public function setFrom(PortalNodeKeyInterface $from): void
+    public function setSource(PortalNodeKeyInterface $source): void
     {
-        $this->from = $from;
+        $this->source = $source;
     }
 
     /**
