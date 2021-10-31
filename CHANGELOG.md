@@ -31,7 +31,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 - Remove implementation `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract::listBySourceAndEntityType` in favour of `\Heptacom\HeptaConnect\Storage\Base\Contract\ReceptionRouteListActionInterface::list`, `\Heptacom\HeptaConnect\Storage\Base\Contract\RouteOverviewActionInterface::overview` and `\Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeActionInterface::find` that allows for optimizations for different use-cases
-- Remove implementation `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract::read` in favour of `\Heptacom\HeptaConnect\Storage\Base\Contract\ReceptionRouteListActionInterface::list`, `\Heptacom\HeptaConnect\Storage\Base\Contract\RouteOverviewActionInterface::overview` and `\Heptacom\HeptaConnect\Storage\Base\Contract\ReceptionRouteListResult\RouteGetActionInterface::get` that allows for optimizations in the storage implementation
+- Remove implementation `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract::read` in favour of `\Heptacom\HeptaConnect\Storage\Base\Contract\ReceptionRouteListResult\RouteGetActionInterface::get` that allows for optimizations in the storage implementation
+- Remove implementation `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract::create` in favour of `\Heptacom\HeptaConnect\Storage\Base\Contract\ReceptionRouteListResult\RouteCreateActionInterface::create` that allows for optimizations in the storage implementation
 
 ## [0.7.0] - 2021-09-25
 
