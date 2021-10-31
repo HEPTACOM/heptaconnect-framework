@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `\Heptacom\HeptaConnect\Storage\Base\Contract\ReceptionRouteListResult\ReceptionRouteListActionInterface` for listing reception routes by the given `\Heptacom\HeptaConnect\Storage\Base\Contract\ReceptionRouteListCriteria` to return a `\Heptacom\HeptaConnect\Storage\Base\Contract\ReceptionRouteListResult`
 - Add `\Heptacom\HeptaConnect\Storage\Base\Contract\ReceptionRouteListResult\RouteOverviewActionInterface` for listing all routes by the given `\Heptacom\HeptaConnect\Storage\Base\Contract\RouteOverviewCriteria` to return a `\Heptacom\HeptaConnect\Storage\Base\Contract\RouteOverviewResult`
 - Add `\Heptacom\HeptaConnect\Storage\Base\Contract\ReceptionRouteListResult\RouteFindByTargetsAndTypeActionInterface` for checking the existence of a route by its components by the given `\Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeCriteria` to return a `\Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeResult`
+- Add `\Heptacom\HeptaConnect\Storage\Base\Contract\ReceptionRouteListResult\RouteGetActionInterface` for reading metadata of routes by the given `\Heptacom\HeptaConnect\Storage\Base\Contract\RouteGetCriteria` to return a `\Heptacom\HeptaConnect\Storage\Base\Contract\RouteGetResult`
 
 ### Changed
 
