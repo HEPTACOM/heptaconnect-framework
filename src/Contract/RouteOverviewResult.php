@@ -32,6 +32,11 @@ class RouteOverviewResult
     protected \DateTimeInterface $createdAt;
 
     /**
+     * @var string[]
+     */
+    private array $capabilities;
+
+    /**
      * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
      * @param class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract> $sourceClass
      * @param class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract> $targetClass
@@ -43,7 +48,8 @@ class RouteOverviewResult
         string $sourceClass,
         PortalNodeKeyInterface $target,
         string $targetClass,
-        \DateTimeInterface $createdAt
+        \DateTimeInterface $createdAt,
+        array $capabilities
     ) {
         $this->route = $route;
         $this->entityType = $entityType;
@@ -52,6 +58,7 @@ class RouteOverviewResult
         $this->target = $target;
         $this->targetClass = $targetClass;
         $this->createdAt = $createdAt;
+        $this->capabilities = $capabilities;
     }
 
     public function getRoute(): RouteKeyInterface
@@ -96,5 +103,13 @@ class RouteOverviewResult
     public function getCreatedAt(): \DateTimeInterface
     {
         return $this->createdAt;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getCapabilities(): array
+    {
+        return $this->capabilities;
     }
 }
