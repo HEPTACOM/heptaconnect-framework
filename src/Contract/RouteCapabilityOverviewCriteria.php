@@ -17,7 +17,9 @@ class RouteCapabilityOverviewCriteria
 
     protected ?int $pageSize = null;
 
-    protected array $sort = [];
+    protected array $sort = [
+        self::FIELD_CREATED => self::SORT_ASC,
+    ];
 
     public function getPage(): int
     {
