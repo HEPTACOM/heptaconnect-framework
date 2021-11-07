@@ -14,5 +14,5 @@ interface RouteCreateActionInterface
      *
      * @TODO add exception for creation failures
      */
-    public function create(RouteCreateParams $params): iterable;
+    public function create(RouteCreatePayloads $params): iterable;
 }
