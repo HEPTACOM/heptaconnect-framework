@@ -5,10 +5,10 @@ namespace Heptacom\HeptaConnect\Storage\Base\Contract;
 
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 
-interface RouteFindByTargetsAndTypeActionInterface
+interface RouteFindActionInterface
 {
     /**
      * @throws UnsupportedStorageKeyException
      */
-    public function find(RouteFindByTargetsAndTypeCriteria $criteria): ?RouteFindByTargetsAndTypeResult;
+    public function find(RouteFindCriteria $criteria): ?RouteFindResult;
 }

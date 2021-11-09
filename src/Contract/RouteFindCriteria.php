@@ -5,7 +5,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Contract;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
-class RouteFindByTargetsAndTypeCriteria
+class RouteFindCriteria
 {
     private PortalNodeKeyInterface $source;
 
