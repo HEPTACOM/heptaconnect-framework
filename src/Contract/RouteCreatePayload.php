@@ -17,13 +17,24 @@ class RouteCreatePayload
     protected string $entityType;
 
     /**
-     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
+     * @var string[]
      */
-    public function __construct(PortalNodeKeyInterface $source, PortalNodeKeyInterface $target, string $entityType)
-    {
+    protected array $capabilities;
+
+    /**
+     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
+     * @param string[] $capabilities
+     */
+    public function __construct(
+        PortalNodeKeyInterface $source,
+        PortalNodeKeyInterface $target,
+        string $entityType,
+        array $capabilities = []
+    ) {
         $this->source = $source;
         $this->target = $target;
         $this->entityType = $entityType;
+        $this->capabilities = $capabilities;
     }
 
     public function getSource(): PortalNodeKeyInterface
@@ -60,5 +71,21 @@ class RouteCreatePayload
     public function setEntityType(string $entityType): void
     {
         $this->entityType = $entityType;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getCapabilities(): array
+    {
+        return $this->capabilities;
+    }
+
+    /**
+     * @param string[] $capabilities
+     */
+    public function setCapabilities(array $capabilities): void
+    {
+        $this->capabilities = $capabilities;
     }
 }
