@@ -11,8 +11,8 @@ abstract class RouteCapability
         self::RECEPTION,
     ];
 
-    public function isKnown(string $rouceCapability): bool
+    public function isKnown(string $routeCapability): bool
     {
-        return \in_array($rouceCapability, self::ALL);
+        return \in_array($routeCapability, self::ALL, true);
     }
 }
