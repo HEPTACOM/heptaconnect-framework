@@ -40,6 +40,7 @@ class RouteOverviewResult
      * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
      * @param class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>  $sourceClass
      * @param class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>  $targetClass
+     * @param string[]                                                                         $capabilities
      */
     public function __construct(
         RouteKeyInterface $route,

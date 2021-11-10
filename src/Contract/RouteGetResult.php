@@ -27,6 +27,7 @@ class RouteGetResult implements RouteInterface
 
     /**
      * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
+     * @param string[]                                                                         $capabilities
      */
     public function __construct(
         RouteKeyInterface $route,
