@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - With storage restructure explained in [this ADR](https://heptaconnect.io/reference/adr/2021-09-25-optimized-storage-actions/) we add `\Heptacom\HeptaConnect\Storage\Base\Contract\ReceptionRouteListResult\RouteCreateActionInterface` for creating routes by the given `\Heptacom\HeptaConnect\Storage\Base\Contract\RouteCreatePayloads` and `\Heptacom\HeptaConnect\Storage\Base\Contract\RouteCreatePayload` to return a `\Heptacom\HeptaConnect\Storage\Base\Contract\RouteCreateResult`
 - With storage restructure explained in [this ADR](https://heptaconnect.io/reference/adr/2021-09-25-optimized-storage-actions/) we add `\Heptacom\HeptaConnect\Storage\Base\Contract\ReceptionRouteListResult\RouteCapabilityOverviewActionInterface` for listing available route capabilities by the given `\Heptacom\HeptaConnect\Storage\Base\Contract\RouteCapabilityOverviewCriteria` to return a `\Heptacom\HeptaConnect\Storage\Base\Contract\RouteCapabilityOverviewResult`
 - Add `\Heptacom\HeptaConnect\Storage\Base\Enum\RouteCapability` to hold constant values for route capabilities
+- Add exception `\Heptacom\HeptaConnect\Storage\Base\Exception\InvalidOverviewCriteriaException` for cases when overview criteria are malformed
 
 ### Changed
 
