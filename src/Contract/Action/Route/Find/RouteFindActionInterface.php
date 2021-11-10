@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Find;
 
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Find\RouteFindCriteria;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Find\RouteFindResult;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 
 interface RouteFindActionInterface
