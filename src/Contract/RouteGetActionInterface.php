@@ -8,9 +8,9 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 interface RouteGetActionInterface
 {
     /**
-     * @return iterable<RouteGetResult>
-     *
      * @throws UnsupportedStorageKeyException
+     *
+     * @return iterable<RouteGetResult>
      */
     public function get(RouteGetCriteria $criteria): iterable;
 }

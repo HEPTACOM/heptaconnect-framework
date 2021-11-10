@@ -8,11 +8,9 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 interface RouteCreateActionInterface
 {
     /**
-     * @return iterable<RouteCreateResult>
-     *
      * @throws UnsupportedStorageKeyException
      *
-     * @TODO add exception for creation failures
+     * @return iterable<RouteCreateResult>
      */
     public function create(RouteCreatePayloads $params): iterable;
 }

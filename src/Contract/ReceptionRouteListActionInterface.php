@@ -8,9 +8,9 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 interface ReceptionRouteListActionInterface
 {
     /**
-     * @return iterable<ReceptionRouteListResult>
-     *
      * @throws UnsupportedStorageKeyException
+     *
+     * @return iterable<ReceptionRouteListResult>
      */
     public function list(ReceptionRouteListCriteria $criteria): iterable;
 }

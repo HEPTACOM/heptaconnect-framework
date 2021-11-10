@@ -8,9 +8,9 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\InvalidOverviewCriteriaExceptio
 interface RouteCapabilityOverviewActionInterface
 {
     /**
-     * @return iterable<RouteCapabilityOverviewResult>
-     *
      * @throws InvalidOverviewCriteriaException
+     *
+     * @return iterable<RouteCapabilityOverviewResult>
      */
     public function overview(RouteCapabilityOverviewCriteria $criteria): iterable;
 }

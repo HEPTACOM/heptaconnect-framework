@@ -9,10 +9,10 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 interface RouteOverviewActionInterface
 {
     /**
-     * @return iterable<RouteOverviewResult>
-     *
      * @throws InvalidOverviewCriteriaException
      * @throws UnsupportedStorageKeyException
+     *
+     * @return iterable<RouteOverviewResult>
      */
     public function overview(RouteOverviewCriteria $criteria): iterable;
 }

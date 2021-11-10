@@ -23,7 +23,7 @@ class RouteCreatePayload
 
     /**
      * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
-     * @param string[] $capabilities
+     * @param string[]                                                                         $capabilities
      */
     public function __construct(
         PortalNodeKeyInterface $source,
