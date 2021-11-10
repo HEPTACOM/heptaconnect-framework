@@ -1,16 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Storage\Base\Contract;
+namespace Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Create;
 
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\RouteInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\RouteKeyInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Create\CreatePayloadInterface;
 
-class RouteGetResult implements RouteInterface
+class RouteCreatePayload implements CreatePayloadInterface
 {
-    protected RouteKeyInterface $route;
-
     protected PortalNodeKeyInterface $source;
 
     protected PortalNodeKeyInterface $target;
@@ -30,32 +27,35 @@ class RouteGetResult implements RouteInterface
      * @param string[]                                                                         $capabilities
      */
     public function __construct(
-        RouteKeyInterface $route,
         PortalNodeKeyInterface $source,
         PortalNodeKeyInterface $target,
         string $entityType,
-        array $capabilities
+        array $capabilities = []
     ) {
-        $this->route = $route;
         $this->source = $source;
         $this->target = $target;
         $this->entityType = $entityType;
         $this->capabilities = $capabilities;
     }
 
-    public function getKey(): RouteKeyInterface
+    public function getSource(): PortalNodeKeyInterface
     {
-        return $this->route;
+        return $this->source;
     }
 
-    public function getTargetKey(): PortalNodeKeyInterface
+    public function setSource(PortalNodeKeyInterface $source): void
+    {
+        $this->source = $source;
+    }
+
+    public function getTarget(): PortalNodeKeyInterface
     {
         return $this->target;
     }
 
-    public function getSourceKey(): PortalNodeKeyInterface
+    public function setTarget(PortalNodeKeyInterface $target): void
     {
-        return $this->source;
+        $this->target = $target;
     }
 
     /**
@@ -67,10 +67,26 @@ class RouteGetResult implements RouteInterface
     }
 
     /**
+     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
+     */
+    public function setEntityType(string $entityType): void
+    {
+        $this->entityType = $entityType;
+    }
+
+    /**
      * @return string[]
      */
     public function getCapabilities(): array
     {
         return $this->capabilities;
+    }
+
+    /**
+     * @param string[] $capabilities
+     */
+    public function setCapabilities(array $capabilities): void
+    {
+        $this->capabilities = $capabilities;
     }
 }

@@ -1,13 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Storage\Base\Contract;
+namespace Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Overview;
 
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Overview\OverviewCriteriaContract;
 
-class RouteCapabilityOverviewCriteria extends OverviewCriteriaContract
+class RouteOverviewCriteria extends OverviewCriteriaContract
 {
-    public const FIELD_NAME = 'target';
+    public const FIELD_TARGET = 'target';
+
+    public const FIELD_SOURCE = 'source';
+
+    public const FIELD_ENTITY_TYPE = 'entityType';
 
     public const FIELD_CREATED = 'created';
 

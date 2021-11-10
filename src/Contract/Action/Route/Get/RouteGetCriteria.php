@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Storage\Base\Contract;
+namespace Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Get;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\RouteKeyCollection;
 
