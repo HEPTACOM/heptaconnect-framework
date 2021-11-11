@@ -12,3 +12,9 @@ parameters:
 		-
 			message: '#Unsafe usage of new static\(\)#'
 			path: ../src/Support/SetStateTrait.php
+		-
+			message: '#^Variable (method call|property access) on object\.$#'
+			path: ../src/Support/AbstractCollection.php
+		-
+			message: '#^Method Heptacom\\HeptaConnect\\Dataset\\Base\\Translatable\\ScalarCollection\\AbstractTranslatableScalarCollection::getInitialValue\(\) return type with generic interface Heptacom\\HeptaConnect\\Dataset\\Base\\Contract\\CollectionInterface does not specify its types: T$#'
+			path: ../src/Translatable/ScalarCollection/AbstractTranslatableScalarCollection.php

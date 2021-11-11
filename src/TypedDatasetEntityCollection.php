@@ -5,6 +5,9 @@ namespace Heptacom\HeptaConnect\Dataset\Base;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 
+/**
+ * @extends \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+ */
 class TypedDatasetEntityCollection extends DatasetEntityCollection
 {
     /**

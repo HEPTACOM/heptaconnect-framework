@@ -7,12 +7,14 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+ * @template T
+ * @template-extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract&T>
+ * @psalm-consistent-constructor
  */
 class DatasetEntityCollection extends AbstractObjectCollection
 {
     /**
-     * @return DatasetEntityCollection[]
+     * @return \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>[]
      */
     public function groupByType(): iterable
     {
@@ -25,7 +27,7 @@ class DatasetEntityCollection extends AbstractObjectCollection
 
         /** @var DatasetEntityContract[] $group */
         foreach ($groups as $type => $group) {
-            yield $type => new static($group);
+            yield $type => new self($group);
         }
     }
 

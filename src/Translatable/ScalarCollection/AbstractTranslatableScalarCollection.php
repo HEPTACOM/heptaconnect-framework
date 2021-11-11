@@ -26,7 +26,7 @@ abstract class AbstractTranslatableScalarCollection extends AbstractTranslatable
     {
         $result = parent::getTranslation($localeKey, false);
 
-        if ($this->isValidValue($result)) {
+        if ($result !== null && $this->isValidValue($result)) {
             return $result;
         }
 

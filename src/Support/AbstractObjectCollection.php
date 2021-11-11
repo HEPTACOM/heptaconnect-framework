@@ -7,7 +7,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface;
 
 /**
  * @template T
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<T>
+ * @template-extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<T>
  */
 abstract class AbstractObjectCollection extends AbstractCollection implements AttachableInterface
 {
