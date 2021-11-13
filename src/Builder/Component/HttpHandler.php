@@ -134,15 +134,15 @@ class HttpHandler extends HttpHandlerContract
             string $propertyType,
             ContainerInterface $container
         ) use ($context, $response, $request) {
-            if (\is_a($propertyType, ServerRequestInterface::class, true)) {
+            if (\is_a($request, $propertyType, false)) {
                 return $request;
             }
 
-            if (\is_a($propertyType, ResponseInterface::class, true)) {
+            if (\is_a($response, $propertyType, false)) {
                 return $response;
             }
 
-            if (\is_a($propertyType, HttpHandleContextInterface::class, true)) {
+            if (\is_a($context, $propertyType, false)) {
                 return $context;
             }
 
