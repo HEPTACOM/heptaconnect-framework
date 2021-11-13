@@ -5,14 +5,17 @@ namespace Heptacom\HeptaConnect\Portal\Base\Builder;
 
 use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\EmitterBuilder;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\ExplorerBuilder;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\HttpHandlerBuilder;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\ReceiverBuilder;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\StatusReporterBuilder;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Component\Emitter;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Component\Explorer;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Component\HttpHandler;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Component\Receiver;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Component\StatusReporter;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\EmitterToken;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\StatusReporterToken;
 use Psr\Log\LoggerAwareInterface;
@@ -34,6 +37,9 @@ class FlowComponent implements LoggerAwareInterface
 
     /** @var StatusReporterToken[] */
     private static array $statusReporterTokens = [];
+
+    /** @var HttpHandlerToken[] */
+    private static array $httpHandlerTokens = [];
 
     public function __construct()
     {
@@ -108,6 +114,18 @@ class FlowComponent implements LoggerAwareInterface
         return $builder;
     }
 
+    public static function httpHandler(string $path, ?callable $run = null): HttpHandlerBuilder
+    {
+        self::$httpHandlerTokens[] = $token = new HttpHandlerToken($path);
+        $builder = new HttpHandlerBuilder($token);
+
+        if (\is_callable($run)) {
+            $builder->run($run);
+        }
+
+        return $builder;
+    }
+
     /**
      * @return iterable<\Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract>
      */
@@ -126,10 +144,8 @@ class FlowComponent implements LoggerAwareInterface
     {
         foreach (self::$emitterTokens as $key => $emitterToken) {
             if (\is_callable($emitterToken->getRun()) && \is_callable($emitterToken->getBatch())) {
-                $this->logger->warning(<<<'TXT'
-EmitterBuilder: You implement both "run" and "batch". The "run" method will not be executed.
-TXT
-                );
+                $this->logImplementationConflict('Emitter', 'run', 'batch');
+
             }
 
             yield new Emitter($emitterToken);
@@ -144,10 +160,7 @@ TXT
     {
         foreach (self::$receiverTokens as $key => $receiverToken) {
             if (\is_callable($receiverToken->getRun()) && \is_callable($receiverToken->getBatch())) {
-                $this->logger->warning(<<<'TXT'
-ReceiverBuilder: You implement both "run" and "batch". The "run" method will not be executed.
-TXT
-                );
+                $this->logImplementationConflict('Receiver', 'run', 'batch');
             }
 
             yield new Receiver($receiverToken);
@@ -166,11 +179,62 @@ TXT
         }
     }
 
+    /**
+     * @return iterable<\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract>
+     */
+    public function buildHttpHandlers(): iterable
+    {
+        foreach (self::$httpHandlerTokens as $key => $httpHandlerToken) {
+            if (\is_callable($httpHandlerToken->getRun())) {
+                if (\is_callable($httpHandlerToken->getOptions())) {
+                    $this->logImplementationConflict('HttpHandler', 'run', 'options');
+                }
+
+                if (\is_callable($httpHandlerToken->getGet())) {
+                    $this->logImplementationConflict('HttpHandler', 'run', 'get');
+                }
+
+                if (\is_callable($httpHandlerToken->getPost())) {
+                    $this->logImplementationConflict('HttpHandler', 'run', 'post');
+                }
+
+                if (\is_callable($httpHandlerToken->getPatch())) {
+                    $this->logImplementationConflict('HttpHandler', 'run', 'patch');
+                }
+
+                if (\is_callable($httpHandlerToken->getPut())) {
+                    $this->logImplementationConflict('HttpHandler', 'run', 'put');
+                }
+
+                if (\is_callable($httpHandlerToken->getDelete())) {
+                    $this->logImplementationConflict('HttpHandler', 'run', 'delete');
+                }
+            }
+
+            yield new HttpHandler($httpHandlerToken);
+            unset(self::$httpHandlerTokens[$key]);
+        }
+    }
+
     public function reset(): void
     {
         self::$explorerTokens = [];
         self::$emitterTokens = [];
         self::$receiverTokens = [];
         self::$statusReporterTokens = [];
+        self::$httpHandlerTokens = [];
+    }
+
+    private function logImplementationConflict(string $builder, string $method, string $dropped): void
+    {
+        $format = '%sBuilder: You implement both "%s" and "%s". The "%s" method will not be executed.';
+        $message = \sprintf($format, $builder, $method, $dropped, $dropped);
+
+        $this->logger->warning($message, [
+            'code' => 1636791700,
+            'builder' => $builder,
+            'method' => $method,
+            'dropped' => $dropped,
+        ]);
     }
 }
