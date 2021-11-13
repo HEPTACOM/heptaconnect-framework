@@ -5,7 +5,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Test\Builder;
 
 use Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\ConfigurationContract;
-use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContextInterface;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandleContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -31,7 +31,7 @@ class FlowComponentTest extends TestCase
         $request = $this->createMock(ServerRequestInterface::class);
         $response = $this->createMock(ResponseInterface::class);
         $container = $this->createMock(ContainerInterface::class);
-        $context = $this->createMock(HttpHandlerContextInterface::class);
+        $context = $this->createMock(HttpHandleContextInterface::class);
         $stack = new HttpHandlerStack([]);
 
         $context->method('getContainer')->willReturn($container);
@@ -96,7 +96,7 @@ class FlowComponentTest extends TestCase
         $request = $this->createMock(ServerRequestInterface::class);
         $response = $this->createMock(ResponseInterface::class);
         $container = $this->createMock(ContainerInterface::class);
-        $context = $this->createMock(HttpHandlerContextInterface::class);
+        $context = $this->createMock(HttpHandleContextInterface::class);
         $stack = new HttpHandlerStack([]);
         $logger = $this->createMock(LoggerInterface::class);
 
@@ -157,7 +157,7 @@ class FlowComponentTest extends TestCase
         $request = $this->createMock(ServerRequestInterface::class);
         $response = $this->createMock(ResponseInterface::class);
         $container = $this->createMock(ContainerInterface::class);
-        $context = $this->createMock(HttpHandlerContextInterface::class);
+        $context = $this->createMock(HttpHandleContextInterface::class);
         $stack = new HttpHandlerStack([]);
         $exceptionMessage = 'Return value of Heptacom\HeptaConnect\Portal\Base\Builder\Component\HttpHandler::resolveAndRunClosure() must implement interface Psr\Http\Message\ResponseInterface or be null, string returned';
 
@@ -258,7 +258,7 @@ class FlowComponentTest extends TestCase
         $request = $this->createMock(ServerRequestInterface::class);
         $response = $this->createMock(ResponseInterface::class);
         $container = $this->createMock(ContainerInterface::class);
-        $context = $this->createMock(HttpHandlerContextInterface::class);
+        $context = $this->createMock(HttpHandleContextInterface::class);
         $stack = new HttpHandlerStack([]);
 
         $context->method('getContainer')->willReturn($container);
@@ -281,7 +281,7 @@ class FlowComponentTest extends TestCase
         $request = $this->createMock(ServerRequestInterface::class);
         $response = $this->createMock(ResponseInterface::class);
         $container = $this->createMock(ContainerInterface::class);
-        $context = $this->createMock(HttpHandlerContextInterface::class);
+        $context = $this->createMock(HttpHandleContextInterface::class);
         $stack = new HttpHandlerStack([]);
 
         $context->method('getContainer')->willReturn($container);
@@ -304,7 +304,7 @@ class FlowComponentTest extends TestCase
         $request = $this->createMock(ServerRequestInterface::class);
         $response = $this->createMock(ResponseInterface::class);
         $container = $this->createMock(ContainerInterface::class);
-        $context = $this->createMock(HttpHandlerContextInterface::class);
+        $context = $this->createMock(HttpHandleContextInterface::class);
         $stack = new HttpHandlerStack([]);
 
         $context->method('getContainer')->willReturn($container);
@@ -327,7 +327,7 @@ class FlowComponentTest extends TestCase
         $request = $this->createMock(ServerRequestInterface::class);
         $response = $this->createMock(ResponseInterface::class);
         $container = $this->createMock(ContainerInterface::class);
-        $context = $this->createMock(HttpHandlerContextInterface::class);
+        $context = $this->createMock(HttpHandleContextInterface::class);
         $stack = new HttpHandlerStack([]);
 
         $context->method('getContainer')->willReturn($container);
@@ -336,7 +336,7 @@ class FlowComponentTest extends TestCase
             ][$id] ?? null);
 
         $handlerBuilder = FlowComponent::httpHandler('foobar');
-        $handlerBuilder->run(static fn (HttpHandlerContextInterface $c) => $response);
+        $handlerBuilder->run(static fn (HttpHandleContextInterface $c) => $response);
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
         $request->method('getMethod')->willReturn('get');
         static::assertCount(1, $handlers);

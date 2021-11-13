@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Web\Http;
 
-use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContextInterface;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandleContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack;
 use Http\Discovery\Psr17FactoryDiscovery;
@@ -30,7 +30,7 @@ class ContractTest extends TestCase
             protected function run(
                 ServerRequestInterface $request,
                 ResponseInterface $response,
-                HttpHandlerContextInterface $context
+                HttpHandleContextInterface $context
             ): ResponseInterface {
                 return parent::run($request, $response, $context);
             }
@@ -38,7 +38,7 @@ class ContractTest extends TestCase
             protected function options(
                 ServerRequestInterface $request,
                 ResponseInterface $response,
-                HttpHandlerContextInterface $context
+                HttpHandleContextInterface $context
             ): ResponseInterface {
                 return parent::options($request, $response, $context);
             }
@@ -46,7 +46,7 @@ class ContractTest extends TestCase
             protected function get(
                 ServerRequestInterface $request,
                 ResponseInterface $response,
-                HttpHandlerContextInterface $context
+                HttpHandleContextInterface $context
             ): ResponseInterface {
                 return parent::get($request, $response, $context);
             }
@@ -54,7 +54,7 @@ class ContractTest extends TestCase
             protected function post(
                 ServerRequestInterface $request,
                 ResponseInterface $response,
-                HttpHandlerContextInterface $context
+                HttpHandleContextInterface $context
             ): ResponseInterface {
                 return parent::post($request, $response, $context);
             }
@@ -62,7 +62,7 @@ class ContractTest extends TestCase
             protected function put(
                 ServerRequestInterface $request,
                 ResponseInterface $response,
-                HttpHandlerContextInterface $context
+                HttpHandleContextInterface $context
             ): ResponseInterface {
                 return parent::put($request, $response, $context);
             }
@@ -70,7 +70,7 @@ class ContractTest extends TestCase
             protected function patch(
                 ServerRequestInterface $request,
                 ResponseInterface $response,
-                HttpHandlerContextInterface $context
+                HttpHandleContextInterface $context
             ): ResponseInterface {
                 return parent::patch($request, $response, $context);
             }
@@ -78,7 +78,7 @@ class ContractTest extends TestCase
             protected function delete(
                 ServerRequestInterface $request,
                 ResponseInterface $response,
-                HttpHandlerContextInterface $context
+                HttpHandleContextInterface $context
             ): ResponseInterface {
                 return parent::delete($request, $response, $context);
             }
@@ -89,7 +89,7 @@ class ContractTest extends TestCase
         self::assertSame($response, $handler->handle(
             Psr17FactoryDiscovery::findServerRequestFactory()->createServerRequest('GET', '/foobar'),
             $response,
-            $this->createMock(HttpHandlerContextInterface::class),
+            $this->createMock(HttpHandleContextInterface::class),
             new HttpHandlerStack([$handler])
         ));
     }
@@ -100,7 +100,7 @@ class ContractTest extends TestCase
             protected function run(
                 ServerRequestInterface $request,
                 ResponseInterface $response,
-                HttpHandlerContextInterface $context
+                HttpHandleContextInterface $context
             ): ResponseInterface {
                 throw new \RuntimeException('Oh nose');
             }
@@ -112,7 +112,7 @@ class ContractTest extends TestCase
         };
 
         $logger = $this->createMock(LoggerInterface::class);
-        $context = $this->createMock(HttpHandlerContextInterface::class);
+        $context = $this->createMock(HttpHandleContextInterface::class);
         $container = $this->createMock(ContainerInterface::class);
         $context->method('getContainer')->willReturn($container);
 

@@ -12,7 +12,7 @@ abstract class HttpHandlerContract
     public function handle(
         ServerRequestInterface $request,
         ResponseInterface $response,
-        HttpHandlerContextInterface $context,
+        HttpHandleContextInterface $context,
         HttpHandlerStackInterface $stack
     ): ResponseInterface {
         return $this->handleNext($request, $this->handleCurrent($request, $response, $context), $context, $stack);
@@ -23,7 +23,7 @@ abstract class HttpHandlerContract
     final protected function handleNext(
         ServerRequestInterface $request,
         ResponseInterface $response,
-        HttpHandlerContextInterface $context,
+        HttpHandleContextInterface $context,
         HttpHandlerStackInterface $stack
     ): ResponseInterface {
         try {
@@ -48,7 +48,7 @@ abstract class HttpHandlerContract
     final protected function handleCurrent(
         ServerRequestInterface $request,
         ResponseInterface $response,
-        HttpHandlerContextInterface $context
+        HttpHandleContextInterface $context
     ): ResponseInterface {
         try {
             return $this->run($request, $response, $context);
@@ -72,7 +72,7 @@ abstract class HttpHandlerContract
     protected function run(
         ServerRequestInterface $request,
         ResponseInterface $response,
-        HttpHandlerContextInterface $context
+        HttpHandleContextInterface $context
     ): ResponseInterface {
         $method = \mb_strtolower($request->getMethod());
 
@@ -97,7 +97,7 @@ abstract class HttpHandlerContract
     protected function options(
         ServerRequestInterface $request,
         ResponseInterface $response,
-        HttpHandlerContextInterface $context
+        HttpHandleContextInterface $context
     ): ResponseInterface {
         return $response;
     }
@@ -105,7 +105,7 @@ abstract class HttpHandlerContract
     protected function get(
         ServerRequestInterface $request,
         ResponseInterface $response,
-        HttpHandlerContextInterface $context
+        HttpHandleContextInterface $context
     ): ResponseInterface {
         return $response;
     }
@@ -113,7 +113,7 @@ abstract class HttpHandlerContract
     protected function post(
         ServerRequestInterface $request,
         ResponseInterface $response,
-        HttpHandlerContextInterface $context
+        HttpHandleContextInterface $context
     ): ResponseInterface {
         return $response;
     }
@@ -121,7 +121,7 @@ abstract class HttpHandlerContract
     protected function put(
         ServerRequestInterface $request,
         ResponseInterface $response,
-        HttpHandlerContextInterface $context
+        HttpHandleContextInterface $context
     ): ResponseInterface {
         return $response;
     }
@@ -129,7 +129,7 @@ abstract class HttpHandlerContract
     protected function patch(
         ServerRequestInterface $request,
         ResponseInterface $response,
-        HttpHandlerContextInterface $context
+        HttpHandleContextInterface $context
     ): ResponseInterface {
         return $response;
     }
@@ -137,7 +137,7 @@ abstract class HttpHandlerContract
     protected function delete(
         ServerRequestInterface $request,
         ResponseInterface $response,
-        HttpHandlerContextInterface $context
+        HttpHandleContextInterface $context
     ): ResponseInterface {
         return $response;
     }

@@ -5,6 +5,6 @@ namespace Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract;
 
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeContextInterface;
 
-interface HttpHandlerContextInterface extends PortalNodeContextInterface
+interface HttpHandleContextInterface extends PortalNodeContextInterface
 {
 }

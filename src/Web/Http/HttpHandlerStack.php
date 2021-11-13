@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Web\Http;
 
-use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContextInterface;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandleContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerStackInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -40,7 +40,7 @@ class HttpHandlerStack implements HttpHandlerStackInterface, LoggerAwareInterfac
     public function next(
         ServerRequestInterface $request,
         ResponseInterface $response,
-        HttpHandlerContextInterface $context
+        HttpHandleContextInterface $context
     ): ResponseInterface {
         $handler = \array_shift($this->handlers);
 

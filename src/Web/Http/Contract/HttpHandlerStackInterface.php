@@ -11,6 +11,6 @@ interface HttpHandlerStackInterface
     public function next(
         ServerRequestInterface $request,
         ResponseInterface $response,
-        HttpHandlerContextInterface $context
+        HttpHandleContextInterface $context
     ): ResponseInterface;
 }

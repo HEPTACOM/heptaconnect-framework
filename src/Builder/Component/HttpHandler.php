@@ -5,7 +5,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken;
-use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContextInterface;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandleContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract;
 use Opis\Closure\SerializableClosure;
 use Psr\Container\ContainerInterface;
@@ -52,7 +52,7 @@ class HttpHandler extends HttpHandlerContract
     protected function run(
         ServerRequestInterface $request,
         ResponseInterface $response,
-        HttpHandlerContextInterface $context
+        HttpHandleContextInterface $context
     ): ResponseInterface {
         return $this->resolveAndRunClosure($this->runMethod, $request, $response, $context)
             ?? parent::run($request, $response, $context);
@@ -61,7 +61,7 @@ class HttpHandler extends HttpHandlerContract
     protected function options(
         ServerRequestInterface $request,
         ResponseInterface $response,
-        HttpHandlerContextInterface $context
+        HttpHandleContextInterface $context
     ): ResponseInterface {
         return $this->resolveAndRunClosure($this->optionsMethod, $request, $response, $context)
             ?? parent::options($request, $response, $context);
@@ -70,7 +70,7 @@ class HttpHandler extends HttpHandlerContract
     protected function get(
         ServerRequestInterface $request,
         ResponseInterface $response,
-        HttpHandlerContextInterface $context
+        HttpHandleContextInterface $context
     ): ResponseInterface {
         return $this->resolveAndRunClosure($this->getMethod, $request, $response, $context)
             ?? parent::get($request, $response, $context);
@@ -79,7 +79,7 @@ class HttpHandler extends HttpHandlerContract
     protected function post(
         ServerRequestInterface $request,
         ResponseInterface $response,
-        HttpHandlerContextInterface $context
+        HttpHandleContextInterface $context
     ): ResponseInterface {
         return $this->resolveAndRunClosure($this->postMethod, $request, $response, $context)
             ?? parent::post($request, $response, $context);
@@ -88,7 +88,7 @@ class HttpHandler extends HttpHandlerContract
     protected function patch(
         ServerRequestInterface $request,
         ResponseInterface $response,
-        HttpHandlerContextInterface $context
+        HttpHandleContextInterface $context
     ): ResponseInterface {
         return $this->resolveAndRunClosure($this->patchMethod, $request, $response, $context)
             ?? parent::patch($request, $response, $context);
@@ -97,7 +97,7 @@ class HttpHandler extends HttpHandlerContract
     protected function put(
         ServerRequestInterface $request,
         ResponseInterface $response,
-        HttpHandlerContextInterface $context
+        HttpHandleContextInterface $context
     ): ResponseInterface {
         return $this->resolveAndRunClosure($this->putMethod, $request, $response, $context)
             ?? parent::put($request, $response, $context);
@@ -106,7 +106,7 @@ class HttpHandler extends HttpHandlerContract
     protected function delete(
         ServerRequestInterface $request,
         ResponseInterface $response,
-        HttpHandlerContextInterface $context
+        HttpHandleContextInterface $context
     ): ResponseInterface {
         return $this->resolveAndRunClosure($this->deleteMethod, $request, $response, $context)
             ?? parent::delete($request, $response, $context);
@@ -116,7 +116,7 @@ class HttpHandler extends HttpHandlerContract
         ?SerializableClosure $closure,
         ServerRequestInterface $request,
         ResponseInterface $response,
-        HttpHandlerContextInterface $context
+        HttpHandleContextInterface $context
     ): ?ResponseInterface {
         if (!$closure instanceof SerializableClosure) {
             return null;
@@ -142,7 +142,7 @@ class HttpHandler extends HttpHandlerContract
                 return $response;
             }
 
-            if (\is_a($propertyType, HttpHandlerContextInterface::class, true)) {
+            if (\is_a($propertyType, HttpHandleContextInterface::class, true)) {
                 return $context;
             }
 
