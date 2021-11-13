@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandleContextInterfa
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
@@ -291,6 +292,13 @@ class FlowComponentTest extends TestCase
 
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->run(static fn (ServerRequestInterface $request) => $response);
+        $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
+        $request->method('getMethod')->willReturn('get');
+        static::assertCount(1, $handlers);
+        static::assertSame($response, $handlers[0]->handle($request, $response, $context, $stack));
+
+        $handlerBuilder = FlowComponent::httpHandler('foobar');
+        $handlerBuilder->run(static fn (RequestInterface $request) => $response);
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
         $request->method('getMethod')->willReturn('get');
         static::assertCount(1, $handlers);
