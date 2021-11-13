@@ -16,7 +16,7 @@ class HttpHandlerCollection extends AbstractObjectCollection
      */
     public function bySupport(string $path): iterable
     {
-        return $this->filter(fn (HttpHandlerContract $httpHandler) => $path === $httpHandler->supports());
+        return $this->filter(fn (HttpHandlerContract $httpHandler) => $path === $httpHandler->getPath());
     }
 
     protected function getT(): string

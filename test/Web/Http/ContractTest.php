@@ -24,7 +24,7 @@ class ContractTest extends TestCase
         $handler = new class() extends HttpHandlerContract {
             public function supports(): string
             {
-                return 'foobar';
+                return '/foobar';
             }
 
             protected function run(
@@ -85,7 +85,7 @@ class ContractTest extends TestCase
         };
 
         $response = Psr17FactoryDiscovery::findResponseFactory()->createResponse(501);
-        self::assertSame('foobar', $handler->supports());
+        self::assertSame('foobar', $handler->getPath());
         self::assertSame($response, $handler->handle(
             Psr17FactoryDiscovery::findServerRequestFactory()->createServerRequest('GET', '/foobar'),
             $response,
@@ -121,7 +121,7 @@ class ContractTest extends TestCase
         ][$id] ?? null);
 
         $logger->expects(self::once())->method('error');
-        self::assertSame('foobar', $handler->supports());
+        self::assertSame('foobar', $handler->getPath());
 
         try {
             $handler->handle(

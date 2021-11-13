@@ -18,7 +18,12 @@ abstract class HttpHandlerContract
         return $this->handleNext($request, $this->handleCurrent($request, $response, $context), $context, $stack);
     }
 
-    abstract public function supports(): string;
+    final public function getPath(): string
+    {
+        return \ltrim($this->supports(), '/');
+    }
+
+    abstract protected function supports(): string;
 
     final protected function handleNext(
         ServerRequestInterface $request,
@@ -34,7 +39,7 @@ abstract class HttpHandlerContract
             if ($logger instanceof LoggerInterface) {
                 $logger->error('handleNext failed', [
                     'code' => 1636735335,
-                    'supports' => $this->supports(),
+                    'path' => $this->getPath(),
                     'request' => $request,
                     'response' => $response,
                     'exception' => $throwable,
@@ -58,7 +63,7 @@ abstract class HttpHandlerContract
             if ($logger instanceof LoggerInterface) {
                 $logger->error('handleCurrent failed', [
                     'code' => 1636735336,
-                    'supports' => $this->supports(),
+                    'path' => $this->getPath(),
                     'request' => $request,
                     'response' => $response,
                     'exception' => $throwable,
