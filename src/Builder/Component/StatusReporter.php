@@ -39,7 +39,7 @@ class StatusReporter extends StatusReporterContract
             $arguments = $this->resolveArguments($run, $context, function (
                 int $propertyIndex,
                 string $propertyName,
-                string $propertyType,
+                ?string $propertyType,
                 ContainerInterface $container
             ) {
                 return $this->resolveFromContainer($container, $propertyType, $propertyName);

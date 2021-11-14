@@ -50,10 +50,10 @@ class Receiver extends ReceiverContract
             $arguments = $this->resolveArguments($batch, $context, function (
                 int $propertyIndex,
                 string $propertyName,
-                string $propertyType,
+                ?string $propertyType,
                 ContainerInterface $container
             ) use ($entities) {
-                if (\is_a($propertyType, TypedDatasetEntityCollection::class, true)) {
+                if (\is_string($propertyType) && \is_a($propertyType, TypedDatasetEntityCollection::class, true)) {
                     return $entities;
                 }
 
@@ -77,10 +77,10 @@ class Receiver extends ReceiverContract
             $arguments = $this->resolveArguments($run, $context, function (
                 int $propertyIndex,
                 string $propertyName,
-                string $propertyType,
+                ?string $propertyType,
                 ContainerInterface $container
             ) use ($entity) {
-                if (\is_a($propertyType, $this->supports(), true)) {
+                if (\is_string($propertyType) && \is_a($propertyType, $this->supports(), true)) {
                     return $entity;
                 }
 

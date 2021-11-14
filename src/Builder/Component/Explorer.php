@@ -47,7 +47,7 @@ class Explorer extends ExplorerContract
             $arguments = $this->resolveArguments($run, $context, function (
                 int $propertyIndex,
                 string $propertyName,
-                string $propertyType,
+                ?string $propertyType,
                 ContainerInterface $container
             ) {
                 return $this->resolveFromContainer($container, $propertyType, $propertyName);
@@ -69,12 +69,14 @@ class Explorer extends ExplorerContract
             $arguments = $this->resolveArguments($isAllowed, $context, function (
                 int $propertyIndex,
                 string $propertyName,
-                string $propertyType,
+                ?string $propertyType,
                 ContainerInterface $container
             ) use ($externalId, $entity) {
                 if ($propertyType === 'string') {
                     return $externalId;
-                } elseif (\is_a($propertyType, $this->supports(), true)) {
+                }
+
+                if (\is_string($propertyType) && \is_a($propertyType, $this->supports(), true)) {
                     return $entity;
                 }
 

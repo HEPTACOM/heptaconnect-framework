@@ -51,7 +51,7 @@ class Emitter extends EmitterContract
             $arguments = $this->resolveArguments($batch, $context, function (
                 int $propertyIndex,
                 string $propertyName,
-                string $propertyType,
+                ?string $propertyType,
                 ContainerInterface $container
             ) use ($externalIds) {
                 if ($propertyType === 'iterable' && $propertyName === 'externalIds') {
@@ -76,7 +76,7 @@ class Emitter extends EmitterContract
             $arguments = $this->resolveArguments($run, $context, function (
                 int $propertyIndex,
                 string $propertyName,
-                string $propertyType,
+                ?string $propertyType,
                 ContainerInterface $container
             ) use ($externalId) {
                 if ($propertyType === 'string') {
@@ -101,10 +101,10 @@ class Emitter extends EmitterContract
             $arguments = $this->resolveArguments($extend, $context, function (
                 int $propertyIndex,
                 string $propertyName,
-                string $propertyType,
+                ?string $propertyType,
                 ContainerInterface $container
             ) use ($entity) {
-                if (\is_a($propertyType, $this->supports(), true)) {
+                if (\is_string($propertyType) && \is_a($propertyType, $this->supports(), true)) {
                     return $entity;
                 }
 
