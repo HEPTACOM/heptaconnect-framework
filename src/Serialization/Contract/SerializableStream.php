@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Serialization\Contract;
 
+use Heptacom\HeptaConnect\Portal\Base\Serialization\Exception\StreamCopyException;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Psr\Http\Message\StreamInterface;
 
@@ -20,15 +21,32 @@ final class SerializableStream implements StreamInterface
         return $this->stream->__toString();
     }
 
+    /**
+     * @throws StreamCopyException
+     */
     public function copy(): StreamInterface
     {
         $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
 
         // COPY FOR EXTERNAL
         $oldInternal = $this->stream->detach();
+
+        if ($oldInternal === null) {
+            throw new StreamCopyException(1636887426);
+        }
+
         $oldInternalPosition = \ftell($oldInternal);
+
+        if ($oldInternalPosition === false) {
+            throw new StreamCopyException(1636887427);
+        }
+
         $oldInternalIsSeekable = \stream_get_meta_data($oldInternal)['seekable'] ?? false;
         $newExternal = \fopen('php://temp', 'rb+');
+
+        if ($newExternal === false) {
+            throw new StreamCopyException(1636887428);
+        }
 
         \stream_copy_to_stream($oldInternal, $newExternal);
         \rewind($newExternal);
@@ -41,6 +59,10 @@ final class SerializableStream implements StreamInterface
             \fclose($oldInternal);
 
             $newInternal = \fopen('php://temp', 'rb+');
+
+            if ($newInternal === false) {
+                throw new StreamCopyException(1636887429);
+            }
 
             \stream_copy_to_stream($newExternal, $newInternal);
             \rewind($newInternal);
