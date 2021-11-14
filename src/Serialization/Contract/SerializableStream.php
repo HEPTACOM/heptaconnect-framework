@@ -83,14 +83,14 @@ final class SerializableStream implements StreamInterface
         return $this->stream->isSeekable();
     }
 
-    public function seek($offset, $whence = \SEEK_SET)
+    public function seek($offset, $whence = \SEEK_SET): void
     {
-        return $this->stream->seek($offset, $whence);
+        $this->stream->seek($offset, $whence);
     }
 
-    public function rewind()
+    public function rewind(): void
     {
-        return $this->stream->rewind();
+        $this->stream->rewind();
     }
 
     public function isWritable()
