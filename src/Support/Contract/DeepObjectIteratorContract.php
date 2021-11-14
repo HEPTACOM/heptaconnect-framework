@@ -6,6 +6,11 @@ namespace Heptacom\HeptaConnect\Portal\Base\Support\Contract;
 class DeepObjectIteratorContract
 {
     /**
+     * @var array<class-string, \ReflectionProperty[]>
+     */
+    private array $reflectionProperties = [];
+
+    /**
      * @param object|iterable $object
      *
      * @return iterable|object[]
