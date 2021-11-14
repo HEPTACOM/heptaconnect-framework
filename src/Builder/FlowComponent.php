@@ -145,7 +145,6 @@ class FlowComponent implements LoggerAwareInterface
         foreach (self::$emitterTokens as $key => $emitterToken) {
             if (\is_callable($emitterToken->getRun()) && \is_callable($emitterToken->getBatch())) {
                 $this->logImplementationConflict('Emitter', 'run', 'batch');
-
             }
 
             yield new Emitter($emitterToken);
