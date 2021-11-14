@@ -26,7 +26,7 @@ class HttpHandlerStack implements HttpHandlerStackInterface, LoggerAwareInterfac
      */
     public function __construct(iterable $handlers)
     {
-        /** @var array<array-key, \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract> $arrayEmitters */
+        /** @var array<array-key, \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract> $arrayEmitters */
         $arrayEmitters = \iterable_to_array($handlers);
         $this->handlers = $arrayEmitters;
         $this->logger = new NullLogger();
