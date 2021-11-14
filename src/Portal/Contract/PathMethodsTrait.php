@@ -8,24 +8,10 @@ trait PathMethodsTrait
     public function getPsr4(): array
     {
         $path = $this->getPath();
+        $composerPsr4 = $this->getComposerPsr4($path);
 
-        $composerJsonPath = \dirname($path).\DIRECTORY_SEPARATOR.'composer.json';
-
-        if (\file_exists($composerJsonPath)) {
-            $composerJson = \json_decode(\file_get_contents($composerJsonPath), true);
-            $portals = $composerJson['extra']['heptaconnect']['portals'] ?? [];
-            $portalExtensions = $composerJson['extra']['heptaconnect']['portalExtensions'] ?? [];
-
-            if (\in_array(static::class, [...$portals, ...$portalExtensions])) {
-                $psr4 = $composerJson['autoload']['psr-4'];
-
-                if ($psr4) {
-                    return \array_map(
-                        fn (string $psr4Path) => \dirname($path).\DIRECTORY_SEPARATOR.$psr4Path,
-                        $psr4
-                    );
-                }
-            }
+        if (\is_array($composerPsr4)) {
+            return $composerPsr4;
         }
 
         $namespace = (new \ReflectionClass($this))->getNamespaceName().'\\';
@@ -60,5 +46,48 @@ trait PathMethodsTrait
         $path = (new \ReflectionClass($this))->getFileName();
 
         return \dirname($path);
+    }
+
+    private function getComposerPsr4(string $path): ?array
+    {
+        $composerJsonPath = \dirname($path).\DIRECTORY_SEPARATOR.'composer.json';
+
+        if (!\file_exists($composerJsonPath)) {
+            return null;
+        }
+
+        $composerJsonContent = \file_get_contents($composerJsonPath);
+
+        if ($composerJsonContent === false) {
+            return null;
+        }
+
+        $composerJson = \json_decode($composerJsonContent, true);
+
+        if (!\is_array($composerJson)) {
+            return null;
+        }
+
+        $portals = $composerJson['extra']['heptaconnect']['portals'] ?? [];
+        $portalExtensions = $composerJson['extra']['heptaconnect']['portalExtensions'] ?? [];
+        /** @var string[] $portals */
+        $portals = \array_values(\array_filter($portals, 'is_string'));
+        /** @var string[] $portalExtensions */
+        $portalExtensions = \array_values(\array_filter($portalExtensions, 'is_string'));
+
+        if (!\in_array(static::class, [...$portals, ...$portalExtensions], true)) {
+            return null;
+        }
+
+        $psr4 = $composerJson['autoload']['psr-4'] ?? null;
+
+        if (!\is_array($psr4)) {
+            return null;
+        }
+
+        return \array_map(
+            fn (string $psr4Path) => \dirname($path).\DIRECTORY_SEPARATOR.$psr4Path,
+            $psr4
+        );
     }
 }

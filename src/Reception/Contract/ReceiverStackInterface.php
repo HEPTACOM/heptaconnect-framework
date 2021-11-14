@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
 interface ReceiverStackInterface
 {
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface>
+     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
      */
     public function next(
         TypedDatasetEntityCollection $entities,

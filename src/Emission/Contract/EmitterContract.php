@@ -67,12 +67,14 @@ abstract class EmitterContract
             $primaryKey = $entity->getPrimaryKey();
 
             if (\is_null($primaryKey)) {
-                /** @var LoggerInterface $logger */
                 $logger = $context->getContainer()->get(LoggerInterface::class);
-                $logger->error(\sprintf(
-                    'Emitter "%s" returned an entity with empty primary key. Skipping.',
-                    static::class
-                ));
+
+                if ($logger instanceof LoggerInterface) {
+                    $logger->error(\sprintf(
+                        'Emitter "%s" returned an entity with empty primary key. Skipping.',
+                        static::class
+                    ));
+                }
 
                 continue;
             }
@@ -146,11 +148,9 @@ abstract class EmitterContract
                         $entity === null ? 'null' : \get_class($entity)
                     ));
                 }
-
-                continue;
+            } elseif ($entity instanceof DatasetEntityContract) {
+                yield $entity;
             }
-
-            yield $entity;
         }
     }
 

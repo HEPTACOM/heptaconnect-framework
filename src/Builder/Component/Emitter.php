@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
+use Closure;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\EmitterToken;
@@ -15,23 +16,27 @@ class Emitter extends EmitterContract
 {
     use ResolveArgumentsTrait;
 
+    /**
+     * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     */
     private string $type;
 
-    /** @var SerializableClosure|null */
-    private $batchMethod;
+    private ?SerializableClosure $batchMethod;
 
-    /** @var SerializableClosure|null */
-    private $runMethod;
+    private ?SerializableClosure $runMethod;
 
-    /** @var SerializableClosure|null */
-    private $extendMethod;
+    private ?SerializableClosure $extendMethod;
 
     public function __construct(EmitterToken $token)
     {
+        $batch = $token->getBatch();
+        $run = $token->getRun();
+        $extend = $token->getExtend();
+
         $this->type = $token->getType();
-        $this->batchMethod = \is_callable($token->getBatch()) ? new SerializableClosure($token->getBatch()) : null;
-        $this->runMethod = \is_callable($token->getRun()) ? new SerializableClosure($token->getRun()) : null;
-        $this->extendMethod = \is_callable($token->getExtend()) ? new SerializableClosure($token->getExtend()) : null;
+        $this->batchMethod = $batch instanceof Closure ? new SerializableClosure($batch) : null;
+        $this->runMethod = $run instanceof Closure ? new SerializableClosure($run) : null;
+        $this->extendMethod = $extend instanceof Closure ? new SerializableClosure($extend) : null;
     }
 
     public function supports(): string
@@ -46,7 +51,7 @@ class Emitter extends EmitterContract
             $arguments = $this->resolveArguments($batch, $context, function (
                 int $propertyIndex,
                 string $propertyName,
-                string $propertyType,
+                ?string $propertyType,
                 ContainerInterface $container
             ) use ($externalIds) {
                 if ($propertyType === 'iterable' && $propertyName === 'externalIds') {
@@ -71,7 +76,7 @@ class Emitter extends EmitterContract
             $arguments = $this->resolveArguments($run, $context, function (
                 int $propertyIndex,
                 string $propertyName,
-                string $propertyType,
+                ?string $propertyType,
                 ContainerInterface $container
             ) use ($externalId) {
                 if ($propertyType === 'string') {
@@ -96,10 +101,10 @@ class Emitter extends EmitterContract
             $arguments = $this->resolveArguments($extend, $context, function (
                 int $propertyIndex,
                 string $propertyName,
-                string $propertyType,
+                ?string $propertyType,
                 ContainerInterface $container
             ) use ($entity) {
-                if (\is_a($propertyType, $this->supports(), true)) {
+                if (\is_string($propertyType) && \is_a($propertyType, $this->supports(), true)) {
                     return $entity;
                 }
 

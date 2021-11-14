@@ -14,7 +14,3 @@ parameters:
 			# never trust user input
 			message: '#Instanceof between Heptacom\\HeptaConnect\\Dataset\\Base\\Contract\\DatasetEntityContract and Heptacom\\HeptaConnect\\Dataset\\Base\\Contract\\DatasetEntityContract will always evaluate to true.#'
 			path: ../src/Exploration/Contract/ExplorerContract.php
-		-
-			# never trust user input
-			message: '#Call to function is_null\(\) with string will always evaluate to false.#'
-			path: ../src/Emission/Contract/EmitterContract.php

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
+use Closure;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
@@ -16,19 +17,23 @@ class Receiver extends ReceiverContract
 {
     use ResolveArgumentsTrait;
 
+    /**
+     * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     */
     private string $type;
 
-    /** @var SerializableClosure|null */
-    private $batchMethod;
+    private ?SerializableClosure $batchMethod;
 
-    /** @var SerializableClosure|null */
-    private $runMethod;
+    private ?SerializableClosure $runMethod;
 
     public function __construct(ReceiverToken $token)
     {
+        $batch = $token->getBatch();
+        $run = $token->getRun();
+
         $this->type = $token->getType();
-        $this->batchMethod = \is_callable($token->getBatch()) ? new SerializableClosure($token->getBatch()) : null;
-        $this->runMethod = \is_callable($token->getRun()) ? new SerializableClosure($token->getRun()) : null;
+        $this->batchMethod = $batch instanceof Closure ? new SerializableClosure($batch) : null;
+        $this->runMethod = $run instanceof Closure ? new SerializableClosure($run) : null;
     }
 
     public function supports(): string
@@ -45,10 +50,10 @@ class Receiver extends ReceiverContract
             $arguments = $this->resolveArguments($batch, $context, function (
                 int $propertyIndex,
                 string $propertyName,
-                string $propertyType,
+                ?string $propertyType,
                 ContainerInterface $container
             ) use ($entities) {
-                if (\is_a($propertyType, TypedDatasetEntityCollection::class, true)) {
+                if (\is_string($propertyType) && \is_a($propertyType, TypedDatasetEntityCollection::class, true)) {
                     return $entities;
                 }
 
@@ -72,10 +77,10 @@ class Receiver extends ReceiverContract
             $arguments = $this->resolveArguments($run, $context, function (
                 int $propertyIndex,
                 string $propertyName,
-                string $propertyType,
+                ?string $propertyType,
                 ContainerInterface $container
             ) use ($entity) {
-                if (\is_a($propertyType, $this->supports(), true)) {
+                if (\is_string($propertyType) && \is_a($propertyType, $this->supports(), true)) {
                     return $entity;
                 }
 

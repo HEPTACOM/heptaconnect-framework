@@ -3,42 +3,51 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Token;
 
+use Closure;
+
 class ExplorerToken
 {
+    /**
+     * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     */
     private string $type;
 
-    /** @var callable|null */
-    private $run = null;
+    private ?Closure $run = null;
 
-    /** @var callable|null */
-    private $isAllowed = null;
+    private ?Closure $isAllowed = null;
 
+    /**
+     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $type
+     */
     public function __construct(string $type)
     {
         $this->type = $type;
     }
 
+    /**
+     * @return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     */
     public function getType(): string
     {
         return $this->type;
     }
 
-    public function getRun(): ?callable
+    public function getRun(): ?Closure
     {
         return $this->run;
     }
 
-    public function setRun(?callable $run): void
+    public function setRun(?Closure $run): void
     {
         $this->run = $run;
     }
 
-    public function getIsAllowed(): ?callable
+    public function getIsAllowed(): ?Closure
     {
         return $this->isAllowed;
     }
 
-    public function setIsAllowed(?callable $isAllowed): void
+    public function setIsAllowed(?Closure $isAllowed): void
     {
         $this->isAllowed = $isAllowed;
     }

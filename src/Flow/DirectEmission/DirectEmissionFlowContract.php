@@ -8,5 +8,11 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 
 abstract class DirectEmissionFlowContract
 {
-    abstract public function run(PortalNodeKeyInterface $portalNodeKey, DatasetEntityCollection $entities): DirectEmissionResult;
+    /**
+     * @psalm-param \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entities
+     */
+    abstract public function run(
+        PortalNodeKeyInterface $portalNodeKey,
+        DatasetEntityCollection $entities
+    ): DirectEmissionResult;
 }

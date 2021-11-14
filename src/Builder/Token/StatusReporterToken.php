@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Token;
 
+use Closure;
+
 class StatusReporterToken
 {
     private string $topic;
 
-    /** @var callable|null */
-    private $run = null;
+    private ?Closure $run = null;
 
     public function __construct(string $topic)
     {
@@ -20,12 +21,12 @@ class StatusReporterToken
         return $this->topic;
     }
 
-    public function getRun(): ?callable
+    public function getRun(): ?Closure
     {
         return $this->run;
     }
 
-    public function setRun(callable $run): void
+    public function setRun(Closure $run): void
     {
         $this->run = $run;
     }

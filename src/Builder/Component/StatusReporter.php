@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
+use Closure;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\StatusReporterToken;
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract;
@@ -16,13 +17,14 @@ class StatusReporter extends StatusReporterContract
 
     private string $topic;
 
-    /** @var SerializableClosure|null */
-    private $runMethod;
+    private ?SerializableClosure $runMethod;
 
     public function __construct(StatusReporterToken $token)
     {
+        $run = $token->getRun();
+
         $this->topic = $token->getTopic();
-        $this->runMethod = \is_callable($token->getRun()) ? new SerializableClosure($token->getRun()) : null;
+        $this->runMethod = $run instanceof Closure ? new SerializableClosure($run) : null;
     }
 
     public function supportsTopic(): string
@@ -37,7 +39,7 @@ class StatusReporter extends StatusReporterContract
             $arguments = $this->resolveArguments($run, $context, function (
                 int $propertyIndex,
                 string $propertyName,
-                string $propertyType,
+                ?string $propertyType,
                 ContainerInterface $container
             ) {
                 return $this->resolveFromContainer($container, $propertyType, $propertyName);

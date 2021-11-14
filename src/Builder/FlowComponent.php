@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder;
 
+use Closure;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\EmitterBuilder;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\ExplorerBuilder;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\HttpHandlerBuilder;
@@ -46,68 +47,77 @@ class FlowComponent implements LoggerAwareInterface
         $this->logger = new NullLogger();
     }
 
-    public static function explorer(string $type, ?callable $run = null, ?callable $isAllowed = null): ExplorerBuilder
+    /**
+     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $type
+     */
+    public static function explorer(string $type, ?Closure $run = null, ?Closure $isAllowed = null): ExplorerBuilder
     {
         self::$explorerTokens[] = $token = new ExplorerToken($type);
         $builder = new ExplorerBuilder($token);
 
-        if (\is_callable($run)) {
+        if ($run instanceof Closure) {
             $builder->run($run);
         }
 
-        if (\is_callable($isAllowed)) {
+        if ($isAllowed instanceof Closure) {
             $builder->isAllowed($isAllowed);
         }
 
         return $builder;
     }
 
+    /**
+     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $type
+     */
     public static function emitter(
         string $type,
-        ?callable $run = null,
-        ?callable $extend = null,
-        ?callable $batch = null
+        ?Closure $run = null,
+        ?Closure $extend = null,
+        ?Closure $batch = null
     ): EmitterBuilder {
         self::$emitterTokens[] = $token = new EmitterToken($type);
         $builder = new EmitterBuilder($token);
 
-        if (\is_callable($run)) {
+        if ($run instanceof Closure) {
             $builder->run($run);
         }
 
-        if (\is_callable($extend)) {
+        if ($extend instanceof Closure) {
             $builder->extend($extend);
         }
 
-        if (\is_callable($batch)) {
+        if ($batch instanceof Closure) {
             $builder->batch($batch);
         }
 
         return $builder;
     }
 
-    public static function receiver(string $type, ?callable $run = null, ?callable $batch = null): ReceiverBuilder
+    /**
+     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $type
+     */
+    public static function receiver(string $type, ?Closure $run = null, ?Closure $batch = null): ReceiverBuilder
     {
         self::$receiverTokens[] = $token = new ReceiverToken($type);
         $builder = new ReceiverBuilder($token);
 
-        if (\is_callable($run)) {
+        if ($run instanceof Closure) {
             $builder->run($run);
         }
 
-        if (\is_callable($batch)) {
+        if ($batch instanceof Closure) {
             $builder->batch($batch);
         }
 
         return $builder;
     }
 
-    public static function statusReporter(string $topic, ?callable $run = null): StatusReporterBuilder
+    public static function statusReporter(string $topic, ?Closure $run = null): StatusReporterBuilder
     {
         self::$statusReporterTokens[] = $token = new StatusReporterToken($topic);
         $builder = new StatusReporterBuilder($token);
 
-        if (\is_callable($run)) {
+        if ($run instanceof Closure) {
             $builder->run($run);
         }
 
@@ -143,7 +153,7 @@ class FlowComponent implements LoggerAwareInterface
     public function buildEmitters(): iterable
     {
         foreach (self::$emitterTokens as $key => $emitterToken) {
-            if (\is_callable($emitterToken->getRun()) && \is_callable($emitterToken->getBatch())) {
+            if ($emitterToken->getRun() instanceof Closure && $emitterToken->getBatch() instanceof Closure) {
                 $this->logImplementationConflict('Emitter', 'run', 'batch');
             }
 
@@ -158,7 +168,7 @@ class FlowComponent implements LoggerAwareInterface
     public function buildReceivers(): iterable
     {
         foreach (self::$receiverTokens as $key => $receiverToken) {
-            if (\is_callable($receiverToken->getRun()) && \is_callable($receiverToken->getBatch())) {
+            if ($receiverToken->getRun() instanceof Closure && $receiverToken->getBatch() instanceof Closure) {
                 $this->logImplementationConflict('Receiver', 'run', 'batch');
             }
 

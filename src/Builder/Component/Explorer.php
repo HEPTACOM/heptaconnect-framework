@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
+use Closure;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken;
@@ -15,19 +16,23 @@ class Explorer extends ExplorerContract
 {
     use ResolveArgumentsTrait;
 
+    /**
+     * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     */
     private string $type;
 
-    /** @var SerializableClosure|null */
-    private $runMethod;
+    private ?SerializableClosure $runMethod;
 
-    /** @var SerializableClosure|null */
-    private $isAllowedMethod;
+    private ?SerializableClosure $isAllowedMethod;
 
     public function __construct(ExplorerToken $token)
     {
+        $run = $token->getRun();
+        $isAllowed = $token->getIsAllowed();
+
         $this->type = $token->getType();
-        $this->runMethod = \is_callable($token->getRun()) ? new SerializableClosure($token->getRun()) : null;
-        $this->isAllowedMethod = \is_callable($token->getIsAllowed()) ? new SerializableClosure($token->getIsAllowed()) : null;
+        $this->runMethod = $run instanceof Closure ? new SerializableClosure($run) : null;
+        $this->isAllowedMethod = $isAllowed instanceof Closure ? new SerializableClosure($isAllowed) : null;
     }
 
     public function supports(): string
@@ -42,7 +47,7 @@ class Explorer extends ExplorerContract
             $arguments = $this->resolveArguments($run, $context, function (
                 int $propertyIndex,
                 string $propertyName,
-                string $propertyType,
+                ?string $propertyType,
                 ContainerInterface $container
             ) {
                 return $this->resolveFromContainer($container, $propertyType, $propertyName);
@@ -64,12 +69,14 @@ class Explorer extends ExplorerContract
             $arguments = $this->resolveArguments($isAllowed, $context, function (
                 int $propertyIndex,
                 string $propertyName,
-                string $propertyType,
+                ?string $propertyType,
                 ContainerInterface $container
             ) use ($externalId, $entity) {
                 if ($propertyType === 'string') {
                     return $externalId;
-                } elseif (\is_a($propertyType, $this->supports(), true)) {
+                }
+
+                if (\is_string($propertyType) && \is_a($propertyType, $this->supports(), true)) {
                     return $entity;
                 }
 
