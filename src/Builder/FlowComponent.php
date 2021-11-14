@@ -124,12 +124,12 @@ class FlowComponent implements LoggerAwareInterface
         return $builder;
     }
 
-    public static function httpHandler(string $path, ?callable $run = null): HttpHandlerBuilder
+    public static function httpHandler(string $path, ?Closure $run = null): HttpHandlerBuilder
     {
         self::$httpHandlerTokens[] = $token = new HttpHandlerToken($path);
         $builder = new HttpHandlerBuilder($token);
 
-        if (\is_callable($run)) {
+        if ($run instanceof Closure) {
             $builder->run($run);
         }
 

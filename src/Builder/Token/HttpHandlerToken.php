@@ -3,30 +3,25 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Token;
 
+use Closure;
+
 class HttpHandlerToken
 {
     private string $path;
 
-    /** @var callable|null */
-    private $run = null;
+    private ?Closure $run = null;
 
-    /** @var callable|null */
-    private $options = null;
+    private ?Closure $options = null;
 
-    /** @var callable|null */
-    private $get = null;
+    private ?Closure $get = null;
 
-    /** @var callable|null */
-    private $post = null;
+    private ?Closure $post = null;
 
-    /** @var callable|null */
-    private $put = null;
+    private ?Closure $put = null;
 
-    /** @var callable|null */
-    private $patch = null;
+    private ?Closure $patch = null;
 
-    /** @var callable|null */
-    private $delete = null;
+    private ?Closure $delete = null;
 
     public function __construct(string $path)
     {
@@ -38,72 +33,72 @@ class HttpHandlerToken
         return $this->path;
     }
 
-    public function getRun(): ?callable
+    public function getRun(): ?Closure
     {
         return $this->run;
     }
 
-    public function setRun(callable $run): void
+    public function setRun(Closure $run): void
     {
         $this->run = $run;
     }
 
-    public function getOptions(): ?callable
+    public function getOptions(): ?Closure
     {
         return $this->options;
     }
 
-    public function setOptions(?callable $options): void
+    public function setOptions(?Closure $options): void
     {
         $this->options = $options;
     }
 
-    public function getGet(): ?callable
+    public function getGet(): ?Closure
     {
         return $this->get;
     }
 
-    public function setGet(?callable $get): void
+    public function setGet(?Closure $get): void
     {
         $this->get = $get;
     }
 
-    public function getPost(): ?callable
+    public function getPost(): ?Closure
     {
         return $this->post;
     }
 
-    public function setPost(?callable $post): void
+    public function setPost(?Closure $post): void
     {
         $this->post = $post;
     }
 
-    public function getPut(): ?callable
+    public function getPut(): ?Closure
     {
         return $this->put;
     }
 
-    public function setPut(?callable $put): void
+    public function setPut(?Closure $put): void
     {
         $this->put = $put;
     }
 
-    public function getPatch(): ?callable
+    public function getPatch(): ?Closure
     {
         return $this->patch;
     }
 
-    public function setPatch(?callable $patch): void
+    public function setPatch(?Closure $patch): void
     {
         $this->patch = $patch;
     }
 
-    public function getDelete(): ?callable
+    public function getDelete(): ?Closure
     {
         return $this->delete;
     }
 
-    public function setDelete(?callable $delete): void
+    public function setDelete(?Closure $delete): void
     {
         $this->delete = $delete;
     }

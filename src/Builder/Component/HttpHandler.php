@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
+use Closure;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandleContextInterface;
@@ -34,14 +35,22 @@ class HttpHandler extends HttpHandlerContract
 
     public function __construct(HttpHandlerToken $token)
     {
+        $run = $token->getRun();
+        $options = $token->getOptions();
+        $get = $token->getGet();
+        $post = $token->getPost();
+        $put = $token->getPut();
+        $patch = $token->getPatch();
+        $delete = $token->getDelete();
+
         $this->path = $token->getPath();
-        $this->runMethod = \is_callable($token->getRun()) ? new SerializableClosure($token->getRun()) : null;
-        $this->optionsMethod = \is_callable($token->getOptions()) ? new SerializableClosure($token->getOptions()) : null;
-        $this->getMethod = \is_callable($token->getGet()) ? new SerializableClosure($token->getGet()) : null;
-        $this->postMethod = \is_callable($token->getPost()) ? new SerializableClosure($token->getPost()) : null;
-        $this->putMethod = \is_callable($token->getPut()) ? new SerializableClosure($token->getPut()) : null;
-        $this->patchMethod = \is_callable($token->getPatch()) ? new SerializableClosure($token->getPatch()) : null;
-        $this->deleteMethod = \is_callable($token->getDelete()) ? new SerializableClosure($token->getDelete()) : null;
+        $this->runMethod = $run instanceof Closure ? new SerializableClosure($run) : null;
+        $this->optionsMethod = $options instanceof Closure ? new SerializableClosure($options) : null;
+        $this->getMethod = $get instanceof Closure ? new SerializableClosure($get) : null;
+        $this->postMethod = $post instanceof Closure ? new SerializableClosure($post) : null;
+        $this->putMethod = $put instanceof Closure ? new SerializableClosure($put) : null;
+        $this->patchMethod = $patch instanceof Closure ? new SerializableClosure($patch) : null;
+        $this->deleteMethod = $delete instanceof Closure ? new SerializableClosure($delete) : null;
     }
 
     public function supports(): string
@@ -123,27 +132,24 @@ class HttpHandler extends HttpHandlerContract
         }
 
         $callable = $closure->getClosure();
-
-        if (!\is_callable($callable)) {
-            return null;
-        }
-
         $arguments = $this->resolveArguments($callable, $context, function (
             int $_,
             string $propertyName,
-            string $propertyType,
+            ?string $propertyType,
             ContainerInterface $container
         ) use ($context, $response, $request) {
-            if (\is_a($request, $propertyType, false)) {
-                return $request;
-            }
+            if (\is_string($propertyType)) {
+                if (\is_a($request, $propertyType, false)) {
+                    return $request;
+                }
 
-            if (\is_a($response, $propertyType, false)) {
-                return $response;
-            }
+                if (\is_a($response, $propertyType, false)) {
+                    return $response;
+                }
 
-            if (\is_a($context, $propertyType, false)) {
-                return $context;
+                if (\is_a($context, $propertyType, false)) {
+                    return $context;
+                }
             }
 
             return $this->resolveFromContainer($container, $propertyType, $propertyName);
