@@ -21,11 +21,17 @@ use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\StatusReporterToken;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
 class FlowComponent implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
+
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
 
     /** @var ExplorerToken[] */
     private static array $explorerTokens = [];

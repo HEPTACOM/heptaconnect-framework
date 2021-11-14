@@ -34,6 +34,7 @@ abstract class HttpHandlerContract
         try {
             return $stack->next($request, $response, $context);
         } catch (\Throwable $throwable) {
+            /** @var LoggerInterface|null $logger */
             $logger = $context->getContainer()->get(LoggerInterface::class);
 
             if ($logger instanceof LoggerInterface) {
@@ -58,6 +59,7 @@ abstract class HttpHandlerContract
         try {
             return $this->run($request, $response, $context);
         } catch (\Throwable $throwable) {
+            /** @var LoggerInterface|null $logger */
             $logger = $context->getContainer()->get(LoggerInterface::class);
 
             if ($logger instanceof LoggerInterface) {
