@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
+use Closure;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\StatusReporterToken;
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract;
@@ -21,8 +22,10 @@ class StatusReporter extends StatusReporterContract
 
     public function __construct(StatusReporterToken $token)
     {
+        $run = $token->getRun();
+
         $this->topic = $token->getTopic();
-        $this->runMethod = \is_callable($token->getRun()) ? new SerializableClosure($token->getRun()) : null;
+        $this->runMethod = $run instanceof Closure ? new SerializableClosure($run) : null;
     }
 
     public function supportsTopic(): string

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Builder;
 
+use Closure;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\EmitterToken;
 
 class EmitterBuilder
@@ -14,21 +15,21 @@ class EmitterBuilder
         $this->token = $token;
     }
 
-    public function batch(callable $batch): self
+    public function batch(Closure $batch): self
     {
         $this->token->setBatch($batch);
 
         return $this;
     }
 
-    public function run(callable $run): self
+    public function run(Closure $run): self
     {
         $this->token->setRun($run);
 
         return $this;
     }
 
-    public function extend(callable $extend): self
+    public function extend(Closure $extend): self
     {
         $this->token->setExtend($extend);
 

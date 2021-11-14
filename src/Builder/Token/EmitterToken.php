@@ -3,18 +3,17 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Token;
 
+use Closure;
+
 class EmitterToken
 {
     private string $type;
 
-    /** @var callable|null */
-    private $batch = null;
+    private ?Closure $batch = null;
 
-    /** @var callable|null */
-    private $run = null;
+    private ?Closure $run = null;
 
-    /** @var callable|null */
-    private $extend = null;
+    private ?Closure $extend = null;
 
     public function __construct(string $type)
     {
@@ -26,32 +25,32 @@ class EmitterToken
         return $this->type;
     }
 
-    public function getBatch(): ?callable
+    public function getBatch(): ?Closure
     {
         return $this->batch;
     }
 
-    public function setBatch(?callable $batch): void
+    public function setBatch(?Closure $batch): void
     {
         $this->batch = $batch;
     }
 
-    public function getRun(): ?callable
+    public function getRun(): ?Closure
     {
         return $this->run;
     }
 
-    public function setRun(callable $run): void
+    public function setRun(Closure $run): void
     {
         $this->run = $run;
     }
 
-    public function getExtend(): ?callable
+    public function getExtend(): ?Closure
     {
         return $this->extend;
     }
 
-    public function setExtend(callable $extend): void
+    public function setExtend(Closure $extend): void
     {
         $this->extend = $extend;
     }

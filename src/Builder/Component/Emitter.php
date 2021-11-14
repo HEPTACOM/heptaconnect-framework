@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
+use Closure;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\EmitterToken;
@@ -28,10 +29,14 @@ class Emitter extends EmitterContract
 
     public function __construct(EmitterToken $token)
     {
+        $batch = $token->getBatch();
+        $run = $token->getRun();
+        $extend = $token->getExtend();
+
         $this->type = $token->getType();
-        $this->batchMethod = \is_callable($token->getBatch()) ? new SerializableClosure($token->getBatch()) : null;
-        $this->runMethod = \is_callable($token->getRun()) ? new SerializableClosure($token->getRun()) : null;
-        $this->extendMethod = \is_callable($token->getExtend()) ? new SerializableClosure($token->getExtend()) : null;
+        $this->batchMethod = $batch instanceof Closure ? new SerializableClosure($batch) : null;
+        $this->runMethod = $run instanceof Closure ? new SerializableClosure($run) : null;
+        $this->extendMethod = $extend instanceof Closure ? new SerializableClosure($extend) : null;
     }
 
     public function supports(): string

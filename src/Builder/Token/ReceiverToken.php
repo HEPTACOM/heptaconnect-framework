@@ -3,15 +3,15 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Token;
 
+use Closure;
+
 class ReceiverToken
 {
     private string $type;
 
-    /** @var callable|null */
-    private $batch = null;
+    private ?Closure $batch = null;
 
-    /** @var callable|null */
-    private $run = null;
+    private ?Closure $run = null;
 
     public function __construct(string $type)
     {
@@ -23,22 +23,22 @@ class ReceiverToken
         return $this->type;
     }
 
-    public function getBatch(): ?callable
+    public function getBatch(): ?Closure
     {
         return $this->batch;
     }
 
-    public function setBatch(?callable $batch): void
+    public function setBatch(?Closure $batch): void
     {
         $this->batch = $batch;
     }
 
-    public function getRun(): ?callable
+    public function getRun(): ?Closure
     {
         return $this->run;
     }
 
-    public function setRun(callable $run): void
+    public function setRun(Closure $run): void
     {
         $this->run = $run;
     }
