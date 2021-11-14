@@ -7,6 +7,9 @@ use Closure;
 
 class EmitterToken
 {
+    /**
+     * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     */
     private string $type;
 
     private ?Closure $batch = null;
@@ -15,11 +18,17 @@ class EmitterToken
 
     private ?Closure $extend = null;
 
+    /**
+     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $type
+     */
     public function __construct(string $type)
     {
         $this->type = $type;
     }
 
+    /**
+     * @return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     */
     public function getType(): string
     {
         return $this->type;

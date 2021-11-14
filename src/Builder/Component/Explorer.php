@@ -16,6 +16,9 @@ class Explorer extends ExplorerContract
 {
     use ResolveArgumentsTrait;
 
+    /**
+     * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     */
     private string $type;
 
     /** @var SerializableClosure|null */

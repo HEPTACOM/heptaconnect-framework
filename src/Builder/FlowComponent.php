@@ -41,6 +41,9 @@ class FlowComponent implements LoggerAwareInterface
         $this->logger = new NullLogger();
     }
 
+    /**
+     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $type
+     */
     public static function explorer(string $type, ?Closure $run = null, ?Closure $isAllowed = null): ExplorerBuilder
     {
         self::$explorerTokens[] = $token = new ExplorerToken($type);
@@ -57,6 +60,9 @@ class FlowComponent implements LoggerAwareInterface
         return $builder;
     }
 
+    /**
+     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $type
+     */
     public static function emitter(
         string $type,
         ?Closure $run = null,
@@ -81,6 +87,9 @@ class FlowComponent implements LoggerAwareInterface
         return $builder;
     }
 
+    /**
+     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $type
+     */
     public static function receiver(string $type, ?Closure $run = null, ?Closure $batch = null): ReceiverBuilder
     {
         self::$receiverTokens[] = $token = new ReceiverToken($type);
