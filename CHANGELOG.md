@@ -24,6 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add exception `\Heptacom\HeptaConnect\Storage\Base\Exception\CreateException` for all cases when creation failed
 - Add exception `\Heptacom\HeptaConnect\Storage\Base\Exception\InvalidCreatePayloadException` for all cases when creation failed due to invalid payload
 - Add exception `\Heptacom\HeptaConnect\Storage\Base\Exception\InvalidOverviewCriteriaException` for cases when overview criteria are malformed
+- Add `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindActionInterface` to get a configuration key for an HTTP handler by `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria` into `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult`
+- Add `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetActionInterface` to set configuration keys for HTTP handlers by `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayloads` and its `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload`
 
 ### Changed
 
@@ -40,7 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - With storage restructure explained in [this ADR](https://heptaconnect.io/reference/adr/2021-09-25-optimized-storage-actions/) we remove implementation `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract::listBySourceAndEntityType` in favour of `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Listing\ReceptionRouteListActionInterface::list`, `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Overview\RouteOverviewActionInterface::overview` and `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Find\RouteFindActionInterface::find` that allows for optimizations for different use-cases
 - With storage restructure explained in [this ADR](https://heptaconnect.io/reference/adr/2021-09-25-optimized-storage-actions/) we remove implementation `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract::read` in favour of `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Get\RouteGetActionInterface::get` that allows for optimizations in the storage implementation
 - With storage restructure explained in [this ADR](https://heptaconnect.io/reference/adr/2021-09-25-optimized-storage-actions/) we remove implementation `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract::create` in favour of `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Create\RouteCreateActionInterface::create` that allows for optimizations in the storage implementation
-- Remove `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\WebhookRepositoryContract` in favour of a storage independent solution
+- Remove `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\WebhookRepositoryContract` in favour of a less storage independent solution
 
 ## [0.7.0] - 2021-09-25
 
