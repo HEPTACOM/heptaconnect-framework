@@ -148,11 +148,9 @@ abstract class EmitterContract
                         $entity === null ? 'null' : \get_class($entity)
                     ));
                 }
-
-                continue;
+            } elseif ($entity instanceof DatasetEntityContract) {
+                yield $entity;
             }
-
-            yield $entity;
         }
     }
 
