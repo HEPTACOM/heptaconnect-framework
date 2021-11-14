@@ -21,14 +21,11 @@ class Emitter extends EmitterContract
      */
     private string $type;
 
-    /** @var SerializableClosure|null */
-    private $batchMethod;
+    private ?SerializableClosure $batchMethod;
 
-    /** @var SerializableClosure|null */
-    private $runMethod;
+    private ?SerializableClosure $runMethod;
 
-    /** @var SerializableClosure|null */
-    private $extendMethod;
+    private ?SerializableClosure $extendMethod;
 
     public function __construct(EmitterToken $token)
     {

@@ -21,11 +21,9 @@ class Explorer extends ExplorerContract
      */
     private string $type;
 
-    /** @var SerializableClosure|null */
-    private $runMethod;
+    private ?SerializableClosure $runMethod;
 
-    /** @var SerializableClosure|null */
-    private $isAllowedMethod;
+    private ?SerializableClosure $isAllowedMethod;
 
     public function __construct(ExplorerToken $token)
     {

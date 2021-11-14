@@ -22,11 +22,9 @@ class Receiver extends ReceiverContract
      */
     private string $type;
 
-    /** @var SerializableClosure|null */
-    private $batchMethod;
+    private ?SerializableClosure $batchMethod;
 
-    /** @var SerializableClosure|null */
-    private $runMethod;
+    private ?SerializableClosure $runMethod;
 
     public function __construct(ReceiverToken $token)
     {

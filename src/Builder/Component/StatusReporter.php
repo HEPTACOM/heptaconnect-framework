@@ -17,8 +17,7 @@ class StatusReporter extends StatusReporterContract
 
     private string $topic;
 
-    /** @var SerializableClosure|null */
-    private $runMethod;
+    private ?SerializableClosure $runMethod;
 
     public function __construct(StatusReporterToken $token)
     {
