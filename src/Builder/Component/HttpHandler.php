@@ -53,7 +53,7 @@ class HttpHandler extends HttpHandlerContract
         $this->deleteMethod = $delete instanceof Closure ? new SerializableClosure($delete) : null;
     }
 
-    public function supports(): string
+    protected function supports(): string
     {
         return $this->path;
     }

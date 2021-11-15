@@ -22,7 +22,7 @@ class ContractTest extends TestCase
     public function testImplementation(): void
     {
         $handler = new class() extends HttpHandlerContract {
-            public function supports(): string
+            protected function supports(): string
             {
                 return '/foobar';
             }
@@ -105,7 +105,7 @@ class ContractTest extends TestCase
                 throw new \RuntimeException('Oh nose');
             }
 
-            public function supports(): string
+            protected function supports(): string
             {
                 return 'foobar';
             }
