@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfi
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection<\Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetResult>
+ * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection<\Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload>
  */
 class WebHttpHandlerConfigurationSetPayloads extends AbstractObjectCollection
 {

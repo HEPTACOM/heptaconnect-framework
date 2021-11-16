@@ -9,6 +9,9 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 
 abstract class EntityMapperContract
 {
+    /**
+     * @psalm-param \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityCollection
+     */
     abstract public function mapEntities(
         DatasetEntityCollection $entityCollection,
         PortalNodeKeyInterface $portalNodeKey

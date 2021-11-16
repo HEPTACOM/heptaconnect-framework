@@ -10,7 +10,7 @@ class WebHttpHandlerConfigurationSetPayload implements CreatePayloadInterface
 {
     protected PortalNodeKeyInterface $portalNodeKey;
 
-    private string $path;
+    protected string $path;
 
     protected string $key;
 
