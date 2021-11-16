@@ -18,6 +18,7 @@
     "require": {
         "php": ">=7.4",
         "ext-json": "*",
+        "ext-mbstring": "*",
         "bentools/iterable-functions": ">=1.4 <2",
         "heptacom/heptaconnect-dataset-base": "self.version",
         "myclabs/deep-copy": ">=1.10 <2",
