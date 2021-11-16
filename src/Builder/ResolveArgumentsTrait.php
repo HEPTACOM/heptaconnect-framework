@@ -77,8 +77,7 @@ trait ResolveArgumentsTrait
         $name = $type instanceof ReflectionNamedType ? $type->getName() : (string) $type;
 
         if ($function instanceof ReflectionMethod) {
-            $lcName = \strtolower($name);
-            switch ($lcName) {
+            switch (\mb_strtolower($name)) {
                 case 'self':
                     return $function->getDeclaringClass()->name;
                 case 'parent':
