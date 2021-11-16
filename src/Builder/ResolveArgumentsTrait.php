@@ -11,8 +11,10 @@ use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use ReflectionFunction;
 use ReflectionMethod;
+use ReflectionNamedType;
 use ReflectionObject;
 use ReflectionType;
+use ReflectionUnionType;
 
 trait ResolveArgumentsTrait
 {
@@ -62,7 +64,7 @@ trait ResolveArgumentsTrait
             return null;
         }
 
-        $name = $type instanceof \ReflectionNamedType ? $type->getName() : (string) $type;
+        $name = $type instanceof ReflectionNamedType ? $type->getName() : (string) $type;
 
         if ($function instanceof ReflectionMethod) {
             $lcName = \strtolower($name);
@@ -160,11 +162,11 @@ trait ResolveArgumentsTrait
 
     private function getParameterTypes(?ReflectionType $type): array
     {
-        if ($type instanceof \ReflectionNamedType) {
+        if ($type instanceof ReflectionNamedType) {
             return [$type->getName()];
         }
 
-        if ($type instanceof \ReflectionUnionType) {
+        if (\class_exists(ReflectionUnionType::class) && $type instanceof ReflectionUnionType) {
             return \array_merge([], ...\array_map([$this, 'getParameterTypes'], $type->getTypes()));
         }
 

@@ -28,6 +28,25 @@
             </errorLevel>
         </UnnecessaryVarAnnotation>
 
+        <UndefinedClass>
+            <errorLevel type="info">
+                <!-- php 8 support for a min php 7 resource -->
+                <file name="../src/Builder/ResolveArgumentsTrait.php"/>
+            </errorLevel>
+        </UndefinedClass>
+        <TypeDoesNotContainType>
+            <errorLevel type="info">
+                <!-- php 8 support for a min php 7 resource -->
+                <file name="../src/Builder/ResolveArgumentsTrait.php"/>
+            </errorLevel>
+        </TypeDoesNotContainType>
+        <MixedArgument>
+            <errorLevel type="info">
+                <!-- php 8 support for a min php 7 resource (on $type->getTypes() in array_map) -->
+                <file name="../src/Builder/ResolveArgumentsTrait.php"/>
+            </errorLevel>
+        </MixedArgument>
+
         <!-- never trust user input -->
         <RedundantCondition>
             <errorLevel type="info">
