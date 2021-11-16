@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
 use Closure;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandleContextInterface;
@@ -63,7 +64,7 @@ class HttpHandler extends HttpHandlerContract
         ResponseInterface $response,
         HttpHandleContextInterface $context
     ): ResponseInterface {
-        return $this->resolveAndRunClosure($this->runMethod, $request, $response, $context)
+        return $this->resolveAndRunClosure($this->runMethod, 'run', $request, $response, $context)
             ?? parent::run($request, $response, $context);
     }
 
@@ -72,7 +73,7 @@ class HttpHandler extends HttpHandlerContract
         ResponseInterface $response,
         HttpHandleContextInterface $context
     ): ResponseInterface {
-        return $this->resolveAndRunClosure($this->optionsMethod, $request, $response, $context)
+        return $this->resolveAndRunClosure($this->optionsMethod, 'options', $request, $response, $context)
             ?? parent::options($request, $response, $context);
     }
 
@@ -81,7 +82,7 @@ class HttpHandler extends HttpHandlerContract
         ResponseInterface $response,
         HttpHandleContextInterface $context
     ): ResponseInterface {
-        return $this->resolveAndRunClosure($this->getMethod, $request, $response, $context)
+        return $this->resolveAndRunClosure($this->getMethod, 'get', $request, $response, $context)
             ?? parent::get($request, $response, $context);
     }
 
@@ -90,7 +91,7 @@ class HttpHandler extends HttpHandlerContract
         ResponseInterface $response,
         HttpHandleContextInterface $context
     ): ResponseInterface {
-        return $this->resolveAndRunClosure($this->postMethod, $request, $response, $context)
+        return $this->resolveAndRunClosure($this->postMethod, 'post', $request, $response, $context)
             ?? parent::post($request, $response, $context);
     }
 
@@ -99,7 +100,7 @@ class HttpHandler extends HttpHandlerContract
         ResponseInterface $response,
         HttpHandleContextInterface $context
     ): ResponseInterface {
-        return $this->resolveAndRunClosure($this->patchMethod, $request, $response, $context)
+        return $this->resolveAndRunClosure($this->patchMethod, 'patch', $request, $response, $context)
             ?? parent::patch($request, $response, $context);
     }
 
@@ -108,7 +109,7 @@ class HttpHandler extends HttpHandlerContract
         ResponseInterface $response,
         HttpHandleContextInterface $context
     ): ResponseInterface {
-        return $this->resolveAndRunClosure($this->putMethod, $request, $response, $context)
+        return $this->resolveAndRunClosure($this->putMethod, 'put', $request, $response, $context)
             ?? parent::put($request, $response, $context);
     }
 
@@ -117,12 +118,18 @@ class HttpHandler extends HttpHandlerContract
         ResponseInterface $response,
         HttpHandleContextInterface $context
     ): ResponseInterface {
-        return $this->resolveAndRunClosure($this->deleteMethod, $request, $response, $context)
+        return $this->resolveAndRunClosure($this->deleteMethod, 'delete', $request, $response, $context)
             ?? parent::delete($request, $response, $context);
     }
 
+    /**
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \ReflectionException
+     */
     private function resolveAndRunClosure(
         ?SerializableClosure $closure,
+        string $methodName,
         ServerRequestInterface $request,
         ResponseInterface $response,
         HttpHandleContextInterface $context
@@ -155,6 +162,13 @@ class HttpHandler extends HttpHandlerContract
             return $this->resolveFromContainer($container, $propertyType, $propertyName);
         });
 
-        return $callable(...$arguments);
+        /** @var mixed $result */
+        $result = $callable(...$arguments);
+
+        if ($result instanceof ResponseInterface) {
+            return $result;
+        }
+
+        throw new InvalidResultException(1637017868, 'HttpHandler', $methodName, ResponseInterface::class);
     }
 }

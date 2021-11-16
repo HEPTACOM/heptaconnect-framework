@@ -5,6 +5,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
 use Closure;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
@@ -53,7 +54,14 @@ class Explorer extends ExplorerContract
                 return $this->resolveFromContainer($container, $propertyType, $propertyName);
             });
 
-            return $run(...$arguments);
+            /** @var mixed $result */
+            $result = $run(...$arguments);
+
+            if (\is_iterable($result)) {
+                return $this->validateRunResult($result);
+            }
+
+            throw new InvalidResultException(1637034101, 'Explorer', 'run', 'iterable of string|int|'.DatasetEntityContract::class);
         }
 
         return parent::run($context);
@@ -83,9 +91,36 @@ class Explorer extends ExplorerContract
                 return $this->resolveFromContainer($container, $propertyType, $propertyName);
             });
 
-            return $isAllowed(...$arguments);
+            /** @var mixed $result */
+            $result = $isAllowed(...$arguments);
+
+            if (\is_bool($result)) {
+                return $result;
+            }
+
+            throw new InvalidResultException(1637034102, 'Explorer', 'isAllowed', 'bool');
         }
 
         return parent::isAllowed($externalId, $entity, $context);
+    }
+
+    /**
+     * @throws InvalidResultException
+     *
+     * @return iterable<array-key, string|int|DatasetEntityContract>
+     */
+    private function validateRunResult(iterable $result): iterable
+    {
+        /**
+         * @var array-key $resultKey
+         * @var mixed     $resultItem
+         */
+        foreach ($result as $resultKey => $resultItem) {
+            if ((\is_string($resultItem) || \is_int($resultItem) || $resultItem instanceof DatasetEntityContract) && $this->isSupported($resultItem)) {
+                yield $resultKey => $resultItem;
+            }
+
+            throw new InvalidResultException(1637034100, 'Explorer', 'run', 'string|int|'.$this->supports());
+        }
     }
 }

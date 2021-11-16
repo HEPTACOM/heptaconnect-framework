@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Builder;
 
+use Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException;
 use Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\ConfigurationContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandleContextInterface;
@@ -160,7 +161,6 @@ class FlowComponentTest extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $context = $this->createMock(HttpHandleContextInterface::class);
         $stack = new HttpHandlerStack([]);
-        $exceptionMessage = 'Return value of Heptacom\HeptaConnect\Portal\Base\Builder\Component\HttpHandler::resolveAndRunClosure() must implement interface Psr\Http\Message\ResponseInterface or be null, string returned';
 
         $context->method('getContainer')->willReturn($container);
         $container->method('get')->willReturnCallback(static fn (string $id) => [
@@ -175,8 +175,8 @@ class FlowComponentTest extends TestCase
 
         try {
             $handlers[0]->handle($request, $response, $context, $stack);
-        } catch (\TypeError $throwable) {
-            self::assertSame($exceptionMessage, $throwable->getMessage());
+        } catch (InvalidResultException $throwable) {
+            self::assertSame('Short-noted HttpHandler failed in run to return Psr\Http\Message\ResponseInterface', $throwable->getMessage());
         }
 
         $handlerBuilder = FlowComponent::httpHandler('foobar');
@@ -187,8 +187,8 @@ class FlowComponentTest extends TestCase
 
         try {
             $handlers[0]->handle($request, $response, $context, $stack);
-        } catch (\TypeError $throwable) {
-            self::assertSame($exceptionMessage, $throwable->getMessage());
+        } catch (InvalidResultException $throwable) {
+            self::assertSame('Short-noted HttpHandler failed in options to return Psr\Http\Message\ResponseInterface', $throwable->getMessage());
         }
 
         $handlerBuilder = FlowComponent::httpHandler('foobar');
@@ -199,8 +199,8 @@ class FlowComponentTest extends TestCase
 
         try {
             $handlers[0]->handle($request, $response, $context, $stack);
-        } catch (\TypeError $throwable) {
-            self::assertSame($exceptionMessage, $throwable->getMessage());
+        } catch (InvalidResultException $throwable) {
+            self::assertSame('Short-noted HttpHandler failed in get to return Psr\Http\Message\ResponseInterface', $throwable->getMessage());
         }
 
         $handlerBuilder = FlowComponent::httpHandler('foobar');
@@ -211,8 +211,8 @@ class FlowComponentTest extends TestCase
 
         try {
             $handlers[0]->handle($request, $response, $context, $stack);
-        } catch (\TypeError $throwable) {
-            self::assertSame($exceptionMessage, $throwable->getMessage());
+        } catch (InvalidResultException $throwable) {
+            self::assertSame('Short-noted HttpHandler failed in post to return Psr\Http\Message\ResponseInterface', $throwable->getMessage());
         }
 
         $handlerBuilder = FlowComponent::httpHandler('foobar');
@@ -223,8 +223,8 @@ class FlowComponentTest extends TestCase
 
         try {
             $handlers[0]->handle($request, $response, $context, $stack);
-        } catch (\TypeError $throwable) {
-            self::assertSame($exceptionMessage, $throwable->getMessage());
+        } catch (InvalidResultException $throwable) {
+            self::assertSame('Short-noted HttpHandler failed in put to return Psr\Http\Message\ResponseInterface', $throwable->getMessage());
         }
 
         $handlerBuilder = FlowComponent::httpHandler('foobar');
@@ -235,8 +235,8 @@ class FlowComponentTest extends TestCase
 
         try {
             $handlers[0]->handle($request, $response, $context, $stack);
-        } catch (\TypeError $throwable) {
-            self::assertSame($exceptionMessage, $throwable->getMessage());
+        } catch (InvalidResultException $throwable) {
+            self::assertSame('Short-noted HttpHandler failed in patch to return Psr\Http\Message\ResponseInterface', $throwable->getMessage());
         }
 
         $handlerBuilder = FlowComponent::httpHandler('foobar');
@@ -247,8 +247,8 @@ class FlowComponentTest extends TestCase
 
         try {
             $handlers[0]->handle($request, $response, $context, $stack);
-        } catch (\TypeError $throwable) {
-            self::assertSame($exceptionMessage, $throwable->getMessage());
+        } catch (InvalidResultException $throwable) {
+            self::assertSame('Short-noted HttpHandler failed in delete to return Psr\Http\Message\ResponseInterface', $throwable->getMessage());
         }
     }
 

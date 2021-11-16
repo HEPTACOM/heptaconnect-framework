@@ -5,6 +5,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
 use Closure;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\EmitterToken;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
@@ -61,7 +62,14 @@ class Emitter extends EmitterContract
                 return $this->resolveFromContainer($container, $propertyType, $propertyName);
             });
 
-            return $batch(...$arguments);
+            /** @var mixed $result */
+            $result = $batch(...$arguments);
+
+            if (\is_iterable($result)) {
+                return $this->validateBatchResult($result);
+            }
+
+            throw new InvalidResultException(1637017869, 'Emitter', 'batch', 'iterable of '.$this->supports());
         }
 
         return parent::batch($externalIds, $context);
@@ -86,7 +94,14 @@ class Emitter extends EmitterContract
                 return $this->resolveFromContainer($container, $propertyType, $propertyName);
             });
 
-            return $run(...$arguments);
+            /** @var mixed $result */
+            $result = $run(...$arguments);
+
+            if (\is_null($result) || $result instanceof DatasetEntityContract) {
+                return $result;
+            }
+
+            throw new InvalidResultException(1637017870, 'Emitter', 'run', '?'.DatasetEntityContract::class);
         }
 
         return parent::run($externalId, $context);
@@ -111,9 +126,33 @@ class Emitter extends EmitterContract
                 return $this->resolveFromContainer($container, $propertyType, $propertyName);
             });
 
-            return $extend(...$arguments);
+            /** @var mixed $result */
+            $result = $extend(...$arguments);
+
+            if ($result instanceof DatasetEntityContract) {
+                return $result;
+            }
+
+            throw new InvalidResultException(1637017871, 'Emitter', 'extend', DatasetEntityContract::class);
         }
 
         return parent::extend($entity, $context);
+    }
+
+    /**
+     * @throws InvalidResultException
+     *
+     * @return iterable<DatasetEntityContract>
+     */
+    private function validateBatchResult(iterable $result): iterable
+    {
+        /** @var array-key $resultKey */
+        foreach ($result as $resultKey => $resultItem) {
+            if (!$resultItem instanceof DatasetEntityContract || !$this->isSupported($resultItem)) {
+                throw new InvalidResultException(1637017868, 'Emitter', 'batch', $this->supports());
+            }
+
+            yield $resultKey => $resultItem;
+        }
     }
 }

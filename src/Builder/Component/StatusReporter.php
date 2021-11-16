@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
 use Closure;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\StatusReporterToken;
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract;
@@ -53,7 +54,11 @@ class StatusReporter extends StatusReporterContract
                     return [$this->supportsTopic() => $result];
                 }
 
-                return $result;
+                if (\is_array($result)) {
+                    return $result;
+                }
+
+                throw new InvalidResultException(1637036888, 'StatusReporter', 'run', 'bool|array');
             } catch (\Throwable $throwable) {
                 return [
                     $this->supportsTopic() => false,
