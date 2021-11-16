@@ -18,6 +18,7 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Builder\HttpHandlerBuilder
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Component\HttpHandler
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait

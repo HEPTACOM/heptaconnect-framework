@@ -18,6 +18,7 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack
  */
 class ContractTest extends TestCase
 {
