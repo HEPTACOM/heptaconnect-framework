@@ -45,7 +45,7 @@ class Explorer extends ExplorerContract
         if ($this->runMethod instanceof SerializableClosure &&
             \is_callable($run = $this->runMethod->getClosure())) {
             $arguments = $this->resolveArguments($run, $context, function (
-                int $propertyIndex,
+                int $_propertyIndex,
                 string $propertyName,
                 ?string $propertyType,
                 ContainerInterface $container
@@ -67,7 +67,7 @@ class Explorer extends ExplorerContract
         if ($this->isAllowedMethod instanceof SerializableClosure &&
             \is_callable($isAllowed = $this->isAllowedMethod->getClosure())) {
             $arguments = $this->resolveArguments($isAllowed, $context, function (
-                int $propertyIndex,
+                int $_propertyIndex,
                 string $propertyName,
                 ?string $propertyType,
                 ContainerInterface $container

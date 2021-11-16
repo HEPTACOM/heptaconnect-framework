@@ -49,7 +49,7 @@ class Emitter extends EmitterContract
         if ($this->batchMethod instanceof SerializableClosure &&
             \is_callable($batch = $this->batchMethod->getClosure())) {
             $arguments = $this->resolveArguments($batch, $context, function (
-                int $propertyIndex,
+                int $_propertyIndex,
                 string $propertyName,
                 ?string $propertyType,
                 ContainerInterface $container
@@ -74,7 +74,7 @@ class Emitter extends EmitterContract
         if ($this->runMethod instanceof SerializableClosure &&
             \is_callable($run = $this->runMethod->getClosure())) {
             $arguments = $this->resolveArguments($run, $context, function (
-                int $propertyIndex,
+                int $_propertyIndex,
                 string $propertyName,
                 ?string $propertyType,
                 ContainerInterface $container
@@ -99,7 +99,7 @@ class Emitter extends EmitterContract
         if ($this->extendMethod instanceof SerializableClosure &&
             \is_callable($extend = $this->extendMethod->getClosure())) {
             $arguments = $this->resolveArguments($extend, $context, function (
-                int $propertyIndex,
+                int $_propertyIndex,
                 string $propertyName,
                 ?string $propertyType,
                 ContainerInterface $container
