@@ -47,6 +47,20 @@
             </errorLevel>
         </MixedArgument>
 
+        <PossiblyInvalidArgument>
+            <errorLevel type="info">
+                <!-- having an empty array for an iterable is "invalid" -->
+                <file name="../src/Mapping/TypedMappedDatasetEntityCollection.php"/>
+            </errorLevel>
+        </PossiblyInvalidArgument>
+
+        <MixedAssignment>
+            <errorLevel type="info">
+                <!-- there is a lot of unclear content handling. You basically just know mixed -->
+                <file name="../src/Builder/ResolveArgumentsTrait.php"/>
+            </errorLevel>
+        </MixedAssignment>
+
         <!-- never trust user input -->
         <RedundantCondition>
             <errorLevel type="info">

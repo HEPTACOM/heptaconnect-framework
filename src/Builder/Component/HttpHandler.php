@@ -138,7 +138,7 @@ class HttpHandler extends HttpHandlerContract
             ?string $propertyType,
             ContainerInterface $container
         ) use ($context, $response, $request) {
-            if (\is_string($propertyType)) {
+            if (\is_string($propertyType) && (\class_exists($propertyType) || \interface_exists($propertyType))) {
                 if (\is_a($request, $propertyType, false)) {
                     return $request;
                 }

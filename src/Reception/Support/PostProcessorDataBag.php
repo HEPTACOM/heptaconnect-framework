@@ -5,6 +5,9 @@ namespace Heptacom\HeptaConnect\Portal\Base\Reception\Support;
 
 class PostProcessorDataBag
 {
+    /**
+     * @var array<int, object[]>
+     */
     private array $items = [];
 
     public function add(object $postProcessorData, int $priority = 0): void
@@ -30,11 +33,14 @@ class PostProcessorDataBag
         }
     }
 
+    /**
+     * @param class-string $className
+     */
     public function of(string $className): iterable
     {
         foreach ($this->items as $items) {
             foreach ($items as $item) {
-                if (\is_a($item, $className)) {
+                if (\is_a($item, $className, false)) {
                     yield $item;
                 }
             }

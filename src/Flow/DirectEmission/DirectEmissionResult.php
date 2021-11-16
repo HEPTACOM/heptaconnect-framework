@@ -5,6 +5,9 @@ namespace Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission;
 
 class DirectEmissionResult
 {
+    /**
+     * @var \Throwable[]
+     */
     private array $errors = [];
 
     public function addError(\Throwable $error): void

@@ -18,8 +18,18 @@ use ReflectionUnionType;
 
 trait ResolveArgumentsTrait
 {
+    /**
+     * @var array[]
+     */
     private array $bindingKeyCache = [];
 
+    /**
+     * @param callable(int,string,?string,ContainerInterface):mixed $resolveArgument
+     *
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \ReflectionException
+     */
     protected function resolveArguments(
         callable $method,
         PortalNodeContextInterface $context,
@@ -98,12 +108,19 @@ trait ResolveArgumentsTrait
         return $container->get($propertyType);
     }
 
+    /**
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     *
+     * @return array<string, mixed>
+     */
     private function getBindingKeys(ContainerInterface $container): array
     {
         /** @var PortalNodeKeyInterface $currentPortalNodeKey */
         $currentPortalNodeKey = $container->get(PortalNodeKeyInterface::class);
 
         foreach ($this->bindingKeyCache as $cacheItem) {
+            /** @var PortalNodeKeyInterface|null $comparePortalNodeKey */
             $comparePortalNodeKey = $cacheItem['portalNodeKey'] ?? null;
 
             if (!$comparePortalNodeKey instanceof PortalNodeKeyInterface) {
@@ -114,6 +131,7 @@ trait ResolveArgumentsTrait
                 continue;
             }
 
+            /** @var array<string, mixed>|null $data */
             $data = $cacheItem['data'] ?? null;
 
             if (\is_array($data)) {
@@ -125,6 +143,7 @@ trait ResolveArgumentsTrait
         $config = $container->get(ConfigurationContract::class);
 
         $configKeySeparators = '_.-';
+        /** @var array<string, mixed> $bindingKeys */
         $bindingKeys = [];
 
         foreach ($config->keys() as $configurationName) {
@@ -134,6 +153,7 @@ trait ResolveArgumentsTrait
                 \ucwords($configurationName, $configKeySeparators)
             );
 
+            /* @var array<string, mixed> */
             $bindingKeys['config'.$parameterName] = $config->get($configurationName);
         }
 
@@ -148,7 +168,7 @@ trait ResolveArgumentsTrait
     private function isParameterScalarish(\ReflectionParameter $parameter): bool
     {
         foreach ($this->getParameterTypes($parameter->getType()) as $type) {
-            if (\class_exists($type)) {
+            if (\class_exists($type) || \interface_exists($type)) {
                 return false;
             }
 
@@ -160,6 +180,9 @@ trait ResolveArgumentsTrait
         return false;
     }
 
+    /**
+     * @return string[]
+     */
     private function getParameterTypes(?ReflectionType $type): array
     {
         if ($type instanceof ReflectionNamedType) {

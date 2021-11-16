@@ -3,10 +3,13 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Support\Contract;
 
+use ReflectionException;
+use ReflectionProperty;
+
 class DeepObjectIteratorContract
 {
     /**
-     * @var array<class-string, \ReflectionProperty[]>
+     * @var array<class-string, ReflectionProperty[]>
      */
     private array $reflectionProperties = [];
 
@@ -50,6 +53,7 @@ class DeepObjectIteratorContract
         try {
             foreach ($this->getPropertiesAccessor($object) as $prop) {
                 try {
+                    /** @var mixed $value */
                     $value = $prop->getValue($object);
 
                     if (\is_object($value) || \is_iterable($value) || (\is_array($value) && $value !== [])) {
@@ -67,6 +71,11 @@ class DeepObjectIteratorContract
         yield from $iterable;
     }
 
+    /**
+     * @throws ReflectionException
+     *
+     * @return ReflectionProperty[]
+     */
     private function getPropertiesAccessor(object $object): array
     {
         $class = \get_class($object);

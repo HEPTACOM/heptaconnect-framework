@@ -68,11 +68,35 @@ trait PathMethodsTrait
             return null;
         }
 
-        $portals = $composerJson['extra']['heptaconnect']['portals'] ?? [];
-        $portalExtensions = $composerJson['extra']['heptaconnect']['portalExtensions'] ?? [];
-        /** @var string[] $portals */
+        $composerExtra = $composerJson['extra'] ?? null;
+
+        if (!\is_array($composerExtra)) {
+            return null;
+        }
+
+        $composerExtraHeptaconnect = $composerExtra['heptaconnect'] ?? null;
+
+        if (!\is_array($composerExtraHeptaconnect)) {
+            return null;
+        }
+
+        /** @var array|null $portals */
+        $portals = $composerExtraHeptaconnect['portals'] ?? null;
+
+        if (!\is_array($portals)) {
+            $portals = [];
+        }
+
+        /** @var array|null $portalExtensions */
+        $portalExtensions = $composerExtraHeptaconnect['portalExtensions'] ?? null;
+
+        if (!\is_array($portalExtensions)) {
+            $portalExtensions = [];
+        }
+
+        /** @var array<int, string> $portals */
         $portals = \array_values(\array_filter($portals, 'is_string'));
-        /** @var string[] $portalExtensions */
+        /** @var array<int, string> $portalExtensions */
         $portalExtensions = \array_values(\array_filter($portalExtensions, 'is_string'));
 
         if (!\in_array(static::class, [...$portals, ...$portalExtensions], true)) {

@@ -46,6 +46,7 @@ class StatusReporter extends StatusReporterContract
             });
 
             try {
+                /** @var mixed $result */
                 $result = $run(...$arguments);
 
                 if (\is_bool($result)) {
