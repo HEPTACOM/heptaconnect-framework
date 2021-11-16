@@ -118,7 +118,8 @@ abstract class EmitterContract
         /** @var LoggerInterface|null $logger */
         $logger = $context->getContainer()->get(LoggerInterface::class);
 
-        $externalIds = \iterable_filter($externalIds, function ($externalId) use ($logger): bool {
+        /** @var iterable<string> $externalIds */
+        $externalIds = \iterable_filter($externalIds, function (?string $externalId) use ($logger): bool {
             if (!\is_string($externalId)) {
                 if ($logger instanceof LoggerInterface) {
                     $logger->error(\sprintf(
