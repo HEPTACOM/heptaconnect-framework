@@ -12,5 +12,8 @@ interface EmitterStackInterface
      */
     public function next(iterable $externalIds, EmitContextInterface $context): iterable;
 
+    /**
+     * @return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     */
     public function supports(): string;
 }
