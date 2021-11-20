@@ -169,6 +169,6 @@ class HttpHandler extends HttpHandlerContract
             return $result;
         }
 
-        throw new InvalidResultException(1637017868, 'HttpHandler', $methodName, ResponseInterface::class);
+        throw new InvalidResultException(1637440327, 'HttpHandler', $methodName, ResponseInterface::class);
     }
 }
