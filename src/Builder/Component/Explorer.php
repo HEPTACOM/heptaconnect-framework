@@ -118,6 +118,8 @@ class Explorer extends ExplorerContract
         foreach ($result as $resultKey => $resultItem) {
             if ((\is_string($resultItem) || \is_int($resultItem) || $resultItem instanceof DatasetEntityContract) && $this->isSupported($resultItem)) {
                 yield $resultKey => $resultItem;
+
+                continue;
             }
 
             throw new InvalidResultException(1637034100, 'Explorer', 'run', 'string|int|'.$this->supports());
