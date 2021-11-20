@@ -17,6 +17,9 @@ class EmitterStack implements EmitterStackInterface, LoggerAwareInterface
      */
     private array $emitters;
 
+    /**
+     * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     */
     private string $entityType;
 
     private LoggerInterface $logger;
