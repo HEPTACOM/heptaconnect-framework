@@ -45,7 +45,8 @@ class Receiver extends ReceiverContract
         TypedDatasetEntityCollection $entities,
         ReceiveContextInterface $context
     ): void {
-        if ($this->batchMethod instanceof SerializableClosure && ($batch = $this->batchMethod->getClosure()) instanceof Closure) {
+        if ($this->batchMethod instanceof SerializableClosure) {
+            $batch = $this->batchMethod->getClosure();
             $arguments = $this->resolveArguments($batch, $context, function (
                 int $_propertyIndex,
                 string $propertyName,
@@ -71,7 +72,8 @@ class Receiver extends ReceiverContract
         DatasetEntityContract $entity,
         ReceiveContextInterface $context
     ): void {
-        if ($this->runMethod instanceof SerializableClosure && ($run = $this->runMethod->getClosure()) instanceof Closure) {
+        if ($this->runMethod instanceof SerializableClosure) {
+            $run = $this->runMethod->getClosure();
             $arguments = $this->resolveArguments($run, $context, function (
                 int $_propertyIndex,
                 string $propertyName,

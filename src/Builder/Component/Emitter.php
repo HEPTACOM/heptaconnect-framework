@@ -47,7 +47,8 @@ class Emitter extends EmitterContract
 
     protected function batch(iterable $externalIds, EmitContextInterface $context): iterable
     {
-        if ($this->batchMethod instanceof SerializableClosure && ($batch = $this->batchMethod->getClosure()) instanceof Closure) {
+        if ($this->batchMethod instanceof SerializableClosure) {
+            $batch = $this->batchMethod->getClosure();
             $arguments = $this->resolveArguments($batch, $context, function (
                 int $_propertyIndex,
                 string $propertyName,
@@ -78,7 +79,8 @@ class Emitter extends EmitterContract
         string $externalId,
         EmitContextInterface $context
     ): ?DatasetEntityContract {
-        if ($this->runMethod instanceof SerializableClosure && ($run = $this->runMethod->getClosure()) instanceof Closure) {
+        if ($this->runMethod instanceof SerializableClosure) {
+            $run = $this->runMethod->getClosure();
             $arguments = $this->resolveArguments($run, $context, function (
                 int $_propertyIndex,
                 string $propertyName,
@@ -109,7 +111,8 @@ class Emitter extends EmitterContract
         DatasetEntityContract $entity,
         EmitContextInterface $context
     ): DatasetEntityContract {
-        if ($this->extendMethod instanceof SerializableClosure && ($extend = $this->extendMethod->getClosure()) instanceof Closure) {
+        if ($this->extendMethod instanceof SerializableClosure) {
+            $extend = $this->extendMethod->getClosure();
             $arguments = $this->resolveArguments($extend, $context, function (
                 int $_propertyIndex,
                 string $propertyName,
