@@ -31,12 +31,12 @@ trait SetStateTrait
                 continue;
             }
 
-            $setter = 'set'.\ucfirst($key);
+            $setter = 'set' . \ucfirst($key);
 
             try {
                 $method = new \ReflectionMethod($result, $setter);
             } catch (\ReflectionException $exception) {
-                $getter = 'get'.\ucfirst($key);
+                $getter = 'get' . \ucfirst($key);
 
                 try {
                     $method = new \ReflectionMethod($result, $getter);

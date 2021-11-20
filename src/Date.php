@@ -13,7 +13,7 @@ class Date extends \DateTime
 
     public static function createFromDateTime(\DateTimeInterface $dateTime): Date
     {
-        return new Date('@'.$dateTime->getTimestamp(), $dateTime->getTimezone());
+        return new Date('@' . $dateTime->getTimestamp(), $dateTime->getTimezone());
     }
 
     public static function createDateFromFormat(string $format, string $time, \DateTimeZone $timezone = null): ?Date
@@ -30,7 +30,7 @@ class Date extends \DateTime
 
     public function asDateTime(): \DateTimeInterface
     {
-        return new \DateTime('@'.$this->getTimestamp(), $this->getTimezone());
+        return new \DateTime('@' . $this->getTimestamp(), $this->getTimezone());
     }
 
     /**
