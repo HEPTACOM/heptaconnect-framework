@@ -29,13 +29,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Change a parameter name in `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract::listByTypeAndPortalNodeAndExternalId`, `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract::listByTypeAndPortalNodeAndExternalIds`, `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract::create`, `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract::createList` in global refactoring effort
-- Change a parameter name in `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract::listUnsavedExternalIds` in global refactoring effort
-- Change a parameter name of `\Heptacom\HeptaConnect\Storage\Base\Exception\UnsharableOwnerException::__construct` in global refactoring effort and rename the field it is saved to. Additionally change the respective getter method to `\Heptacom\HeptaConnect\Storage\Base\Exception\UnsharableOwnerException::getExpectedEntityType`
-- Change a parameter name of `\Heptacom\HeptaConnect\Storage\Base\PrimaryKeySharingMappingStruct::__construct` in global refactoring effort and rename the field it is saved to. Additionally change the respective getter method to `\Heptacom\HeptaConnect\Storage\Base\PrimaryKeySharingMappingStruct::getEntityType` and `\Heptacom\HeptaConnect\Storage\Base\PrimaryKeySharingMappingStruct::getForeignEntityType`. Change the method `\Heptacom\HeptaConnect\Storage\Base\PrimaryKeySharingMappingStruct::addOwner` to use the refactored method names
-- Change a method name in `\Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface` to `\Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface::getEntityType`
-- Change a method call in `\Heptacom\HeptaConnect\Storage\Base\MappingCollection::groupByType` to use the refactored method name of `\Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface::getEntityType`
-- Change a method call in `\Heptacom\HeptaConnect\Storage\Base\TypedMappingCollection::isValidItem` to use the refactored method name of `\Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface::getEntityType`
+- Change parameter name in `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract::listByTypeAndPortalNodeAndExternalId` from `$datasetEntityClassName` to `$entityType`
+- Change parameter name in `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract::listByTypeAndPortalNodeAndExternalIds` from `$datasetEntityClassName` to `$entityType`
+- Change parameter name in `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract::create` from `$datasetEntityClassName` to `$entityType`
+- Change parameter name in `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract::createList` from `$datasetEntityClassName` to `$entityType`
+- Change parameter name in `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract::listUnsavedExternalIds` from `$datasetEntityClassName` to `$entityType`
+- Change parameter name of `\Heptacom\HeptaConnect\Storage\Base\Exception\UnsharableOwnerException::__construct` from `$expectedDatasetEntityClassName` to `$expectedEntityType`
+- Change parameter name of `\Heptacom\HeptaConnect\Storage\Base\PrimaryKeySharingMappingStruct::__construct` from `$datasetEntityClassName` to `$entityType`
+- Change method name from `\Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface::getDatasetEntityClassName` to `\Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface::getEntityType`
+- Change method name from `\Heptacom\HeptaConnect\Storage\Base\Exception\UnsharableOwnerException::getExpectedDatasetEntityClassName` to `\Heptacom\HeptaConnect\Storage\Base\Exception\UnsharableOwnerException::getExpectedEntityType`
+- Change method name from `\Heptacom\HeptaConnect\Storage\Base\PrimaryKeySharingMappingStructgetDatasetEntityClassName` to `\Heptacom\HeptaConnect\Storage\Base\PrimaryKeySharingMappingStruct::getEntityType`
+- Change method name from `\Heptacom\HeptaConnect\Storage\Base\PrimaryKeySharingMappingStruct::getForeignDatasetEntityClassName` to `\Heptacom\HeptaConnect\Storage\Base\PrimaryKeySharingMappingStruct::getForeignEntityType`
 
 ### Removed
 
