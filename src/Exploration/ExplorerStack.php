@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Exploration;
 
+use Heptacom\HeptaConnect\Portal\Base\Builder\Component\Explorer as ShorthandExplorer;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerStackInterface;
@@ -41,8 +42,37 @@ class ExplorerStack implements ExplorerStackInterface, LoggerAwareInterface
             return [];
         }
 
-        $this->logger->debug(\sprintf('Execute FlowComponent explorer: %s', \get_class($explorer)));
+        $this->logger->debug(\sprintf('Execute FlowComponent explorer: %s', $this->getOrigin($explorer)));
 
         return $explorer->explore($context, $this);
+    }
+
+    protected function getOrigin(ExplorerContract $explorer): string
+    {
+        if ($explorer instanceof ShorthandExplorer) {
+            $runMethod = $explorer->getRunMethod();
+
+            if ($runMethod instanceof \Closure) {
+                $reflection = new \ReflectionFunction($runMethod);
+
+                return $reflection->getFileName().':'.$reflection->getStartLine();
+            }
+
+            $isAllowedMethod = $explorer->getIsAllowedMethod();
+
+            if ($isAllowedMethod instanceof \Closure) {
+                $reflection = new \ReflectionFunction($isAllowedMethod);
+
+                return $reflection->getFileName().':'.$reflection->getStartLine();
+            }
+
+            $this->logger->warning('ExplorerStack contains unconfigured short-notation explorer', [
+                'code' => 1637421327,
+            ]);
+        }
+
+        $reflection = new \ReflectionClass($explorer);
+
+        return $reflection->getFileName().':'.$reflection->getStartLine();
     }
 }
