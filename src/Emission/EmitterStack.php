@@ -17,12 +17,16 @@ class EmitterStack implements EmitterStackInterface, LoggerAwareInterface
      */
     private array $emitters;
 
+    /**
+     * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     */
     private string $entityType;
 
     private LoggerInterface $logger;
 
     /**
      * @param iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract> $emitters
+     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>          $entityType
      */
     public function __construct(iterable $emitters, string $entityType)
     {

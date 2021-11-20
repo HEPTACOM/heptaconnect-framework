@@ -12,7 +12,6 @@ use ReflectionClass;
 use ReflectionFunction;
 use ReflectionMethod;
 use ReflectionNamedType;
-use ReflectionObject;
 use ReflectionType;
 use ReflectionUnionType;
 
@@ -31,24 +30,12 @@ trait ResolveArgumentsTrait
      * @throws \ReflectionException
      */
     protected function resolveArguments(
-        callable $method,
+        Closure $method,
         PortalNodeContextInterface $context,
         callable $resolveArgument
     ): array {
         $container = $context->getContainer();
-
-        if (\is_array($method)) {
-            $reflection = new ReflectionMethod($method[0], $method[1]);
-        } elseif (\is_object($method)) {
-            if ($method instanceof Closure) {
-                $reflection = new ReflectionFunction($method);
-            } else {
-                $reflection = (new ReflectionObject($method))->getMethod('__invoke');
-            }
-        } else {
-            $reflection = new ReflectionFunction(Closure::fromCallable($method));
-        }
-
+        $reflection = new ReflectionFunction($method);
         $bindingKeys = $this->getBindingKeys($container);
         $arguments = [];
 

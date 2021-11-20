@@ -43,8 +43,8 @@ class Explorer extends ExplorerContract
 
     protected function run(ExploreContextInterface $context): iterable
     {
-        if ($this->runMethod instanceof SerializableClosure &&
-            \is_callable($run = $this->runMethod->getClosure())) {
+        if ($this->runMethod instanceof SerializableClosure) {
+            $run = $this->runMethod->getClosure();
             $arguments = $this->resolveArguments($run, $context, function (
                 int $_propertyIndex,
                 string $propertyName,
@@ -72,8 +72,8 @@ class Explorer extends ExplorerContract
         ?DatasetEntityContract $entity,
         ExploreContextInterface $context
     ): bool {
-        if ($this->isAllowedMethod instanceof SerializableClosure &&
-            \is_callable($isAllowed = $this->isAllowedMethod->getClosure())) {
+        if ($this->isAllowedMethod instanceof SerializableClosure) {
+            $isAllowed = $this->isAllowedMethod->getClosure();
             $arguments = $this->resolveArguments($isAllowed, $context, function (
                 int $_propertyIndex,
                 string $propertyName,
