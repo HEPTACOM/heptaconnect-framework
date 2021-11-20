@@ -69,7 +69,7 @@ class Emitter extends EmitterContract
                 return $this->validateBatchResult($result);
             }
 
-            throw new InvalidResultException(1637017869, 'Emitter', 'batch', 'iterable of '.$this->supports());
+            throw new InvalidResultException(1637017869, 'Emitter', 'batch', 'iterable of ' . $this->supports());
         }
 
         return parent::batch($externalIds, $context);
@@ -101,7 +101,7 @@ class Emitter extends EmitterContract
                 return $result;
             }
 
-            throw new InvalidResultException(1637017870, 'Emitter', 'run', '?'.DatasetEntityContract::class);
+            throw new InvalidResultException(1637017870, 'Emitter', 'run', '?' . DatasetEntityContract::class);
         }
 
         return parent::run($externalId, $context);

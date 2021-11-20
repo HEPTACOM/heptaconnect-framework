@@ -16,7 +16,7 @@ class UnexpectedPortalNodeException extends \RuntimeException
             $this->type = \get_class($node);
         }
 
-        parent::__construct('Unexpected portal node of type '.$this->type, $code, $previous);
+        parent::__construct('Unexpected portal node of type ' . $this->type, $code, $previous);
     }
 
     public function getType(): string

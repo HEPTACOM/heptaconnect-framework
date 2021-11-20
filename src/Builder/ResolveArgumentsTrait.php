@@ -100,8 +100,8 @@ trait ResolveArgumentsTrait
             return null;
         }
 
-        if ($container->has($propertyType.' $'.$propertyName)) {
-            return $container->get($propertyType.' $'.$propertyName);
+        if ($container->has($propertyType . ' $' . $propertyName)) {
+            return $container->get($propertyType . ' $' . $propertyName);
         }
 
         return $container->get($propertyType);
@@ -153,7 +153,7 @@ trait ResolveArgumentsTrait
             );
 
             /* @var array<string, mixed> */
-            $bindingKeys['config'.$parameterName] = $config->get($configurationName);
+            $bindingKeys['config' . $parameterName] = $config->get($configurationName);
         }
 
         $this->bindingKeyCache[] = [

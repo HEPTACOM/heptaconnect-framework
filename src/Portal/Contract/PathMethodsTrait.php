@@ -14,8 +14,8 @@ trait PathMethodsTrait
             return $composerPsr4;
         }
 
-        $namespace = (new \ReflectionClass($this))->getNamespaceName().'\\';
-        $sourceDir = \rtrim($path, \DIRECTORY_SEPARATOR).\DIRECTORY_SEPARATOR;
+        $namespace = (new \ReflectionClass($this))->getNamespaceName() . '\\';
+        $sourceDir = \rtrim($path, \DIRECTORY_SEPARATOR) . \DIRECTORY_SEPARATOR;
 
         return [
             $namespace => $sourceDir,
@@ -50,7 +50,7 @@ trait PathMethodsTrait
 
     private function getComposerPsr4(string $path): ?array
     {
-        $composerJsonPath = \dirname($path).\DIRECTORY_SEPARATOR.'composer.json';
+        $composerJsonPath = \dirname($path) . \DIRECTORY_SEPARATOR . 'composer.json';
 
         if (!\file_exists($composerJsonPath)) {
             return null;
@@ -110,7 +110,7 @@ trait PathMethodsTrait
         }
 
         return \array_map(
-            fn (string $psr4Path) => \dirname($path).\DIRECTORY_SEPARATOR.$psr4Path,
+            fn (string $psr4Path) => \dirname($path) . \DIRECTORY_SEPARATOR . $psr4Path,
             $psr4
         );
     }

@@ -61,7 +61,7 @@ class Explorer extends ExplorerContract
                 return $this->validateRunResult($result);
             }
 
-            throw new InvalidResultException(1637034101, 'Explorer', 'run', 'iterable of string|int|'.DatasetEntityContract::class);
+            throw new InvalidResultException(1637034101, 'Explorer', 'run', 'iterable of string|int|' . DatasetEntityContract::class);
         }
 
         return parent::run($context);
@@ -122,7 +122,7 @@ class Explorer extends ExplorerContract
                 continue;
             }
 
-            throw new InvalidResultException(1637034100, 'Explorer', 'run', 'string|int|'.$this->supports());
+            throw new InvalidResultException(1637034100, 'Explorer', 'run', 'string|int|' . $this->supports());
         }
     }
 }
