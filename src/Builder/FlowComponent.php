@@ -200,28 +200,28 @@ class FlowComponent implements LoggerAwareInterface
     public function buildHttpHandlers(): iterable
     {
         foreach (self::$httpHandlerTokens as $key => $httpHandlerToken) {
-            if (\is_callable($httpHandlerToken->getRun())) {
-                if (\is_callable($httpHandlerToken->getOptions())) {
+            if ($httpHandlerToken->getRun() instanceof Closure) {
+                if ($httpHandlerToken->getOptions() instanceof Closure) {
                     $this->logImplementationConflict('HttpHandler', 'run', 'options');
                 }
 
-                if (\is_callable($httpHandlerToken->getGet())) {
+                if ($httpHandlerToken->getGet() instanceof Closure) {
                     $this->logImplementationConflict('HttpHandler', 'run', 'get');
                 }
 
-                if (\is_callable($httpHandlerToken->getPost())) {
+                if ($httpHandlerToken->getPost() instanceof Closure) {
                     $this->logImplementationConflict('HttpHandler', 'run', 'post');
                 }
 
-                if (\is_callable($httpHandlerToken->getPatch())) {
+                if ($httpHandlerToken->getPatch() instanceof Closure) {
                     $this->logImplementationConflict('HttpHandler', 'run', 'patch');
                 }
 
-                if (\is_callable($httpHandlerToken->getPut())) {
+                if ($httpHandlerToken->getPut() instanceof Closure) {
                     $this->logImplementationConflict('HttpHandler', 'run', 'put');
                 }
 
-                if (\is_callable($httpHandlerToken->getDelete())) {
+                if ($httpHandlerToken->getDelete() instanceof Closure) {
                     $this->logImplementationConflict('HttpHandler', 'run', 'delete');
                 }
             }
