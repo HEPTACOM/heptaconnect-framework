@@ -20,7 +20,7 @@ class RouteOverviewResult
     /**
      * @var class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>
      */
-    protected string $sourceClass;
+    protected string $sourcePortalClass;
 
     protected PortalNodeKeyInterface $target;
 
@@ -38,7 +38,7 @@ class RouteOverviewResult
 
     /**
      * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
-     * @param class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>  $sourceClass
+     * @param class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>  $sourcePortalClass
      * @param class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>  $targetClass
      * @param string[]                                                                         $capabilities
      */
@@ -46,7 +46,7 @@ class RouteOverviewResult
         RouteKeyInterface $routeKey,
         string $entityType,
         PortalNodeKeyInterface $sourcePortalNodeKey,
-        string $sourceClass,
+        string $sourcePortalClass,
         PortalNodeKeyInterface $target,
         string $targetClass,
         \DateTimeInterface $createdAt,
@@ -55,7 +55,7 @@ class RouteOverviewResult
         $this->routeKey = $routeKey;
         $this->entityType = $entityType;
         $this->sourcePortalNodeKey = $sourcePortalNodeKey;
-        $this->sourceClass = $sourceClass;
+        $this->sourcePortalClass = $sourcePortalClass;
         $this->target = $target;
         $this->targetClass = $targetClass;
         $this->createdAt = $createdAt;
@@ -83,9 +83,9 @@ class RouteOverviewResult
     /**
      * @return class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>
      */
-    public function getSourceClass(): string
+    public function getSourcePortalClass(): string
     {
-        return $this->sourceClass;
+        return $this->sourcePortalClass;
     }
 
     public function getTarget(): PortalNodeKeyInterface
