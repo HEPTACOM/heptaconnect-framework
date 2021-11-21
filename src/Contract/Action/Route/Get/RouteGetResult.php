@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\RouteKeyInterface;
 
 class RouteGetResult
 {
-    protected RouteKeyInterface $route;
+    protected RouteKeyInterface $routeKey;
 
     protected PortalNodeKeyInterface $source;
 
@@ -29,22 +29,22 @@ class RouteGetResult
      * @param string[]                                                                         $capabilities
      */
     public function __construct(
-        RouteKeyInterface $route,
+        RouteKeyInterface $routeKey,
         PortalNodeKeyInterface $source,
         PortalNodeKeyInterface $target,
         string $entityType,
         array $capabilities
     ) {
-        $this->route = $route;
+        $this->routeKey = $routeKey;
         $this->source = $source;
         $this->target = $target;
         $this->entityType = $entityType;
         $this->capabilities = $capabilities;
     }
 
-    public function getKey(): RouteKeyInterface
+    public function getRouteKey(): RouteKeyInterface
     {
-        return $this->route;
+        return $this->routeKey;
     }
 
     public function getTargetKey(): PortalNodeKeyInterface
