@@ -10,7 +10,7 @@ class RouteCreatePayload implements CreatePayloadInterface
 {
     protected PortalNodeKeyInterface $sourcePortalNodeKey;
 
-    protected PortalNodeKeyInterface $target;
+    protected PortalNodeKeyInterface $targetPortalNodeKey;
 
     /**
      * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
@@ -28,12 +28,12 @@ class RouteCreatePayload implements CreatePayloadInterface
      */
     public function __construct(
         PortalNodeKeyInterface $sourcePortalNodeKey,
-        PortalNodeKeyInterface $target,
+        PortalNodeKeyInterface $targetPortalNodeKey,
         string $entityType,
         array $capabilities = []
     ) {
         $this->sourcePortalNodeKey = $sourcePortalNodeKey;
-        $this->target = $target;
+        $this->targetPortalNodeKey = $targetPortalNodeKey;
         $this->entityType = $entityType;
         $this->capabilities = $capabilities;
     }
@@ -48,14 +48,14 @@ class RouteCreatePayload implements CreatePayloadInterface
         $this->sourcePortalNodeKey = $sourcePortalNodeKey;
     }
 
-    public function getTarget(): PortalNodeKeyInterface
+    public function getTargetPortalNodeKey(): PortalNodeKeyInterface
     {
-        return $this->target;
+        return $this->targetPortalNodeKey;
     }
 
-    public function setTarget(PortalNodeKeyInterface $target): void
+    public function setTargetPortalNodeKey(PortalNodeKeyInterface $targetPortalNodeKey): void
     {
-        $this->target = $target;
+        $this->targetPortalNodeKey = $targetPortalNodeKey;
     }
 
     /**
