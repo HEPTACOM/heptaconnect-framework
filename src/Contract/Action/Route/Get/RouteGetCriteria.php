@@ -7,20 +7,20 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\RouteKeyCollection;
 
 class RouteGetCriteria
 {
-    private RouteKeyCollection $routes;
+    private RouteKeyCollection $routeKeys;
 
-    public function __construct(RouteKeyCollection $routes)
+    public function __construct(RouteKeyCollection $routeKeys)
     {
-        $this->routes = $routes;
+        $this->routeKeys = $routeKeys;
     }
 
-    public function getRoutes(): RouteKeyCollection
+    public function getRouteKeys(): RouteKeyCollection
     {
-        return $this->routes;
+        return $this->routeKeys;
     }
 
-    public function setRoutes(RouteKeyCollection $routes): void
+    public function setRouteKeys(RouteKeyCollection $routeKeys): void
     {
-        $this->routes = $routes;
+        $this->routeKeys = $routeKeys;
     }
 }
