@@ -7,15 +7,15 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\RouteKeyInterface;
 
 class RouteCreateResult
 {
-    protected RouteKeyInterface $route;
+    protected RouteKeyInterface $routeKey;
 
-    public function __construct(RouteKeyInterface $route)
+    public function __construct(RouteKeyInterface $routeKey)
     {
-        $this->route = $route;
+        $this->routeKey = $routeKey;
     }
 
-    public function getRoute(): RouteKeyInterface
+    public function getRouteKey(): RouteKeyInterface
     {
-        return $this->route;
+        return $this->routeKey;
     }
 }
