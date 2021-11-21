@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change parameter name in `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract::create` from `$datasetEntityClassName` to `$entityType`
 - Change parameter name in `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract::createList` from `$datasetEntityClassName` to `$entityType`
 - Change parameter name in `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract::listUnsavedExternalIds` from `$datasetEntityClassName` to `$entityType`
+- Change parameter name in `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract::listByPortalNodeAndType` from `$datasetEntityType` to `$entityType`
 - Change parameter name of `\Heptacom\HeptaConnect\Storage\Base\Exception\UnsharableOwnerException::__construct` from `$expectedDatasetEntityClassName` to `$expectedEntityType`
 - Change parameter name of `\Heptacom\HeptaConnect\Storage\Base\PrimaryKeySharingMappingStruct::__construct` from `$datasetEntityClassName` to `$entityType`
 - Change method name from `\Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface::getDatasetEntityClassName` to `\Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface::getEntityType`
