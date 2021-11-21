@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Create\CreatePayloadInter
 
 class RouteCreatePayload implements CreatePayloadInterface
 {
-    protected PortalNodeKeyInterface $source;
+    protected PortalNodeKeyInterface $sourcePortalNodeKey;
 
     protected PortalNodeKeyInterface $target;
 
@@ -27,25 +27,25 @@ class RouteCreatePayload implements CreatePayloadInterface
      * @param string[]                                                                         $capabilities
      */
     public function __construct(
-        PortalNodeKeyInterface $source,
+        PortalNodeKeyInterface $sourcePortalNodeKey,
         PortalNodeKeyInterface $target,
         string $entityType,
         array $capabilities = []
     ) {
-        $this->source = $source;
+        $this->sourcePortalNodeKey = $sourcePortalNodeKey;
         $this->target = $target;
         $this->entityType = $entityType;
         $this->capabilities = $capabilities;
     }
 
-    public function getSource(): PortalNodeKeyInterface
+    public function getSourcePortalNodeKey(): PortalNodeKeyInterface
     {
-        return $this->source;
+        return $this->sourcePortalNodeKey;
     }
 
-    public function setSource(PortalNodeKeyInterface $source): void
+    public function setSourcePortalNodeKey(PortalNodeKeyInterface $sourcePortalNodeKey): void
     {
-        $this->source = $source;
+        $this->sourcePortalNodeKey = $sourcePortalNodeKey;
     }
 
     public function getTarget(): PortalNodeKeyInterface
