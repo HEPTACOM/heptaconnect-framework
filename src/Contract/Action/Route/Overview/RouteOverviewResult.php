@@ -27,7 +27,7 @@ class RouteOverviewResult
     /**
      * @var class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>
      */
-    protected string $targetClass;
+    protected string $targetPortalClass;
 
     protected \DateTimeInterface $createdAt;
 
@@ -39,7 +39,7 @@ class RouteOverviewResult
     /**
      * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
      * @param class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>  $sourcePortalClass
-     * @param class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>  $targetClass
+     * @param class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>  $targetPortalClass
      * @param string[]                                                                         $capabilities
      */
     public function __construct(
@@ -48,7 +48,7 @@ class RouteOverviewResult
         PortalNodeKeyInterface $sourcePortalNodeKey,
         string $sourcePortalClass,
         PortalNodeKeyInterface $targetPortalNodeKey,
-        string $targetClass,
+        string $targetPortalClass,
         \DateTimeInterface $createdAt,
         array $capabilities
     ) {
@@ -57,7 +57,7 @@ class RouteOverviewResult
         $this->sourcePortalNodeKey = $sourcePortalNodeKey;
         $this->sourcePortalClass = $sourcePortalClass;
         $this->targetPortalNodeKey = $targetPortalNodeKey;
-        $this->targetClass = $targetClass;
+        $this->targetPortalClass = $targetPortalClass;
         $this->createdAt = $createdAt;
         $this->capabilities = $capabilities;
     }
@@ -96,9 +96,9 @@ class RouteOverviewResult
     /**
      * @return class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>
      */
-    public function getTargetClass(): string
+    public function getTargetPortalClass(): string
     {
-        return $this->targetClass;
+        return $this->targetPortalClass;
     }
 
     public function getCreatedAt(): \DateTimeInterface
