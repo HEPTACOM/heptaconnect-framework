@@ -22,7 +22,7 @@ class RouteOverviewResult
      */
     protected string $sourcePortalClass;
 
-    protected PortalNodeKeyInterface $target;
+    protected PortalNodeKeyInterface $targetPortalNodeKey;
 
     /**
      * @var class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>
@@ -47,7 +47,7 @@ class RouteOverviewResult
         string $entityType,
         PortalNodeKeyInterface $sourcePortalNodeKey,
         string $sourcePortalClass,
-        PortalNodeKeyInterface $target,
+        PortalNodeKeyInterface $targetPortalNodeKey,
         string $targetClass,
         \DateTimeInterface $createdAt,
         array $capabilities
@@ -56,7 +56,7 @@ class RouteOverviewResult
         $this->entityType = $entityType;
         $this->sourcePortalNodeKey = $sourcePortalNodeKey;
         $this->sourcePortalClass = $sourcePortalClass;
-        $this->target = $target;
+        $this->targetPortalNodeKey = $targetPortalNodeKey;
         $this->targetClass = $targetClass;
         $this->createdAt = $createdAt;
         $this->capabilities = $capabilities;
@@ -88,9 +88,9 @@ class RouteOverviewResult
         return $this->sourcePortalClass;
     }
 
-    public function getTarget(): PortalNodeKeyInterface
+    public function getTargetPortalNodeKey(): PortalNodeKeyInterface
     {
-        return $this->target;
+        return $this->targetPortalNodeKey;
     }
 
     /**
