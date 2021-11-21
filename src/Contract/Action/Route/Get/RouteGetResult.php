@@ -12,7 +12,7 @@ class RouteGetResult
 
     protected PortalNodeKeyInterface $source;
 
-    protected PortalNodeKeyInterface $target;
+    protected PortalNodeKeyInterface $targetPortalNodeKey;
 
     /**
      * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
@@ -31,13 +31,13 @@ class RouteGetResult
     public function __construct(
         RouteKeyInterface $routeKey,
         PortalNodeKeyInterface $source,
-        PortalNodeKeyInterface $target,
+        PortalNodeKeyInterface $targetPortalNodeKey,
         string $entityType,
         array $capabilities
     ) {
         $this->routeKey = $routeKey;
         $this->source = $source;
-        $this->target = $target;
+        $this->targetPortalNodeKey = $targetPortalNodeKey;
         $this->entityType = $entityType;
         $this->capabilities = $capabilities;
     }
@@ -47,9 +47,9 @@ class RouteGetResult
         return $this->routeKey;
     }
 
-    public function getTargetKey(): PortalNodeKeyInterface
+    public function getTargetPortalNodeKey(): PortalNodeKeyInterface
     {
-        return $this->target;
+        return $this->targetPortalNodeKey;
     }
 
     public function getSourceKey(): PortalNodeKeyInterface
