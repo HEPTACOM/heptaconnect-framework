@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\RouteKeyInterface;
 
 class RouteOverviewResult
 {
-    protected RouteKeyInterface $route;
+    protected RouteKeyInterface $routeKey;
 
     /**
      * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
@@ -43,7 +43,7 @@ class RouteOverviewResult
      * @param string[]                                                                         $capabilities
      */
     public function __construct(
-        RouteKeyInterface $route,
+        RouteKeyInterface $routeKey,
         string $entityType,
         PortalNodeKeyInterface $source,
         string $sourceClass,
@@ -52,7 +52,7 @@ class RouteOverviewResult
         \DateTimeInterface $createdAt,
         array $capabilities
     ) {
-        $this->route = $route;
+        $this->routeKey = $routeKey;
         $this->entityType = $entityType;
         $this->source = $source;
         $this->sourceClass = $sourceClass;
@@ -62,9 +62,9 @@ class RouteOverviewResult
         $this->capabilities = $capabilities;
     }
 
-    public function getRoute(): RouteKeyInterface
+    public function getRouteKey(): RouteKeyInterface
     {
-        return $this->route;
+        return $this->routeKey;
     }
 
     /**
