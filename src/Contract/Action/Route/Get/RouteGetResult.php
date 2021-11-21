@@ -10,7 +10,7 @@ class RouteGetResult
 {
     protected RouteKeyInterface $routeKey;
 
-    protected PortalNodeKeyInterface $source;
+    protected PortalNodeKeyInterface $sourcePortalNodeKey;
 
     protected PortalNodeKeyInterface $targetPortalNodeKey;
 
@@ -30,13 +30,13 @@ class RouteGetResult
      */
     public function __construct(
         RouteKeyInterface $routeKey,
-        PortalNodeKeyInterface $source,
+        PortalNodeKeyInterface $sourcePortalNodeKey,
         PortalNodeKeyInterface $targetPortalNodeKey,
         string $entityType,
         array $capabilities
     ) {
         $this->routeKey = $routeKey;
-        $this->source = $source;
+        $this->sourcePortalNodeKey = $sourcePortalNodeKey;
         $this->targetPortalNodeKey = $targetPortalNodeKey;
         $this->entityType = $entityType;
         $this->capabilities = $capabilities;
@@ -52,9 +52,9 @@ class RouteGetResult
         return $this->targetPortalNodeKey;
     }
 
-    public function getSourceKey(): PortalNodeKeyInterface
+    public function getSourcePortalNodeKey(): PortalNodeKeyInterface
     {
-        return $this->source;
+        return $this->sourcePortalNodeKey;
     }
 
     /**
