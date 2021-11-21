@@ -14,7 +14,7 @@ class WebHttpHandlerConfigurationSetPayload implements CreatePayloadInterface
 
     protected string $configurationKey;
 
-    protected ?array $value = null;
+    protected ?array $configurationValue = null;
 
     public function __construct(
         PortalNodeKeyInterface $portalNodeKey,
@@ -25,7 +25,7 @@ class WebHttpHandlerConfigurationSetPayload implements CreatePayloadInterface
         $this->portalNodeKey = $portalNodeKey;
         $this->path = $path;
         $this->configurationKey = $configurationKey;
-        $this->value = $value;
+        $this->configurationValue = $value;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface
@@ -58,13 +58,13 @@ class WebHttpHandlerConfigurationSetPayload implements CreatePayloadInterface
         $this->configurationKey = $configurationKey;
     }
 
-    public function getValue(): ?array
+    public function getConfigurationValue(): ?array
     {
-        return $this->value;
+        return $this->configurationValue;
     }
 
-    public function setValue(?array $value): void
+    public function setConfigurationValue(?array $configurationValue): void
     {
-        $this->value = $value;
+        $this->configurationValue = $configurationValue;
     }
 }
