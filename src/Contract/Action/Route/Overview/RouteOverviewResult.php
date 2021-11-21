@@ -15,7 +15,7 @@ class RouteOverviewResult
      */
     protected string $entityType;
 
-    protected PortalNodeKeyInterface $source;
+    protected PortalNodeKeyInterface $sourcePortalNodeKey;
 
     /**
      * @var class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>
@@ -45,7 +45,7 @@ class RouteOverviewResult
     public function __construct(
         RouteKeyInterface $routeKey,
         string $entityType,
-        PortalNodeKeyInterface $source,
+        PortalNodeKeyInterface $sourcePortalNodeKey,
         string $sourceClass,
         PortalNodeKeyInterface $target,
         string $targetClass,
@@ -54,7 +54,7 @@ class RouteOverviewResult
     ) {
         $this->routeKey = $routeKey;
         $this->entityType = $entityType;
-        $this->source = $source;
+        $this->sourcePortalNodeKey = $sourcePortalNodeKey;
         $this->sourceClass = $sourceClass;
         $this->target = $target;
         $this->targetClass = $targetClass;
@@ -75,9 +75,9 @@ class RouteOverviewResult
         return $this->entityType;
     }
 
-    public function getSource(): PortalNodeKeyInterface
+    public function getSourcePortalNodeKey(): PortalNodeKeyInterface
     {
-        return $this->source;
+        return $this->sourcePortalNodeKey;
     }
 
     /**
