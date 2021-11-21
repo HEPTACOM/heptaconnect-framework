@@ -11,13 +11,13 @@ class WebHttpHandlerConfigurationFindCriteria
 
     private string $path;
 
-    private string $key;
+    private string $configurationKey;
 
-    public function __construct(PortalNodeKeyInterface $portalNodeKey, string $path, string $key)
+    public function __construct(PortalNodeKeyInterface $portalNodeKey, string $path, string $configurationKey)
     {
         $this->portalNodeKey = $portalNodeKey;
         $this->path = $path;
-        $this->key = $key;
+        $this->configurationKey = $configurationKey;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface
@@ -40,13 +40,13 @@ class WebHttpHandlerConfigurationFindCriteria
         $this->path = $path;
     }
 
-    public function getKey(): string
+    public function getConfigurationKey(): string
     {
-        return $this->key;
+        return $this->configurationKey;
     }
 
-    public function setKey(string $key): void
+    public function setConfigurationKey(string $configurationKey): void
     {
-        $this->key = $key;
+        $this->configurationKey = $configurationKey;
     }
 }
