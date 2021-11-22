@@ -78,7 +78,7 @@ class ReceiverStack implements ReceiverStackInterface, LoggerAwareInterface
             }
 
             $this->logger->warning('ReceiverStack contains unconfigured short-notation explorer', [
-                'code' => 1637421327,
+                'code' => 1637607487,
             ]);
         }
 

@@ -124,7 +124,7 @@ class HttpHandlerStack implements HttpHandlerStackInterface, LoggerAwareInterfac
             }
 
             $this->logger->warning('HttpHandlerStack contains unconfigured short-notation explorer', [
-                'code' => 1637421327,
+                'code' => 1637607699,
             ]);
         }
 

@@ -99,7 +99,7 @@ class EmitterStack implements EmitterStackInterface, LoggerAwareInterface
             }
 
             $this->logger->warning('EmitterStack contains unconfigured short-notation explorer', [
-                'code' => 1637421327,
+                'code' => 1637607653,
             ]);
         }
 
