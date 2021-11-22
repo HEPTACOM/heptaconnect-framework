@@ -47,6 +47,16 @@ class ExplorerStack implements ExplorerStackInterface, LoggerAwareInterface
         return $explorer->explore($context, $this);
     }
 
+    public function listOrigins(): array
+    {
+        $origins = [];
+        foreach ($this->explorers as $explorer) {
+            $origins[] = $this->getOrigin($explorer);
+        }
+
+        return $origins;
+    }
+
     protected function getOrigin(ExplorerContract $explorer): string
     {
         if ($explorer instanceof ShorthandExplorer) {
@@ -55,7 +65,7 @@ class ExplorerStack implements ExplorerStackInterface, LoggerAwareInterface
             if ($runMethod instanceof \Closure) {
                 $reflection = new \ReflectionFunction($runMethod);
 
-                return $reflection->getFileName().':'.$reflection->getStartLine();
+                return $reflection->getFileName() . '::run:' . $reflection->getStartLine();
             }
 
             $isAllowedMethod = $explorer->getIsAllowedMethod();
@@ -63,7 +73,7 @@ class ExplorerStack implements ExplorerStackInterface, LoggerAwareInterface
             if ($isAllowedMethod instanceof \Closure) {
                 $reflection = new \ReflectionFunction($isAllowedMethod);
 
-                return $reflection->getFileName().':'.$reflection->getStartLine();
+                return $reflection->getFileName() . '::isAllowed:' . $reflection->getStartLine();
             }
 
             $this->logger->warning('ExplorerStack contains unconfigured short-notation explorer', [
@@ -73,6 +83,6 @@ class ExplorerStack implements ExplorerStackInterface, LoggerAwareInterface
 
         $reflection = new \ReflectionClass($explorer);
 
-        return $reflection->getFileName().':'.$reflection->getStartLine();
+        return $reflection->getFileName() . ':' . $reflection->getStartLine();
     }
 }
