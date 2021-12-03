@@ -108,3 +108,10 @@ vendor: composer-update
 	[[ -d .build ]] || mkdir .build
 
 composer.lock: vendor
+
+.PHONY: subtree-merge
+subtree-merge: ## Merge core and base packages into framework
+	git subtree add -P src/DatasetBase ../heptaconnect-dataset-base master
+	git subtree add -P src/PortalBase ../heptaconnect-portal-base master
+	git subtree add -P src/StorageBase ../heptaconnect-storage-base master
+	git subtree add -P src/Core ../heptaconnect-core master
