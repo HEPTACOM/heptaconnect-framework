@@ -8,6 +8,180 @@
 >
     <issueHandlers>
         <LessSpecificReturnType errorLevel="info" />
+
+        <!-- DatasetBase -->
+        <LessSpecificImplementedReturnType>
+            <errorLevel type="info">
+                <file name="../src/DatasetBase/src/Date.php"/>
+            </errorLevel>
+        </LessSpecificImplementedReturnType>
+        <InvalidDocblock>
+            <errorLevel type="info">
+                <file name="../src/DatasetBase/src/Date.php"/>
+            </errorLevel>
+        </InvalidDocblock>
+        <RedundantConditionGivenDocblockType>
+            <errorLevel type="info">
+                <file name="../src/DatasetBase/src/Translatable/GenericTranslatable.php"/>
+                <file name="../src/DatasetBase/src/Translatable/TranslatableBoolean.php"/>
+                <file name="../src/DatasetBase/src/Translatable/TranslatableFloat.php"/>
+                <file name="../src/DatasetBase/src/Translatable/TranslatableInteger.php"/>
+                <file name="../src/DatasetBase/src/Translatable/TranslatableString.php"/>
+                <file name="../src/DatasetBase/src/ScalarCollection/BooleanCollection.php"/>
+                <file name="../src/DatasetBase/src/ScalarCollection/FloatCollection.php"/>
+                <file name="../src/DatasetBase/src/ScalarCollection/IntegerCollection.php"/>
+                <file name="../src/DatasetBase/src/ScalarCollection/StringCollection.php"/>
+                <file name="../src/DatasetBase/src/TaggedCollection/AbstractTaggedCollection.php"/>
+            </errorLevel>
+        </RedundantConditionGivenDocblockType>
+        <InvalidReturnType>
+            <errorLevel type="info">
+                <file name="../src/DatasetBase/src/TaggedCollection/TaggedBooleanCollection.php"/>
+                <file name="../src/DatasetBase/src/TaggedCollection/TaggedDateCollection.php"/>
+                <file name="../src/DatasetBase/src/TaggedCollection/TaggedDateTimeCollection.php"/>
+                <file name="../src/DatasetBase/src/TaggedCollection/TaggedFloatCollection.php"/>
+                <file name="../src/DatasetBase/src/TaggedCollection/TaggedIntegerCollection.php"/>
+                <file name="../src/DatasetBase/src/TaggedCollection/TaggedStringCollection.php"/>
+            </errorLevel>
+        </InvalidReturnType>
+        <InvalidReturnStatement>
+            <errorLevel type="info">
+                <file name="../src/DatasetBase/src/TaggedCollection/TaggedBooleanCollection.php"/>
+                <file name="../src/DatasetBase/src/TaggedCollection/TaggedDateCollection.php"/>
+                <file name="../src/DatasetBase/src/TaggedCollection/TaggedDateTimeCollection.php"/>
+                <file name="../src/DatasetBase/src/TaggedCollection/TaggedFloatCollection.php"/>
+                <file name="../src/DatasetBase/src/TaggedCollection/TaggedIntegerCollection.php"/>
+                <file name="../src/DatasetBase/src/TaggedCollection/TaggedStringCollection.php"/>
+            </errorLevel>
+        </InvalidReturnStatement>
+        <MixedReturnTypeCoercion>
+            <errorLevel type="info">
+                <file name="../src/DatasetBase/src/TaggedCollection/TaggedBooleanCollection.php"/>
+                <file name="../src/DatasetBase/src/TaggedCollection/TaggedDateCollection.php"/>
+                <file name="../src/DatasetBase/src/TaggedCollection/TaggedDateTimeCollection.php"/>
+                <file name="../src/DatasetBase/src/TaggedCollection/TaggedFloatCollection.php"/>
+                <file name="../src/DatasetBase/src/TaggedCollection/TaggedIntegerCollection.php"/>
+                <file name="../src/DatasetBase/src/TaggedCollection/TaggedStringCollection.php"/>
+            </errorLevel>
+        </MixedReturnTypeCoercion>
+        <UnsafeInstantiation>
+            <errorLevel type="info">
+                <file name="../src/DatasetBase/src/Support/SetStateTrait.php"/>
+            </errorLevel>
+        </UnsafeInstantiation>
+        <!-- @deprecated 1.0.0 -->
+        <UndefinedThisPropertyFetch>
+            <errorLevel type="info">
+                <file name="../src/DatasetBase/src/Translatable/GenericTranslatable.php"/>
+            </errorLevel>
+        </UndefinedThisPropertyFetch>
+        <!-- @deprecated 1.0.0 -->
+        <UndefinedThisPropertyAssignment>
+            <errorLevel type="info">
+                <file name="../src/DatasetBase/src/Translatable/GenericTranslatable.php"/>
+            </errorLevel>
+        </UndefinedThisPropertyAssignment>
+        <!-- @deprecated 1.0.0 -->
+        <MixedReturnStatement>
+            <errorLevel type="info">
+                <file name="../src/DatasetBase/src/Translatable/GenericTranslatable.php"/>
+            </errorLevel>
+        </MixedReturnStatement>
+        <!-- @deprecated 1.0.0 -->
+        <MixedInferredReturnType>
+            <errorLevel type="info">
+                <file name="../src/DatasetBase/src/Translatable/GenericTranslatable.php"/>
+            </errorLevel>
+        </MixedInferredReturnType>
+
+        <!-- PortalBase -->
+        <MixedPropertyTypeCoercion>
+            <errorLevel type="info">
+                <!-- Can be removed when bentools/iterable-functions supports psalm -->
+                <referencedProperty name="Heptacom\HeptaConnect\Portal\Base\EmitterStack::$emitters"/>
+                <referencedProperty name="Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack::$explorers"/>
+                <referencedProperty name="Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack::$receivers"/>
+            </errorLevel>
+        </MixedPropertyTypeCoercion>
+
+        <!-- Not unnecessary for all (IDEs, other toolings) -->
+        <UnnecessaryVarAnnotation>
+            <errorLevel type="info">
+                <file name="../src/PortalBase/src/Mapping/MappedDatasetEntityCollection.php"/>
+                <file name="../src/PortalBase/src/Mapping/MappingComponentCollection.php"/>
+                <file name="../src/PortalBase/src/Portal/PortalCollection.php"/>
+                <file name="../src/PortalBase/src/Portal/PortalExtensionCollection.php"/>
+                <file name="../src/PortalBase/src/Reception/Contract/ReceiverContract.php"/>
+            </errorLevel>
+        </UnnecessaryVarAnnotation>
+
+        <UndefinedClass>
+            <errorLevel type="info">
+                <!-- php 8 support for a min php 7 resource -->
+                <file name="../src/PortalBase/src/Builder/ResolveArgumentsTrait.php"/>
+            </errorLevel>
+        </UndefinedClass>
+        <TypeDoesNotContainType>
+            <errorLevel type="info">
+                <!-- php 8 support for a min php 7 resource -->
+                <file name="../src/PortalBase/src/Builder/ResolveArgumentsTrait.php"/>
+            </errorLevel>
+        </TypeDoesNotContainType>
+        <MixedArgument>
+            <errorLevel type="info">
+                <!-- php 8 support for a min php 7 resource (on $type->getTypes() in array_map) -->
+                <file name="../src/PortalBase/src/Builder/ResolveArgumentsTrait.php"/>
+            </errorLevel>
+        </MixedArgument>
+
+        <PossiblyInvalidArgument>
+            <errorLevel type="info">
+                <!-- having an empty array for an iterable is "invalid" -->
+                <file name="../src/PortalBase/src/Mapping/TypedMappedDatasetEntityCollection.php"/>
+            </errorLevel>
+        </PossiblyInvalidArgument>
+
+        <MixedAssignment>
+            <errorLevel type="info">
+                <!-- there is a lot of unclear content handling. You basically just know mixed -->
+                <file name="../src/PortalBase/src/Builder/ResolveArgumentsTrait.php"/>
+            </errorLevel>
+        </MixedAssignment>
+
+        <!-- never trust user input -->
+        <RedundantCondition>
+            <errorLevel type="info">
+                <file name="../src/PortalBase/src/Emission/Contract/EmitterContract.php"/>
+                <file name="../src/PortalBase/src/Exploration/Contract/ExplorerContract.php"/>
+            </errorLevel>
+        </RedundantCondition>
+        <!-- never trust user input -->
+        <RedundantConditionGivenDocblockType>
+            <errorLevel type="info">
+                <file name="../src/PortalBase/src/Emission/Contract/EmitterContract.php"/>
+            </errorLevel>
+        </RedundantConditionGivenDocblockType>
+        <!-- never trust user input -->
+        <DocblockTypeContradiction>
+            <errorLevel type="info">
+                <file name="../src/PortalBase/src/Emission/Contract/EmitterContract.php"/>
+            </errorLevel>
+        </DocblockTypeContradiction>
+
+        <!-- StorageBase -->
+        <!-- never trust user input -->
+        <DocblockTypeContradiction>
+            <errorLevel type="info">
+                <file name="../src/StorageBase/src/TypedMappingCollection.php"/>
+            </errorLevel>
+        </DocblockTypeContradiction>
+
+        <!-- Not unnecessary for all (IDEs, other toolings) -->
+        <UnnecessaryVarAnnotation>
+            <errorLevel type="info">
+                <file name="../src/StorageBase/src/MappingCollection.php"/>
+            </errorLevel>
+        </UnnecessaryVarAnnotation>
     </issueHandlers>
 
     <plugins>
@@ -20,7 +194,10 @@
     </plugins>
 
     <projectFiles>
-        <directory name="../src/" />
+        <directory name="../src/Core/src/" />
+        <directory name="../src/DatasetBase/src/" />
+        <directory name="../src/PortalBase/src/" />
+        <directory name="../src/StorageBase/src/" />
         <ignoreFiles>
             <directory name="../vendor/" />
         </ignoreFiles>
