@@ -64,6 +64,10 @@ cs-soft-require: vendor .build ## Run composer-require-checker to detect library
 .PHONY: cs-composer-normalize
 cs-composer-normalize: vendor ## Run composer-normalize for composer.json style analysis
 	$(COMPOSER) normalize --diff --dry-run --no-check-lock --no-update-lock composer.json
+	$(COMPOSER) normalize --diff --dry-run --no-check-lock --no-update-lock src/Core/composer.json
+	$(COMPOSER) normalize --diff --dry-run --no-check-lock --no-update-lock src/DatasetBase/composer.json
+	$(COMPOSER) normalize --diff --dry-run --no-check-lock --no-update-lock src/PortalBase/composer.json
+	$(COMPOSER) normalize --diff --dry-run --no-check-lock --no-update-lock src/StorageBase/composer.json
 
 .PHONY: cs-json
 cs-json: $(JSON_FILES) ## Run jq on every json file to ensure they are parsable and therefore valid
@@ -78,6 +82,10 @@ cs-fix: cs-fix-composer-normalize cs-fix-php
 .PHONY: cs-fix-composer-normalize
 cs-fix-composer-normalize: vendor ## Run composer-normalize for automatic composer.json style fixes
 	$(COMPOSER) normalize --diff composer.json
+	$(COMPOSER) normalize --diff src/Core/composer.json
+	$(COMPOSER) normalize --diff src/DatasetBase/composer.json
+	$(COMPOSER) normalize --diff src/PortalBase/composer.json
+	$(COMPOSER) normalize --diff src/StorageBase/composer.json
 
 .PHONY: cs-fix-php
 cs-fix-php: vendor .build ## Run php-cs-fixer for automatic code style fixes
