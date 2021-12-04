@@ -48,22 +48,22 @@ definitions:
                     - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
         -   step: &composer-install-core
                 <<: *default-step
-                name: Install
+                name: Install Core
                 script:
                     - composer -d src/Core install
         -   step: &composer-install-dataset-base
                 <<: *default-step
-                name: Install
+                name: Install Dataset Base
                 script:
                     - composer -d src/DatasetBase install
         -   step: &composer-install-portal-base
                 <<: *default-step
-                name: Install
+                name: Install Portal Base
                 script:
                     - composer -d src/PortalBase install
         -   step: &composer-install-storage-base
                 <<: *default-step
-                name: Install
+                name: Install Storage Base
                 script:
                     - composer -d src/StorageBase install
         -   step: &test-unit
