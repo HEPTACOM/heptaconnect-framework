@@ -46,6 +46,26 @@ definitions:
                 name: Install
                 script:
                     - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
+        -   step: &composer-install-core
+                <<: *default-step
+                name: Install
+                script:
+                    - composer -d src/Core install
+        -   step: &composer-install-dataset-base
+                <<: *default-step
+                name: Install
+                script:
+                    - composer -d src/DatasetBase install
+        -   step: &composer-install-portal-base
+                <<: *default-step
+                name: Install
+                script:
+                    - composer -d src/PortalBase install
+        -   step: &composer-install-storage-base
+                <<: *default-step
+                name: Install
+                script:
+                    - composer -d src/StorageBase install
         -   step: &test-unit
                 <<: *default-step
                 name: Unit tests
@@ -77,6 +97,11 @@ pipelines:
                     -   step: *test-unit
                     -   step: *test-coverage
                     -   step: *test-code-style
+            -   parallel:
+                    -   step: *composer-install-core
+                    -   step: *composer-install-dataset-base
+                    -   step: *composer-install-portal-base
+                    -   step: *composer-install-storage-base
 
     tags:
         '*':
@@ -89,3 +114,8 @@ pipelines:
                 -   step: *test-unit
                 -   step: *test-coverage
                 -   step: *test-code-style
+        -   parallel:
+                -   step: *composer-install-core
+                -   step: *composer-install-dataset-base
+                -   step: *composer-install-portal-base
+                -   step: *composer-install-storage-base
