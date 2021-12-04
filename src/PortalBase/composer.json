@@ -37,7 +37,6 @@
         "nikic/php-parser": "4.7.0"
     },
     "require-dev": {
-        "icanhazstring/composer-unused": ">=0.7",
         "nyholm/psr7": ">=1",
         "phpunit/phpunit": ">=9.3 <10"
     },

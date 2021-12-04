@@ -59,7 +59,11 @@ cs-phpmd: vendor .build ## Run php mess detector for static code analysis
 
 .PHONY: cs-composer-unused
 cs-composer-unused: vendor ## Run composer-unused to detect once-required packages that are not used anymore
-	$(COMPOSER) unused --no-progress
+	$(PHP) vendor/bin/composer-unused --no-progress
+	cd src/Core && $(PHP) ../../vendor/bin/composer-unused --no-progress
+	cd src/DatasetBase && $(PHP) ../../vendor/bin/composer-unused --no-progress
+	cd src/PortalBase && $(PHP) ../../vendor/bin/composer-unused --no-progress
+	cd src/StorageBase && $(PHP) ../../vendor/bin/composer-unused --no-progress
 
 .PHONY: cs-soft-require
 cs-soft-require: vendor .build ## Run composer-require-checker to detect library usage without requirement entry in composer.json
