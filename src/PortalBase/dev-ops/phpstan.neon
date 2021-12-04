@@ -1,0 +1,16 @@
+parameters:
+	checkMissingIterableValueType: false
+	inferPrivatePropertyTypeFromConstructor: true
+	level: max
+	paths:
+		- ../src/
+	tmpDir: ../.build/phpstan/
+	ignoreErrors:
+		-
+			# never trust user input
+			message: '#Instanceof between Heptacom\\HeptaConnect\\Dataset\\Base\\Contract\\DatasetEntityContract and Heptacom\\HeptaConnect\\Dataset\\Base\\Contract\\DatasetEntityContract will always evaluate to true.#'
+			path: ../src/Emission/Contract/EmitterContract.php
+		-
+			# never trust user input
+			message: '#Instanceof between Heptacom\\HeptaConnect\\Dataset\\Base\\Contract\\DatasetEntityContract and Heptacom\\HeptaConnect\\Dataset\\Base\\Contract\\DatasetEntityContract will always evaluate to true.#'
+			path: ../src/Exploration/Contract/ExplorerContract.php
