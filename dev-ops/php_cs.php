@@ -3,7 +3,12 @@
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 
-$finder = Finder::create()->in(dirname(__DIR__) . '/src');
+$finder = Finder::create()
+    ->in(dirname(__DIR__) . '/src/Core/src')
+    ->in(dirname(__DIR__) . '/src/DatasetBase/src')
+    ->in(dirname(__DIR__) . '/src/PortalBase/src')
+    ->in(dirname(__DIR__) . '/src/StorageBase/src')
+;
 
 return (new Config())
     ->setFinder($finder)
