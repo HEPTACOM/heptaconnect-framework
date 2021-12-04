@@ -5,7 +5,7 @@ PHPUNIT_EXTRA_ARGS := --config=test/phpunit.xml
 PHPUNIT := $(PHP) vendor/bin/phpunit $(PHPUNIT_EXTRA_ARGS)
 CURL := $(shell which curl)
 JQ := $(shell which jq)
-JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*')
+JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*' -not -path './src/Core/vendor/*' -not -path './src/DatasetBase/vendor/*' -not -path './src/PortalBase/vendor/*' -not -path './src/StorageBase/vendor/*')
 
 .DEFAULT_GOAL := help
 .PHONY: help
