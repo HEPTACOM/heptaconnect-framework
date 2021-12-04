@@ -52,6 +52,10 @@ cs-phpmd: vendor .build ## Run php mess detector for static code analysis
 	$(PHP) vendor/bin/phpmd --ignore-violations-on-exit src ansi rulesets/codesize.xml,rulesets/naming.xml
 	[[ -f .build/phpmd-junit.xslt ]] || $(CURL) https://phpmd.org/junit.xslt -o .build/phpmd-junit.xslt
 	$(PHP) vendor/bin/phpmd src xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md.junit.xml
+	$(PHP) vendor/bin/phpmd src/Core/src xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-core.junit.xml
+	$(PHP) vendor/bin/phpmd src/DatasetBase/src xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-dataset-base.junit.xml
+	$(PHP) vendor/bin/phpmd src/PortalBase/src xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-portal-base.junit.xml
+	$(PHP) vendor/bin/phpmd src/StorageBase/src xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-storage-base.junit.xml
 
 .PHONY: cs-composer-unused
 cs-composer-unused: vendor ## Run composer-unused to detect once-required packages that are not used anymore

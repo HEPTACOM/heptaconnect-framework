@@ -39,7 +39,6 @@
     "require-dev": {
         "icanhazstring/composer-unused": ">=0.7",
         "nyholm/psr7": ">=1",
-        "phpmd/phpmd": "@stable",
         "phpunit/phpunit": ">=9.3 <10"
     },
     "extra": {
