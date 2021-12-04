@@ -1,0 +1,164 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://raw.githubusercontent.com/HEPTACOM/heptaconnect-dataset-base/master/heptaconnect-dataset.json",
+    "definitions": {
+        "Date": {
+            "type": "string",
+            "format": "date"
+        },
+        "ScalarCollection": {
+            "BooleanCollection": {
+                "type": "array",
+                "items": {
+                    "type": "bool"
+                }
+            },
+            "DateCollection": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/Date"
+                }
+            },
+            "DateTimeCollection": {
+                "type": "array",
+                "items": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "FloatCollection": {
+                "type": "array",
+                "items": {
+                    "type": "number",
+                    "multipleOf": 1.0
+                }
+            },
+            "IntegerCollection": {
+                "type": "array",
+                "items": {
+                    "type": "integer"
+                }
+            },
+            "StringCollection": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            }
+        },
+        "TaggedCollection": {
+            "TaggedBooleanCollection": {
+                "type": "object",
+                "additionalProperties": false,
+                "patternProperties": {
+                    "^.+$": {
+                        "$ref": "#/definitions/ScalarCollection/BooleanCollection"
+                    }
+                }
+            },
+            "TaggedDateCollection": {
+                "type": "object",
+                "additionalProperties": false,
+                "patternProperties": {
+                    "^.+$": {
+                        "$ref": "#/definitions/ScalarCollection/DateCollection"
+                    }
+                }
+            },
+            "TaggedDateTimeCollection": {
+                "type": "object",
+                "additionalProperties": false,
+                "patternProperties": {
+                    "^.+$": {
+                        "$ref": "#/definitions/ScalarCollection/DateTimeCollection"
+                    }
+                }
+            },
+            "TaggedFloatCollection": {
+                "type": "object",
+                "additionalProperties": false,
+                "patternProperties": {
+                    "^.+$": {
+                        "$ref": "#/definitions/ScalarCollection/FloatCollection"
+                    }
+                }
+            },
+            "TaggedIntegerCollection": {
+                "type": "object",
+                "additionalProperties": false,
+                "patternProperties": {
+                    "^.+$": {
+                        "$ref": "#/definitions/ScalarCollection/IntegerCollection"
+                    }
+                }
+            },
+            "TaggedStringCollection": {
+                "type": "object",
+                "additionalProperties": false,
+                "patternProperties": {
+                    "^.+$": {
+                        "$ref": "#/definitions/ScalarCollection/StringCollection"
+                    }
+                }
+            }
+        },
+        "Translatable": {
+            "TranslatableBoolean": {
+                "type": "object",
+                "additionalProperties": false,
+                "patternProperties": {
+                    "^[A-Za-z]+-[A-Za-z]+$": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "TranslatableDate": {
+                "type": "object",
+                "additionalProperties": false,
+                "patternProperties": {
+                    "^[A-Za-z]+-[A-Za-z]+$": {
+                        "$ref": "#/definitions/Date"
+                    }
+                }
+            },
+            "TranslatableDateTime": {
+                "type": "object",
+                "additionalProperties": false,
+                "patternProperties": {
+                    "^[A-Za-z]+-[A-Za-z]+$": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "TranslatableFloat": {
+                "type": "object",
+                "additionalProperties": false,
+                "patternProperties": {
+                    "^[A-Za-z]+-[A-Za-z]+$": {
+                        "type": "number",
+                        "multipleOf": 1.0
+                    }
+                }
+            },
+            "TranslatableInteger": {
+                "type": "object",
+                "additionalProperties": false,
+                "patternProperties": {
+                    "^[A-Za-z]+-[A-Za-z]+$": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "TranslatableString": {
+                "type": "object",
+                "additionalProperties": false,
+                "patternProperties": {
+                    "^[A-Za-z]+-[A-Za-z]+$": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

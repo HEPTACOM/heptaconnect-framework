@@ -1,0 +1,70 @@
+{
+    "name": "heptacom/heptaconnect-dataset-base",
+    "type": "library",
+    "description": "HEPTAconnect base dataset that every other dataset is based on",
+    "keywords": [
+        "heptaconnect-dataset"
+    ],
+    "version": "0.8.3",
+    "license": [
+        "AGPL-3.0-or-later",
+        "proprietary"
+    ],
+    "authors": [
+        {
+            "name": "HEPTACOM GmbH"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "ext-json": "*",
+        "bentools/iterable-functions": ">=1 <2",
+        "opis/closure": "^3.6"
+    },
+    "require-dev": {
+        "dq5studios/psalm-junit": ">=2",
+        "ergebnis/composer-normalize": ">=2.7",
+        "friendsofphp/php-cs-fixer": ">=2.17",
+        "icanhazstring/composer-unused": ">=0.7",
+        "infection/infection": ">=0.21",
+        "maglnet/composer-require-checker": ">=2",
+        "mavimo/phpstan-junit": ">=0.3",
+        "phpmd/phpmd": "@stable",
+        "phpstan/extension-installer": ">=1",
+        "phpstan/phpstan": ">=0.12",
+        "phpstan/phpstan-deprecation-rules": ">=0.12",
+        "phpstan/phpstan-phpunit": ">=0.12",
+        "phpstan/phpstan-strict-rules": ">=0.12",
+        "phpunit/phpunit": ">=9.3 <10",
+        "psalm/plugin-phpunit": ">=0.10",
+        "vimeo/psalm": ">=4"
+    },
+    "extra": {
+        "unused": [
+            "bentools/iterable-functions"
+        ]
+    },
+    "autoload": {
+        "psr-4": {
+            "Heptacom\\HeptaConnect\\Dataset\\Base\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Heptacom\\HeptaConnect\\Dataset\\Base\\Test\\": "test/"
+        }
+    },
+    "repositories": {
+        "heptaconnect-sources": {
+            "type": "path",
+            "url": "../**"
+        }
+    },
+    "support": {
+        "issues": "https://github.com/HEPTACOM/heptaconnect-dataset-base/issues",
+        "source": "https://github.com/HEPTACOM/heptaconnect-dataset-base",
+        "docs": "https://connect.heptacom.de/",
+        "rss": "https://connect.heptacom.de/feed/rss2.xml"
+    },
+    "website": "https://heptaconnect.io"
+}

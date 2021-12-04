@@ -1,0 +1,27 @@
+{
+    "timeout": 30,
+    "source": {
+        "directories": [
+            "src"
+        ]
+    },
+    "mutators": {
+        "@default": true,
+        "DecrementInteger": {
+            "ignore": [
+                "Heptacom\\HeptaConnect\\Dataset\\Base\\Date"
+            ]
+        },
+        "IncrementInteger": {
+            "ignore": [
+                "Heptacom\\HeptaConnect\\Dataset\\Base\\Date"
+            ]
+        }
+    },
+    "phpUnit": {
+        "configDir": "../test"
+    },
+    "logs": {
+        "text": ".build/infection-log.txt"
+    }
+}
