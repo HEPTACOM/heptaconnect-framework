@@ -1,0 +1,69 @@
+{
+    "name": "heptacom/heptaconnect-storage-base",
+    "type": "library",
+    "description": "HEPTAconnect base storage that every other storage provider is based on",
+    "keywords": [
+        "heptaconnect-storage"
+    ],
+    "version": "0.8.3",
+    "license": [
+        "AGPL-3.0-or-later",
+        "proprietary"
+    ],
+    "authors": [
+        {
+            "name": "HEPTACOM GmbH"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "ext-json": "*",
+        "bentools/iterable-functions": ">=1 <2",
+        "heptacom/heptaconnect-dataset-base": "self.version",
+        "heptacom/heptaconnect-portal-base": "self.version"
+    },
+    "conflict": {
+        "nikic/php-parser": "4.7.0"
+    },
+    "require-dev": {
+        "dq5studios/psalm-junit": ">=2",
+        "ergebnis/composer-normalize": ">=2.7",
+        "friendsofphp/php-cs-fixer": ">=2.17",
+        "icanhazstring/composer-unused": ">=0.7",
+        "infection/infection": ">=0.21",
+        "maglnet/composer-require-checker": ">=2",
+        "mavimo/phpstan-junit": ">=0.3",
+        "phpmd/phpmd": "@stable",
+        "phpstan/extension-installer": ">=1",
+        "phpstan/phpstan": ">=0.12",
+        "phpstan/phpstan-deprecation-rules": ">=0.12",
+        "phpstan/phpstan-phpunit": ">=0.12",
+        "phpstan/phpstan-strict-rules": ">=0.12",
+        "phpunit/phpunit": ">=9.3 <10",
+        "psalm/plugin-phpunit": ">=0.10",
+        "vimeo/psalm": ">=4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Heptacom\\HeptaConnect\\Storage\\Base\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Heptacom\\HeptaConnect\\Storage\\Base\\Test\\": "test/"
+        }
+    },
+    "repositories": {
+        "heptaconnect-sources": {
+            "type": "path",
+            "url": "../**"
+        }
+    },
+    "support": {
+        "issues": "https://github.com/HEPTACOM/heptaconnect-storage-base/issues",
+        "source": "https://github.com/HEPTACOM/heptaconnect-storage-base",
+        "docs": "https://connect.heptacom.de/",
+        "rss": "https://connect.heptacom.de/feed/rss2.xml"
+    },
+    "website": "https://heptaconnect.io"
+}

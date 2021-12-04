@@ -1,0 +1,12 @@
+parameters:
+	checkMissingIterableValueType: false
+	inferPrivatePropertyTypeFromConstructor: true
+	level: max
+	paths:
+		- ../src/
+	tmpDir: ../.build/phpstan/
+	ignoreErrors:
+		-
+			# never trust user input
+			message: '#Instanceof between Heptacom\\HeptaConnect\\Portal\\Base\\Mapping\\Contract\\MappingInterface and Heptacom\\HeptaConnect\\Portal\\Base\\Mapping\\Contract\\MappingInterface will always evaluate to true.#'
+			path: ../src/TypedMappingCollection.php
