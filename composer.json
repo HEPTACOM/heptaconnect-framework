@@ -1,10 +1,9 @@
 {
-    "name": "heptacom/heptaconnect-repository-base",
+    "name": "heptacom/heptaconnect-framework",
     "type": "library",
-    "description": "HEPTAconnect package",
+    "description": "HEPTAconnect framework package that contains all core and base packages for a HEPTAconnect project",
     "keywords": [
-        "heptaconnect-dataset",
-        "heptaconnect-adapter"
+        "heptaconnect"
     ],
     "license": [
         "AGPL-3.0-or-later",
@@ -41,12 +40,15 @@
     },
     "autoload": {
         "psr-4": {
-            "Heptacom\\HeptaConnect\\": "src/"
+            "Heptacom\\HeptaConnect\\Dataset\\Base\\": "src/DatasetBase/src/",
+            "Heptacom\\HeptaConnect\\Portal\\Base\\": "src/PortalBase/src/",
+            "Heptacom\\HeptaConnect\\Storage\\Base\\": "src/StorageBase/src/",
+            "Heptacom\\HeptaConnect\\Core\\": "src/Core/src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Heptacom\\HeptaConnect\\Test\\": "test/"
+            "Heptacom\\HeptaConnect\\Framework\\Test\\": "test/"
         }
     },
     "repositories": {
@@ -56,8 +58,8 @@
         }
     },
     "support": {
-        "issues": "https://github.com/HEPTACOM/heptaconnect-repository-base/issues",
-        "source": "https://github.com/HEPTACOM/heptaconnect-repository-base",
+        "issues": "https://github.com/HEPTACOM/heptaconnect-framework/issues",
+        "source": "https://github.com/HEPTACOM/heptaconnect-framework",
         "docs": "https://heptaconnect.io/",
         "rss": "https://heptaconnect.io/news/rss2.xml"
     },
