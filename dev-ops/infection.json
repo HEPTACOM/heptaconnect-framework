@@ -2,8 +2,24 @@
     "timeout": 30,
     "source": {
         "directories": [
-            "src"
+            "src/Core/src",
+            "src/DatasetBase/src",
+            "src/PortalBase/src",
+            "src/StorageBase/src"
         ]
+    },
+    "mutators": {
+        "@default": true,
+        "DecrementInteger": {
+            "ignore": [
+                "Heptacom\\HeptaConnect\\Dataset\\Base\\Date"
+            ]
+        },
+        "IncrementInteger": {
+            "ignore": [
+                "Heptacom\\HeptaConnect\\Dataset\\Base\\Date"
+            ]
+        }
     },
     "phpUnit": {
         "configDir": "../test"
