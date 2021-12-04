@@ -28,6 +28,8 @@
         "infection/infection": ">=0.21",
         "maglnet/composer-require-checker": ">=2",
         "mavimo/phpstan-junit": ">=0.3",
+        "nyholm/psr7": ">=1",
+        "php-http/curl-client": ">=1",
         "phpmd/phpmd": "@stable",
         "phpstan/extension-installer": ">=1",
         "phpstan/phpstan": ">=0.12",
@@ -36,6 +38,7 @@
         "phpstan/phpstan-strict-rules": ">=0.12",
         "phpunit/phpunit": ">=9.3 <10",
         "psalm/plugin-phpunit": ">=0.10",
+        "symfony/cache": ">=2",
         "vimeo/psalm": ">=4"
     },
     "autoload": {
@@ -48,7 +51,10 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Heptacom\\HeptaConnect\\Framework\\Test\\": "test/"
+            "Heptacom\\HeptaConnect\\Dataset\\Base\\Test\\": "test/DatasetBase/",
+            "Heptacom\\HeptaConnect\\Portal\\Base\\Test\\": "test/PortalBase/",
+            "Heptacom\\HeptaConnect\\Storage\\Base\\Test\\": "test/StorageBase/",
+            "Heptacom\\HeptaConnect\\Core\\Test\\": "test/Core/"
         }
     },
     "repositories": {

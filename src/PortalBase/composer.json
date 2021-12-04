@@ -33,13 +33,6 @@
         "symfony/options-resolver": ">=4",
         "symfony/serializer": ">=4"
     },
-    "conflict": {
-        "nikic/php-parser": "4.7.0"
-    },
-    "require-dev": {
-        "nyholm/psr7": ">=1",
-        "phpunit/phpunit": ">=9.3 <10"
-    },
     "extra": {
         "unused": [
             "bentools/iterable-functions",
@@ -49,11 +42,6 @@
     "autoload": {
         "psr-4": {
             "Heptacom\\HeptaConnect\\Portal\\Base\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Heptacom\\HeptaConnect\\Portal\\Base\\Test\\": "test/"
         }
     },
     "repositories": {

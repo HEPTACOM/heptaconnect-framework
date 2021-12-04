@@ -21,9 +21,6 @@
         "bentools/iterable-functions": ">=1 <2",
         "opis/closure": "^3.6"
     },
-    "require-dev": {
-        "phpunit/phpunit": ">=9.3 <10"
-    },
     "extra": {
         "unused": [
             "bentools/iterable-functions"
@@ -32,11 +29,6 @@
     "autoload": {
         "psr-4": {
             "Heptacom\\HeptaConnect\\Dataset\\Base\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Heptacom\\HeptaConnect\\Dataset\\Base\\Test\\": "test/"
         }
     },
     "repositories": {

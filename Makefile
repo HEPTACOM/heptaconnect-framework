@@ -107,8 +107,11 @@ infection: vendor .build ## Run infection tests
 	$(PHP) vendor/bin/infection --min-covered-msi=80 --min-msi=80 --configuration=dev-ops/infection.json --coverage=../.build/.phpunit-coverage --show-mutations --no-interaction
 
 .PHONY: test
-test: vendor .build ## Run phpunit for unit tests
-	$(PHPUNIT) --log-junit=.build/.phpunit-coverage/infection.junit.xml
+test: test-setup-fixture run-phpunit test-clean-fixture ## Run phpunit for unit tests
+
+.PHONY: run-phpunit
+run-phpunit: vendor .build
+	$(PHPUNIT) --log-junit=.build/.phpunit-coverage/phpunit.junit.xml
 
 test/%Test.php: vendor
 	$(PHPUNIT) "$@"
@@ -124,6 +127,19 @@ vendor: composer-update
 	[[ -d .build ]] || mkdir .build
 
 composer.lock: vendor
+
+.PHONY: test-refresh-fixture
+test-refresh-fixture: test-setup-fixture test-clean-fixture
+
+.PHONY: test-setup-fixture
+test-setup-fixture: vendor
+	[[ ! -d test-composer-integration/vendor ]] || rm -rf test-composer-integration/vendor
+	[[ ! -f test-composer-integration/composer.lock ]] || rm test-composer-integration/composer.lock
+	composer install -d test-composer-integration/
+
+.PHONY: test-clean-fixture
+test-clean-fixture:
+	[[ ! -d test-composer-integration/vendor ]] || rm -rf test-composer-integration/vendor
 
 .PHONY: subtree-merge
 subtree-merge: ## Merge core and base packages into framework

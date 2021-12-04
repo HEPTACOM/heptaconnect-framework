@@ -15,8 +15,17 @@
     forceCoversAnnotation="true"
 >
     <testsuites>
-        <testsuite name="Unit Tests">
-            <directory>.</directory>
+        <testsuite name="Core Tests">
+            <directory>Core</directory>
+        </testsuite>
+        <testsuite name="Dataset Base Tests">
+            <directory>DatasetBase</directory>
+        </testsuite>
+        <testsuite name="Portal Base Tests">
+            <directory>PortalBase</directory>
+        </testsuite>
+        <testsuite name="Storage Base Tests">
+            <directory>StorageBase</directory>
         </testsuite>
     </testsuites>
     <coverage
@@ -24,7 +33,10 @@
         processUncoveredFiles="true"
     >
         <include>
-            <directory suffix=".php">../src/</directory>
+            <directory suffix=".php">../src/Core/src/</directory>
+            <directory suffix=".php">../src/DatasetBase/src/</directory>
+            <directory suffix=".php">../src/PortalBase/src/</directory>
+            <directory suffix=".php">../src/StorageBase/src/</directory>
         </include>
     </coverage>
 </phpunit>

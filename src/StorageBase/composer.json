@@ -22,20 +22,9 @@
         "heptacom/heptaconnect-dataset-base": "self.version",
         "heptacom/heptaconnect-portal-base": "self.version"
     },
-    "conflict": {
-        "nikic/php-parser": "4.7.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": ">=9.3 <10"
-    },
     "autoload": {
         "psr-4": {
             "Heptacom\\HeptaConnect\\Storage\\Base\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Heptacom\\HeptaConnect\\Storage\\Base\\Test\\": "test/"
         }
     },
     "repositories": {
