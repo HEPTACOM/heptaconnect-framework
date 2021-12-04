@@ -94,28 +94,34 @@ pipelines:
             -   step: *github-mirror-branch
             -   step: *composer-install
             -   parallel:
+                    -   step: *composer-install-core
+                    -   step: *composer-install-dataset-base
+                    -   step: *composer-install-portal-base
+                    -   step: *composer-install-storage-base
+            -   parallel:
                     -   step: *test-unit
                     -   step: *test-coverage
                     -   step: *test-code-style
+
+    tags:
+        '*':
+            -   step: *composer-install
             -   parallel:
                     -   step: *composer-install-core
                     -   step: *composer-install-dataset-base
                     -   step: *composer-install-portal-base
                     -   step: *composer-install-storage-base
-
-    tags:
-        '*':
             -   step: *github-keyword-gate-step
             -   step: *github-mirror-tag
 
     default:
         -   step: *composer-install
         -   parallel:
-                -   step: *test-unit
-                -   step: *test-coverage
-                -   step: *test-code-style
-        -   parallel:
                 -   step: *composer-install-core
                 -   step: *composer-install-dataset-base
                 -   step: *composer-install-portal-base
                 -   step: *composer-install-storage-base
+        -   parallel:
+                -   step: *test-unit
+                -   step: *test-coverage
+                -   step: *test-code-style
