@@ -15,6 +15,11 @@ use Psr\Log\LoggerInterface;
 
 /**
  * @covers \Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilder
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection
  */
 class ReceiverStackBuilderTest extends TestCase
 {

@@ -14,6 +14,10 @@ use Psr\Log\LoggerInterface;
 
 /**
  * @covers \Heptacom\HeptaConnect\Core\Exploration\ExplorerStackBuilder
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack
  */
 class ExplorerStackBuilderTest extends TestCase
 {

@@ -10,6 +10,7 @@ use League\Flysystem\Filesystem;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Storage\Contract\StreamPathContract
  * @covers \Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamDenormalizer
  */
 class StreamDenormalizerTest extends TestCase

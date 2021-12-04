@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d85fb6962f3e1efcb8752ccfce705e02",
+    "content-hash": "dae2f1d7bb0f682f185e22060bd467aa",
     "packages": [
         {
             "name": "bentools/iterable-functions",
@@ -118,35 +118,17 @@
         },
         {
             "name": "heptacom/heptaconnect-dataset-base",
-            "version": "0.8.0",
+            "version": "0.8.3",
             "dist": {
                 "type": "path",
-                "url": "../vendor/heptacom/heptaconnect-dataset-base",
-                "reference": "f83d502a8e93cfe661ea4fdfee8b87aabc308c81"
+                "url": "../src/DatasetBase",
+                "reference": "a3fb158038e8c58671c5bb73b8eeef8c92ab759a"
             },
             "require": {
                 "bentools/iterable-functions": ">=1 <2",
                 "ext-json": "*",
                 "opis/closure": "^3.6",
                 "php": ">=7.4"
-            },
-            "require-dev": {
-                "dq5studios/psalm-junit": ">=2",
-                "ergebnis/composer-normalize": ">=2.7",
-                "friendsofphp/php-cs-fixer": ">=2.17",
-                "icanhazstring/composer-unused": ">=0.7",
-                "infection/infection": ">=0.21",
-                "maglnet/composer-require-checker": ">=2",
-                "mavimo/phpstan-junit": ">=0.3",
-                "phpmd/phpmd": "@stable",
-                "phpstan/extension-installer": ">=1",
-                "phpstan/phpstan": ">=0.12",
-                "phpstan/phpstan-deprecation-rules": ">=0.12",
-                "phpstan/phpstan-phpunit": ">=0.12",
-                "phpstan/phpstan-strict-rules": ">=0.12",
-                "phpunit/phpunit": ">=9.3 <10",
-                "psalm/plugin-phpunit": ">=0.10",
-                "vimeo/psalm": ">=4"
             },
             "type": "library",
             "extra": {
@@ -157,11 +139,6 @@
             "autoload": {
                 "psr-4": {
                     "Heptacom\\HeptaConnect\\Dataset\\Base\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Heptacom\\HeptaConnect\\Dataset\\Base\\Test\\": "test/"
                 }
             },
             "license": [
@@ -178,8 +155,8 @@
                 "heptaconnect-dataset"
             ],
             "support": {
-                "issues": "https://github.com/HEPTACOM/heptaconnect-dataset-base/issues",
-                "source": "https://github.com/HEPTACOM/heptaconnect-dataset-base",
+                "issues": "https://github.com/HEPTACOM/heptaconnect-framework/issues",
+                "source": "https://github.com/HEPTACOM/heptaconnect-framework",
                 "docs": "https://connect.heptacom.de/",
                 "rss": "https://connect.heptacom.de/feed/rss2.xml"
             },
@@ -189,11 +166,11 @@
         },
         {
             "name": "heptacom/heptaconnect-portal-base",
-            "version": "0.8.0",
+            "version": "0.8.3",
             "dist": {
                 "type": "path",
-                "url": "../vendor/heptacom/heptaconnect-portal-base",
-                "reference": "3e5e856aacd06d3434e93a28ee8227e4af343445"
+                "url": "../src/PortalBase",
+                "reference": "2751ddc2a41792c1fbc616d35bc509e4469214a8"
             },
             "require": {
                 "bentools/iterable-functions": ">=1.4 <2",
@@ -213,28 +190,6 @@
                 "symfony/options-resolver": ">=4",
                 "symfony/serializer": ">=4"
             },
-            "conflict": {
-                "nikic/php-parser": "4.7.0"
-            },
-            "require-dev": {
-                "dq5studios/psalm-junit": ">=2",
-                "ergebnis/composer-normalize": ">=2.7",
-                "friendsofphp/php-cs-fixer": ">=2.17",
-                "icanhazstring/composer-unused": ">=0.7",
-                "infection/infection": ">=0.21",
-                "maglnet/composer-require-checker": ">=2",
-                "mavimo/phpstan-junit": ">=0.3",
-                "nyholm/psr7": ">=1",
-                "phpmd/phpmd": "@stable",
-                "phpstan/extension-installer": ">=1",
-                "phpstan/phpstan": ">=0.12",
-                "phpstan/phpstan-deprecation-rules": ">=0.12",
-                "phpstan/phpstan-phpunit": ">=0.12",
-                "phpstan/phpstan-strict-rules": ">=0.12",
-                "phpunit/phpunit": ">=9.3 <10",
-                "psalm/plugin-phpunit": ">=0.10",
-                "vimeo/psalm": ">=4"
-            },
             "type": "library",
             "extra": {
                 "unused": [
@@ -245,11 +200,6 @@
             "autoload": {
                 "psr-4": {
                     "Heptacom\\HeptaConnect\\Portal\\Base\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Heptacom\\HeptaConnect\\Portal\\Base\\Test\\": "test/"
                 }
             },
             "license": [
@@ -266,8 +216,8 @@
                 "heptaconnect-portal"
             ],
             "support": {
-                "issues": "https://github.com/HEPTACOM/heptaconnect-portal-base/issues",
-                "source": "https://github.com/HEPTACOM/heptaconnect-portal-base",
+                "issues": "https://github.com/HEPTACOM/heptaconnect-framework/issues",
+                "source": "https://github.com/HEPTACOM/heptaconnect-framework",
                 "docs": "https://connect.heptacom.de/",
                 "rss": "https://connect.heptacom.de/feed/rss2.xml"
             },
@@ -853,20 +803,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "0a1224805d925ee078867ace14f87eb8dd447a1b"
+                "reference": "b0fb78576487af19c500aaddb269fd36701d4847"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/0a1224805d925ee078867ace14f87eb8dd447a1b",
-                "reference": "0a1224805d925ee078867ace14f87eb8dd447a1b",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/b0fb78576487af19c500aaddb269fd36701d4847",
+                "reference": "b0fb78576487af19c500aaddb269fd36701d4847",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2.5",
-                "symfony/deprecation-contracts": "^2.1",
+                "symfony/deprecation-contracts": "^2.1|^3",
                 "symfony/polyfill-php73": "~1.0",
                 "symfony/polyfill-php80": "^1.16"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -898,7 +849,7 @@
                 "options"
             ],
             "support": {
-                "source": "https://github.com/symfony/options-resolver/tree/5.4"
+                "source": "https://github.com/symfony/options-resolver/tree/v5.4.0"
             },
             "funding": [
                 {
@@ -914,7 +865,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-27T13:14:56+00:00"
+            "time": "2021-11-23T10:19:22+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -1169,17 +1120,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/serializer.git",
-                "reference": "120804daf456ef956600b3214670c488378ac882"
+                "reference": "66942cf6bf412ca72c39353596f4d37ee0f9059b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/serializer/zipball/120804daf456ef956600b3214670c488378ac882",
-                "reference": "120804daf456ef956600b3214670c488378ac882",
+                "url": "https://api.github.com/repos/symfony/serializer/zipball/66942cf6bf412ca72c39353596f4d37ee0f9059b",
+                "reference": "66942cf6bf412ca72c39353596f4d37ee0f9059b",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2.5",
-                "symfony/deprecation-contracts": "^2.1",
+                "symfony/deprecation-contracts": "^2.1|^3",
                 "symfony/polyfill-ctype": "~1.8",
                 "symfony/polyfill-php80": "^1.16"
             },
@@ -1221,6 +1172,7 @@
                 "symfony/var-exporter": "For using the metadata compiler.",
                 "symfony/yaml": "For using the default YAML mapping loader."
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1247,7 +1199,7 @@
             "description": "Handles serializing and deserializing data structures, including object graphs, into array structures or other formats like XML and JSON.",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/serializer/tree/5.4"
+                "source": "https://github.com/symfony/serializer/tree/v5.4.0"
             },
             "funding": [
                 {
@@ -1263,7 +1215,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-11-20T18:25:16+00:00"
+            "time": "2021-11-28T15:25:38+00:00"
         }
     ],
     "packages-dev": [],

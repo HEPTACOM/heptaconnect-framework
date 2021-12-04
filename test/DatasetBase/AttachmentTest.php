@@ -15,6 +15,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\ForeignKeyTrait
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\PrimaryKeyTrait

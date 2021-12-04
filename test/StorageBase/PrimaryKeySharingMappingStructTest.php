@@ -10,6 +10,10 @@ use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\Simple;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\PrimaryKeySharingMappingStruct
  */
 class PrimaryKeySharingMappingStructTest extends TestCase

@@ -16,6 +16,9 @@ use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\SecondEntity;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\TypedMappedDatasetEntityCollection

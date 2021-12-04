@@ -26,7 +26,7 @@ clean: ## Cleans up all ignored files and directories
 it: cs-fix cs test ## Fix code style and run unit tests
 
 .PHONY: coverage
-coverage: vendor .build ## Run phpunit coverage tests
+coverage: vendor .build test-refresh-fixture ## Run phpunit coverage tests
 	$(PHPUNIT) --coverage-text
 
 .PHONY: cs

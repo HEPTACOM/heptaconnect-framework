@@ -15,6 +15,11 @@ use Psr\Log\LoggerInterface;
 
 /**
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerStackBuilder
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack
  */
 class HttpHandlerStackBuilderTest extends TestCase
 {

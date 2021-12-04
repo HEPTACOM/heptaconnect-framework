@@ -21,6 +21,11 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \Heptacom\HeptaConnect\Core\Emission\EmitService
  * @covers \Heptacom\HeptaConnect\Core\Component\LogMessage
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\TypedMappingComponentCollection
  */
 class EmitServiceTest extends TestCase
 {

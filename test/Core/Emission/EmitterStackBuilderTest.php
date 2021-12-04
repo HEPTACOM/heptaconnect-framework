@@ -14,6 +14,10 @@ use Psr\Log\LoggerInterface;
 
 /**
  * @covers \Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilder
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack
  */
 class EmitterStackBuilderTest extends TestCase
 {

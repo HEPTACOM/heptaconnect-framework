@@ -21,6 +21,12 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Event\PostReceptionEvent
  * @covers \Heptacom\HeptaConnect\Core\Reception\ReceptionActor
  * @covers \Heptacom\HeptaConnect\Core\Reception\Support\PrimaryKeyChangesAttachable
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract
  */
 class ReceptionActorTest extends TestCase
 {

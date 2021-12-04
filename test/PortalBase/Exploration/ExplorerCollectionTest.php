@@ -10,6 +10,8 @@ use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\SecondEntity;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection
  */
 class ExplorerCollectionTest extends TestCase

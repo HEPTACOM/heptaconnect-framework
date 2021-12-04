@@ -24,7 +24,7 @@ class ComposerPackageConfigurationLoaderTest extends TestCase
         $cachePool = $this->createMock(CacheItemPoolInterface::class);
         $cachePool->method('getItem')->willReturn($poolItem);
 
-        $loader = new PackageConfigurationLoader(__DIR__.'/../test-composer-integration/composer.json', $cachePool);
+        $loader = new PackageConfigurationLoader(__DIR__.'/../../test-composer-integration/composer.json', $cachePool);
         $configs = $loader->getPackageConfigurations();
 
         static::assertCount(4, $configs);

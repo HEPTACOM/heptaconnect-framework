@@ -22,6 +22,13 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \Heptacom\HeptaConnect\Core\Component\LogMessage
  * @covers \Heptacom\HeptaConnect\Core\Emission\EmissionActor
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Listing\ReceptionRouteListCriteria
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Listing\ReceptionRouteListResult
+ * @covers \Heptacom\HeptaConnect\Storage\Base\MappingCollection
+ * @covers \Heptacom\HeptaConnect\Storage\Base\TypedMappingCollection
  */
 class EmissionActorTest extends TestCase
 {

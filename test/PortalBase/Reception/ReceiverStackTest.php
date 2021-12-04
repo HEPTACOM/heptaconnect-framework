@@ -12,6 +12,12 @@ use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack
  */
 class ReceiverStackTest extends TestCase

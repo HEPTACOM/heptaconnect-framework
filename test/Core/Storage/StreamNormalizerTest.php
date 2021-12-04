@@ -14,7 +14,10 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\AbstractLogger;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Component\LogMessage
+ * @covers \Heptacom\HeptaConnect\Core\Storage\Contract\StreamPathContract
  * @covers \Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamNormalizer
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\SerializableStream
  */
 class StreamNormalizerTest extends TestCase
 {

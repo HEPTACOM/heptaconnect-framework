@@ -47,6 +47,11 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddPortalConfigurationBindingsCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AllDefinitionDefaultsCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\RemoveAutoPrototypedDefinitionsCompilerPass
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Parallelization\Support\ResourceLockFacade
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PathMethodsTrait
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection
  */
 class PortalStackServiceContainerBuilderTest extends TestCase
 {
@@ -57,8 +62,8 @@ class PortalStackServiceContainerBuilderTest extends TestCase
         parent::setUp();
 
         $this->classLoader = new ClassLoader();
-        $this->classLoader->addPsr4('HeptacomFixture\\Portal\\A\\', __DIR__.'/../../test-composer-integration/portal-package/src/');
-        $this->classLoader->addPsr4('HeptacomFixture\\Portal\\Extension\\', __DIR__.'/../../test-composer-integration/portal-package-extension/src/');
+        $this->classLoader->addPsr4('HeptacomFixture\\Portal\\A\\', __DIR__.'/../../../test-composer-integration/portal-package/src/');
+        $this->classLoader->addPsr4('HeptacomFixture\\Portal\\Extension\\', __DIR__.'/../../../test-composer-integration/portal-package-extension/src/');
         $this->classLoader->register();
     }
 

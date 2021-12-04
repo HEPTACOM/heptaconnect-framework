@@ -17,6 +17,9 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \Heptacom\HeptaConnect\Core\Component\LogMessage
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpHandlingActor
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack
  */
 class HttpHandlingActorTest extends TestCase
 {

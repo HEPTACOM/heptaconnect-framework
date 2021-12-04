@@ -1,9 +1,7 @@
 /vendor/
 /src/*/vendor/
+/test-composer-integration/vendor/*
 /composer.lock
 /src/*/composer.lock
 
 /.build
-/src/*/.build
-
-/src/Core/test-composer-integration/vendor/*

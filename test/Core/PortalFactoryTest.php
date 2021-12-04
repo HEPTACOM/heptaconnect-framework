@@ -14,6 +14,8 @@ use Heptacom\HeptaConnect\Core\Test\Fixture\UninstantiablePortal;
 use Heptacom\HeptaConnect\Core\Test\Fixture\UninstantiablePortalExtension;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
+use HeptacomFixture\Portal\A\Portal;
+use HeptacomFixture\Portal\Extension\PortalExtension;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -30,23 +32,17 @@ class PortalFactoryTest extends TestCase
     public function testPortal(): void
     {
         $portalFactory = new PortalFactory();
-        require_once __DIR__.'/../test-composer-integration/portal-package/src/Portal.php';
+        require_once __DIR__.'/../../test-composer-integration/portal-package/src/Portal.php';
 
-        static::assertInstanceOf(
-            \HeptacomFixture\Portal\A\Portal::class,
-            $portalFactory->instantiatePortal(\HeptacomFixture\Portal\A\Portal::class)
-        );
+        static::assertInstanceOf(Portal::class, $portalFactory->instantiatePortal(Portal::class));
     }
 
     public function testPortalExtension(): void
     {
         $portalFactory = new PortalFactory();
-        require_once __DIR__.'/../test-composer-integration/portal-package-extension/src/PortalExtension.php';
+        require_once __DIR__.'/../../test-composer-integration/portal-package-extension/src/PortalExtension.php';
 
-        static::assertInstanceOf(
-            \HeptacomFixture\Portal\Extension\PortalExtension::class,
-            $portalFactory->instantiatePortalExtension(\HeptacomFixture\Portal\Extension\PortalExtension::class)
-        );
+        static::assertInstanceOf(PortalExtension::class, $portalFactory->instantiatePortalExtension(PortalExtension::class));
     }
 
     public function testFailingAtNonPortalClasses(): void
