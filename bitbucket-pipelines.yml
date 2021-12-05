@@ -52,22 +52,22 @@ definitions:
                 <<: *default-step
                 name: Install Core
                 script:
-                    - composer -d src/Core install
+                    - composer install -d src/Core
         -   step: &composer-install-dataset-base
                 <<: *default-step
                 name: Install Dataset Base
                 script:
-                    - composer -d src/DatasetBase install
+                    - composer install -d src/DatasetBase
         -   step: &composer-install-portal-base
                 <<: *default-step
                 name: Install Portal Base
                 script:
-                    - composer -d src/PortalBase install
+                    - composer install -d src/PortalBase
         -   step: &composer-install-storage-base
                 <<: *default-step
                 name: Install Storage Base
                 script:
-                    - composer -d src/StorageBase install
+                    - composer install -d src/StorageBase
         -   step: &test-unit
                 <<: *default-step
                 name: Unit tests
