@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+EXTERNAL_REPOSITORY_PREFIX=${EXTERNAL_REPOSITORY_PREFIX:-git@github.com:HEPTACOM/heptaconnect-}
+EXTERNAL_REPOSITORY_SUFFIX=${EXTERNAL_REPOSITORY_SUFFIX:-.git}
+
+PACKAGE_NAME=$1
+REPOSITORY_NAME=$2
+TAG=$3
+BRANCH=$4
+BRANCH=${BRANCH:-master}
+SOURCE_DIRECTORY="src/${PACKAGE_NAME}"
+EXTERNAL_REPOSITORY="${EXTERNAL_REPOSITORY_PREFIX}${REPOSITORY_NAME}${EXTERNAL_REPOSITORY_SUFFIX}"
+
+git remote add subpackage "${EXTERNAL_REPOSITORY}" || exit $?
+SUBTREE_HASH=$(git subtree split --prefix "${SOURCE_DIRECTORY}" "${BRANCH}" || exit $?)
+git push subpackage "${SUBTREE_HASH}" --force
+
+if [[ -n "${TAG}" ]]; then
+    git tag "${TAG}" "${SUBTREE_HASH}" || exit $?
+    git push --force subpackage "${TAG}" || exit $?
+    git tag -d "${TAG}" || exit $?
+fi
+
+git remote remove subpackage || exit $?

@@ -6,6 +6,7 @@ PHPUNIT := $(PHP) vendor/bin/phpunit $(PHPUNIT_EXTRA_ARGS)
 CURL := $(shell which curl)
 JQ := $(shell which jq)
 JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*' -not -path './src/Core/vendor/*' -not -path './src/DatasetBase/vendor/*' -not -path './src/PortalBase/vendor/*' -not -path './src/StorageBase/vendor/*')
+GIT := $(shell which git)
 
 .DEFAULT_GOAL := help
 .PHONY: help
@@ -140,6 +141,23 @@ test-setup-fixture: vendor
 .PHONY: test-clean-fixture
 test-clean-fixture:
 	[[ ! -d test-composer-integration/vendor ]] || rm -rf test-composer-integration/vendor
+
+.PHONY: build-packages
+build-packages:
+	dev-ops/bin/build-subpackage Core
+	dev-ops/bin/build-subpackage DatasetBase
+	dev-ops/bin/build-subpackage PortalBase
+	dev-ops/bin/build-subpackage StorageBase
+
+.PHONY: publish-packages
+publish-packages: build-packages
+	$(GIT) add -A
+	$(GIT) commit -m "Build subpackages"
+	dev-ops/bin/publish-subpackage Core core "$(TAG)" "$(BRANCH)"
+	dev-ops/bin/publish-subpackage DatasetBase dataset-base "$(TAG)" "$(BRANCH)"
+	dev-ops/bin/publish-subpackage PortalBase portal-base "$(TAG)" "$(BRANCH)"
+	dev-ops/bin/publish-subpackage StorageBase storage-base "$(TAG)" "$(BRANCH)"
+	$(GIT) reset --hard HEAD^1
 
 .PHONY: subtree-merge
 subtree-merge: ## Merge core and base packages into framework
