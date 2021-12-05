@@ -2,10 +2,10 @@
     "timeout": 30,
     "source": {
         "directories": [
-            "src/Core/src",
-            "src/DatasetBase/src",
-            "src/PortalBase/src",
-            "src/StorageBase/src"
+            "src/Core",
+            "src/DatasetBase",
+            "src/PortalBase",
+            "src/StorageBase"
         ]
     },
     "mutators": {

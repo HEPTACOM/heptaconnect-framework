@@ -33,10 +33,10 @@
         processUncoveredFiles="true"
     >
         <include>
-            <directory suffix=".php">../src/Core/src/</directory>
-            <directory suffix=".php">../src/DatasetBase/src/</directory>
-            <directory suffix=".php">../src/PortalBase/src/</directory>
-            <directory suffix=".php">../src/StorageBase/src/</directory>
+            <directory suffix=".php">../src/Core/</directory>
+            <directory suffix=".php">../src/DatasetBase/</directory>
+            <directory suffix=".php">../src/PortalBase/</directory>
+            <directory suffix=".php">../src/StorageBase/</directory>
         </include>
     </coverage>
 </phpunit>

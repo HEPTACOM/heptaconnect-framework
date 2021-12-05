@@ -4,10 +4,10 @@ use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 
 $finder = Finder::create()
-    ->in(dirname(__DIR__) . '/src/Core/src')
-    ->in(dirname(__DIR__) . '/src/DatasetBase/src')
-    ->in(dirname(__DIR__) . '/src/PortalBase/src')
-    ->in(dirname(__DIR__) . '/src/StorageBase/src')
+    ->in(dirname(__DIR__) . '/src/Core')
+    ->in(dirname(__DIR__) . '/src/DatasetBase')
+    ->in(dirname(__DIR__) . '/src/PortalBase')
+    ->in(dirname(__DIR__) . '/src/StorageBase')
 ;
 
 return (new Config())

@@ -3,32 +3,32 @@ parameters:
 	inferPrivatePropertyTypeFromConstructor: true
 	level: max
 	paths:
-		- ../src/Core/src/
-		- ../src/DatasetBase/src/
-		- ../src/PortalBase/src/
-		- ../src/StorageBase/src/
+		- ../src/Core/
+		- ../src/DatasetBase/
+		- ../src/PortalBase/
+		- ../src/StorageBase/
 	tmpDir: ../.build/phpstan/
 	ignoreErrors:
 		-
 			message: '#Return type \([a-zA-Z0-9\\_]+\) of method [a-zA-Z0-9\\_]+::(add|sub)\(\) should be covariant with return type \(static\(DateTime\)\) of method DateTime::(add|sub)\(\)#'
-			path: ../src/DatasetBase/src/Date.php
+			path: ../src/DatasetBase/Date.php
 		-
 			message: '#Unsafe usage of new static\(\)#'
-			path: ../src/DatasetBase/src/Support/SetStateTrait.php
+			path: ../src/DatasetBase/Support/SetStateTrait.php
 		-
 			message: '#^Variable (method call|property access) on object\.$#'
-			path: ../src/DatasetBase/src/Support/AbstractCollection.php
+			path: ../src/DatasetBase/Support/AbstractCollection.php
 		-
 			message: '#^Method Heptacom\\HeptaConnect\\Dataset\\Base\\Translatable\\ScalarCollection\\AbstractTranslatableScalarCollection::getInitialValue\(\) return type with generic interface Heptacom\\HeptaConnect\\Dataset\\Base\\Contract\\CollectionInterface does not specify its types: T$#'
-			path: ../src/DatasetBase/src/Translatable/ScalarCollection/AbstractTranslatableScalarCollection.php
+			path: ../src/DatasetBase/Translatable/ScalarCollection/AbstractTranslatableScalarCollection.php
 		-
 			# never trust user input
 			message: '#Instanceof between Heptacom\\HeptaConnect\\Dataset\\Base\\Contract\\DatasetEntityContract and Heptacom\\HeptaConnect\\Dataset\\Base\\Contract\\DatasetEntityContract will always evaluate to true.#'
-			path: ../src/PortalBase/src/Emission/Contract/EmitterContract.php
+			path: ../src/PortalBase/Emission/Contract/EmitterContract.php
 		-
 			# never trust user input
 			message: '#Instanceof between Heptacom\\HeptaConnect\\Dataset\\Base\\Contract\\DatasetEntityContract and Heptacom\\HeptaConnect\\Dataset\\Base\\Contract\\DatasetEntityContract will always evaluate to true.#'
-			path: ../src/PortalBase/src/Exploration/Contract/ExplorerContract.php
+			path: ../src/PortalBase/Exploration/Contract/ExplorerContract.php
 		-
 			# never trust user input
 			message: '#Instanceof between Heptacom\\HeptaConnect\\Portal\\Base\\Mapping\\Contract\\MappingInterface and Heptacom\\HeptaConnect\\Portal\\Base\\Mapping\\Contract\\MappingInterface will always evaluate to true.#'
