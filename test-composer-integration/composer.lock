@@ -118,11 +118,11 @@
         },
         {
             "name": "heptacom/heptaconnect-dataset-base",
-            "version": "0.8.3",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "../src/DatasetBase",
-                "reference": "a3fb158038e8c58671c5bb73b8eeef8c92ab759a"
+                "reference": "a16e1d16beb4567148370c598c39f30f7d7f60fe"
             },
             "require": {
                 "bentools/iterable-functions": ">=1 <2",
@@ -138,7 +138,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Heptacom\\HeptaConnect\\Dataset\\Base\\": "src/"
+                    "Heptacom\\HeptaConnect\\Dataset\\Base\\": ""
                 }
             },
             "license": [
@@ -166,11 +166,11 @@
         },
         {
             "name": "heptacom/heptaconnect-portal-base",
-            "version": "0.8.3",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "../src/PortalBase",
-                "reference": "2751ddc2a41792c1fbc616d35bc509e4469214a8"
+                "reference": "6e768149b596613ddd5251174803de09a57f2da3"
             },
             "require": {
                 "bentools/iterable-functions": ">=1.4 <2",
@@ -199,7 +199,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Heptacom\\HeptaConnect\\Portal\\Base\\": "src/"
+                    "Heptacom\\HeptaConnect\\Portal\\Base\\": ""
                 }
             },
             "license": [

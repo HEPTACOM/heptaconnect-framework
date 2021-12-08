@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterf
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder;
 use Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory;
 use Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory;
+use Heptacom\HeptaConnect\Core\Test\Fixture\HttpClientInterfaceDecorator;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface;
 use Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent;
 use Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract;
@@ -37,6 +38,8 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * @covers \Heptacom\HeptaConnect\Core\Portal\Exception\ServiceNotInstantiable
@@ -131,5 +134,49 @@ class PortalStackServiceContainerBuilderTest extends TestCase
 
         static::assertTrue($container->has(ExceptionInContainer::class));
         static::assertFalse($container->has(ExceptionNotInContainer::class));
+    }
+
+    public function testServiceDecoration(): void
+    {
+        $configurationService = $this->createMock(ConfigurationServiceInterface::class);
+        $configurationService->expects(self::atLeastOnce())
+            ->method('getPortalNodeConfiguration')
+            ->willReturn([]);
+
+        $httpHandlerUrlProvider = $this->createMock(HttpHandlerUrlProviderInterface::class);
+        $httpHandlerUrlProviderFactory = $this->createMock(HttpHandlerUrlProviderFactoryInterface::class);
+        $httpHandlerUrlProviderFactory->method('factory')->willReturn($httpHandlerUrlProvider);
+
+        $builder = new PortalStackServiceContainerBuilder(
+            $this->createMock(LoggerInterface::class),
+            $this->createMock(NormalizationRegistryContract::class),
+            $this->createMock(PortalStorageFactory::class),
+            $this->createMock(ResourceLockingContract::class),
+            $this->createMock(ProfilerFactoryContract::class),
+            $this->createMock(StorageKeyGeneratorContract::class),
+            $this->createMock(FlowComponent::class),
+            $this->createMock(FilesystemFactory::class),
+            $configurationService,
+            $this->createMock(PublisherInterface::class),
+            $httpHandlerUrlProviderFactory,
+        );
+        $builder->setDirectEmissionFlow($this->createMock(DirectEmissionFlowContract::class));
+        $container = $builder->build(
+            new Portal(),
+            new PortalExtensionCollection([
+                new PortalExtension(),
+            ]),
+            $this->createMock(PortalNodeKeyInterface::class),
+        );
+        $container->setDefinition(
+            HttpClientInterfaceDecorator::class,
+            (new Definition())
+                ->setDecoratedService(ClientInterface::class)
+                ->setArguments([new Reference(HttpClientInterfaceDecorator::class . '.inner')])
+        );
+        $container->compile();
+
+        static::assertTrue($container->has(ClientInterface::class));
+        static::assertTrue($container->has(HttpClientInterfaceDecorator::class));
     }
 }
