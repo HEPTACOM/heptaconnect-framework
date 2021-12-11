@@ -5,6 +5,7 @@ namespace Heptacom\HeptaConnect\Core\Test\Portal;
 
 use Composer\Autoload\ClassLoader;
 use Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface;
+use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder;
 use Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory;
 use Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory;
@@ -25,7 +26,6 @@ use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegist
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepCloneContract;
 use Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract;
-use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerUrlProviderInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use HeptacomFixture\Portal\A\AutomaticService\ExceptionNotInContainer;
@@ -49,6 +49,7 @@ use Symfony\Component\DependencyInjection\Reference;
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddPortalConfigurationBindingsCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AllDefinitionDefaultsCompilerPass
+ * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\BuildDefinitionForFlowComponentRegistryCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\RemoveAutoPrototypedDefinitionsCompilerPass
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
@@ -95,7 +96,6 @@ class PortalStackServiceContainerBuilderTest extends TestCase
             $this->createMock(ResourceLockingContract::class),
             $this->createMock(ProfilerFactoryContract::class),
             $this->createMock(StorageKeyGeneratorContract::class),
-            $this->createMock(FlowComponent::class),
             $this->createMock(FilesystemFactory::class),
             $configurationService,
             $this->createMock(PublisherInterface::class),
@@ -129,8 +129,9 @@ class PortalStackServiceContainerBuilderTest extends TestCase
         static::assertTrue($container->has(ResourceLockFacade::class));
         static::assertTrue($container->has(UriFactoryInterface::class));
 
-        static::assertTrue($container->has(HttpHandlerCollection::class));
         static::assertTrue($container->has(HttpHandlerUrlProviderInterface::class));
+
+        static::assertTrue($container->has(FlowComponentRegistry::class));
 
         static::assertTrue($container->has(ExceptionInContainer::class));
         static::assertFalse($container->has(ExceptionNotInContainer::class));
@@ -154,7 +155,6 @@ class PortalStackServiceContainerBuilderTest extends TestCase
             $this->createMock(ResourceLockingContract::class),
             $this->createMock(ProfilerFactoryContract::class),
             $this->createMock(StorageKeyGeneratorContract::class),
-            $this->createMock(FlowComponent::class),
             $this->createMock(FilesystemFactory::class),
             $configurationService,
             $this->createMock(PublisherInterface::class),
