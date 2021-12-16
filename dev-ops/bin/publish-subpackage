@@ -5,20 +5,15 @@ EXTERNAL_REPOSITORY_SUFFIX=${EXTERNAL_REPOSITORY_SUFFIX:-.git}
 
 PACKAGE_NAME=$1
 REPOSITORY_NAME=$2
-TAG=$3
-BRANCH=$4
-BRANCH=${BRANCH:-master}
 SOURCE_DIRECTORY="src/${PACKAGE_NAME}"
 EXTERNAL_REPOSITORY="${EXTERNAL_REPOSITORY_PREFIX}${REPOSITORY_NAME}${EXTERNAL_REPOSITORY_SUFFIX}"
 
-if ! git rev-parse --verify "${BRANCH}"; then
-    git fetch --all
-fi
-
 git remote add subpackage "${EXTERNAL_REPOSITORY}" || exit $?
-SUBTREE_HASH=$(git subtree split --prefix "${SOURCE_DIRECTORY}" "${BRANCH}" || exit $?)
+SUBTREE_HASH=$(git subtree split --prefix "${SOURCE_DIRECTORY}" "${COMMIT}" || exit $?)
 
-git push subpackage "${SUBTREE_HASH}:${BRANCH}" --force
+if [[ -n "${BRANCH}" ]]; then
+    git push subpackage "${SUBTREE_HASH}:${BRANCH}" --force
+fi
 
 if [[ -n "${TAG}" ]]; then
     git tag "${TAG}" "${SUBTREE_HASH}" || exit $?
