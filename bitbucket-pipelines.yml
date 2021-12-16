@@ -41,7 +41,8 @@ definitions:
                 name: Mirror tags to Github
                 script:
                     - git remote add github "git@github.com:HEPTACOM/${BITBUCKET_REPO_SLUG}.git"
-                    - git push --force github tag ${BITBUCKET_TAG}
+                    - git push --force github tag "${BITBUCKET_TAG}"
+                    - git tag -d "${BITBUCKET_TAG}"
                     - TAG=${BITBUCKET_TAG} make -e publish-packages
         -   step: &composer-install
                 <<: *default-step

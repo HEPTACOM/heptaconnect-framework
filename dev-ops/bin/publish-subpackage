@@ -11,8 +11,13 @@ BRANCH=${BRANCH:-master}
 SOURCE_DIRECTORY="src/${PACKAGE_NAME}"
 EXTERNAL_REPOSITORY="${EXTERNAL_REPOSITORY_PREFIX}${REPOSITORY_NAME}${EXTERNAL_REPOSITORY_SUFFIX}"
 
+if ! git rev-parse --verify "${BRANCH}"; then
+    git fetch --all
+fi
+
 git remote add subpackage "${EXTERNAL_REPOSITORY}" || exit $?
 SUBTREE_HASH=$(git subtree split --prefix "${SOURCE_DIRECTORY}" "${BRANCH}" || exit $?)
+
 git push subpackage "${SUBTREE_HASH}:${BRANCH}" --force
 
 if [[ -n "${TAG}" ]]; then
