@@ -5,6 +5,9 @@ namespace Heptacom\HeptaConnect\Storage\Base\Contract;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 
+/**
+ * @deprecated
+ */
 interface JobPayloadKeyInterface extends StorageKeyInterface
 {
 }
