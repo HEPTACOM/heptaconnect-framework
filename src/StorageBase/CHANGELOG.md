@@ -24,12 +24,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
-- Remove the code for unit tests, configuration for style checks as well as the Makefile
 - Remove class `\Heptacom\HeptaConnect\Storage\Base\Contract\JobInterface`
 - Remove class `\Heptacom\HeptaConnect\Storage\Base\Contract\JobPayloadKeyInterface`
 - Remove class `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract`
 - Remove class `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract`
 - Remove class `\Heptacom\HeptaConnect\Storage\Base\Repository\JobAdd`
+
+## [0.8.4] - 2021-12-16
+
+### Removed
+
+- Remove the code for unit tests, configuration for style checks as well as the Makefile
 
 ## [0.8.3] - 2021-12-02
 
