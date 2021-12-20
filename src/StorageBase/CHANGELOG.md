@@ -7,9 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add job state transition to schedule jobs after they failed with `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Schedule\JobScheduleActionInterface`, `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Schedule\JobSchedulePayload` and `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Schedule\JobScheduleResult`
+- Add job state transition to fail jobs after they run with `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Fail\JobFailActionInterface`, `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Fail\JobFailPayload` and `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Fail\JobFailResult`
+- Add job state transition message to `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Schedule\JobSchedulePayload`, `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Fail\JobFailPayload`, `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Finish\JobFinishPayload` and `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Start\JobStartPayload`
+
+### Changed
+
+- Replace `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract::add`, `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract::add` and `\Heptacom\HeptaConnect\Storage\Base\Repository\JobAdd` with storage action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Create\JobCreateActionInterface`, `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Create\JobCreatePayloads`, `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Create\JobCreatePayload`, `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Create\JobCreateResults` and `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Create\JobCreateResult` to allow batch writing and collected writing of jobs and their payload
+- Replace `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract::get` and `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract::get` with storage action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Get\JobGetActionInterface`, `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Get\JobGetCriteria` and `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Get\JobGetResult` to allow batch reading and collected reading of jobs and their payload
+- Replace `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract::start` with storage action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Start\JobStartActionInterface`, `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Start\JobStartPayload` and `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Start\JobStartResult` to allow batch state change
+- Replace `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract::finish` with storage action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Finish\JobFinishActionInterface`, `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Finish\JobFinishPayload` and `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Finish\JobFinishResult` to allow batch state change
+- Replace `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract::remove` and `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract::remove` with storage action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Create\JobCreateActionInterface`, `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Create\JobCreatePayloads`, `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Create\JobCreatePayload`, `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Create\JobCreateResults` and `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Create\JobCreateResult` to allow batch deletion and collected deletion of jobs and their payloads
+- Split up `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract::cleanup` and `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract::cleanup` into storage actions `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Listing\JobListFinishedActionInterface` and `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Delete\JobDeleteActionInterface` to separate searching and finding deletable jobs
+
 ### Removed
 
 - Remove the code for unit tests, configuration for style checks as well as the Makefile
+- Remove class `\Heptacom\HeptaConnect\Storage\Base\Contract\JobInterface`
+- Remove class `\Heptacom\HeptaConnect\Storage\Base\Contract\JobPayloadKeyInterface`
+- Remove class `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract`
+- Remove class `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract`
+- Remove class `\Heptacom\HeptaConnect\Storage\Base\Repository\JobAdd`
 
 ## [0.8.3] - 2021-12-02
 
