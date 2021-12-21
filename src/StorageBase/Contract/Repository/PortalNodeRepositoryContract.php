@@ -34,10 +34,4 @@ abstract class PortalNodeRepositoryContract
      * @throws UnsupportedStorageKeyException
      */
     abstract public function create(string $className): PortalNodeKeyInterface;
-
-    /**
-     * @throws NotFoundException
-     * @throws UnsupportedStorageKeyException
-     */
-    abstract public function delete(PortalNodeKeyInterface $portalNodeKey): void;
 }
