@@ -1,34 +1,30 @@
 {
     "name": "heptacom/heptaconnect-dataset-base",
-    "type": "library",
     "description": "HEPTAconnect base dataset that every other dataset is based on",
-    "keywords": [
-        "heptaconnect-dataset"
-    ],
     "license": [
         "AGPL-3.0-or-later",
         "proprietary"
+    ],
+    "type": "library",
+    "keywords": [
+        "heptaconnect-dataset"
     ],
     "authors": [
         {
             "name": "HEPTACOM GmbH"
         }
     ],
+    "support": {
+        "issues": "https://github.com/HEPTACOM/heptaconnect-framework/issues",
+        "source": "https://github.com/HEPTACOM/heptaconnect-framework",
+        "docs": "https://connect.heptacom.de/",
+        "rss": "https://connect.heptacom.de/feed/rss2.xml"
+    },
     "require": {
         "php": ">=7.4",
         "ext-json": "*",
         "bentools/iterable-functions": ">=1.4 <2",
         "opis/closure": "^3.6"
-    },
-    "extra": {
-        "unused": [
-            "bentools/iterable-functions"
-        ]
-    },
-    "autoload": {
-        "psr-4": {
-            "Heptacom\\HeptaConnect\\Dataset\\Base\\": ""
-        }
     },
     "repositories": {
         "heptaconnect-sources": {
@@ -36,11 +32,15 @@
             "url": "../**"
         }
     },
-    "support": {
-        "issues": "https://github.com/HEPTACOM/heptaconnect-framework/issues",
-        "source": "https://github.com/HEPTACOM/heptaconnect-framework",
-        "docs": "https://connect.heptacom.de/",
-        "rss": "https://connect.heptacom.de/feed/rss2.xml"
+    "autoload": {
+        "psr-4": {
+            "Heptacom\\HeptaConnect\\Dataset\\Base\\": ""
+        }
+    },
+    "extra": {
+        "unused": [
+            "bentools/iterable-functions"
+        ]
     },
     "website": "https://heptaconnect.io"
 }
