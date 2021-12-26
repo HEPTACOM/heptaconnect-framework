@@ -16,10 +16,4 @@ abstract class PortalNodeRepositoryContract
      * @throws UnsupportedStorageKeyException
      */
     abstract public function read(PortalNodeKeyInterface $portalNodeKey): string;
-
-    /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract> $className
-     * @psalm-return iterable<\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface>
-     */
-    abstract public function listByClass(string $className): iterable;
 }
