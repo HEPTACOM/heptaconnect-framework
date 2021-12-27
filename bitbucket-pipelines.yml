@@ -35,14 +35,15 @@ definitions:
                     - git fetch --unshallow origin
                     - git remote add github "git@github.com:HEPTACOM/${BITBUCKET_REPO_SLUG}.git"
                     - git push --force github ${BITBUCKET_BRANCH}
-                    - BRANCH=${BITBUCKET_BRANCH} make -e publish-packages
+                    - COMMIT=${BITBUCKET_COMMIT} BRANCH=${BITBUCKET_BRANCH} make -e publish-packages
         -   step: &github-mirror-tag
                 <<: *default-step
                 name: Mirror tags to Github
                 script:
                     - git remote add github "git@github.com:HEPTACOM/${BITBUCKET_REPO_SLUG}.git"
-                    - git push --force github tag ${BITBUCKET_TAG}
-                    - TAG=${BITBUCKET_TAG} make -e publish-packages
+                    - git push --force github tag "${BITBUCKET_TAG}"
+                    - git tag -d "${BITBUCKET_TAG}"
+                    - COMMIT=${BITBUCKET_COMMIT} TAG=${BITBUCKET_TAG} make -e publish-packages
         -   step: &composer-install
                 <<: *default-step
                 name: Install
