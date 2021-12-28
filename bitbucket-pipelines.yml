@@ -11,10 +11,6 @@ definitions:
         -   step: &default-step
                 caches:
                     - composer
-                artifacts:
-                    - .build/**
-                    - vendor/**
-                    - composer.lock
                 after-script:
                     - cp -a .build test-results
                     - find test-results -type f -name '*.xml' -exec sed -i .bak -e "s|`pwd`/||" {} +
@@ -44,10 +40,24 @@ definitions:
                     - git push --force github tag "${BITBUCKET_TAG}"
                     - git tag -d "${BITBUCKET_TAG}"
                     - COMMIT=${BITBUCKET_COMMIT} TAG=${BITBUCKET_TAG} make -e publish-packages
-        -   step: &composer-install
+        -   step: &composer-high-install
                 <<: *default-step
-                name: Install
+                name: Install (High dependencies)
+                artifacts:
+                    - .build/**
+                    - vendor/**
+                    - composer.lock
                 script:
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
+        -   step: &composer-low-install
+                <<: *default-step
+                name: Install (Low dependencies)
+                artifacts:
+                    - .build/**
+                    - vendor/**
+                    - composer.lock
+                script:
+                    - composer update --prefer-lowest --prefer-stable
                     - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
         -   step: &composer-install-core
                 <<: *default-step
@@ -95,12 +105,17 @@ pipelines:
         master:
             -   step: *github-keyword-gate-step
             -   step: *github-mirror-branch
-            -   step: *composer-install
             -   parallel:
                     -   step: *composer-install-core
                     -   step: *composer-install-dataset-base
                     -   step: *composer-install-portal-base
                     -   step: *composer-install-storage-base
+            -   step: *composer-high-install
+            -   parallel:
+                    -   step: *test-unit
+                    -   step: *test-coverage
+                    -   step: *test-code-style
+            -   step: *composer-low-install
             -   parallel:
                     -   step: *test-unit
                     -   step: *test-coverage
@@ -108,22 +123,28 @@ pipelines:
 
     tags:
         '*':
-            -   step: *composer-install
             -   parallel:
                     -   step: *composer-install-core
                     -   step: *composer-install-dataset-base
                     -   step: *composer-install-portal-base
                     -   step: *composer-install-storage-base
+            -   step: *composer-low-install
+            -   step: *composer-high-install
             -   step: *github-keyword-gate-step
             -   step: *github-mirror-tag
 
     default:
-        -   step: *composer-install
         -   parallel:
                 -   step: *composer-install-core
                 -   step: *composer-install-dataset-base
                 -   step: *composer-install-portal-base
                 -   step: *composer-install-storage-base
+        -   step: *composer-high-install
+        -   parallel:
+                -   step: *test-unit
+                -   step: *test-coverage
+                -   step: *test-code-style
+        -   step: *composer-low-install
         -   parallel:
                 -   step: *test-unit
                 -   step: *test-coverage
