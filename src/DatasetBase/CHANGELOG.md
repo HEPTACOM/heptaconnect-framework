@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.4] - 2021-12-16
+
 ### Removed
 
 - Remove the code for unit tests, configuration for style checks as well as the Makefile
