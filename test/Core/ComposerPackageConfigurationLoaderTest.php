@@ -6,8 +6,7 @@ namespace Heptacom\HeptaConnect\Core\Test;
 use Heptacom\HeptaConnect\Core\Component\Composer\PackageConfiguration;
 use Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader;
 use PHPUnit\Framework\TestCase;
-use Psr\Cache\CacheItemInterface;
-use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\Cache\Adapter\NullAdapter;
 
 /**
  * @covers \Heptacom\HeptaConnect\Core\Component\Composer\PackageConfiguration
@@ -19,12 +18,7 @@ class ComposerPackageConfigurationLoaderTest extends TestCase
 {
     public function testLoadingPlugin(): void
     {
-        $poolItem = $this->createMock(CacheItemInterface::class);
-        $poolItem->method('isHit')->willReturn(false);
-        $cachePool = $this->createMock(CacheItemPoolInterface::class);
-        $cachePool->method('getItem')->willReturn($poolItem);
-
-        $loader = new PackageConfigurationLoader(__DIR__.'/../../test-composer-integration/composer.json', $cachePool);
+        $loader = new PackageConfigurationLoader(__DIR__.'/../../test-composer-integration/composer.json', new NullAdapter());
         $configs = $loader->getPackageConfigurations();
 
         static::assertCount(4, $configs);
