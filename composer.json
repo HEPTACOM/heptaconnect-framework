@@ -31,7 +31,7 @@
         "mavimo/phpstan-junit": ">=0.3",
         "phpmd/phpmd": "@stable",
         "phpstan/extension-installer": ">=1",
-        "phpstan/phpstan": ">=0.12",
+        "phpstan/phpstan": ">=0.12.87",
         "phpstan/phpstan-deprecation-rules": ">=0.12",
         "phpstan/phpstan-phpunit": ">=0.12",
         "phpstan/phpstan-strict-rules": ">=0.12",
