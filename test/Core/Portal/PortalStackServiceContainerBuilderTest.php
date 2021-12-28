@@ -88,6 +88,13 @@ class PortalStackServiceContainerBuilderTest extends TestCase
         $httpHandlerUrlProviderFactory = $this->createMock(HttpHandlerUrlProviderFactoryInterface::class);
         $httpHandlerUrlProviderFactory->method('factory')->willReturn($httpHandlerUrlProvider);
 
+        $flowComponentBuilder = $this->createMock(FlowComponent::class);
+        $flowComponentBuilder->method('buildEmitters')->willReturn([]);
+        $flowComponentBuilder->method('buildExplorers')->willReturn([]);
+        $flowComponentBuilder->method('buildHttpHandlers')->willReturn([]);
+        $flowComponentBuilder->method('buildReceivers')->willReturn([]);
+        $flowComponentBuilder->method('buildStatusReporters')->willReturn([]);
+
         $builder = new PortalStackServiceContainerBuilder(
             $this->createMock(LoggerInterface::class),
             $this->createMock(NormalizationRegistryContract::class),
@@ -95,7 +102,7 @@ class PortalStackServiceContainerBuilderTest extends TestCase
             $this->createMock(ResourceLockingContract::class),
             $this->createMock(ProfilerFactoryContract::class),
             $this->createMock(StorageKeyGeneratorContract::class),
-            $this->createMock(FlowComponent::class),
+            $flowComponentBuilder,
             $this->createMock(FilesystemFactory::class),
             $configurationService,
             $this->createMock(PublisherInterface::class),
@@ -147,6 +154,13 @@ class PortalStackServiceContainerBuilderTest extends TestCase
         $httpHandlerUrlProviderFactory = $this->createMock(HttpHandlerUrlProviderFactoryInterface::class);
         $httpHandlerUrlProviderFactory->method('factory')->willReturn($httpHandlerUrlProvider);
 
+        $flowComponentBuilder = $this->createMock(FlowComponent::class);
+        $flowComponentBuilder->method('buildEmitters')->willReturn([]);
+        $flowComponentBuilder->method('buildExplorers')->willReturn([]);
+        $flowComponentBuilder->method('buildHttpHandlers')->willReturn([]);
+        $flowComponentBuilder->method('buildReceivers')->willReturn([]);
+        $flowComponentBuilder->method('buildStatusReporters')->willReturn([]);
+
         $builder = new PortalStackServiceContainerBuilder(
             $this->createMock(LoggerInterface::class),
             $this->createMock(NormalizationRegistryContract::class),
@@ -154,7 +168,7 @@ class PortalStackServiceContainerBuilderTest extends TestCase
             $this->createMock(ResourceLockingContract::class),
             $this->createMock(ProfilerFactoryContract::class),
             $this->createMock(StorageKeyGeneratorContract::class),
-            $this->createMock(FlowComponent::class),
+            $flowComponentBuilder,
             $this->createMock(FilesystemFactory::class),
             $configurationService,
             $this->createMock(PublisherInterface::class),
