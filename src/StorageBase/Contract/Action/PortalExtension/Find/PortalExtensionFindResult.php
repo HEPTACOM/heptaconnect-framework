@@ -12,22 +12,12 @@ class PortalExtensionFindResult
      */
     private array $extensions = [];
 
-    public function __construct(array $extensions)
+    /**
+     * @param class-string<PortalExtensionContract> $class
+     */
+    public function add(string $class, bool $active): void
     {
-        foreach ($extensions as $extension) {
-            $class = $extension['class'] ?? null;
-            $active = $extension['active'] ?? null;
-
-            if (!\is_string($class)) {
-                throw new \Exception('Invalid PortalExtensionFindResult: "class" must be a string.', 1640359045);
-            }
-
-            if (!\is_bool($active)) {
-                throw new \Exception('Invalid PortalExtensionFindResult: "active" must be a bool.', 1640359052);
-            }
-
-            $this->extensions[$class] ??= $active;
-        }
+        $this->extensions[$class] ??= $active;
     }
 
     public function isActive(PortalExtensionContract $portalExtension): bool
