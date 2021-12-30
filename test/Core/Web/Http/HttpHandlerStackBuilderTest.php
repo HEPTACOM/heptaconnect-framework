@@ -27,7 +27,6 @@ class HttpHandlerStackBuilderTest extends TestCase
     {
         $stackBuilder = new HttpHandlerStackBuilder(
             new HttpHandlerCollection(),
-            new HttpHandlerCollection(),
             'foobar',
             $this->createMock(LoggerInterface::class),
         );
@@ -114,8 +113,7 @@ class HttpHandlerStackBuilderTest extends TestCase
         $handler2->method('supports')->willReturn('foobar');
 
         $stackBuilder = new HttpHandlerStackBuilder(
-            new HttpHandlerCollection([$handler1, $handler2]),
-            new HttpHandlerCollection([$handler2]),
+            new HttpHandlerCollection([$handler1, $handler2, $handler2]),
             'foobar',
             $this->createMock(LoggerInterface::class),
         );

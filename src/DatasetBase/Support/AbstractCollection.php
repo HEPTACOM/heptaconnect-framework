@@ -51,6 +51,16 @@ abstract class AbstractCollection implements CollectionInterface
         \array_push($this->items, ...$items);
     }
 
+    public function pop()
+    {
+        return \array_pop($this->items);
+    }
+
+    public function shift()
+    {
+        return \array_shift($this->items);
+    }
+
     public function clear(): void
     {
         $this->items = [];
