@@ -12,6 +12,7 @@ use Heptacom\HeptaConnect\Core\Test\Fixture\ThrowReceiver;
 use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiveContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack;
+use Heptacom\HeptaConnect\Portal\Base\Reception\Support\PostProcessorDataBag;
 use Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -55,10 +56,14 @@ class ReceptionActorTest extends TestCase
             $logger,
             new DeepObjectIteratorContract(),
         );
+
+        $context = $this->createMock(ReceiveContextInterface::class);
+        $context->method('getPostProcessingBag')->willReturn(new PostProcessorDataBag());
+
         $receptionActor->performReception(
             new TypedDatasetEntityCollection(FooBarEntity::class, \array_fill(0, $count, $entity)),
             $stack,
-            $this->createMock(ReceiveContextInterface::class),
+            $context
         );
     }
 
