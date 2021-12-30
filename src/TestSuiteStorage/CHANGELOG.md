@@ -10,3 +10,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add replaceable `\Heptacom\HeptaConnect\TestSuite\Storage\TestCase` to allow changing test case base class
+- Add entity fixture classes `\Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Dataset\EntityA`, `\Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Dataset\EntityB` and `\Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Dataset\EntityC` to provide a basic dataset
