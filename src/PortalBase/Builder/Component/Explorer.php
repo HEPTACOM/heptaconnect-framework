@@ -36,6 +36,16 @@ class Explorer extends ExplorerContract
         $this->isAllowedMethod = $isAllowed instanceof Closure ? new SerializableClosure($isAllowed) : null;
     }
 
+    public function getRunMethod(): ?Closure
+    {
+        return $this->runMethod instanceof SerializableClosure ? $this->runMethod->getClosure() : null;
+    }
+
+    public function getIsAllowedMethod(): ?Closure
+    {
+        return $this->isAllowedMethod instanceof SerializableClosure ? $this->isAllowedMethod->getClosure() : null;
+    }
+
     public function supports(): string
     {
         return $this->type;
