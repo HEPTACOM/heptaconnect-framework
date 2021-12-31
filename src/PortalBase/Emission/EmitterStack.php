@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Emission;
 
-use Heptacom\HeptaConnect\Portal\Base\Builder\Component\Emitter as ShorthandEmitter;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
@@ -59,52 +58,5 @@ class EmitterStack implements EmitterStackInterface, LoggerAwareInterface
     public function supports(): string
     {
         return $this->entityType;
-    }
-
-    public function listOrigins(): array
-    {
-        $origins = [];
-        foreach ($this->emitters as $emitter) {
-            $origins[] = $this->getOrigin($emitter);
-        }
-
-        return $origins;
-    }
-
-    protected function getOrigin(EmitterContract $emitter): string
-    {
-        if ($emitter instanceof ShorthandEmitter) {
-            $runMethod = $emitter->getRunMethod();
-
-            if ($runMethod instanceof \Closure) {
-                $reflection = new \ReflectionFunction($runMethod);
-
-                return $reflection->getFileName() . '::run:' . $reflection->getStartLine();
-            }
-
-            $batchMethod = $emitter->getBatchMethod();
-
-            if ($batchMethod instanceof \Closure) {
-                $reflection = new \ReflectionFunction($batchMethod);
-
-                return $reflection->getFileName() . '::batch:' . $reflection->getStartLine();
-            }
-
-            $extendMethod = $emitter->getExtendMethod();
-
-            if ($extendMethod instanceof \Closure) {
-                $reflection = new \ReflectionFunction($extendMethod);
-
-                return $reflection->getFileName() . '::extend:' . $reflection->getStartLine();
-            }
-
-            $this->logger->warning('EmitterStack contains unconfigured short-notation explorer', [
-                'code' => 1637607653,
-            ]);
-        }
-
-        $reflection = new \ReflectionClass($emitter);
-
-        return $reflection->getFileName() . ':' . $reflection->getStartLine();
     }
 }
