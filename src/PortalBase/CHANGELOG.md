@@ -12,7 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add log message code `1637421327` to `\Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack::getOrigin` when a short-notation explorer is unconfigured
 - Add log message code `1637607487` to `\Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack::getOrigin` when a short-notation receiver is unconfigured
 - Add log message code `1637607653` to `\Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack::getOrigin` when a short-notation emitter is unconfigured
-- Add log message code `1637607699` to `\Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack::getOrigin` when a short-notation http handler is unconfigured
+- Add structure to store code origin data in `\Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin`
+- Add exception `\Heptacom\HeptaConnect\Portal\Base\FlowComponent\Exception\CodeOriginNotFound` to indicate issues when looking for code origins
+- Add `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerCodeOriginFinderInterface` to find code origin of `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract`
 
 ### Changed
 
