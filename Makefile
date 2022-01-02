@@ -13,6 +13,7 @@ COMPOSER_REQUIRE_CHECKER_PHAR := https://github.com/maglnet/ComposerRequireCheck
 COMPOSER_REQUIRE_CHECKER_FILE := dev-ops/bin/composer-require-checker
 PHPMD_PHAR := https://github.com/phpmd/phpmd/releases/download/2.11.1/phpmd.phar
 PHPMD_FILE := dev-ops/bin/phpmd
+PSALM_FILE := dev-ops/bin/psalm/vendor/bin/psalm
 
 .DEFAULT_GOAL := help
 .PHONY: help
@@ -49,9 +50,8 @@ cs-phpstan: vendor .build $(PHPSTAN_FILE) ## Run phpstan for static code analysi
 	$(PHP) $(PHPSTAN_FILE) analyse -c dev-ops/phpstan.neon --error-format=junit
 
 .PHONY: cs-psalm
-cs-psalm: vendor .build ## Run psalm for static code analysis
-	# Bug in psalm expects the cache directory to be in the project parent but is the config parent (https://github.com/vimeo/psalm/pull/3421)
-	cd dev-ops && $(PHP) ../vendor/bin/psalm -c $(shell pwd)/dev-ops/psalm.xml
+cs-psalm: vendor .build $(PSALM_FILE) ## Run psalm for static code analysis
+	$(PHP) $(PSALM_FILE) -c $(shell pwd)/dev-ops/psalm.xml
 
 .PHONY: cs-phpmd
 cs-phpmd: vendor .build $(PHPMD_FILE) ## Run php mess detector for static code analysis
@@ -115,6 +115,9 @@ $(COMPOSER_REQUIRE_CHECKER_FILE): ## Install composer-require-checker executable
 
 $(PHPMD_FILE): ## Install phpmd executable
 	$(CURL) -L $(PHPMD_PHAR) -o $(PHPMD_FILE)
+
+$(PSALM_FILE): ## Install psalm executable
+	$(COMPOSER) install -d dev-ops/bin/psalm
 
 .PHONY: composer-update
 composer-update:

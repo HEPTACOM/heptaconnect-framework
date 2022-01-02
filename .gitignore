@@ -3,6 +3,7 @@
 /dev-ops/bin/composer-require-checker
 /dev-ops/bin/phpmd
 /dev-ops/bin/phpstan/vendor/
+/dev-ops/bin/psalm/vendor/
 /composer.lock
 
 /.build
