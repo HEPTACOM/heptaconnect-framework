@@ -68,7 +68,7 @@ cs-composer-unused: vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to det
 
 .PHONY: cs-soft-require
 cs-soft-require: vendor .build $(COMPOSER_REQUIRE_CHECKER_FILE) ## Run composer-require-checker to detect library usage without requirement entry in composer.json
-	$(PHP) $(COMPOSER_REQUIRE_CHECKER_FILE) check --config-file=dev-ops/composer-soft-requirements.json composer.json
+	$(PHP) $(COMPOSER_REQUIRE_CHECKER_FILE) check --config-file=$(shell pwd)/dev-ops/composer-soft-requirements.json composer.json
 
 .PHONY: cs-composer-normalize
 cs-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-normalize for composer.json style analysis
