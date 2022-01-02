@@ -1,5 +1,6 @@
 /vendor/
 /bin/composer-normalize/composer-normalize
+/bin/composer-require-checker/composer-require-checker
 /bin/phpstan/vendor/
 /composer.lock
 

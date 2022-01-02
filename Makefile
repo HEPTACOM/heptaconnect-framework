@@ -9,6 +9,8 @@ JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*')
 PHPSTAN_FILE := bin/phpstan/vendor/bin/phpstan
 COMPOSER_NORMALIZE_PHAR := https://github.com/ergebnis/composer-normalize/releases/download/2.22.0/composer-normalize.phar
 COMPOSER_NORMALIZE_FILE := bin/composer-normalize/composer-normalize
+COMPOSER_REQUIRE_CHECKER_PHAR := https://github.com/maglnet/ComposerRequireChecker/releases/download/3.8.0/composer-require-checker.phar
+COMPOSER_REQUIRE_CHECKER_FILE := bin/$(COMPOSER_REQUIRE_CHECKER_FILE)/composer-require-checker
 
 .DEFAULT_GOAL := help
 .PHONY: help
@@ -61,8 +63,8 @@ cs-composer-unused: vendor ## Run composer-unused to detect once-required packag
 	$(COMPOSER) unused --no-progress
 
 .PHONY: cs-soft-require
-cs-soft-require: vendor .build ## Run composer-require-checker to detect library usage without requirement entry in composer.json
-	$(PHP) vendor/bin/composer-require-checker check --config-file=dev-ops/composer-soft-requirements.json composer.json
+cs-soft-require: vendor .build $(COMPOSER_REQUIRE_CHECKER_FILE) ## Run composer-require-checker to detect library usage without requirement entry in composer.json
+	$(PHP) $(COMPOSER_REQUIRE_CHECKER_FILE) check --config-file=dev-ops/composer-soft-requirements.json composer.json
 
 .PHONY: cs-composer-normalize
 cs-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-normalize for composer.json style analysis
@@ -105,6 +107,9 @@ $(PHPSTAN_FILE): ## Install phpstan executable
 
 $(COMPOSER_NORMALIZE_FILE): ## Install composer-normalize executable
 	$(CURL) -L $(COMPOSER_NORMALIZE_PHAR) -o $(COMPOSER_NORMALIZE_FILE)
+
+$(COMPOSER_REQUIRE_CHECKER_FILE): ## Install composer-require-checker executable
+	$(CURL) -L $(COMPOSER_REQUIRE_CHECKER_PHAR) -o $(COMPOSER_REQUIRE_CHECKER_FILE)
 
 .PHONY: composer-update
 composer-update:
