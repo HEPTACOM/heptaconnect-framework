@@ -11,6 +11,13 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
  */
 class PortalExtensionCollection extends AbstractCollection
 {
+    public function bySupport(string $portalClass): self
+    {
+        return new self($this->filter(
+            fn (PortalExtensionContract $extension) => \is_a($extension->supports(), $portalClass, true)
+        ));
+    }
+
     protected function isValidItem($item): bool
     {
         /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */

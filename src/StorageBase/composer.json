@@ -1,19 +1,25 @@
 {
     "name": "heptacom/heptaconnect-storage-base",
-    "type": "library",
     "description": "HEPTAconnect base storage that every other storage provider is based on",
-    "keywords": [
-        "heptaconnect-storage"
-    ],
     "license": [
         "AGPL-3.0-or-later",
         "proprietary"
+    ],
+    "type": "library",
+    "keywords": [
+        "heptaconnect-storage"
     ],
     "authors": [
         {
             "name": "HEPTACOM GmbH"
         }
     ],
+    "support": {
+        "issues": "https://github.com/HEPTACOM/heptaconnect-framework/issues",
+        "source": "https://github.com/HEPTACOM/heptaconnect-framework",
+        "docs": "https://connect.heptacom.de/",
+        "rss": "https://connect.heptacom.de/feed/rss2.xml"
+    },
     "require": {
         "php": ">=7.4",
         "ext-json": "*",
@@ -21,22 +27,16 @@
         "heptacom/heptaconnect-dataset-base": "self.version",
         "heptacom/heptaconnect-portal-base": "self.version"
     },
-    "autoload": {
-        "psr-4": {
-            "Heptacom\\HeptaConnect\\Storage\\Base\\": ""
-        }
-    },
     "repositories": {
         "heptaconnect-sources": {
             "type": "path",
             "url": "../**"
         }
     },
-    "support": {
-        "issues": "https://github.com/HEPTACOM/heptaconnect-framework/issues",
-        "source": "https://github.com/HEPTACOM/heptaconnect-framework",
-        "docs": "https://connect.heptacom.de/",
-        "rss": "https://connect.heptacom.de/feed/rss2.xml"
+    "autoload": {
+        "psr-4": {
+            "Heptacom\\HeptaConnect\\Storage\\Base\\": ""
+        }
     },
     "website": "https://heptaconnect.io"
 }
