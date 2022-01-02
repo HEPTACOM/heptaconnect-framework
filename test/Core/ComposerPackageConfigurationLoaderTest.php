@@ -46,6 +46,6 @@ class ComposerPackageConfigurationLoaderTest extends TestCase
         ));
         static::assertCount(4, $configs->filter(
             fn (PackageConfiguration $pkg): bool => $pkg->getAutoloadedFiles()->count() > 0
-        ));
+        ), 'When this fails it could be that the composer install in the test-integration is missing');
     }
 }
