@@ -1,6 +1,7 @@
 /vendor/
 /dev-ops/bin/composer-normalize
 /dev-ops/bin/composer-require-checker
+/dev-ops/bin/phpmd
 /dev-ops/bin/phpstan/vendor/
 /composer.lock
 

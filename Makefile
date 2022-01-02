@@ -11,6 +11,8 @@ COMPOSER_NORMALIZE_PHAR := https://github.com/ergebnis/composer-normalize/releas
 COMPOSER_NORMALIZE_FILE := dev-ops/bin/composer-normalize
 COMPOSER_REQUIRE_CHECKER_PHAR := https://github.com/maglnet/ComposerRequireChecker/releases/download/3.8.0/composer-require-checker.phar
 COMPOSER_REQUIRE_CHECKER_FILE := dev-ops/bin/composer-require-checker
+PHPMD_PHAR := https://github.com/phpmd/phpmd/releases/download/2.11.1/phpmd.phar
+PHPMD_FILE := dev-ops/bin/phpmd
 
 .DEFAULT_GOAL := help
 .PHONY: help
@@ -52,11 +54,11 @@ cs-psalm: vendor .build ## Run psalm for static code analysis
 	cd dev-ops && $(PHP) ../vendor/bin/psalm -c $(shell pwd)/dev-ops/psalm.xml
 
 .PHONY: cs-phpmd
-cs-phpmd: vendor .build ## Run php mess detector for static code analysis
+cs-phpmd: vendor .build $(PHPMD_FILE) ## Run php mess detector for static code analysis
 	# TODO Re-add rulesets/unused.xml when phpmd fixes false-positive UnusedPrivateField
-	$(PHP) vendor/bin/phpmd --ignore-violations-on-exit src ansi rulesets/codesize.xml,rulesets/naming.xml
+	$(PHP) $(PHPMD_FILE) --ignore-violations-on-exit src ansi rulesets/codesize.xml,rulesets/naming.xml
 	[[ -f .build/phpmd-junit.xslt ]] || $(CURL) https://phpmd.org/junit.xslt -o .build/phpmd-junit.xslt
-	$(PHP) vendor/bin/phpmd src xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md.junit.xml
+	$(PHP) $(PHPMD_FILE) src xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md.junit.xml
 
 .PHONY: cs-composer-unused
 cs-composer-unused: vendor ## Run composer-unused to detect once-required packages that are not used anymore
@@ -110,6 +112,9 @@ $(COMPOSER_NORMALIZE_FILE): ## Install composer-normalize executable
 
 $(COMPOSER_REQUIRE_CHECKER_FILE): ## Install composer-require-checker executable
 	$(CURL) -L $(COMPOSER_REQUIRE_CHECKER_PHAR) -o $(COMPOSER_REQUIRE_CHECKER_FILE)
+
+$(PHPMD_FILE): ## Install phpmd executable
+	$(CURL) -L $(PHPMD_PHAR) -o $(PHPMD_FILE)
 
 .PHONY: composer-update
 composer-update:

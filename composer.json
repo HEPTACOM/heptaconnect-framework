@@ -26,7 +26,6 @@
         "friendsofphp/php-cs-fixer": ">=2.17",
         "icanhazstring/composer-unused": ">=0.7",
         "infection/infection": ">=0.21",
-        "phpmd/phpmd": "@stable",
         "phpunit/phpunit": ">=9.3 <10",
         "psalm/plugin-phpunit": ">=0.10",
         "vimeo/psalm": ">=4"
