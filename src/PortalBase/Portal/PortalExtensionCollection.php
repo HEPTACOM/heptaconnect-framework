@@ -11,7 +11,7 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
  */
 class PortalExtensionCollection extends AbstractCollection
 {
-    public function filterSupported(string $portalClass): self
+    public function bySupport(string $portalClass): self
     {
         return new self($this->filter(
             fn (PortalExtensionContract $extension) => \is_a($extension->supports(), $portalClass, true)
