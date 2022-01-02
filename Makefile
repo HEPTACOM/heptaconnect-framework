@@ -7,6 +7,8 @@ CURL := $(shell which curl)
 JQ := $(shell which jq)
 JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*')
 PHPSTAN_FILE := bin/phpstan/vendor/bin/phpstan
+COMPOSER_NORMALIZE_PHAR := https://github.com/ergebnis/composer-normalize/releases/download/2.22.0/composer-normalize.phar
+COMPOSER_NORMALIZE_FILE := bin/composer-normalize/composer-normalize
 
 .DEFAULT_GOAL := help
 .PHONY: help
@@ -63,8 +65,8 @@ cs-soft-require: vendor .build ## Run composer-require-checker to detect library
 	$(PHP) vendor/bin/composer-require-checker check --config-file=dev-ops/composer-soft-requirements.json composer.json
 
 .PHONY: cs-composer-normalize
-cs-composer-normalize: vendor ## Run composer-normalize for composer.json style analysis
-	$(COMPOSER) normalize --diff --dry-run --no-check-lock --no-update-lock composer.json
+cs-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-normalize for composer.json style analysis
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock composer.json
 
 .PHONY: cs-json
 cs-json: $(JSON_FILES) ## Run jq on every json file to ensure they are parsable and therefore valid
@@ -77,8 +79,8 @@ $(JSON_FILES):
 cs-fix: cs-fix-composer-normalize cs-fix-php
 
 .PHONY: cs-fix-composer-normalize
-cs-fix-composer-normalize: vendor ## Run composer-normalize for automatic composer.json style fixes
-	$(COMPOSER) normalize --diff composer.json
+cs-fix-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-normalize for automatic composer.json style fixes
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff composer.json
 
 .PHONY: cs-fix-php
 cs-fix-php: vendor .build ## Run php-cs-fixer for automatic code style fixes
@@ -100,6 +102,9 @@ test/%Test.php: vendor
 
 $(PHPSTAN_FILE): ## Install phpstan executable
 	$(COMPOSER) install -d bin/phpstan
+
+$(COMPOSER_NORMALIZE_FILE): ## Install composer-normalize executable
+	$(CURL) -L $(COMPOSER_NORMALIZE_PHAR) -o $(COMPOSER_NORMALIZE_FILE)
 
 .PHONY: composer-update
 composer-update:
