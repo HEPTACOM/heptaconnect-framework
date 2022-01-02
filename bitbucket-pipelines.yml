@@ -66,61 +66,61 @@ definitions:
                     - COMPOSER_EXTRA_ARGS=-vvv make -e test
         -   step: &test-coverage
                 <<: *default-step
-                name: Unit test coverage
+                name: Test coverage
                 script:
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - COMPOSER_EXTRA_ARGS=-vvv make -e coverage
         -   step: &test-code-style-php
                 <<: *default-step
-                name: Code style (PHP)
+                name: ECS (Code style)
                 script:
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-php
         -   step: &test-code-style-phpstan
                 <<: *default-step
-                name: Static code analysis (PHPStan)
+                name: PHPStan (Static code analysis)
                 script:
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-phpstan
         -   step: &test-code-style-psalm
                 <<: *default-step
-                name: Static code analysis (Psalm)
+                name: Psalm (Static code analysis)
                 script:
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-psalm
         -   step: &test-code-style-phpmd
                 <<: *default-step
-                name: Static code analysis (PHP Mess Detector)
+                name: PHP Mess Detector (Static code analysis)
                 script:
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-phpmd
         -   step: &test-code-style-soft-require
                 <<: *default-step
-                name: Composer requirement analysis (soft requirements)
+                name: Composer soft requirements (Requirement analysis)
                 script:
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-soft-require
         -   step: &test-code-style-composer-unused
                 <<: *default-step
-                name: Composer requirement analysis (unused)
+                name: Composer unused (Requirement analysis)
                 script:
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-composer-unused
         -   step: &test-code-style-composer-normalize
                 <<: *default-step
-                name: Code style (composer.json)
+                name: composer.json (Code style)
                 script:
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-composer-normalize
         -   step: &test-code-style-json
                 <<: *default-step
-                name: Code style (*.json)
+                name: '*.json (Code style)'
                 script:
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-json
         -   step: &test-infection
                 <<: *default-step
-                name: Unit test infection detection
+                name: Test infection
                 script:
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - COMPOSER_EXTRA_ARGS=-vvv make -e infection
