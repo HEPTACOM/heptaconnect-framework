@@ -6,6 +6,7 @@ PHPUNIT := $(PHP) vendor/bin/phpunit $(PHPUNIT_EXTRA_ARGS)
 CURL := $(shell which curl)
 JQ := $(shell which jq)
 JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*')
+PHPSTAN_FILE := bin/phpstan/vendor/bin/phpstan
 
 .DEFAULT_GOAL := help
 .PHONY: help
@@ -38,8 +39,8 @@ cs-php: vendor .build ## Run php-cs-fixer for code style analysis
 	$(PHP) vendor/bin/php-cs-fixer fix --dry-run --config=dev-ops/php_cs.php --format junit > .build/php-cs-fixer.junit.xml
 
 .PHONY: cs-phpstan
-cs-phpstan: vendor .build ## Run phpstan for static code analysis
-	$(PHP) vendor/bin/phpstan analyse -c dev-ops/phpstan.neon --error-format=junit
+cs-phpstan: vendor .build $(PHPSTAN_FILE) ## Run phpstan for static code analysis
+	$(PHP) $(PHPSTAN_FILE) analyse -c dev-ops/phpstan.neon --error-format=junit
 
 .PHONY: cs-psalm
 cs-psalm: vendor .build ## Run psalm for static code analysis
@@ -96,6 +97,9 @@ test: vendor .build ## Run phpunit for unit tests
 
 test/%Test.php: vendor
 	$(PHPUNIT) "$@"
+
+$(PHPSTAN_FILE): ## Install phpstan executable
+	$(COMPOSER) install -d bin/phpstan
 
 .PHONY: composer-update
 composer-update:
