@@ -14,6 +14,7 @@ COMPOSER_REQUIRE_CHECKER_FILE := dev-ops/bin/composer-require-checker
 PHPMD_PHAR := https://github.com/phpmd/phpmd/releases/download/2.11.1/phpmd.phar
 PHPMD_FILE := dev-ops/bin/phpmd
 PSALM_FILE := dev-ops/bin/psalm/vendor/bin/psalm
+COMPOSER_UNUSED_FILE := dev-ops/bin/composer-unused/vendor/bin/composer-unused
 
 .DEFAULT_GOAL := help
 .PHONY: help
@@ -61,8 +62,8 @@ cs-phpmd: vendor .build $(PHPMD_FILE) ## Run php mess detector for static code a
 	$(PHP) $(PHPMD_FILE) src xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md.junit.xml
 
 .PHONY: cs-composer-unused
-cs-composer-unused: vendor ## Run composer-unused to detect once-required packages that are not used anymore
-	$(COMPOSER) unused --no-progress
+cs-composer-unused: vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to detect once-required packages that are not used anymore
+	$(PHP) $(COMPOSER_UNUSED_FILE) --no-progress
 
 .PHONY: cs-soft-require
 cs-soft-require: vendor .build $(COMPOSER_REQUIRE_CHECKER_FILE) ## Run composer-require-checker to detect library usage without requirement entry in composer.json
@@ -118,6 +119,9 @@ $(PHPMD_FILE): ## Install phpmd executable
 
 $(PSALM_FILE): ## Install psalm executable
 	$(COMPOSER) install -d dev-ops/bin/psalm
+
+$(COMPOSER_UNUSED_FILE): ## Install composer-unused executable
+	$(COMPOSER) install -d dev-ops/bin/composer-unused
 
 .PHONY: composer-update
 composer-update:
