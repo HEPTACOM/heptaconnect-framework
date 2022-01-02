@@ -91,5 +91,10 @@
             "Heptacom\\HeptaConnect\\Core\\Test\\": "test/Core/"
         }
     },
+    "config": {
+        "allow-plugins": {
+            "infection/extension-installer": true
+        }
+    },
     "website": "https://heptaconnect.io"
 }
