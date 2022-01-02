@@ -138,9 +138,6 @@ pipelines:
                     -   step: *test-code-style-composer-unused
                     -   step: *test-code-style-json
                     -   step: *test-code-style-php
-                    -   step: *test-code-style-phpmd
-                    -   step: *test-code-style-phpstan
-                    -   step: *test-code-style-psalm
                     -   step: *test-code-style-soft-require
             -   step: *composer-low-install
             -   parallel:
@@ -150,10 +147,19 @@ pipelines:
                     -   step: *test-code-style-composer-unused
                     -   step: *test-code-style-json
                     -   step: *test-code-style-php
+                    -   step: *test-code-style-soft-require
+            -   step: *composer-high-install
+            -   parallel:
                     -   step: *test-code-style-phpmd
                     -   step: *test-code-style-phpstan
                     -   step: *test-code-style-psalm
-                    -   step: *test-code-style-soft-require
+                    -   step: *test-infection
+            -   step: *composer-low-install
+            -   parallel:
+                    -   step: *test-code-style-phpmd
+                    -   step: *test-code-style-phpstan
+                    -   step: *test-code-style-psalm
+                    -   step: *test-infection
 
     tags:
         '*':
@@ -169,9 +175,6 @@ pipelines:
                 -   step: *test-code-style-composer-unused
                 -   step: *test-code-style-json
                 -   step: *test-code-style-php
-                -   step: *test-code-style-phpmd
-                -   step: *test-code-style-phpstan
-                -   step: *test-code-style-psalm
                 -   step: *test-code-style-soft-require
         -   step: *composer-low-install
         -   parallel:
@@ -181,7 +184,16 @@ pipelines:
                 -   step: *test-code-style-composer-unused
                 -   step: *test-code-style-json
                 -   step: *test-code-style-php
+                -   step: *test-code-style-soft-require
+        -   step: *composer-high-install
+        -   parallel:
                 -   step: *test-code-style-phpmd
                 -   step: *test-code-style-phpstan
                 -   step: *test-code-style-psalm
-                -   step: *test-code-style-soft-require
+                -   step: *test-infection
+        -   step: *composer-low-install
+        -   parallel:
+                -   step: *test-code-style-phpmd
+                -   step: *test-code-style-phpstan
+                -   step: *test-code-style-psalm
+                -   step: *test-infection
