@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Exploration;
 
-use Heptacom\HeptaConnect\Portal\Base\Builder\Component\Explorer as ShorthandExplorer;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerStackInterface;
