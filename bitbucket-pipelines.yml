@@ -70,12 +70,54 @@ definitions:
                 script:
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - COMPOSER_EXTRA_ARGS=-vvv make -e coverage
-        -   step: &test-code-style
+        -   step: &test-code-style-php
                 <<: *default-step
-                name: Code style and static code analysis
+                name: Code style (PHP)
                 script:
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
-                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-php
+        -   step: &test-code-style-phpstan
+                <<: *default-step
+                name: Static code analysis (PHPStan)
+                script:
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-phpstan
+        -   step: &test-code-style-psalm
+                <<: *default-step
+                name: Static code analysis (Psalm)
+                script:
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-psalm
+        -   step: &test-code-style-phpmd
+                <<: *default-step
+                name: Static code analysis (PHP Mess Detector)
+                script:
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-phpmd
+        -   step: &test-code-style-soft-require
+                <<: *default-step
+                name: Composer requirement analysis (soft requirements)
+                script:
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-soft-require
+        -   step: &test-code-style-composer-unused
+                <<: *default-step
+                name: Composer requirement analysis (unused)
+                script:
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-composer-unused
+        -   step: &test-code-style-composer-normalize
+                <<: *default-step
+                name: Code style (composer.json)
+                script:
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-composer-normalize
+        -   step: &test-code-style-json
+                <<: *default-step
+                name: Code style (*.json)
+                script:
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-json
         -   step: &test-infection
                 <<: *default-step
                 name: Unit test infection detection
@@ -92,12 +134,26 @@ pipelines:
             -   parallel:
                     -   step: *test-unit
                     -   step: *test-coverage
-                    -   step: *test-code-style
+                    -   step: *test-code-style-composer-normalize
+                    -   step: *test-code-style-composer-unused
+                    -   step: *test-code-style-json
+                    -   step: *test-code-style-php
+                    -   step: *test-code-style-phpmd
+                    -   step: *test-code-style-phpstan
+                    -   step: *test-code-style-psalm
+                    -   step: *test-code-style-soft-require
             -   step: *composer-low-install
             -   parallel:
                     -   step: *test-unit
                     -   step: *test-coverage
-                    -   step: *test-code-style
+                    -   step: *test-code-style-composer-normalize
+                    -   step: *test-code-style-composer-unused
+                    -   step: *test-code-style-json
+                    -   step: *test-code-style-php
+                    -   step: *test-code-style-phpmd
+                    -   step: *test-code-style-phpstan
+                    -   step: *test-code-style-psalm
+                    -   step: *test-code-style-soft-require
 
     tags:
         '*':
@@ -109,9 +165,23 @@ pipelines:
         -   parallel:
                 -   step: *test-unit
                 -   step: *test-coverage
-                -   step: *test-code-style
+                -   step: *test-code-style-composer-normalize
+                -   step: *test-code-style-composer-unused
+                -   step: *test-code-style-json
+                -   step: *test-code-style-php
+                -   step: *test-code-style-phpmd
+                -   step: *test-code-style-phpstan
+                -   step: *test-code-style-psalm
+                -   step: *test-code-style-soft-require
         -   step: *composer-low-install
         -   parallel:
                 -   step: *test-unit
                 -   step: *test-coverage
-                -   step: *test-code-style
+                -   step: *test-code-style-composer-normalize
+                -   step: *test-code-style-composer-unused
+                -   step: *test-code-style-json
+                -   step: *test-code-style-php
+                -   step: *test-code-style-phpmd
+                -   step: *test-code-style-phpstan
+                -   step: *test-code-style-psalm
+                -   step: *test-code-style-soft-require
