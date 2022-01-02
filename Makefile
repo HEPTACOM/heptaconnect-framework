@@ -27,7 +27,10 @@ clean: ## Cleans up all ignored files and directories
 it: cs-fix cs test ## Fix code style and run unit tests
 
 .PHONY: coverage
-coverage: vendor .build test-refresh-fixture ## Run phpunit coverage tests
+coverage: vendor .build test-setup-fixture run-phpunit-coverage test-clean-fixture ## Run phpunit coverage tests
+
+.PHONY: run-phpunit-coverage
+run-phpunit-coverage:
 	$(PHPUNIT) --coverage-text
 
 .PHONY: cs
