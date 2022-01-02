@@ -1,0 +1,7 @@
+{
+    "require": {
+        "php": ">=7.4",
+        "kubawerlos/php-cs-fixer-custom-fixers": "^2.5",
+        "symplify/easy-coding-standard": "~8.3.48"
+    }
+}

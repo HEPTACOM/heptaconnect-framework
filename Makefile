@@ -15,6 +15,7 @@ PHPMD_PHAR := https://github.com/phpmd/phpmd/releases/download/2.11.1/phpmd.phar
 PHPMD_FILE := dev-ops/bin/phpmd
 PSALM_FILE := dev-ops/bin/psalm/vendor/bin/psalm
 COMPOSER_UNUSED_FILE := dev-ops/bin/composer-unused/vendor/bin/composer-unused
+EASY_CODING_STANDARD_FILE := dev-ops/bin/easy-coding-standard/vendor/bin/ecs
 
 .DEFAULT_GOAL := help
 .PHONY: help
@@ -42,9 +43,8 @@ coverage: vendor .build ## Run phpunit coverage tests
 cs: cs-php cs-phpstan cs-psalm cs-phpmd cs-soft-require cs-composer-unused cs-composer-normalize cs-json ## Run every code style check target
 
 .PHONY: cs-php
-cs-php: vendor .build ## Run php-cs-fixer for code style analysis
-	$(PHP) vendor/bin/php-cs-fixer fix --dry-run --config=dev-ops/php_cs.php --diff --verbose
-	$(PHP) vendor/bin/php-cs-fixer fix --dry-run --config=dev-ops/php_cs.php --format junit > .build/php-cs-fixer.junit.xml
+cs-php: vendor .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standard for code style analysis
+	$(PHP) $(EASY_CODING_STANDARD_FILE) check --config=dev-ops/ecs.php
 
 .PHONY: cs-phpstan
 cs-phpstan: vendor .build $(PHPSTAN_FILE) ## Run phpstan for static code analysis
@@ -88,8 +88,8 @@ cs-fix-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-nor
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff composer.json
 
 .PHONY: cs-fix-php
-cs-fix-php: vendor .build ## Run php-cs-fixer for automatic code style fixes
-	$(PHP) vendor/bin/php-cs-fixer fix --config=dev-ops/php_cs.php --diff --verbose
+cs-fix-php: vendor .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standard for automatic code style fixes
+	$(PHP) $(EASY_CODING_STANDARD_FILE) check --config=dev-ops/ecs.php --fix
 
 .PHONY: infection
 infection: vendor .build ## Run infection tests
@@ -122,6 +122,9 @@ $(PSALM_FILE): ## Install psalm executable
 
 $(COMPOSER_UNUSED_FILE): ## Install composer-unused executable
 	$(COMPOSER) install -d dev-ops/bin/composer-unused
+
+$(EASY_CODING_STANDARD_FILE): ## Install easy-coding-standard executable
+	$(COMPOSER) install -d dev-ops/bin/easy-coding-standard
 
 .PHONY: composer-update
 composer-update:
