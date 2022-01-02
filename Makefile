@@ -6,11 +6,11 @@ PHPUNIT := $(PHP) vendor/bin/phpunit $(PHPUNIT_EXTRA_ARGS)
 CURL := $(shell which curl)
 JQ := $(shell which jq)
 JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*')
-PHPSTAN_FILE := bin/phpstan/vendor/bin/phpstan
+PHPSTAN_FILE := dev-ops/bin/phpstan/vendor/bin/phpstan
 COMPOSER_NORMALIZE_PHAR := https://github.com/ergebnis/composer-normalize/releases/download/2.22.0/composer-normalize.phar
-COMPOSER_NORMALIZE_FILE := bin/composer-normalize/composer-normalize
+COMPOSER_NORMALIZE_FILE := dev-ops/bin/composer-normalize
 COMPOSER_REQUIRE_CHECKER_PHAR := https://github.com/maglnet/ComposerRequireChecker/releases/download/3.8.0/composer-require-checker.phar
-COMPOSER_REQUIRE_CHECKER_FILE := bin/$(COMPOSER_REQUIRE_CHECKER_FILE)/composer-require-checker
+COMPOSER_REQUIRE_CHECKER_FILE := dev-ops/bin/composer-require-checker
 
 .DEFAULT_GOAL := help
 .PHONY: help
@@ -103,7 +103,7 @@ test/%Test.php: vendor
 	$(PHPUNIT) "$@"
 
 $(PHPSTAN_FILE): ## Install phpstan executable
-	$(COMPOSER) install -d bin/phpstan
+	$(COMPOSER) install -d dev-ops/bin/phpstan
 
 $(COMPOSER_NORMALIZE_FILE): ## Install composer-normalize executable
 	$(CURL) -L $(COMPOSER_NORMALIZE_PHAR) -o $(COMPOSER_NORMALIZE_FILE)

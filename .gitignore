@@ -1,7 +1,7 @@
 /vendor/
-/bin/composer-normalize/composer-normalize
-/bin/composer-require-checker/composer-require-checker
-/bin/phpstan/vendor/
+/dev-ops/bin/composer-normalize
+/dev-ops/bin/composer-require-checker
+/dev-ops/bin/phpstan/vendor/
 /composer.lock
 
 /.build
