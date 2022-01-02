@@ -75,10 +75,10 @@
         "vimeo/psalm": ">=4"
     },
     "replace": {
-        "heptacom/heptaconnect-core": "self.version",
-        "heptacom/heptaconnect-dataset-base": "self.version",
-        "heptacom/heptaconnect-portal-base": "self.version",
-        "heptacom/heptaconnect-storage-base": "self.version"
+        "heptacom/heptaconnect-core": "*",
+        "heptacom/heptaconnect-dataset-base": "*",
+        "heptacom/heptaconnect-portal-base": "*",
+        "heptacom/heptaconnect-storage-base": "*"
     },
     "conflict": {
         "nikic/php-parser": "4.7.0"
