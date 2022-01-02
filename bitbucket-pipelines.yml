@@ -1,6 +1,9 @@
 image: heptacom/heptaconnect-pipeline:php74-6.0.2
 
 definitions:
+    partials:
+        -   step: &php80-image
+                image: heptacom/heptaconnect-pipeline:php80-6.0.2
     services:
         mysql:
             image: mysql:5.7
@@ -58,12 +61,24 @@ definitions:
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - composer update --prefer-lowest --prefer-stable
                     - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
+        -   step: &composer-high-install-80
+                <<: *composer-high-install
+                <<: *php80-image
+                name: Install (8.0 + High dependencies)
+        -   step: &composer-low-install-80
+                <<: *composer-low-install
+                <<: *php80-image
+                name: Install (8.0 + Low dependencies)
         -   step: &test-unit
                 <<: *default-step
                 name: Unit tests
                 script:
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - COMPOSER_EXTRA_ARGS=-vvv make -e test
+        -   step: &test-unit-80
+                <<: *test-unit
+                <<: *php80-image
+                name: Unit tests (8.0)
         -   step: &test-coverage
                 <<: *default-step
                 name: Test coverage
@@ -148,6 +163,10 @@ pipelines:
                     -   step: *test-code-style-json
                     -   step: *test-code-style-php
                     -   step: *test-code-style-soft-require
+            -   step: *composer-high-install-80
+            -   step: *test-unit-80
+            -   step: *composer-low-install-80
+            -   step: *test-unit-80
             -   step: *composer-high-install
             -   parallel:
                     -   step: *test-code-style-phpmd
@@ -185,6 +204,10 @@ pipelines:
                 -   step: *test-code-style-json
                 -   step: *test-code-style-php
                 -   step: *test-code-style-soft-require
+        -   step: *composer-high-install-80
+        -   step: *test-unit-80
+        -   step: *composer-low-install-80
+        -   step: *test-unit-80
         -   step: *composer-high-install
         -   parallel:
                 -   step: *test-code-style-phpmd
