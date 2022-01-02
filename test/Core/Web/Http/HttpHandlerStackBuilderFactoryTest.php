@@ -33,7 +33,7 @@ class HttpHandlerStackBuilderFactoryTest extends TestCase
         $container->method('get')->with(FlowComponentRegistry::class)->willReturn($flowComponentRegistry);
         $flowComponentRegistry->method('getOrderedSources')->willReturn([PortalContract::class]);
         $flowComponentRegistry->method('getWebHttpHandlers')->with(PortalContract::class)->willReturn(new HttpHandlerCollection([$httpHandler]));
-        $httpHandler->method('getPath')->willReturn('foobar');
+        $httpHandler->method('supports')->willReturn('foobar');
 
         $factory = new HttpHandlerStackBuilderFactory($portalContainerFactory, $logger);
         $stack = $factory->createHttpHandlerStackBuilder($portalNodeKey, 'foobar');
@@ -58,8 +58,8 @@ class HttpHandlerStackBuilderFactoryTest extends TestCase
         $container->method('get')->with(FlowComponentRegistry::class)->willReturn($flowComponentRegistry);
         $flowComponentRegistry->method('getOrderedSources')->willReturn([PortalContract::class]);
         $flowComponentRegistry->method('getWebHttpHandlers')->with(PortalContract::class)->willReturn(new HttpHandlerCollection([$httpHandler1, $httpHandler2]));
-        $httpHandler1->method('getPath')->willReturn('foobar');
-        $httpHandler2->method('getPath')->willReturn('foobar');
+        $httpHandler1->method('supports')->willReturn('foobar');
+        $httpHandler2->method('supports')->willReturn('foobar');
 
         $factory = new HttpHandlerStackBuilderFactory($portalContainerFactory, $logger);
         $stack = $factory->createHttpHandlerStackBuilder($portalNodeKey, 'foobar');
