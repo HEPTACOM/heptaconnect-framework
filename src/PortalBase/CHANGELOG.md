@@ -11,10 +11,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add structure to store code origin data in `\Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin`
 - Add exception `\Heptacom\HeptaConnect\Portal\Base\FlowComponent\Exception\CodeOriginNotFound` to indicate issues when looking for code origins
+- Add `\Heptacom\HeptaConnect\Portal\Base\Builder\Component\HttpHandler::getRunMethod` to expose configured callback for origin access reading
+- Add `\Heptacom\HeptaConnect\Portal\Base\Builder\Component\HttpHandler::getOptionsMethod` to expose configured callback for origin access reading
+- Add `\Heptacom\HeptaConnect\Portal\Base\Builder\Component\HttpHandler::getGetMethod` to expose configured callback for origin access reading
+- Add `\Heptacom\HeptaConnect\Portal\Base\Builder\Component\HttpHandler::getPostMethod` to expose configured callback for origin access reading
+- Add `\Heptacom\HeptaConnect\Portal\Base\Builder\Component\HttpHandler::getPatchMethod` to expose configured callback for origin access reading
+- Add `\Heptacom\HeptaConnect\Portal\Base\Builder\Component\HttpHandler::getPutMethod` to expose configured callback for origin access reading
+- Add `\Heptacom\HeptaConnect\Portal\Base\Builder\Component\HttpHandler::getDeleteMethod` to expose configured callback for origin access reading
 - Add `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerCodeOriginFinderInterface` to find code origin of `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract`
+- Add `\Heptacom\HeptaConnect\Portal\Base\Builder\Component\Emitter::getRunMethod` to expose configured callback for origin access reading
+- Add `\Heptacom\HeptaConnect\Portal\Base\Builder\Component\Emitter::getBatchMethod` to expose configured callback for origin access reading
+- Add `\Heptacom\HeptaConnect\Portal\Base\Builder\Component\Emitter::getExtendMethod` to expose configured callback for origin access reading
 - Add `\Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface` to find code origin of `\Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract`
+- Add `\Heptacom\HeptaConnect\Portal\Base\Builder\Component\Explorer::getRunMethod` to expose configured callback for origin access reading
+- Add `\Heptacom\HeptaConnect\Portal\Base\Builder\Component\Explorer::getIsAllowedMethod` to expose configured callback for origin access reading
 - Add `\Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerCodeOriginFinderInterface` to find code origin of `\Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract`
+- Add `\Heptacom\HeptaConnect\Portal\Base\Builder\Component\Receiver::getRunMethod` to expose configured callback for origin access reading
+- Add `\Heptacom\HeptaConnect\Portal\Base\Builder\Component\Receiver::getBatchMethod` to expose configured callback for origin access reading
 - Add `\Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverCodeOriginFinderInterface` to find code origin of `\Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract`
+- Add `\Heptacom\HeptaConnect\Portal\Base\Builder\Component\StatusReporter::getRunMethod` to expose configured callback for origin access reading
 - Add `\Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterCodeOriginFinderInterface` to find code origin of `\Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract`
 
 ### Changed
