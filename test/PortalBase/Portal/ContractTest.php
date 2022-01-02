@@ -78,10 +78,16 @@ class ContractTest extends TestCase
             {
                 return '__DIR__';
             }
+
+            public function isActiveByDefault(): bool
+            {
+                return false;
+            }
         };
 
         static::assertEquals(['__NAMESPACE__' => '__DIR__'], $portalExt->getPsr4());
         static::assertEquals('__DIR__', $portalExt->getContainerConfigurationPath());
         static::assertEquals('__DIR__', $portalExt->getFlowComponentsPath());
+        static::assertSame(false, $portalExt->isActiveByDefault());
     }
 }
