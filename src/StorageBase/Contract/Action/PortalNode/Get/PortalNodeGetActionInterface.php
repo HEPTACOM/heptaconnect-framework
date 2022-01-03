@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Get;
 
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 
 interface PortalNodeGetActionInterface

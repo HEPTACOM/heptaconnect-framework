@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Create;
 
+use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayloads;
+use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResults;
 use Heptacom\HeptaConnect\Storage\Base\Exception\CreateException;
 
 interface RouteCreateActionInterface
