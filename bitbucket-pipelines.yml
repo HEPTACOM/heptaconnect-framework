@@ -48,6 +48,7 @@ definitions:
                     - vendor/**
                     - composer.lock
                 script:
+                    - make clean
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
         -   step: &composer-low-install
@@ -58,6 +59,7 @@ definitions:
                     - vendor/**
                     - composer.lock
                 script:
+                    - make clean
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - composer update --prefer-lowest --prefer-stable
                     - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
