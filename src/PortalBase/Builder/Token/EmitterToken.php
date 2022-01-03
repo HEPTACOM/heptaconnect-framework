@@ -1,9 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Token;
-
-use Closure;
 
 class EmitterToken
 {
@@ -12,11 +11,11 @@ class EmitterToken
      */
     private string $type;
 
-    private ?Closure $batch = null;
+    private ?\Closure $batch = null;
 
-    private ?Closure $run = null;
+    private ?\Closure $run = null;
 
-    private ?Closure $extend = null;
+    private ?\Closure $extend = null;
 
     /**
      * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $type
@@ -34,32 +33,32 @@ class EmitterToken
         return $this->type;
     }
 
-    public function getBatch(): ?Closure
+    public function getBatch(): ?\Closure
     {
         return $this->batch;
     }
 
-    public function setBatch(?Closure $batch): void
+    public function setBatch(?\Closure $batch): void
     {
         $this->batch = $batch;
     }
 
-    public function getRun(): ?Closure
+    public function getRun(): ?\Closure
     {
         return $this->run;
     }
 
-    public function setRun(Closure $run): void
+    public function setRun(\Closure $run): void
     {
         $this->run = $run;
     }
 
-    public function getExtend(): ?Closure
+    public function getExtend(): ?\Closure
     {
         return $this->extend;
     }
 
-    public function setExtend(Closure $extend): void
+    public function setExtend(\Closure $extend): void
     {
         $this->extend = $extend;
     }

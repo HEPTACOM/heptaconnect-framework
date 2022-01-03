@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Support;
@@ -103,9 +104,9 @@ abstract class AbstractCollection implements CollectionInterface
      * @param array-key|null $offset
      * @psalm-param T   $value
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
-        if (!\is_null($offset) && $this->isValidItem($value)) {
+        if ($offset !== null && $this->isValidItem($value)) {
             $this->items[$offset] = $value;
         }
     }

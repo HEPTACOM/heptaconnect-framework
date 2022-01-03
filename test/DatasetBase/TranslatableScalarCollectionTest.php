@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
@@ -30,9 +31,9 @@ class TranslatableScalarCollectionTest extends TestCase
      */
     public function testNonNullableFallback(AbstractTranslatable $translatable): void
     {
-        self::assertNotNull($translatable->getFallback());
-        self::assertNotNull($translatable->getTranslation('any-key', true));
-        self::assertNotNull($translatable->getTranslation('any-key', false));
+        static::assertNotNull($translatable->getFallback());
+        static::assertNotNull($translatable->getTranslation('any-key', true));
+        static::assertNotNull($translatable->getTranslation('any-key', false));
     }
 
     public function provideTranslatableCollections(): iterable

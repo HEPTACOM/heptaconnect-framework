@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
@@ -183,7 +184,8 @@ class CollectionTest extends TestCase
             'items' => [
                 new SerializationDatasetEntity(),
                 new SerializationDatasetEntity(),
-                new class() extends SerializationDatasetEntity {},
+                new class() extends SerializationDatasetEntity {
+                },
             ],
         ]);
         static::assertCount(3, $collection);

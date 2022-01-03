@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Portal;
@@ -30,8 +31,8 @@ class PortalRegistryTest extends TestCase
         parent::setUp();
 
         $this->classLoader = new ClassLoader();
-        $this->classLoader->addPsr4('HeptacomFixture\\Portal\\A\\', __DIR__.'/../../../test-composer-integration/portal-package/src/');
-        $this->classLoader->addPsr4('HeptacomFixture\\Portal\\Extension\\', __DIR__.'/../../../test-composer-integration/portal-package-extension/src/');
+        $this->classLoader->addPsr4('HeptacomFixture\\Portal\\A\\', __DIR__ . '/../../../test-composer-integration/portal-package/src/');
+        $this->classLoader->addPsr4('HeptacomFixture\\Portal\\Extension\\', __DIR__ . '/../../../test-composer-integration/portal-package-extension/src/');
         $this->classLoader->register();
     }
 
@@ -68,7 +69,7 @@ class PortalRegistryTest extends TestCase
         );
 
         $extensions = $portalRegistry->getPortalExtensions($portalNodeKey);
-        self::assertSame(1, $extensions->count());
+        static::assertSame(1, $extensions->count());
     }
 
     public function testExtensionUnavailability(): void
@@ -97,6 +98,6 @@ class PortalRegistryTest extends TestCase
         );
 
         $extensions = $portalRegistry->getPortalExtensions($portalNodeKey);
-        self::assertSame(0, $extensions->count());
+        static::assertSame(0, $extensions->count());
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Storage;
@@ -28,8 +29,8 @@ class StreamDenormalizerTest extends TestCase
     {
         $denorm = new StreamDenormalizer(new Filesystem(new NullAdapter()), new StreamPathContract());
 
-        static::assertFalse($denorm->supportsDenormalization("", $denorm->getType()));
+        static::assertFalse($denorm->supportsDenormalization('', $denorm->getType()));
         static::expectExceptionMessage('data is empty');
-        $denorm->denormalize("", $denorm->getType());
+        $denorm->denormalize('', $denorm->getType());
     }
 }

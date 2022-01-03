@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test;
@@ -32,7 +33,7 @@ class PortalFactoryTest extends TestCase
     public function testPortal(): void
     {
         $portalFactory = new PortalFactory();
-        require_once __DIR__.'/../../test-composer-integration/portal-package/src/Portal.php';
+        require_once __DIR__ . '/../../test-composer-integration/portal-package/src/Portal.php';
 
         static::assertInstanceOf(Portal::class, $portalFactory->instantiatePortal(Portal::class));
     }
@@ -40,7 +41,7 @@ class PortalFactoryTest extends TestCase
     public function testPortalExtension(): void
     {
         $portalFactory = new PortalFactory();
-        require_once __DIR__.'/../../test-composer-integration/portal-package-extension/src/PortalExtension.php';
+        require_once __DIR__ . '/../../test-composer-integration/portal-package-extension/src/PortalExtension.php';
 
         static::assertInstanceOf(PortalExtension::class, $portalFactory->instantiatePortalExtension(PortalExtension::class));
     }

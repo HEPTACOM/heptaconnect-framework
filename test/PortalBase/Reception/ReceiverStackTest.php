@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Reception;
@@ -52,7 +53,9 @@ class ReceiverStackTest extends TestCase
         $receiver3->expects(static::once())
             ->method('receive')
             ->willReturnCallback(static function (
-                TypedDatasetEntityCollection $col, ReceiveContextInterface $con, ReceiverStackInterface $stack
+                TypedDatasetEntityCollection $col,
+                ReceiveContextInterface $con,
+                ReceiverStackInterface $stack
             ) use ($result3, $result2, $result1): iterable {
                 yield $result1;
                 yield $result2;

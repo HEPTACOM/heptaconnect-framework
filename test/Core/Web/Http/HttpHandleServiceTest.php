@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Web\Http;
@@ -52,9 +53,9 @@ class HttpHandleServiceTest extends TestCase
 
         $stackBuilder->method('pushSource')->willReturnSelf();
         $stackBuilder->method('pushDecorators')->willReturnSelf();
-        $stackBuilder->expects(self::atLeastOnce())->method('isEmpty')->willReturn(true);
-        $stackBuilderFactory->expects(self::atLeastOnce())->method('createHttpHandlerStackBuilder')->willReturn($stackBuilder);
-        $response->expects(self::atLeastOnce())->method('withHeader')->willReturnSelf();
+        $stackBuilder->expects(static::atLeastOnce())->method('isEmpty')->willReturn(true);
+        $stackBuilderFactory->expects(static::atLeastOnce())->method('createHttpHandlerStackBuilder')->willReturn($stackBuilder);
+        $response->expects(static::atLeastOnce())->method('withHeader')->willReturnSelf();
 
         $service = new HttpHandleService(
             $this->createMock(HttpHandlingActorInterface::class),

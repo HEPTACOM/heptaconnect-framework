@@ -1,9 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
-use Closure;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
@@ -32,8 +32,8 @@ class Explorer extends ExplorerContract
         $isAllowed = $token->getIsAllowed();
 
         $this->type = $token->getType();
-        $this->runMethod = $run instanceof Closure ? new SerializableClosure($run) : null;
-        $this->isAllowedMethod = $isAllowed instanceof Closure ? new SerializableClosure($isAllowed) : null;
+        $this->runMethod = $run instanceof \Closure ? new SerializableClosure($run) : null;
+        $this->isAllowedMethod = $isAllowed instanceof \Closure ? new SerializableClosure($isAllowed) : null;
     }
 
     public function supports(): string

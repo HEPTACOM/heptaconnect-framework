@@ -1,12 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Exception;
 
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Overview\OverviewCriteriaContract;
-use RuntimeException;
 
-class InvalidOverviewCriteriaException extends RuntimeException
+class InvalidOverviewCriteriaException extends \RuntimeException
 {
     private OverviewCriteriaContract $criteria;
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\TaggedCollection;
@@ -21,7 +22,7 @@ abstract class AbstractTaggedCollection extends AbstractCollection
         $offset = (string) $offset;
         $tag = parent::offsetGet($offset);
 
-        if (!\is_null($tag)) {
+        if ($tag !== null) {
             return $tag;
         }
 
@@ -31,7 +32,7 @@ abstract class AbstractTaggedCollection extends AbstractCollection
         return $tag;
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         parent::offsetSet($value->getTag(), $value);
     }

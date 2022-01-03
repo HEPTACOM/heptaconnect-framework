@@ -1,9 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
-use Closure;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
@@ -32,8 +32,8 @@ class Receiver extends ReceiverContract
         $run = $token->getRun();
 
         $this->type = $token->getType();
-        $this->batchMethod = $batch instanceof Closure ? new SerializableClosure($batch) : null;
-        $this->runMethod = $run instanceof Closure ? new SerializableClosure($run) : null;
+        $this->batchMethod = $batch instanceof \Closure ? new SerializableClosure($batch) : null;
+        $this->runMethod = $run instanceof \Closure ? new SerializableClosure($run) : null;
     }
 
     public function supports(): string

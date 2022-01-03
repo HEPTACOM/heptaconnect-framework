@@ -1,9 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Token;
-
-use Closure;
 
 class ExplorerToken
 {
@@ -12,9 +11,9 @@ class ExplorerToken
      */
     private string $type;
 
-    private ?Closure $run = null;
+    private ?\Closure $run = null;
 
-    private ?Closure $isAllowed = null;
+    private ?\Closure $isAllowed = null;
 
     /**
      * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $type
@@ -32,22 +31,22 @@ class ExplorerToken
         return $this->type;
     }
 
-    public function getRun(): ?Closure
+    public function getRun(): ?\Closure
     {
         return $this->run;
     }
 
-    public function setRun(?Closure $run): void
+    public function setRun(?\Closure $run): void
     {
         $this->run = $run;
     }
 
-    public function getIsAllowed(): ?Closure
+    public function getIsAllowed(): ?\Closure
     {
         return $this->isAllowed;
     }
 
-    public function setIsAllowed(?Closure $isAllowed): void
+    public function setIsAllowed(?\Closure $isAllowed): void
     {
         $this->isAllowed = $isAllowed;
     }

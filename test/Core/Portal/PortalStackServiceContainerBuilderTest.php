@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Portal;
@@ -65,8 +66,8 @@ class PortalStackServiceContainerBuilderTest extends TestCase
         parent::setUp();
 
         $this->classLoader = new ClassLoader();
-        $this->classLoader->addPsr4('HeptacomFixture\\Portal\\A\\', __DIR__.'/../../../test-composer-integration/portal-package/src/');
-        $this->classLoader->addPsr4('HeptacomFixture\\Portal\\Extension\\', __DIR__.'/../../../test-composer-integration/portal-package-extension/src/');
+        $this->classLoader->addPsr4('HeptacomFixture\\Portal\\A\\', __DIR__ . '/../../../test-composer-integration/portal-package/src/');
+        $this->classLoader->addPsr4('HeptacomFixture\\Portal\\Extension\\', __DIR__ . '/../../../test-composer-integration/portal-package-extension/src/');
         $this->classLoader->register();
     }
 
@@ -80,7 +81,7 @@ class PortalStackServiceContainerBuilderTest extends TestCase
     public function testServiceRetrieval(): void
     {
         $configurationService = $this->createMock(ConfigurationServiceInterface::class);
-        $configurationService->expects(self::atLeastOnce())
+        $configurationService->expects(static::atLeastOnce())
             ->method('getPortalNodeConfiguration')
             ->willReturn([]);
 
@@ -139,7 +140,7 @@ class PortalStackServiceContainerBuilderTest extends TestCase
     public function testServiceDecoration(): void
     {
         $configurationService = $this->createMock(ConfigurationServiceInterface::class);
-        $configurationService->expects(self::atLeastOnce())
+        $configurationService->expects(static::atLeastOnce())
             ->method('getPortalNodeConfiguration')
             ->willReturn([]);
 

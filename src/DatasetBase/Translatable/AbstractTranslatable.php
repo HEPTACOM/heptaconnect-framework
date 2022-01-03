@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Translatable;
@@ -87,7 +88,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
             return;
         }
 
-        if (\is_null($value)) {
+        if ($value === null) {
             $this->deleteTranslation($offset);
         } elseif ($this->isValidValue($value)) {
             $this->translations[$offset] = $value;
@@ -127,7 +128,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
      */
     public function setTranslation(string $localeKey, $value): TranslatableInterface
     {
-        if (!\is_null($value) && $this->isValidValue($value)) {
+        if ($value !== null && $this->isValidValue($value)) {
             $this->translations[$localeKey] = $value;
 
             /* @deprecated 1.0.0 */
@@ -176,7 +177,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
      */
     public function setFallback($value): TranslatableInterface
     {
-        if (\is_null($value) || $this->isValidValue($value)) {
+        if ($value === null || $this->isValidValue($value)) {
             $this->fallback = $value;
         }
 

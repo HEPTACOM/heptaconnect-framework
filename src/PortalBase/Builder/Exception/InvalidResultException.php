@@ -1,11 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Exception;
 
-use RuntimeException;
-
-class InvalidResultException extends RuntimeException
+class InvalidResultException extends \RuntimeException
 {
     private string $flowComponent;
 
