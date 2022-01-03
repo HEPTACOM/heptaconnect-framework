@@ -10,6 +10,11 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
  */
 class StringCollection extends AbstractCollection
 {
+    public function join(string $glue = ''): string
+    {
+        return \implode($glue, $this->items);
+    }
+
     protected function isValidItem($item): bool
     {
         /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */
