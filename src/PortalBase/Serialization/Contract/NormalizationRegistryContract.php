@@ -6,9 +6,6 @@ namespace Heptacom\HeptaConnect\Portal\Base\Serialization\Contract;
 
 abstract class NormalizationRegistryContract
 {
-    /**
-     * @param mixed $value
-     */
     public function getNormalizer($value): ?NormalizerInterface
     {
         return null;

@@ -12,10 +12,6 @@ class DeepCloneContract
      * @psalm-template T
      * @psalm-param T $any
      * @psalm-return T
-     *
-     * @param mixed $any
-     *
-     * @return mixed
      */
     public function deepClone($any)
     {
