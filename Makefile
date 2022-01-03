@@ -32,6 +32,13 @@ clean: ## Cleans up all ignored files and directories
 	[[ ! -f composer.lock ]] || rm composer.lock
 	[[ ! -d vendor ]] || rm -rf vendor
 	[[ ! -d .build ]] || rm -rf .build
+	[[ ! -f dev-ops/bin/composer-normalize ]] || rm -f dev-ops/bin/composer-normalize
+	[[ ! -f dev-ops/bin/composer-require-checker ]] || rm -f dev-ops/bin/composer-require-checker
+	[[ ! -d dev-ops/bin/composer-unused/vendor ]] || rm -rf dev-ops/bin/composer-unused/vendor
+	[[ ! -d dev-ops/bin/easy-coding-standard/vendor ]] || rm -rf dev-ops/bin/easy-coding-standard/vendor
+	[[ ! -f dev-ops/bin/phpmd ]] || rm -f dev-ops/bin/phpmd
+	[[ ! -d dev-ops/bin/phpstan/vendor ]] || rm -rf dev-ops/bin/phpstan/vendor
+	[[ ! -d dev-ops/bin/psalm/vendor ]] || rm -rf dev-ops/bin/psalm/vendor
 
 .PHONY: it
 it: cs-fix cs test ## Fix code style and run unit tests
@@ -52,7 +59,8 @@ cs-php: vendor .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standard f
 
 .PHONY: cs-phpstan
 cs-phpstan: vendor .build $(PHPSTAN_FILE) ## Run phpstan for static code analysis
-	$(PHP) $(PHPSTAN_FILE) analyse -c dev-ops/phpstan.neon --error-format=junit
+	[[ -z "${CI}" ]] || $(PHP) $(PHPSTAN_FILE) analyse -c dev-ops/phpstan.neon --error-format=junit > .build/phpstan.junit.xml
+	[[ -n "${CI}" ]] || $(PHP) $(PHPSTAN_FILE) analyse -c dev-ops/phpstan.neon
 
 .PHONY: cs-psalm
 cs-psalm: vendor .build $(PSALM_FILE) ## Run psalm for static code analysis
@@ -79,7 +87,7 @@ cs-composer-unused: vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to det
 
 .PHONY: cs-soft-require
 cs-soft-require: vendor .build $(COMPOSER_REQUIRE_CHECKER_FILE) ## Run composer-require-checker to detect library usage without requirement entry in composer.json
-	$(PHP) $(COMPOSER_REQUIRE_CHECKER_FILE) check --config-file=dev-ops/composer-soft-requirements.json composer.json
+	$(PHP) $(COMPOSER_REQUIRE_CHECKER_FILE) check --config-file=$(shell pwd)/dev-ops/composer-soft-requirements.json composer.json
 
 .PHONY: cs-composer-normalize
 cs-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-normalize for composer.json style analysis
