@@ -42,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use instance of `\Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract` in log context instead of its class in the message in `\Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack::next`
 - Use instance of `\Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract` in log context instead of its class in the message in `\Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack::next`
 - Use instance of `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract` in log context instead of its class in the message in `\Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack::next`
+- Add dependency to `\Psr\Log\LoggerInterface` into `\Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterStack` to log instance of `\Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract::next`
 
 ### Removed
 
