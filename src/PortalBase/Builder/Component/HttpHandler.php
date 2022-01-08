@@ -1,9 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
-use Closure;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken;
@@ -45,13 +45,13 @@ class HttpHandler extends HttpHandlerContract
         $delete = $token->getDelete();
 
         $this->path = $token->getPath();
-        $this->runMethod = $run instanceof Closure ? new SerializableClosure($run) : null;
-        $this->optionsMethod = $options instanceof Closure ? new SerializableClosure($options) : null;
-        $this->getMethod = $get instanceof Closure ? new SerializableClosure($get) : null;
-        $this->postMethod = $post instanceof Closure ? new SerializableClosure($post) : null;
-        $this->putMethod = $put instanceof Closure ? new SerializableClosure($put) : null;
-        $this->patchMethod = $patch instanceof Closure ? new SerializableClosure($patch) : null;
-        $this->deleteMethod = $delete instanceof Closure ? new SerializableClosure($delete) : null;
+        $this->runMethod = $run instanceof \Closure ? new SerializableClosure($run) : null;
+        $this->optionsMethod = $options instanceof \Closure ? new SerializableClosure($options) : null;
+        $this->getMethod = $get instanceof \Closure ? new SerializableClosure($get) : null;
+        $this->postMethod = $post instanceof \Closure ? new SerializableClosure($post) : null;
+        $this->putMethod = $put instanceof \Closure ? new SerializableClosure($put) : null;
+        $this->patchMethod = $patch instanceof \Closure ? new SerializableClosure($patch) : null;
+        $this->deleteMethod = $delete instanceof \Closure ? new SerializableClosure($delete) : null;
     }
 
     public function getRunMethod(): ?Closure

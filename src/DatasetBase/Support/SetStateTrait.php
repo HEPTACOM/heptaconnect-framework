@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Support;
@@ -58,7 +59,7 @@ trait SetStateTrait
                 continue;
             }
 
-            if (\is_null($value)) {
+            if ($value === null) {
                 $firstParameter = $method->getParameters()[0] ?? null;
 
                 if ($firstParameter instanceof \ReflectionParameter && !$firstParameter->allowsNull()) {

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Emission;
@@ -46,7 +47,9 @@ class EmitterStackTest extends TestCase
         $emitter3->expects(static::once())
             ->method('emit')
             ->willReturnCallback(static function (
-                iterable $ids, EmitContextInterface $con, EmitterStackInterface $stack
+                iterable $ids,
+                EmitContextInterface $con,
+                EmitterStackInterface $stack
             ) use ($result3, $result2, $result1): iterable {
                 yield $result1;
                 yield $result2;

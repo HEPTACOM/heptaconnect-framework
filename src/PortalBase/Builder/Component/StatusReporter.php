@@ -1,9 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
-use Closure;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\StatusReporterToken;
@@ -25,7 +25,7 @@ class StatusReporter extends StatusReporterContract
         $run = $token->getRun();
 
         $this->topic = $token->getTopic();
-        $this->runMethod = $run instanceof Closure ? new SerializableClosure($run) : null;
+        $this->runMethod = $run instanceof \Closure ? new SerializableClosure($run) : null;
     }
 
     public function getRunMethod(): ?Closure

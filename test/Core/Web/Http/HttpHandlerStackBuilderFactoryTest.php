@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Web\Http;
@@ -33,15 +34,15 @@ class HttpHandlerStackBuilderFactoryTest extends TestCase
         $container->method('get')->with(FlowComponentRegistry::class)->willReturn($flowComponentRegistry);
         $flowComponentRegistry->method('getOrderedSources')->willReturn([PortalContract::class]);
         $flowComponentRegistry->method('getWebHttpHandlers')->with(PortalContract::class)->willReturn(new HttpHandlerCollection([$httpHandler]));
-        $httpHandler->method('getPath')->willReturn('foobar');
+        $httpHandler->method('supports')->willReturn('foobar');
 
         $factory = new HttpHandlerStackBuilderFactory($portalContainerFactory, $logger);
         $stack = $factory->createHttpHandlerStackBuilder($portalNodeKey, 'foobar');
-        self::assertTrue($stack->isEmpty());
+        static::assertTrue($stack->isEmpty());
         $stack->pushDecorators();
-        self::assertTrue($stack->isEmpty());
+        static::assertTrue($stack->isEmpty());
         $stack->pushSource();
-        self::assertFalse($stack->isEmpty());
+        static::assertFalse($stack->isEmpty());
     }
 
     public function testSecondSourceBeingDecoratorInBuilder(): void
@@ -58,15 +59,15 @@ class HttpHandlerStackBuilderFactoryTest extends TestCase
         $container->method('get')->with(FlowComponentRegistry::class)->willReturn($flowComponentRegistry);
         $flowComponentRegistry->method('getOrderedSources')->willReturn([PortalContract::class]);
         $flowComponentRegistry->method('getWebHttpHandlers')->with(PortalContract::class)->willReturn(new HttpHandlerCollection([$httpHandler1, $httpHandler2]));
-        $httpHandler1->method('getPath')->willReturn('foobar');
-        $httpHandler2->method('getPath')->willReturn('foobar');
+        $httpHandler1->method('supports')->willReturn('foobar');
+        $httpHandler2->method('supports')->willReturn('foobar');
 
         $factory = new HttpHandlerStackBuilderFactory($portalContainerFactory, $logger);
         $stack = $factory->createHttpHandlerStackBuilder($portalNodeKey, 'foobar');
-        self::assertTrue($stack->isEmpty());
+        static::assertTrue($stack->isEmpty());
         $stack->pushDecorators();
-        self::assertFalse($stack->isEmpty());
+        static::assertFalse($stack->isEmpty());
         $stack->pushSource();
-        self::assertFalse($stack->isEmpty());
+        static::assertFalse($stack->isEmpty());
     }
 }

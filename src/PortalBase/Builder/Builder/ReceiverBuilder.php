@@ -1,9 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Builder;
 
-use Closure;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken;
 
 class ReceiverBuilder
@@ -15,14 +15,14 @@ class ReceiverBuilder
         $this->token = $token;
     }
 
-    public function batch(Closure $batch): self
+    public function batch(\Closure $batch): self
     {
         $this->token->setBatch($batch);
 
         return $this;
     }
 
-    public function run(Closure $run): self
+    public function run(\Closure $run): self
     {
         $this->token->setRun($run);
 

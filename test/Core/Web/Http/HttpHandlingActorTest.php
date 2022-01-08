@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Web\Http;
@@ -30,7 +31,7 @@ class HttpHandlingActorTest extends TestCase
             ->method('critical')
             ->with(LogMessage::WEB_HTTP_HANDLE_NO_THROW());
 
-        $stack = new HttpHandlerStack([new class () extends HttpHandlerContract {
+        $stack = new HttpHandlerStack([new class() extends HttpHandlerContract {
             protected function supports(): string
             {
                 return 'foobar';

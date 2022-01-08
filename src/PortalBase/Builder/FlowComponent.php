@@ -1,9 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder;
 
-use Closure;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\EmitterBuilder;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\ExplorerBuilder;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\HttpHandlerBuilder;
@@ -33,19 +33,29 @@ class FlowComponent implements LoggerAwareInterface
      */
     protected $logger;
 
-    /** @var ExplorerToken[] */
+    /**
+     * @var ExplorerToken[]
+     */
     private static array $explorerTokens = [];
 
-    /** @var EmitterToken[] */
+    /**
+     * @var EmitterToken[]
+     */
     private static array $emitterTokens = [];
 
-    /** @var ReceiverToken[] */
+    /**
+     * @var ReceiverToken[]
+     */
     private static array $receiverTokens = [];
 
-    /** @var StatusReporterToken[] */
+    /**
+     * @var StatusReporterToken[]
+     */
     private static array $statusReporterTokens = [];
 
-    /** @var HttpHandlerToken[] */
+    /**
+     * @var HttpHandlerToken[]
+     */
     private static array $httpHandlerTokens = [];
 
     public function __construct()
@@ -56,16 +66,16 @@ class FlowComponent implements LoggerAwareInterface
     /**
      * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $type
      */
-    public static function explorer(string $type, ?Closure $run = null, ?Closure $isAllowed = null): ExplorerBuilder
+    public static function explorer(string $type, ?\Closure $run = null, ?\Closure $isAllowed = null): ExplorerBuilder
     {
         self::$explorerTokens[] = $token = new ExplorerToken($type);
         $builder = new ExplorerBuilder($token);
 
-        if ($run instanceof Closure) {
+        if ($run instanceof \Closure) {
             $builder->run($run);
         }
 
-        if ($isAllowed instanceof Closure) {
+        if ($isAllowed instanceof \Closure) {
             $builder->isAllowed($isAllowed);
         }
 
@@ -77,22 +87,22 @@ class FlowComponent implements LoggerAwareInterface
      */
     public static function emitter(
         string $type,
-        ?Closure $run = null,
-        ?Closure $extend = null,
-        ?Closure $batch = null
+        ?\Closure $run = null,
+        ?\Closure $extend = null,
+        ?\Closure $batch = null
     ): EmitterBuilder {
         self::$emitterTokens[] = $token = new EmitterToken($type);
         $builder = new EmitterBuilder($token);
 
-        if ($run instanceof Closure) {
+        if ($run instanceof \Closure) {
             $builder->run($run);
         }
 
-        if ($extend instanceof Closure) {
+        if ($extend instanceof \Closure) {
             $builder->extend($extend);
         }
 
-        if ($batch instanceof Closure) {
+        if ($batch instanceof \Closure) {
             $builder->batch($batch);
         }
 
@@ -102,40 +112,40 @@ class FlowComponent implements LoggerAwareInterface
     /**
      * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $type
      */
-    public static function receiver(string $type, ?Closure $run = null, ?Closure $batch = null): ReceiverBuilder
+    public static function receiver(string $type, ?\Closure $run = null, ?\Closure $batch = null): ReceiverBuilder
     {
         self::$receiverTokens[] = $token = new ReceiverToken($type);
         $builder = new ReceiverBuilder($token);
 
-        if ($run instanceof Closure) {
+        if ($run instanceof \Closure) {
             $builder->run($run);
         }
 
-        if ($batch instanceof Closure) {
+        if ($batch instanceof \Closure) {
             $builder->batch($batch);
         }
 
         return $builder;
     }
 
-    public static function statusReporter(string $topic, ?Closure $run = null): StatusReporterBuilder
+    public static function statusReporter(string $topic, ?\Closure $run = null): StatusReporterBuilder
     {
         self::$statusReporterTokens[] = $token = new StatusReporterToken($topic);
         $builder = new StatusReporterBuilder($token);
 
-        if ($run instanceof Closure) {
+        if ($run instanceof \Closure) {
             $builder->run($run);
         }
 
         return $builder;
     }
 
-    public static function httpHandler(string $path, ?Closure $run = null): HttpHandlerBuilder
+    public static function httpHandler(string $path, ?\Closure $run = null): HttpHandlerBuilder
     {
         self::$httpHandlerTokens[] = $token = new HttpHandlerToken($path);
         $builder = new HttpHandlerBuilder($token);
 
-        if ($run instanceof Closure) {
+        if ($run instanceof \Closure) {
             $builder->run($run);
         }
 
@@ -159,7 +169,7 @@ class FlowComponent implements LoggerAwareInterface
     public function buildEmitters(): iterable
     {
         foreach (self::$emitterTokens as $key => $emitterToken) {
-            if ($emitterToken->getRun() instanceof Closure && $emitterToken->getBatch() instanceof Closure) {
+            if ($emitterToken->getRun() instanceof \Closure && $emitterToken->getBatch() instanceof \Closure) {
                 $this->logImplementationConflict('Emitter', 'run', 'batch');
             }
 
@@ -174,7 +184,7 @@ class FlowComponent implements LoggerAwareInterface
     public function buildReceivers(): iterable
     {
         foreach (self::$receiverTokens as $key => $receiverToken) {
-            if ($receiverToken->getRun() instanceof Closure && $receiverToken->getBatch() instanceof Closure) {
+            if ($receiverToken->getRun() instanceof \Closure && $receiverToken->getBatch() instanceof \Closure) {
                 $this->logImplementationConflict('Receiver', 'run', 'batch');
             }
 
@@ -200,28 +210,28 @@ class FlowComponent implements LoggerAwareInterface
     public function buildHttpHandlers(): iterable
     {
         foreach (self::$httpHandlerTokens as $key => $httpHandlerToken) {
-            if ($httpHandlerToken->getRun() instanceof Closure) {
-                if ($httpHandlerToken->getOptions() instanceof Closure) {
+            if ($httpHandlerToken->getRun() instanceof \Closure) {
+                if ($httpHandlerToken->getOptions() instanceof \Closure) {
                     $this->logImplementationConflict('HttpHandler', 'run', 'options');
                 }
 
-                if ($httpHandlerToken->getGet() instanceof Closure) {
+                if ($httpHandlerToken->getGet() instanceof \Closure) {
                     $this->logImplementationConflict('HttpHandler', 'run', 'get');
                 }
 
-                if ($httpHandlerToken->getPost() instanceof Closure) {
+                if ($httpHandlerToken->getPost() instanceof \Closure) {
                     $this->logImplementationConflict('HttpHandler', 'run', 'post');
                 }
 
-                if ($httpHandlerToken->getPatch() instanceof Closure) {
+                if ($httpHandlerToken->getPatch() instanceof \Closure) {
                     $this->logImplementationConflict('HttpHandler', 'run', 'patch');
                 }
 
-                if ($httpHandlerToken->getPut() instanceof Closure) {
+                if ($httpHandlerToken->getPut() instanceof \Closure) {
                     $this->logImplementationConflict('HttpHandler', 'run', 'put');
                 }
 
-                if ($httpHandlerToken->getDelete() instanceof Closure) {
+                if ($httpHandlerToken->getDelete() instanceof \Closure) {
                     $this->logImplementationConflict('HttpHandler', 'run', 'delete');
                 }
             }

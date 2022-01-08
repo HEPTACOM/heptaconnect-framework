@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Serialization\Contract;
@@ -75,7 +76,7 @@ final class SerializableStream implements StreamInterface
         return $streamFactory->createStreamFromResource($newExternal);
     }
 
-    public function close()
+    public function close(): void
     {
         $this->stream->close();
     }

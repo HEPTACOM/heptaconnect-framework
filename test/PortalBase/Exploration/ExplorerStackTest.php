@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Exploration;
@@ -43,7 +44,8 @@ class ExplorerStackTest extends TestCase
         $explorer3->expects(static::once())
             ->method('explore')
             ->willReturnCallback(static function (
-                ExploreContextInterface $c, ExplorerStackInterface $stack
+                ExploreContextInterface $c,
+                ExplorerStackInterface $stack
             ) use ($result3, $result2, $result1): iterable {
                 yield $result1;
                 yield $result2;

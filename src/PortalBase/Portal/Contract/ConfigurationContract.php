@@ -6,9 +6,6 @@ namespace Heptacom\HeptaConnect\Portal\Base\Portal\Contract;
 
 abstract class ConfigurationContract
 {
-    /**
-     * @return mixed
-     */
     abstract public function get(string $name);
 
     abstract public function has(string $name): bool;

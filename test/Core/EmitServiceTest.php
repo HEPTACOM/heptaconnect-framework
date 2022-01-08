@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test;
@@ -93,7 +94,7 @@ class EmitServiceTest extends TestCase
             $this->createMock(StorageKeyGeneratorContract::class),
             $stackBuilderFactory,
             $this->createMock(EmissionActorInterface::class),
-    );
+        );
         $emitService->emit(new TypedMappingComponentCollection(FooBarEntity::class, \array_fill(0, $count, $mapping)));
     }
 
