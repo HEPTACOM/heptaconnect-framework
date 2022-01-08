@@ -43,7 +43,9 @@ class ReceiverStack implements ReceiverStackInterface, LoggerAwareInterface
             return [];
         }
 
-        $this->logger->debug(\sprintf('Execute FlowComponent receiver: %s', \get_class($receiver)));
+        $this->logger->debug('Execute FlowComponent receiver', [
+            'receiver' => $receiver,
+        ]);
 
         return $receiver->receive($entities, $context, $this);
     }

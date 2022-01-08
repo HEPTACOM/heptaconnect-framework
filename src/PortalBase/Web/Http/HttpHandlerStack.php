@@ -49,7 +49,9 @@ class HttpHandlerStack implements HttpHandlerStackInterface, LoggerAwareInterfac
             return $response;
         }
 
-        $this->logger->debug(\sprintf('Execute FlowComponent web http handler: %s', \get_class($handler)));
+        $this->logger->debug('Execute FlowComponent web http handler', [
+            'web_http_handler' => $handler,
+        ]);
 
         return $handler->handle($request, $response, $context, $this);
     }
