@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Reception;
@@ -26,7 +27,6 @@ class ReceiverStackBuilderTest extends TestCase
     public function testStackBuilderManualOrder(): void
     {
         $stackBuilder = new ReceiverStackBuilder(
-            new ReceiverCollection(),
             new ReceiverCollection(),
             FooBarEntity::class,
             $this->createMock(LoggerInterface::class),
@@ -62,7 +62,7 @@ class ReceiverStackBuilderTest extends TestCase
             $this->createMock(ReceiveContextInterface::class)
         );
 
-        self::assertEquals([2, 1], $calc);
+        static::assertEquals([2, 1], $calc);
     }
 
     public function testStackBuilderOrderFromCtor(): void
@@ -91,8 +91,7 @@ class ReceiverStackBuilderTest extends TestCase
         $receiver2->method('supports')->willReturn(FooBarEntity::class);
 
         $stackBuilder = new ReceiverStackBuilder(
-            new ReceiverCollection([$receiver1, $receiver2]),
-            new ReceiverCollection([$receiver2]),
+            new ReceiverCollection([$receiver1, $receiver2, $receiver2]),
             FooBarEntity::class,
             $this->createMock(LoggerInterface::class),
         );
@@ -105,6 +104,6 @@ class ReceiverStackBuilderTest extends TestCase
             $this->createMock(ReceiveContextInterface::class)
         );
 
-        self::assertEquals([2, 1], $calc);
+        static::assertEquals([2, 1], $calc);
     }
 }

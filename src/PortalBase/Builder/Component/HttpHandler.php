@@ -1,9 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
-use Closure;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken;
@@ -45,13 +45,48 @@ class HttpHandler extends HttpHandlerContract
         $delete = $token->getDelete();
 
         $this->path = $token->getPath();
-        $this->runMethod = $run instanceof Closure ? new SerializableClosure($run) : null;
-        $this->optionsMethod = $options instanceof Closure ? new SerializableClosure($options) : null;
-        $this->getMethod = $get instanceof Closure ? new SerializableClosure($get) : null;
-        $this->postMethod = $post instanceof Closure ? new SerializableClosure($post) : null;
-        $this->putMethod = $put instanceof Closure ? new SerializableClosure($put) : null;
-        $this->patchMethod = $patch instanceof Closure ? new SerializableClosure($patch) : null;
-        $this->deleteMethod = $delete instanceof Closure ? new SerializableClosure($delete) : null;
+        $this->runMethod = $run instanceof \Closure ? new SerializableClosure($run) : null;
+        $this->optionsMethod = $options instanceof \Closure ? new SerializableClosure($options) : null;
+        $this->getMethod = $get instanceof \Closure ? new SerializableClosure($get) : null;
+        $this->postMethod = $post instanceof \Closure ? new SerializableClosure($post) : null;
+        $this->putMethod = $put instanceof \Closure ? new SerializableClosure($put) : null;
+        $this->patchMethod = $patch instanceof \Closure ? new SerializableClosure($patch) : null;
+        $this->deleteMethod = $delete instanceof \Closure ? new SerializableClosure($delete) : null;
+    }
+
+    public function getRunMethod(): ?\Closure
+    {
+        return $this->runMethod instanceof SerializableClosure ? $this->runMethod->getClosure() : null;
+    }
+
+    public function getOptionsMethod(): ?\Closure
+    {
+        return $this->optionsMethod instanceof SerializableClosure ? $this->optionsMethod->getClosure() : null;
+    }
+
+    public function getGetMethod(): ?\Closure
+    {
+        return $this->getMethod instanceof SerializableClosure ? $this->getMethod->getClosure() : null;
+    }
+
+    public function getPostMethod(): ?\Closure
+    {
+        return $this->postMethod instanceof SerializableClosure ? $this->postMethod->getClosure() : null;
+    }
+
+    public function getPatchMethod(): ?\Closure
+    {
+        return $this->patchMethod instanceof SerializableClosure ? $this->patchMethod->getClosure() : null;
+    }
+
+    public function getPutMethod(): ?\Closure
+    {
+        return $this->putMethod instanceof SerializableClosure ? $this->putMethod->getClosure() : null;
+    }
+
+    public function getDeleteMethod(): ?\Closure
+    {
+        return $this->deleteMethod instanceof SerializableClosure ? $this->deleteMethod->getClosure() : null;
     }
 
     protected function supports(): string

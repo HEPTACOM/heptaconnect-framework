@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Web\Http;
@@ -26,7 +27,6 @@ class HttpHandlerStackBuilderTest extends TestCase
     public function testStackBuilderManualOrder(): void
     {
         $stackBuilder = new HttpHandlerStackBuilder(
-            new HttpHandlerCollection(),
             new HttpHandlerCollection(),
             'foobar',
             $this->createMock(LoggerInterface::class),
@@ -74,7 +74,7 @@ class HttpHandlerStackBuilderTest extends TestCase
             $this->createMock(HttpHandleContextInterface::class)
         );
 
-        self::assertEquals([2, 1], $calc);
+        static::assertEquals([2, 1], $calc);
     }
 
     public function testStackBuilderOrderFromCtor(): void
@@ -114,8 +114,7 @@ class HttpHandlerStackBuilderTest extends TestCase
         $handler2->method('supports')->willReturn('foobar');
 
         $stackBuilder = new HttpHandlerStackBuilder(
-            new HttpHandlerCollection([$handler1, $handler2]),
-            new HttpHandlerCollection([$handler2]),
+            new HttpHandlerCollection([$handler1, $handler2, $handler2]),
             'foobar',
             $this->createMock(LoggerInterface::class),
         );
@@ -130,6 +129,6 @@ class HttpHandlerStackBuilderTest extends TestCase
             $this->createMock(HttpHandleContextInterface::class)
         );
 
-        self::assertEquals([2, 1], $calc);
+        static::assertEquals([2, 1], $calc);
     }
 }

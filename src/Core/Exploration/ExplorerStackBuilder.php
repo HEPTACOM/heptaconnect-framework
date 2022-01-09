@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Exploration;
@@ -12,9 +13,9 @@ use Psr\Log\LoggerInterface;
 
 class ExplorerStackBuilder implements ExplorerStackBuilderInterface
 {
-    private ExplorerCollection $sourceExplorers;
+    private ?ExplorerContract $source;
 
-    private ExplorerCollection $explorerDecorators;
+    private ExplorerCollection $decorators;
 
     /**
      * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
@@ -32,13 +33,13 @@ class ExplorerStackBuilder implements ExplorerStackBuilderInterface
      * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
      */
     public function __construct(
-        ExplorerCollection $sourceExplorers,
-        ExplorerCollection $explorerDecorators,
+        ExplorerCollection $sources,
         string $entityType,
         LoggerInterface $logger
     ) {
-        $this->sourceExplorers = $sourceExplorers;
-        $this->explorerDecorators = $explorerDecorators;
+        $sources = new ExplorerCollection($sources->bySupport($entityType));
+        $this->source = $sources->shift();
+        $this->decorators = $sources;
         $this->entityType = $entityType;
         $this->logger = $logger;
     }
@@ -46,18 +47,21 @@ class ExplorerStackBuilder implements ExplorerStackBuilderInterface
     public function push(ExplorerContract $explorer): self
     {
         if (\is_a($this->entityType, $explorer->supports(), true)) {
-            $this->logger->debug(\sprintf(
-                'ExplorerStackBuilder: Pushed %s as arbitrary explorer.',
-                \get_class($explorer)
-            ));
+            $this->logger->debug('ExplorerStackBuilder: Pushed an arbitrary explorer.', [
+                'explorer' => $explorer,
+            ]);
 
             $this->explorers[] = $explorer;
         } else {
-            $this->logger->debug(\sprintf(
-                'ExplorerStackBuilder: Tried to push %s as arbitrary explorer, but it does not support type %s.',
-                \get_class($explorer),
-                $this->entityType,
-            ));
+            $this->logger->debug(
+                \sprintf(
+                    'ExplorerStackBuilder: Tried to push an arbitrary explorer, but it does not support type %s.',
+                    $this->entityType,
+                ),
+                [
+                    'explorer' => $explorer,
+                ]
+            );
         }
 
         return $this;
@@ -65,22 +69,13 @@ class ExplorerStackBuilder implements ExplorerStackBuilderInterface
 
     public function pushSource(): self
     {
-        $firstExplorer = null;
+        if ($this->source instanceof ExplorerContract) {
+            $this->logger->debug('ExplorerStackBuilder: Pushed the source explorer.', [
+                'explorer' => $this->source,
+            ]);
 
-        foreach ($this->sourceExplorers->bySupport($this->entityType) as $explorer) {
-            $firstExplorer = $explorer;
-
-            break;
-        }
-
-        if ($firstExplorer instanceof ExplorerContract) {
-            $this->logger->debug(\sprintf(
-                'ExplorerStackBuilder: Pushed %s as source explorer.',
-                \get_class($firstExplorer)
-            ));
-
-            if (!\in_array($firstExplorer, $this->explorers, true)) {
-                $this->explorers[] = $firstExplorer;
+            if (!\in_array($this->source, $this->explorers, true)) {
+                $this->explorers[] = $this->source;
             }
         }
 
@@ -89,11 +84,10 @@ class ExplorerStackBuilder implements ExplorerStackBuilderInterface
 
     public function pushDecorators(): self
     {
-        foreach ($this->explorerDecorators->bySupport($this->entityType) as $explorer) {
-            $this->logger->debug(\sprintf(
-                'ExplorerStackBuilder: Pushed %s as decorator explorer.',
-                \get_class($explorer)
-            ));
+        foreach ($this->decorators as $explorer) {
+            $this->logger->debug('ExplorerStackBuilder: Pushed a decorator explorer.', [
+                'explorer' => $explorer,
+            ]);
 
             if (!\in_array($explorer, $this->explorers, true)) {
                 $this->explorers[] = $explorer;

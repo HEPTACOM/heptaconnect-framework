@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Exploration;
@@ -28,7 +29,7 @@ class ExplorerStack implements ExplorerStackInterface, LoggerAwareInterface
         $this->logger = new NullLogger();
     }
 
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
     }
@@ -41,7 +42,9 @@ class ExplorerStack implements ExplorerStackInterface, LoggerAwareInterface
             return [];
         }
 
-        $this->logger->debug(\sprintf('Execute FlowComponent explorer: %s', \get_class($explorer)));
+        $this->logger->debug('Execute FlowComponent explorer', [
+            'explorer' => $explorer,
+        ]);
 
         return $explorer->explore($context, $this);
     }

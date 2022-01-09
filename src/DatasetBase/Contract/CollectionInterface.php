@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
@@ -14,6 +15,16 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
      * @psalm-param iterable<int, T> $items
      */
     public function push(iterable $items): void;
+
+    /**
+     * @return T|null
+     */
+    public function pop();
+
+    /**
+     * @return T|null
+     */
+    public function shift();
 
     public function clear(): void;
 

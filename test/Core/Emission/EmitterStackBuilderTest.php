@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Emission;
@@ -24,7 +25,6 @@ class EmitterStackBuilderTest extends TestCase
     public function testStackBuilderManualOrder(): void
     {
         $stackBuilder = new EmitterStackBuilder(
-            new EmitterCollection(),
             new EmitterCollection(),
             FooBarEntity::class,
             $this->createMock(LoggerInterface::class),
@@ -58,7 +58,7 @@ class EmitterStackBuilderTest extends TestCase
         $stack = $stackBuilder->build();
         $stack->next([], $this->createMock(EmitContextInterface::class));
 
-        self::assertEquals([2, 1], $calc);
+        static::assertEquals([2, 1], $calc);
     }
 
     public function testStackBuilderOrderFromCtor(): void
@@ -88,8 +88,7 @@ class EmitterStackBuilderTest extends TestCase
         $emitter2->method('supports')->willReturn(FooBarEntity::class);
 
         $stackBuilder = new EmitterStackBuilder(
-            new EmitterCollection([$emitter1, $emitter2]),
-            new EmitterCollection([$emitter2]),
+            new EmitterCollection([$emitter1, $emitter2, $emitter2]),
             FooBarEntity::class,
             $this->createMock(LoggerInterface::class),
         );
@@ -98,6 +97,6 @@ class EmitterStackBuilderTest extends TestCase
         $stack = $stackBuilder->build();
         $stack->next([], $this->createMock(EmitContextInterface::class));
 
-        self::assertEquals([2, 1], $calc);
+        static::assertEquals([2, 1], $calc);
     }
 }

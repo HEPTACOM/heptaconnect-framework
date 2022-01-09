@@ -1,9 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\StatusReporting;
 
 use Heptacom\HeptaConnect\Core\Component\LogMessage;
+use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingContextFactoryInterface;
 use Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingServiceInterface;
@@ -46,13 +48,19 @@ class StatusReportingService implements StatusReportingServiceInterface
     public function report(PortalNodeKeyInterface $portalNodeKey, ?string $topic): array
     {
         $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
-        /** @var StatusReporterCollection $statusReporters */
-        $statusReporters = $container->get(StatusReporterCollection::class);
+        /** @var FlowComponentRegistry $flowComponentRegistry */
+        $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
+        $statusReporters = new StatusReporterCollection();
+
+        foreach ($flowComponentRegistry->getOrderedSources() as $source) {
+            $statusReporters->push($flowComponentRegistry->getStatusReporters($source));
+        }
+
         $context = $this->statusReportingContextFactory->factory($portalNodeKey);
         $result = [];
         $topics = [];
 
-        if (\is_null($topic)) {
+        if ($topic === null) {
             /** @var StatusReporterContract $statusReporter */
             foreach ($statusReporters as $statusReporter) {
                 $topics[] = $statusReporter->supportsTopic();
@@ -112,10 +120,10 @@ class StatusReportingService implements StatusReportingServiceInterface
         StatusReporterCollection $statusReporters,
         string $topic
     ): StatusReporterStackInterface {
-        $cacheKey = \md5(\join([$this->storageKeyGenerator->serialize($portalNodeKey), $topic]));
+        $cacheKey = \md5(\implode('', [$this->storageKeyGenerator->serialize($portalNodeKey), $topic]));
 
         if (!isset($this->statusReporterStackCache[$cacheKey])) {
-            $this->statusReporterStackCache[$cacheKey] = new StatusReporterStack($statusReporters);
+            $this->statusReporterStackCache[$cacheKey] = new StatusReporterStack($statusReporters, $this->logger);
         }
 
         return clone $this->statusReporterStackCache[$cacheKey];

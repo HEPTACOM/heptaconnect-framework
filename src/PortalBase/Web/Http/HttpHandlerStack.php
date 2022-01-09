@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Web\Http;
@@ -32,7 +33,7 @@ class HttpHandlerStack implements HttpHandlerStackInterface, LoggerAwareInterfac
         $this->logger = new NullLogger();
     }
 
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
     }
@@ -48,7 +49,9 @@ class HttpHandlerStack implements HttpHandlerStackInterface, LoggerAwareInterfac
             return $response;
         }
 
-        $this->logger->debug(\sprintf('Execute FlowComponent web http handler: %s', \get_class($handler)));
+        $this->logger->debug('Execute FlowComponent web http handler', [
+            'web_http_handler' => $handler,
+        ]);
 
         return $handler->handle($request, $response, $context, $this);
     }

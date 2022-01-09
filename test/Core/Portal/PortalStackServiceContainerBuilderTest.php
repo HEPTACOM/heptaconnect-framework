@@ -1,16 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Portal;
 
 use Composer\Autoload\ClassLoader;
 use Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface;
+use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder;
 use Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory;
 use Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory;
 use Heptacom\HeptaConnect\Core\Test\Fixture\HttpClientInterfaceDecorator;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface;
-use Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent;
 use Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract;
 use Heptacom\HeptaConnect\Portal\Base\Parallelization\Contract\ResourceLockingContract;
 use Heptacom\HeptaConnect\Portal\Base\Parallelization\Support\ResourceLockFacade;
@@ -25,7 +26,6 @@ use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegist
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepCloneContract;
 use Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract;
-use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerUrlProviderInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use HeptacomFixture\Portal\A\AutomaticService\ExceptionNotInContainer;
@@ -49,6 +49,7 @@ use Symfony\Component\DependencyInjection\Reference;
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddPortalConfigurationBindingsCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AllDefinitionDefaultsCompilerPass
+ * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\BuildDefinitionForFlowComponentRegistryCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\RemoveAutoPrototypedDefinitionsCompilerPass
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
@@ -65,8 +66,8 @@ class PortalStackServiceContainerBuilderTest extends TestCase
         parent::setUp();
 
         $this->classLoader = new ClassLoader();
-        $this->classLoader->addPsr4('HeptacomFixture\\Portal\\A\\', __DIR__.'/../../../test-composer-integration/portal-package/src/');
-        $this->classLoader->addPsr4('HeptacomFixture\\Portal\\Extension\\', __DIR__.'/../../../test-composer-integration/portal-package-extension/src/');
+        $this->classLoader->addPsr4('HeptacomFixture\\Portal\\A\\', __DIR__ . '/../../../test-composer-integration/portal-package/src/');
+        $this->classLoader->addPsr4('HeptacomFixture\\Portal\\Extension\\', __DIR__ . '/../../../test-composer-integration/portal-package-extension/src/');
         $this->classLoader->register();
     }
 
@@ -80,20 +81,13 @@ class PortalStackServiceContainerBuilderTest extends TestCase
     public function testServiceRetrieval(): void
     {
         $configurationService = $this->createMock(ConfigurationServiceInterface::class);
-        $configurationService->expects(self::atLeastOnce())
+        $configurationService->expects(static::atLeastOnce())
             ->method('getPortalNodeConfiguration')
             ->willReturn([]);
 
         $httpHandlerUrlProvider = $this->createMock(HttpHandlerUrlProviderInterface::class);
         $httpHandlerUrlProviderFactory = $this->createMock(HttpHandlerUrlProviderFactoryInterface::class);
         $httpHandlerUrlProviderFactory->method('factory')->willReturn($httpHandlerUrlProvider);
-
-        $flowComponentBuilder = $this->createMock(FlowComponent::class);
-        $flowComponentBuilder->method('buildEmitters')->willReturn([]);
-        $flowComponentBuilder->method('buildExplorers')->willReturn([]);
-        $flowComponentBuilder->method('buildHttpHandlers')->willReturn([]);
-        $flowComponentBuilder->method('buildReceivers')->willReturn([]);
-        $flowComponentBuilder->method('buildStatusReporters')->willReturn([]);
 
         $builder = new PortalStackServiceContainerBuilder(
             $this->createMock(LoggerInterface::class),
@@ -102,7 +96,6 @@ class PortalStackServiceContainerBuilderTest extends TestCase
             $this->createMock(ResourceLockingContract::class),
             $this->createMock(ProfilerFactoryContract::class),
             $this->createMock(StorageKeyGeneratorContract::class),
-            $flowComponentBuilder,
             $this->createMock(FilesystemFactory::class),
             $configurationService,
             $this->createMock(PublisherInterface::class),
@@ -136,8 +129,9 @@ class PortalStackServiceContainerBuilderTest extends TestCase
         static::assertTrue($container->has(ResourceLockFacade::class));
         static::assertTrue($container->has(UriFactoryInterface::class));
 
-        static::assertTrue($container->has(HttpHandlerCollection::class));
         static::assertTrue($container->has(HttpHandlerUrlProviderInterface::class));
+
+        static::assertTrue($container->has(FlowComponentRegistry::class));
 
         static::assertTrue($container->has(ExceptionInContainer::class));
         static::assertFalse($container->has(ExceptionNotInContainer::class));
@@ -146,20 +140,13 @@ class PortalStackServiceContainerBuilderTest extends TestCase
     public function testServiceDecoration(): void
     {
         $configurationService = $this->createMock(ConfigurationServiceInterface::class);
-        $configurationService->expects(self::atLeastOnce())
+        $configurationService->expects(static::atLeastOnce())
             ->method('getPortalNodeConfiguration')
             ->willReturn([]);
 
         $httpHandlerUrlProvider = $this->createMock(HttpHandlerUrlProviderInterface::class);
         $httpHandlerUrlProviderFactory = $this->createMock(HttpHandlerUrlProviderFactoryInterface::class);
         $httpHandlerUrlProviderFactory->method('factory')->willReturn($httpHandlerUrlProvider);
-
-        $flowComponentBuilder = $this->createMock(FlowComponent::class);
-        $flowComponentBuilder->method('buildEmitters')->willReturn([]);
-        $flowComponentBuilder->method('buildExplorers')->willReturn([]);
-        $flowComponentBuilder->method('buildHttpHandlers')->willReturn([]);
-        $flowComponentBuilder->method('buildReceivers')->willReturn([]);
-        $flowComponentBuilder->method('buildStatusReporters')->willReturn([]);
 
         $builder = new PortalStackServiceContainerBuilder(
             $this->createMock(LoggerInterface::class),
@@ -168,7 +155,6 @@ class PortalStackServiceContainerBuilderTest extends TestCase
             $this->createMock(ResourceLockingContract::class),
             $this->createMock(ProfilerFactoryContract::class),
             $this->createMock(StorageKeyGeneratorContract::class),
-            $flowComponentBuilder,
             $this->createMock(FilesystemFactory::class),
             $configurationService,
             $this->createMock(PublisherInterface::class),

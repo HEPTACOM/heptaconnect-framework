@@ -7,6 +7,16 @@ CURL := $(shell which curl)
 JQ := $(shell which jq)
 JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*' -not -path './src/Core/vendor/*' -not -path './src/DatasetBase/vendor/*' -not -path './src/PortalBase/vendor/*' -not -path './src/StorageBase/vendor/*' -not -path './src/TestSuiteStorage/vendor/*')
 GIT := $(shell which git)
+PHPSTAN_FILE := dev-ops/bin/phpstan/vendor/bin/phpstan
+COMPOSER_NORMALIZE_PHAR := https://github.com/ergebnis/composer-normalize/releases/download/2.22.0/composer-normalize.phar
+COMPOSER_NORMALIZE_FILE := dev-ops/bin/composer-normalize
+COMPOSER_REQUIRE_CHECKER_PHAR := https://github.com/maglnet/ComposerRequireChecker/releases/download/3.8.0/composer-require-checker.phar
+COMPOSER_REQUIRE_CHECKER_FILE := dev-ops/bin/composer-require-checker
+PHPMD_PHAR := https://github.com/phpmd/phpmd/releases/download/2.11.1/phpmd.phar
+PHPMD_FILE := dev-ops/bin/phpmd
+PSALM_FILE := dev-ops/bin/psalm/vendor/bin/psalm
+COMPOSER_UNUSED_FILE := dev-ops/bin/composer-unused/vendor/bin/composer-unused
+EASY_CODING_STANDARD_FILE := dev-ops/bin/easy-coding-standard/vendor/bin/ecs
 
 .DEFAULT_GOAL := help
 .PHONY: help
@@ -22,64 +32,73 @@ clean: ## Cleans up all ignored files and directories
 	[[ ! -f composer.lock ]] || rm composer.lock
 	[[ ! -d vendor ]] || rm -rf vendor
 	[[ ! -d .build ]] || rm -rf .build
+	[[ ! -f dev-ops/bin/composer-normalize ]] || rm -f dev-ops/bin/composer-normalize
+	[[ ! -f dev-ops/bin/composer-require-checker ]] || rm -f dev-ops/bin/composer-require-checker
+	[[ ! -d dev-ops/bin/composer-unused/vendor ]] || rm -rf dev-ops/bin/composer-unused/vendor
+	[[ ! -d dev-ops/bin/easy-coding-standard/vendor ]] || rm -rf dev-ops/bin/easy-coding-standard/vendor
+	[[ ! -f dev-ops/bin/phpmd ]] || rm -f dev-ops/bin/phpmd
+	[[ ! -d dev-ops/bin/phpstan/vendor ]] || rm -rf dev-ops/bin/phpstan/vendor
+	[[ ! -d dev-ops/bin/psalm/vendor ]] || rm -rf dev-ops/bin/psalm/vendor
 
 .PHONY: it
 it: cs-fix cs test ## Fix code style and run unit tests
 
 .PHONY: coverage
-coverage: vendor .build test-refresh-fixture ## Run phpunit coverage tests
+coverage: vendor .build test-setup-fixture run-phpunit-coverage test-clean-fixture ## Run phpunit coverage tests
+
+.PHONY: run-phpunit-coverage
+run-phpunit-coverage:
 	$(PHPUNIT) --coverage-text
 
 .PHONY: cs
 cs: cs-php cs-phpstan cs-psalm cs-phpmd cs-soft-require cs-composer-unused cs-composer-normalize cs-json ## Run every code style check target
 
 .PHONY: cs-php
-cs-php: vendor .build ## Run php-cs-fixer for code style analysis
-	$(PHP) vendor/bin/php-cs-fixer fix --dry-run --config=dev-ops/php_cs.php --diff --verbose
-	$(PHP) vendor/bin/php-cs-fixer fix --dry-run --config=dev-ops/php_cs.php --format junit > .build/php-cs-fixer.junit.xml
+cs-php: vendor .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standard for code style analysis
+	$(PHP) $(EASY_CODING_STANDARD_FILE) check --config=dev-ops/ecs.php
 
 .PHONY: cs-phpstan
-cs-phpstan: vendor .build ## Run phpstan for static code analysis
-	$(PHP) vendor/bin/phpstan analyse -c dev-ops/phpstan.neon --error-format=junit
+cs-phpstan: vendor .build $(PHPSTAN_FILE) ## Run phpstan for static code analysis
+	[[ -z "${CI}" ]] || $(PHP) $(PHPSTAN_FILE) analyse -c dev-ops/phpstan.neon --error-format=junit > .build/phpstan.junit.xml
+	[[ -n "${CI}" ]] || $(PHP) $(PHPSTAN_FILE) analyse -c dev-ops/phpstan.neon
 
 .PHONY: cs-psalm
-cs-psalm: vendor .build ## Run psalm for static code analysis
-	# Bug in psalm expects the cache directory to be in the project parent but is the config parent (https://github.com/vimeo/psalm/pull/3421)
-	cd dev-ops && $(PHP) ../vendor/bin/psalm -c $(shell pwd)/dev-ops/psalm.xml
+cs-psalm: vendor .build $(PSALM_FILE) ## Run psalm for static code analysis
+	$(PHP) $(PSALM_FILE) -c $(shell pwd)/dev-ops/psalm.xml
 
 .PHONY: cs-phpmd
-cs-phpmd: vendor .build ## Run php mess detector for static code analysis
+cs-phpmd: vendor .build $(PHPMD_FILE) ## Run php mess detector for static code analysis
 	# TODO Re-add rulesets/unused.xml when phpmd fixes false-positive UnusedPrivateField
-	$(PHP) vendor/bin/phpmd --ignore-violations-on-exit src ansi rulesets/codesize.xml,rulesets/naming.xml
+	$(PHP) $(PHPMD_FILE) --ignore-violations-on-exit src ansi rulesets/codesize.xml,rulesets/naming.xml
 	[[ -f .build/phpmd-junit.xslt ]] || $(CURL) https://phpmd.org/junit.xslt -o .build/phpmd-junit.xslt
-	$(PHP) vendor/bin/phpmd src xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md.junit.xml
-	$(PHP) vendor/bin/phpmd src/Core xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-core.junit.xml
-	$(PHP) vendor/bin/phpmd src/DatasetBase xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-dataset-base.junit.xml
-	$(PHP) vendor/bin/phpmd src/PortalBase xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-portal-base.junit.xml
-	$(PHP) vendor/bin/phpmd src/StorageBase xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-storage-base.junit.xml
-	$(PHP) vendor/bin/phpmd src/TestSuiteStorage xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-storage-base.junit.xml
+	$(PHP) $(PHPMD_FILE) src xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md.junit.xml
+	$(PHP) $(PHPMD_FILE) src/Core xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-core.junit.xml
+	$(PHP) $(PHPMD_FILE) src/DatasetBase xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-dataset-base.junit.xml
+	$(PHP) $(PHPMD_FILE) src/PortalBase xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-portal-base.junit.xml
+	$(PHP) $(PHPMD_FILE) src/StorageBase xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-storage-base.junit.xml
+	$(PHP) $(PHPMD_FILE) src/TestSuiteStorage xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-storage-base.junit.xml
 
 .PHONY: cs-composer-unused
-cs-composer-unused: vendor ## Run composer-unused to detect once-required packages that are not used anymore
-	$(PHP) vendor/bin/composer-unused --no-progress
-	cd src/Core && $(PHP) ../../vendor/bin/composer-unused --no-progress
-	cd src/DatasetBase && $(PHP) ../../vendor/bin/composer-unused --no-progress
-	cd src/PortalBase && $(PHP) ../../vendor/bin/composer-unused --no-progress
-	cd src/StorageBase && $(PHP) ../../vendor/bin/composer-unused --no-progress
-	cd src/TestSuiteStorage && $(PHP) ../../vendor/bin/composer-unused --no-progress
+cs-composer-unused: vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to detect once-required packages that are not used anymore
+	$(PHP) $(COMPOSER_UNUSED_FILE) --no-progress
+	cd src/Core && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
+	cd src/DatasetBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
+	cd src/PortalBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
+	cd src/StorageBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
+	cd src/TestSuiteStorage && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
 
 .PHONY: cs-soft-require
-cs-soft-require: vendor .build ## Run composer-require-checker to detect library usage without requirement entry in composer.json
-	$(PHP) vendor/bin/composer-require-checker check --config-file=dev-ops/composer-soft-requirements.json composer.json
+cs-soft-require: vendor .build $(COMPOSER_REQUIRE_CHECKER_FILE) ## Run composer-require-checker to detect library usage without requirement entry in composer.json
+	$(PHP) $(COMPOSER_REQUIRE_CHECKER_FILE) check --config-file=$(shell pwd)/dev-ops/composer-soft-requirements.json composer.json
 
 .PHONY: cs-composer-normalize
-cs-composer-normalize: vendor ## Run composer-normalize for composer.json style analysis
-	$(COMPOSER) normalize --diff --dry-run --no-check-lock --no-update-lock composer.json
-	$(COMPOSER) normalize --diff --dry-run --no-check-lock --no-update-lock src/Core/composer.json
-	$(COMPOSER) normalize --diff --dry-run --no-check-lock --no-update-lock src/DatasetBase/composer.json
-	$(COMPOSER) normalize --diff --dry-run --no-check-lock --no-update-lock src/PortalBase/composer.json
-	$(COMPOSER) normalize --diff --dry-run --no-check-lock --no-update-lock src/StorageBase/composer.json
-	$(COMPOSER) normalize --diff --dry-run --no-check-lock --no-update-lock src/TestSuiteStorage/composer.json
+cs-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-normalize for composer.json style analysis
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock composer.json
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/Core/composer.json
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/DatasetBase/composer.json
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/PortalBase/composer.json
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/StorageBase/composer.json
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/TestSuiteStorage/composer.json
 
 .PHONY: cs-json
 cs-json: $(JSON_FILES) ## Run jq on every json file to ensure they are parsable and therefore valid
@@ -92,17 +111,17 @@ $(JSON_FILES):
 cs-fix: cs-fix-composer-normalize cs-fix-php
 
 .PHONY: cs-fix-composer-normalize
-cs-fix-composer-normalize: vendor ## Run composer-normalize for automatic composer.json style fixes
-	$(COMPOSER) normalize --diff composer.json
-	$(COMPOSER) normalize --diff src/Core/composer.json
-	$(COMPOSER) normalize --diff src/DatasetBase/composer.json
-	$(COMPOSER) normalize --diff src/PortalBase/composer.json
-	$(COMPOSER) normalize --diff src/StorageBase/composer.json
-	$(COMPOSER) normalize --diff src/TestSuiteStorage/composer.json
+cs-fix-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-normalize for automatic composer.json style fixes
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff composer.json
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/Core/composer.json
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/DatasetBase/composer.json
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/PortalBase/composer.json
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/StorageBase/composer.json
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/TestSuiteStorage/composer.json
 
 .PHONY: cs-fix-php
-cs-fix-php: vendor .build ## Run php-cs-fixer for automatic code style fixes
-	$(PHP) vendor/bin/php-cs-fixer fix --config=dev-ops/php_cs.php --diff --verbose
+cs-fix-php: vendor .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standard for automatic code style fixes
+	$(PHP) $(EASY_CODING_STANDARD_FILE) check --config=dev-ops/ecs.php --fix
 
 .PHONY: infection
 infection: vendor .build ## Run infection tests
@@ -120,6 +139,27 @@ run-phpunit: vendor .build
 
 test/%Test.php: vendor
 	$(PHPUNIT) "$@"
+
+$(PHPSTAN_FILE): ## Install phpstan executable
+	$(COMPOSER) install -d dev-ops/bin/phpstan
+
+$(COMPOSER_NORMALIZE_FILE): ## Install composer-normalize executable
+	$(CURL) -L $(COMPOSER_NORMALIZE_PHAR) -o $(COMPOSER_NORMALIZE_FILE)
+
+$(COMPOSER_REQUIRE_CHECKER_FILE): ## Install composer-require-checker executable
+	$(CURL) -L $(COMPOSER_REQUIRE_CHECKER_PHAR) -o $(COMPOSER_REQUIRE_CHECKER_FILE)
+
+$(PHPMD_FILE): ## Install phpmd executable
+	$(CURL) -L $(PHPMD_PHAR) -o $(PHPMD_FILE)
+
+$(PSALM_FILE): ## Install psalm executable
+	$(COMPOSER) install -d dev-ops/bin/psalm
+
+$(COMPOSER_UNUSED_FILE): ## Install composer-unused executable
+	$(COMPOSER) install -d dev-ops/bin/composer-unused
+
+$(EASY_CODING_STANDARD_FILE): ## Install easy-coding-standard executable
+	$(COMPOSER) install -d dev-ops/bin/easy-coding-standard
 
 .PHONY: composer-update
 composer-update:

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Exploration;
@@ -24,7 +25,6 @@ class ExplorerStackBuilderTest extends TestCase
     public function testStackBuilderManualOrder(): void
     {
         $stackBuilder = new ExplorerStackBuilder(
-            new ExplorerCollection(),
             new ExplorerCollection(),
             FooBarEntity::class,
             $this->createMock(LoggerInterface::class),
@@ -57,7 +57,7 @@ class ExplorerStackBuilderTest extends TestCase
         $stack = $stackBuilder->build();
         $stack->next($this->createMock(ExploreContextInterface::class));
 
-        self::assertEquals([2, 1], $calc);
+        static::assertEquals([2, 1], $calc);
     }
 
     public function testStackBuilderOrderFromCtor(): void
@@ -86,8 +86,7 @@ class ExplorerStackBuilderTest extends TestCase
         $explorer2->method('supports')->willReturn(FooBarEntity::class);
 
         $stackBuilder = new ExplorerStackBuilder(
-            new ExplorerCollection([$explorer1, $explorer2]),
-            new ExplorerCollection([$explorer2]),
+            new ExplorerCollection([$explorer1, $explorer2, $explorer2]),
             FooBarEntity::class,
             $this->createMock(LoggerInterface::class),
         );
@@ -97,6 +96,6 @@ class ExplorerStackBuilderTest extends TestCase
         $stack = $stackBuilder->build();
         $stack->next($this->createMock(ExploreContextInterface::class));
 
-        self::assertEquals([2, 1], $calc);
+        static::assertEquals([2, 1], $calc);
     }
 }

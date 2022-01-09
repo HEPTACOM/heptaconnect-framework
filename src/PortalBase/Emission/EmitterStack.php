@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Emission;
@@ -37,7 +38,7 @@ class EmitterStack implements EmitterStackInterface, LoggerAwareInterface
         $this->logger = new NullLogger();
     }
 
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
     }
@@ -50,7 +51,9 @@ class EmitterStack implements EmitterStackInterface, LoggerAwareInterface
             return [];
         }
 
-        $this->logger->debug(\sprintf('Execute FlowComponent emitter: %s', \get_class($emitter)));
+        $this->logger->debug('Execute FlowComponent emitter', [
+            'emitter' => $emitter,
+        ]);
 
         return $emitter->emit($externalIds, $context, $this);
     }

@@ -1,6 +1,9 @@
 image: heptacom/heptaconnect-pipeline:php74-6.0.2
 
 definitions:
+    partials:
+        -   step: &php80-image
+                image: heptacom/heptaconnect-pipeline:php80-6.0.2
     services:
         mysql:
             image: mysql:5.7
@@ -36,6 +39,9 @@ definitions:
                 <<: *default-step
                 name: Mirror tags to Github
                 script:
+                    - jq --indent 4 '.replace=(.replace|to_entries|map(.value = "self.version")|from_entries)' composer.json > composer-tag.json
+                    - mv composer-tag.json composer.json
+                    - git commit -m "Tag composer.json"
                     - git remote add github "git@github.com:HEPTACOM/${BITBUCKET_REPO_SLUG}.git"
                     - git push --force github tag "${BITBUCKET_TAG}"
                     - git tag -d "${BITBUCKET_TAG}"
@@ -48,6 +54,7 @@ definitions:
                     - vendor/**
                     - composer.lock
                 script:
+                    - make clean
                     - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
         -   step: &composer-low-install
                 <<: *default-step
@@ -57,8 +64,17 @@ definitions:
                     - vendor/**
                     - composer.lock
                 script:
+                    - make clean
                     - composer update --prefer-lowest --prefer-stable
                     - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
+        -   step: &composer-high-install-80
+                <<: *composer-high-install
+                <<: *php80-image
+                name: Install (8.0 + High dependencies)
+        -   step: &composer-low-install-80
+                <<: *composer-low-install
+                <<: *php80-image
+                name: Install (8.0 + Low dependencies)
         -   step: &composer-install-core
                 <<: *default-step
                 name: Install Core
@@ -89,19 +105,58 @@ definitions:
                 name: Unit tests
                 script:
                     - COMPOSER_EXTRA_ARGS=-vvv make -e test
+        -   step: &test-unit-80
+                <<: *test-unit
+                <<: *php80-image
+                name: Unit tests (8.0)
         -   step: &test-coverage
                 <<: *default-step
-                name: Unit test coverage
+                name: Test coverage
                 script:
                     - COMPOSER_EXTRA_ARGS=-vvv make -e coverage
-        -   step: &test-code-style
+        -   step: &test-code-style-php
                 <<: *default-step
-                name: Code style and static code analysis
+                name: ECS (Code style)
                 script:
-                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-php
+        -   step: &test-code-style-phpstan
+                <<: *default-step
+                name: PHPStan (Static code analysis)
+                script:
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-phpstan
+        -   step: &test-code-style-psalm
+                <<: *default-step
+                name: Psalm (Static code analysis)
+                script:
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-psalm
+        -   step: &test-code-style-phpmd
+                <<: *default-step
+                name: PHP Mess Detector (Static code analysis)
+                script:
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-phpmd
+        -   step: &test-code-style-soft-require
+                <<: *default-step
+                name: Composer soft requirements (Requirement analysis)
+                script:
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-soft-require
+        -   step: &test-code-style-composer-unused
+                <<: *default-step
+                name: Composer unused (Requirement analysis)
+                script:
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-composer-unused
+        -   step: &test-code-style-composer-normalize
+                <<: *default-step
+                name: composer.json (Code style)
+                script:
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-composer-normalize
+        -   step: &test-code-style-json
+                <<: *default-step
+                name: '*.json (Code style)'
+                script:
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-json
         -   step: &test-infection
                 <<: *default-step
-                name: Unit test infection detection
+                name: Test infection
                 script:
                     - COMPOSER_EXTRA_ARGS=-vvv make -e infection
 
@@ -120,12 +175,36 @@ pipelines:
             -   parallel:
                     -   step: *test-unit
                     -   step: *test-coverage
-                    -   step: *test-code-style
+                    -   step: *test-code-style-composer-normalize
+                    -   step: *test-code-style-composer-unused
+                    -   step: *test-code-style-json
+                    -   step: *test-code-style-php
             -   step: *composer-low-install
             -   parallel:
                     -   step: *test-unit
                     -   step: *test-coverage
-                    -   step: *test-code-style
+                    -   step: *test-code-style-composer-normalize
+                    -   step: *test-code-style-composer-unused
+                    -   step: *test-code-style-json
+                    -   step: *test-code-style-php
+            -   step: *composer-high-install-80
+            -   step: *test-unit-80
+            -   step: *composer-low-install-80
+            -   step: *test-unit-80
+            -   step: *composer-high-install
+            -   parallel:
+                    -   step: *test-code-style-phpmd
+                    -   step: *test-code-style-soft-require
+                    -   step: *test-code-style-phpstan
+                    -   step: *test-code-style-psalm
+                    -   step: *test-infection
+            -   step: *composer-low-install
+            -   parallel:
+                    -   step: *test-code-style-phpmd
+                    -   step: *test-code-style-soft-require
+                    -   step: *test-code-style-phpstan
+                    -   step: *test-code-style-psalm
+                    -   step: *test-infection
 
     tags:
         '*':
@@ -151,9 +230,33 @@ pipelines:
         -   parallel:
                 -   step: *test-unit
                 -   step: *test-coverage
-                -   step: *test-code-style
+                -   step: *test-code-style-composer-normalize
+                -   step: *test-code-style-composer-unused
+                -   step: *test-code-style-json
+                -   step: *test-code-style-php
         -   step: *composer-low-install
         -   parallel:
                 -   step: *test-unit
                 -   step: *test-coverage
-                -   step: *test-code-style
+                -   step: *test-code-style-composer-normalize
+                -   step: *test-code-style-composer-unused
+                -   step: *test-code-style-json
+                -   step: *test-code-style-php
+        -   step: *composer-high-install-80
+        -   step: *test-unit-80
+        -   step: *composer-low-install-80
+        -   step: *test-unit-80
+        -   step: *composer-high-install
+        -   parallel:
+                -   step: *test-code-style-phpmd
+                -   step: *test-code-style-soft-require
+                -   step: *test-code-style-phpstan
+                -   step: *test-code-style-psalm
+                -   step: *test-infection
+        -   step: *composer-low-install
+        -   parallel:
+                -   step: *test-code-style-phpmd
+                -   step: *test-code-style-soft-require
+                -   step: *test-code-style-phpstan
+                -   step: *test-code-style-psalm
+                -   step: *test-infection

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Reception;
@@ -29,7 +30,7 @@ class ReceiverStack implements ReceiverStackInterface, LoggerAwareInterface
         $this->logger = new NullLogger();
     }
 
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
     }
@@ -42,7 +43,9 @@ class ReceiverStack implements ReceiverStackInterface, LoggerAwareInterface
             return [];
         }
 
-        $this->logger->debug(\sprintf('Execute FlowComponent receiver: %s', \get_class($receiver)));
+        $this->logger->debug('Execute FlowComponent receiver', [
+            'receiver' => $receiver,
+        ]);
 
         return $receiver->receive($entities, $context, $this);
     }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Emission;
@@ -12,9 +13,9 @@ use Psr\Log\LoggerInterface;
 
 class EmitterStackBuilder implements EmitterStackBuilderInterface
 {
-    private EmitterCollection $sourceEmitters;
+    private ?EmitterContract $source;
 
-    private EmitterCollection $emitterDecorators;
+    private EmitterCollection $decorators;
 
     /**
      * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
@@ -32,13 +33,13 @@ class EmitterStackBuilder implements EmitterStackBuilderInterface
      * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
      */
     public function __construct(
-        EmitterCollection $sourceEmitters,
-        EmitterCollection $emitterDecorators,
+        EmitterCollection $sources,
         string $entityType,
         LoggerInterface $logger
     ) {
-        $this->sourceEmitters = $sourceEmitters;
-        $this->emitterDecorators = $emitterDecorators;
+        $sources = new EmitterCollection($sources->bySupport($entityType));
+        $this->source = $sources->shift();
+        $this->decorators = $sources;
         $this->entityType = $entityType;
         $this->logger = $logger;
     }
@@ -46,18 +47,21 @@ class EmitterStackBuilder implements EmitterStackBuilderInterface
     public function push(EmitterContract $emitter): self
     {
         if (\is_a($this->entityType, $emitter->supports(), true)) {
-            $this->logger->debug(\sprintf(
-                'EmitterStackBuilder: Pushed %s as arbitrary emitter.',
-                \get_class($emitter)
-            ));
+            $this->logger->debug('EmitterStackBuilder: Pushed an arbitrary emitter.', [
+                'emitter' => $emitter,
+            ]);
 
             $this->emitters[] = $emitter;
         } else {
-            $this->logger->debug(\sprintf(
-                'EmitterStackBuilder: Tried to push %s as arbitrary emitter, but it does not support type %s.',
-                \get_class($emitter),
-                $this->entityType,
-            ));
+            $this->logger->debug(
+                \sprintf(
+                    'EmitterStackBuilder: Tried to push an arbitrary emitter, but it does not support type %s.',
+                    $this->entityType,
+                ),
+                [
+                    'emitter' => $emitter,
+                ]
+            );
         }
 
         return $this;
@@ -65,22 +69,13 @@ class EmitterStackBuilder implements EmitterStackBuilderInterface
 
     public function pushSource(): self
     {
-        $firstEmitter = null;
+        if ($this->source instanceof EmitterContract) {
+            $this->logger->debug('EmitterStackBuilder: Pushed the source emitter.', [
+                'emitter' => $this->source,
+            ]);
 
-        foreach ($this->sourceEmitters->bySupport($this->entityType) as $emitter) {
-            $firstEmitter = $emitter;
-
-            break;
-        }
-
-        if ($firstEmitter instanceof EmitterContract) {
-            $this->logger->debug(\sprintf(
-                'EmitterStackBuilder: Pushed %s as source emitter.',
-                \get_class($firstEmitter)
-            ));
-
-            if (!\in_array($firstEmitter, $this->emitters, true)) {
-                $this->emitters[] = $firstEmitter;
+            if (!\in_array($this->source, $this->emitters, true)) {
+                $this->emitters[] = $this->source;
             }
         }
 
@@ -89,11 +84,10 @@ class EmitterStackBuilder implements EmitterStackBuilderInterface
 
     public function pushDecorators(): self
     {
-        foreach ($this->emitterDecorators->bySupport($this->entityType) as $emitter) {
-            $this->logger->debug(\sprintf(
-                'EmitterStackBuilder: Pushed %s as decorator emitter.',
-                \get_class($emitter)
-            ));
+        foreach ($this->decorators as $emitter) {
+            $this->logger->debug('EmitterStackBuilder: Pushed a decorator emitter.', [
+                'emitter' => $emitter,
+            ]);
 
             if (!\in_array($emitter, $this->emitters, true)) {
                 $this->emitters[] = $emitter;

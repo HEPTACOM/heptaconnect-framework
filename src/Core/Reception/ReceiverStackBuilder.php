@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Reception;
@@ -12,9 +13,9 @@ use Psr\Log\LoggerInterface;
 
 class ReceiverStackBuilder implements ReceiverStackBuilderInterface
 {
-    private ReceiverCollection $sourceReceivers;
+    private ?ReceiverContract $source;
 
-    private ReceiverCollection $receiverDecorators;
+    private ReceiverCollection $decorators;
 
     private LoggerInterface $logger;
 
@@ -32,32 +33,35 @@ class ReceiverStackBuilder implements ReceiverStackBuilderInterface
      * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
      */
     public function __construct(
-        ReceiverCollection $sourceReceivers,
-        ReceiverCollection $receiverDecorators,
+        ReceiverCollection $sources,
         string $entityType,
         LoggerInterface $logger
     ) {
-        $this->sourceReceivers = $sourceReceivers;
-        $this->receiverDecorators = $receiverDecorators;
-        $this->logger = $logger;
+        $sources = new ReceiverCollection($sources->bySupport($entityType));
+        $this->source = $sources->shift();
+        $this->decorators = $sources;
         $this->entityType = $entityType;
+        $this->logger = $logger;
     }
 
     public function push(ReceiverContract $receiver): self
     {
         if (\is_a($this->entityType, $receiver->supports(), true)) {
-            $this->logger->debug(\sprintf(
-                'ReceiverStackBuilder: Pushed %s as arbitrary receiver.',
-                \get_class($receiver)
-            ));
+            $this->logger->debug('ReceiverStackBuilder: Pushed an arbitrary receiver.', [
+                'receiver' => $receiver,
+            ]);
 
             $this->receivers[] = $receiver;
         } else {
-            $this->logger->debug(\sprintf(
-                'ReceiverStackBuilder: Tried to push %s as arbitrary receiver, but it does not support type %s.',
-                \get_class($receiver),
-                $this->entityType,
-            ));
+            $this->logger->debug(
+                \sprintf(
+                    'ReceiverStackBuilder: Tried to push an arbitrary receiver, but it does not support type %s.',
+                    $this->entityType,
+                ),
+                [
+                    'receiver' => $receiver,
+                ]
+            );
         }
 
         return $this;
@@ -65,22 +69,13 @@ class ReceiverStackBuilder implements ReceiverStackBuilderInterface
 
     public function pushSource(): self
     {
-        $firstReceiver = null;
+        if ($this->source instanceof ReceiverContract) {
+            $this->logger->debug('ReceiverStackBuilder: Pushed the source receiver.', [
+                'receiver' => $this->source,
+            ]);
 
-        foreach ($this->sourceReceivers->bySupport($this->entityType) as $receiver) {
-            $firstReceiver = $receiver;
-
-            break;
-        }
-
-        if ($firstReceiver instanceof ReceiverContract) {
-            $this->logger->debug(\sprintf(
-                'ReceiverStackBuilder: Pushed %s as source receiver.',
-                \get_class($firstReceiver)
-            ));
-
-            if (!\in_array($firstReceiver, $this->receivers, true)) {
-                $this->receivers[] = $firstReceiver;
+            if (!\in_array($this->source, $this->receivers, true)) {
+                $this->receivers[] = $this->source;
             }
         }
 
@@ -89,11 +84,10 @@ class ReceiverStackBuilder implements ReceiverStackBuilderInterface
 
     public function pushDecorators(): self
     {
-        foreach ($this->receiverDecorators->bySupport($this->entityType) as $receiver) {
-            $this->logger->debug(\sprintf(
-                'ReceiverStackBuilder: Pushed %s as decorator receiver.',
-                \get_class($receiver)
-            ));
+        foreach ($this->decorators as $receiver) {
+            $this->logger->debug('ReceiverStackBuilder: Pushed a decorator receiver.', [
+                'receiver' => $receiver,
+            ]);
 
             if (!\in_array($receiver, $this->receivers, true)) {
                 $this->receivers[] = $receiver;

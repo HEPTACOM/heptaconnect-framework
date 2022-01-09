@@ -1,19 +1,25 @@
 {
     "name": "heptacom/heptaconnect-portal-base",
-    "type": "library",
     "description": "HEPTAconnect base dataset that every other portal is based on",
-    "keywords": [
-        "heptaconnect-portal"
-    ],
     "license": [
         "AGPL-3.0-or-later",
         "proprietary"
+    ],
+    "type": "library",
+    "keywords": [
+        "heptaconnect-portal"
     ],
     "authors": [
         {
             "name": "HEPTACOM GmbH"
         }
     ],
+    "support": {
+        "issues": "https://github.com/HEPTACOM/heptaconnect-framework/issues",
+        "source": "https://github.com/HEPTACOM/heptaconnect-framework",
+        "docs": "https://connect.heptacom.de/",
+        "rss": "https://connect.heptacom.de/feed/rss2.xml"
+    },
     "require": {
         "php": ">=7.4",
         "ext-json": "*",
@@ -32,28 +38,27 @@
         "symfony/options-resolver": ">=4",
         "symfony/serializer": ">=4"
     },
-    "extra": {
-        "unused": [
-            "bentools/iterable-functions",
-            "psr/http-client"
-        ]
-    },
-    "autoload": {
-        "psr-4": {
-            "Heptacom\\HeptaConnect\\Portal\\Base\\": ""
-        }
-    },
     "repositories": {
         "heptaconnect-sources": {
             "type": "path",
             "url": "../**"
         }
     },
-    "support": {
-        "issues": "https://github.com/HEPTACOM/heptaconnect-framework/issues",
-        "source": "https://github.com/HEPTACOM/heptaconnect-framework",
-        "docs": "https://connect.heptacom.de/",
-        "rss": "https://connect.heptacom.de/feed/rss2.xml"
+    "autoload": {
+        "psr-4": {
+            "Heptacom\\HeptaConnect\\Portal\\Base\\": ""
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "infection/extension-installer": true
+        }
+    },
+    "extra": {
+        "unused": [
+            "bentools/iterable-functions",
+            "psr/http-client"
+        ]
     },
     "website": "https://heptaconnect.io"
 }

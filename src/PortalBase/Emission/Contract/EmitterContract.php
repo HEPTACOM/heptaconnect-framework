@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Emission\Contract;
@@ -6,7 +7,6 @@ namespace Heptacom\HeptaConnect\Portal\Base\Emission\Contract;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityException;
 use Psr\Log\LoggerInterface;
-use ReflectionMethod;
 
 abstract class EmitterContract
 {
@@ -67,7 +67,7 @@ abstract class EmitterContract
         foreach ($stack->next($externalIds, $context) as $key => $entity) {
             $primaryKey = $entity->getPrimaryKey();
 
-            if (\is_null($primaryKey)) {
+            if ($primaryKey === null) {
                 /** @var LoggerInterface|null $logger */
                 $logger = $context->getContainer()->get(LoggerInterface::class);
 
@@ -136,8 +136,8 @@ abstract class EmitterContract
 
         foreach ($this->batch($externalIds, $context) as $entity) {
             if (!$this->isSupported($entity)) {
-                $this->runDeclaringClass ??= (new ReflectionMethod($this, 'run'))->getDeclaringClass()->getName();
-                $this->batchDeclaringClass ??= (new ReflectionMethod($this, 'batch'))->getDeclaringClass()->getName();
+                $this->runDeclaringClass ??= (new \ReflectionMethod($this, 'run'))->getDeclaringClass()->getName();
+                $this->batchDeclaringClass ??= (new \ReflectionMethod($this, 'batch'))->getDeclaringClass()->getName();
 
                 if ($this->runDeclaringClass === self::class && $this->batchDeclaringClass === self::class) {
                     continue;

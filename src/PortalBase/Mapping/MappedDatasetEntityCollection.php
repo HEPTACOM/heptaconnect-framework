@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Mapping;
@@ -32,7 +33,7 @@ class MappedDatasetEntityCollection extends AbstractObjectCollection
                 }
             }
 
-            if (\is_null($portalNodeKeyHash)) {
+            if ($portalNodeKeyHash === null) {
                 $portalNodeKeyHash = \spl_object_hash($item->getMapping()->getPortalNodeKey());
                 $portalNodeKeys[$portalNodeKeyHash] = $item->getMapping()->getPortalNodeKey();
             }

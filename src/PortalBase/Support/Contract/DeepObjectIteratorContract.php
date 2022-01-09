@@ -1,15 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Support\Contract;
 
-use ReflectionException;
-use ReflectionProperty;
-
 class DeepObjectIteratorContract
 {
     /**
-     * @var array<class-string, ReflectionProperty[]>
+     * @var array<class-string, \ReflectionProperty[]>
      */
     private array $reflectionProperties = [];
 
@@ -72,9 +70,9 @@ class DeepObjectIteratorContract
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      *
-     * @return ReflectionProperty[]
+     * @return \ReflectionProperty[]
      */
     private function getPropertiesAccessor(object $object): array
     {

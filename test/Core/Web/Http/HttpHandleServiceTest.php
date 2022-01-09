@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Web\Http;
@@ -11,7 +12,7 @@ use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlingActorInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpHandleContext;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpHandleService;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -25,7 +26,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Component\LogMessage
  * @covers \Heptacom\HeptaConnect\Core\Portal\AbstractPortalNodeContext
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpHandleService
- * @covers \Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria
  */
 class HttpHandleServiceTest extends TestCase
 {
@@ -52,9 +53,9 @@ class HttpHandleServiceTest extends TestCase
 
         $stackBuilder->method('pushSource')->willReturnSelf();
         $stackBuilder->method('pushDecorators')->willReturnSelf();
-        $stackBuilder->expects(self::atLeastOnce())->method('isEmpty')->willReturn(true);
-        $stackBuilderFactory->expects(self::atLeastOnce())->method('createHttpHandlerStackBuilder')->willReturn($stackBuilder);
-        $response->expects(self::atLeastOnce())->method('withHeader')->willReturnSelf();
+        $stackBuilder->expects(static::atLeastOnce())->method('isEmpty')->willReturn(true);
+        $stackBuilderFactory->expects(static::atLeastOnce())->method('createHttpHandlerStackBuilder')->willReturn($stackBuilder);
+        $response->expects(static::atLeastOnce())->method('withHeader')->willReturnSelf();
 
         $service = new HttpHandleService(
             $this->createMock(HttpHandlingActorInterface::class),

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Exploration\Contract;
@@ -36,7 +37,7 @@ abstract class ExplorerContract
      */
     final protected function isSupported($entity): bool
     {
-        if (\is_null($entity)) {
+        if ($entity === null) {
             return false;
         }
 
@@ -108,7 +109,7 @@ abstract class ExplorerContract
 
         $primaryKey = $entity->getPrimaryKey();
 
-        if ($entity instanceof DatasetEntityContract && !\is_null($primaryKey)) {
+        if ($entity instanceof DatasetEntityContract && $primaryKey !== null) {
             return $this->isAllowed($primaryKey, $entity, $context);
         }
 

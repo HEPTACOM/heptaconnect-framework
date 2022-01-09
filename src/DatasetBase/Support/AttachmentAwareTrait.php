@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Support;
@@ -57,8 +58,10 @@ trait AttachmentAwareTrait
         }
 
         /** @var array<array-key, AttachableInterface> $newItems */
-        $newItems = \iterable_to_array($this->attachments->filter(
-            fn (AttachableInterface $attachment): bool => !$attachment instanceof $class)
+        $newItems = \iterable_to_array(
+            $this->attachments->filter(
+                fn (AttachableInterface $attachment): bool => !$attachment instanceof $class
+            )
         );
         $this->attachments = new AttachmentCollection($newItems);
     }
