@@ -5,6 +5,14 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Storage\Base\Bridge\Support;
 
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFinishActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobListFinishedActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobScheduleActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobStartActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
@@ -17,6 +25,22 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInter
 
 abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
 {
+    private ?JobCreateActionInterface $jobCreateAction = null;
+
+    private ?JobDeleteActionInterface $jobDeleteAction = null;
+
+    private ?JobFailActionInterface $jobFailAction = null;
+
+    private ?JobFinishActionInterface $jobFinishAction = null;
+
+    private ?JobGetActionInterface $jobGetAction = null;
+
+    private ?JobListFinishedActionInterface $jobListFinishedAction = null;
+
+    private ?JobScheduleActionInterface $jobScheduleAction = null;
+
+    private ?JobStartActionInterface $jobStartAction = null;
+
     private ?RouteCreateActionInterface $routeCreateAction = null;
 
     private ?RouteFindActionInterface $routeFindAction = null;
@@ -34,6 +58,46 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     private ?PortalNodeListActionInterface $portalNodeListAction = null;
 
     private ?PortalNodeOverviewActionInterface $portalNodeOverviewAction = null;
+
+    public function getJobCreateAction(): JobCreateActionInterface
+    {
+        return $this->jobCreateAction ??= $this->createJobCreateAction();
+    }
+
+    public function getJobDeleteAction(): JobDeleteActionInterface
+    {
+        return $this->jobDeleteAction ??= $this->createJobDeleteAction();
+    }
+
+    public function getJobFailAction(): JobFailActionInterface
+    {
+        return $this->jobFailAction ??= $this->createJobFailAction();
+    }
+
+    public function getJobFinishAction(): JobFinishActionInterface
+    {
+        return $this->jobFinishAction ??= $this->createJobFinishAction();
+    }
+
+    public function getJobGetAction(): JobGetActionInterface
+    {
+        return $this->jobGetAction ??= $this->createJobGetAction();
+    }
+
+    public function getJobListFinishedAction(): JobListFinishedActionInterface
+    {
+        return $this->jobListFinishedAction ??= $this->createJobListFinishedAction();
+    }
+
+    public function getJobScheduleAction(): JobScheduleActionInterface
+    {
+        return $this->jobScheduleAction ??= $this->createJobScheduleAction();
+    }
+
+    public function getJobStartAction(): JobStartActionInterface
+    {
+        return $this->jobStartAction ??= $this->createJobStartAction();
+    }
 
     public function getPortalNodeCreateAction(): PortalNodeCreateActionInterface
     {
@@ -79,6 +143,22 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     {
         return $this->receptionRouteListAction ??= $this->createReceptionRouteListAction();
     }
+
+    abstract protected function createJobCreateAction(): JobCreateActionInterface;
+
+    abstract protected function createJobDeleteAction(): JobDeleteActionInterface;
+
+    abstract protected function createJobFailAction(): JobFailActionInterface;
+
+    abstract protected function createJobFinishAction(): JobFinishActionInterface;
+
+    abstract protected function createJobGetAction(): JobGetActionInterface;
+
+    abstract protected function createJobListFinishedAction(): JobListFinishedActionInterface;
+
+    abstract protected function createJobScheduleAction(): JobScheduleActionInterface;
+
+    abstract protected function createJobStartAction(): JobStartActionInterface;
 
     abstract protected function createPortalNodeCreateAction(): PortalNodeCreateActionInterface;
 

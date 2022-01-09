@@ -4,6 +4,14 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Bridge\Contract;
 
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFinishActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobListFinishedActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobScheduleActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobStartActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
@@ -16,6 +24,22 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInter
 
 interface StorageFacadeInterface
 {
+    public function getJobCreateAction(): JobCreateActionInterface;
+
+    public function getJobDeleteAction(): JobDeleteActionInterface;
+
+    public function getJobFailAction(): JobFailActionInterface;
+
+    public function getJobFinishAction(): JobFinishActionInterface;
+
+    public function getJobGetAction(): JobGetActionInterface;
+
+    public function getJobListFinishedAction(): JobListFinishedActionInterface;
+
+    public function getJobScheduleAction(): JobScheduleActionInterface;
+
+    public function getJobStartAction(): JobStartActionInterface;
+
     public function getPortalNodeCreateAction(): PortalNodeCreateActionInterface;
 
     public function getPortalNodeDeleteAction(): PortalNodeDeleteActionInterface;

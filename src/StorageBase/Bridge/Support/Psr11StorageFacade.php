@@ -4,6 +4,14 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Bridge\Support;
 
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFinishActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobListFinishedActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobScheduleActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobStartActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
@@ -22,6 +30,46 @@ class Psr11StorageFacade extends AbstractSingletonStorageFacade
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+    }
+
+    protected function createJobCreateAction(): JobCreateActionInterface
+    {
+        return $this->container->get(JobCreateActionInterface::class);
+    }
+
+    protected function createJobDeleteAction(): JobDeleteActionInterface
+    {
+        return $this->container->get(JobDeleteActionInterface::class);
+    }
+
+    protected function createJobFailAction(): JobFailActionInterface
+    {
+        return $this->container->get(JobFailActionInterface::class);
+    }
+
+    protected function createJobFinishAction(): JobFinishActionInterface
+    {
+        return $this->container->get(JobFinishActionInterface::class);
+    }
+
+    protected function createJobGetAction(): JobGetActionInterface
+    {
+        return $this->container->get(JobGetActionInterface::class);
+    }
+
+    protected function createJobListFinishedAction(): JobListFinishedActionInterface
+    {
+        return $this->container->get(JobListFinishedActionInterface::class);
+    }
+
+    protected function createJobScheduleAction(): JobScheduleActionInterface
+    {
+        return $this->container->get(JobScheduleActionInterface::class);
+    }
+
+    protected function createJobStartAction(): JobStartActionInterface
+    {
+        return $this->container->get(JobStartActionInterface::class);
     }
 
     protected function createPortalNodeCreateAction(): PortalNodeCreateActionInterface
