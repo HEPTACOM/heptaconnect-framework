@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\TestSuite\Storage\Action;
@@ -65,7 +66,7 @@ abstract class RouteTestContract extends TestCase
 
         $createResults = $createAction->create($createPayloads);
 
-        self::assertSame($createPayloads->count(), $createResults->count());
+        static::assertSame($createPayloads->count(), $createResults->count());
 
         $testCreateResults = new RouteCreateResults($createResults);
 
@@ -74,10 +75,10 @@ abstract class RouteTestContract extends TestCase
             $findCriteria = new RouteFindCriteria($createPayload->getSourcePortalNodeKey(), $createPayload->getTargetPortalNodeKey(), $createPayload->getEntityType());
             $findResult = $findAction->find($findCriteria);
 
-            self::assertNotNull($findResult);
+            static::assertNotNull($findResult);
             /* @var RouteFindResult $findResult */
 
-            self::assertCount(1, \iterable_to_array($testCreateResults->filter(
+            static::assertCount(1, \iterable_to_array($testCreateResults->filter(
                 static fn (RouteCreateResult $r): bool => $r->getRouteKey()->equals($findResult->getRouteKey())
             )));
             $testCreateResults = new RouteCreateResults($testCreateResults->filter(
@@ -86,35 +87,35 @@ abstract class RouteTestContract extends TestCase
             /** @var RouteGetResult[] $getResults */
             $getResults = \iterable_to_array($getAction->get(new RouteGetCriteria(new RouteKeyCollection([$findResult->getRouteKey()]))));
 
-            self::assertCount(1, $getResults);
+            static::assertCount(1, $getResults);
 
             foreach ($getResults as $getResult) {
-                self::assertTrue($getResult->getRouteKey()->equals($findResult->getRouteKey()));
-                self::assertTrue($getResult->getSourcePortalNodeKey()->equals($createPayload->getSourcePortalNodeKey()));
-                self::assertTrue($getResult->getTargetPortalNodeKey()->equals($createPayload->getTargetPortalNodeKey()));
-                self::assertSame($getResult->getEntityType(), $createPayload->getEntityType());
+                static::assertTrue($getResult->getRouteKey()->equals($findResult->getRouteKey()));
+                static::assertTrue($getResult->getSourcePortalNodeKey()->equals($createPayload->getSourcePortalNodeKey()));
+                static::assertTrue($getResult->getTargetPortalNodeKey()->equals($createPayload->getTargetPortalNodeKey()));
+                static::assertSame($getResult->getEntityType(), $createPayload->getEntityType());
 
                 /** @var ReceptionRouteListResult[] $listResults */
                 $listResults = \iterable_to_array($receptionListAction->list(new ReceptionRouteListCriteria($createPayload->getSourcePortalNodeKey(), $createPayload->getEntityType())));
                 $receptionListResult = \array_filter(
                     $listResults,
-                    static fn(ReceptionRouteListResult $r): bool => $r->getRouteKey()->equals($findResult->getRouteKey())
+                    static fn (ReceptionRouteListResult $r): bool => $r->getRouteKey()->equals($findResult->getRouteKey())
                 );
-                $isReceptionRoute = \in_array(RouteCapability::RECEPTION, $getResult->getCapabilities());
-                self::assertCount($isReceptionRoute ? 1 : 0, $receptionListResult);
+                $isReceptionRoute = \in_array(RouteCapability::RECEPTION, $getResult->getCapabilities(), true);
+                static::assertCount($isReceptionRoute ? 1 : 0, $receptionListResult);
             }
         }
     }
 
-    protected abstract function createRouteCreateAction(): RouteCreateActionInterface;
+    abstract protected function createRouteCreateAction(): RouteCreateActionInterface;
 
-    protected abstract function createRouteFindAction(): RouteFindActionInterface;
+    abstract protected function createRouteFindAction(): RouteFindActionInterface;
 
-    protected abstract function createRouteGetAction(): RouteGetActionInterface;
+    abstract protected function createRouteGetAction(): RouteGetActionInterface;
 
-    protected abstract function createReceptionRouteListAction(): ReceptionRouteListActionInterface;
+    abstract protected function createReceptionRouteListAction(): ReceptionRouteListActionInterface;
 
-    protected abstract function getPortalNodeA(): PortalNodeKeyInterface;
+    abstract protected function getPortalNodeA(): PortalNodeKeyInterface;
 
-    protected abstract function getPortalNodeB(): PortalNodeKeyInterface;
+    abstract protected function getPortalNodeB(): PortalNodeKeyInterface;
 }
