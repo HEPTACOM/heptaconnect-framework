@@ -17,7 +17,6 @@ use Heptacom\HeptaConnect\Storage\Base\Action\Route\Get\RouteGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Listing\ReceptionRouteListCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Listing\ReceptionRouteListResult;
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface;
-use Heptacom\HeptaConnect\Storage\Base\Enum\RouteCapability;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Dataset\EntityA;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Dataset\EntityB;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Dataset\EntityC;
@@ -35,32 +34,15 @@ abstract class RouteTestContract extends TestCase
         $findAction = $facade->getRouteFindAction();
         $getAction = $facade->getRouteGetAction();
 
-        $createPayloads = new RouteCreatePayloads([
-            new RouteCreatePayload($portalA, $portalB, EntityA::class),
-            new RouteCreatePayload($portalA, $portalB, EntityB::class),
-            new RouteCreatePayload($portalA, $portalB, EntityC::class),
-            new RouteCreatePayload($portalA, $portalA, EntityA::class),
-            new RouteCreatePayload($portalA, $portalA, EntityB::class),
-            new RouteCreatePayload($portalA, $portalA, EntityC::class),
-            new RouteCreatePayload($portalB, $portalA, EntityA::class),
-            new RouteCreatePayload($portalB, $portalA, EntityB::class),
-            new RouteCreatePayload($portalB, $portalA, EntityC::class),
-            new RouteCreatePayload($portalB, $portalB, EntityA::class),
-            new RouteCreatePayload($portalB, $portalB, EntityB::class),
-            new RouteCreatePayload($portalB, $portalB, EntityC::class),
-            new RouteCreatePayload($portalA, $portalB, EntityA::class, RouteCapability::ALL),
-            new RouteCreatePayload($portalA, $portalB, EntityB::class, RouteCapability::ALL),
-            new RouteCreatePayload($portalA, $portalB, EntityC::class, RouteCapability::ALL),
-            new RouteCreatePayload($portalA, $portalA, EntityA::class, RouteCapability::ALL),
-            new RouteCreatePayload($portalA, $portalA, EntityB::class, RouteCapability::ALL),
-            new RouteCreatePayload($portalA, $portalA, EntityC::class, RouteCapability::ALL),
-            new RouteCreatePayload($portalB, $portalA, EntityA::class, RouteCapability::ALL),
-            new RouteCreatePayload($portalB, $portalA, EntityB::class, RouteCapability::ALL),
-            new RouteCreatePayload($portalB, $portalA, EntityC::class, RouteCapability::ALL),
-            new RouteCreatePayload($portalB, $portalB, EntityA::class, RouteCapability::ALL),
-            new RouteCreatePayload($portalB, $portalB, EntityB::class, RouteCapability::ALL),
-            new RouteCreatePayload($portalB, $portalB, EntityC::class, RouteCapability::ALL),
-        ]);
+        $createPayloads = new RouteCreatePayloads();
+
+        foreach ([$portalA, $portalB] as $sourcePortal) {
+            foreach ([$portalA, $portalB] as $targetPortal) {
+                foreach ([EntityA::class, EntityB::class, EntityC::class] as $entityType) {
+                    $createPayloads->push([new RouteCreatePayload($sourcePortal, $targetPortal, $entityType)]);
+                }
+            }
+        }
 
         $createResults = $createAction->create($createPayloads);
 
@@ -97,10 +79,9 @@ abstract class RouteTestContract extends TestCase
                 $listResults = \iterable_to_array($receptionListAction->list(new ReceptionRouteListCriteria($createPayload->getSourcePortalNodeKey(), $createPayload->getEntityType())));
                 $receptionListResult = \array_filter(
                     $listResults,
-                    static fn (ReceptionRouteListResult $r): bool => $r->getRouteKey()->equals($findResult->getRouteKey())
+                    static fn(ReceptionRouteListResult $r): bool => $r->getRouteKey()->equals($findResult->getRouteKey())
                 );
-                $isReceptionRoute = \in_array(RouteCapability::RECEPTION, $getResult->getCapabilities(), true);
-                static::assertCount($isReceptionRoute ? 1 : 0, $receptionListResult);
+                static::assertCount(0, $receptionListResult);
             }
         }
     }
