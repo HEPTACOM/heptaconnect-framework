@@ -6,20 +6,17 @@ namespace Heptacom\HeptaConnect\TestSuite\Storage\Action;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\RouteKeyCollection;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Create\RouteCreateActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Create\RouteCreatePayload;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Create\RouteCreatePayloads;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Create\RouteCreateResult;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Create\RouteCreateResults;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Find\RouteFindActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Find\RouteFindCriteria;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Find\RouteFindResult;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Get\RouteGetActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Get\RouteGetCriteria;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Get\RouteGetResult;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Listing\ReceptionRouteListActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Listing\ReceptionRouteListCriteria;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Listing\ReceptionRouteListResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayload;
+use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayloads;
+use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResults;
+use Heptacom\HeptaConnect\Storage\Base\Action\Route\Find\RouteFindCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Action\Route\Find\RouteFindResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\Route\Get\RouteGetCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Action\Route\Get\RouteGetResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\Route\Listing\ReceptionRouteListCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Action\Route\Listing\ReceptionRouteListResult;
+use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface;
 use Heptacom\HeptaConnect\Storage\Base\Enum\RouteCapability;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Dataset\EntityA;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Dataset\EntityB;
@@ -32,10 +29,11 @@ abstract class RouteTestContract extends TestCase
     {
         $portalA = $this->getPortalNodeA();
         $portalB = $this->getPortalNodeB();
-        $createAction = $this->createRouteCreateAction();
-        $receptionListAction = $this->createReceptionRouteListAction();
-        $findAction = $this->createRouteFindAction();
-        $getAction = $this->createRouteGetAction();
+        $facade = $this->createStorageFacade();
+        $createAction = $facade->getRouteCreateAction();
+        $receptionListAction = $facade->getReceptionRouteListAction();
+        $findAction = $facade->getRouteFindAction();
+        $getAction = $facade->getRouteGetAction();
 
         $createPayloads = new RouteCreatePayloads([
             new RouteCreatePayload($portalA, $portalB, EntityA::class),
@@ -107,13 +105,7 @@ abstract class RouteTestContract extends TestCase
         }
     }
 
-    abstract protected function createRouteCreateAction(): RouteCreateActionInterface;
-
-    abstract protected function createRouteFindAction(): RouteFindActionInterface;
-
-    abstract protected function createRouteGetAction(): RouteGetActionInterface;
-
-    abstract protected function createReceptionRouteListAction(): ReceptionRouteListActionInterface;
+    abstract protected function createStorageFacade(): StorageFacadeInterface;
 
     abstract protected function getPortalNodeA(): PortalNodeKeyInterface;
 
