@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\TestSuite\Storage\Action;
 
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\RouteKeyCollection;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayloads;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Delete\PortalNodeDeleteCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayloads;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResult;
@@ -20,19 +23,28 @@ use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Dataset\EntityA;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Dataset\EntityB;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Dataset\EntityC;
+use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalA\PortalA;
+use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalB\PortalB;
 use Heptacom\HeptaConnect\TestSuite\Storage\TestCase;
 
 abstract class RouteTestContract extends TestCase
 {
     public function testRouteLifecycle(): void
     {
-        $portalA = $this->getPortalNodeA();
-        $portalB = $this->getPortalNodeB();
         $facade = $this->createStorageFacade();
+        $portalNodeCreate = $facade->getPortalNodeCreateAction();
+        $portalNodeDelete = $facade->getPortalNodeDeleteAction();
         $createAction = $facade->getRouteCreateAction();
         $receptionListAction = $facade->getReceptionRouteListAction();
         $findAction = $facade->getRouteFindAction();
         $getAction = $facade->getRouteGetAction();
+
+        $portalNodeCreateResult = $portalNodeCreate->create(new PortalNodeCreatePayloads([
+            new PortalNodeCreatePayload(PortalA::class),
+            new PortalNodeCreatePayload(PortalB::class),
+        ]));
+        $portalA = $portalNodeCreateResult->first()->getPortalNodeKey();
+        $portalB = $portalNodeCreateResult->last()->getPortalNodeKey();
 
         $createPayloads = new RouteCreatePayloads();
 
@@ -84,11 +96,9 @@ abstract class RouteTestContract extends TestCase
                 static::assertCount(0, $receptionListResult);
             }
         }
+
+        $portalNodeDelete->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([$portalA, $portalB])));
     }
 
     abstract protected function createStorageFacade(): StorageFacadeInterface;
-
-    abstract protected function getPortalNodeA(): PortalNodeKeyInterface;
-
-    abstract protected function getPortalNodeB(): PortalNodeKeyInterface;
 }
