@@ -45,17 +45,17 @@ class Emitter extends EmitterContract
         return $this->type;
     }
 
-    public function getRunMethod(): ?Closure
+    public function getRunMethod(): ?\Closure
     {
         return $this->runMethod instanceof SerializableClosure ? $this->runMethod->getClosure() : null;
     }
 
-    public function getBatchMethod(): ?Closure
+    public function getBatchMethod(): ?\Closure
     {
         return $this->batchMethod instanceof SerializableClosure ? $this->batchMethod->getClosure() : null;
     }
 
-    public function getExtendMethod(): ?Closure
+    public function getExtendMethod(): ?\Closure
     {
         return $this->extendMethod instanceof SerializableClosure ? $this->extendMethod->getClosure() : null;
     }

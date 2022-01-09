@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\FlowComponent;
@@ -18,6 +19,11 @@ class CodeOrigin
         $this->endLine = $endLine;
     }
 
+    public function __toString()
+    {
+        return \sprintf('%s:%d-%d', $this->getFilepath(), $this->getStartLine(), $this->getEndLine());
+    }
+
     public function getFilepath(): string
     {
         return $this->filepath;
@@ -31,10 +37,5 @@ class CodeOrigin
     public function getEndLine(): int
     {
         return $this->endLine;
-    }
-
-    public function __toString()
-    {
-        return \sprintf('%s:%d-%d', $this->getFilepath(), $this->getStartLine(), $this->getEndLine());
     }
 }

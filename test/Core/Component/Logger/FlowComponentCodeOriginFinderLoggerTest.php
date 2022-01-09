@@ -33,11 +33,10 @@ class FlowComponentCodeOriginFinderLoggerTest extends TestCase
         $receiverCodeOriginFinder = $this->createMock(ReceiverCodeOriginFinderInterface::class);
         $statusReporterCodeOriginFinder = $this->createMock(StatusReporterCodeOriginFinderInterface::class);
         $httpHandlerCodeOriginFinder = $this->createMock(HttpHandlerCodeOriginFinderInterface::class);
-        $logger = new class () extends AbstractLogger
-        {
+        $logger = new class() extends AbstractLogger {
             public array $logs = [];
 
-            public function log($level, $message, array $context = array())
+            public function log($level, $message, array $context = []): void
             {
                 $this->logs[$level][$message][] = $context;
             }
@@ -67,10 +66,10 @@ class FlowComponentCodeOriginFinderLoggerTest extends TestCase
             'httpHandler' => $this->createMock(HttpHandlerContract::class),
         ]);
 
-        self::assertSame((string) $codeOrigin, $logger->logs[LogLevel::CRITICAL]['test'][0]['emitter']);
-        self::assertSame((string) $codeOrigin, $logger->logs[LogLevel::CRITICAL]['test'][0]['explorer']);
-        self::assertSame((string) $codeOrigin, $logger->logs[LogLevel::CRITICAL]['test'][0]['receiver']);
-        self::assertSame((string) $codeOrigin, $logger->logs[LogLevel::CRITICAL]['test'][0]['statusReporter']);
-        self::assertSame((string) $codeOrigin, $logger->logs[LogLevel::CRITICAL]['test'][0]['httpHandler']);
+        static::assertSame((string) $codeOrigin, $logger->logs[LogLevel::CRITICAL]['test'][0]['emitter']);
+        static::assertSame((string) $codeOrigin, $logger->logs[LogLevel::CRITICAL]['test'][0]['explorer']);
+        static::assertSame((string) $codeOrigin, $logger->logs[LogLevel::CRITICAL]['test'][0]['receiver']);
+        static::assertSame((string) $codeOrigin, $logger->logs[LogLevel::CRITICAL]['test'][0]['statusReporter']);
+        static::assertSame((string) $codeOrigin, $logger->logs[LogLevel::CRITICAL]['test'][0]['httpHandler']);
     }
 }

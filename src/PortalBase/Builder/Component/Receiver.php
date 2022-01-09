@@ -36,12 +36,12 @@ class Receiver extends ReceiverContract
         $this->runMethod = $run instanceof \Closure ? new SerializableClosure($run) : null;
     }
 
-    public function getRunMethod(): ?Closure
+    public function getRunMethod(): ?\Closure
     {
         return $this->runMethod instanceof SerializableClosure ? $this->runMethod->getClosure() : null;
     }
 
-    public function getBatchMethod(): ?Closure
+    public function getBatchMethod(): ?\Closure
     {
         return $this->batchMethod instanceof SerializableClosure ? $this->batchMethod->getClosure() : null;
     }

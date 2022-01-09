@@ -28,7 +28,7 @@ class StatusReporter extends StatusReporterContract
         $this->runMethod = $run instanceof \Closure ? new SerializableClosure($run) : null;
     }
 
-    public function getRunMethod(): ?Closure
+    public function getRunMethod(): ?\Closure
     {
         return $this->runMethod instanceof SerializableClosure ? $this->runMethod->getClosure() : null;
     }
