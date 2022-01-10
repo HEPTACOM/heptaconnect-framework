@@ -25,6 +25,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListA
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\RouteCapability\RouteCapabilityOverviewActionInterface;
 
 abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
 {
@@ -67,6 +68,8 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     private ?PortalNodeListActionInterface $portalNodeListAction = null;
 
     private ?PortalNodeOverviewActionInterface $portalNodeOverviewAction = null;
+
+    private ?RouteCapabilityOverviewActionInterface $routeCapabilityOverviewAction = null;
 
     public function getJobCreateAction(): JobCreateActionInterface
     {
@@ -168,6 +171,11 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         return $this->receptionRouteListAction ??= $this->createReceptionRouteListAction();
     }
 
+    public function getRouteCapabilityOverviewAction(): RouteCapabilityOverviewActionInterface
+    {
+        return $this->routeCapabilityOverviewAction ??= $this->createRouteCapabilityOverviewAction();
+    }
+
     abstract protected function createJobCreateAction(): JobCreateActionInterface;
 
     abstract protected function createJobDeleteAction(): JobDeleteActionInterface;
@@ -207,4 +215,6 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     abstract protected function createRouteGetAction(): RouteGetActionInterface;
 
     abstract protected function createReceptionRouteListAction(): ReceptionRouteListActionInterface;
+
+    abstract protected function createRouteCapabilityOverviewAction(): RouteCapabilityOverviewActionInterface;
 }

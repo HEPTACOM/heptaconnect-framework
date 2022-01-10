@@ -24,6 +24,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListA
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\RouteCapability\RouteCapabilityOverviewActionInterface;
 use Psr\Container\ContainerInterface;
 
 class Psr11StorageFacade extends AbstractSingletonStorageFacade
@@ -133,5 +134,10 @@ class Psr11StorageFacade extends AbstractSingletonStorageFacade
     protected function createReceptionRouteListAction(): ReceptionRouteListActionInterface
     {
         return $this->container->get(ReceptionRouteListActionInterface::class);
+    }
+
+    protected function createRouteCapabilityOverviewAction(): RouteCapabilityOverviewActionInterface
+    {
+        return $this->container->get(RouteCapabilityOverviewActionInterface::class);
     }
 }
