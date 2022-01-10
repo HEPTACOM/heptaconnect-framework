@@ -26,6 +26,8 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionIn
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\RouteCapability\RouteCapabilityOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationSetActionInterface;
 
 abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
 {
@@ -70,6 +72,10 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     private ?PortalNodeOverviewActionInterface $portalNodeOverviewAction = null;
 
     private ?RouteCapabilityOverviewActionInterface $routeCapabilityOverviewAction = null;
+
+    private ?WebHttpHandlerConfigurationFindActionInterface $webHttpHandlerConfigurationFindAction = null;
+
+    private ?WebHttpHandlerConfigurationSetActionInterface $webHttpHandlerConfigurationSetAction = null;
 
     public function getJobCreateAction(): JobCreateActionInterface
     {
@@ -176,6 +182,16 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         return $this->routeCapabilityOverviewAction ??= $this->createRouteCapabilityOverviewAction();
     }
 
+    public function getWebHttpHandlerConfigurationFindAction(): WebHttpHandlerConfigurationFindActionInterface
+    {
+        return $this->webHttpHandlerConfigurationFindAction ??= $this->createWebHttpHandlerConfigurationFindAction();
+    }
+
+    public function getWebHttpHandlerConfigurationSetAction(): WebHttpHandlerConfigurationSetActionInterface
+    {
+        return $this->webHttpHandlerConfigurationSetAction ??= $this->createWebHttpHandlerConfigurationSetAction();
+    }
+
     abstract protected function createJobCreateAction(): JobCreateActionInterface;
 
     abstract protected function createJobDeleteAction(): JobDeleteActionInterface;
@@ -217,4 +233,8 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     abstract protected function createReceptionRouteListAction(): ReceptionRouteListActionInterface;
 
     abstract protected function createRouteCapabilityOverviewAction(): RouteCapabilityOverviewActionInterface;
+
+    abstract protected function createWebHttpHandlerConfigurationFindAction(): WebHttpHandlerConfigurationFindActionInterface;
+
+    abstract protected function createWebHttpHandlerConfigurationSetAction(): WebHttpHandlerConfigurationSetActionInterface;
 }
