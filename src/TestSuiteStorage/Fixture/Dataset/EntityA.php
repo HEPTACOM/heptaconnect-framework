@@ -8,4 +8,5 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 
 class EntityA extends DatasetEntityContract
 {
+    public string $value = '';
 }
