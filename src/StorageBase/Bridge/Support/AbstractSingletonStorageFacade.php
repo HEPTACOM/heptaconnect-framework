@@ -13,6 +13,9 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobListFinishedActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobScheduleActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobStartActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionActivateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionDeactivateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
@@ -40,6 +43,12 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     private ?JobScheduleActionInterface $jobScheduleAction = null;
 
     private ?JobStartActionInterface $jobStartAction = null;
+
+    private ?PortalExtensionActivateActionInterface $portalExtensionActivateAction = null;
+
+    private ?PortalExtensionDeactivateActionInterface $portalExtensionDeactivateAction = null;
+
+    private ?PortalExtensionFindActionInterface $portalExtensionFindAction = null;
 
     private ?RouteCreateActionInterface $routeCreateAction = null;
 
@@ -92,6 +101,21 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     public function getJobScheduleAction(): JobScheduleActionInterface
     {
         return $this->jobScheduleAction ??= $this->createJobScheduleAction();
+    }
+
+    public function getPortalExtensionActivateAction(): PortalExtensionActivateActionInterface
+    {
+        return $this->portalExtensionActivateAction ??= $this->createPortalExtensionActivateAction();
+    }
+
+    public function getPortalExtensionDeactivateAction(): PortalExtensionDeactivateActionInterface
+    {
+        return $this->portalExtensionDeactivateAction ??= $this->createPortalExtensionDeactivateAction();
+    }
+
+    public function getPortalExtensionFindAction(): PortalExtensionFindActionInterface
+    {
+        return $this->portalExtensionFindAction ??= $this->createPortalExtensionFindAction();
     }
 
     public function getJobStartAction(): JobStartActionInterface
@@ -159,6 +183,12 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     abstract protected function createJobScheduleAction(): JobScheduleActionInterface;
 
     abstract protected function createJobStartAction(): JobStartActionInterface;
+
+    abstract protected function createPortalExtensionActivateAction(): PortalExtensionActivateActionInterface;
+
+    abstract protected function createPortalExtensionDeactivateAction(): PortalExtensionDeactivateActionInterface;
+
+    abstract protected function createPortalExtensionFindAction(): PortalExtensionFindActionInterface;
 
     abstract protected function createPortalNodeCreateAction(): PortalNodeCreateActionInterface;
 

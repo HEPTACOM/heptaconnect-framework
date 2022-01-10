@@ -12,6 +12,9 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobListFinishedActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobScheduleActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobStartActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionActivateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionDeactivateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
@@ -70,6 +73,21 @@ class Psr11StorageFacade extends AbstractSingletonStorageFacade
     protected function createJobStartAction(): JobStartActionInterface
     {
         return $this->container->get(JobStartActionInterface::class);
+    }
+
+    protected function createPortalExtensionActivateAction(): PortalExtensionActivateActionInterface
+    {
+        return $this->container->get(PortalExtensionActivateActionInterface::class);
+    }
+
+    protected function createPortalExtensionDeactivateAction(): PortalExtensionDeactivateActionInterface
+    {
+        return $this->container->get(PortalExtensionDeactivateActionInterface::class);
+    }
+
+    protected function createPortalExtensionFindAction(): PortalExtensionFindActionInterface
+    {
+        return $this->container->get(PortalExtensionFindActionInterface::class);
     }
 
     protected function createPortalNodeCreateAction(): PortalNodeCreateActionInterface
