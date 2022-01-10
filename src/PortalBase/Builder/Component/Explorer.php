@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Portal\Base\Builder\BindThisTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken;
@@ -15,6 +16,7 @@ use Psr\Container\ContainerInterface;
 
 class Explorer extends ExplorerContract
 {
+    use BindThisTrait;
     use ResolveArgumentsTrait;
 
     /**
@@ -54,7 +56,7 @@ class Explorer extends ExplorerContract
     protected function run(ExploreContextInterface $context): iterable
     {
         if ($this->runMethod instanceof SerializableClosure) {
-            $run = $this->runMethod->getClosure();
+            $run = $this->bindThis($this->runMethod->getClosure());
             $arguments = $this->resolveArguments($run, $context, function (
                 int $_propertyIndex,
                 string $propertyName,
@@ -83,7 +85,7 @@ class Explorer extends ExplorerContract
         ExploreContextInterface $context
     ): bool {
         if ($this->isAllowedMethod instanceof SerializableClosure) {
-            $isAllowed = $this->isAllowedMethod->getClosure();
+            $isAllowed = $this->bindThis($this->isAllowedMethod->getClosure());
             $arguments = $this->resolveArguments($isAllowed, $context, function (
                 int $_propertyIndex,
                 string $propertyName,

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
+use Heptacom\HeptaConnect\Portal\Base\Builder\BindThisTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\StatusReporterToken;
@@ -14,6 +15,7 @@ use Psr\Container\ContainerInterface;
 
 class StatusReporter extends StatusReporterContract
 {
+    use BindThisTrait;
     use ResolveArgumentsTrait;
 
     private string $topic;
@@ -41,7 +43,7 @@ class StatusReporter extends StatusReporterContract
     protected function run(StatusReportingContextInterface $context): array
     {
         if ($this->runMethod instanceof SerializableClosure) {
-            $run = $this->runMethod->getClosure();
+            $run = $this->bindThis($this->runMethod->getClosure());
             $arguments = $this->resolveArguments($run, $context, function (
                 int $_propertyIndex,
                 string $propertyName,
