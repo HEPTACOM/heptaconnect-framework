@@ -22,7 +22,7 @@ use Heptacom\HeptaConnect\TestSuite\Storage\TestCase;
 
 abstract class PortalNodeTestContract extends TestCase
 {
-    public function testRouteLifecycle(): void
+    public function testLifecycle(): void
     {
         $facade = $this->createStorageFacade();
         $createAction = $facade->getPortalNodeCreateAction();
