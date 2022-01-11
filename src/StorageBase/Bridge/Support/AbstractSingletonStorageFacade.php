@@ -25,6 +25,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListA
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\RouteCapability\RouteCapabilityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationSetActionInterface;
@@ -58,6 +59,8 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     private ?RouteFindActionInterface $routeFindAction = null;
 
     private ?RouteGetActionInterface $routeGetAction = null;
+
+    private ?RouteOverviewActionInterface $routeOverviewAction = null;
 
     private ?ReceptionRouteListActionInterface $receptionRouteListAction = null;
 
@@ -177,6 +180,11 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         return $this->receptionRouteListAction ??= $this->createReceptionRouteListAction();
     }
 
+    public function getRouteOverviewAction(): RouteOverviewActionInterface
+    {
+        return $this->routeOverviewAction ??= $this->createRouteOverviewAction();
+    }
+
     public function getRouteCapabilityOverviewAction(): RouteCapabilityOverviewActionInterface
     {
         return $this->routeCapabilityOverviewAction ??= $this->createRouteCapabilityOverviewAction();
@@ -231,6 +239,8 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     abstract protected function createRouteGetAction(): RouteGetActionInterface;
 
     abstract protected function createReceptionRouteListAction(): ReceptionRouteListActionInterface;
+
+    abstract protected function createRouteOverviewAction(): RouteOverviewActionInterface;
 
     abstract protected function createRouteCapabilityOverviewAction(): RouteCapabilityOverviewActionInterface;
 

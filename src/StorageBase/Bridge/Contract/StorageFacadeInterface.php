@@ -24,6 +24,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListA
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\RouteCapability\RouteCapabilityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationSetActionInterface;
@@ -69,6 +70,8 @@ interface StorageFacadeInterface
     public function getRouteGetAction(): RouteGetActionInterface;
 
     public function getReceptionRouteListAction(): ReceptionRouteListActionInterface;
+
+    public function getRouteOverviewAction(): RouteOverviewActionInterface;
 
     public function getRouteCapabilityOverviewAction(): RouteCapabilityOverviewActionInterface;
 
