@@ -20,13 +20,6 @@
         "docs": "https://heptaconnect.io/",
         "rss": "https://heptaconnect.io/news/rss2.xml"
     },
-    "replace": {
-        "heptacom/heptaconnect-core": "self.version",
-        "heptacom/heptaconnect-dataset-base": "self.version",
-        "heptacom/heptaconnect-portal-base": "self.version",
-        "heptacom/heptaconnect-storage-base": "self.version",
-        "heptacom/heptaconnect-test-suite-storage": "self.version"
-    },
     "require": {
         "php": ">=7.4",
         "ext-hash": "*",
@@ -66,6 +59,13 @@
         "php-http/curl-client": ">=1",
         "phpunit/phpunit": ">=9.3 <10",
         "symfony/cache": ">=3.2"
+    },
+    "replace": {
+        "heptacom/heptaconnect-core": "*",
+        "heptacom/heptaconnect-dataset-base": "*",
+        "heptacom/heptaconnect-portal-base": "*",
+        "heptacom/heptaconnect-storage-base": "*",
+        "heptacom/heptaconnect-test-suite-storage": "*"
     },
     "conflict": {
         "nikic/php-parser": "4.7.0"
