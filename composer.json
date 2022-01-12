@@ -64,7 +64,8 @@
         "heptacom/heptaconnect-core": "*",
         "heptacom/heptaconnect-dataset-base": "*",
         "heptacom/heptaconnect-portal-base": "*",
-        "heptacom/heptaconnect-storage-base": "*"
+        "heptacom/heptaconnect-storage-base": "*",
+        "heptacom/heptaconnect-test-suite-storage": "*"
     },
     "conflict": {
         "nikic/php-parser": "4.7.0"
@@ -80,7 +81,8 @@
             "Heptacom\\HeptaConnect\\Dataset\\Base\\": "src/DatasetBase/",
             "Heptacom\\HeptaConnect\\Portal\\Base\\": "src/PortalBase/",
             "Heptacom\\HeptaConnect\\Storage\\Base\\": "src/StorageBase/",
-            "Heptacom\\HeptaConnect\\Core\\": "src/Core/"
+            "Heptacom\\HeptaConnect\\Core\\": "src/Core/",
+            "Heptacom\\HeptaConnect\\TestSuite\\Storage\\": "src/TestSuiteStorage/"
         }
     },
     "autoload-dev": {
