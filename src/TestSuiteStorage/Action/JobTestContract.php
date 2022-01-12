@@ -101,6 +101,7 @@ abstract class JobTestContract extends TestCase
 
         $jobFinish->finish(new JobFinishPayload($jobKeys, new \DateTimeImmutable(), self::MESSAGE));
 
+        self::assertCount($jobKeys->count(), \iterable_to_array($jobGet->get(new JobGetCriteria($jobKeys))));
         self::assertCount($jobKeys->count(), \iterable_to_array($jobListFinished->list()));
 
         $jobDelete->delete(new JobDeleteCriteria($jobKeys));
@@ -110,7 +111,7 @@ abstract class JobTestContract extends TestCase
 
         try {
             $jobDelete->delete(new JobDeleteCriteria($jobKeys));
-            self::fail('These jobs are already delete');
+            self::fail('These jobs are already deleted');
         } catch (\Throwable $throwable) {
         }
 
