@@ -42,7 +42,9 @@ class ExplorerStack implements ExplorerStackInterface, LoggerAwareInterface
             return [];
         }
 
-        $this->logger->debug(\sprintf('Execute FlowComponent explorer: %s', \get_class($explorer)));
+        $this->logger->debug('Execute FlowComponent explorer', [
+            'explorer' => $explorer,
+        ]);
 
         return $explorer->explore($context, $this);
     }

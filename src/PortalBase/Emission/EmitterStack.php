@@ -51,7 +51,9 @@ class EmitterStack implements EmitterStackInterface, LoggerAwareInterface
             return [];
         }
 
-        $this->logger->debug(\sprintf('Execute FlowComponent emitter: %s', \get_class($emitter)));
+        $this->logger->debug('Execute FlowComponent emitter', [
+            'emitter' => $emitter,
+        ]);
 
         return $emitter->emit($externalIds, $context, $this);
     }
