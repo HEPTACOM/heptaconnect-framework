@@ -32,10 +32,10 @@ abstract class HttpClientContract implements ClientInterface
         return $this->defaultRequestHeaders;
     }
 
-    public function withDefaultRequestHeaders(DefaultRequestHeaders $message): self
+    public function withDefaultRequestHeaders(DefaultRequestHeaders $defaultRequestHeaders): self
     {
         $that = clone $this;
-        $that->defaultRequestHeaders = $message;
+        $that->defaultRequestHeaders = $defaultRequestHeaders;
 
         return $that;
     }
