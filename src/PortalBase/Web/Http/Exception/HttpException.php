@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Portal\Base\Web\Http\Support;
+namespace Heptacom\HeptaConnect\Portal\Base\Web\Http\Exception;
 
 use Psr\Http\Client\RequestExceptionInterface;
 use Psr\Http\Message\RequestInterface;
