@@ -125,7 +125,7 @@
                 "reference": "a16e1d16beb4567148370c598c39f30f7d7f60fe"
             },
             "require": {
-                "bentools/iterable-functions": ">=1 <2",
+                "bentools/iterable-functions": ">=1.4 <2",
                 "ext-json": "*",
                 "opis/closure": "^3.6",
                 "php": ">=7.4"
@@ -157,8 +157,8 @@
             "support": {
                 "issues": "https://github.com/HEPTACOM/heptaconnect-framework/issues",
                 "source": "https://github.com/HEPTACOM/heptaconnect-framework",
-                "docs": "https://connect.heptacom.de/",
-                "rss": "https://connect.heptacom.de/feed/rss2.xml"
+                "docs": "https://heptaconnect.io/",
+                "rss": "https://heptaconnect.io/news/rss2.xml"
             },
             "transport-options": {
                 "relative": true
@@ -218,8 +218,8 @@
             "support": {
                 "issues": "https://github.com/HEPTACOM/heptaconnect-framework/issues",
                 "source": "https://github.com/HEPTACOM/heptaconnect-framework",
-                "docs": "https://connect.heptacom.de/",
-                "rss": "https://connect.heptacom.de/feed/rss2.xml"
+                "docs": "https://heptaconnect.io/",
+                "rss": "https://heptaconnect.io/news/rss2.xml"
             },
             "transport-options": {
                 "relative": true
@@ -1215,7 +1215,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-11-28T15:25:38+00:00"
+            "time": "2021-12-25T19:17:31+00:00"
         }
     ],
     "packages-dev": [],
