@@ -1,20 +1,26 @@
 {
     "name": "heptacom/heptaconnect-test-suite-storage",
-    "type": "library",
     "description": "HEPTAconnect test suite to challenge storages against real life scenarios",
-    "keywords": [
-        "heptaconnect-storage",
-        "testing"
-    ],
     "license": [
         "AGPL-3.0-or-later",
         "proprietary"
+    ],
+    "type": "library",
+    "keywords": [
+        "heptaconnect-storage",
+        "testing"
     ],
     "authors": [
         {
             "name": "HEPTACOM GmbH"
         }
     ],
+    "support": {
+        "issues": "https://github.com/HEPTACOM/heptaconnect-framework/issues",
+        "source": "https://github.com/HEPTACOM/heptaconnect-framework",
+        "docs": "https://heptaconnect.io/",
+        "rss": "https://heptaconnect.io/news/rss2.xml"
+    },
     "require": {
         "php": ">=7.4",
         "heptacom/heptaconnect-storage-base": "self.version"
@@ -25,22 +31,21 @@
     "suggest": {
         "phpunit/phpunit": ">=9"
     },
-    "autoload": {
-        "psr-4": {
-            "Heptacom\\HeptaConnect\\TestSuite\\Storage\\": ""
-        }
-    },
     "repositories": {
         "heptaconnect-sources": {
             "type": "path",
             "url": "../**"
         }
     },
-    "support": {
-        "issues": "https://github.com/HEPTACOM/heptaconnect-framework/issues",
-        "source": "https://github.com/HEPTACOM/heptaconnect-framework",
-        "docs": "https://heptaconnect.io/",
-        "rss": "https://heptaconnect.io/news/rss2.xml"
+    "autoload": {
+        "psr-4": {
+            "Heptacom\\HeptaConnect\\TestSuite\\Storage\\": ""
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "infection/extension-installer": true
+        }
     },
     "website": "https://heptaconnect.io"
 }
