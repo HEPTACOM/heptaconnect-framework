@@ -11,11 +11,9 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 interface PortalNodeConfigurationGetActionInterface
 {
     /**
-     * @param PortalNodeConfigurationGetCriteria $criteria
+     * @throws UnsupportedStorageKeyException
      *
      * @return iterable<PortalNodeConfigurationGetResult>
-     *
-     * @throws UnsupportedStorageKeyException
      */
     public function get(PortalNodeConfigurationGetCriteria $criteria): iterable;
 }
