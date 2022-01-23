@@ -44,6 +44,8 @@ abstract class PortalNodeConfigurationTestContract extends TestCase
         $deleteAction = $facade->getPortalNodeDeleteAction();
         $getAction = $facade->getPortalNodeConfigurationGetAction();
         $setAction = $facade->getPortalNodeConfigurationSetAction();
+        $testPayload = self::PAYLOAD;
+        \ksort($testPayload['object']);
 
         $createPayloads = new PortalNodeCreatePayloads([
             new PortalNodeCreatePayload(PortalA::class),
@@ -57,19 +59,13 @@ abstract class PortalNodeConfigurationTestContract extends TestCase
         ));
         $getCriteria = new PortalNodeConfigurationGetCriteria($portalNodeKeys);
 
-        static::assertEmpty(\iterable_to_array(\iterable_filter(
-            $getAction->get($getCriteria),
-            static fn (PortalNodeConfigurationGetResult $g): bool => $g->getValue() !== []
-        )));
+        static::assertSame(3, $createResults->count());
 
         foreach ($portalNodeKeys as $step => $portalNodeKey) {
             static::assertCount($step, \iterable_to_array(\iterable_filter(
                 $getAction->get($getCriteria),
                 static fn (PortalNodeConfigurationGetResult $g): bool => $g->getValue() !== []
             )));
-
-            $testPayload = self::PAYLOAD;
-            \ksort($testPayload['object']);
 
             $setAction->set(new PortalNodeConfigurationSetPayloads([
                 new PortalNodeConfigurationSetPayload($portalNodeKey, $testPayload),
