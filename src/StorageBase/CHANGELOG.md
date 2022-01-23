@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add interface `\Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface` for bridges and new composer package `heptacom/heptaconnect-test-suite-storage` to have central point to access storage
 - Add supporting base class `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\Psr11StorageFacade` to implement `\Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface` based upon a service container
 - Add supporting base class `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade` to implement `\Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface` that ensures in the implementation that services are only factorized once
+- Add exception `\Heptacom\HeptaConnect\Storage\Base\Exception\ReadException` for storage actions to express issues on reading
 
 ### Changed
 
