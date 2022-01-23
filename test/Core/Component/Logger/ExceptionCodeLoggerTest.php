@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Heptacom\HeptaConnect\Core\Test\Component\Logger;
 
 use Heptacom\HeptaConnect\Core\Component\Logger\ExceptionCodeLogger;
@@ -12,8 +14,8 @@ use Psr\Log\LogLevel;
  */
 class ExceptionCodeLoggerTest extends TestCase
 {
-
-    public function testFailTry(): void {
+    public function testExceptionLogContainsTypeAndCode(): void
+    {
         $logger = new class() extends AbstractLogger {
             public array $logs = [];
 
@@ -29,8 +31,8 @@ class ExceptionCodeLoggerTest extends TestCase
         $decorator->log(LogLevel::CRITICAL, 'test_exception_100', ['string', 1, $exception, 1.0]);
         $decorator->log(LogLevel::DEBUG, 'test_error_200', ['string', 1, $error, 1.0]);
         $decorator->log(LogLevel::NOTICE, 'test_both_100_200', ['string', $exception, 1, 1.0, $error]);
-        static::assertEquals('test_none', $logger->logs[LogLevel::ALERT]);
 
+        static::assertEquals('test_none', $logger->logs[LogLevel::ALERT]);
         static::assertStringContainsString('Exception Code: 100', $logger->logs[LogLevel::CRITICAL]);
         static::assertStringContainsString('test_exception_100', $logger->logs[LogLevel::CRITICAL]);
         static::assertStringContainsString('Error Code: 200', $logger->logs[LogLevel::DEBUG]);
@@ -38,6 +40,5 @@ class ExceptionCodeLoggerTest extends TestCase
         static::assertStringContainsString('Exception Code: 100', $logger->logs[LogLevel::NOTICE]);
         static::assertStringContainsString('Error Code: 200', $logger->logs[LogLevel::NOTICE]);
         static::assertStringContainsString('test_both_100_200', $logger->logs[LogLevel::NOTICE]);
-
     }
 }
