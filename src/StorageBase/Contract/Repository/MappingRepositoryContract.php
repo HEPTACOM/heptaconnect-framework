@@ -22,18 +22,6 @@ abstract class MappingRepositoryContract
     abstract public function read(MappingKeyInterface $key): MappingInterface;
 
     /**
-     * TODO: Reduce return value to a single item
-     *
-     * @psalm-return iterable<\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingKeyInterface>
-     *
-     * @throws UnsupportedStorageKeyException
-     */
-    abstract public function listByNodes(
-        MappingNodeKeyInterface $mappingNodeKey,
-        PortalNodeKeyInterface $portalNodeKey
-    ): iterable;
-
-    /**
      * @psalm-return iterable<\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingKeyInterface>
      *
      * @throws UnsupportedStorageKeyException
@@ -52,18 +40,6 @@ abstract class MappingRepositoryContract
     ): iterable;
 
     /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
-     * @psalm-return string[]
-     *
-     * @throws UnsupportedStorageKeyException
-     */
-    abstract public function listUnsavedExternalIds(
-        PortalNodeKeyInterface $portalNodeKey,
-        string $entityType,
-        array $externalIdsToCheck
-    ): array;
-
-    /**
      * @throws UnsupportedStorageKeyException
      */
     abstract public function create(
@@ -76,12 +52,6 @@ abstract class MappingRepositoryContract
      * @throws UnsupportedStorageKeyException
      */
     abstract public function createList(MappingCollection $mappings): MappingKeyCollection;
-
-    /**
-     * @throws NotFoundException
-     * @throws UnsupportedStorageKeyException
-     */
-    abstract public function updateExternalId(MappingKeyInterface $key, ?string $externalId): void;
 
     /**
      * @throws NotFoundException
