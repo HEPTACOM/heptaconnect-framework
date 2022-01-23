@@ -13,6 +13,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobListFinishedActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobScheduleActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobStartActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Mapping\MappingMapActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionActivateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionDeactivateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface;
@@ -49,6 +50,8 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     private ?JobScheduleActionInterface $jobScheduleAction = null;
 
     private ?JobStartActionInterface $jobStartAction = null;
+
+    private ?MappingMapActionInterface $mappingMapAction = null;
 
     private ?PortalExtensionActivateActionInterface $portalExtensionActivateAction = null;
 
@@ -119,6 +122,11 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     public function getJobScheduleAction(): JobScheduleActionInterface
     {
         return $this->jobScheduleAction ??= $this->createJobScheduleAction();
+    }
+
+    public function getMappingMapAction(): MappingMapActionInterface
+    {
+        return $this->mappingMapAction ??= $this->createMappingMapAction();
     }
 
     public function getPortalExtensionActivateAction(): PortalExtensionActivateActionInterface
@@ -231,6 +239,8 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     abstract protected function createJobScheduleAction(): JobScheduleActionInterface;
 
     abstract protected function createJobStartAction(): JobStartActionInterface;
+
+    abstract protected function createMappingMapAction(): MappingMapActionInterface;
 
     abstract protected function createPortalExtensionActivateAction(): PortalExtensionActivateActionInterface;
 
