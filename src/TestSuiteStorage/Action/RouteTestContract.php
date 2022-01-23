@@ -91,7 +91,7 @@ abstract class RouteTestContract extends TestCase
                 $listResults = \iterable_to_array($receptionListAction->list(new ReceptionRouteListCriteria($createPayload->getSourcePortalNodeKey(), $createPayload->getEntityType())));
                 $receptionListResult = \array_filter(
                     $listResults,
-                    static fn(ReceptionRouteListResult $r): bool => $r->getRouteKey()->equals($findResult->getRouteKey())
+                    static fn (ReceptionRouteListResult $r): bool => $r->getRouteKey()->equals($findResult->getRouteKey())
                 );
                 static::assertCount(0, $receptionListResult);
             }

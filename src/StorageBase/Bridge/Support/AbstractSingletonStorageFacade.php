@@ -21,6 +21,8 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDele
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface;
@@ -73,6 +75,10 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     private ?PortalNodeListActionInterface $portalNodeListAction = null;
 
     private ?PortalNodeOverviewActionInterface $portalNodeOverviewAction = null;
+
+    private ?PortalNodeConfigurationGetActionInterface $portalNodeConfigurationGetAction = null;
+
+    private ?PortalNodeConfigurationSetActionInterface $portalNodeConfigurationSetAction = null;
 
     private ?RouteCapabilityOverviewActionInterface $routeCapabilityOverviewAction = null;
 
@@ -160,6 +166,16 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         return $this->portalNodeOverviewAction ??= $this->createPortalNodeOverviewAction();
     }
 
+    public function getPortalNodeConfigurationGetAction(): PortalNodeConfigurationGetActionInterface
+    {
+        return $this->portalNodeConfigurationGetAction ??= $this->createPortalNodeConfigurationGetAction();
+    }
+
+    public function getPortalNodeConfigurationSetAction(): PortalNodeConfigurationSetActionInterface
+    {
+        return $this->portalNodeConfigurationSetAction ??= $this->createPortalNodeConfigurationSetAction();
+    }
+
     public function getRouteCreateAction(): RouteCreateActionInterface
     {
         return $this->routeCreateAction ??= $this->createRouteCreateAction();
@@ -231,6 +247,10 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     abstract protected function createPortalNodeListAction(): PortalNodeListActionInterface;
 
     abstract protected function createPortalNodeOverviewAction(): PortalNodeOverviewActionInterface;
+
+    abstract protected function createPortalNodeConfigurationGetAction(): PortalNodeConfigurationGetActionInterface;
+
+    abstract protected function createPortalNodeConfigurationSetAction(): PortalNodeConfigurationSetActionInterface;
 
     abstract protected function createRouteCreateAction(): RouteCreateActionInterface;
 
