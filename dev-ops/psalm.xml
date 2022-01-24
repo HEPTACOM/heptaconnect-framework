@@ -198,6 +198,7 @@
         <directory name="../src/DatasetBase/" />
         <directory name="../src/PortalBase/" />
         <directory name="../src/StorageBase/" />
+        <directory name="../src/UiAdminBase/" />
         <directory name="../src/TestSuiteStorage/" />
         <ignoreFiles>
             <directory name="../vendor/" />
