@@ -25,6 +25,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\P
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewActionInterface;
@@ -57,6 +58,8 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     private ?PortalExtensionFindActionInterface $portalExtensionFindAction = null;
 
     private ?RouteCreateActionInterface $routeCreateAction = null;
+
+    private ?RouteDeleteActionInterface $routeDeleteAction = null;
 
     private ?RouteFindActionInterface $routeFindAction = null;
 
@@ -181,6 +184,11 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         return $this->routeCreateAction ??= $this->createRouteCreateAction();
     }
 
+    public function getRouteDeleteAction(): RouteDeleteActionInterface
+    {
+        return $this->routeDeleteAction ??= $this->createRouteDeleteAction();
+    }
+
     public function getRouteFindAction(): RouteFindActionInterface
     {
         return $this->routeFindAction ??= $this->createRouteFindAction();
@@ -253,6 +261,8 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     abstract protected function createPortalNodeConfigurationSetAction(): PortalNodeConfigurationSetActionInterface;
 
     abstract protected function createRouteCreateAction(): RouteCreateActionInterface;
+
+    abstract protected function createRouteDeleteAction(): RouteDeleteActionInterface;
 
     abstract protected function createRouteFindAction(): RouteFindActionInterface;
 

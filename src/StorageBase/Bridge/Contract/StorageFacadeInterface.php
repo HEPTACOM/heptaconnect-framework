@@ -24,6 +24,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\P
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewActionInterface;
@@ -70,6 +71,8 @@ interface StorageFacadeInterface
     public function getPortalNodeConfigurationSetAction(): PortalNodeConfigurationSetActionInterface;
 
     public function getRouteCreateAction(): RouteCreateActionInterface;
+
+    public function getRouteDeleteAction(): RouteDeleteActionInterface;
 
     public function getRouteFindAction(): RouteFindActionInterface;
 

@@ -13,6 +13,7 @@ use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayloads;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResults;
+use Heptacom\HeptaConnect\Storage\Base\Action\Route\Delete\RouteDeleteCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Find\RouteFindCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Find\RouteFindResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Get\RouteGetCriteria;
@@ -38,6 +39,7 @@ abstract class RouteTestContract extends TestCase
         $receptionListAction = $facade->getReceptionRouteListAction();
         $findAction = $facade->getRouteFindAction();
         $getAction = $facade->getRouteGetAction();
+        $deleteAction = $facade->getRouteDeleteAction();
 
         $portalNodeCreateResult = $portalNodeCreate->create(new PortalNodeCreatePayloads([
             new PortalNodeCreatePayload(PortalA::class),
@@ -76,8 +78,9 @@ abstract class RouteTestContract extends TestCase
             $testCreateResults = new RouteCreateResults($testCreateResults->filter(
                 static fn (RouteCreateResult $r): bool => !$r->getRouteKey()->equals($findResult->getRouteKey())
             ));
+            $routeGetCriteria = new RouteGetCriteria(new RouteKeyCollection([$findResult->getRouteKey()]));
             /** @var RouteGetResult[] $getResults */
-            $getResults = \iterable_to_array($getAction->get(new RouteGetCriteria(new RouteKeyCollection([$findResult->getRouteKey()]))));
+            $getResults = \iterable_to_array($getAction->get($routeGetCriteria));
 
             static::assertCount(1, $getResults);
 
@@ -95,6 +98,10 @@ abstract class RouteTestContract extends TestCase
                 );
                 static::assertCount(0, $receptionListResult);
             }
+
+            $deleteAction->delete(new RouteDeleteCriteria($routeGetCriteria->getRouteKeys()));
+
+            static::assertEmpty(\iterable_to_array($getAction->get($routeGetCriteria)));
         }
 
         $portalNodeDelete->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([$portalA, $portalB])));
