@@ -23,37 +23,12 @@ abstract class MappingNodeRepositoryContract
      * @psalm-return iterable<\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface>
      *
      * @throws UnsupportedStorageKeyException
-     *
-     * @deprecated Use listByTypeAndPortalNodeAndExternalIds instead
-     */
-    abstract public function listByTypeAndPortalNodeAndExternalId(
-        string $entityType,
-        PortalNodeKeyInterface $portalNodeKey,
-        string $externalId
-    ): iterable;
-
-    /**
-     * @psalm-return iterable<\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface>
-     *
-     * @throws UnsupportedStorageKeyException
      */
     abstract public function listByTypeAndPortalNodeAndExternalIds(
         string $entityType,
         PortalNodeKeyInterface $portalNodeKey,
         array $externalIds
     ): iterable;
-
-    /**
-     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
-     *
-     * @throws UnsupportedStorageKeyException
-     *
-     * @deprecated use createList instead
-     */
-    abstract public function create(
-        string $entityType,
-        PortalNodeKeyInterface $portalNodeKey
-    ): MappingNodeKeyInterface;
 
     /**
      * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
