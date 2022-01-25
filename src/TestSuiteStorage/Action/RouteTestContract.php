@@ -21,6 +21,7 @@ use Heptacom\HeptaConnect\Storage\Base\Action\Route\Get\RouteGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Listing\ReceptionRouteListCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Listing\ReceptionRouteListResult;
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface;
+use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Dataset\EntityA;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Dataset\EntityB;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Dataset\EntityC;
@@ -102,6 +103,12 @@ abstract class RouteTestContract extends TestCase
             $deleteAction->delete(new RouteDeleteCriteria($routeGetCriteria->getRouteKeys()));
 
             static::assertEmpty(\iterable_to_array($getAction->get($routeGetCriteria)));
+
+            try {
+                $deleteAction->delete(new RouteDeleteCriteria($routeGetCriteria->getRouteKeys()));
+                static::fail('This should have been throwing a not found exception');
+            } catch (NotFoundException $exception) {
+            }
         }
 
         $portalNodeDelete->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([$portalA, $portalB])));
