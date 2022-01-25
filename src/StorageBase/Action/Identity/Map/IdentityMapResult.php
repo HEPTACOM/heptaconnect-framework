@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Storage\Base\Action\Mapping\Map;
+namespace Heptacom\HeptaConnect\Storage\Base\Action\Identity\Map;
 
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 
-class MappingMapResult
+class IdentityMapResult
 {
     private MappedDatasetEntityCollection $mappedDatasetEntityCollection;
 
