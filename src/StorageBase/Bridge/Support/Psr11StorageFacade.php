@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Bridge\Support;
 
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface;
@@ -12,7 +13,6 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobListFinishedActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobScheduleActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobStartActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Mapping\MappingMapActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionActivateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionDeactivateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface;
@@ -40,6 +40,11 @@ class Psr11StorageFacade extends AbstractSingletonStorageFacade
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+    }
+
+    protected function createIdentityMapAction(): IdentityMapActionInterface
+    {
+        return $this->container->get(IdentityMapActionInterface::class);
     }
 
     protected function createJobCreateAction(): JobCreateActionInterface
@@ -80,11 +85,6 @@ class Psr11StorageFacade extends AbstractSingletonStorageFacade
     protected function createJobStartAction(): JobStartActionInterface
     {
         return $this->container->get(JobStartActionInterface::class);
-    }
-
-    protected function createMappingMapAction(): MappingMapActionInterface
-    {
-        return $this->container->get(MappingMapActionInterface::class);
     }
 
     protected function createPortalExtensionActivateAction(): PortalExtensionActivateActionInterface

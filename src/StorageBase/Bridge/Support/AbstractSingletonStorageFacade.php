@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Storage\Base\Bridge\Support;
 
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface;
@@ -13,7 +14,6 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobListFinishedActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobScheduleActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobStartActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Mapping\MappingMapActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionActivateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionDeactivateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface;
@@ -35,6 +35,8 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfigurati
 
 abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
 {
+    private ?IdentityMapActionInterface $identityMapAction = null;
+
     private ?JobCreateActionInterface $jobCreateAction = null;
 
     private ?JobDeleteActionInterface $jobDeleteAction = null;
@@ -50,8 +52,6 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     private ?JobScheduleActionInterface $jobScheduleAction = null;
 
     private ?JobStartActionInterface $jobStartAction = null;
-
-    private ?MappingMapActionInterface $mappingMapAction = null;
 
     private ?PortalExtensionActivateActionInterface $portalExtensionActivateAction = null;
 
@@ -89,6 +89,11 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
 
     private ?WebHttpHandlerConfigurationSetActionInterface $webHttpHandlerConfigurationSetAction = null;
 
+    public function getIdentityMapAction(): IdentityMapActionInterface
+    {
+        return $this->identityMapAction ??= $this->createIdentityMapAction();
+    }
+
     public function getJobCreateAction(): JobCreateActionInterface
     {
         return $this->jobCreateAction ??= $this->createJobCreateAction();
@@ -122,11 +127,6 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     public function getJobScheduleAction(): JobScheduleActionInterface
     {
         return $this->jobScheduleAction ??= $this->createJobScheduleAction();
-    }
-
-    public function getMappingMapAction(): MappingMapActionInterface
-    {
-        return $this->mappingMapAction ??= $this->createMappingMapAction();
     }
 
     public function getPortalExtensionActivateAction(): PortalExtensionActivateActionInterface
@@ -224,6 +224,8 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         return $this->webHttpHandlerConfigurationSetAction ??= $this->createWebHttpHandlerConfigurationSetAction();
     }
 
+    abstract protected function createIdentityMapAction(): IdentityMapActionInterface;
+
     abstract protected function createJobCreateAction(): JobCreateActionInterface;
 
     abstract protected function createJobDeleteAction(): JobDeleteActionInterface;
@@ -239,8 +241,6 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     abstract protected function createJobScheduleAction(): JobScheduleActionInterface;
 
     abstract protected function createJobStartAction(): JobStartActionInterface;
-
-    abstract protected function createMappingMapAction(): MappingMapActionInterface;
 
     abstract protected function createPortalExtensionActivateAction(): PortalExtensionActivateActionInterface;
 

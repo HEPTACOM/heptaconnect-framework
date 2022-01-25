@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Storage\Base\Action\Mapping\Map;
+namespace Heptacom\HeptaConnect\Storage\Base\Action\Identity\Map;
 
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
-class MappingMapPayload
+class IdentityMapPayload
 {
     private PortalNodeKeyInterface $portalNodeKey;
 
