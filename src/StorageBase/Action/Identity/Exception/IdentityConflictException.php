@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Storage\Base\MappingPersister\Exception;
+namespace Heptacom\HeptaConnect\Storage\Base\Action\Identity\Exception;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
-class MappingConflictException extends \Exception
+class IdentityConflictException extends \Exception
 {
-    public const FORMAT = 'Conflicting mapping; PortalNode: %s; MappingNode: %s; PrimaryKey: %s';
+    public const FORMAT = 'Conflicting identity; PortalNode: %s; MappingNode: %s; PrimaryKey: %s';
 
     private PortalNodeKeyInterface $portalNodeKey;
 
@@ -19,11 +19,12 @@ class MappingConflictException extends \Exception
 
     public function __construct(
         string $message,
+        int $code,
         PortalNodeKeyInterface $portalNodeKey,
         MappingNodeKeyInterface $mappingNodeKey,
         string $externalId
     ) {
-        parent::__construct($message);
+        parent::__construct($message, $code);
         $this->portalNodeKey = $portalNodeKey;
         $this->mappingNodeKey = $mappingNodeKey;
         $this->externalId = $externalId;
