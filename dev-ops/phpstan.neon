@@ -7,6 +7,7 @@ parameters:
 		- ../src/DatasetBase/
 		- ../src/PortalBase/
 		- ../src/StorageBase/
+		- ../src/TestSuiteStorage/
 	tmpDir: ../.build/phpstan/
 	ignoreErrors:
 		-
