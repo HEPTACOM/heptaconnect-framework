@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Storage\Base\Bridge\Support;
 
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface;
@@ -35,6 +36,8 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfigurati
 
 abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
 {
+    private ?IdentityMapActionInterface $identityMapAction = null;
+
     private ?JobCreateActionInterface $jobCreateAction = null;
 
     private ?JobDeleteActionInterface $jobDeleteAction = null;
@@ -88,6 +91,11 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     private ?WebHttpHandlerConfigurationFindActionInterface $webHttpHandlerConfigurationFindAction = null;
 
     private ?WebHttpHandlerConfigurationSetActionInterface $webHttpHandlerConfigurationSetAction = null;
+
+    public function getIdentityMapAction(): IdentityMapActionInterface
+    {
+        return $this->identityMapAction ??= $this->createIdentityMapAction();
+    }
 
     public function getJobCreateAction(): JobCreateActionInterface
     {
@@ -223,6 +231,8 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     {
         return $this->webHttpHandlerConfigurationSetAction ??= $this->createWebHttpHandlerConfigurationSetAction();
     }
+
+    abstract protected function createIdentityMapAction(): IdentityMapActionInterface;
 
     abstract protected function createJobCreateAction(): JobCreateActionInterface;
 
