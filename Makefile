@@ -55,8 +55,8 @@ cs-php: vendor .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standard f
 
 .PHONY: cs-phpstan
 cs-phpstan: vendor .build $(PHPSTAN_FILE) ## Run phpstan for static code analysis
-	[[ -z "${CI}" ]] || $(PHP) $(PHPSTAN_FILE) analyse -c dev-ops/phpstan.neon --error-format=junit > .build/phpstan.junit.xml
-	[[ -n "${CI}" ]] || $(PHP) $(PHPSTAN_FILE) analyse -c dev-ops/phpstan.neon
+	[[ -z "${CI}" ]] || $(PHP) $(PHPSTAN_FILE) analyse --level 8 -c dev-ops/phpstan.neon --error-format=junit > .build/phpstan.junit.xml
+	[[ -n "${CI}" ]] || $(PHP) $(PHPSTAN_FILE) analyse --level 8 -c dev-ops/phpstan.neon
 
 .PHONY: cs-psalm
 cs-psalm: vendor .build $(PSALM_FILE) ## Run psalm for static code analysis

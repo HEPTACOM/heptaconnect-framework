@@ -1,7 +1,9 @@
+rules:
+	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\ImplementationsMustBeFinalRule
 parameters:
 	checkMissingIterableValueType: false
 	inferPrivatePropertyTypeFromConstructor: true
-	level: max
 	paths:
+		- ../dev-ops/bin/phpstan/src/
 		- ../src/
 	tmpDir: ../.build/phpstan/
