@@ -23,7 +23,7 @@ final class InterfacesHaveDocumentationRule implements Rule
     public function processNode(Node $node, Scope $scope): array
     {
         $result = [];
-        $interfaceNeedsDocumentation = count($node->getMethods()) > 1;
+        $interfaceNeedsDocumentation = \count($node->getMethods()) > 1;
 
         if ($interfaceNeedsDocumentation && $this->getCommentSummary($node) === '') {
             $result[] = RuleErrorBuilder::message('Interface must have a documentation')
@@ -49,12 +49,12 @@ final class InterfacesHaveDocumentationRule implements Rule
         $commentSummary = '';
 
         foreach ($node->getComments() as $comment) {
-            $commentLines = \explode("\n", (string)$comment);
+            $commentLines = \explode("\n", (string) $comment);
             $commentLines = \array_map(
-                static fn(string $l): string => \trim(\ltrim(\trim(\trim((string)$l), '/'), '*')),
+                static fn (string $l): string => \trim(\ltrim(\trim(\trim($l), '/'), '*')),
                 $commentLines
             );
-            $commentSummary .= \implode("", $commentLines);
+            $commentSummary .= \implode('', $commentLines);
         }
 
         return $commentSummary;
