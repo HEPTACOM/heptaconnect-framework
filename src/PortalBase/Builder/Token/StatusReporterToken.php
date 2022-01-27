@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Token;
 
-class StatusReporterToken
+final class StatusReporterToken
 {
     private string $topic;
 

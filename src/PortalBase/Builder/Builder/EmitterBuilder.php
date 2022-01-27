@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Builder\Builder;
 
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\EmitterToken;
 
-class EmitterBuilder
+final class EmitterBuilder
 {
     private EmitterToken $token;
 

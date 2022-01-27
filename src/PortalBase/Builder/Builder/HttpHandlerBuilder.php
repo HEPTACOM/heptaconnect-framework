@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Builder\Builder;
 
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken;
 
-class HttpHandlerBuilder
+final class HttpHandlerBuilder
 {
     private HttpHandlerToken $token;
 

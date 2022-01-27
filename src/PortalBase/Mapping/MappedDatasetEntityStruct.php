@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Mapping;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 
-class MappedDatasetEntityStruct
+final class MappedDatasetEntityStruct
 {
     protected MappingInterface $mapping;
 

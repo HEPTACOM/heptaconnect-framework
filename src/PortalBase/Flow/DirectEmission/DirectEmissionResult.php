@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission;
 
-class DirectEmissionResult
+final class DirectEmissionResult
 {
     /**
      * @var \Throwable[]

@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\Parallelization\Contract\ResourceLockingCo
 use Heptacom\HeptaConnect\Portal\Base\Parallelization\Exception\ResourceIsLockedException;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 
-class ResourceLockFacade
+final class ResourceLockFacade
 {
     private ResourceLockingContract $resourceLocking;
 

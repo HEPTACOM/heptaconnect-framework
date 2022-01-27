@@ -13,7 +13,7 @@ use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Opis\Closure\SerializableClosure;
 use Psr\Container\ContainerInterface;
 
-class Receiver extends ReceiverContract
+final class Receiver extends ReceiverContract
 {
     use ResolveArgumentsTrait;
 

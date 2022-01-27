@@ -13,7 +13,7 @@ use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Opis\Closure\SerializableClosure;
 use Psr\Container\ContainerInterface;
 
-class Explorer extends ExplorerContract
+final class Explorer extends ExplorerContract
 {
     use ResolveArgumentsTrait;
 

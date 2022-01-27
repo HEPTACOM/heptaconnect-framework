@@ -14,7 +14,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class HttpHandler extends HttpHandlerContract
+final class HttpHandler extends HttpHandlerContract
 {
     use ResolveArgumentsTrait;
 

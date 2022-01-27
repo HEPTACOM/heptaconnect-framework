@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Web\Http\Support;
 
-class DefaultRequestHeaders
+final class DefaultRequestHeaders
 {
     private array $headers = [];
 

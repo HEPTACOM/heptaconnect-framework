@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Mapping;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
-class MappingComponentStruct extends MappingComponentStructContract
+final class MappingComponentStruct extends MappingComponentStructContract
 {
     protected PortalNodeKeyInterface $portalNodeKey;
 

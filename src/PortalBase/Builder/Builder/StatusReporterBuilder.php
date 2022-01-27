@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Builder\Builder;
 
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\StatusReporterToken;
 
-class StatusReporterBuilder
+final class StatusReporterBuilder
 {
     private StatusReporterToken $token;
 
