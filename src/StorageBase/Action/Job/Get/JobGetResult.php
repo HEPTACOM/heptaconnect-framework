@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Job\Get;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct;
 use Heptacom\HeptaConnect\Storage\Base\Contract\JobKeyInterface;
 
-class JobGetResult
+final class JobGetResult
 {
     protected string $jobType;
 

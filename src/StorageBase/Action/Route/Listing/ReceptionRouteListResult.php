@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Listing;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\RouteKeyInterface;
 
-class ReceptionRouteListResult
+final class ReceptionRouteListResult
 {
     protected RouteKeyInterface $routeKey;
 

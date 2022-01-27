@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 /**
  * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection<\Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayload>
  */
-class JobCreatePayloads extends AbstractObjectCollection
+final class JobCreatePayloads extends AbstractObjectCollection
 {
     protected function getT(): string
     {

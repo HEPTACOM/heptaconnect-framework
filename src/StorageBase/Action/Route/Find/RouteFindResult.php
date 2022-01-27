@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Find;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\RouteKeyInterface;
 
-class RouteFindResult
+final class RouteFindResult
 {
     protected RouteKeyInterface $routeKey;
 

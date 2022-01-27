@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\TestSuite\Storage\Fixture\PortalExtension\Portal
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalB\PortalB;
 
-class PortalExtensionB extends PortalExtensionContract
+final class PortalExtensionB extends PortalExtensionContract
 {
     public function supports(): string
     {

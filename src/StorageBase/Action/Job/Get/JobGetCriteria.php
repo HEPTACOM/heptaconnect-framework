@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Job\Get;
 
 use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
 
-class JobGetCriteria
+final class JobGetCriteria
 {
     private JobKeyCollection $jobKeys;
 

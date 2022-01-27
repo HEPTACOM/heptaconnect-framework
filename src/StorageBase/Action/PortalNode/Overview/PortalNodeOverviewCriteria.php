@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Overview;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Overview\OverviewCriteriaContract;
 
-class PortalNodeOverviewCriteria extends OverviewCriteriaContract
+final class PortalNodeOverviewCriteria extends OverviewCriteriaContract
 {
     public const FIELD_CLASS_NAME = 'className';
 

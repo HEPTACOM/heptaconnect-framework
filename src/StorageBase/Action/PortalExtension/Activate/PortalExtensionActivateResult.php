@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Activate;
 
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 
-class PortalExtensionActivateResult
+final class PortalExtensionActivateResult
 {
     /**
      * @var array<class-string<PortalExtensionContract>>

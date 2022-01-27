@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Job\Start;
 
 use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
 
-class JobStartResult
+final class JobStartResult
 {
     private JobKeyCollection $startedJobs;
 

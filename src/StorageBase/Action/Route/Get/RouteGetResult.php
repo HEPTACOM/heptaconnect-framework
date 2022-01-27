@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Get;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\RouteKeyInterface;
 
-class RouteGetResult
+final class RouteGetResult
 {
     protected RouteKeyInterface $routeKey;
 

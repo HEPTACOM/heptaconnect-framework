@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 /**
  * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection<\Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreateResult>
  */
-class PortalNodeCreateResults extends AbstractObjectCollection
+final class PortalNodeCreateResults extends AbstractObjectCollection
 {
     protected function getT(): string
     {

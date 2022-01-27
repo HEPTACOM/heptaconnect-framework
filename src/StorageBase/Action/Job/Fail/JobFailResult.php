@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Job\Fail;
 
 use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
 
-class JobFailResult
+final class JobFailResult
 {
     private JobKeyCollection $failedJobs;
 

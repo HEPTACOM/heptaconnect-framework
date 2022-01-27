@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Get;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\RouteKeyCollection;
 
-class RouteGetCriteria
+final class RouteGetCriteria
 {
     private RouteKeyCollection $routeKeys;
 

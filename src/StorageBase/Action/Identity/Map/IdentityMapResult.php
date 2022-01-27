@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Identity\Map;
 
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 
-class IdentityMapResult
+final class IdentityMapResult
 {
     private MappedDatasetEntityCollection $mappedDatasetEntityCollection;
 

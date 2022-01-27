@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find;
 
-class WebHttpHandlerConfigurationFindResult
+final class WebHttpHandlerConfigurationFindResult
 {
     protected ?array $value;
 

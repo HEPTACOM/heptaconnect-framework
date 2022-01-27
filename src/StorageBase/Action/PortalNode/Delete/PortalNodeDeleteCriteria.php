@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Delete;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 
-class PortalNodeDeleteCriteria
+final class PortalNodeDeleteCriteria
 {
     private PortalNodeKeyCollection $portalNodeKeys;
 

@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Deactivate;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
-class PortalExtensionDeactivatePayload
+final class PortalExtensionDeactivatePayload
 {
     private PortalNodeKeyInterface $portalNodeKey;
 

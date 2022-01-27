@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Listing;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
-class PortalNodeListResult
+final class PortalNodeListResult
 {
     protected PortalNodeKeyInterface $portalNodeKey;
 

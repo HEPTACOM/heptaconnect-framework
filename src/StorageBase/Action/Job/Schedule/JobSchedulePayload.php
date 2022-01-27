@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Job\Schedule;
 
 use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
 
-class JobSchedulePayload
+final class JobSchedulePayload
 {
     private JobKeyCollection $jobKeys;
 

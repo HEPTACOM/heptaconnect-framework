@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Delete;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\RouteKeyCollection;
 
-class RouteDeleteCriteria
+final class RouteDeleteCriteria
 {
     private RouteKeyCollection $routeKeys;
 

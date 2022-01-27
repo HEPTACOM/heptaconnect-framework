@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Job\Delete;
 
 use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
 
-class JobDeleteCriteria
+final class JobDeleteCriteria
 {
     private JobKeyCollection $jobKeys;
 

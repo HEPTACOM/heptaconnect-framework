@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\RouteCapability\Overview;
 
-class RouteCapabilityOverviewResult
+final class RouteCapabilityOverviewResult
 {
     protected string $name;
 

@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Job\Finish;
 
 use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
 
-class JobFinishPayload
+final class JobFinishPayload
 {
     private JobKeyCollection $jobKeys;
 

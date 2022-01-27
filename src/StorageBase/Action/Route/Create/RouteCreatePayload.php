@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Create;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Create\CreatePayloadInterface;
 
-class RouteCreatePayload implements CreatePayloadInterface
+final class RouteCreatePayload implements CreatePayloadInterface
 {
     protected PortalNodeKeyInterface $sourcePortalNodeKey;
 

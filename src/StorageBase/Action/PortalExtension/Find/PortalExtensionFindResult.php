@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Find;
 
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 
-class PortalExtensionFindResult
+final class PortalExtensionFindResult
 {
     /**
      * @var array<class-string<PortalExtensionContract>, bool>

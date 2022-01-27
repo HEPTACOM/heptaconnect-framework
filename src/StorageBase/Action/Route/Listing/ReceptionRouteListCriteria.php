@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Listing;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
-class ReceptionRouteListCriteria
+final class ReceptionRouteListCriteria
 {
     protected PortalNodeKeyInterface $sourcePortalNodeKey;
 

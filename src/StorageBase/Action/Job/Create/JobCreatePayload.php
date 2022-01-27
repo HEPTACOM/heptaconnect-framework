@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Job\Create;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Create\CreatePayloadInterface;
 
-class JobCreatePayload implements CreatePayloadInterface
+final class JobCreatePayload implements CreatePayloadInterface
 {
     protected string $jobType;
 

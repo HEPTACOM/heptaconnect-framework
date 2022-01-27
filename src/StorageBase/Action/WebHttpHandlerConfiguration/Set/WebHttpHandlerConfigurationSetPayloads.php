@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 /**
  * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection<\Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload>
  */
-class WebHttpHandlerConfigurationSetPayloads extends AbstractObjectCollection
+final class WebHttpHandlerConfigurationSetPayloads extends AbstractObjectCollection
 {
     protected function getT(): string
     {

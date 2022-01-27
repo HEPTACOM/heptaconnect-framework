@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 /**
  * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection<\Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResult>
  */
-class RouteCreateResults extends AbstractObjectCollection
+final class RouteCreateResults extends AbstractObjectCollection
 {
     protected function getT(): string
     {

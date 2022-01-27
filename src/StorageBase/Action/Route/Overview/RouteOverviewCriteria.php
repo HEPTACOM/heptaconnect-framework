@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview;
 
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Overview\OverviewCriteriaContract;
 
-class RouteOverviewCriteria extends OverviewCriteriaContract
+final class RouteOverviewCriteria extends OverviewCriteriaContract
 {
     public const FIELD_TARGET = 'target';
 

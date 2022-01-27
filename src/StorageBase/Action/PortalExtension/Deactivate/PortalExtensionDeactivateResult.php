@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Deactivate;
 
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 
-class PortalExtensionDeactivateResult
+final class PortalExtensionDeactivateResult
 {
     /**
      * @var array<class-string<PortalExtensionContract>>

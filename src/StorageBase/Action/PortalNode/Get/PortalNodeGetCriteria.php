@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 
-class PortalNodeGetCriteria
+final class PortalNodeGetCriteria
 {
     private PortalNodeKeyCollection $portalNodeKeys;
 

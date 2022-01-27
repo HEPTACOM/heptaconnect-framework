@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
-class WebHttpHandlerConfigurationFindCriteria
+final class WebHttpHandlerConfigurationFindCriteria
 {
     private PortalNodeKeyInterface $portalNodeKey;
 
