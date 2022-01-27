@@ -26,7 +26,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\MappingCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\TypedMappingCollection
  */
-class MappingCollectionTest extends TestCase
+final class MappingCollectionTest extends TestCase
 {
     public function testBuildingMappingCollection(): void
     {

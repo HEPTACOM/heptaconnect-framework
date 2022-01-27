@@ -29,7 +29,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\TypedMappedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack
  */
-class ReceiveServiceTest extends TestCase
+final class ReceiveServiceTest extends TestCase
 {
     /**
      * @dataProvider provideReceiveCount

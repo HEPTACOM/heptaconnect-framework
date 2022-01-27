@@ -6,6 +6,6 @@ namespace Heptacom\HeptaConnect\Storage\Base\Test\Fixture;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 
-class FirstEntity extends DatasetEntityContract
+final class FirstEntity extends DatasetEntityContract
 {
 }

@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\DateTimeCollection
  */
-class DateTimeCollectionTest extends TestCase
+final class DateTimeCollectionTest extends TestCase
 {
     use ProvidesDateTimeTestsData;
     use ProvidesInvalidTestsData;

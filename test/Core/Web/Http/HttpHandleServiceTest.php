@@ -28,7 +28,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpHandleService
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria
  */
-class HttpHandleServiceTest extends TestCase
+final class HttpHandleServiceTest extends TestCase
 {
     public function testActingFails(): void
     {

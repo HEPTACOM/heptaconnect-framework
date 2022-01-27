@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
 
-class DependentPortal extends PortalContract
+final class DependentPortal extends PortalContract
 {
     private ExplorerCollection $explorerCollection;
 

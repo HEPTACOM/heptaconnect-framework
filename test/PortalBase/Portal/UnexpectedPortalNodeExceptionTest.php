@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnexpectedPortalNodeException
  */
-class UnexpectedPortalNodeExceptionTest extends TestCase
+final class UnexpectedPortalNodeExceptionTest extends TestCase
 {
     public function testExceptionDetectsTypeCorrectly(): void
     {

@@ -15,7 +15,7 @@ use Symfony\Component\Cache\Adapter\NullAdapter;
  * @covers \Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationCollection
  * @covers \Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader
  */
-class ComposerPackageConfigurationLoaderTest extends TestCase
+final class ComposerPackageConfigurationLoaderTest extends TestCase
 {
     public function testLoadingPlugin(): void
     {

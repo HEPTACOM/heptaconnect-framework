@@ -19,7 +19,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerStackBuilder
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerStackBuilderFactory
  */
-class HttpHandlerStackBuilderFactoryTest extends TestCase
+final class HttpHandlerStackBuilderFactoryTest extends TestCase
 {
     public function testFirstSourceBeingSourceInBuilder(): void
     {

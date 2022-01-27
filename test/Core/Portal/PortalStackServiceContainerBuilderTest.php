@@ -58,7 +58,7 @@ use Symfony\Component\DependencyInjection\Reference;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PathMethodsTrait
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection
  */
-class PortalStackServiceContainerBuilderTest extends TestCase
+final class PortalStackServiceContainerBuilderTest extends TestCase
 {
     private ClassLoader $classLoader;
 

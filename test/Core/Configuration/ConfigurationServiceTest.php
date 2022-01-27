@@ -25,7 +25,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection
  */
-class ConfigurationServiceTest extends TestCase
+final class ConfigurationServiceTest extends TestCase
 {
     public function testConfigurationTemplateLoading(): void
     {

@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
-class MappingStruct implements MappingInterface
+final class MappingStruct implements MappingInterface
 {
     private PortalNodeKeyInterface $portalNodeKey;
 

@@ -10,7 +10,7 @@ use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiveContextInterface
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverStackInterface;
 
-class FooBarReceiver extends ReceiverContract
+final class FooBarReceiver extends ReceiverContract
 {
     public function receive(
         TypedDatasetEntityCollection $entities,

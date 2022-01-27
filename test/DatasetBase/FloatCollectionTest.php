@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\FloatCollection
  */
-class FloatCollectionTest extends TestCase
+final class FloatCollectionTest extends TestCase
 {
     use ProvidesFloatTestsData;
     use ProvidesInvalidTestsData;

@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack
  */
-class EmitterStackTest extends TestCase
+final class EmitterStackTest extends TestCase
 {
     public function testEmptyStackDoesNotFail(): void
     {

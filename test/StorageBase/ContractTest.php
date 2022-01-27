@@ -10,7 +10,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\PortalStorageContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use PHPUnit\Framework\TestCase;
 
-class ContractTest extends TestCase
+final class ContractTest extends TestCase
 {
     public function testExtendingPortalStorage(): void
     {
