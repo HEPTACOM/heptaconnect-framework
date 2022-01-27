@@ -1,4 +1,9 @@
 {
+    "autoload": {
+        "psr-4": {
+            "Heptacom\\HeptaConnect\\DevOps\\PhpStan\\": "src/"
+        }
+    },
     "require": {
         "php": ">=7.4",
         "phpstan/extension-installer": ">=1",
