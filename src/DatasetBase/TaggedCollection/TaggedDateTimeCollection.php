@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\DateTimeCollection;
 /**
  * @extends \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\AbstractTaggedCollection<\DateTimeInterface>
  */
-class TaggedDateTimeCollection extends AbstractTaggedCollection
+final class TaggedDateTimeCollection extends AbstractTaggedCollection
 {
     protected function getCollectionType(): string
     {

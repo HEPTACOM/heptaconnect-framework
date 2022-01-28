@@ -10,7 +10,7 @@ use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
 /**
  * @extends \Heptacom\HeptaConnect\Dataset\Base\Translatable\ScalarCollection\AbstractTranslatableScalarCollection<\Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection>
  */
-class TranslatableStringCollection extends AbstractTranslatableScalarCollection
+final class TranslatableStringCollection extends AbstractTranslatableScalarCollection
 {
     protected function getInitialValue(): CollectionInterface
     {

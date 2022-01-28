@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\FloatCollection;
 /**
  * @extends \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\AbstractTaggedCollection<float>
  */
-class TaggedFloatCollection extends AbstractTaggedCollection
+final class TaggedFloatCollection extends AbstractTaggedCollection
 {
     protected function getCollectionType(): string
     {

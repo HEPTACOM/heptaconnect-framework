@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base;
 
-class Date extends \DateTime
+final class Date extends \DateTime
 {
     public function __construct(string $time = 'now', ?\DateTimeZone $timezone = null)
     {

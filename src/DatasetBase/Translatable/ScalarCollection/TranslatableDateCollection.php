@@ -10,7 +10,7 @@ use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\DateCollection;
 /**
  * @extends \Heptacom\HeptaConnect\Dataset\Base\Translatable\ScalarCollection\AbstractTranslatableScalarCollection<\Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\DateCollection>
  */
-class TranslatableDateCollection extends AbstractTranslatableScalarCollection
+final class TranslatableDateCollection extends AbstractTranslatableScalarCollection
 {
     protected function getInitialValue(): CollectionInterface
     {

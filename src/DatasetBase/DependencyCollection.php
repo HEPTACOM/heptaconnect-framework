@@ -10,7 +10,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 /**
  * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection<\Heptacom\HeptaConnect\Dataset\Base\Contract\DependencyInterface>
  */
-class DependencyCollection extends AbstractObjectCollection
+final class DependencyCollection extends AbstractObjectCollection
 {
     use Support\DependencyTrait;
 

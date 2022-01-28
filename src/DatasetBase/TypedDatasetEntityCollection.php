@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 /**
  * @extends \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
  */
-class TypedDatasetEntityCollection extends DatasetEntityCollection
+final class TypedDatasetEntityCollection extends DatasetEntityCollection
 {
     /**
      * @psalm-var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>

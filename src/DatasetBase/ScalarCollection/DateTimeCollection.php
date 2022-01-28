@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
 /**
  * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<\DateTimeInterface>
  */
-class DateTimeCollection extends AbstractCollection
+final class DateTimeCollection extends AbstractCollection
 {
     protected function isValidItem($item): bool
     {

@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\BooleanCollection;
 /**
  * @extends \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\AbstractTaggedCollection<bool>
  */
-class TaggedBooleanCollection extends AbstractTaggedCollection
+final class TaggedBooleanCollection extends AbstractTaggedCollection
 {
     protected function getCollectionType(): string
     {
