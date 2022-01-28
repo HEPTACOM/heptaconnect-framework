@@ -51,7 +51,7 @@ final class ReceptionActorTest extends TestCase
         $stackBuilderFactory = $this->createMock(ReceiverStackBuilderFactoryInterface::class);
         $stackBuilderFactory->method('createReceiverStackBuilder')->willReturn($stackBuilder);
 
-        $entity = $this->createMock(FooBarEntity::class);
+        $entity = new FooBarEntity();
 
         $receptionActor = new ReceptionActor(
             $logger,

@@ -14,12 +14,22 @@ final class MappingStruct implements MappingInterface
 
     private MappingNodeKeyInterface $mappingNodeKey;
 
+    /**
+     * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     */
+    private string $entityType;
+
+    /**
+     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
+     */
     public function __construct(
         PortalNodeKeyInterface $portalNodeKey,
-        MappingNodeKeyInterface $mappingNodeKey
+        MappingNodeKeyInterface $mappingNodeKey,
+        string $entityType
     ) {
         $this->portalNodeKey = $portalNodeKey;
         $this->mappingNodeKey = $mappingNodeKey;
+        $this->entityType = $entityType;
     }
 
     public function getExternalId(): string
@@ -44,6 +54,6 @@ final class MappingStruct implements MappingInterface
 
     public function getEntityType(): string
     {
-        return DatasetEntityStruct::class;
+        return $this->entityType;
     }
 }

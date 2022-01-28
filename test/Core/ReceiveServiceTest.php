@@ -43,11 +43,7 @@ final class ReceiveServiceTest extends TestCase
             ->method('getEntityType')
             ->willReturn(FooBarEntity::class);
 
-        $mappedDatasetEntity = $this->createMock(MappedDatasetEntityStruct::class);
-        $mappedDatasetEntity->expects($count > 0 ? static::atLeastOnce() : static::never())
-            ->method('getMapping')
-            ->willReturn($mapping);
-
+        $mappedDatasetEntity = new MappedDatasetEntityStruct($mapping, new FooBarEntity());
         $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
 
         $stack = new ReceiverStack([]);
@@ -100,11 +96,7 @@ final class ReceiveServiceTest extends TestCase
             ->method('getPortalNodeKey')
             ->willReturn($this->createMock(PortalNodeKeyInterface::class));
 
-        $mappedDatasetEntity = $this->createMock(MappedDatasetEntityStruct::class);
-        $mappedDatasetEntity->expects(static::atLeast($count))
-            ->method('getMapping')
-            ->willReturn($mapping);
-
+        $mappedDatasetEntity = new MappedDatasetEntityStruct($mapping, new FooBarEntity());
         $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
 
         $receiveService = new ReceiveService(
