@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add supporting base class `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\Psr11StorageFacade` to implement `\Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface` based upon a service container
 - Add supporting base class `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade` to implement `\Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface` that ensures in the implementation that services are only factorized once
 - Add exception `\Heptacom\HeptaConnect\Storage\Base\Exception\ReadException` for storage actions to express issues on reading
+- Add route delete action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionInterface` with `\Heptacom\HeptaConnect\Storage\Base\Action\Route\Delete\RouteDeleteCriteria`
 
 ### Changed
 

@@ -118,7 +118,7 @@ definitions:
                 <<: *default-step
                 name: ECS (Code style)
                 script:
-                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-php
+                    - PHP_EXTRA_ARGS=-dmemory_limit=1G COMPOSER_EXTRA_ARGS=-vvv make -e cs-php
         -   step: &test-code-style-phpstan
                 <<: *default-step
                 name: PHPStan (Static code analysis)
@@ -158,6 +158,7 @@ definitions:
                 <<: *default-step
                 name: Test infection
                 script:
+                    - rm -rf .build
                     - COMPOSER_EXTRA_ARGS=-vvv make -e infection
 
 pipelines:
