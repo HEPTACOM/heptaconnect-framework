@@ -24,6 +24,7 @@
     "require": {
         "php": ">=7.4",
         "heptacom/heptaconnect-dataset-base": "self.version",
+        "heptacom/heptaconnect-portal-base": "self.version",
         "heptacom/heptaconnect-storage-base": "self.version"
     },
     "require-dev": {
