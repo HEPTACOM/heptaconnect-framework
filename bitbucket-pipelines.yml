@@ -158,6 +158,7 @@ definitions:
                 <<: *default-step
                 name: Test infection
                 script:
+                    - rm -rf .build
                     - COMPOSER_EXTRA_ARGS=-vvv make -e infection
 
 pipelines:
