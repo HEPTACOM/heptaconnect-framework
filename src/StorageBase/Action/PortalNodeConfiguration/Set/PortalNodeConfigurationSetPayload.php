@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Set;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Create\CreatePayloadInterface;
 
-class PortalNodeConfigurationSetPayload implements CreatePayloadInterface
+final class PortalNodeConfigurationSetPayload implements CreatePayloadInterface
 {
     private PortalNodeKeyInterface $portalNodeKey;
 

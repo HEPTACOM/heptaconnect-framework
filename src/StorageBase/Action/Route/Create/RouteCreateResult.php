@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Create;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\RouteKeyInterface;
 
-class RouteCreateResult
+final class RouteCreateResult
 {
     protected RouteKeyInterface $routeKey;
 

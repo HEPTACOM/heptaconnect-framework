@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Job\Create;
 
 use Heptacom\HeptaConnect\Storage\Base\Contract\JobKeyInterface;
 
-class JobCreateResult
+final class JobCreateResult
 {
     protected JobKeyInterface $jobKey;
 

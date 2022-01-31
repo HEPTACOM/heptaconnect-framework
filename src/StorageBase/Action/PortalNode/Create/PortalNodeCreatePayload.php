@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create;
 
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Create\CreatePayloadInterface;
 
-class PortalNodeCreatePayload implements CreatePayloadInterface
+final class PortalNodeCreatePayload implements CreatePayloadInterface
 {
     /**
      * @var class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>
