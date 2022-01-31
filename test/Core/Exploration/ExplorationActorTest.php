@@ -19,10 +19,10 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct;
 use Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Action\Mapping\Map\MappingMapPayload;
-use Heptacom\HeptaConnect\Storage\Base\Action\Mapping\Map\MappingMapResult;
-use Heptacom\HeptaConnect\Storage\Base\Action\Mapping\Mapping;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Mapping\MappingMapActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Map\IdentityMapPayload;
+use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Map\IdentityMapResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Mapping;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
@@ -32,9 +32,9 @@ use Psr\Log\NullLogger;
  * @covers \Heptacom\HeptaConnect\Core\Exploration\ExplorationActor
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Mapping\Map\MappingMapPayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Mapping\Map\MappingMapResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Mapping\Mapping
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Map\MappingMapPayload
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Map\MappingMapResult
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Mapping
  */
 class ExplorationActorTest extends TestCase
 {
@@ -46,7 +46,7 @@ class ExplorationActorTest extends TestCase
         $publisher = $this->createMock(PublisherInterface::class);
         $emitterStackBuilderFactory = $this->createMock(EmitterStackBuilderFactoryInterface::class);
         $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
-        $mappingMapAction = $this->createMock(MappingMapActionInterface::class);
+        $identityMapAction = $this->createMock(IdentityMapActionInterface::class);
         $stack = $this->createMock(ExplorerStackInterface::class);
         $context = $this->createMock(ExploreContextInterface::class);
         $portalNodeKey = $this->createMock(PortalNodeKeyInterface::class);
@@ -62,7 +62,7 @@ class ExplorationActorTest extends TestCase
             $publisher,
             $emitterStackBuilderFactory,
             $storageKeyGenerator,
-            $mappingMapAction
+            $identityMapAction
         );
 
         $entity1->setPrimaryKey('385deb43270148f5b69ebce7f927b3fd');
@@ -74,7 +74,7 @@ class ExplorationActorTest extends TestCase
         $context->method('getPortalNodeKey')->willReturn($portalNodeKey);
         $emitterStackBuilderFactory->method('createEmitterStackBuilder')->willReturn($emitterStackBuilder);
         $stack->expects(static::once())->method('next')->willReturn([$entity1, $entity2, $entity3]);
-        $mappingMapAction->expects(static::exactly(1))->method('map')->willReturnCallback(static function (MappingMapPayload $payload) use ($mappingNodeKey, &$capturedIds, &$capturedPortalNodeKey) {
+        $identityMapAction->expects(static::exactly(1))->method('map')->willReturnCallback(static function (IdentityMapPayload $payload) use ($mappingNodeKey, &$capturedIds, &$capturedPortalNodeKey) {
             $capturedPortalNodeKey = $payload->getPortalNodeKey();
             $result = new MappedDatasetEntityCollection();
 
@@ -92,7 +92,7 @@ class ExplorationActorTest extends TestCase
                 )]);
             }
 
-            return new MappingMapResult($result);
+            return new IdentityMapResult($result);
         });
 
         $actor->performExploration(FooBarEntity::class, $stack, $context);
@@ -113,7 +113,7 @@ class ExplorationActorTest extends TestCase
         $publisher = $this->createMock(PublisherInterface::class);
         $emitterStackBuilderFactory = $this->createMock(EmitterStackBuilderFactoryInterface::class);
         $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
-        $mappingMapAction = $this->createMock(MappingMapActionInterface::class);
+        $identityMapAction = $this->createMock(IdentityMapActionInterface::class);
         $stack = $this->createMock(ExplorerStackInterface::class);
         $context = $this->createMock(ExploreContextInterface::class);
         $portalNodeKey = $this->createMock(PortalNodeKeyInterface::class);
@@ -126,7 +126,7 @@ class ExplorationActorTest extends TestCase
             $publisher,
             $emitterStackBuilderFactory,
             $storageKeyGenerator,
-            $mappingMapAction
+            $identityMapAction
         );
 
         $entityId1 = '385deb43270148f5b69ebce7f927b3fd';
@@ -138,7 +138,7 @@ class ExplorationActorTest extends TestCase
         $context->method('getPortalNodeKey')->willReturn($portalNodeKey);
         $emitterStackBuilderFactory->method('createEmitterStackBuilder')->willReturn($emitterStackBuilder);
         $stack->expects(static::once())->method('next')->willReturn([$entityId1, $entityId2, $entityId3]);
-        $mappingMapAction->expects(static::exactly(1))->method('map')->willReturnCallback(static function (MappingMapPayload $payload) use ($mappingNodeKey, &$capturedIds, &$capturedPortalNodeKey) {
+        $identityMapAction->expects(static::exactly(1))->method('map')->willReturnCallback(static function (IdentityMapPayload $payload) use ($mappingNodeKey, &$capturedIds, &$capturedPortalNodeKey) {
             $capturedPortalNodeKey = $payload->getPortalNodeKey();
             $result = new MappedDatasetEntityCollection();
 
@@ -156,7 +156,7 @@ class ExplorationActorTest extends TestCase
                 )]);
             }
 
-            return new MappingMapResult($result);
+            return new IdentityMapResult($result);
         });
 
         $actor->performExploration(FooBarEntity::class, $stack, $context);
