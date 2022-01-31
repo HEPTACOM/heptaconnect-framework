@@ -6,6 +6,7 @@ namespace Heptacom\HeptaConnect\DevOps\PhpStan\Rule;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
@@ -22,16 +23,37 @@ final class ImplementationsMustBeFinalRule implements Rule
 
     public function processNode(Node $node, Scope $scope): array
     {
-        /** @see https://github.com/nikic/PHP-Parser/issues/821 */
-        if ($node->isAnonymous() || \str_starts_with((string) $node->name, 'AnonymousClass')) {
+        if ($this->isStructAlike($node)) {
+            if (!$this->canBeFinal($node)) {
+                return [];
+            }
+
+            if (!$node->isFinal()) {
+                return [
+                    RuleErrorBuilder::message(\sprintf('Class \'%s\' that looks like a struct is expected to be final', $node->namespacedName))
+                        ->line($node->getStartLine())
+                        ->file($scope->getFile())
+                        ->build(),
+                ];
+            }
+
             return [];
         }
 
-        if ($node->isAbstract()) {
+        if (!$this->canBeFinal($node)) {
             return [];
         }
 
         if ($node->isFinal()) {
+            if ($node->implements === [] && $node->extends === null) {
+                return [
+                    RuleErrorBuilder::message(\sprintf('Class \'%s\' that is final neither looks like a struct, extends a contract nor implements an interface', $node->namespacedName))
+                        ->line($node->getStartLine())
+                        ->file($scope->getFile())
+                        ->build(),
+                ];
+            }
+
             return [];
         }
 
@@ -40,7 +62,7 @@ final class ImplementationsMustBeFinalRule implements Rule
 
             if (\str_ends_with($extends, 'Contract')) {
                 return [
-                    RuleErrorBuilder::message('Classes that extend a contract must be final or abstract')
+                    RuleErrorBuilder::message(\sprintf('Class \'%s\' extends a contract must be final or abstract', $node->namespacedName))
                         ->line($node->getStartLine())
                         ->file($scope->getFile())
                         ->build(),
@@ -53,10 +75,108 @@ final class ImplementationsMustBeFinalRule implements Rule
         }
 
         return [
-            RuleErrorBuilder::message('Classes that implement an interface must be final or abstract')
+            RuleErrorBuilder::message(\sprintf('Class \'%s\' implements an interface must be final or abstract', $node->namespacedName))
                 ->line($node->getStartLine())
                 ->file($scope->getFile())
                 ->build(),
         ];
+    }
+
+    private function canBeFinal(Class_ $class): bool
+    {
+        /* @see https://github.com/nikic/PHP-Parser/issues/821 */
+        if ($class->isAnonymous() || \str_starts_with((string) $class->name, 'AnonymousClass')) {
+            return false;
+        }
+
+        if ($class->isAbstract() || \str_starts_with((string) $class->name, 'Contract')) {
+            return false;
+        }
+
+        // soft limit
+        if (\is_a((string) $class->namespacedName, \Throwable::class, true)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function isStructAlike(Class_ $class): bool
+    {
+        $interfaces = $class->implements;
+        // soft limit
+        $interfaces = \array_filter($interfaces, static fn ($i) => (string) $i !== \JsonSerializable::class);
+        $interfaces = \array_filter($interfaces, static fn ($i) => (new \ReflectionClass((string) $i))->getMethods() !== []);
+
+        if ($interfaces !== []) {
+            return false;
+        }
+
+        if ($class->extends !== null) {
+            return false;
+        }
+
+        /** @var ClassMethod[] $setter */
+        $setter = [];
+        /** @var ClassMethod[] $getter */
+        $getter = [];
+
+        foreach ($class->getMethods() as $method) {
+            if ($method->isMagic()) {
+                continue;
+            }
+
+            if ($method->isPrivate()) {
+                return false;
+            }
+
+            if ($method->isStatic()) {
+                continue;
+            }
+
+            if (((string) $method->name) === 'jsonSerialize') {
+                continue;
+            }
+
+            if (\str_starts_with((string) $method->name, 'with')) {
+                $setter[] = \lcfirst(\mb_substr((string) $method->name, 4));
+
+                continue;
+            }
+
+            if (\str_starts_with((string) $method->name, 'set')) {
+                $setter[] = \lcfirst(\mb_substr((string) $method->name, 3));
+
+                continue;
+            }
+
+            if (\str_starts_with((string) $method->name, 'get')) {
+                $getter[] = \lcfirst(\mb_substr((string) $method->name, 3));
+
+                continue;
+            }
+
+            return false;
+        }
+
+        $constructor = $class->getMethod('__construct');
+
+        if ($constructor instanceof ClassMethod) {
+            foreach ($constructor->getParams() as $param) {
+                $setter[] = (string) $param->var->name;
+            }
+        }
+
+        if ($getter === [] || $setter === []) {
+            return false;
+        }
+
+        $getter = \array_unique($getter);
+        $setter = \array_unique($setter);
+
+        \sort($getter);
+        \sort($setter);
+
+        return $getter === $setter;
     }
 }
