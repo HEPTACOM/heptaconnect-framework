@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Storage\Base\Bridge\Contract;
 
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface;
@@ -36,6 +37,8 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfigurati
 interface StorageFacadeInterface
 {
     public function getIdentityMapAction(): IdentityMapActionInterface;
+
+    public function getIdentityPersistAction(): IdentityPersistActionInterface;
 
     public function getJobCreateAction(): JobCreateActionInterface;
 
