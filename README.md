@@ -12,6 +12,11 @@ Read more in the [documentation](https://heptaconnect.io/).
 * PHP 7.4 or above
 
 
+## Changelog
+
+See the attached [CHANGELOG.md](./CHANGELOG.md) file for a complete version history and release notes.
+
+
 ## Additional development requirements
 
 * Make
