@@ -54,6 +54,7 @@
     },
     "require-dev": {
         "infection/infection": ">=0.21",
+        "league/flysystem": "^1.1",
         "nyholm/psr7": ">=1",
         "php-http/curl-client": ">=1",
         "phpunit/phpunit": ">=9.3 <10",
