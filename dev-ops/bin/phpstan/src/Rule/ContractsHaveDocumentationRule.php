@@ -6,6 +6,7 @@ namespace Heptacom\HeptaConnect\DevOps\PhpStan\Rule;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
@@ -39,7 +40,10 @@ final class ContractsHaveDocumentationRule implements Rule
         }
 
         $result = [];
-        $interfaceNeedsDocumentation = \count($node->getMethods()) > 1;
+        $methods = $node->getMethods();
+        $methods = \array_filter($methods, static fn (ClassMethod $cm): bool => !$cm->isPrivate());
+
+        $interfaceNeedsDocumentation = \count($methods) > 1;
 
         if ($interfaceNeedsDocumentation && $this->getCommentSummary($node) === '') {
             $result[] = RuleErrorBuilder::message('Contract must have a documentation')
@@ -48,7 +52,7 @@ final class ContractsHaveDocumentationRule implements Rule
                 ->build();
         }
 
-        foreach ($node->getMethods() as $method) {
+        foreach ($methods as $method) {
             if ($this->getCommentSummary($method) === '') {
                 $result[] = RuleErrorBuilder::message(\sprintf('Contract method %s must have a documentation', $method->name))
                     ->line($method->getStartLine())
