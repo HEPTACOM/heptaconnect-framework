@@ -7,6 +7,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Bridge\Support;
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityReflectActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface;
@@ -40,6 +41,8 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     private ?IdentityMapActionInterface $identityMapAction = null;
 
     private ?IdentityPersistActionInterface $identityPersistAction = null;
+
+    private ?IdentityReflectActionInterface $identityReflectAction = null;
 
     private ?JobCreateActionInterface $jobCreateAction = null;
 
@@ -103,6 +106,11 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     public function getIdentityPersistAction(): IdentityPersistActionInterface
     {
         return $this->identityPersistAction ??= $this->createIdentityPersistAction();
+    }
+
+    public function getIdentityReflectAction(): IdentityReflectActionInterface
+    {
+        return $this->identityReflectAction ??= $this->createIdentityReflectAction();
     }
 
     public function getJobCreateAction(): JobCreateActionInterface
@@ -243,6 +251,8 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     abstract protected function createIdentityMapAction(): IdentityMapActionInterface;
 
     abstract protected function createIdentityPersistAction(): IdentityPersistActionInterface;
+
+    abstract protected function createIdentityReflectAction(): IdentityReflectActionInterface;
 
     abstract protected function createJobCreateAction(): JobCreateActionInterface;
 
