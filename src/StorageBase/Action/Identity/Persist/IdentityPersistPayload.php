@@ -10,14 +10,14 @@ class IdentityPersistPayload
 {
     private PortalNodeKeyInterface $portalNodeKey;
 
-    private IdentityPersistPayloadCollection $mappingPersistPayloads;
+    private IdentityPersistPayloadCollection $identityPersistPayloads;
 
     public function __construct(
         PortalNodeKeyInterface $portalNodeKey,
-        IdentityPersistPayloadCollection $mappingPersistPayloads
+        IdentityPersistPayloadCollection $identityPersistPayloads
     ) {
         $this->portalNodeKey = $portalNodeKey;
-        $this->mappingPersistPayloads = $mappingPersistPayloads;
+        $this->identityPersistPayloads = $identityPersistPayloads;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface
@@ -30,13 +30,13 @@ class IdentityPersistPayload
         $this->portalNodeKey = $portalNodeKey;
     }
 
-    public function getMappingPersistPayloads(): IdentityPersistPayloadCollection
+    public function getIdentityPersistPayloads(): IdentityPersistPayloadCollection
     {
-        return $this->mappingPersistPayloads;
+        return $this->identityPersistPayloads;
     }
 
-    public function setMappingPersistPayloads(IdentityPersistPayloadCollection $mappingPersistPayloads): void
+    public function setIdentityPersistPayloads(IdentityPersistPayloadCollection $identityPersistPayloads): void
     {
-        $this->mappingPersistPayloads = $mappingPersistPayloads;
+        $this->identityPersistPayloads = $identityPersistPayloads;
     }
 }
