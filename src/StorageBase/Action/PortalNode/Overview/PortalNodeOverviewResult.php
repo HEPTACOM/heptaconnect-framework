@@ -19,7 +19,7 @@ class PortalNodeOverviewResult
     protected \DateTimeInterface $createdAt;
 
     /**
-     * @param class-string<PortalContract> $portalNodeKey
+     * @param class-string<PortalContract> $portalClass
      */
     public function __construct(
         PortalNodeKeyInterface $portalNodeKey,
