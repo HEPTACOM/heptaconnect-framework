@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Storage\Base\Bridge\Support;
 
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
@@ -47,6 +48,11 @@ class Psr11StorageFacade extends AbstractSingletonStorageFacade
     protected function createIdentityMapAction(): IdentityMapActionInterface
     {
         return $this->container->get(IdentityMapActionInterface::class);
+    }
+
+    protected function createIdentityOverviewAction(): IdentityOverviewActionInterface
+    {
+        return $this->container->get(IdentityOverviewActionInterface::class);
     }
 
     protected function createIdentityPersistAction(): IdentityPersistActionInterface
