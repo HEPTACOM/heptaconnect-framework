@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\Job\Create;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Storage\Base\Contract\JobKeyInterface;
 
-final class JobCreateResult
+final class JobCreateResult implements AttachmentAwareInterface
 {
+    use AttachmentAwareTrait;
+
     protected JobKeyInterface $jobKey;
 
     public function __construct(JobKeyInterface $jobKey)

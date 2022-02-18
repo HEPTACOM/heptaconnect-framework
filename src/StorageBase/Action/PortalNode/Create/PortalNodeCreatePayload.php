@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Create\CreatePayloadInterface;
 
-final class PortalNodeCreatePayload implements CreatePayloadInterface
+final class PortalNodeCreatePayload implements CreatePayloadInterface, AttachmentAwareInterface
 {
+    use AttachmentAwareTrait;
+
     /**
      * @var class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>
      */
