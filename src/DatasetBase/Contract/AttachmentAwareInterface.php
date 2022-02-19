@@ -13,17 +13,21 @@ interface AttachmentAwareInterface
     public function attach(AttachableInterface $attachment): void;
 
     /**
-     * @param class-string<AttachableInterface> $class
+     * @param class-string $class
      */
     public function hasAttached(string $class): bool;
 
+    public function isAttached(AttachableInterface $attachable): bool;
+
     /**
-     * @param class-string<AttachableInterface> $class
+     * @param class-string $class
      */
     public function getAttachment(string $class): ?AttachableInterface;
 
     /**
-     * @param class-string<AttachableInterface> $class
+     * @param class-string $class
      */
-    public function unattach(string $class): void;
+    public function detachByType(string $class): void;
+
+    public function detach(AttachableInterface $attachable): void;
 }
