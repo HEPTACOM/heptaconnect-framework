@@ -19,3 +19,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `\Heptacom\HeptaConnect\TestSuite\Storage\Action\RouteTestContract` to test basic life cycle of a route
 - Add `\Heptacom\HeptaConnect\TestSuite\Storage\Action\PortalNodeConfigurationTestContract` to test basic life cycle of a portal node configuration
 - Add `\Heptacom\HeptaConnect\TestSuite\Storage\Action\IdentityMappingTestContract` to test identities and mapping
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security

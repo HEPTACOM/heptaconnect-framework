@@ -82,6 +82,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add final modifier to `\Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult` to ensure correct usage of implementation. To still add custom data the `\Heptacom\HeptaConnect\Dataset\Base\AttachmentAwareInterface` is implemented by `\Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult`
 - Add final modifier to `\Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload` and `\Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayloads` to ensure correct usage of implementation. To still add custom data the `\Heptacom\HeptaConnect\Dataset\Base\AttachmentAwareInterface` is implemented by `\Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayloads`
 
+### Deprecated
+
 ### Removed
 
 - Remove class `\Heptacom\HeptaConnect\Storage\Base\Contract\JobInterface`
@@ -100,6 +102,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove unused contract method `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract::updateExternalId`
 - Remove unused contract method `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract::listByTypeAndPortalNodeAndExternalId`
 - Remove unused contract method `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract::create`
+
+### Fixed
+
+### Security
 
 ## [0.8.5] - 2021-12-28
 

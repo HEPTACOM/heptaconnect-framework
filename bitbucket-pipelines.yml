@@ -113,7 +113,7 @@ definitions:
                 <<: *default-step
                 name: Test coverage
                 script:
-                    - COMPOSER_EXTRA_ARGS=-vvv make -e coverage
+                    - XDEBUG_MODE=coverage COMPOSER_EXTRA_ARGS=-vvv make -e coverage
         -   step: &test-code-style-php
                 <<: *default-step
                 name: ECS (Code style)
