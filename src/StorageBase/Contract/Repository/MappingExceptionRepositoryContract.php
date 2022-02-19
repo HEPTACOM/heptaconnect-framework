@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Contract\Repository;
 
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingExceptionKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\IdentityErrorKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -20,7 +20,7 @@ abstract class MappingExceptionRepositoryContract
         PortalNodeKeyInterface $portalNodeKey,
         MappingNodeKeyInterface $mappingNodeKey,
         \Throwable $throwable
-    ): MappingExceptionKeyInterface;
+    ): IdentityErrorKeyInterface;
 
     /**
      * @throws UnsupportedStorageKeyException
@@ -38,5 +38,5 @@ abstract class MappingExceptionRepositoryContract
      * @throws NotFoundException
      * @throws UnsupportedStorageKeyException
      */
-    abstract public function delete(MappingExceptionKeyInterface $key): void;
+    abstract public function delete(IdentityErrorKeyInterface $key): void;
 }
