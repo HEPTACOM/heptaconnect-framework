@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Deprecated
 
-- Copy and deprecate `\Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::unattach` to `\Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::detachByType` for correct usage of English language and distinguish from `\Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::detachByType`
+- Copy and deprecate `\Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::unattach` to `\Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::detachByType` for correct usage of English language and distinguish from `\Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::detach`
 
 ### Removed
 
