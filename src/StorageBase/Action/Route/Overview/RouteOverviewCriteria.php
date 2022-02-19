@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Overview\OverviewCriteriaContract;
 
-class RouteOverviewCriteria extends OverviewCriteriaContract
+final class RouteOverviewCriteria extends OverviewCriteriaContract implements AttachmentAwareInterface
 {
+    use AttachmentAwareTrait;
+
     public const FIELD_TARGET = 'target';
 
     public const FIELD_SOURCE = 'source';

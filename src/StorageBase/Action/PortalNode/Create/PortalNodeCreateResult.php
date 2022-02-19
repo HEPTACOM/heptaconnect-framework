@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
-class PortalNodeCreateResult
+final class PortalNodeCreateResult implements AttachmentAwareInterface
 {
+    use AttachmentAwareTrait;
+
     protected PortalNodeKeyInterface $portalNodeKey;
 
     public function __construct(PortalNodeKeyInterface $portalNodeKey)
