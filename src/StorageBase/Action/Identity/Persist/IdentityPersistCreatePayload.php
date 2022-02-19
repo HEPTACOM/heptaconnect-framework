@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 
-class IdentityPersistCreatePayload extends IdentityPersistPayloadContract
+final class IdentityPersistCreatePayload extends IdentityPersistPayloadContract
 {
     private string $externalId;
 

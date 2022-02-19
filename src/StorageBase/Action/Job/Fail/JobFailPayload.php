@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\Job\Fail;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
 
-class JobFailPayload
+final class JobFailPayload implements AttachmentAwareInterface
 {
+    use AttachmentAwareTrait;
+
     private JobKeyCollection $jobKeys;
 
     private \DateTimeInterface $createdAt;
