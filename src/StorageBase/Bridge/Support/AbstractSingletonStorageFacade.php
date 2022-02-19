@@ -6,6 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Bridge\Support;
 
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityReflectActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface;
@@ -39,6 +40,8 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfigurati
 abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
 {
     private ?IdentityMapActionInterface $identityMapAction = null;
+
+    private ?IdentityOverviewActionInterface $identityOverviewAction = null;
 
     private ?IdentityPersistActionInterface $identityPersistAction = null;
 
@@ -101,6 +104,11 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     public function getIdentityMapAction(): IdentityMapActionInterface
     {
         return $this->identityMapAction ??= $this->createIdentityMapAction();
+    }
+
+    public function getIdentityOverviewAction(): IdentityOverviewActionInterface
+    {
+        return $this->identityOverviewAction ??= $this->createIdentityOverviewAction();
     }
 
     public function getIdentityPersistAction(): IdentityPersistActionInterface
@@ -249,6 +257,8 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     }
 
     abstract protected function createIdentityMapAction(): IdentityMapActionInterface;
+
+    abstract protected function createIdentityOverviewAction(): IdentityOverviewActionInterface;
 
     abstract protected function createIdentityPersistAction(): IdentityPersistActionInterface;
 
