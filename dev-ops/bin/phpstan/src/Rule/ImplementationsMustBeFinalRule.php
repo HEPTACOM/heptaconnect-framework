@@ -103,10 +103,12 @@ final class ImplementationsMustBeFinalRule implements Rule
 
     private function isStructAlike(Class_ $class): bool
     {
-        $interfaces = $class->implements;
+        /** @var class-string[] $interfaces */
+        $interfaces = \array_map('strval', $class->implements);
         // soft limit
-        $interfaces = \array_filter($interfaces, static fn ($i) => (string) $i !== \JsonSerializable::class);
-        $interfaces = \array_filter($interfaces, static fn ($i) => (new \ReflectionClass((string) $i))->getMethods() !== []);
+        $interfaces = \array_filter($interfaces, static fn (string $i) => $i !== \JsonSerializable::class);
+        $interfaces = \array_filter($interfaces, static fn (string $i) => !\str_ends_with($i, 'AwareInterface'));
+        $interfaces = \array_filter($interfaces, static fn (string $i) => (new \ReflectionClass($i))->getMethods() !== []);
 
         if ($interfaces !== []) {
             return false;
@@ -162,8 +164,19 @@ final class ImplementationsMustBeFinalRule implements Rule
         $constructor = $class->getMethod('__construct');
 
         if ($constructor instanceof ClassMethod) {
+            /** @var Node\Param $param */
             foreach ($constructor->getParams() as $param) {
-                $setter[] = (string) $param->var->name;
+                $paramVar = $param->var;
+
+                if ($paramVar instanceof Node\Expr\Error) {
+                    throw new \LogicException('Unexpected error type');
+                }
+
+                $paramName = $paramVar->name;
+
+                if (!\is_string($paramName)) {
+                    $setter[] = $paramName;
+                }
             }
         }
 

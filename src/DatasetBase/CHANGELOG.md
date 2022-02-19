@@ -21,6 +21,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Copy and deprecate `\Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::unattach` to `\Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::detachByType` for correct usage of English language and distinguish from `\Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::detachByType`
 
+### Removed
+
+### Fixed
+
+### Security
+
 ## [0.8.5] - 2021-12-28
 
 ### Fixed
