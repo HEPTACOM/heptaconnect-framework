@@ -14,7 +14,7 @@ final class IdentityOverviewResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    protected PortalNodeKeyInterface $portalNodeKey;
+    private PortalNodeKeyInterface $portalNodeKey;
 
     private MappingNodeKeyInterface $mappingNodeKey;
 
@@ -25,7 +25,7 @@ final class IdentityOverviewResult implements AttachmentAwareInterface
      */
     private string $entityType;
 
-    protected \DateTimeInterface $createdAt;
+    private \DateTimeInterface $createdAt;
 
     /**
      * @param class-string<DatasetEntityContract> $entityType
