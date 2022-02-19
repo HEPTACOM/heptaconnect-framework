@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add `\Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface` to match the trait `\Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait` and add it to `\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract`
+
 ## [0.8.5] - 2021-12-28
 
 ### Fixed

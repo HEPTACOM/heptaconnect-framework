@@ -4,20 +4,24 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
-class IdentityPersistPayload
+final class IdentityPersistPayload implements AttachmentAwareInterface
 {
+    use AttachmentAwareTrait;
+
     private PortalNodeKeyInterface $portalNodeKey;
 
-    private IdentityPersistPayloadCollection $mappingPersistPayloads;
+    private IdentityPersistPayloadCollection $identityPersistPayloads;
 
     public function __construct(
         PortalNodeKeyInterface $portalNodeKey,
-        IdentityPersistPayloadCollection $mappingPersistPayloads
+        IdentityPersistPayloadCollection $identityPersistPayloads
     ) {
         $this->portalNodeKey = $portalNodeKey;
-        $this->mappingPersistPayloads = $mappingPersistPayloads;
+        $this->identityPersistPayloads = $identityPersistPayloads;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface
@@ -30,13 +34,13 @@ class IdentityPersistPayload
         $this->portalNodeKey = $portalNodeKey;
     }
 
-    public function getMappingPersistPayloads(): IdentityPersistPayloadCollection
+    public function getIdentityPersistPayloads(): IdentityPersistPayloadCollection
     {
-        return $this->mappingPersistPayloads;
+        return $this->identityPersistPayloads;
     }
 
-    public function setMappingPersistPayloads(IdentityPersistPayloadCollection $mappingPersistPayloads): void
+    public function setIdentityPersistPayloads(IdentityPersistPayloadCollection $identityPersistPayloads): void
     {
-        $this->mappingPersistPayloads = $mappingPersistPayloads;
+        $this->identityPersistPayloads = $identityPersistPayloads;
     }
 }

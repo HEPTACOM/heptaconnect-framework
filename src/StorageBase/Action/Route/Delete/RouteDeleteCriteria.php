@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Delete;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\RouteKeyCollection;
 
-class RouteDeleteCriteria
+final class RouteDeleteCriteria implements AttachmentAwareInterface
 {
+    use AttachmentAwareTrait;
+
     private RouteKeyCollection $routeKeys;
 
     public function __construct(RouteKeyCollection $routeKeys)
