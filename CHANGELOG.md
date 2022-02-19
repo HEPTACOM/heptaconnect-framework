@@ -12,3 +12,15 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 * `PATCH` version when you make backwards compatible bug fixes.
 
 ## [Unreleased]
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
