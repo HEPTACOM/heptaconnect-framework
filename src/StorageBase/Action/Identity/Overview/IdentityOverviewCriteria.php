@@ -11,7 +11,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\MappingNodeKeyCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Overview\OverviewCriteriaContract;
 
-class IdentityOverviewCriteria extends OverviewCriteriaContract implements AttachmentAwareInterface
+final class IdentityOverviewCriteria extends OverviewCriteriaContract implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 

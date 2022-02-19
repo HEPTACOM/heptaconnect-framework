@@ -2,26 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist;
+namespace Heptacom\HeptaConnect\Storage\Base\Action\Identity\Reflect;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
+use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
-final class IdentityPersistPayload implements AttachmentAwareInterface
+final class IdentityReflectPayload implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
     private PortalNodeKeyInterface $portalNodeKey;
 
-    private IdentityPersistPayloadCollection $identityPersistPayloads;
+    private MappedDatasetEntityCollection $mappedDatasetEntities;
 
     public function __construct(
         PortalNodeKeyInterface $portalNodeKey,
-        IdentityPersistPayloadCollection $identityPersistPayloads
+        MappedDatasetEntityCollection $mappedDatasetEntities
     ) {
         $this->portalNodeKey = $portalNodeKey;
-        $this->identityPersistPayloads = $identityPersistPayloads;
+        $this->mappedDatasetEntities = $mappedDatasetEntities;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface
@@ -34,13 +35,13 @@ final class IdentityPersistPayload implements AttachmentAwareInterface
         $this->portalNodeKey = $portalNodeKey;
     }
 
-    public function getIdentityPersistPayloads(): IdentityPersistPayloadCollection
+    public function getMappedDatasetEntities(): MappedDatasetEntityCollection
     {
-        return $this->identityPersistPayloads;
+        return $this->mappedDatasetEntities;
     }
 
-    public function setIdentityPersistPayloads(IdentityPersistPayloadCollection $identityPersistPayloads): void
+    public function setMappedDatasetEntities(MappedDatasetEntityCollection $mappedDatasetEntities): void
     {
-        $this->identityPersistPayloads = $identityPersistPayloads;
+        $this->mappedDatasetEntities = $mappedDatasetEntities;
     }
 }

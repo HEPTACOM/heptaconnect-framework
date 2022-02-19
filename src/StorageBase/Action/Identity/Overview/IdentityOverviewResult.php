@@ -10,11 +10,11 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
-class IdentityOverviewResult implements AttachmentAwareInterface
+final class IdentityOverviewResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    protected PortalNodeKeyInterface $portalNodeKey;
+    private PortalNodeKeyInterface $portalNodeKey;
 
     private MappingNodeKeyInterface $mappingNodeKey;
 
@@ -25,7 +25,7 @@ class IdentityOverviewResult implements AttachmentAwareInterface
      */
     private string $entityType;
 
-    protected \DateTimeInterface $createdAt;
+    private \DateTimeInterface $createdAt;
 
     /**
      * @param class-string<DatasetEntityContract> $entityType
