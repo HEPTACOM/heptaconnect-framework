@@ -16,7 +16,7 @@ class ExplorerCollection extends AbstractObjectCollection
     /**
      * @param class-string<DatasetEntityContract> $entityType
      *
-     * @return iterable<array-key, ExplorerContract>
+     * @return iterable<int, ExplorerContract>
      */
     public function bySupport(string $entityType): iterable
     {

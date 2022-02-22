@@ -16,7 +16,7 @@ class EmitterCollection extends AbstractObjectCollection
     /**
      * @param class-string<DatasetEntityContract> $entityType
      *
-     * @return iterable<EmitterContract>
+     * @return iterable<int, EmitterContract>
      */
     public function bySupport(string $entityType): iterable
     {

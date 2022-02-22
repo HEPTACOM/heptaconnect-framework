@@ -13,7 +13,7 @@ use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterCon
 class StatusReporterCollection extends AbstractObjectCollection
 {
     /**
-     * @return iterable<StatusReporterContract>
+     * @return iterable<int, StatusReporterContract>
      */
     public function bySupportedTopic(string $topic): iterable
     {

@@ -16,7 +16,7 @@ class ReceiverCollection extends AbstractObjectCollection
     /**
      * @param class-string<DatasetEntityContract> $entityType
      *
-     * @return iterable<ReceiverContract>
+     * @return iterable<int, ReceiverContract>
      */
     public function bySupport(string $entityType): iterable
     {
