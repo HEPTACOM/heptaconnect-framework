@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection<\Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPayloadContract>
+ * @extends AbstractObjectCollection<IdentityPersistPayloadContract>
  */
 final class IdentityPersistPayloadCollection extends AbstractObjectCollection
 {

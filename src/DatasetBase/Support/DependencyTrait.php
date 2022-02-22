@@ -11,12 +11,12 @@ trait DependencyTrait
     use PrimaryKeyTrait;
 
     /**
-     * @psalm-var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @psalm-var class-string<DatasetEntityContract>
      */
     protected string $datasetEntityClass = DatasetEntityContract::class;
 
     /**
-     * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @psalm-return class-string<DatasetEntityContract>
      */
     public function getDatasetEntityClass(): string
     {
@@ -24,7 +24,7 @@ trait DependencyTrait
     }
 
     /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $datasetEntityClass
+     * @psalm-param class-string<DatasetEntityContract> $datasetEntityClass
      */
     public function setDatasetEntityClass(string $datasetEntityClass): void
     {

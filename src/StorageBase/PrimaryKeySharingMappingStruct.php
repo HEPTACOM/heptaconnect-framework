@@ -18,7 +18,7 @@ class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyA
     use ForeignKeyTrait;
 
     /**
-     * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @var class-string<DatasetEntityContract>
      */
     protected string $entityType;
 
@@ -34,7 +34,7 @@ class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyA
     protected $owners = [];
 
     /**
-     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
+     * @param class-string<DatasetEntityContract> $entityType
      */
     public function __construct(
         string $entityType,

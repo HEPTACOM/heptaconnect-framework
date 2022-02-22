@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection<\Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResult>
+ * @extends AbstractObjectCollection<RouteCreateResult>
  */
 final class RouteCreateResults extends AbstractObjectCollection implements AttachmentAwareInterface
 {

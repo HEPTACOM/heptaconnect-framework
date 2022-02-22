@@ -16,18 +16,18 @@ use Psr\Log\NullLogger;
 class HttpHandlerStack implements HttpHandlerStackInterface, LoggerAwareInterface
 {
     /**
-     * @var array<array-key, \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract>
+     * @var array<array-key, HttpHandlerContract>
      */
     private array $handlers;
 
     private LoggerInterface $logger;
 
     /**
-     * @param iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract> $handlers
+     * @param iterable<array-key, HttpHandlerContract> $handlers
      */
     public function __construct(iterable $handlers)
     {
-        /** @var array<array-key, \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract> $arrayHandlers */
+        /** @var array<array-key, HttpHandlerContract> $arrayHandlers */
         $arrayHandlers = \iterable_to_array($handlers);
         $this->handlers = $arrayHandlers;
         $this->logger = new NullLogger();

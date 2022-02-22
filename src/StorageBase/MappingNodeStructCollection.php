@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection<\Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface>
+ * @extends AbstractObjectCollection<MappingNodeStructInterface>
  */
 class MappingNodeStructCollection extends AbstractObjectCollection
 {

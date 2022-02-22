@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\JobKeyInterface;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<\Heptacom\HeptaConnect\Storage\Base\Contract\JobKeyInterface>
+ * @extends AbstractCollection<JobKeyInterface>
  */
 class JobKeyCollection extends AbstractCollection
 {

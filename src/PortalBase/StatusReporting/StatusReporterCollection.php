@@ -8,12 +8,12 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection<\Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract>
+ * @extends AbstractObjectCollection<StatusReporterContract>
  */
 class StatusReporterCollection extends AbstractObjectCollection
 {
     /**
-     * @return iterable<\Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract>
+     * @return iterable<StatusReporterContract>
      */
     public function bySupportedTopic(string $topic): iterable
     {

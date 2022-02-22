@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\EmitterBuilder;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\ExplorerBuilder;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\HttpHandlerBuilder;
@@ -19,6 +20,11 @@ use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\StatusReporterToken;
+use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
+use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
+use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
@@ -64,7 +70,7 @@ class FlowComponent implements LoggerAwareInterface
     }
 
     /**
-     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $type
+     * @param class-string<DatasetEntityContract> $type
      */
     public static function explorer(string $type, ?\Closure $run = null, ?\Closure $isAllowed = null): ExplorerBuilder
     {
@@ -83,7 +89,7 @@ class FlowComponent implements LoggerAwareInterface
     }
 
     /**
-     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $type
+     * @param class-string<DatasetEntityContract> $type
      */
     public static function emitter(
         string $type,
@@ -110,7 +116,7 @@ class FlowComponent implements LoggerAwareInterface
     }
 
     /**
-     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $type
+     * @param class-string<DatasetEntityContract> $type
      */
     public static function receiver(string $type, ?\Closure $run = null, ?\Closure $batch = null): ReceiverBuilder
     {
@@ -153,7 +159,7 @@ class FlowComponent implements LoggerAwareInterface
     }
 
     /**
-     * @return iterable<\Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract>
+     * @return iterable<ExplorerContract>
      */
     public function buildExplorers(): iterable
     {
@@ -164,7 +170,7 @@ class FlowComponent implements LoggerAwareInterface
     }
 
     /**
-     * @return iterable<\Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract>
+     * @return iterable<EmitterContract>
      */
     public function buildEmitters(): iterable
     {
@@ -179,7 +185,7 @@ class FlowComponent implements LoggerAwareInterface
     }
 
     /**
-     * @return iterable<\Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract>
+     * @return iterable<ReceiverContract>
      */
     public function buildReceivers(): iterable
     {
@@ -194,7 +200,7 @@ class FlowComponent implements LoggerAwareInterface
     }
 
     /**
-     * @return iterable<\Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract>
+     * @return iterable<StatusReporterContract>
      */
     public function buildStatusReporters(): iterable
     {
@@ -205,7 +211,7 @@ class FlowComponent implements LoggerAwareInterface
     }
 
     /**
-     * @return iterable<\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract>
+     * @return iterable<HttpHandlerContract>
      */
     public function buildHttpHandlers(): iterable
     {

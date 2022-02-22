@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DependencyInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection<\Heptacom\HeptaConnect\Dataset\Base\Contract\DependencyInterface>
+ * @extends AbstractObjectCollection<DependencyInterface>
  */
 class DependencyCollection extends AbstractObjectCollection
 {

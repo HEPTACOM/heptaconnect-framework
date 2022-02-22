@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Find;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
@@ -17,12 +18,12 @@ final class RouteFindCriteria implements AttachmentAwareInterface
     private PortalNodeKeyInterface $target;
 
     /**
-     * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @var class-string<DatasetEntityContract>
      */
     private string $entityType;
 
     /**
-     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
+     * @param class-string<DatasetEntityContract> $entityType
      */
     public function __construct(PortalNodeKeyInterface $source, PortalNodeKeyInterface $target, string $entityType)
     {
@@ -52,7 +53,7 @@ final class RouteFindCriteria implements AttachmentAwareInterface
     }
 
     /**
-     * @return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @return class-string<DatasetEntityContract>
      */
     public function getEntityType(): string
     {
@@ -60,7 +61,7 @@ final class RouteFindCriteria implements AttachmentAwareInterface
     }
 
     /**
-     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
+     * @param class-string<DatasetEntityContract> $entityType
      */
     public function setEntityType(string $entityType): void
     {

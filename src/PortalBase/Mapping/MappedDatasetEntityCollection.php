@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection<\Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct>
+ * @extends AbstractObjectCollection<MappedDatasetEntityStruct>
  */
 class MappedDatasetEntityCollection extends AbstractObjectCollection
 {

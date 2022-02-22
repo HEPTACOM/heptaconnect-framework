@@ -8,12 +8,12 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection<\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract>
+ * @extends AbstractObjectCollection<HttpHandlerContract>
  */
 class HttpHandlerCollection extends AbstractObjectCollection
 {
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract>
+     * @return iterable<array-key, HttpHandlerContract>
      */
     public function bySupport(string $path): iterable
     {
