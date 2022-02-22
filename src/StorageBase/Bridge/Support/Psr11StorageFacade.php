@@ -24,6 +24,10 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDele
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasFindActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListActionInterface;
@@ -144,6 +148,26 @@ class Psr11StorageFacade extends AbstractSingletonStorageFacade
     protected function createPortalNodeOverviewAction(): PortalNodeOverviewActionInterface
     {
         return $this->container->get(PortalNodeOverviewActionInterface::class);
+    }
+
+    protected function createPortalNodeAliasGetAction(): PortalNodeAliasGetActionInterface
+    {
+        return $this->container->get(PortalNodeAliasGetActionInterface::class);
+    }
+
+    protected function createPortalNodeAliasFindAction(): PortalNodeAliasFindActionInterface
+    {
+        return $this->container->get(PortalNodeAliasFindActionInterface::class);
+    }
+
+    protected function createPortalNodeAliasSetAction(): PortalNodeAliasSetActionInterface
+    {
+        return $this->container->get(PortalNodeAliasSetActionInterface::class);
+    }
+
+    protected function createPortalNodeAliasOverviewAction(): PortalNodeAliasOverviewActionInterface
+    {
+        return $this->container->get(PortalNodeAliasOverviewActionInterface::class);
     }
 
     protected function createPortalNodeConfigurationGetAction(): PortalNodeConfigurationGetActionInterface

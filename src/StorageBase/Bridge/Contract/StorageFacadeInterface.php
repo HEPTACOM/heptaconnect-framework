@@ -24,6 +24,10 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDele
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasFindActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListActionInterface;
@@ -77,6 +81,14 @@ interface StorageFacadeInterface
     public function getPortalNodeListAction(): PortalNodeListActionInterface;
 
     public function getPortalNodeOverviewAction(): PortalNodeOverviewActionInterface;
+
+    public function getPortalNodeAliasGetAction(): PortalNodeAliasGetActionInterface;
+
+    public function getPortalNodeAliasFindAction(): PortalNodeAliasFindActionInterface;
+
+    public function getPortalNodeAliasSetAction(): PortalNodeAliasSetActionInterface;
+
+    public function getPortalNodeAliasOverviewAction(): PortalNodeAliasOverviewActionInterface;
 
     public function getPortalNodeConfigurationGetAction(): PortalNodeConfigurationGetActionInterface;
 

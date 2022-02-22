@@ -25,6 +25,10 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDele
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasFindActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListActionInterface;
@@ -90,6 +94,14 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     private ?PortalNodeListActionInterface $portalNodeListAction = null;
 
     private ?PortalNodeOverviewActionInterface $portalNodeOverviewAction = null;
+
+    private ?PortalNodeAliasGetActionInterface $portalNodeAliasGetAction = null;
+
+    private ?PortalNodeAliasFindActionInterface $portalNodeAliasFindAction = null;
+
+    private ?PortalNodeAliasSetActionInterface $portalNodeAliasSetAction = null;
+
+    private ?PortalNodeAliasOverviewActionInterface $portalNodeAliasOverviewAction = null;
 
     private ?PortalNodeConfigurationGetActionInterface $portalNodeConfigurationGetAction = null;
 
@@ -201,6 +213,26 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         return $this->portalNodeOverviewAction ??= $this->createPortalNodeOverviewAction();
     }
 
+    public function getPortalNodeAliasGetAction(): PortalNodeAliasGetActionInterface
+    {
+        return $this->portalNodeAliasGetAction ??= $this->createPortalNodeAliasGetAction();
+    }
+
+    public function getPortalNodeAliasFindAction(): PortalNodeAliasFindActionInterface
+    {
+        return $this->portalNodeAliasFindAction ??= $this->createPortalNodeAliasFindAction();
+    }
+
+    public function getPortalNodeAliasSetAction(): PortalNodeAliasSetActionInterface
+    {
+        return $this->portalNodeAliasSetAction ??= $this->createPortalNodeAliasSetAction();
+    }
+
+    public function getPortalNodeAliasOverviewAction(): PortalNodeAliasOverviewActionInterface
+    {
+        return $this->portalNodeAliasOverviewAction ??= $this->createPortalNodeAliasOverviewAction();
+    }
+
     public function getPortalNodeConfigurationGetAction(): PortalNodeConfigurationGetActionInterface
     {
         return $this->portalNodeConfigurationGetAction ??= $this->createPortalNodeConfigurationGetAction();
@@ -293,6 +325,14 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     abstract protected function createPortalNodeGetAction(): PortalNodeGetActionInterface;
 
     abstract protected function createPortalNodeListAction(): PortalNodeListActionInterface;
+
+    abstract protected function createPortalNodeAliasGetAction(): PortalNodeAliasGetActionInterface;
+
+    abstract protected function createPortalNodeAliasFindAction(): PortalNodeAliasFindActionInterface;
+
+    abstract protected function createPortalNodeAliasSetAction(): PortalNodeAliasSetActionInterface;
+
+    abstract protected function createPortalNodeAliasOverviewAction(): PortalNodeAliasOverviewActionInterface;
 
     abstract protected function createPortalNodeOverviewAction(): PortalNodeOverviewActionInterface;
 
