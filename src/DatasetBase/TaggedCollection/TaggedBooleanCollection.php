@@ -11,6 +11,9 @@ use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\BooleanCollection;
  */
 class TaggedBooleanCollection extends AbstractTaggedCollection
 {
+    /**
+     * @psalm-return BooleanCollection::class
+     */
     protected function getCollectionType(): string
     {
         return BooleanCollection::class;

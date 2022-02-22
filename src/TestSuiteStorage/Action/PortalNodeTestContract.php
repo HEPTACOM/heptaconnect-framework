@@ -44,7 +44,6 @@ abstract class PortalNodeTestContract extends TestCase
         $getCriteria = new PortalNodeGetCriteria(new PortalNodeKeyCollection());
         $collectedPortalNodeClasses = [];
 
-        /** @var PortalNodeCreateResult $createResult */
         foreach ($createResults as $createResult) {
             $getCriteria->getPortalNodeKeys()->push([$createResult->getPortalNodeKey()]);
             /** @var PortalNodeGetResult[] $getResult */
@@ -66,7 +65,6 @@ abstract class PortalNodeTestContract extends TestCase
         $deleteCriteria = new PortalNodeDeleteCriteria(new PortalNodeKeyCollection());
         $collectedPortalNodeClasses = [];
 
-        /** @var PortalNodeListResult $listResult */
         foreach ($listAction->list() as $listResult) {
             $deleteCriteria->getPortalNodeKeys()->push([$listResult->getPortalNodeKey()]);
             /** @var PortalNodeGetResult[] $getResult */

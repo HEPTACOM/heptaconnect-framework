@@ -12,6 +12,9 @@ use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\DateCollection;
  */
 class TaggedDateCollection extends AbstractTaggedCollection
 {
+    /**
+     * @psalm-return DateCollection::class
+     */
     protected function getCollectionType(): string
     {
         return DateCollection::class;

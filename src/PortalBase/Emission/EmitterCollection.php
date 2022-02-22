@@ -23,6 +23,9 @@ class EmitterCollection extends AbstractObjectCollection
         return $this->filter(static fn (EmitterContract $emitter) => $entityType === $emitter->supports());
     }
 
+    /**
+     * @psalm-return Contract\EmitterContract::class
+     */
     protected function getT(): string
     {
         return EmitterContract::class;

@@ -111,10 +111,8 @@ abstract class IdentityMappingTestContract extends TestCase
         $facade = $this->createStorageFacade();
         $identityMap = $facade->getIdentityMapAction();
 
-        /** @var DatasetEntityContract $entityA */
         $entityA = new $entityClass();
         $entityA->setPrimaryKey('57945df7-b8c8-4cca-a92e-53b71e8753ad');
-        /** @var DatasetEntityContract $entityB */
         $entityB = new $entityClass();
         $entityB->setPrimaryKey($entityA->getPrimaryKey());
 
@@ -125,9 +123,7 @@ abstract class IdentityMappingTestContract extends TestCase
 
         static::assertSame(2, $identityMapResult->getMappedDatasetEntityCollection()->count());
 
-        /** @var MappedDatasetEntityStruct|null $firstEntity */
         $firstEntity = $identityMapResult->getMappedDatasetEntityCollection()->first();
-        /** @var MappedDatasetEntityStruct|null $secondEntity */
         $secondEntity = $identityMapResult->getMappedDatasetEntityCollection()->last();
 
         static::assertInstanceOf(MappedDatasetEntityStruct::class, $firstEntity);
@@ -148,7 +144,6 @@ abstract class IdentityMappingTestContract extends TestCase
         $sourceId = 'e9011418-5535-4180-93e9-94b44cc3e28d';
         $targetId = $sourceId . '-other-side';
 
-        /** @var DatasetEntityContract $datasetEntity */
         $datasetEntity = new $entityClass();
         $datasetEntity->setPrimaryKey($sourceId);
 
@@ -171,7 +166,6 @@ abstract class IdentityMappingTestContract extends TestCase
         // reflect entities (this is what we test here)
         $this->identityReflect->reflect(new IdentityReflectPayload($this->portalB, $mappedEntities));
 
-        /** @var MappedDatasetEntityStruct $reflectedMappedEntity */
         foreach ($mappedEntities as $reflectedMappedEntity) {
             $reflectedEntity = $reflectedMappedEntity->getDatasetEntity();
 
@@ -251,7 +245,6 @@ abstract class IdentityMappingTestContract extends TestCase
         $mappedEntity2 = null;
         $switchCases = [];
 
-        /** @var MappedDatasetEntityStruct $mappedEntity */
         foreach ($mappedEntities as $mappedEntity) {
             $identifiedEntity = $mappedEntity->getDatasetEntity();
 
@@ -278,7 +271,6 @@ abstract class IdentityMappingTestContract extends TestCase
 
         $reflectionMappings = [];
 
-        /** @var MappedDatasetEntityStruct $mappedEntity */
         foreach ($mappedEntities as $mappedEntity) {
             $reflectionMapping = $mappedEntity->getDatasetEntity()->getAttachment(PrimaryKeySharingMappingStruct::class);
 
@@ -299,7 +291,6 @@ abstract class IdentityMappingTestContract extends TestCase
         $sourceId = 'ec7587bb-0ee0-4b7e-a980-1c258695e011';
         $targetId = $sourceId . '-other-side';
 
-        /** @var DatasetEntityContract $datasetEntity */
         $datasetEntity = new $entityClass();
         $datasetEntity->setPrimaryKey($sourceId);
 
@@ -340,7 +331,6 @@ abstract class IdentityMappingTestContract extends TestCase
     {
         $sourceId = 'ce909bf3-6564-47dd-ad81-c3a94bc1aad0';
 
-        /** @var DatasetEntityContract $datasetEntity */
         $datasetEntity = new $entityClass();
         $datasetEntity->setPrimaryKey($sourceId);
 

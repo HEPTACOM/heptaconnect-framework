@@ -71,7 +71,6 @@ abstract class JobTestContract extends TestCase
 
         $jobKeys = new JobKeyCollection();
 
-        /** @var JobCreateResult $jobCreateResult */
         foreach ($jobCreateResults as $jobCreateResult) {
             $jobKeys->push([$jobCreateResult->getJobKey()]);
         }

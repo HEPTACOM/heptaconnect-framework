@@ -49,6 +49,9 @@ trait PathMethodsTrait
         return \dirname($path);
     }
 
+    /**
+     * @return null|string[]
+     */
     private function getComposerPsr4(string $path): ?array
     {
         $composerJsonPath = \dirname($path) . \DIRECTORY_SEPARATOR . 'composer.json';

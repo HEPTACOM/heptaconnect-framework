@@ -26,7 +26,6 @@ class MappingComponentCollection extends AbstractObjectCollection
         /** @psalm-var class-string<DatasetEntityContract>[] $result */
         $result = [];
 
-        /** @var MappingComponentStructContract $mappingComponent */
         foreach ($this->getIterator() as $mappingComponent) {
             if (!\in_array($mappingComponent->getEntityType(), $result, true)) {
                 $result[] = $mappingComponent->getEntityType();
@@ -40,7 +39,6 @@ class MappingComponentCollection extends AbstractObjectCollection
     {
         $preResult = [];
 
-        /** @var MappingComponentStructContract $mappingComponent */
         foreach ($this->getIterator() as $mappingComponent) {
             $portalNodeKey = $mappingComponent->getPortalNodeKey();
             $preResult[\json_encode($portalNodeKey)] = $portalNodeKey;
@@ -56,7 +54,6 @@ class MappingComponentCollection extends AbstractObjectCollection
     {
         $preResult = [];
 
-        /** @var MappingComponentStructContract $mappingComponent */
         foreach ($this->getIterator() as $mappingComponent) {
             $preResult[$mappingComponent->getExternalId()] = $mappingComponent->getExternalId();
         }

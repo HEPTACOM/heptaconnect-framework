@@ -14,6 +14,9 @@ class DependencyCollection extends AbstractObjectCollection
 {
     use Support\DependencyTrait;
 
+    /**
+     * @psalm-return Contract\DependencyInterface::class
+     */
     protected function getT(): string
     {
         return DependencyInterface::class;

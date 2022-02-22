@@ -11,6 +11,9 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
  */
 final class IdentityPersistPayloadCollection extends AbstractObjectCollection
 {
+    /**
+     * @psalm-return IdentityPersistPayloadContract::class
+     */
     protected function getT(): string
     {
         return IdentityPersistPayloadContract::class;

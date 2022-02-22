@@ -23,6 +23,9 @@ class ExplorerCollection extends AbstractObjectCollection
         return $this->filter(fn (ExplorerContract $explorer) => $entityType === $explorer->supports());
     }
 
+    /**
+     * @psalm-return Contract\ExplorerContract::class
+     */
     protected function getT(): string
     {
         return ExplorerContract::class;

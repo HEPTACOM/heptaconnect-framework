@@ -23,6 +23,9 @@ class ReceiverCollection extends AbstractObjectCollection
         return $this->filter(fn (ReceiverContract $emitter) => $entityType === $emitter->supports());
     }
 
+    /**
+     * @psalm-return Contract\ReceiverContract::class
+     */
     protected function getT(): string
     {
         return ReceiverContract::class;
