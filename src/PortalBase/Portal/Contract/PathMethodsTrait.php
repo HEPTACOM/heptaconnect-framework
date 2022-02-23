@@ -50,7 +50,7 @@ trait PathMethodsTrait
     }
 
     /**
-     * @return null|string[]
+     * @return string[]|null
      */
     private function getComposerPsr4(string $path): ?array
     {

@@ -50,8 +50,8 @@ abstract class RouteTestContract extends TestCase
         $firstResult = $portalNodeCreateResult->first();
         $lastResult = $portalNodeCreateResult->last();
 
-        self::assertInstanceOf(PortalNodeCreateResult::class, $firstResult);
-        self::assertInstanceOf(PortalNodeCreateResult::class, $lastResult);
+        static::assertInstanceOf(PortalNodeCreateResult::class, $firstResult);
+        static::assertInstanceOf(PortalNodeCreateResult::class, $lastResult);
 
         $portalA = $firstResult->getPortalNodeKey();
         $portalB = $lastResult->getPortalNodeKey();
