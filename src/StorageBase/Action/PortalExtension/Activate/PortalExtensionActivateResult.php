@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Activate;
 
+use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
@@ -28,6 +29,7 @@ final class PortalExtensionActivateResult implements AttachmentAwareInterface
      */
     public function __construct(array $passedActivations, array $failedActivations)
     {
+        $this->attachments = new AttachmentCollection();
         $this->passedActivations = $passedActivations;
         $this->failedActivations = $failedActivations;
     }
