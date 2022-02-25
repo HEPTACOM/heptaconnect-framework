@@ -11,6 +11,8 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\CreateException;
 interface RouteCreateActionInterface
 {
     /**
+     * Create routes between two portals for an entity type.
+     *
      * @throws CreateException
      */
     public function create(RouteCreatePayloads $payloads): RouteCreateResults;
