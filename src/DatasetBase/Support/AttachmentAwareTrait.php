@@ -68,6 +68,8 @@ trait AttachmentAwareTrait
 
     /**
      * @deprecated Use detachByType instead. Will be removed in 0.10
+     *
+     * @param class-string $class
      */
     public function unattach(string $class): void
     {

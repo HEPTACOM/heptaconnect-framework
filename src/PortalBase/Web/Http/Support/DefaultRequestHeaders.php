@@ -6,6 +6,9 @@ namespace Heptacom\HeptaConnect\Portal\Base\Web\Http\Support;
 
 class DefaultRequestHeaders
 {
+    /**
+     * @var array<string, array<string>>
+     */
     private array $headers = [];
 
     /**
@@ -34,6 +37,9 @@ class DefaultRequestHeaders
         return \implode(', ', $this->getHeader($header));
     }
 
+    /**
+     * @param string[] $values
+     */
     public function withHeader(string $header, array $values): self
     {
         $that = clone $this;
@@ -42,6 +48,9 @@ class DefaultRequestHeaders
         return $that;
     }
 
+    /**
+     * @param string[] $values
+     */
     public function withAddedHeader(string $header, array $values): self
     {
         return $this->withHeader(
@@ -50,7 +59,7 @@ class DefaultRequestHeaders
         );
     }
 
-    public function withoutHeader($header): self
+    public function withoutHeader(string $header): self
     {
         $that = clone $this;
         unset($that->headers[\strtolower($header)]);
