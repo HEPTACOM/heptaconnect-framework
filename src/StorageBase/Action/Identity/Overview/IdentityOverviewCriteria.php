@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\Identity\Overview;
 
+use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
@@ -48,6 +49,7 @@ final class IdentityOverviewCriteria extends OverviewCriteriaContract implements
 
     public function __construct()
     {
+        $this->attachments = new AttachmentCollection();
         $this->portalNodeKeyFilter = new PortalNodeKeyCollection();
         $this->mappingNodeKeyFilter = new MappingNodeKeyCollection();
     }
