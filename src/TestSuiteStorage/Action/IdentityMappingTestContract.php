@@ -32,6 +32,9 @@ use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalB\PortalB;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalC\PortalC;
 use Heptacom\HeptaConnect\TestSuite\Storage\TestCase;
 
+/**
+ * Test pre-implementation to test identity/entity mapping related storage actions. Some other storage actions e.g. PortalNodeCreate are needed to set up test scenarios.
+ */
 abstract class IdentityMappingTestContract extends TestCase
 {
     private ?PortalNodeKeyInterface $portalA = null;
@@ -100,6 +103,8 @@ abstract class IdentityMappingTestContract extends TestCase
     }
 
     /**
+     * Test identification of entities and their primary keys in the identity storage of mapping and mappings nodes.
+     *
      * @param class-string<DatasetEntityContract> $entityClass
      * @dataProvider provideEntityClasses
      */
@@ -133,6 +138,9 @@ abstract class IdentityMappingTestContract extends TestCase
     }
 
     /**
+     * Test identification of entities and transformation of their primary keys through the identity storage of mapping and mappings nodes.
+     * The focus is on the transfer from a portal node to another.
+     *
      * @param class-string<DatasetEntityContract> $entityClass
      * @dataProvider provideEntityClasses
      */
@@ -177,6 +185,9 @@ abstract class IdentityMappingTestContract extends TestCase
     }
 
     /**
+     * Test identification of entities and transformation of their primary keys through the identity storage of mapping and mappings nodes.
+     * The focus is on the transfer of multiple entities at once.
+     *
      * @param class-string<DatasetEntityContract> $entityClass
      * @dataProvider provideEntityClasses
      */
@@ -280,6 +291,9 @@ abstract class IdentityMappingTestContract extends TestCase
     }
 
     /**
+     * Test identification of entities and transformation of their primary keys through the identity storage of mapping and mappings nodes.
+     * The focus is on the transfer from a portal node to another but with identities in a third portal node that must not impact the process.
+     *
      * @param class-string<DatasetEntityContract> $entityClass
      * @dataProvider provideEntityClasses
      */
@@ -320,6 +334,9 @@ abstract class IdentityMappingTestContract extends TestCase
     }
 
     /**
+     * Test identification of entities and transformation of their primary keys through the identity storage of mapping and mappings nodes.
+     * The focus is on the transfer of new entities for the target portal node.
+     *
      * @param class-string<DatasetEntityContract> $entityClass
      * @dataProvider provideEntityClasses
      */
@@ -344,6 +361,9 @@ abstract class IdentityMappingTestContract extends TestCase
         static::assertNull($identifiedEntity->getPrimaryKey());
     }
 
+    /**
+     * Provide a list of FQCNs of entity classes.
+     */
     public function provideEntityClasses(): iterable
     {
         yield [EntityA::class];
@@ -351,8 +371,14 @@ abstract class IdentityMappingTestContract extends TestCase
         yield [EntityC::class];
     }
 
+    /**
+     * Provides the storage implementation to test against.
+     */
     abstract protected function createStorageFacade(): StorageFacadeInterface;
 
+    /**
+     * @param DatasetEntityCollection<DatasetEntityContract> $datasetEntityCollection
+     */
     private function identifyEntities(
         PortalNodeKeyInterface $portal,
         DatasetEntityCollection $datasetEntityCollection

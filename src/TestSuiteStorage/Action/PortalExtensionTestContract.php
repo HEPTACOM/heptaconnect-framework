@@ -17,8 +17,14 @@ use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\PortalExtension\PortalExtens
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\PortalExtension\PortalExtensionB\PortalExtensionB;
 use Heptacom\HeptaConnect\TestSuite\Storage\TestCase;
 
+/**
+ * Test pre-implementation to test portal extension related storage actions. Some other storage actions e.g. PortalNodeCreate are needed to set up test scenarios.
+ */
 abstract class PortalExtensionTestContract extends TestCase
 {
+    /**
+     * Validates a complete portal extension "lifecycle" can be managed with the storage. It covers activation and deactivation of extensions.
+     */
     public function testLifecycle(): void
     {
         $facade = $this->createStorageFacade();
@@ -64,5 +70,8 @@ abstract class PortalExtensionTestContract extends TestCase
         $portalNodeDelete->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([$portalNodeKey])));
     }
 
+    /**
+     * Provides the storage implementation to test against.
+     */
     abstract protected function createStorageFacade(): StorageFacadeInterface;
 }
