@@ -37,7 +37,7 @@ abstract class PortalNodeTestContract extends TestCase
         ]);
         $createResults = $createAction->create($createPayloads);
 
-        static::assertSame($createPayloads->count(), $createResults->count());
+        static::assertCount($createPayloads->count(), $createResults);
 
         $getCriteria = new PortalNodeGetCriteria(new PortalNodeKeyCollection());
         $collectedPortalNodeClasses = [];
