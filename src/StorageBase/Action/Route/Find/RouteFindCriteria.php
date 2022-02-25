@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Find;
 
+use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
@@ -27,6 +28,7 @@ final class RouteFindCriteria implements AttachmentAwareInterface
      */
     public function __construct(PortalNodeKeyInterface $source, PortalNodeKeyInterface $target, string $entityType)
     {
+        $this->attachments = new AttachmentCollection();
         $this->source = $source;
         $this->target = $target;
         $this->entityType = $entityType;

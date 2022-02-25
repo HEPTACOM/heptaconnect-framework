@@ -68,7 +68,7 @@ abstract class RouteTestContract extends TestCase
 
         $createResults = $createAction->create($createPayloads);
 
-        static::assertSame($createPayloads->count(), $createResults->count());
+        static::assertCount($createPayloads->count(), $createResults);
 
         $testCreateResults = new RouteCreateResults($createResults);
 
