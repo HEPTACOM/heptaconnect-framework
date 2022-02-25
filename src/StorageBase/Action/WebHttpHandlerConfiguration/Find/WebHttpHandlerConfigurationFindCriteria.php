@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find;
 
+use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -20,6 +21,7 @@ final class WebHttpHandlerConfigurationFindCriteria implements AttachmentAwareIn
 
     public function __construct(PortalNodeKeyInterface $portalNodeKey, string $path, string $configurationKey)
     {
+        $this->attachments = new AttachmentCollection();
         $this->portalNodeKey = $portalNodeKey;
         $this->path = $path;
         $this->configurationKey = $configurationKey;
