@@ -59,8 +59,8 @@ cs-php: vendor .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standard f
 
 .PHONY: cs-phpstan
 cs-phpstan: vendor .build $(PHPSTAN_FILE) ## Run phpstan for static code analysis
-	[[ -z "${CI}" ]] || $(PHP) $(PHPSTAN_FILE) analyse -c dev-ops/phpstan.neon --error-format=junit > .build/phpstan.junit.xml
-	[[ -n "${CI}" ]] || $(PHP) $(PHPSTAN_FILE) analyse -c dev-ops/phpstan.neon
+	[[ -z "${CI}" ]] || $(PHP) $(PHPSTAN_FILE) analyse --level 8 -c dev-ops/phpstan.neon --error-format=junit > .build/phpstan.junit.xml
+	[[ -n "${CI}" ]] || $(PHP) $(PHPSTAN_FILE) analyse --level 8 -c dev-ops/phpstan.neon
 
 .PHONY: cs-psalm
 cs-psalm: vendor .build $(PSALM_FILE) ## Run psalm for static code analysis
@@ -76,7 +76,7 @@ cs-phpmd: vendor .build $(PHPMD_FILE) ## Run php mess detector for static code a
 	$(PHP) $(PHPMD_FILE) src/DatasetBase xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-dataset-base.junit.xml
 	$(PHP) $(PHPMD_FILE) src/PortalBase xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-portal-base.junit.xml
 	$(PHP) $(PHPMD_FILE) src/StorageBase xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-storage-base.junit.xml
-	$(PHP) $(PHPMD_FILE) src/TestSuiteStorage xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-storage-base.junit.xml
+	$(PHP) $(PHPMD_FILE) src/TestSuiteStorage xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-test-suite-storage.junit.xml
 
 .PHONY: cs-composer-unused
 cs-composer-unused: vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to detect once-required packages that are not used anymore
@@ -211,4 +211,3 @@ subtree-merge: ## Merge core and base packages into framework
 	git subtree add -P src/PortalBase ../heptaconnect-portal-base master
 	git subtree add -P src/StorageBase ../heptaconnect-storage-base master
 	git subtree add -P src/Core ../heptaconnect-core master
-	git subtree add -P src/TestSuiteStorage ../heptaconnect-test-suite-storage master

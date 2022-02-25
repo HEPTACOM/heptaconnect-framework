@@ -7,10 +7,13 @@ namespace Heptacom\HeptaConnect\Dataset\Base\TaggedCollection;
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\IntegerCollection;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\AbstractTaggedCollection<int>
+ * @extends AbstractTaggedCollection<int>
  */
 class TaggedIntegerCollection extends AbstractTaggedCollection
 {
+    /**
+     * @psalm-return IntegerCollection::class
+     */
     protected function getCollectionType(): string
     {
         return IntegerCollection::class;

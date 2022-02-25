@@ -62,7 +62,7 @@ class Date extends \DateTime
      *
      * @phpstan-return static(\DateTime)|false
      *
-     * @return static|false
+     * @return false|static
      */
     public function setTime($hour, $minute, $second = 0, $microseconds = 0)
     {

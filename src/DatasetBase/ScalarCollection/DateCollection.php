@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Date;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<\Heptacom\HeptaConnect\Dataset\Base\Date>
+ * @extends AbstractCollection<Date>
  */
 class DateCollection extends AbstractCollection
 {

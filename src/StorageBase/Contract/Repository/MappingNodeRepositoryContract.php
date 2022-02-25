@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Contract\Repository;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\MappingNodeKeyCollection;
@@ -20,20 +21,7 @@ abstract class MappingNodeRepositoryContract
     abstract public function read(MappingNodeKeyInterface $key): MappingNodeStructInterface;
 
     /**
-     * @psalm-return iterable<\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface>
-     *
-     * @throws UnsupportedStorageKeyException
-     *
-     * @deprecated Use listByTypeAndPortalNodeAndExternalIds instead
-     */
-    abstract public function listByTypeAndPortalNodeAndExternalId(
-        string $entityType,
-        PortalNodeKeyInterface $portalNodeKey,
-        string $externalId
-    ): iterable;
-
-    /**
-     * @psalm-return iterable<\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface>
+     * @psalm-return iterable<MappingNodeKeyInterface>
      *
      * @throws UnsupportedStorageKeyException
      */
@@ -44,19 +32,7 @@ abstract class MappingNodeRepositoryContract
     ): iterable;
 
     /**
-     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
-     *
-     * @throws UnsupportedStorageKeyException
-     *
-     * @deprecated use createList instead
-     */
-    abstract public function create(
-        string $entityType,
-        PortalNodeKeyInterface $portalNodeKey
-    ): MappingNodeKeyInterface;
-
-    /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
+     * @psalm-param class-string<DatasetEntityContract> $entityType
      *
      * @throws UnsupportedStorageKeyException
      */

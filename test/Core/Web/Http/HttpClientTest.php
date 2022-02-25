@@ -21,8 +21,7 @@ class HttpClientTest extends TestCase
 {
     public function testHeaders(): void
     {
-        $client = new class () implements ClientInterface
-        {
+        $client = new class() implements ClientInterface {
             public array $headers = [];
 
             public function sendRequest(RequestInterface $request): ResponseInterface
@@ -50,7 +49,7 @@ class HttpClientTest extends TestCase
                 ->withHeader('gizmo', ['ninja'])
         );
 
-        self::assertSame([[
+        static::assertSame([[
             'Host' => ['dev.null'],
             'foo' => ['bar'],
             'gizmo' => ['fiddle'],
@@ -63,13 +62,13 @@ class HttpClientTest extends TestCase
 
     public function testRetries(): void
     {
-        $client = new class () implements ClientInterface
-        {
+        $client = new class() implements ClientInterface {
             public int $count = 0;
 
             public function sendRequest(RequestInterface $request): ResponseInterface
             {
                 ++$this->count;
+
                 return Psr17FactoryDiscovery::findResponseFactory()
                     ->createResponse(429)
                     ->withHeader('Retry-After', 5);
@@ -86,18 +85,20 @@ class HttpClientTest extends TestCase
 
         $end = time();
 
-        self::assertSame(4, $client->count);
-        self::assertGreaterThanOrEqual(15, $end - $start);
-        self::assertLessThanOrEqual(17, $end - $start);
+        static::assertSame(4, $client->count);
+        static::assertGreaterThanOrEqual(15, $end - $start);
+        static::assertLessThanOrEqual(17, $end - $start);
     }
 
     public function testRedirect(): void
     {
-        $client = new class () implements ClientInterface
-        {
+        $client = new class() implements ClientInterface {
             public string $targetA = 'http://dev.null/';
+
             public string $targetB = 'http://dev.urandom/';
+
             public string $targetC = 'http://dev.random/';
+
             public int $count = 0;
 
             public function sendRequest(RequestInterface $request): ResponseInterface
@@ -109,6 +110,7 @@ class HttpClientTest extends TestCase
                 ][$request->getUri()->__toString()];
 
                 ++$this->count;
+
                 return Psr17FactoryDiscovery::findResponseFactory()
                     ->createResponse(307)
                     ->withHeader('Location', $target);
@@ -122,14 +124,13 @@ class HttpClientTest extends TestCase
 
         $response = $httpClient->sendRequest($requestFactory->createRequest('GET', $uriFactory->createUri($client->targetA)));
 
-        self::assertSame(11, $client->count);
-        self::assertSame($client->targetC, $response->getHeader('Location')[0]);
+        static::assertSame(11, $client->count);
+        static::assertSame($client->targetC, $response->getHeader('Location')[0]);
     }
 
     public function testThrow(): void
     {
-        $client = new class () implements ClientInterface
-        {
+        $client = new class() implements ClientInterface {
             public function sendRequest(RequestInterface $request): ResponseInterface
             {
                 return Psr17FactoryDiscovery::findResponseFactory()->createResponse(503);

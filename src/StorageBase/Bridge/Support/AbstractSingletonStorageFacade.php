@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Storage\Base\Bridge\Support;
 
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityReflectActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface;
@@ -21,8 +25,11 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDele
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewActionInterface;
@@ -32,6 +39,14 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfigurati
 
 abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
 {
+    private ?IdentityMapActionInterface $identityMapAction = null;
+
+    private ?IdentityOverviewActionInterface $identityOverviewAction = null;
+
+    private ?IdentityPersistActionInterface $identityPersistAction = null;
+
+    private ?IdentityReflectActionInterface $identityReflectAction = null;
+
     private ?JobCreateActionInterface $jobCreateAction = null;
 
     private ?JobDeleteActionInterface $jobDeleteAction = null;
@@ -56,6 +71,8 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
 
     private ?RouteCreateActionInterface $routeCreateAction = null;
 
+    private ?RouteDeleteActionInterface $routeDeleteAction = null;
+
     private ?RouteFindActionInterface $routeFindAction = null;
 
     private ?RouteGetActionInterface $routeGetAction = null;
@@ -74,11 +91,35 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
 
     private ?PortalNodeOverviewActionInterface $portalNodeOverviewAction = null;
 
+    private ?PortalNodeConfigurationGetActionInterface $portalNodeConfigurationGetAction = null;
+
+    private ?PortalNodeConfigurationSetActionInterface $portalNodeConfigurationSetAction = null;
+
     private ?RouteCapabilityOverviewActionInterface $routeCapabilityOverviewAction = null;
 
     private ?WebHttpHandlerConfigurationFindActionInterface $webHttpHandlerConfigurationFindAction = null;
 
     private ?WebHttpHandlerConfigurationSetActionInterface $webHttpHandlerConfigurationSetAction = null;
+
+    public function getIdentityMapAction(): IdentityMapActionInterface
+    {
+        return $this->identityMapAction ??= $this->createIdentityMapAction();
+    }
+
+    public function getIdentityOverviewAction(): IdentityOverviewActionInterface
+    {
+        return $this->identityOverviewAction ??= $this->createIdentityOverviewAction();
+    }
+
+    public function getIdentityPersistAction(): IdentityPersistActionInterface
+    {
+        return $this->identityPersistAction ??= $this->createIdentityPersistAction();
+    }
+
+    public function getIdentityReflectAction(): IdentityReflectActionInterface
+    {
+        return $this->identityReflectAction ??= $this->createIdentityReflectAction();
+    }
 
     public function getJobCreateAction(): JobCreateActionInterface
     {
@@ -160,9 +201,24 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         return $this->portalNodeOverviewAction ??= $this->createPortalNodeOverviewAction();
     }
 
+    public function getPortalNodeConfigurationGetAction(): PortalNodeConfigurationGetActionInterface
+    {
+        return $this->portalNodeConfigurationGetAction ??= $this->createPortalNodeConfigurationGetAction();
+    }
+
+    public function getPortalNodeConfigurationSetAction(): PortalNodeConfigurationSetActionInterface
+    {
+        return $this->portalNodeConfigurationSetAction ??= $this->createPortalNodeConfigurationSetAction();
+    }
+
     public function getRouteCreateAction(): RouteCreateActionInterface
     {
         return $this->routeCreateAction ??= $this->createRouteCreateAction();
+    }
+
+    public function getRouteDeleteAction(): RouteDeleteActionInterface
+    {
+        return $this->routeDeleteAction ??= $this->createRouteDeleteAction();
     }
 
     public function getRouteFindAction(): RouteFindActionInterface
@@ -200,6 +256,14 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         return $this->webHttpHandlerConfigurationSetAction ??= $this->createWebHttpHandlerConfigurationSetAction();
     }
 
+    abstract protected function createIdentityMapAction(): IdentityMapActionInterface;
+
+    abstract protected function createIdentityOverviewAction(): IdentityOverviewActionInterface;
+
+    abstract protected function createIdentityPersistAction(): IdentityPersistActionInterface;
+
+    abstract protected function createIdentityReflectAction(): IdentityReflectActionInterface;
+
     abstract protected function createJobCreateAction(): JobCreateActionInterface;
 
     abstract protected function createJobDeleteAction(): JobDeleteActionInterface;
@@ -232,7 +296,13 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
 
     abstract protected function createPortalNodeOverviewAction(): PortalNodeOverviewActionInterface;
 
+    abstract protected function createPortalNodeConfigurationGetAction(): PortalNodeConfigurationGetActionInterface;
+
+    abstract protected function createPortalNodeConfigurationSetAction(): PortalNodeConfigurationSetActionInterface;
+
     abstract protected function createRouteCreateAction(): RouteCreateActionInterface;
+
+    abstract protected function createRouteDeleteAction(): RouteDeleteActionInterface;
 
     abstract protected function createRouteFindAction(): RouteFindActionInterface;
 

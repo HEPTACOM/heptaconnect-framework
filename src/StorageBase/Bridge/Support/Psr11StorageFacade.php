@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Bridge\Support;
 
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityReflectActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface;
@@ -20,8 +24,11 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDele
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewActionInterface;
@@ -37,6 +44,26 @@ class Psr11StorageFacade extends AbstractSingletonStorageFacade
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+    }
+
+    protected function createIdentityMapAction(): IdentityMapActionInterface
+    {
+        return $this->container->get(IdentityMapActionInterface::class);
+    }
+
+    protected function createIdentityOverviewAction(): IdentityOverviewActionInterface
+    {
+        return $this->container->get(IdentityOverviewActionInterface::class);
+    }
+
+    protected function createIdentityPersistAction(): IdentityPersistActionInterface
+    {
+        return $this->container->get(IdentityPersistActionInterface::class);
+    }
+
+    protected function createIdentityReflectAction(): IdentityReflectActionInterface
+    {
+        return $this->container->get(IdentityReflectActionInterface::class);
     }
 
     protected function createJobCreateAction(): JobCreateActionInterface
@@ -119,9 +146,24 @@ class Psr11StorageFacade extends AbstractSingletonStorageFacade
         return $this->container->get(PortalNodeOverviewActionInterface::class);
     }
 
+    protected function createPortalNodeConfigurationGetAction(): PortalNodeConfigurationGetActionInterface
+    {
+        return $this->container->get(PortalNodeConfigurationGetActionInterface::class);
+    }
+
+    protected function createPortalNodeConfigurationSetAction(): PortalNodeConfigurationSetActionInterface
+    {
+        return $this->container->get(PortalNodeConfigurationSetActionInterface::class);
+    }
+
     protected function createRouteCreateAction(): RouteCreateActionInterface
     {
         return $this->container->get(RouteCreateActionInterface::class);
+    }
+
+    protected function createRouteDeleteAction(): RouteDeleteActionInterface
+    {
+        return $this->container->get(RouteDeleteActionInterface::class);
     }
 
     protected function createRouteFindAction(): RouteFindActionInterface

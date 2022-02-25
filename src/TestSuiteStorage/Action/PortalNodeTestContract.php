@@ -7,11 +7,9 @@ namespace Heptacom\HeptaConnect\TestSuite\Storage\Action;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayloads;
-use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Delete\PortalNodeDeleteCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult;
-use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Listing\PortalNodeListResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Overview\PortalNodeOverviewCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface;
 use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
@@ -39,24 +37,23 @@ abstract class PortalNodeTestContract extends TestCase
         ]);
         $createResults = $createAction->create($createPayloads);
 
-        self::assertSame($createPayloads->count(), $createResults->count());
+        static::assertSame($createPayloads->count(), $createResults->count());
 
         $getCriteria = new PortalNodeGetCriteria(new PortalNodeKeyCollection());
         $collectedPortalNodeClasses = [];
 
-        /** @var PortalNodeCreateResult $createResult */
         foreach ($createResults as $createResult) {
             $getCriteria->getPortalNodeKeys()->push([$createResult->getPortalNodeKey()]);
             /** @var PortalNodeGetResult[] $getResult */
             $getResult = \iterable_to_array($getAction->get(new PortalNodeGetCriteria(new PortalNodeKeyCollection([$createResult->getPortalNodeKey()]))));
             $collectedPortalNodeClasses[] = $getResult[0]->getPortalClass();
 
-            self::assertCount(1, $getResult);
-            self::assertTrue($getResult[0]->getPortalNodeKey()->equals($createResult->getPortalNodeKey()));
+            static::assertCount(1, $getResult);
+            static::assertTrue($getResult[0]->getPortalNodeKey()->equals($createResult->getPortalNodeKey()));
         }
 
         \sort($collectedPortalNodeClasses);
-        self::assertSame([
+        static::assertSame([
             PortalA::class,
             PortalA::class,
             PortalB::class,
@@ -66,19 +63,18 @@ abstract class PortalNodeTestContract extends TestCase
         $deleteCriteria = new PortalNodeDeleteCriteria(new PortalNodeKeyCollection());
         $collectedPortalNodeClasses = [];
 
-        /** @var PortalNodeListResult $listResult */
         foreach ($listAction->list() as $listResult) {
             $deleteCriteria->getPortalNodeKeys()->push([$listResult->getPortalNodeKey()]);
             /** @var PortalNodeGetResult[] $getResult */
             $getResult = \iterable_to_array($getAction->get(new PortalNodeGetCriteria(new PortalNodeKeyCollection([$listResult->getPortalNodeKey()]))));
             $collectedPortalNodeClasses[] = $getResult[0]->getPortalClass();
 
-            self::assertCount(1, $getResult);
-            self::assertTrue($getResult[0]->getPortalNodeKey()->equals($listResult->getPortalNodeKey()));
+            static::assertCount(1, $getResult);
+            static::assertTrue($getResult[0]->getPortalNodeKey()->equals($listResult->getPortalNodeKey()));
         }
 
         \sort($collectedPortalNodeClasses);
-        self::assertSame([
+        static::assertSame([
             PortalA::class,
             PortalA::class,
             PortalB::class,
@@ -87,8 +83,8 @@ abstract class PortalNodeTestContract extends TestCase
 
         $deleteAction->delete($deleteCriteria);
 
-        self::assertEmpty(\iterable_to_array($listAction->list()));
-        self::assertEmpty(\iterable_to_array($overviewAction->overview(new PortalNodeOverviewCriteria())));
+        static::assertEmpty(\iterable_to_array($listAction->list()));
+        static::assertEmpty(\iterable_to_array($overviewAction->overview(new PortalNodeOverviewCriteria())));
 
         try {
             $deleteAction->delete($deleteCriteria);
@@ -96,7 +92,7 @@ abstract class PortalNodeTestContract extends TestCase
             return;
         }
 
-        self::fail('You cannot delete something that does not exist');
+        static::fail('You cannot delete something that does not exist');
     }
 
     abstract protected function createStorageFacade(): StorageFacadeInterface;

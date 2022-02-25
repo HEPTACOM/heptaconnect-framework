@@ -11,7 +11,6 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayloads;
-use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Delete\JobDeleteCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Fail\JobFailPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Finish\JobFinishPayload;
@@ -71,47 +70,46 @@ abstract class JobTestContract extends TestCase
 
         $jobKeys = new JobKeyCollection();
 
-        /** @var JobCreateResult $jobCreateResult */
         foreach ($jobCreateResults as $jobCreateResult) {
             $jobKeys->push([$jobCreateResult->getJobKey()]);
         }
 
-        self::assertCount($jobKeys->count(), \iterable_to_array($jobGet->get(new JobGetCriteria($jobKeys))));
-        self::assertCount(0, \iterable_to_array($jobListFinished->list()));
+        static::assertCount($jobKeys->count(), \iterable_to_array($jobGet->get(new JobGetCriteria($jobKeys))));
+        static::assertCount(0, \iterable_to_array($jobListFinished->list()));
 
         $jobStart->start(new JobStartPayload($jobKeys, new \DateTimeImmutable(), self::MESSAGE));
 
-        self::assertCount($jobKeys->count(), \iterable_to_array($jobGet->get(new JobGetCriteria($jobKeys))));
-        self::assertCount(0, \iterable_to_array($jobListFinished->list()));
+        static::assertCount($jobKeys->count(), \iterable_to_array($jobGet->get(new JobGetCriteria($jobKeys))));
+        static::assertCount(0, \iterable_to_array($jobListFinished->list()));
 
         $jobFail->fail(new JobFailPayload($jobKeys, new \DateTimeImmutable(), self::MESSAGE));
 
-        self::assertCount($jobKeys->count(), \iterable_to_array($jobGet->get(new JobGetCriteria($jobKeys))));
-        self::assertCount(0, \iterable_to_array($jobListFinished->list()));
+        static::assertCount($jobKeys->count(), \iterable_to_array($jobGet->get(new JobGetCriteria($jobKeys))));
+        static::assertCount(0, \iterable_to_array($jobListFinished->list()));
 
         $jobSchedule->schedule(new JobSchedulePayload($jobKeys, new \DateTimeImmutable(), self::MESSAGE));
 
-        self::assertCount($jobKeys->count(), \iterable_to_array($jobGet->get(new JobGetCriteria($jobKeys))));
-        self::assertCount(0, \iterable_to_array($jobListFinished->list()));
+        static::assertCount($jobKeys->count(), \iterable_to_array($jobGet->get(new JobGetCriteria($jobKeys))));
+        static::assertCount(0, \iterable_to_array($jobListFinished->list()));
 
         $jobStart->start(new JobStartPayload($jobKeys, new \DateTimeImmutable(), self::MESSAGE));
 
-        self::assertCount($jobKeys->count(), \iterable_to_array($jobGet->get(new JobGetCriteria($jobKeys))));
-        self::assertCount(0, \iterable_to_array($jobListFinished->list()));
+        static::assertCount($jobKeys->count(), \iterable_to_array($jobGet->get(new JobGetCriteria($jobKeys))));
+        static::assertCount(0, \iterable_to_array($jobListFinished->list()));
 
         $jobFinish->finish(new JobFinishPayload($jobKeys, new \DateTimeImmutable(), self::MESSAGE));
 
-        self::assertCount($jobKeys->count(), \iterable_to_array($jobGet->get(new JobGetCriteria($jobKeys))));
-        self::assertCount($jobKeys->count(), \iterable_to_array($jobListFinished->list()));
+        static::assertCount($jobKeys->count(), \iterable_to_array($jobGet->get(new JobGetCriteria($jobKeys))));
+        static::assertCount($jobKeys->count(), \iterable_to_array($jobListFinished->list()));
 
         $jobDelete->delete(new JobDeleteCriteria($jobKeys));
 
-        self::assertCount(0, \iterable_to_array($jobGet->get(new JobGetCriteria($jobKeys))));
-        self::assertCount(0, \iterable_to_array($jobListFinished->list()));
+        static::assertCount(0, \iterable_to_array($jobGet->get(new JobGetCriteria($jobKeys))));
+        static::assertCount(0, \iterable_to_array($jobListFinished->list()));
 
         try {
             $jobDelete->delete(new JobDeleteCriteria($jobKeys));
-            self::fail('These jobs are already deleted');
+            static::fail('These jobs are already deleted');
         } catch (\Throwable $throwable) {
         }
 

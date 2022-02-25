@@ -16,7 +16,7 @@ abstract class PortalExtensionContract
     }
 
     /**
-     * @return class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>
+     * @return class-string<PortalContract>
      */
     abstract public function supports(): string;
 

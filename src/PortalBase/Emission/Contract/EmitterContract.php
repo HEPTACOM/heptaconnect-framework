@@ -17,7 +17,7 @@ abstract class EmitterContract
     /**
      * @param string[] $externalIds
      *
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @return iterable<array-key, DatasetEntityContract>
      */
     public function emit(iterable $externalIds, EmitContextInterface $context, EmitterStackInterface $stack): iterable
     {
@@ -32,7 +32,7 @@ abstract class EmitterContract
     }
 
     /**
-     * @return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @return class-string<DatasetEntityContract>
      */
     abstract public function supports(): string;
 
@@ -57,7 +57,7 @@ abstract class EmitterContract
     /**
      * @param string[] $externalIds
      *
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @return iterable<array-key, DatasetEntityContract>
      */
     final protected function emitNext(
         EmitterStackInterface $stack,
@@ -111,7 +111,7 @@ abstract class EmitterContract
     /**
      * @param string[] $externalIds
      *
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @return iterable<array-key, DatasetEntityContract>
      */
     final protected function emitCurrent(iterable $externalIds, EmitContextInterface $context): iterable
     {
@@ -160,7 +160,7 @@ abstract class EmitterContract
     /**
      * @param iterable<string> $externalIds
      *
-     * @return iterable<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|null>
+     * @return iterable<DatasetEntityContract|null>
      */
     protected function batch(iterable $externalIds, EmitContextInterface $context): iterable
     {

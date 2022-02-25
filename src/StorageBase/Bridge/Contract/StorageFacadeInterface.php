@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Bridge\Contract;
 
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityReflectActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface;
@@ -20,8 +24,11 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDele
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewActionInterface;
@@ -31,6 +38,14 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfigurati
 
 interface StorageFacadeInterface
 {
+    public function getIdentityMapAction(): IdentityMapActionInterface;
+
+    public function getIdentityOverviewAction(): IdentityOverviewActionInterface;
+
+    public function getIdentityPersistAction(): IdentityPersistActionInterface;
+
+    public function getIdentityReflectAction(): IdentityReflectActionInterface;
+
     public function getJobCreateAction(): JobCreateActionInterface;
 
     public function getJobDeleteAction(): JobDeleteActionInterface;
@@ -63,7 +78,13 @@ interface StorageFacadeInterface
 
     public function getPortalNodeOverviewAction(): PortalNodeOverviewActionInterface;
 
+    public function getPortalNodeConfigurationGetAction(): PortalNodeConfigurationGetActionInterface;
+
+    public function getPortalNodeConfigurationSetAction(): PortalNodeConfigurationSetActionInterface;
+
     public function getRouteCreateAction(): RouteCreateActionInterface;
+
+    public function getRouteDeleteAction(): RouteDeleteActionInterface;
 
     public function getRouteFindAction(): RouteFindActionInterface;
 

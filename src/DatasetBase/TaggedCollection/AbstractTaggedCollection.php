@@ -9,13 +9,13 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
 
 /**
  * @template T
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<\Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TagItem<T>>
+ * @extends AbstractCollection<TagItem<T>>
  */
 abstract class AbstractTaggedCollection extends AbstractCollection
 {
     /**
      * @psalm-param array-key $offset
-     * @psalm-return \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TagItem<T>
+     * @psalm-return TagItem
      */
     public function offsetGet($offset)
     {
@@ -52,12 +52,12 @@ abstract class AbstractTaggedCollection extends AbstractCollection
     }
 
     /**
-     * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface<T>>
+     * @psalm-return class-string<CollectionInterface<T>>
      */
     abstract protected function getCollectionType(): string;
 
     /**
-     * @psalm-return \Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface<T>
+     * @psalm-return CollectionInterface<T>
      */
     private function createEmptyCollection(): CollectionInterface
     {
