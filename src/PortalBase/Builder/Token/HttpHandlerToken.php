@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Token;
 
-final class HttpHandlerToken
+class HttpHandlerToken
 {
     private string $path;
 

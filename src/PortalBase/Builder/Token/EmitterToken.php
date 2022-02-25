@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Builder\Token;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 
-final class EmitterToken
+class EmitterToken
 {
     /**
      * @var class-string<DatasetEntityContract>

@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Builder\Builder;
 
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken;
 
-final class ExplorerBuilder
+class ExplorerBuilder
 {
     private ExplorerToken $token;
 
