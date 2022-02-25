@@ -7,9 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add `\Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::isAttached` to check for a specific instance of an object in the attachment list
+- Add `\Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::detach` to remove a specific instance from the attachment list
+- Add `\Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface` to match the trait `\Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait` and add it to `\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract`
+
 ### Changed
 
+- Implement possible usage of interface FQCNs as parameter in the methods `\Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::hasAttached`, `\Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::getAttachment`, `\Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::detachByType`
+- Set `array-key` type on iterating over collections that implement the `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface` to `int` as they only accept iterables keyed by `int`
 - Add final modifier to `\Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\BooleanCollection`, `\Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\DateCollection`, `\Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\DateTimeCollection`, `\Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\FloatCollection`, `\Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\IntegerCollection`, `\Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection`, `\Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedBooleanCollection`, `\Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedDateCollection`, `\Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedDateTimeCollection`, `\Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedFloatCollection`, `\Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedIntegerCollection`, `\Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedStringCollection`, `\Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TagItem`, `\Heptacom\HeptaConnect\Dataset\Base\Translatable\ScalarCollection\TranslatableBooleanCollection`, `\Heptacom\HeptaConnect\Dataset\Base\Translatable\ScalarCollection\TranslatableDateCollection`, `\Heptacom\HeptaConnect\Dataset\Base\Translatable\ScalarCollection\TranslatableDateTimeCollection`, `\Heptacom\HeptaConnect\Dataset\Base\Translatable\ScalarCollection\TranslatableFloatCollection`, `\Heptacom\HeptaConnect\Dataset\Base\Translatable\ScalarCollection\TranslatableIntegerCollection`, `\Heptacom\HeptaConnect\Dataset\Base\Translatable\ScalarCollection\TranslatableStringCollection`, `\Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableBoolean`, `\Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableDate`, `\Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableDateTime`, `\Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableFloat`, `\Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableInteger`, `\Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableString`, `\Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection`, `\Heptacom\HeptaConnect\Dataset\Base\Date`, `\Heptacom\HeptaConnect\Dataset\Base\Dependency`, `\Heptacom\HeptaConnect\Dataset\Base\DependencyCollection` and `\Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection` to ensure correct usage of implementation. Decoration by their interfaces or base classes is still possible
+
+### Deprecated
+
+- Copy and deprecate `\Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::unattach` to `\Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::detachByType` for correct usage of English language and distinguish from `\Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::detach`
+
+### Removed
+
+### Fixed
+
+### Security
 
 ## [0.8.5] - 2021-12-28
 

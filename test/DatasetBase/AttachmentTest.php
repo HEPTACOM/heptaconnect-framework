@@ -8,8 +8,11 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Dependency;
 use Heptacom\HeptaConnect\Dataset\Base\Support\ForeignKeyTrait;
+use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\AttachmentA;
+use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\AttachmentAChild;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 
 /**
  * @covers \Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection
@@ -40,25 +43,34 @@ final class AttachmentTest extends TestCase
         static::assertNull($struct->getAttachment(Dependency::class));
     }
 
-    public function testUnattach(): void
+    public function testDetachByType(): void
     {
         $struct = new SerializationDatasetEntity();
         $struct->attach(new SerializationDatasetEntity());
-        static::assertEquals(1, $struct->getAttachments()->count());
-        $struct->unattach(SerializationDatasetEntity::class);
-        static::assertEquals(0, $struct->getAttachments()->count());
+        static::assertCount(1, $struct->getAttachments());
+        $struct->detachByType(SerializationDatasetEntity::class);
+        static::assertCount(0, $struct->getAttachments());
+    }
+
+    public function testDetach(): void
+    {
+        $struct = new SerializationDatasetEntity();
+        $struct->attach(new SerializationDatasetEntity());
+        static::assertCount(1, $struct->getAttachments());
+        $struct->detachByType(SerializationDatasetEntity::class);
+        static::assertCount(0, $struct->getAttachments());
     }
 
     public function testNonExistingClasses(): void
     {
         $struct = new SerializationDatasetEntity();
         $struct->attach(new SerializationDatasetEntity());
-        static::assertEquals(1, $struct->getAttachments()->count());
+        static::assertCount(1, $struct->getAttachments());
         static::assertFalse($struct->hasAttached('Unknown🙃Class'));
-        $struct->unattach('Unknown🙃Class');
-        static::assertEquals(1, $struct->getAttachments()->count());
+        $struct->detachByType('Unknown🙃Class');
+        static::assertCount(1, $struct->getAttachments());
         static::assertNull($struct->getAttachment('Unknown🙃Class'));
-        static::assertEquals(1, $struct->getAttachments()->count());
+        static::assertCount(1, $struct->getAttachments());
     }
 
     public function testKeySynchronizationInAttachments(): void
@@ -97,5 +109,52 @@ final class AttachmentTest extends TestCase
         static::assertSame($prime->getPrimaryKey(), $second->getForeignKey());
         static::assertNotSame($prime->getPrimaryKey(), $third->getForeignKey());
         static::assertSame($oldThird, $third->getForeignKey());
+    }
+
+    public function testAttachmentOrderDoesNotMatter(): void
+    {
+        $attachableAware = new SerializationDatasetEntity();
+        $attachment1 = new AttachmentA();
+        $attachment2 = new AttachmentAChild();
+
+        static::assertCount(0, $attachableAware->getAttachments());
+
+        $attachableAware->attach($attachment1);
+
+        static::assertCount(1, $attachableAware->getAttachments());
+
+        $attachableAware->attach($attachment2);
+
+        static::assertCount(2, $attachableAware->getAttachments());
+
+        $attachableAware->getAttachments()->clear();
+
+        static::assertCount(0, $attachableAware->getAttachments());
+
+        $attachableAware->attach($attachment2);
+
+        static::assertCount(1, $attachableAware->getAttachments());
+
+        $attachableAware->attach($attachment1);
+
+        static::assertCount(2, $attachableAware->getAttachments());
+    }
+
+    public function testAttachmentTypeChecksCanBeNonAttachableInterfaces(): void
+    {
+        $attachableAware = new SerializationDatasetEntity();
+        $attachment1 = new AttachmentA();
+        $attachment2 = new AttachmentAChild();
+
+        $attachableAware->attach($attachment1);
+        $attachableAware->attach($attachment2);
+
+        static::assertCount(2, $attachableAware->getAttachments());
+        static::assertTrue($attachableAware->hasAttached(LoggerInterface::class));
+        static::assertSame($attachment1, $attachableAware->getAttachment(LoggerInterface::class));
+
+        $attachableAware->detachByType(LoggerInterface::class);
+
+        static::assertCount(0, $attachableAware->getAttachments());
     }
 }

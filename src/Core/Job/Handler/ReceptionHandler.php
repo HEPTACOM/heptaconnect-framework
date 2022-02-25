@@ -6,7 +6,6 @@ namespace Heptacom\HeptaConnect\Core\Job\Handler;
 
 use Heptacom\HeptaConnect\Core\Job\Contract\ReceptionHandlerInterface;
 use Heptacom\HeptaConnect\Core\Job\Exception\ReceptionJobHandlingException;
-use Heptacom\HeptaConnect\Core\Job\JobData;
 use Heptacom\HeptaConnect\Core\Job\JobDataCollection;
 use Heptacom\HeptaConnect\Core\Job\Type\Reception;
 use Heptacom\HeptaConnect\Core\Mapping\MappingNodeStruct;
@@ -22,15 +21,16 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\RouteKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\RouteKeyCollection;
 use Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Map\IdentityMapPayload;
+use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Reflect\IdentityReflectPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Finish\JobFinishPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Start\JobStartPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Get\RouteGetCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Get\RouteGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityReflectActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFinishActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobStartActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\EntityReflectorContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\Enum\RouteCapability;
@@ -44,8 +44,6 @@ class ReceptionHandler implements ReceptionHandlerInterface
     private LockFactory $lockFactory;
 
     private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private EntityReflectorContract $entityReflector;
 
     private MappingNodeRepositoryContract $mappingNodeRepository;
 
@@ -63,10 +61,11 @@ class ReceptionHandler implements ReceptionHandlerInterface
 
     private IdentityMapActionInterface $identityMapAction;
 
+    private IdentityReflectActionInterface $identityReflectAction;
+
     public function __construct(
         LockFactory $lockFactory,
         StorageKeyGeneratorContract $storageKeyGenerator,
-        EntityReflectorContract $entityReflector,
         MappingNodeRepositoryContract $mappingNodeRepository,
         ReceiveServiceInterface $receiveService,
         DeepObjectIteratorContract $objectIterator,
@@ -74,11 +73,11 @@ class ReceptionHandler implements ReceptionHandlerInterface
         LoggerInterface $logger,
         JobStartActionInterface $jobStartAction,
         JobFinishActionInterface $jobFinishAction,
-        IdentityMapActionInterface $identityMapAction
+        IdentityMapActionInterface $identityMapAction,
+        IdentityReflectActionInterface $identityReflectAction
     ) {
         $this->lockFactory = $lockFactory;
         $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->entityReflector = $entityReflector;
         $this->mappingNodeRepository = $mappingNodeRepository;
         $this->receiveService = $receiveService;
         $this->objectIterator = $objectIterator;
@@ -87,6 +86,7 @@ class ReceptionHandler implements ReceptionHandlerInterface
         $this->jobStartAction = $jobStartAction;
         $this->jobFinishAction = $jobFinishAction;
         $this->identityMapAction = $identityMapAction;
+        $this->identityReflectAction = $identityReflectAction;
     }
 
     public function triggerReception(JobDataCollection $jobs): void
@@ -104,7 +104,6 @@ class ReceptionHandler implements ReceptionHandlerInterface
             $routes[$this->storageKeyGenerator->serialize($routeData->getRouteKey())] = $routeData;
         }
 
-        /** @var JobData $job */
         foreach ($jobs as $job) {
             try {
                 $routeKey = $job->getPayload()[Reception::ROUTE_KEY] ?? null;
@@ -208,8 +207,7 @@ class ReceptionHandler implements ReceptionHandlerInterface
                         $mappedEntities = $this->identityMapAction
                             ->map(new IdentityMapPayload($sourcePortalNodeKey, $filteredEntityObjects))
                             ->getMappedDatasetEntityCollection();
-                        // TODO: improve performance
-                        $this->entityReflector->reflectEntities($mappedEntities, $targetPortalNodeKey);
+                        $this->identityReflectAction->reflect(new IdentityReflectPayload($targetPortalNodeKey, $mappedEntities));
 
                         $externalIds = \array_map(
                             static fn (MappingComponentStructContract $m): string => $m->getExternalId(),

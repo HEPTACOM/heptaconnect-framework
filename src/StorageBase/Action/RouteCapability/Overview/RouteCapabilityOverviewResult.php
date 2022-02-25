@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\RouteCapability\Overview;
 
-final class RouteCapabilityOverviewResult
+use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
+
+final class RouteCapabilityOverviewResult implements AttachmentAwareInterface
 {
+    use AttachmentAwareTrait;
+
     protected string $name;
 
     protected \DateTimeInterface $createdAt;

@@ -11,7 +11,7 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityE
 abstract class ReceiverContract
 {
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @return iterable<array-key, DatasetEntityContract>
      */
     public function receive(
         TypedDatasetEntityCollection $entities,
@@ -23,7 +23,7 @@ abstract class ReceiverContract
     }
 
     /**
-     * @return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @return class-string<DatasetEntityContract>
      */
     abstract public function supports(): string;
 
@@ -49,7 +49,7 @@ abstract class ReceiverContract
     }
 
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @return iterable<array-key, DatasetEntityContract>
      */
     final protected function receiveNext(
         ReceiverStackInterface $stack,
@@ -60,7 +60,7 @@ abstract class ReceiverContract
     }
 
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @return iterable<array-key, DatasetEntityContract>
      */
     final protected function receiveCurrent(
         TypedDatasetEntityCollection $entities,
@@ -80,7 +80,7 @@ abstract class ReceiverContract
     }
 
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @return iterable<array-key, DatasetEntityContract>
      */
     final protected function receiveNextForExtends(
         ReceiverStackInterface $stack,

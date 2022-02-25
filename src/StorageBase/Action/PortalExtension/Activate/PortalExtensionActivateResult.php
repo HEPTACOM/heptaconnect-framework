@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Activate;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 
-final class PortalExtensionActivateResult
+final class PortalExtensionActivateResult implements AttachmentAwareInterface
 {
+    use AttachmentAwareTrait;
+
     /**
      * @var array<class-string<PortalExtensionContract>>
      */

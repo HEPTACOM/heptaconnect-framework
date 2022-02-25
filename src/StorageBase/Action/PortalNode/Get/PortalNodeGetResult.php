@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
-final class PortalNodeGetResult
+final class PortalNodeGetResult implements AttachmentAwareInterface
 {
+    use AttachmentAwareTrait;
+
     protected PortalNodeKeyInterface $portalNodeKey;
 
     /**

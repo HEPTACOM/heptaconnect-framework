@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Translatable;
 use Heptacom\HeptaConnect\Dataset\Base\Date;
 
 /**
- * @extends AbstractTranslatable<\Heptacom\HeptaConnect\Dataset\Base\Date>
+ * @extends AbstractTranslatable<Date>
  */
 final class TranslatableDate extends AbstractTranslatable
 {

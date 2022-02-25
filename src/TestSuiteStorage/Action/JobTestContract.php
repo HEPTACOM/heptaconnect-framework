@@ -11,7 +11,6 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayloads;
-use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Delete\JobDeleteCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Fail\JobFailPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Finish\JobFinishPayload;
@@ -71,7 +70,6 @@ abstract class JobTestContract extends TestCase
 
         $jobKeys = new JobKeyCollection();
 
-        /** @var JobCreateResult $jobCreateResult */
         foreach ($jobCreateResults as $jobCreateResult) {
             $jobKeys->push([$jobCreateResult->getJobKey()]);
         }

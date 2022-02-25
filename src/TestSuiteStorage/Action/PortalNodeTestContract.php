@@ -7,11 +7,9 @@ namespace Heptacom\HeptaConnect\TestSuite\Storage\Action;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayloads;
-use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Delete\PortalNodeDeleteCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult;
-use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Listing\PortalNodeListResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Overview\PortalNodeOverviewCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface;
 use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
@@ -44,7 +42,6 @@ abstract class PortalNodeTestContract extends TestCase
         $getCriteria = new PortalNodeGetCriteria(new PortalNodeKeyCollection());
         $collectedPortalNodeClasses = [];
 
-        /** @var PortalNodeCreateResult $createResult */
         foreach ($createResults as $createResult) {
             $getCriteria->getPortalNodeKeys()->push([$createResult->getPortalNodeKey()]);
             /** @var PortalNodeGetResult[] $getResult */
@@ -66,7 +63,6 @@ abstract class PortalNodeTestContract extends TestCase
         $deleteCriteria = new PortalNodeDeleteCriteria(new PortalNodeKeyCollection());
         $collectedPortalNodeClasses = [];
 
-        /** @var PortalNodeListResult $listResult */
         foreach ($listAction->list() as $listResult) {
             $deleteCriteria->getPortalNodeKeys()->push([$listResult->getPortalNodeKey()]);
             /** @var PortalNodeGetResult[] $getResult */

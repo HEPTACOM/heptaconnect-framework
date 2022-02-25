@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Token;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+
 final class EmitterToken
 {
     /**
-     * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @var class-string<DatasetEntityContract>
      */
     private string $type;
 
@@ -18,7 +20,7 @@ final class EmitterToken
     private ?\Closure $extend = null;
 
     /**
-     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $type
+     * @param class-string<DatasetEntityContract> $type
      */
     public function __construct(string $type)
     {
@@ -26,7 +28,7 @@ final class EmitterToken
     }
 
     /**
-     * @return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @return class-string<DatasetEntityContract>
      */
     public function getType(): string
     {

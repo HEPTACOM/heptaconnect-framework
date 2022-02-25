@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Mapping;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+
 class TypedMappedDatasetEntityCollection extends MappedDatasetEntityCollection
 {
     /**
-     * @psalm-var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @psalm-var class-string<DatasetEntityContract>
      */
     private string $type;
 
     /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $type
-     * @psalm-param array<array-key, \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct> $items
+     * @psalm-param class-string<DatasetEntityContract>         $type
+     * @psalm-param array<array-key, MappedDatasetEntityStruct> $items
      */
     public function __construct(string $type, array $items = [])
     {
@@ -23,7 +25,7 @@ class TypedMappedDatasetEntityCollection extends MappedDatasetEntityCollection
     }
 
     /**
-     * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @psalm-return class-string<DatasetEntityContract>
      */
     public function getType(): string
     {

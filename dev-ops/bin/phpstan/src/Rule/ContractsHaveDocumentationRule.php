@@ -23,7 +23,8 @@ final class ContractsHaveDocumentationRule implements Rule
 
     public function processNode(Node $node, Scope $scope): array
     {
-        if ($node->isAnonymous()) {
+        /* @see https://github.com/nikic/PHP-Parser/issues/821 */
+        if ($node->isAnonymous() || \str_starts_with((string) $node->name, 'AnonymousClass')) {
             return [];
         }
 
@@ -42,6 +43,7 @@ final class ContractsHaveDocumentationRule implements Rule
         $result = [];
         $methods = $node->getMethods();
         $methods = \array_filter($methods, static fn (ClassMethod $cm): bool => !$cm->isPrivate());
+        $interfaceNeedsDocumentation = \count($methods) > 1;
 
         $interfaceNeedsDocumentation = \count($methods) > 1;
 

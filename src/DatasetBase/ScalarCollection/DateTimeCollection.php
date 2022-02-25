@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Dataset\Base\ScalarCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<\DateTimeInterface>
+ * @extends AbstractCollection<\DateTimeInterface>
  */
 final class DateTimeCollection extends AbstractCollection
 {
