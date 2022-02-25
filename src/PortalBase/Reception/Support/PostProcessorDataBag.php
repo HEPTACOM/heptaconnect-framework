@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Reception\Support;
 
-final class PostProcessorDataBag
+class PostProcessorDataBag
 {
     /**
      * @var array<int, object[]>
