@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Storage\Base\Bridge\Support;
 
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Exception\StorageFacadeServiceException;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferencePersistRequestActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface;
@@ -45,6 +46,11 @@ class Psr11StorageFacade extends AbstractSingletonStorageFacade
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+    }
+
+    protected function createFileReferencePersistRequestAction(): FileReferencePersistRequestActionInterface
+    {
+        return $this->getInstanceFromContainer(FileReferencePersistRequestActionInterface::class);
     }
 
     protected function createIdentityMapAction(): IdentityMapActionInterface

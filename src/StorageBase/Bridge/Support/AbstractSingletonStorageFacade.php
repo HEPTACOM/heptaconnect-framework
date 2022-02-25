@@ -7,6 +7,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Bridge\Support;
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface;
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeServiceExceptionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Exception\StorageFacadeServiceException;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferencePersistRequestActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface;
@@ -102,6 +103,17 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     private ?WebHttpHandlerConfigurationFindActionInterface $webHttpHandlerConfigurationFindAction = null;
 
     private ?WebHttpHandlerConfigurationSetActionInterface $webHttpHandlerConfigurationSetAction = null;
+
+    public function getFileReferencePersistRequestAction(): FileReferencePersistRequestActionInterface
+    {
+        try {
+            return $this->fileReferencePersistRequestAction ??= $this->createFileReferencePersistRequestAction();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            throw $throwable;
+        } catch (\Throwable $throwable) {
+            throw new StorageFacadeServiceException(FileReferencePersistRequestActionInterface::class, $throwable);
+        }
+    }
 
     public function getIdentityMapAction(): IdentityMapActionInterface
     {
@@ -443,6 +455,11 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
             throw new StorageFacadeServiceException(WebHttpHandlerConfigurationSetActionInterface::class, $throwable);
         }
     }
+
+    /**
+     * @throws \Throwable
+     */
+    abstract protected function createFileReferencePersistRequestAction(): FileReferencePersistRequestActionInterface;
 
     /**
      * @throws \Throwable
