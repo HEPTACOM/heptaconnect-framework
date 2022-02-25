@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Activate\PortalExt
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Deactivate\PortalExtensionDeactivatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayloads;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Delete\PortalNodeDeleteCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalA\PortalA;
@@ -27,9 +28,13 @@ abstract class PortalExtensionTestContract extends TestCase
         $portalExtensionDeactivate = $facade->getPortalExtensionDeactivateAction();
         $portalExtensionFind = $facade->getPortalExtensionFindAction();
 
-        $portalNodeKey = $portalNodeCreate->create(new PortalNodeCreatePayloads([
+        $firstPortalNode = $portalNodeCreate->create(new PortalNodeCreatePayloads([
             new PortalNodeCreatePayload(PortalA::class),
-        ]))->first()->getPortalNodeKey();
+        ]))->first();
+
+        static::assertInstanceOf(PortalNodeCreateResult::class, $firstPortalNode);
+
+        $portalNodeKey = $firstPortalNode->getPortalNodeKey();
 
         $portalExtensionA = new PortalExtensionA();
         $portalExtensionB = new PortalExtensionB();

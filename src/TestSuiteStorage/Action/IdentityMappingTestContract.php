@@ -79,10 +79,7 @@ abstract class IdentityMappingTestContract extends TestCase
             }
         }
 
-        static::assertSame($createPayloads->count(), $createResults->count());
-        static::assertNotNull($this->portalA);
-        static::assertNotNull($this->portalB);
-        static::assertNotNull($this->portalC);
+        static::assertCount($createPayloads->count(), $createResults);
     }
 
     protected function tearDown(): void
@@ -116,12 +113,12 @@ abstract class IdentityMappingTestContract extends TestCase
         $entityB = new $entityClass();
         $entityB->setPrimaryKey($entityA->getPrimaryKey());
 
-        $identityMapResult = $identityMap->map(new IdentityMapPayload($this->portalA, new DatasetEntityCollection([
+        $identityMapResult = $identityMap->map(new IdentityMapPayload($this->getPortalNodeA(), new DatasetEntityCollection([
             $entityA,
             $entityB,
         ])));
 
-        static::assertSame(2, $identityMapResult->getMappedDatasetEntityCollection()->count());
+        static::assertCount(2, $identityMapResult->getMappedDatasetEntityCollection());
 
         $firstEntity = $identityMapResult->getMappedDatasetEntityCollection()->first();
         $secondEntity = $identityMapResult->getMappedDatasetEntityCollection()->last();
@@ -148,7 +145,7 @@ abstract class IdentityMappingTestContract extends TestCase
         $datasetEntity->setPrimaryKey($sourceId);
 
         // create new mapping node + identity for portal node A
-        $identityMapResult = $this->identifyEntities($this->portalA, new DatasetEntityCollection([$datasetEntity]));
+        $identityMapResult = $this->identifyEntities($this->getPortalNodeA(), new DatasetEntityCollection([$datasetEntity]));
         $mappedEntities = $identityMapResult->getMappedDatasetEntityCollection();
 
         static::assertCount(1, $mappedEntities);
@@ -159,12 +156,12 @@ abstract class IdentityMappingTestContract extends TestCase
         $mappingNodeKey = $mappedEntity->getMapping()->getMappingNodeKey();
 
         // add identity for portal node B to mapping node
-        $this->persistIdentity($this->portalB, new IdentityPersistPayloadCollection([
+        $this->persistIdentity($this->getPortalNodeB(), new IdentityPersistPayloadCollection([
             new IdentityPersistCreatePayload($mappingNodeKey, $targetId),
         ]));
 
         // reflect entities (this is what we test here)
-        $this->identityReflect->reflect(new IdentityReflectPayload($this->portalB, $mappedEntities));
+        $this->getIdentityReflect()->reflect(new IdentityReflectPayload($this->getPortalNodeB(), $mappedEntities));
 
         foreach ($mappedEntities as $reflectedMappedEntity) {
             $reflectedEntity = $reflectedMappedEntity->getDatasetEntity();
@@ -197,7 +194,7 @@ abstract class IdentityMappingTestContract extends TestCase
         $datasetEntity1->attach($datasetEntity2);
 
         // create new mapping nodes + identities for portal node A
-        $identityMapResult = $this->identifyEntities($this->portalA, new DatasetEntityCollection([
+        $identityMapResult = $this->identifyEntities($this->getPortalNodeA(), new DatasetEntityCollection([
             $datasetEntity1,
             $datasetEntity2,
         ]));
@@ -236,10 +233,10 @@ abstract class IdentityMappingTestContract extends TestCase
         static::assertCount(2, $identityPersistPayloadCollection);
         static::assertCount(2, $switchCases);
 
-        $this->persistIdentity($this->portalB, $identityPersistPayloadCollection);
+        $this->persistIdentity($this->getPortalNodeB(), $identityPersistPayloadCollection);
 
         // this is what we test here
-        $this->identityReflect->reflect(new IdentityReflectPayload($this->portalB, $mappedEntities));
+        $this->getIdentityReflect()->reflect(new IdentityReflectPayload($this->getPortalNodeB(), $mappedEntities));
 
         $mappedEntity1 = null;
         $mappedEntity2 = null;
@@ -295,7 +292,7 @@ abstract class IdentityMappingTestContract extends TestCase
         $datasetEntity->setPrimaryKey($sourceId);
 
         // create new mapping node + identity for portal node A
-        $identityMapResult = $this->identifyEntities($this->portalA, new DatasetEntityCollection([$datasetEntity]));
+        $identityMapResult = $this->identifyEntities($this->getPortalNodeA(), new DatasetEntityCollection([$datasetEntity]));
         $mappedEntities = $identityMapResult->getMappedDatasetEntityCollection();
 
         /** @var MappedDatasetEntityStruct $mappedEntity */
@@ -304,18 +301,17 @@ abstract class IdentityMappingTestContract extends TestCase
         $mappingNodeKey = $mappedEntity->getMapping()->getMappingNodeKey();
 
         // add identity for portal node B to mapping node
-        $this->persistIdentity($this->portalB, new IdentityPersistPayloadCollection([
+        $this->persistIdentity($this->getPortalNodeB(), new IdentityPersistPayloadCollection([
             new IdentityPersistCreatePayload($mappingNodeKey, $targetId),
         ]));
 
         // add identity for portal C to mapping node
-        $this->persistIdentity($this->portalC, new IdentityPersistPayloadCollection([
+        $this->persistIdentity($this->getPortalNodeC(), new IdentityPersistPayloadCollection([
             new IdentityPersistCreatePayload($mappingNodeKey, '587e5d0b-b5e2-4ad2-b088-fcc6f7d70d6f'),
         ]));
 
-        $this->identityReflect->reflect(new IdentityReflectPayload($this->portalB, $mappedEntities));
+        $this->getIdentityReflect()->reflect(new IdentityReflectPayload($this->getPortalNodeB(), $mappedEntities));
 
-        /** @var PrimaryKeySharingMappingStruct $reflectionMapping */
         $reflectionMapping = $identifiedEntity->getAttachment(PrimaryKeySharingMappingStruct::class);
 
         static::assertInstanceOf(PrimaryKeySharingMappingStruct::class, $reflectionMapping);
@@ -335,7 +331,7 @@ abstract class IdentityMappingTestContract extends TestCase
         $datasetEntity->setPrimaryKey($sourceId);
 
         // create new mapping node + identity for portal node A
-        $identityMapResult = $this->identifyEntities($this->portalA, new DatasetEntityCollection([$datasetEntity]));
+        $identityMapResult = $this->identifyEntities($this->getPortalNodeA(), new DatasetEntityCollection([$datasetEntity]));
         $mappedEntities = $identityMapResult->getMappedDatasetEntityCollection();
 
         /** @var MappedDatasetEntityStruct $mappedEntity */
@@ -343,7 +339,7 @@ abstract class IdentityMappingTestContract extends TestCase
         $identifiedEntity = $mappedEntity->getDatasetEntity();
 
         // this is what we test
-        $this->identityReflect->reflect(new IdentityReflectPayload($this->portalB, $mappedEntities));
+        $this->getIdentityReflect()->reflect(new IdentityReflectPayload($this->getPortalNodeB(), $mappedEntities));
 
         static::assertNull($identifiedEntity->getPrimaryKey());
     }
@@ -361,7 +357,11 @@ abstract class IdentityMappingTestContract extends TestCase
         PortalNodeKeyInterface $portal,
         DatasetEntityCollection $datasetEntityCollection
     ): IdentityMapResult {
-        return $this->identityMap->map(
+        $identityMap = $this->identityMap;
+
+        static::assertNotNull($identityMap);
+
+        return $identityMap->map(
             new IdentityMapPayload($portal, $datasetEntityCollection)
         );
     }
@@ -370,6 +370,46 @@ abstract class IdentityMappingTestContract extends TestCase
         PortalNodeKeyInterface $portal,
         IdentityPersistPayloadCollection $identityPersistPayloadCollection
     ): void {
-        $this->identityPersist->persist(new IdentityPersistPayload($portal, $identityPersistPayloadCollection));
+        $identityPersist = $this->identityPersist;
+
+        static::assertNotNull($identityPersist);
+
+        $identityPersist->persist(new IdentityPersistPayload($portal, $identityPersistPayloadCollection));
+    }
+
+    private function getPortalNodeA(): PortalNodeKeyInterface
+    {
+        $portalNodeKey = $this->portalA;
+
+        static::assertNotNull($portalNodeKey);
+
+        return $portalNodeKey;
+    }
+
+    private function getPortalNodeB(): PortalNodeKeyInterface
+    {
+        $portalNodeKey = $this->portalB;
+
+        static::assertNotNull($portalNodeKey);
+
+        return $portalNodeKey;
+    }
+
+    private function getPortalNodeC(): PortalNodeKeyInterface
+    {
+        $portalNodeKey = $this->portalC;
+
+        static::assertNotNull($portalNodeKey);
+
+        return $portalNodeKey;
+    }
+
+    private function getIdentityReflect(): IdentityReflectActionInterface
+    {
+        $identityReflect = $this->identityReflect;
+
+        static::assertNotNull($identityReflect);
+
+        return $identityReflect;
     }
 }
