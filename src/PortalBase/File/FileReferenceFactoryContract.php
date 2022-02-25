@@ -12,5 +12,8 @@ abstract class FileReferenceFactoryContract
 
     abstract public function fromRequest(RequestInterface $request): FileReferenceContract;
 
-    abstract public function fromContents(string $contents): FileReferenceContract;
+    abstract public function fromContents(
+        string $contents,
+        string $mimeType = 'application/octet-stream'
+    ): FileReferenceContract;
 }
