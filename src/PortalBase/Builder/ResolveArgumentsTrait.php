@@ -53,11 +53,11 @@ trait ResolveArgumentsTrait
 
     private function getType(\ReflectionParameter $parameter, \ReflectionFunctionAbstract $function): ?string
     {
-        if (!($type = $parameter->getType()) instanceof \ReflectionType) {
+        if (!($type = $parameter->getType()) instanceof \ReflectionNamedType) {
             return null;
         }
 
-        $name = $type instanceof \ReflectionNamedType ? $type->getName() : (string) $type;
+        $name = $type->getName();
 
         if ($function instanceof \ReflectionMethod) {
             switch (\mb_strtolower($name)) {
