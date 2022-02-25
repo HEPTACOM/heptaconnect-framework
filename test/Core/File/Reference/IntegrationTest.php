@@ -13,6 +13,7 @@ use Heptacom\HeptaConnect\Core\File\Reference\PublicUrlFileReference;
 use Heptacom\HeptaConnect\Core\File\ResolvedReference\ResolvedContentsFileReference;
 use Heptacom\HeptaConnect\Core\File\ResolvedReference\ResolvedPublicUrlFileReference;
 use Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry;
+use Heptacom\HeptaConnect\Core\Storage\RequestStorage;
 use Heptacom\HeptaConnect\Core\Test\Fixture\DependentPortal;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpClient;
 use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\DenormalizerInterface;
@@ -31,6 +32,7 @@ use Psr\Http\Client\ClientInterface;
  * @covers \Heptacom\HeptaConnect\Core\File\ResolvedReference\ResolvedContentsFileReference
  * @covers \Heptacom\HeptaConnect\Core\File\ResolvedReference\ResolvedPublicUrlFileReference
  * @covers \Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry
+ * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpClient
  * @covers \Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\SerializableStream
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Support\DefaultRequestHeaders
@@ -46,11 +48,17 @@ class IntegrationTest extends TestCase
         $fileRequestUrlProvider = $this->createMock(FileRequestUrlProviderInterface::class);
 
         $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
-        $factory = new FileReferenceFactory($streamFactory, $normalizationRegistry);
+        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class);
+        $factory = new FileReferenceFactory(
+            $portalNodeKey,
+            $streamFactory,
+            $normalizationRegistry,
+            $this->createMock(RequestStorage::class)
+        );
         $resolver = new FileReferenceResolver(
             new HttpClient($client, Psr17FactoryDiscovery::findUriFactory()),
             Psr17FactoryDiscovery::findRequestFactory(),
-            new PreviewPortalNodeKey(DependentPortal::class),
+            $portalNodeKey,
             $fileContentsUrlProvider,
             $fileRequestUrlProvider,
             $normalizationRegistry
@@ -81,11 +89,17 @@ class IntegrationTest extends TestCase
         $fileContentsUrlProvider = $this->createMock(FileContentsUrlProviderInterface::class);
         $fileRequestUrlProvider = $this->createMock(FileRequestUrlProviderInterface::class);
 
-        $factory = new FileReferenceFactory(Psr17FactoryDiscovery::findStreamFactory(), $normalizationRegistry);
+        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class);
+        $factory = new FileReferenceFactory(
+            $portalNodeKey,
+            Psr17FactoryDiscovery::findStreamFactory(),
+            $normalizationRegistry,
+            $this->createMock(RequestStorage::class)
+        );
         $resolver = new FileReferenceResolver(
             (new HttpClient($client, Psr17FactoryDiscovery::findUriFactory()))->withExceptionTriggers(500),
             Psr17FactoryDiscovery::findRequestFactory(),
-            new PreviewPortalNodeKey(DependentPortal::class),
+            $portalNodeKey,
             $fileContentsUrlProvider,
             $fileRequestUrlProvider,
             $normalizationRegistry
@@ -113,11 +127,17 @@ class IntegrationTest extends TestCase
         $fileRequestUrlProvider = $this->createMock(FileRequestUrlProviderInterface::class);
 
         $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
-        $factory = new FileReferenceFactory($streamFactory, $normalizationRegistry);
+        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class);
+        $factory = new FileReferenceFactory(
+            $portalNodeKey,
+            $streamFactory,
+            $normalizationRegistry,
+            $this->createMock(RequestStorage::class)
+        );
         $resolver = new FileReferenceResolver(
             $this->createMock(HttpClientContract::class),
             Psr17FactoryDiscovery::findRequestFactory(),
-            new PreviewPortalNodeKey(DependentPortal::class),
+            $portalNodeKey,
             $fileContentsUrlProvider,
             $fileRequestUrlProvider,
             $normalizationRegistry
@@ -145,11 +165,17 @@ class IntegrationTest extends TestCase
         $fileContentsUrlProvider = $this->createMock(FileContentsUrlProviderInterface::class);
         $fileRequestUrlProvider = $this->createMock(FileRequestUrlProviderInterface::class);
 
-        $factory = new FileReferenceFactory(Psr17FactoryDiscovery::findStreamFactory(), $normalizationRegistry);
+        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class);
+        $factory = new FileReferenceFactory(
+            $portalNodeKey,
+            Psr17FactoryDiscovery::findStreamFactory(),
+            $normalizationRegistry,
+            $this->createMock(RequestStorage::class)
+        );
         $resolver = new FileReferenceResolver(
             $this->createMock(HttpClientContract::class),
             Psr17FactoryDiscovery::findRequestFactory(),
-            new PreviewPortalNodeKey(DependentPortal::class),
+            $portalNodeKey,
             $fileContentsUrlProvider,
             $fileRequestUrlProvider,
             $normalizationRegistry
