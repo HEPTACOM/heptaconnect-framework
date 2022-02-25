@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\FlowComponent;
 
-final class CodeOrigin
+class CodeOrigin
 {
     private string $filepath;
 
