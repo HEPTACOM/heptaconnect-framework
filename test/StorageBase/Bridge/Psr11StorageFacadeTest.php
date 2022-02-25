@@ -28,8 +28,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -37,8 +35,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -46,8 +42,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -55,8 +49,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -64,8 +56,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -73,8 +63,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -82,8 +70,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -91,8 +77,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -100,8 +84,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -109,8 +91,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -118,8 +98,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -127,8 +105,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -136,8 +112,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -145,8 +119,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -154,8 +126,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -163,8 +133,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -172,8 +140,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -181,8 +147,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -190,8 +154,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -199,8 +161,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -208,8 +168,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -217,8 +175,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -226,8 +182,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -235,8 +189,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -244,8 +196,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -253,8 +203,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -262,8 +210,6 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
@@ -271,16 +217,13 @@ class Psr11StorageFacadeTest extends TestCase
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getRouteCapabilityOverviewAction();
             self::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
-        } catch (\Throwable $throwable) {
-            self::fail();
+            static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
         }
 
         static::assertTrue(true, 'We just do not expect an exception');
