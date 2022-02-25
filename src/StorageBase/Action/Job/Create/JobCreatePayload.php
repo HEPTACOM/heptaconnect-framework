@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\Job\Create;
 
+use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract;
@@ -21,6 +22,7 @@ final class JobCreatePayload implements CreatePayloadInterface, AttachmentAwareI
 
     public function __construct(string $jobType, MappingComponentStructContract $mapping, ?array $jobPayload)
     {
+        $this->attachments = new AttachmentCollection();
         $this->jobType = $jobType;
         $this->mapping = $mapping;
         $this->jobPayload = $jobPayload;
