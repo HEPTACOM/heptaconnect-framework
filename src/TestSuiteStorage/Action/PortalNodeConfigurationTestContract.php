@@ -59,7 +59,7 @@ abstract class PortalNodeConfigurationTestContract extends TestCase
         ));
         $getCriteria = new PortalNodeConfigurationGetCriteria($portalNodeKeys);
 
-        static::assertSame(3, $createResults->count());
+        static::assertCount(3, $createResults);
 
         foreach ($portalNodeKeys as $step => $portalNodeKey) {
             static::assertCount($step, \iterable_to_array(\iterable_filter(
@@ -91,9 +91,13 @@ abstract class PortalNodeConfigurationTestContract extends TestCase
             static fn (PortalNodeConfigurationGetResult $g): bool => $g->getValue() !== []
         )));
 
-        $setAction->set(new PortalNodeConfigurationSetPayloads($portalNodeKeys->map(
-            static fn (PortalNodeKeyInterface $pk): PortalNodeConfigurationSetPayload => new PortalNodeConfigurationSetPayload($pk, null)
-        )));
+        $setPayload = new PortalNodeConfigurationSetPayloads();
+
+        foreach ($portalNodeKeys as $portalNodeKey) {
+            $setPayload->push([new PortalNodeConfigurationSetPayload($portalNodeKey, null)]);
+        }
+
+        $setAction->set($setPayload);
 
         static::assertEmpty(\iterable_to_array(\iterable_filter(
             $getAction->get($getCriteria),

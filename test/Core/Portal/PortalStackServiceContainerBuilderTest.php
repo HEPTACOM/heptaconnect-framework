@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Core\Test\Portal;
 
 use Composer\Autoload\ClassLoader;
+use Heptacom\HeptaConnect\Core\Bridge\File\FileContentsUrlProviderInterface;
+use Heptacom\HeptaConnect\Core\Bridge\File\FileRequestUrlProviderInterface;
 use Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface;
 use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder;
@@ -101,6 +103,8 @@ class PortalStackServiceContainerBuilderTest extends TestCase
             $configurationService,
             $this->createMock(PublisherInterface::class),
             $httpHandlerUrlProviderFactory,
+            $this->createMock(FileContentsUrlProviderInterface::class),
+            $this->createMock(FileRequestUrlProviderInterface::class),
         );
         $builder->setDirectEmissionFlow($this->createMock(DirectEmissionFlowContract::class));
         $container = $builder->build(
@@ -161,6 +165,8 @@ class PortalStackServiceContainerBuilderTest extends TestCase
             $configurationService,
             $this->createMock(PublisherInterface::class),
             $httpHandlerUrlProviderFactory,
+            $this->createMock(FileContentsUrlProviderInterface::class),
+            $this->createMock(FileRequestUrlProviderInterface::class),
         );
         $builder->setDirectEmissionFlow($this->createMock(DirectEmissionFlowContract::class));
         $container = $builder->build(
