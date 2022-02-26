@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\RouteKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayloads;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Delete\PortalNodeDeleteCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayloads;
@@ -46,8 +47,14 @@ abstract class RouteTestContract extends TestCase
             new PortalNodeCreatePayload(PortalA::class),
             new PortalNodeCreatePayload(PortalB::class),
         ]));
-        $portalA = $portalNodeCreateResult->first()->getPortalNodeKey();
-        $portalB = $portalNodeCreateResult->last()->getPortalNodeKey();
+        $firstResult = $portalNodeCreateResult->first();
+        $lastResult = $portalNodeCreateResult->last();
+
+        static::assertInstanceOf(PortalNodeCreateResult::class, $firstResult);
+        static::assertInstanceOf(PortalNodeCreateResult::class, $lastResult);
+
+        $portalA = $firstResult->getPortalNodeKey();
+        $portalB = $lastResult->getPortalNodeKey();
 
         $createPayloads = new RouteCreatePayloads();
 
@@ -61,11 +68,10 @@ abstract class RouteTestContract extends TestCase
 
         $createResults = $createAction->create($createPayloads);
 
-        static::assertSame($createPayloads->count(), $createResults->count());
+        static::assertCount($createPayloads->count(), $createResults);
 
         $testCreateResults = new RouteCreateResults($createResults);
 
-        /** @var RouteCreatePayload $createPayload */
         foreach ($createPayloads as $createPayload) {
             $findCriteria = new RouteFindCriteria($createPayload->getSourcePortalNodeKey(), $createPayload->getTargetPortalNodeKey(), $createPayload->getEntityType());
             $findResult = $findAction->find($findCriteria);

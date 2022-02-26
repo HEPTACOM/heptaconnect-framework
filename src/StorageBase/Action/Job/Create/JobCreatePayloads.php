@@ -9,12 +9,15 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection<\Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayload>
+ * @extends AbstractObjectCollection<JobCreatePayload>
  */
 final class JobCreatePayloads extends AbstractObjectCollection implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
+    /**
+     * @psalm-return JobCreatePayload::class
+     */
     protected function getT(): string
     {
         return JobCreatePayload::class;

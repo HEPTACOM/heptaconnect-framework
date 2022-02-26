@@ -11,7 +11,7 @@ use Psr\Log\LoggerInterface;
 abstract class ExplorerContract
 {
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string|int>
+     * @return iterable<array-key, DatasetEntityContract|string|int>
      */
     public function explore(ExploreContextInterface $context, ExplorerStackInterface $stack): iterable
     {
@@ -20,12 +20,12 @@ abstract class ExplorerContract
     }
 
     /**
-     * @return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @return class-string<DatasetEntityContract>
      */
     abstract public function supports(): string;
 
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string|int>
+     * @return iterable<array-key, DatasetEntityContract|string|int>
      */
     protected function run(ExploreContextInterface $context): iterable
     {
@@ -45,7 +45,7 @@ abstract class ExplorerContract
     }
 
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string|int>
+     * @return iterable<array-key, DatasetEntityContract|string|int>
      */
     final protected function exploreNext(
         ExploreContextInterface $context,
@@ -72,7 +72,7 @@ abstract class ExplorerContract
     }
 
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string|int>
+     * @return iterable<array-key, DatasetEntityContract|string|int>
      */
     final protected function exploreCurrent(ExploreContextInterface $context): iterable
     {

@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Implement possible usage of interface FQCNs as parameter in the methods `\Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::hasAttached`, `\Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::getAttachment`, `\Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::detachByType`
+- Set `array-key` type on iterating over collections that implement the `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface` to `int` as they only accept iterables keyed by `int`
 
 ### Deprecated
 

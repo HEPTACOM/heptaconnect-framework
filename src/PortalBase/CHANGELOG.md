@@ -44,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use instance of `\Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract` in log context instead of its class in the message in `\Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack::next`
 - Use instance of `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract` in log context instead of its class in the message in `\Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack::next`
 - Add dependency to `\Psr\Log\LoggerInterface` into `\Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterStack` to log instance of `\Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract::next`
+- Set `array-key` type to return of `\Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection::bySupport`, `\Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection::bySupport`, `\Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection::bySupport`, `\Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterCollection::bySupportedTopic` and `\Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection::bySupport` to `int`
 
 ### Deprecated
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\RouteCapability\Overview;
 
+use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 
@@ -17,6 +18,7 @@ final class RouteCapabilityOverviewResult implements AttachmentAwareInterface
 
     public function __construct(string $name, \DateTimeInterface $createdAt)
     {
+        $this->attachments = new AttachmentCollection();
         $this->name = $name;
         $this->createdAt = $createdAt;
     }

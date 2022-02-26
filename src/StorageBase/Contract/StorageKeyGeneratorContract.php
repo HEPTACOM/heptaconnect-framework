@@ -12,7 +12,7 @@ use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 abstract class StorageKeyGeneratorContract
 {
     /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface> $keyClassName
+     * @psalm-param class-string<StorageKeyInterface> $keyClassName
      *
      * @throws UnsupportedStorageKeyException
      *
@@ -21,12 +21,12 @@ abstract class StorageKeyGeneratorContract
     abstract public function generateKey(string $keyClassName): StorageKeyInterface;
 
     /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface> $keyClassName
+     * @psalm-param class-string<StorageKeyInterface> $keyClassName
      *
      * @throws UnsupportedStorageKeyException
      *
      * @return StorageKeyInterface[]
-     * @psalm-return iterable<int, \Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface>
+     * @psalm-return iterable<int, StorageKeyInterface>
      */
     abstract public function generateKeys(string $keyClassName, int $count): iterable;
 
