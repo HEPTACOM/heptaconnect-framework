@@ -73,7 +73,12 @@ abstract class RouteTestContract extends TestCase
         $testCreateResults = new RouteCreateResults($createResults);
 
         foreach ($createPayloads as $createPayload) {
-            $findCriteria = new RouteFindCriteria($createPayload->getSourcePortalNodeKey(), $createPayload->getTargetPortalNodeKey(), $createPayload->getEntityType());
+            $findCriteria = new RouteFindCriteria(
+                $createPayload->getSourcePortalNodeKey(),
+                $createPayload->getTargetPortalNodeKey(),
+                $createPayload->getEntityType()
+            );
+
             $findResult = $findAction->find($findCriteria);
 
             static::assertNotNull($findResult);
@@ -98,7 +103,10 @@ abstract class RouteTestContract extends TestCase
                 static::assertSame($getResult->getEntityType(), $createPayload->getEntityType());
 
                 /** @var ReceptionRouteListResult[] $listResults */
-                $listResults = \iterable_to_array($receptionListAction->list(new ReceptionRouteListCriteria($createPayload->getSourcePortalNodeKey(), $createPayload->getEntityType())));
+                $listResults = \iterable_to_array($receptionListAction->list(new ReceptionRouteListCriteria(
+                    $createPayload->getSourcePortalNodeKey(),
+                    $createPayload->getEntityType()
+                )));
                 $receptionListResult = \array_filter(
                     $listResults,
                     static fn (ReceptionRouteListResult $r): bool => $r->getRouteKey()->equals($findResult->getRouteKey())
