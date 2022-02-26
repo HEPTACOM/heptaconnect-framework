@@ -14,7 +14,6 @@ use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Delete\PortalNodeDelete
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayloads;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResult;
-use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResults;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Delete\RouteDeleteCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Find\RouteFindCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Find\RouteFindResult;
@@ -30,6 +29,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionIn
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Enum\RouteCapability;
 use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Dataset\EntityA;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Dataset\EntityB;
@@ -99,11 +99,9 @@ abstract class RouteTestContract extends TestCase
         }
 
         $createResults = $this->routeCreateAction->create($createPayloads);
-
         static::assertCount($createPayloads->count(), $createResults);
 
-        $testCreateResults = new RouteCreateResults($createResults);
-
+        /** @var RouteCreatePayload $createPayload */
         foreach ($createPayloads as $createPayload) {
             $findCriteria = new RouteFindCriteria(
                 $createPayload->getSourcePortalNodeKey(),
@@ -116,12 +114,10 @@ abstract class RouteTestContract extends TestCase
             static::assertNotNull($findResult);
             /* @var RouteFindResult $findResult */
 
-            static::assertCount(1, \iterable_to_array($testCreateResults->filter(
+            static::assertCount(1, \iterable_to_array($createResults->filter(
                 static fn (RouteCreateResult $r): bool => $r->getRouteKey()->equals($findResult->getRouteKey())
             )));
-            $testCreateResults = new RouteCreateResults($testCreateResults->filter(
-                static fn (RouteCreateResult $r): bool => !$r->getRouteKey()->equals($findResult->getRouteKey())
-            ));
+
             $routeGetCriteria = new RouteGetCriteria(new RouteKeyCollection([$findResult->getRouteKey()]));
             /** @var RouteGetResult[] $getResults */
             $getResults = \iterable_to_array($this->routeGetAction->get($routeGetCriteria));
@@ -157,10 +153,99 @@ abstract class RouteTestContract extends TestCase
             }
         }
 
+        $createPayloads = new RouteCreatePayloads();
+
+        foreach ([$this->portalA, $this->portalB] as $sourcePortal) {
+            foreach ([$this->portalA, $this->portalB] as $targetPortal) {
+                foreach ([EntityA::class, EntityB::class, EntityC::class] as $entityType) {
+                    $createPayloads->push([new RouteCreatePayload($sourcePortal, $targetPortal, $entityType, [
+                        RouteCapability::RECEPTION,
+                    ])]);
+                }
+            }
+        }
+
+        $createResults = $this->routeCreateAction->create($createPayloads);
+        static::assertCount($createPayloads->count(), $createResults);
+
+        $routeKeys = new RouteKeyCollection();
+
+        /** @var RouteCreatePayload $createPayload */
+        foreach ($createPayloads as $createPayload) {
+            $findCriteria = new RouteFindCriteria(
+                $createPayload->getSourcePortalNodeKey(),
+                $createPayload->getTargetPortalNodeKey(),
+                $createPayload->getEntityType()
+            );
+
+            $findResult = $this->routeFindAction->find($findCriteria);
+
+            static::assertNotNull($findResult);
+            /* @var RouteFindResult $findResult */
+
+            /** @var ReceptionRouteListResult[] $listResults */
+            $listResults = \iterable_to_array($this->routeReceptionListAction->list(new ReceptionRouteListCriteria(
+                $createPayload->getSourcePortalNodeKey(),
+                $createPayload->getEntityType()
+            )));
+            $receptionListResult = \array_filter(
+                $listResults,
+                static fn (ReceptionRouteListResult $r): bool => $r->getRouteKey()->equals($findResult->getRouteKey())
+            );
+            static::assertCount(1, $receptionListResult);
+
+            $routeKeys->push([$findResult->getRouteKey()]);
+        }
+
+        $this->routeDeleteAction->delete(new RouteDeleteCriteria($routeKeys));
+
         $this->portalNodeDeleteAction->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([
             $this->portalA,
             $this->portalB,
         ])));
+    }
+
+    public function testRouteLifecycleWithDeletedPortalNodes(): void
+    {
+        $createPayloads = new RouteCreatePayloads();
+
+        foreach ([$this->portalA, $this->portalB] as $sourcePortal) {
+            foreach ([$this->portalA, $this->portalB] as $targetPortal) {
+                foreach ([EntityA::class, EntityB::class, EntityC::class] as $entityType) {
+                    $createPayloads->push([new RouteCreatePayload($sourcePortal, $targetPortal, $entityType, [
+                        RouteCapability::RECEPTION,
+                    ])]);
+                }
+            }
+        }
+
+        $createResults = $this->routeCreateAction->create($createPayloads);
+
+        static::assertCount($createPayloads->count(), $createResults);
+
+        $this->portalNodeDeleteAction->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([
+            $this->portalA,
+            $this->portalB,
+        ])));
+
+        foreach ($createPayloads as $createPayload) {
+            $findCriteria = new RouteFindCriteria(
+                $createPayload->getSourcePortalNodeKey(),
+                $createPayload->getTargetPortalNodeKey(),
+                $createPayload->getEntityType()
+            );
+
+            $findResult = $this->routeFindAction->find($findCriteria);
+
+            static::assertNull($findResult);
+
+            $listResults = \iterable_to_array($this->routeReceptionListAction->list(new ReceptionRouteListCriteria(
+                $createPayload->getSourcePortalNodeKey(),
+                $createPayload->getEntityType()
+            )));
+
+            static::assertCount(0, $listResults);
+        }
     }
 
     abstract protected function createStorageFacade(): StorageFacadeInterface;
