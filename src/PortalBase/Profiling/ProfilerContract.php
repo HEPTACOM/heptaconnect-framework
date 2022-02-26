@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Profiling;
 
 /**
- * Describes a generic profiler that can start a profiling session, stop it and discard a previous started session.
+ * Describes a generic profiler that can start a profiling session, stop it and discard a previously started session.
  * Nesting of session must be supported.
  */
 abstract class ProfilerContract

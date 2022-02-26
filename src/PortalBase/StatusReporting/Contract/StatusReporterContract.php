@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract;
 
 /**
- * Base class for every status reporter implementation with various boilerplate-reducing entrypoints for fast development.
+ * Base class for every status reporter implementation with various boilerplate-reducing entrypoints for rapid development.
  */
 abstract class StatusReporterContract
 {
@@ -37,6 +37,9 @@ abstract class StatusReporterContract
      * The entrypoint to report a topic without to be expected to implement stack handling.
      * This is executed when this status reporter on the stack is expected to act.
      * It can be skipped when @see report is implemented accordingly.
+     * Returns an array with any status information required for the report.
+     * The report must only contain nested scalar values.
+     * To confirm a positive status result, add true as value with the supported topic as key in the return value.
      */
     protected function run(StatusReportingContextInterface $context): array
     {

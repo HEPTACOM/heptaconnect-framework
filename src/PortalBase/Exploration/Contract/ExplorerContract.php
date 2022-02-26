@@ -9,9 +9,9 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityE
 use Psr\Log\LoggerInterface;
 
 /**
- * Base class for every explorer implementation with various boilerplate-reducing entrypoints for fast development.
+ * Base class for every explorer implementation with various boilerplate-reducing entrypoints for rapid development.
  * When used as source for identities or entities, you need to implement @see supports, run
- * When used as decorator to limit previous exploration, you need to implement @see supports, isAllowed
+ * When used as decorator to limit previous exploration, you should implement @see supports, isAllowed
  */
 abstract class ExplorerContract
 {
@@ -64,7 +64,7 @@ abstract class ExplorerContract
 
     /**
      * Pre-implemented stack handling for processing the next explorer in the stack.
-     * Expected to be used when implementing @see explore by yourself.
+     * Expected to only be called by @see explore
      * It verifies results from the next explorer with @see isAllowed
      *
      * @return iterable<array-key, DatasetEntityContract|string|int>
@@ -95,7 +95,7 @@ abstract class ExplorerContract
 
     /**
      * Pre-implemented stack handling for processing this explorer in the stack.
-     * Expected to be used when implementing @see explore by yourself.
+     * Expected to only be called by @see explore
      *
      * @return iterable<array-key, DatasetEntityContract|string|int>
      */

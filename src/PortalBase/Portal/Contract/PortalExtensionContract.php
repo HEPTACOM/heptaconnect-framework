@@ -15,7 +15,7 @@ abstract class PortalExtensionContract
     use PathMethodsTrait;
 
     /**
-     * Change the portal configuration structure, validation and default value schemes for any portal instance this extension is combined with.
+     * Change the portal configuration structure, validation and default value schemes for any portal node this extension is combined with.
      */
     public function extendConfiguration(OptionsResolver $template): OptionsResolver
     {
@@ -30,7 +30,7 @@ abstract class PortalExtensionContract
     abstract public function supports(): string;
 
     /**
-     * Returns true, when it must be active right after installation.
+     * Returns true, when it must be active for any supported portal nodes, if not configured otherwise.
      */
     public function isActiveByDefault(): bool
     {

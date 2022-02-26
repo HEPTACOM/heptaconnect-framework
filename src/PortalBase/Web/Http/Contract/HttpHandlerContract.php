@@ -9,7 +9,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * Base class for every HTTP handler implementation with various boilerplate-reducing entrypoints for fast development.
+ * Base class for every HTTP handler implementation with various boilerplate-reducing entrypoints rapid fast development.
  */
 abstract class HttpHandlerContract
 {
@@ -42,7 +42,7 @@ abstract class HttpHandlerContract
 
     /**
      * Pre-implemented stack handling for processing the next handler in the stack.
-     * Expected to be used when implementing @see handle by yourself.
+     * Expected to only be called by @see handle
      */
     final protected function handleNext(
         ServerRequestInterface $request,
@@ -72,7 +72,7 @@ abstract class HttpHandlerContract
 
     /**
      * Pre-implemented stack handling for processing this handler in the stack.
-     * Expected to be used when implementing @see handle by yourself.
+     * Expected to only be called by @see handle
      */
     final protected function handleCurrent(
         ServerRequestInterface $request,

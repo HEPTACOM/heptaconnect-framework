@@ -8,7 +8,7 @@ use Psr\SimpleCache\CacheInterface;
 
 /**
  * Defines the access of the portal storage.
- * It can and will be used for caching.
+ * It can be used for caching.
  */
 interface PortalStorageInterface extends CacheInterface
 {

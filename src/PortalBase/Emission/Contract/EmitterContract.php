@@ -9,9 +9,9 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityE
 use Psr\Log\LoggerInterface;
 
 /**
- * Base class for every emitter implementation with various boilerplate-reducing entrypoints for fast development.
+ * Base class for every emitter implementation with various boilerplate-reducing entrypoints for rapid development.
  * When used as source for entities, you most likely implement @see supports, batch, run
- * When used as decorator to enrich data from previous emissions, you must implement @see supports, extend
+ * When used as decorator to enrich data from previous emissions, you should implement @see supports, extend
  */
 abstract class EmitterContract
 {
@@ -22,7 +22,7 @@ abstract class EmitterContract
     /**
      * First entrypoint to handle an emission in this flow component.
      * It allows direct stack handling manipulation. @see EmitterStackInterface
-     * You most likely want to implement @see run instead.
+     * You most likely want to implement @see run, batch instead.
      *
      * @param string[] $externalIds
      *
@@ -50,7 +50,7 @@ abstract class EmitterContract
     /**
      * The entrypoint for handling an emission with the least need of additional programming.
      * This is executed when this emitter on the stack is expected to act.
-     * It can be skipped when @see emit is implemented accordingly.
+     * It can be skipped when @see emit, batch is implemented accordingly.
      * Returns an entity, when the data could be read, otherwise null.
      */
     protected function run(string $externalId, EmitContextInterface $context): ?DatasetEntityContract
@@ -76,7 +76,7 @@ abstract class EmitterContract
 
     /**
      * Pre-implemented stack handling for processing the next emitter in the stack.
-     * Expected to be used when implementing @see emit by yourself.
+     * Expected to only be called by @see emit
      * It allows extending previous emitted entities with @see extend
      *
      * @param string[] $externalIds
@@ -134,7 +134,7 @@ abstract class EmitterContract
 
     /**
      * Pre-implemented stack handling for processing this emitter in the stack.
-     * Expected to be used when implementing @see emit by yourself.
+     * Expected to only be called by @see emit
      *
      * @param string[] $externalIds
      *
@@ -207,6 +207,7 @@ abstract class EmitterContract
 
     /**
      * The entrypoint for adding additional or changing existing data on an entity.
+     * It is only called from @see emitNext to extend previously emitted entities on the stack.
      */
     protected function extend(DatasetEntityContract $entity, EmitContextInterface $context): DatasetEntityContract
     {

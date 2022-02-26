@@ -12,8 +12,7 @@ interface WebHttpHandlerConfigurationFindActionInterface
 {
     /**
      * Get web http handler configuration by portal node and path.
-     * The configuration can be in the storage but is not expected.
-     * Therefore we find a configuration instead of get one.
+     * The configuration can be in the storage but is not required.
      *
      * @throws UnsupportedStorageKeyException
      */

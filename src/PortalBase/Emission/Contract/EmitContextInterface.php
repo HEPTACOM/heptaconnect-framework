@@ -19,7 +19,7 @@ interface EmitContextInterface extends PortalNodeContextInterface
     public function isDirectEmission(): bool;
 
     /**
-     * Store an exception attached to the identity of the given identity to be reviewed later.
+     * Store an exception attached to the given identity to be reviewed later.
      */
     public function markAsFailed(string $externalId, string $entityType, \Throwable $throwable): void;
 }

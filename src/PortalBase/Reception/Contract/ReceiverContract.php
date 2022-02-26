@@ -9,14 +9,14 @@ use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityException;
 
 /**
- * Base class for every receiver implementation with various boilerplate-reducing entrypoints for fast development.
+ * Base class for every receiver implementation with various boilerplate-reducing entrypoints for rapid development.
  */
 abstract class ReceiverContract
 {
     /**
      * First entrypoint to handle a reception in this flow component.
      * It allows direct stack handling manipulation. @see ReceiverStackInterface
-     * You most likely want to implement @see run instead.
+     * You most likely want to implement @see run, batch instead.
      *
      * @return iterable<array-key, DatasetEntityContract>
      */
@@ -39,8 +39,8 @@ abstract class ReceiverContract
     /**
      * The entrypoint for handling a reception with the least need of additional programming.
      * This is executed when this receiver on the stack is expected to act.
-     * It can be skipped when @see receive is implemented accordingly.
-     * When the targeted API supports access in batches it is likely you need to implement @see batch instead or in addition.
+     * It can be skipped when @see receive, batch is implemented accordingly.
+     * When the targeted API supports access in batches you should implement @see batch instead or in addition.
      */
     protected function run(DatasetEntityContract $entity, ReceiveContextInterface $context): void
     {
@@ -74,7 +74,7 @@ abstract class ReceiverContract
 
     /**
      * Pre-implemented stack handling for processing the next receiver in the stack.
-     * Expected to be used when implementing @see receive by yourself.
+     * Expected to only be called by @see receive
      *
      * @return iterable<array-key, DatasetEntityContract>
      */
@@ -88,7 +88,7 @@ abstract class ReceiverContract
 
     /**
      * Pre-implemented stack handling for processing this receiver in the stack.
-     * Expected to be used when implementing @see receive by yourself.
+     * Expected to only be called by @see receive
      *
      * @return iterable<array-key, DatasetEntityContract>
      */
@@ -111,7 +111,7 @@ abstract class ReceiverContract
 
     /**
      * Pre-implemented stack handling for processing the next receiver in the stack and pass its results into this receiver @see run
-     * Expected to be used when implementing @see receive by yourself.
+     * Expected to only be called by @see receive
      *
      * @return iterable<array-key, DatasetEntityContract>
      */

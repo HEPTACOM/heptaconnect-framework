@@ -14,7 +14,7 @@ use Psr\Container\ContainerInterface;
 interface PortalNodeContextInterface
 {
     /**
-     * Returns the configuration as plain array.
+     * Returns the configuration as plain array if a configuration exists, otherwise null.
      */
     public function getConfig(): ?array;
 

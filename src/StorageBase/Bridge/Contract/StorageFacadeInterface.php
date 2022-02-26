@@ -197,7 +197,7 @@ interface StorageFacadeInterface
     public function getPortalNodeConfigurationSetAction(): PortalNodeConfigurationSetActionInterface;
 
     /**
-     * Provides storage action to create routes between two portals for an entity type.
+     * Provides storage action to create routes between two portal nodes for an entity type.
      *
      * @throws StorageFacadeServiceExceptionInterface
      */
@@ -246,14 +246,14 @@ interface StorageFacadeInterface
     public function getRouteCapabilityOverviewAction(): RouteCapabilityOverviewActionInterface;
 
     /**
-     * Provides storage action to get web http handler configuration by portal node and path.
+     * Provides storage action to get web HTTP handler configuration by portal node and path.
      *
      * @throws StorageFacadeServiceExceptionInterface
      */
     public function getWebHttpHandlerConfigurationFindAction(): WebHttpHandlerConfigurationFindActionInterface;
 
     /**
-     * Provides storage action to set web http handler configuration by portal node and path.
+     * Provides storage action to set web HTTP handler configuration by portal node and path.
      *
      * @throws StorageFacadeServiceExceptionInterface
      */

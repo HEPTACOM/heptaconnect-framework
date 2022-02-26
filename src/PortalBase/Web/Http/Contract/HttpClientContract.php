@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\Web\Http\Support\DefaultRequestHeaders;
 use Psr\Http\Client\ClientInterface;
 
 /**
- * HTTP client that wraps around the PSR @see ClientInterface with configurable behaviour for common use-cases.
+ * HTTP client that wraps around the PSR-18 @see ClientInterface with configurable behaviour for common use-cases.
  */
 abstract class HttpClientContract implements ClientInterface
 {
@@ -31,7 +31,7 @@ abstract class HttpClientContract implements ClientInterface
     private array $maxWaitTimeout = [];
 
     /**
-     * Set the underlying use PSR @see ClientInterface
+     * Set the underlying use PSR-18 @see ClientInterface
      */
     public function __construct(ClientInterface $client)
     {
@@ -169,7 +169,7 @@ abstract class HttpClientContract implements ClientInterface
     }
 
     /**
-     * Get the underlying use PSR @see ClientInterface
+     * Get the underlying use PSR-18 @see ClientInterface
      */
     protected function getClient(): ClientInterface
     {

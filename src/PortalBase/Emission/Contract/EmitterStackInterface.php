@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Emission\Contract;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 
 /**
- * Resembles a collection of emitters that can be used to emit a certain supported entity type.
+ * Resembles a collection of emitters that can be used to emit a common supported entity type.
  */
 interface EmitterStackInterface
 {
@@ -21,7 +21,7 @@ interface EmitterStackInterface
     public function next(iterable $externalIds, EmitContextInterface $context): iterable;
 
     /**
-     * Gets the supported entity type by the stack.
+     * Gets the supported entity type of the stack.
      *
      * @return class-string<DatasetEntityContract>
      */

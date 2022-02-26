@@ -15,7 +15,7 @@ abstract class PortalContract
     use PathMethodsTrait;
 
     /**
-     * Returns structure, validation and default value schemes to validate configuration for any portal instance.
+     * Returns structure, validation and default value schemes to validate configuration for any portal node.
      */
     public function getConfigurationTemplate(): OptionsResolver
     {

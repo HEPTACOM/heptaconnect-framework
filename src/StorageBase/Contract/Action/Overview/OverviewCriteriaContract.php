@@ -26,7 +26,7 @@ abstract class OverviewCriteriaContract
     /**
      * Get the page to query.
      * First page is 1.
-     * Any value below disables pagination.
+     * Any value below 1 disables pagination.
      */
     public function getPage(): int
     {
@@ -36,7 +36,7 @@ abstract class OverviewCriteriaContract
     /**
      * Set the page to query.
      * First page is 1.
-     * Any value below disables pagination.
+     * Any value below 1 disables pagination.
      */
     public function setPage(int $page): void
     {

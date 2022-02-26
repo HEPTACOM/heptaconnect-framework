@@ -139,7 +139,7 @@ abstract class IdentityMappingTestContract extends TestCase
 
     /**
      * Test identification of entities and transformation of their primary keys through the identity storage of mapping and mappings nodes.
-     * The focus is on the transfer from a portal node to another.
+     * The focus is on the transfer from one portal node to another.
      *
      * @param class-string<DatasetEntityContract> $entityClass
      * @dataProvider provideEntityClasses
@@ -292,7 +292,7 @@ abstract class IdentityMappingTestContract extends TestCase
 
     /**
      * Test identification of entities and transformation of their primary keys through the identity storage of mapping and mappings nodes.
-     * The focus is on the transfer from a portal node to another but with identities in a third portal node that must not impact the process.
+     * The focus is on the transfer from one portal node to another but with identities in a third portal node that must not impact the process.
      *
      * @param class-string<DatasetEntityContract> $entityClass
      * @dataProvider provideEntityClasses

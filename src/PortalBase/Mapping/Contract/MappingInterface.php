@@ -10,7 +10,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 
 /**
  * Resembles a mapping in the storage.
- * When a storage independent reference is needed use @see MappingComponentStructContract
+ * When a storage independent reference is needed, use @see MappingComponentStructContract
  */
 interface MappingInterface
 {

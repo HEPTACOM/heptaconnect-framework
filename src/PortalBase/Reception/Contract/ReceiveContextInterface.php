@@ -18,12 +18,12 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 interface ReceiveContextInterface extends PortalNodeContextInterface
 {
     /**
-     * Gets access to a component that can provide on about entity status.
+     * Gets access to a component that can provide info on an entity's status.
      */
     public function getEntityStatus(): EntityStatusContract;
 
     /**
-     * Store an exception attached to the identity of the given identity to be reviewed later.
+     * Store an exception attached to the given identity to be reviewed later.
      */
     public function markAsFailed(DatasetEntityContract $entity, \Throwable $throwable): void;
 
