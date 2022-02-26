@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\TestSuite\Storage\Action;
 
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\RouteKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload;
@@ -22,6 +23,13 @@ use Heptacom\HeptaConnect\Storage\Base\Action\Route\Get\RouteGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Listing\ReceptionRouteListCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Listing\ReceptionRouteListResult;
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeCreateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDeleteActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Dataset\EntityA;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Dataset\EntityB;
@@ -32,18 +40,38 @@ use Heptacom\HeptaConnect\TestSuite\Storage\TestCase;
 
 abstract class RouteTestContract extends TestCase
 {
-    public function testRouteLifecycle(): void
-    {
-        $facade = $this->createStorageFacade();
-        $portalNodeCreate = $facade->getPortalNodeCreateAction();
-        $portalNodeDelete = $facade->getPortalNodeDeleteAction();
-        $createAction = $facade->getRouteCreateAction();
-        $receptionListAction = $facade->getReceptionRouteListAction();
-        $findAction = $facade->getRouteFindAction();
-        $getAction = $facade->getRouteGetAction();
-        $deleteAction = $facade->getRouteDeleteAction();
+    private PortalNodeCreateActionInterface $portalNodeCreateAction;
 
-        $portalNodeCreateResult = $portalNodeCreate->create(new PortalNodeCreatePayloads([
+    private PortalNodeDeleteActionInterface $portalNodeDeleteAction;
+
+    private RouteCreateActionInterface $routeCreateAction;
+
+    private ReceptionRouteListActionInterface $routeReceptionListAction;
+
+    private RouteFindActionInterface $routeFindAction;
+
+    private RouteGetActionInterface $routeGetAction;
+
+    private RouteDeleteActionInterface $routeDeleteAction;
+
+    private PortalNodeKeyInterface $portalA;
+
+    private PortalNodeKeyInterface $portalB;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $facade = $this->createStorageFacade();
+        $this->portalNodeCreateAction = $facade->getPortalNodeCreateAction();
+        $this->portalNodeDeleteAction = $facade->getPortalNodeDeleteAction();
+        $this->routeCreateAction = $facade->getRouteCreateAction();
+        $this->routeReceptionListAction = $facade->getReceptionRouteListAction();
+        $this->routeFindAction = $facade->getRouteFindAction();
+        $this->routeGetAction = $facade->getRouteGetAction();
+        $this->routeDeleteAction = $facade->getRouteDeleteAction();
+
+        $portalNodeCreateResult = $this->portalNodeCreateAction->create(new PortalNodeCreatePayloads([
             new PortalNodeCreatePayload(PortalA::class),
             new PortalNodeCreatePayload(PortalB::class),
         ]));
@@ -52,21 +80,25 @@ abstract class RouteTestContract extends TestCase
 
         static::assertInstanceOf(PortalNodeCreateResult::class, $firstResult);
         static::assertInstanceOf(PortalNodeCreateResult::class, $lastResult);
+        static::assertNotSame($firstResult, $lastResult);
 
-        $portalA = $firstResult->getPortalNodeKey();
-        $portalB = $lastResult->getPortalNodeKey();
+        $this->portalA = $firstResult->getPortalNodeKey();
+        $this->portalB = $lastResult->getPortalNodeKey();
+    }
 
+    public function testRouteLifecycle(): void
+    {
         $createPayloads = new RouteCreatePayloads();
 
-        foreach ([$portalA, $portalB] as $sourcePortal) {
-            foreach ([$portalA, $portalB] as $targetPortal) {
+        foreach ([$this->portalA, $this->portalB] as $sourcePortal) {
+            foreach ([$this->portalA, $this->portalB] as $targetPortal) {
                 foreach ([EntityA::class, EntityB::class, EntityC::class] as $entityType) {
                     $createPayloads->push([new RouteCreatePayload($sourcePortal, $targetPortal, $entityType)]);
                 }
             }
         }
 
-        $createResults = $createAction->create($createPayloads);
+        $createResults = $this->routeCreateAction->create($createPayloads);
 
         static::assertCount($createPayloads->count(), $createResults);
 
@@ -79,7 +111,7 @@ abstract class RouteTestContract extends TestCase
                 $createPayload->getEntityType()
             );
 
-            $findResult = $findAction->find($findCriteria);
+            $findResult = $this->routeFindAction->find($findCriteria);
 
             static::assertNotNull($findResult);
             /* @var RouteFindResult $findResult */
@@ -92,7 +124,7 @@ abstract class RouteTestContract extends TestCase
             ));
             $routeGetCriteria = new RouteGetCriteria(new RouteKeyCollection([$findResult->getRouteKey()]));
             /** @var RouteGetResult[] $getResults */
-            $getResults = \iterable_to_array($getAction->get($routeGetCriteria));
+            $getResults = \iterable_to_array($this->routeGetAction->get($routeGetCriteria));
 
             static::assertCount(1, $getResults);
 
@@ -103,7 +135,7 @@ abstract class RouteTestContract extends TestCase
                 static::assertSame($getResult->getEntityType(), $createPayload->getEntityType());
 
                 /** @var ReceptionRouteListResult[] $listResults */
-                $listResults = \iterable_to_array($receptionListAction->list(new ReceptionRouteListCriteria(
+                $listResults = \iterable_to_array($this->routeReceptionListAction->list(new ReceptionRouteListCriteria(
                     $createPayload->getSourcePortalNodeKey(),
                     $createPayload->getEntityType()
                 )));
@@ -114,18 +146,21 @@ abstract class RouteTestContract extends TestCase
                 static::assertCount(0, $receptionListResult);
             }
 
-            $deleteAction->delete(new RouteDeleteCriteria($routeGetCriteria->getRouteKeys()));
+            $this->routeDeleteAction->delete(new RouteDeleteCriteria($routeGetCriteria->getRouteKeys()));
 
-            static::assertEmpty(\iterable_to_array($getAction->get($routeGetCriteria)));
+            static::assertEmpty(\iterable_to_array($this->routeGetAction->get($routeGetCriteria)));
 
             try {
-                $deleteAction->delete(new RouteDeleteCriteria($routeGetCriteria->getRouteKeys()));
+                $this->routeDeleteAction->delete(new RouteDeleteCriteria($routeGetCriteria->getRouteKeys()));
                 static::fail('This should have been throwing a not found exception');
             } catch (NotFoundException $exception) {
             }
         }
 
-        $portalNodeDelete->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([$portalA, $portalB])));
+        $this->portalNodeDeleteAction->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([
+            $this->portalA,
+            $this->portalB,
+        ])));
     }
 
     abstract protected function createStorageFacade(): StorageFacadeInterface;
