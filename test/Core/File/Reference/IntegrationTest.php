@@ -61,7 +61,8 @@ class IntegrationTest extends TestCase
             $portalNodeKey,
             $fileContentsUrlProvider,
             $fileRequestUrlProvider,
-            $normalizationRegistry
+            $normalizationRegistry,
+            $this->createMock(RequestStorage::class)
         );
 
         $body = $streamFactory->createStream('Flag');
