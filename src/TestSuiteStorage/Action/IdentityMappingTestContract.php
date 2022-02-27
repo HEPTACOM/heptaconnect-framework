@@ -136,6 +136,42 @@ abstract class IdentityMappingTestContract extends TestCase
      * @param class-string<DatasetEntityContract> $entityClass
      * @dataProvider provideEntityClasses
      */
+    public function testIdentityMapTwice(string $entityClass): void
+    {
+        $facade = $this->createStorageFacade();
+        $identityMap = $facade->getIdentityMapAction();
+
+        $entity1 = new $entityClass();
+        $entity1->setPrimaryKey('57945df7-b8c8-4cca-a92e-53b71e8753ad');
+
+        $identityMapResult1 = $identityMap->map(new IdentityMapPayload($this->getPortalNodeA(), new DatasetEntityCollection([
+            $entity1,
+        ])));
+
+        static::assertCount(1, $identityMapResult1->getMappedDatasetEntityCollection());
+
+        $entity2 = new $entityClass();
+        $entity2->setPrimaryKey($entity1->getPrimaryKey());
+
+        $identityMapResult2 = $identityMap->map(new IdentityMapPayload($this->getPortalNodeA(), new DatasetEntityCollection([
+            $entity2,
+        ])));
+
+        static::assertCount(1, $identityMapResult2->getMappedDatasetEntityCollection());
+
+        $firstMapped1 = $identityMapResult1->getMappedDatasetEntityCollection()->first();
+        $firstMapped2 = $identityMapResult2->getMappedDatasetEntityCollection()->first();
+
+        self::assertInstanceOf(MappedDatasetEntityStruct::class, $firstMapped1);
+        self::assertInstanceOf(MappedDatasetEntityStruct::class, $firstMapped2);
+
+        self::assertTrue($firstMapped1->getMapping()->getMappingNodeKey()->equals($firstMapped2->getMapping()->getMappingNodeKey()));
+    }
+
+    /**
+     * @param class-string<DatasetEntityContract> $entityClass
+     * @dataProvider provideEntityClasses
+     */
     public function testReflectFromPortalNodeAToB(string $entityClass): void
     {
         $sourceId = 'e9011418-5535-4180-93e9-94b44cc3e28d';
