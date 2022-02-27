@@ -6,7 +6,6 @@ namespace Heptacom\HeptaConnect\Storage\Base\Test;
 
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct;
-use Heptacom\HeptaConnect\Portal\Base\Mapping\TypedMappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\MappingCollection;
@@ -22,7 +21,6 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct
- * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\TypedMappedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\MappingCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\TypedMappingCollection
  */
@@ -94,32 +92,5 @@ class MappingCollectionTest extends TestCase
         static::assertEquals(DatasetEntityStruct::class, $groupByType[DatasetEntityStruct::class]->getType());
         static::assertEquals(FirstEntity::class, $groupByType[FirstEntity::class]->getType());
         static::assertEquals(SecondEntity::class, $groupByType[SecondEntity::class]->getType());
-    }
-
-    public function testTypedMappedDatasetEntityCollection(): void
-    {
-        $datasetEntityMapping = $this->createMock(MappingStruct::class);
-        $datasetEntityMapping->method('getEntityType')->willReturn(DatasetEntityStruct::class);
-        $dataset = $this->createMock(MappedDatasetEntityStruct::class);
-        $dataset->method('getMapping')->willReturn($datasetEntityMapping);
-
-        $firstMapping = $this->createMock(MappingStruct::class);
-        $firstMapping->method('getEntityType')->willReturn(FirstEntity::class);
-        $first = $this->createMock(MappedDatasetEntityStruct::class);
-        $first->method('getMapping')->willReturn($firstMapping);
-
-        $secondMapping = $this->createMock(MappingStruct::class);
-        $secondMapping->method('getEntityType')->willReturn(SecondEntity::class);
-        $second = $this->createMock(MappedDatasetEntityStruct::class);
-        $second->method('getMapping')->willReturn($secondMapping);
-
-        $collection = new TypedMappedDatasetEntityCollection(FirstEntity::class, [$first]);
-        $collection->push([
-            $dataset,
-            $first,
-            $second,
-        ]);
-        static::assertCount(2, $collection);
-        static::assertEquals(FirstEntity::class, $collection->getType());
     }
 }
