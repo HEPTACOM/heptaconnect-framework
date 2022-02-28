@@ -11,6 +11,8 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 interface RouteGetActionInterface
 {
     /**
+     * Get route details.
+     *
      * @throws UnsupportedStorageKeyException
      *
      * @return iterable<RouteGetResult>

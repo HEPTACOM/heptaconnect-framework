@@ -21,5 +21,9 @@ interface PublisherInterface
         string $externalId
     ): void;
 
+    /**
+     * Publish existence of the given identities.
+     * This will ensure the given identities are stored in the storage and queued for emission.
+     */
     public function publishBatch(MappingComponentCollection $mappings): void;
 }

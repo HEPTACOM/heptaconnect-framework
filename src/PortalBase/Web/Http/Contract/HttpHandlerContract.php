@@ -8,8 +8,16 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Base class for every HTTP handler implementation with various boilerplate-reducing entrypoints rapid fast development.
+ */
 abstract class HttpHandlerContract
 {
+    /**
+     * First entrypoint to handle a web request in this flow component.
+     * It allows direct stack handling manipulation. @see HttpHandlerStackInterface
+     * You most likely want to implement @see run instead.
+     */
     public function handle(
         ServerRequestInterface $request,
         ResponseInterface $response,
@@ -19,13 +27,23 @@ abstract class HttpHandlerContract
         return $this->handleNext($request, $this->handleCurrent($request, $response, $context), $context, $stack);
     }
 
+    /**
+     * Returns a normalized variation of the supported HTTP path.
+     */
     final public function getPath(): string
     {
         return \ltrim($this->supports(), '/');
     }
 
+    /**
+     * Must return the HTTP path to implement.
+     */
     abstract protected function supports(): string;
 
+    /**
+     * Pre-implemented stack handling for processing the next handler in the stack.
+     * Expected to only be called by @see handle
+     */
     final protected function handleNext(
         ServerRequestInterface $request,
         ResponseInterface $response,
@@ -52,6 +70,10 @@ abstract class HttpHandlerContract
         }
     }
 
+    /**
+     * Pre-implemented stack handling for processing this handler in the stack.
+     * Expected to only be called by @see handle
+     */
     final protected function handleCurrent(
         ServerRequestInterface $request,
         ResponseInterface $response,
@@ -77,6 +99,12 @@ abstract class HttpHandlerContract
         }
     }
 
+    /**
+     * The most versatile entrypoint for handling a web request without to be expected to implement stack handling.
+     * There are variations of this method for popular HTTP methods (@see options, get, post, put, patch, delete) that are used according to the incoming HTTP method.
+     * This is executed when this handler on the stack is expected to act.
+     * It can be skipped when @see handle is implemented accordingly.
+     */
     protected function run(
         ServerRequestInterface $request,
         ResponseInterface $response,
@@ -102,6 +130,10 @@ abstract class HttpHandlerContract
         return $response;
     }
 
+    /**
+     * The entrypoint for handling an HTTP OPTION web request.
+     * For further details @see run.
+     */
     protected function options(
         ServerRequestInterface $request,
         ResponseInterface $response,
@@ -110,6 +142,10 @@ abstract class HttpHandlerContract
         return $response;
     }
 
+    /**
+     * The entrypoint for handling an HTTP GET web request.
+     * For further details @see run.
+     */
     protected function get(
         ServerRequestInterface $request,
         ResponseInterface $response,
@@ -118,6 +154,10 @@ abstract class HttpHandlerContract
         return $response;
     }
 
+    /**
+     * The entrypoint for handling an HTTP POST web request.
+     * For further details @see run.
+     */
     protected function post(
         ServerRequestInterface $request,
         ResponseInterface $response,
@@ -126,6 +166,10 @@ abstract class HttpHandlerContract
         return $response;
     }
 
+    /**
+     * The entrypoint for handling an HTTP PUT web request.
+     * For further details @see run.
+     */
     protected function put(
         ServerRequestInterface $request,
         ResponseInterface $response,
@@ -134,6 +178,10 @@ abstract class HttpHandlerContract
         return $response;
     }
 
+    /**
+     * The entrypoint for handling an HTTP PATCH web request.
+     * For further details @see run.
+     */
     protected function patch(
         ServerRequestInterface $request,
         ResponseInterface $response,
@@ -142,6 +190,10 @@ abstract class HttpHandlerContract
         return $response;
     }
 
+    /**
+     * The entrypoint for handling an HTTP DELETE web request.
+     * For further details @see run.
+     */
     protected function delete(
         ServerRequestInterface $request,
         ResponseInterface $response,

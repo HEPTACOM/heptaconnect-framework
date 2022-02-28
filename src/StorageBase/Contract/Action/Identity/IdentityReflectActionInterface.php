@@ -12,6 +12,8 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 interface IdentityReflectActionInterface
 {
     /**
+     * Use identities on entities to find related siblings for a different portal node and assign the matches to the identities back for the entities.
+     *
      * @throws CreateException
      * @throws UnsupportedStorageKeyException
      * @throws UnsharableOwnerException

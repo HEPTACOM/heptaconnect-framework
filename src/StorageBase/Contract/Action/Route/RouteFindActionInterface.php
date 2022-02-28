@@ -11,6 +11,8 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 interface RouteFindActionInterface
 {
     /**
+     * Find routes by their portal nodes and entity type.
+     *
      * @throws UnsupportedStorageKeyException
      */
     public function find(RouteFindCriteria $criteria): ?RouteFindResult;
