@@ -9,5 +9,8 @@ use Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Find\PortalExtensi
 
 interface PortalExtensionFindActionInterface
 {
+    /**
+     * Find portal extension state on a portal node.
+     */
     public function find(PortalNodeKeyInterface $portalNodeKey): PortalExtensionFindResult;
 }

@@ -9,5 +9,8 @@ use Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Deactivate\PortalE
 
 interface PortalExtensionDeactivateActionInterface
 {
+    /**
+     * Deactivate portal extensions on a portal node.
+     */
     public function deactivate(PortalExtensionDeactivatePayload $payload): PortalExtensionDeactivateResult;
 }

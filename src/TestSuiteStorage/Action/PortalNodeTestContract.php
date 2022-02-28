@@ -18,8 +18,14 @@ use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalB\PortalB;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalC\PortalC;
 use Heptacom\HeptaConnect\TestSuite\Storage\TestCase;
 
+/**
+ * Test pre-implementation to test portal node related storage actions.
+ */
 abstract class PortalNodeTestContract extends TestCase
 {
+    /**
+     * Validates a complete portal node "lifecycle" can be managed with the storage. It covers creation, listings and deletion of portal nodes.
+     */
     public function testLifecycle(): void
     {
         $facade = $this->createStorageFacade();
@@ -95,5 +101,8 @@ abstract class PortalNodeTestContract extends TestCase
         static::fail('You cannot delete something that does not exist');
     }
 
+    /**
+     * Provides the storage implementation to test against.
+     */
     abstract protected function createStorageFacade(): StorageFacadeInterface;
 }

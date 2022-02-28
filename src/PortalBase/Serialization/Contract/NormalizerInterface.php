@@ -8,5 +8,9 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface as SymfonyNormal
 
 interface NormalizerInterface extends SymfonyNormalizerInterface
 {
+    /**
+     * Returns the supported type to normalize.
+     * Used for a selection by strategy pattern.
+     */
     public function getType(): string;
 }

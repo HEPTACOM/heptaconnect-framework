@@ -12,6 +12,9 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 interface RouteOverviewActionInterface
 {
     /**
+     * Paginate over all routes.
+     * Expected to be used for a human request listing.
+     *
      * @throws InvalidOverviewCriteriaException
      * @throws UnsupportedStorageKeyException
      *

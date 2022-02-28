@@ -9,5 +9,8 @@ use Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Activate\PortalExt
 
 interface PortalExtensionActivateActionInterface
 {
+    /**
+     * Activate portal extensions on a portal node.
+     */
     public function activate(PortalExtensionActivatePayload $payload): PortalExtensionActivateResult;
 }

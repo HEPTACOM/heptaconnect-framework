@@ -10,6 +10,8 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
 interface RouteDeleteActionInterface
 {
     /**
+     * Delete routes.
+     *
      * @throws NotFoundException
      */
     public function delete(RouteDeleteCriteria $criteria): void;

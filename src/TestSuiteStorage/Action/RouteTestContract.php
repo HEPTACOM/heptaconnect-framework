@@ -38,6 +38,9 @@ use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalA\PortalA;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalB\PortalB;
 use Heptacom\HeptaConnect\TestSuite\Storage\TestCase;
 
+/**
+ * Test pre-implementation to test route related storage actions. Some other storage actions e.g. PortalNodeCreate are needed to set up test scenarios.
+ */
 abstract class RouteTestContract extends TestCase
 {
     private PortalNodeCreateActionInterface $portalNodeCreateAction;
@@ -86,6 +89,9 @@ abstract class RouteTestContract extends TestCase
         $this->portalB = $lastResult->getPortalNodeKey();
     }
 
+    /**
+     * Validates a complete route "lifecycle" can be managed with the storage. It covers creation, usage, configuration and deletion of routes.
+     */
     public function testRouteLifecycle(): void
     {
         $createPayloads = new RouteCreatePayloads();
@@ -248,5 +254,8 @@ abstract class RouteTestContract extends TestCase
         }
     }
 
+    /**
+     * Provides the storage implementation to test against.
+     */
     abstract protected function createStorageFacade(): StorageFacadeInterface;
 }
