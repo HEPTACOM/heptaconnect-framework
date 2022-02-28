@@ -25,262 +25,205 @@ class Psr11StorageFacadeTest extends TestCase
 
         try {
             $facade->getIdentityMapAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getIdentityOverviewAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getIdentityPersistAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getIdentityReflectAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getJobCreateAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getJobDeleteAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getJobFailAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getJobFinishAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getJobGetAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getJobListFinishedAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getJobScheduleAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getJobStartAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getPortalExtensionActivateAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getPortalExtensionDeactivateAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getPortalExtensionFindAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getRouteCreateAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getRouteDeleteAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getRouteFindAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getRouteGetAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getRouteOverviewAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getReceptionRouteListAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getPortalNodeCreateAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getPortalNodeDeleteAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getPortalNodeGetAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getPortalNodeListAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getPortalNodeOverviewAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getPortalNodeConfigurationGetAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getPortalNodeConfigurationSetAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
-        } catch (\Throwable $throwable) {
-            self::fail();
         }
 
         try {
             $facade->getRouteCapabilityOverviewAction();
-            self::fail();
+            static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
-        } catch (\Throwable $throwable) {
-            self::fail();
+            static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
         }
 
         static::assertTrue(true, 'We just do not expect an exception');

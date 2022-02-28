@@ -151,7 +151,7 @@ class StorageActionParameterTest extends TestCase
         foreach ($this->iterateAttachmentAwareActionStructs() as $attachmentAware) {
             $attachment = new FirstEntity();
             $attachmentAware->attach($attachment);
-            self::assertTrue($attachmentAware->isAttached($attachment));
+            static::assertTrue($attachmentAware->isAttached($attachment));
             $attachmentAware->detach($attachment);
         }
     }

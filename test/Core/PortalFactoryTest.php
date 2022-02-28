@@ -148,6 +148,7 @@ class PortalFactoryTest extends TestCase
 
         try {
             $portalFactory->instantiatePortal(DependentPortal::class);
+            static::fail();
         } catch (UnexpectedRequiredParameterInConstructorOnInstantionException $exception) {
             static::assertEquals(DependentPortal::class, $exception->getClass());
 
@@ -163,6 +164,7 @@ class PortalFactoryTest extends TestCase
 
         try {
             $portalFactory->instantiatePortalExtension(DependentPortalExtension::class);
+            static::fail();
         } catch (UnexpectedRequiredParameterInConstructorOnInstantionException $exception) {
             static::assertEquals(DependentPortalExtension::class, $exception->getClass());
 
