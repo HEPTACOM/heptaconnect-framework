@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeContextInterface
 
 /**
  * Describes status report specific contexts.
+ *
  * @see StatusReporterContract
  * @see StatusReporterStackInterface
  */

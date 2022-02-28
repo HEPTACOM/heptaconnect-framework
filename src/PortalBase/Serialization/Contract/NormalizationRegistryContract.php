@@ -14,7 +14,7 @@ abstract class NormalizationRegistryContract
     /**
      * Returns a suitable normalizer for the given data, otherwise null.
      *
-     * @param mixed $value
+     * @psalm-param mixed $value
      */
     public function getNormalizer($value): ?NormalizerInterface
     {

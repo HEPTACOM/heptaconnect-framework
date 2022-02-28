@@ -12,6 +12,7 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Describes reception specific contexts.
+ *
  * @see ReceiverContract
  * @see ReceiverStackInterface
  */

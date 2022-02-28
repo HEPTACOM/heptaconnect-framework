@@ -16,6 +16,7 @@ abstract class StorageKeyGeneratorContract
 {
     /**
      * Generate a storage specific implementation of a key specified by its interface.
+     *
      * @see StorageKeyInterface
      *
      * @psalm-param class-string<StorageKeyInterface> $keyClassName
@@ -28,6 +29,7 @@ abstract class StorageKeyGeneratorContract
 
     /**
      * Generate a storage specific implementations of keys specified by their interface.
+     *
      * @see StorageKeyInterface
      *
      * @psalm-param class-string<StorageKeyInterface> $keyClassName

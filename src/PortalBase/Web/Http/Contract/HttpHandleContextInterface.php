@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeContextInterface
 
 /**
  * Describes HTTP handler specific contexts.
+ *
  * @see HttpHandlerContract
  * @see HttpHandlerStackInterface
  */

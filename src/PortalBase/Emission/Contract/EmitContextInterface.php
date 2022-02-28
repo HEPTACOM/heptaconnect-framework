@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeContextInterface
 
 /**
  * Describes emission specific contexts.
+ *
  * @see EmitterContract
  * @see EmitterStackInterface
  */

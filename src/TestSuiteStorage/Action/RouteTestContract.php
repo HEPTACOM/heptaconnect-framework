@@ -107,7 +107,6 @@ abstract class RouteTestContract extends TestCase
         $createResults = $this->routeCreateAction->create($createPayloads);
         static::assertCount($createPayloads->count(), $createResults);
 
-        /** @var RouteCreatePayload $createPayload */
         foreach ($createPayloads as $createPayload) {
             $findCriteria = new RouteFindCriteria(
                 $createPayload->getSourcePortalNodeKey(),
@@ -176,7 +175,6 @@ abstract class RouteTestContract extends TestCase
 
         $routeKeys = new RouteKeyCollection();
 
-        /** @var RouteCreatePayload $createPayload */
         foreach ($createPayloads as $createPayload) {
             $findCriteria = new RouteFindCriteria(
                 $createPayload->getSourcePortalNodeKey(),
