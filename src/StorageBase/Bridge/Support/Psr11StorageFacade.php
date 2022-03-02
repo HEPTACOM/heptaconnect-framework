@@ -27,6 +27,8 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeList
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageClearActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionInterface;
@@ -155,6 +157,16 @@ class Psr11StorageFacade extends AbstractSingletonStorageFacade
     protected function createPortalNodeConfigurationSetAction(): PortalNodeConfigurationSetActionInterface
     {
         return $this->getInstanceFromContainer(PortalNodeConfigurationSetActionInterface::class);
+    }
+
+    protected function createPortalNodeStorageClearAction(): PortalNodeStorageClearActionInterface
+    {
+        return $this->getInstanceFromContainer(PortalNodeStorageClearActionInterface::class);
+    }
+
+    protected function createPortalNodeStorageDeleteAction(): PortalNodeStorageDeleteActionInterface
+    {
+        return $this->getInstanceFromContainer(PortalNodeStorageDeleteActionInterface::class);
     }
 
     protected function createRouteCreateAction(): RouteCreateActionInterface

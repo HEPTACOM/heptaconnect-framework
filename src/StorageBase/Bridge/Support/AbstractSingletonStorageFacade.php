@@ -29,6 +29,8 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeList
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageClearActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionInterface;
@@ -96,6 +98,10 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     private ?PortalNodeConfigurationGetActionInterface $portalNodeConfigurationGetAction = null;
 
     private ?PortalNodeConfigurationSetActionInterface $portalNodeConfigurationSetAction = null;
+
+    private ?PortalNodeStorageClearActionInterface $portalNodeStorageClearAction = null;
+
+    private ?PortalNodeStorageDeleteActionInterface $portalNodeStorageDeleteAction = null;
 
     private ?RouteCapabilityOverviewActionInterface $routeCapabilityOverviewAction = null;
 
@@ -345,6 +351,28 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    public function getPortalNodeStorageClearAction(): PortalNodeStorageClearActionInterface
+    {
+        try {
+            return $this->portalNodeStorageClearAction ??= $this->createPortalNodeStorageClearAction();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            throw $throwable;
+        } catch (\Throwable $throwable) {
+            throw new StorageFacadeServiceException(PortalNodeStorageClearActionInterface::class, $throwable);
+        }
+    }
+
+    public function getPortalNodeStorageDeleteAction(): PortalNodeStorageDeleteActionInterface
+    {
+        try {
+            return $this->portalNodeStorageDeleteAction ??= $this->createPortalNodeStorageDeleteAction();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            throw $throwable;
+        } catch (\Throwable $throwable) {
+            throw new StorageFacadeServiceException(PortalNodeStorageDeleteActionInterface::class, $throwable);
+        }
+    }
+
     public function getRouteCreateAction(): RouteCreateActionInterface
     {
         try {
@@ -553,6 +581,16 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
      * @throws \Throwable
      */
     abstract protected function createPortalNodeConfigurationSetAction(): PortalNodeConfigurationSetActionInterface;
+
+    /**
+     * @throws \Throwable
+     */
+    abstract protected function createPortalNodeStorageClearAction(): PortalNodeStorageClearActionInterface;
+
+    /**
+     * @throws \Throwable
+     */
+    abstract protected function createPortalNodeStorageDeleteAction(): PortalNodeStorageDeleteActionInterface;
 
     /**
      * @throws \Throwable
