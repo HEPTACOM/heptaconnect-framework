@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Storage\Base\Contract;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 
 abstract class PortalStorageContract
@@ -22,29 +21,7 @@ abstract class PortalStorageContract
     ): void;
 
     /**
-     * @throws NotFoundException
-     * @throws UnsupportedStorageKeyException
-     */
-    abstract public function getValue(PortalNodeKeyInterface $portalNodeKey, string $key): string;
-
-    /**
-     * @throws NotFoundException
-     * @throws UnsupportedStorageKeyException
-     */
-    abstract public function getType(PortalNodeKeyInterface $portalNodeKey, string $key): string;
-
-    /**
      * @throws UnsupportedStorageKeyException
      */
     abstract public function list(PortalNodeKeyInterface $portalNodeKey): iterable;
-
-    /**
-     * @throws UnsupportedStorageKeyException
-     */
-    abstract public function has(PortalNodeKeyInterface $portalNodeKey, string $key): bool;
-
-    /**
-     * @throws UnsupportedStorageKeyException
-     */
-    abstract public function getMultiple(PortalNodeKeyInterface $portalNodeKey, array $keys): array;
 }
