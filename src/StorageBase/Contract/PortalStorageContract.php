@@ -12,16 +12,5 @@ abstract class PortalStorageContract
     /**
      * @throws UnsupportedStorageKeyException
      */
-    abstract public function set(
-        PortalNodeKeyInterface $portalNodeKey,
-        string $key,
-        string $value,
-        string $type,
-        ?\DateInterval $ttl = null
-    ): void;
-
-    /**
-     * @throws UnsupportedStorageKeyException
-     */
     abstract public function list(PortalNodeKeyInterface $portalNodeKey): iterable;
 }

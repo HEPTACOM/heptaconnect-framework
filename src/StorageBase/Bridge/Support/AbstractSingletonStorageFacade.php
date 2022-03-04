@@ -32,6 +32,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\P
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageClearActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionInterface;
@@ -387,6 +388,17 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    public function getPortalNodeStorageSetAction(): PortalNodeStorageSetActionInterface
+    {
+        try {
+            return $this->portalNodeStorageSetAction ??= $this->createPortalNodeStorageSetAction();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            throw $throwable;
+        } catch (\Throwable $throwable) {
+            throw new StorageFacadeServiceException(PortalNodeStorageSetActionInterface::class, $throwable);
+        }
+    }
+
     public function getRouteCreateAction(): RouteCreateActionInterface
     {
         try {
@@ -610,6 +622,11 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
      * @throws \Throwable
      */
     abstract protected function createPortalNodeStorageGetAction(): PortalNodeStorageGetActionInterface;
+
+    /**
+     * @throws \Throwable
+     */
+    abstract protected function createPortalNodeStorageSetAction(): PortalNodeStorageSetActionInterface;
 
     /**
      * @throws \Throwable

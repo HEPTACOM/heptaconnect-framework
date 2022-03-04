@@ -29,6 +29,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\P
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageClearActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionInterface;
@@ -219,6 +220,13 @@ interface StorageFacadeInterface
      * @throws StorageFacadeServiceExceptionInterface
      */
     public function getPortalNodeStorageGetAction(): PortalNodeStorageGetActionInterface;
+
+    /**
+     * Provides storage action to write portal node storage entries.
+     *
+     * @throws StorageFacadeServiceExceptionInterface
+     */
+    public function getPortalNodeStorageSetAction(): PortalNodeStorageSetActionInterface;
 
     /**
      * Provides storage action to create routes between two portal nodes for an entity type.
