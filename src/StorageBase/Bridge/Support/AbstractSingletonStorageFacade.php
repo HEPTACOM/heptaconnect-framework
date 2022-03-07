@@ -32,6 +32,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\P
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageClearActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface;
@@ -106,6 +107,8 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     private ?PortalNodeStorageDeleteActionInterface $portalNodeStorageDeleteAction = null;
 
     private ?PortalNodeStorageGetActionInterface $portalNodeStorageGetAction = null;
+
+    private ?PortalNodeStorageListActionInterface $portalNodeStorageListAction = null;
 
     private ?RouteCapabilityOverviewActionInterface $routeCapabilityOverviewAction = null;
 
@@ -388,6 +391,17 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    public function getPortalNodeStorageListAction(): PortalNodeStorageListActionInterface
+    {
+        try {
+            return $this->portalNodeStorageListAction ??= $this->createPortalNodeStorageListAction();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            throw $throwable;
+        } catch (\Throwable $throwable) {
+            throw new StorageFacadeServiceException(PortalNodeStorageListActionInterface::class, $throwable);
+        }
+    }
+
     public function getPortalNodeStorageSetAction(): PortalNodeStorageSetActionInterface
     {
         try {
@@ -622,6 +636,11 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
      * @throws \Throwable
      */
     abstract protected function createPortalNodeStorageGetAction(): PortalNodeStorageGetActionInterface;
+
+    /**
+     * @throws \Throwable
+     */
+    abstract protected function createPortalNodeStorageListAction(): PortalNodeStorageListActionInterface;
 
     /**
      * @throws \Throwable

@@ -241,6 +241,13 @@ class Psr11StorageFacadeTest extends TestCase
         }
 
         try {
+            $facade->getPortalNodeStorageListAction();
+            static::fail();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
+        }
+
+        try {
             $facade->getPortalNodeStorageSetAction();
             static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
@@ -295,6 +302,7 @@ class Psr11StorageFacadeTest extends TestCase
         $facade->getPortalNodeStorageClearAction();
         $facade->getPortalNodeStorageDeleteAction();
         $facade->getPortalNodeStorageGetAction();
+        $facade->getPortalNodeStorageListAction();
         $facade->getPortalNodeStorageSetAction();
         $facade->getRouteCapabilityOverviewAction();
 

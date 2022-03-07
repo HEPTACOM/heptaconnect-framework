@@ -58,6 +58,8 @@ use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Clear\PortalNode
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Delete\PortalNodeStorageDeleteCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Get\PortalNodeStorageGetCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Get\PortalNodeStorageGetResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\List\PortalNodeStorageListCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\List\PortalNodeStorageListResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Set\PortalNodeStorageSetItem;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Set\PortalNodeStorageSetItems;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Set\PortalNodeStorageSetPayload;
@@ -135,6 +137,8 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Set\PortalNodeStorageSetItem
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Set\PortalNodeStorageSetItems
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Set\PortalNodeStorageSetPayload
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\List\PortalNodeStorageListCriteria
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\List\PortalNodeStorageListResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayloads
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResult
@@ -234,6 +238,8 @@ class StorageActionParameterTest extends TestCase
         yield new PortalNodeStorageDeleteCriteria($portalNodeKey, new StringCollection());
         yield new PortalNodeStorageGetResult($portalNodeKey, '', '', '');
         yield new PortalNodeStorageGetCriteria($portalNodeKey, new StringCollection());
+        yield new PortalNodeStorageListCriteria($portalNodeKey);
+        yield new PortalNodeStorageListResult($portalNodeKey, '', '', '');
         yield new PortalNodeStorageSetPayload($portalNodeKey, new PortalNodeStorageSetItems());
         yield new PortalNodeStorageSetItem('', '', '', null);
         yield new PortalNodeStorageSetItems();
