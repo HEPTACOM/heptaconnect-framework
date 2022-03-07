@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Set;
 
-use DateInterval;
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
@@ -24,9 +23,9 @@ final class PortalNodeStorageSetItem implements CreatePayloadInterface, Attachme
 
     public function __construct(
         string $storageKey,
-        string $type,
         string $value,
-        ?DateInterval $expiresIn
+        string $type,
+        ?\DateInterval $expiresIn
     ) {
         $this->attachments = new AttachmentCollection();
         $this->storageKey = $storageKey;
@@ -65,12 +64,12 @@ final class PortalNodeStorageSetItem implements CreatePayloadInterface, Attachme
         $this->value = $value;
     }
 
-    public function getExpiresIn(): ?DateInterval
+    public function getExpiresIn(): ?\DateInterval
     {
         return $this->expiresIn;
     }
 
-    public function setExpiresIn(?DateInterval $expiresIn): void
+    public function setExpiresIn(?\DateInterval $expiresIn): void
     {
         $this->expiresIn = $expiresIn;
     }
