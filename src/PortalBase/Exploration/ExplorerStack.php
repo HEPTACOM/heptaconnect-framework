@@ -11,7 +11,7 @@ use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-class ExplorerStack implements ExplorerStackInterface, LoggerAwareInterface
+final class ExplorerStack implements ExplorerStackInterface, LoggerAwareInterface
 {
     /**
      * @var array<array-key, ExplorerContract>

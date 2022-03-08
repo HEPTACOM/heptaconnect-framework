@@ -12,7 +12,7 @@ use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-class ReceiverStack implements ReceiverStackInterface, LoggerAwareInterface
+final class ReceiverStack implements ReceiverStackInterface, LoggerAwareInterface
 {
     /**
      * @var array<array-key, ReceiverContract>

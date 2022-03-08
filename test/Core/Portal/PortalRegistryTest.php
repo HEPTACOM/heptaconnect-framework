@@ -28,7 +28,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult
  */
-class PortalRegistryTest extends TestCase
+final class PortalRegistryTest extends TestCase
 {
     private ClassLoader $classLoader;
 

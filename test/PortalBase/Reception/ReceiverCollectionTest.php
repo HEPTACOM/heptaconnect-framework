@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection
  */
-class ReceiverCollectionTest extends TestCase
+final class ReceiverCollectionTest extends TestCase
 {
     public function testBySupport(): void
     {

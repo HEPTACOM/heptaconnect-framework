@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack
  */
-class ReceiverStackTest extends TestCase
+final class ReceiverStackTest extends TestCase
 {
     public function testEmptyStackDoesNotFail(): void
     {

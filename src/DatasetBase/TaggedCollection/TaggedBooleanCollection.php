@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\BooleanCollection;
 /**
  * @extends AbstractTaggedCollection<bool>
  */
-class TaggedBooleanCollection extends AbstractTaggedCollection
+final class TaggedBooleanCollection extends AbstractTaggedCollection
 {
     /**
      * @psalm-return BooleanCollection::class

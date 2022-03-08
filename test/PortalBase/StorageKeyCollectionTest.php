@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Portal\Base\StorageKey\MappingNodeKeyCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection
  */
-class StorageKeyCollectionTest extends TestCase
+final class StorageKeyCollectionTest extends TestCase
 {
     public function testMappingNodeKeyCollection(): void
     {

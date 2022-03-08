@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Date
  */
-class DateTest extends TestCase
+final class DateTest extends TestCase
 {
     public function testMissingTimeComponent(): void
     {

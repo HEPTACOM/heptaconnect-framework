@@ -17,7 +17,7 @@ use Psr\Http\Message\ResponseInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Exception\HttpException
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Support\DefaultRequestHeaders
  */
-class HttpClientTest extends TestCase
+final class HttpClientTest extends TestCase
 {
     public function testHeaders(): void
     {

@@ -23,7 +23,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection
  */
-class HttpHandlerStackBuilderFactoryTest extends TestCase
+final class HttpHandlerStackBuilderFactoryTest extends TestCase
 {
     public function testFirstSourceBeingSourceInBuilder(): void
     {
