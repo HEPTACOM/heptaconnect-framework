@@ -7,9 +7,9 @@ namespace Heptacom\HeptaConnect\Dataset\Base\ScalarCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<string>
+ * @extends AbstractCollection<string>
  */
-class StringCollection extends AbstractCollection
+final class StringCollection extends AbstractCollection
 {
     protected function isValidItem($item): bool
     {

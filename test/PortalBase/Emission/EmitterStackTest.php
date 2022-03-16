@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack;
+use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use PHPUnit\Framework\TestCase;
@@ -15,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack
  */
-class EmitterStackTest extends TestCase
+final class EmitterStackTest extends TestCase
 {
     public function testEmptyStackDoesNotFail(): void
     {
@@ -29,9 +30,9 @@ class EmitterStackTest extends TestCase
 
     public function testStackCallsEveryone(): void
     {
-        $result1 = $this->createMock(MappedDatasetEntityStruct::class);
-        $result2 = $this->createMock(MappedDatasetEntityStruct::class);
-        $result3 = $this->createMock(MappedDatasetEntityStruct::class);
+        $result1 = new MappedDatasetEntityStruct($this->createMock(MappingInterface::class), new FirstEntity());
+        $result2 = new MappedDatasetEntityStruct($this->createMock(MappingInterface::class), new FirstEntity());
+        $result3 = new MappedDatasetEntityStruct($this->createMock(MappingInterface::class), new FirstEntity());
 
         $emitter1 = $this->createMock(EmitterContract::class);
         $emitter1->expects(static::once())

@@ -8,9 +8,9 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface;
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\FloatCollection;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Translatable\ScalarCollection\AbstractTranslatableScalarCollection<\Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\FloatCollection>
+ * @extends AbstractTranslatableScalarCollection<FloatCollection>
  */
-class TranslatableFloatCollection extends AbstractTranslatableScalarCollection
+final class TranslatableFloatCollection extends AbstractTranslatableScalarCollection
 {
     protected function getInitialValue(): CollectionInterface
     {

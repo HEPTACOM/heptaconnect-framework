@@ -6,31 +6,12 @@ namespace Heptacom\HeptaConnect\Storage\Base\Test;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\ConfigurationStorageContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\PortalStorageContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Storage\Base\Contract\ConfigurationStorageContract
- */
-class ContractTest extends TestCase
+final class ContractTest extends TestCase
 {
-    public function testExtendingConfigurationStorage(): void
-    {
-        $this->expectNotToPerformAssertions();
-        new class() extends ConfigurationStorageContract {
-            public function getConfiguration(PortalNodeKeyInterface $portalNodeKey): array
-            {
-                return [];
-            }
-
-            public function setConfiguration(PortalNodeKeyInterface $portalNodeKey, ?array $data): void
-            {
-            }
-        };
-    }
-
     public function testExtendingPortalStorage(): void
     {
         $this->expectNotToPerformAssertions();

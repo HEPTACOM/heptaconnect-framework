@@ -11,6 +11,9 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\CreateException;
 interface JobCreateActionInterface
 {
     /**
+     * Create jobs with their payloads.
+     * The initial state must be open.
+     *
      * @throws CreateException
      */
     public function create(JobCreatePayloads $payloads): JobCreateResults;

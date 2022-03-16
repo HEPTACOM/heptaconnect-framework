@@ -7,7 +7,9 @@ namespace Heptacom\HeptaConnect\Portal\Base\Builder;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\ConfigurationContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 trait ResolveArgumentsTrait
 {
@@ -19,8 +21,8 @@ trait ResolveArgumentsTrait
     /**
      * @param callable(int,string,?string,ContainerInterface):mixed $resolveArgument
      *
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws \ReflectionException
      */
     protected function resolveArguments(
@@ -51,11 +53,11 @@ trait ResolveArgumentsTrait
 
     private function getType(\ReflectionParameter $parameter, \ReflectionFunctionAbstract $function): ?string
     {
-        if (!($type = $parameter->getType()) instanceof \ReflectionType) {
+        if (!($type = $parameter->getType()) instanceof \ReflectionNamedType) {
             return null;
         }
 
-        $name = $type instanceof \ReflectionNamedType ? $type->getName() : (string) $type;
+        $name = $type->getName();
 
         if ($function instanceof \ReflectionMethod) {
             switch (\mb_strtolower($name)) {
@@ -70,8 +72,8 @@ trait ResolveArgumentsTrait
     }
 
     /**
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      *
      * @return mixed|null
      */
@@ -89,8 +91,8 @@ trait ResolveArgumentsTrait
     }
 
     /**
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      *
      * @return array<string, mixed>
      */

@@ -13,7 +13,7 @@ use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReportingCo
 use Opis\Closure\SerializableClosure;
 use Psr\Container\ContainerInterface;
 
-class StatusReporter extends StatusReporterContract
+final class StatusReporter extends StatusReporterContract
 {
     use BindThisTrait;
     use ResolveArgumentsTrait;

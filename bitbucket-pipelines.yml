@@ -95,6 +95,11 @@ definitions:
                 name: Install Storage Base
                 script:
                     - composer install -d src/StorageBase
+        -   step: &composer-install-test-suite-storage
+                <<: *default-step
+                name: Install Test Suite Storage
+                script:
+                    - composer install -d src/TestSuiteStorage
         -   step: &test-unit
                 <<: *default-step
                 name: Unit tests
@@ -108,12 +113,12 @@ definitions:
                 <<: *default-step
                 name: Test coverage
                 script:
-                    - COMPOSER_EXTRA_ARGS=-vvv make -e coverage
+                    - XDEBUG_MODE=coverage COMPOSER_EXTRA_ARGS=-vvv make -e coverage
         -   step: &test-code-style-php
                 <<: *default-step
                 name: ECS (Code style)
                 script:
-                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-php
+                    - PHP_EXTRA_ARGS=-dmemory_limit=1G COMPOSER_EXTRA_ARGS=-vvv make -e cs-php
         -   step: &test-code-style-phpstan
                 <<: *default-step
                 name: PHPStan (Static code analysis)
@@ -153,6 +158,7 @@ definitions:
                 <<: *default-step
                 name: Test infection
                 script:
+                    - rm -rf .build
                     - COMPOSER_EXTRA_ARGS=-vvv make -e infection
 
 pipelines:
@@ -165,6 +171,7 @@ pipelines:
                     -   step: *composer-install-dataset-base
                     -   step: *composer-install-portal-base
                     -   step: *composer-install-storage-base
+                    -   step: *composer-install-test-suite-storage
             -   step: *composer-high-install
             -   parallel:
                     -   step: *test-unit
@@ -207,6 +214,7 @@ pipelines:
                     -   step: *composer-install-dataset-base
                     -   step: *composer-install-portal-base
                     -   step: *composer-install-storage-base
+                    -   step: *composer-install-test-suite-storage
             -   step: *composer-low-install
             -   step: *composer-high-install
             -   step: *github-keyword-gate-step
@@ -218,6 +226,7 @@ pipelines:
                 -   step: *composer-install-dataset-base
                 -   step: *composer-install-portal-base
                 -   step: *composer-install-storage-base
+                -   step: *composer-install-test-suite-storage
         -   step: *composer-high-install
         -   parallel:
                 -   step: *test-unit

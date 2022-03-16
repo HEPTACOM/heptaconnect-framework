@@ -26,6 +26,7 @@ use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegist
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepCloneContract;
 use Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerUrlProviderInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use HeptacomFixture\Portal\A\AutomaticService\ExceptionNotInContainer;
@@ -57,7 +58,7 @@ use Symfony\Component\DependencyInjection\Reference;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PathMethodsTrait
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection
  */
-class PortalStackServiceContainerBuilderTest extends TestCase
+final class PortalStackServiceContainerBuilderTest extends TestCase
 {
     private ClassLoader $classLoader;
 
@@ -128,6 +129,7 @@ class PortalStackServiceContainerBuilderTest extends TestCase
         static::assertTrue($container->has(RequestFactoryInterface::class));
         static::assertTrue($container->has(ResourceLockFacade::class));
         static::assertTrue($container->has(UriFactoryInterface::class));
+        static::assertTrue($container->has(HttpClientContract::class));
 
         static::assertTrue($container->has(HttpHandlerUrlProviderInterface::class));
 

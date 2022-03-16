@@ -4,11 +4,16 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set;
 
+use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Create\CreatePayloadInterface;
 
-class WebHttpHandlerConfigurationSetPayload implements CreatePayloadInterface
+final class WebHttpHandlerConfigurationSetPayload implements CreatePayloadInterface, AttachmentAwareInterface
 {
+    use AttachmentAwareTrait;
+
     protected PortalNodeKeyInterface $portalNodeKey;
 
     protected string $path;
@@ -23,6 +28,7 @@ class WebHttpHandlerConfigurationSetPayload implements CreatePayloadInterface
         string $configurationKey,
         ?array $value = null
     ) {
+        $this->attachments = new AttachmentCollection();
         $this->portalNodeKey = $portalNodeKey;
         $this->path = $path;
         $this->configurationKey = $configurationKey;

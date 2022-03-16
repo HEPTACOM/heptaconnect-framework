@@ -12,6 +12,7 @@ use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlingActorInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpHandleContext;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpHandleService;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use PHPUnit\Framework\TestCase;
@@ -26,9 +27,11 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Component\LogMessage
  * @covers \Heptacom\HeptaConnect\Core\Portal\AbstractPortalNodeContext
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpHandleService
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult
  */
-class HttpHandleServiceTest extends TestCase
+final class HttpHandleServiceTest extends TestCase
 {
     public function testActingFails(): void
     {
@@ -57,6 +60,9 @@ class HttpHandleServiceTest extends TestCase
         $stackBuilderFactory->expects(static::atLeastOnce())->method('createHttpHandlerStackBuilder')->willReturn($stackBuilder);
         $response->expects(static::atLeastOnce())->method('withHeader')->willReturnSelf();
 
+        $findAction = $this->createMock(WebHttpHandlerConfigurationFindActionInterface::class);
+        $findAction->method('find')->willReturn(new WebHttpHandlerConfigurationFindResult([]));
+
         $service = new HttpHandleService(
             $this->createMock(HttpHandlingActorInterface::class),
             $contextFactory,
@@ -64,7 +70,7 @@ class HttpHandleServiceTest extends TestCase
             $stackBuilderFactory,
             $this->createMock(StorageKeyGeneratorContract::class),
             $responseFactory,
-            $this->createMock(WebHttpHandlerConfigurationFindActionInterface::class),
+            $findAction,
         );
         $service->handle($request, $portalNodeKey);
     }

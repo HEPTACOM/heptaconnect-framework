@@ -4,11 +4,16 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get;
 
+use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
-class PortalNodeGetResult
+final class PortalNodeGetResult implements AttachmentAwareInterface
 {
+    use AttachmentAwareTrait;
+
     protected PortalNodeKeyInterface $portalNodeKey;
 
     /**
@@ -21,6 +26,7 @@ class PortalNodeGetResult
      */
     public function __construct(PortalNodeKeyInterface $portalNodeKey, string $portalClass)
     {
+        $this->attachments = new AttachmentCollection();
         $this->portalNodeKey = $portalNodeKey;
         $this->portalClass = $portalClass;
     }

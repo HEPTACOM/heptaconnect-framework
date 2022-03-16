@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract>
+ * @extends AbstractCollection<PortalExtensionContract>
  */
 class PortalExtensionCollection extends AbstractCollection
 {

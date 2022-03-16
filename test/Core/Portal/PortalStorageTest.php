@@ -14,7 +14,7 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalStorage
  */
-class PortalStorageTest extends TestCase
+final class PortalStorageTest extends TestCase
 {
     public function testLoggingNormalizationIssues(): void
     {

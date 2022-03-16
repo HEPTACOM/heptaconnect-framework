@@ -26,7 +26,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack
  */
-class ContractTest extends TestCase
+final class ContractTest extends TestCase
 {
     public function testExtendingEmitterContract(): void
     {

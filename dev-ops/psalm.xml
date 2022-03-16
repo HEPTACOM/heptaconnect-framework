@@ -2,7 +2,7 @@
 <psalm
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
-    xsi:schemaLocation="https://getpsalm.org/schema/config ../vendor/vimeo/psalm/config.xsd"
+    xsi:schemaLocation="https://getpsalm.org/schema/config bin/psalm/vendor/vimeo/psalm/config.xsd"
     cacheDirectory="../.build/psalm"
     errorLevel="1"
 >
@@ -22,7 +22,7 @@
         </InvalidDocblock>
         <RedundantConditionGivenDocblockType>
             <errorLevel type="info">
-                <file name="../src/DatasetBase/Translatable/GenericTranslatable.php"/>
+                <file name="../src/DatasetBase/Translatable/AbstractTranslatable.php"/>
                 <file name="../src/DatasetBase/Translatable/TranslatableBoolean.php"/>
                 <file name="../src/DatasetBase/Translatable/TranslatableFloat.php"/>
                 <file name="../src/DatasetBase/Translatable/TranslatableInteger.php"/>
@@ -72,25 +72,25 @@
         <!-- @deprecated 1.0.0 -->
         <UndefinedThisPropertyFetch>
             <errorLevel type="info">
-                <file name="../src/DatasetBase/Translatable/GenericTranslatable.php"/>
+                <file name="../src/DatasetBase/Translatable/AbstractTranslatable.php"/>
             </errorLevel>
         </UndefinedThisPropertyFetch>
         <!-- @deprecated 1.0.0 -->
         <UndefinedThisPropertyAssignment>
             <errorLevel type="info">
-                <file name="../src/DatasetBase/Translatable/GenericTranslatable.php"/>
+                <file name="../src/DatasetBase/Translatable/AbstractTranslatable.php"/>
             </errorLevel>
         </UndefinedThisPropertyAssignment>
         <!-- @deprecated 1.0.0 -->
         <MixedReturnStatement>
             <errorLevel type="info">
-                <file name="../src/DatasetBase/Translatable/GenericTranslatable.php"/>
+                <file name="../src/DatasetBase/Translatable/AbstractTranslatable.php"/>
             </errorLevel>
         </MixedReturnStatement>
         <!-- @deprecated 1.0.0 -->
         <MixedInferredReturnType>
             <errorLevel type="info">
-                <file name="../src/DatasetBase/Translatable/GenericTranslatable.php"/>
+                <file name="../src/DatasetBase/Translatable/AbstractTranslatable.php"/>
             </errorLevel>
         </MixedInferredReturnType>
 
@@ -198,6 +198,7 @@
         <directory name="../src/DatasetBase/" />
         <directory name="../src/PortalBase/" />
         <directory name="../src/StorageBase/" />
+        <directory name="../src/TestSuiteStorage/" />
         <ignoreFiles>
             <directory name="../vendor/" />
         </ignoreFiles>
