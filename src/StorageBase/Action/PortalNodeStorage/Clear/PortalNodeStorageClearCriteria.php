@@ -6,7 +6,6 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Clear;
 
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
-use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
@@ -15,8 +14,6 @@ final class PortalNodeStorageClearCriteria implements AttachmentAwareInterface
     use AttachmentAwareTrait;
 
     private PortalNodeKeyInterface $portalNodeKey;
-
-    private StringCollection $storageKeys;
 
     public function __construct(PortalNodeKeyInterface $portalNodeKey)
     {
