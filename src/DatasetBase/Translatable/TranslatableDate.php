@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Date;
 /**
  * @extends AbstractTranslatable<Date>
  */
-class TranslatableDate extends AbstractTranslatable
+final class TranslatableDate extends AbstractTranslatable
 {
     protected function isValidValue($value): bool
     {

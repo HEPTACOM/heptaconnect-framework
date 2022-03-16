@@ -20,7 +20,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack
  */
-class ExplorerStackBuilderTest extends TestCase
+final class ExplorerStackBuilderTest extends TestCase
 {
     public function testStackBuilderManualOrder(): void
     {

@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableString
  */
-class TranslatableStringTest extends TestCase
+final class TranslatableStringTest extends TestCase
 {
     use ProvidesInvalidTestsData;
     use ProvidesStringTestsData;

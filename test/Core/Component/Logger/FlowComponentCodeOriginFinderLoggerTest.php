@@ -24,7 +24,7 @@ use Psr\Log\LogLevel;
  * @covers \Heptacom\HeptaConnect\Core\Component\Logger\FlowComponentCodeOriginFinderLogger
  * @covers \Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin
  */
-class FlowComponentCodeOriginFinderLoggerTest extends TestCase
+final class FlowComponentCodeOriginFinderLoggerTest extends TestCase
 {
     public function testLocateComponentInContext(): void
     {

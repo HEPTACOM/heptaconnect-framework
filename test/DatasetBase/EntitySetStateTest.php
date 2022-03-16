@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\JsonSerializeObjectVarsTrait
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\SetStateTrait
  */
-class EntitySetStateTest extends TestCase
+final class EntitySetStateTest extends TestCase
 {
     /**
      * @dataProvider provideStructs

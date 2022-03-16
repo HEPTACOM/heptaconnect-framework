@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedIntegerCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TagItem
  */
-class TaggedIntegerCollectionTest extends TestCase
+final class TaggedIntegerCollectionTest extends TestCase
 {
     use ProvidesIntegerTestsData;
     use ProvidesInvalidTestsData;

@@ -20,7 +20,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack
  */
-class EmitterStackBuilderTest extends TestCase
+final class EmitterStackBuilderTest extends TestCase
 {
     public function testStackBuilderManualOrder(): void
     {

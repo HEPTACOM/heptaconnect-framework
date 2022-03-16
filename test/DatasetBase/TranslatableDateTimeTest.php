@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableDateTime
  */
-class TranslatableDateTimeTest extends TestCase
+final class TranslatableDateTimeTest extends TestCase
 {
     use ProvidesDateTimeTestsData;
     use ProvidesInvalidTestsData;

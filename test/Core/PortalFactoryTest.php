@@ -28,7 +28,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Core\Portal\Exception\UnexpectedRequiredParameterInConstructorOnInstantionException
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalFactory
  */
-class PortalFactoryTest extends TestCase
+final class PortalFactoryTest extends TestCase
 {
     public function testPortal(): void
     {

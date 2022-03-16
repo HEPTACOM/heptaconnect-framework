@@ -10,7 +10,7 @@ use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\DateCollection;
 /**
  * @extends AbstractTaggedCollection<Date>
  */
-class TaggedDateCollection extends AbstractTaggedCollection
+final class TaggedDateCollection extends AbstractTaggedCollection
 {
     /**
      * @psalm-return DateCollection::class

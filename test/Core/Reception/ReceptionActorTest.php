@@ -31,7 +31,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\Support\PostProcessorDataBag
  * @covers \Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract
  */
-class ReceptionActorTest extends TestCase
+final class ReceptionActorTest extends TestCase
 {
     /**
      * @dataProvider provideEmitCount
@@ -52,7 +52,7 @@ class ReceptionActorTest extends TestCase
         $stackBuilderFactory = $this->createMock(ReceiverStackBuilderFactoryInterface::class);
         $stackBuilderFactory->method('createReceiverStackBuilder')->willReturn($stackBuilder);
 
-        $entity = $this->createMock(FooBarEntity::class);
+        $entity = new FooBarEntity();
 
         $receptionActor = new ReceptionActor(
             $logger,
