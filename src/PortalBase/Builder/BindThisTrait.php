@@ -8,17 +8,14 @@ trait BindThisTrait
 {
     private function bindThis(\Closure $closure): \Closure
     {
-        $reflection = new \ReflectionFunction($closure);
+        \set_error_handler(static function () {});
 
-        if (null === $reflection->getClosureThis()) {
-            set_error_handler(static function () {});
-            try {
-                if ($c = \Closure::bind($closure, $this)) {
-                    $closure = $c;
-                }
-            } finally {
-                restore_error_handler();
+        try {
+            if ($c = \Closure::bind($closure, $this)) {
+                $closure = $c;
             }
+        } finally {
+            \restore_error_handler();
         }
 
         return $closure;

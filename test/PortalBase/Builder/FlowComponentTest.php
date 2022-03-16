@@ -416,47 +416,48 @@ final class FlowComponentTest extends TestCase
         $httpHandleContext->method('getContainer')->willReturn($container);
 
         $thisClasses = [];
+        $supports = [];
 
         $explorerToken = new ExplorerToken(FirstEntity::class);
-        $explorerToken->setRun(function () use (&$thisClasses): array {
+        $explorerToken->setRun(function () use (&$supports, &$thisClasses): array {
             /** @var $this ExplorerContract */
-            static::assertSame(FirstEntity::class, $this->supports());
             $thisClasses[] = \get_class($this);
+            $supports[] = $this->supports();
             return [];
         });
         $explorer = new Explorer($explorerToken);
 
         $emitterToken = new EmitterToken(FirstEntity::class);
-        $emitterToken->setBatch(function () use (&$thisClasses): array {
+        $emitterToken->setBatch(function () use (&$supports, &$thisClasses): array {
             /** @var $this EmitterContract */
-            static::assertSame(FirstEntity::class, $this->supports());
             $thisClasses[] = \get_class($this);
+            $supports[] = $this->supports();
             return [];
         });
         $emitter = new Emitter($emitterToken);
 
         $receiverToken = new ReceiverToken(FirstEntity::class);
-        $receiverToken->setBatch(function () use (&$thisClasses): void {
+        $receiverToken->setBatch(function () use (&$supports, &$thisClasses): void {
             /** @var $this ReceiverContract */
-            static::assertSame(FirstEntity::class, $this->supports());
             $thisClasses[] = \get_class($this);
+            $supports[] = $this->supports();
         });
         $receiver = new Receiver($receiverToken);
 
         $statusReporterToken = new StatusReporterToken(StatusReporterContract::TOPIC_HEALTH);
-        $statusReporterToken->setRun(function () use (&$thisClasses): array {
+        $statusReporterToken->setRun(function () use (&$supports, &$thisClasses): array {
             /** @var $this StatusReporterContract */
-            static::assertSame(StatusReporterContract::TOPIC_HEALTH, $this->supportsTopic());
             $thisClasses[] = \get_class($this);
+            $supports[] = $this->supportsTopic();
             return [];
         });
         $statusReporter = new StatusReporter($statusReporterToken);
 
         $httpHandlerToken = new HttpHandlerToken('/');
-        $httpHandlerToken->setRun(function (ResponseInterface $response) use (&$thisClasses): ResponseInterface {
+        $httpHandlerToken->setRun(function (ResponseInterface $response) use (&$supports, &$thisClasses): ResponseInterface {
             /** @var $this HttpHandlerContract */
-            static::assertSame('/', $this->getPath());
             $thisClasses[] = \get_class($this);
+            $supports[] = $this->getPath();
             return $response;
         });
         $httpHandler = new HttpHandler($httpHandlerToken);
@@ -483,5 +484,13 @@ final class FlowComponentTest extends TestCase
             StatusReporter::class,
             HttpHandler::class,
         ], $thisClasses);
+
+        static::assertSame([
+            FirstEntity::class,
+            FirstEntity::class,
+            FirstEntity::class,
+            StatusReporter::TOPIC_HEALTH,
+            '',
+        ], $supports);
     }
 }
