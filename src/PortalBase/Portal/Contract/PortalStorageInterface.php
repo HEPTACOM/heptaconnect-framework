@@ -16,14 +16,4 @@ interface PortalStorageInterface extends CacheInterface
      * List all known keys in the storage.
      */
     public function list(): iterable;
-
-    /**
-     * Verifies that serialization type is supported by the storage for reading.
-     */
-    public function canGet(string $type): bool;
-
-    /**
-     * Verifies that serialization type is supported by the storage for writing.
-     */
-    public function canSet(string $type): bool;
 }

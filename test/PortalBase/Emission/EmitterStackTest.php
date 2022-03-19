@@ -14,7 +14,10 @@ use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct
  */
 final class EmitterStackTest extends TestCase
 {
