@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 
-class PreviewPortalNodeKey implements PortalNodeKeyInterface
+final class PreviewPortalNodeKey implements PortalNodeKeyInterface
 {
     /**
      * @var class-string<PortalContract>

@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use PHPUnit\Framework\TestCase;
 
-class ContractTest extends TestCase
+final class ContractTest extends TestCase
 {
     public function testExtendingStorageKeyGenerator(): void
     {

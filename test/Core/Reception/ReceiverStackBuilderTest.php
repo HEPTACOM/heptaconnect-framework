@@ -22,7 +22,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack
  * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection
  */
-class ReceiverStackBuilderTest extends TestCase
+final class ReceiverStackBuilderTest extends TestCase
 {
     public function testStackBuilderManualOrder(): void
     {

@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\DateTimeCollection;
 /**
  * @extends AbstractTaggedCollection<\DateTimeInterface>
  */
-class TaggedDateTimeCollection extends AbstractTaggedCollection
+final class TaggedDateTimeCollection extends AbstractTaggedCollection
 {
     /**
      * @psalm-return DateTimeCollection::class

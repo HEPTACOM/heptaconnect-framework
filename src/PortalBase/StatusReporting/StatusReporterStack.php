@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterSta
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReportingContextInterface;
 use Psr\Log\LoggerInterface;
 
-class StatusReporterStack implements StatusReporterStackInterface
+final class StatusReporterStack implements StatusReporterStackInterface
 {
     /**
      * @var array<array-key, StatusReporterContract>

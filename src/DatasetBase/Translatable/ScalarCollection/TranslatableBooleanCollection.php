@@ -10,7 +10,7 @@ use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\BooleanCollection;
 /**
  * @extends AbstractTranslatableScalarCollection<BooleanCollection>
  */
-class TranslatableBooleanCollection extends AbstractTranslatableScalarCollection
+final class TranslatableBooleanCollection extends AbstractTranslatableScalarCollection
 {
     protected function getInitialValue(): CollectionInterface
     {

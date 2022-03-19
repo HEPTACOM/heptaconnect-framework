@@ -26,7 +26,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack
  */
-class FlowComponentTest extends TestCase
+final class FlowComponentTest extends TestCase
 {
     public function testBuildHttpHandlers(): void
     {

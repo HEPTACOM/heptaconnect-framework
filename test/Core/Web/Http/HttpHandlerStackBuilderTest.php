@@ -22,7 +22,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack
  */
-class HttpHandlerStackBuilderTest extends TestCase
+final class HttpHandlerStackBuilderTest extends TestCase
 {
     public function testStackBuilderManualOrder(): void
     {
