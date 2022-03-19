@@ -28,7 +28,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection
  */
-class ComposerPortalLoaderTest extends TestCase
+final class ComposerPortalLoaderTest extends TestCase
 {
     public function testInstantiateFromComposer(): void
     {

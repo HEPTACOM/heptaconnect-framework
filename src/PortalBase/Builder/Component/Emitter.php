@@ -13,7 +13,7 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Opis\Closure\SerializableClosure;
 use Psr\Container\ContainerInterface;
 
-class Emitter extends EmitterContract
+final class Emitter extends EmitterContract
 {
     use ResolveArgumentsTrait;
 

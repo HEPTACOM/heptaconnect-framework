@@ -13,7 +13,7 @@ use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-class HttpHandlerStack implements HttpHandlerStackInterface, LoggerAwareInterface
+final class HttpHandlerStack implements HttpHandlerStackInterface, LoggerAwareInterface
 {
     /**
      * @var array<array-key, HttpHandlerContract>

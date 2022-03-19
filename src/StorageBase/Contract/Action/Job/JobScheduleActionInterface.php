@@ -9,5 +9,8 @@ use Heptacom\HeptaConnect\Storage\Base\Action\Job\Schedule\JobScheduleResult;
 
 interface JobScheduleActionInterface
 {
+    /**
+     * Set job states to scheduled.
+     */
     public function schedule(JobSchedulePayload $payload): JobScheduleResult;
 }

@@ -10,7 +10,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
 /**
  * @extends AbstractCollection<Date>
  */
-class DateCollection extends AbstractCollection
+final class DateCollection extends AbstractCollection
 {
     protected function isValidItem($item): bool
     {

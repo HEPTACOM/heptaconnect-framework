@@ -28,7 +28,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Core\Portal\Exception\UnexpectedRequiredParameterInConstructorOnInstantionException
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalFactory
  */
-class PortalFactoryTest extends TestCase
+final class PortalFactoryTest extends TestCase
 {
     public function testPortal(): void
     {
@@ -148,7 +148,7 @@ class PortalFactoryTest extends TestCase
 
         try {
             $portalFactory->instantiatePortal(DependentPortal::class);
-            self::fail();
+            static::fail();
         } catch (UnexpectedRequiredParameterInConstructorOnInstantionException $exception) {
             static::assertEquals(DependentPortal::class, $exception->getClass());
 
@@ -164,7 +164,7 @@ class PortalFactoryTest extends TestCase
 
         try {
             $portalFactory->instantiatePortalExtension(DependentPortalExtension::class);
-            self::fail();
+            static::fail();
         } catch (UnexpectedRequiredParameterInConstructorOnInstantionException $exception) {
             static::assertEquals(DependentPortalExtension::class, $exception->getClass());
 

@@ -24,7 +24,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\ScalarCollection\TranslatableIntegerCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\ScalarCollection\TranslatableStringCollection
  */
-class TranslatableScalarCollectionTest extends TestCase
+final class TranslatableScalarCollectionTest extends TestCase
 {
     /**
      * @dataProvider provideTranslatableCollections

@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack
  */
-class ContractTest extends TestCase
+final class ContractTest extends TestCase
 {
     public function testExtendingExplorerContract(): void
     {

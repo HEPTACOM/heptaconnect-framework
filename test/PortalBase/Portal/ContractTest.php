@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
  */
-class ContractTest extends TestCase
+final class ContractTest extends TestCase
 {
     public function testExtendingPortalContract(): void
     {

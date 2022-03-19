@@ -11,6 +11,9 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\InvalidOverviewCriteriaExceptio
 interface RouteCapabilityOverviewActionInterface
 {
     /**
+     * Paginate over all route capabilities.
+     * Expected to be used for a human request listing.
+     *
      * @throws InvalidOverviewCriteriaException
      *
      * @return iterable<RouteCapabilityOverviewResult>

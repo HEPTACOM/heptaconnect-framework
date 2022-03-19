@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
 /**
  * @extends AbstractCollection<bool>
  */
-class BooleanCollection extends AbstractCollection
+final class BooleanCollection extends AbstractCollection
 {
     protected function isValidItem($item): bool
     {

@@ -28,7 +28,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\TypedMappingComponentCollection
  */
-class EmitServiceTest extends TestCase
+final class EmitServiceTest extends TestCase
 {
     /**
      * @dataProvider provideEmitCount

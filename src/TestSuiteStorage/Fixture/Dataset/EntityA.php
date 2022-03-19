@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Dataset;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 
-class EntityA extends DatasetEntityContract
+final class EntityA extends DatasetEntityContract
 {
     public string $value = '';
 }

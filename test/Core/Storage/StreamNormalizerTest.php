@@ -20,7 +20,7 @@ use Psr\Log\AbstractLogger;
  * @covers \Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamNormalizer
  * @covers \Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\SerializableStream
  */
-class StreamNormalizerTest extends TestCase
+final class StreamNormalizerTest extends TestCase
 {
     public function testLogging(): void
     {

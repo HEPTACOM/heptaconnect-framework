@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\FloatCollection;
 /**
  * @extends AbstractTaggedCollection<float>
  */
-class TaggedFloatCollection extends AbstractTaggedCollection
+final class TaggedFloatCollection extends AbstractTaggedCollection
 {
     /**
      * @psalm-return FloatCollection::class

@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\DateCollection
  */
-class DateCollectionTest extends TestCase
+final class DateCollectionTest extends TestCase
 {
     use ProvidesDateTestsData;
     use ProvidesInvalidTestsData;

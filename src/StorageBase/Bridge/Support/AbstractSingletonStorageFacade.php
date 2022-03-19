@@ -13,6 +13,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActio
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityReflectActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityError\IdentityErrorCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface;
@@ -31,6 +32,11 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeList
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageClearActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageDeleteActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageListActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionInterface;
@@ -46,6 +52,8 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     private ?FileReferenceGetRequestActionInterface $fileReferenceGetRequestAction = null;
 
     private ?FileReferencePersistRequestActionInterface $fileReferencePersistRequestAction = null;
+
+    private ?IdentityErrorCreateActionInterface $identityErrorCreateAction = null;
 
     private ?IdentityMapActionInterface $identityMapAction = null;
 
@@ -103,6 +111,14 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
 
     private ?PortalNodeConfigurationSetActionInterface $portalNodeConfigurationSetAction = null;
 
+    private ?PortalNodeStorageClearActionInterface $portalNodeStorageClearAction = null;
+
+    private ?PortalNodeStorageDeleteActionInterface $portalNodeStorageDeleteAction = null;
+
+    private ?PortalNodeStorageGetActionInterface $portalNodeStorageGetAction = null;
+
+    private ?PortalNodeStorageListActionInterface $portalNodeStorageListAction = null;
+
     private ?RouteCapabilityOverviewActionInterface $routeCapabilityOverviewAction = null;
 
     private ?WebHttpHandlerConfigurationFindActionInterface $webHttpHandlerConfigurationFindAction = null;
@@ -128,6 +144,17 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
             throw $throwable;
         } catch (\Throwable $throwable) {
             throw new StorageFacadeServiceException(FileReferencePersistRequestActionInterface::class, $throwable);
+        }
+    }
+
+    public function getIdentityErrorCreateAction(): IdentityErrorCreateActionInterface
+    {
+        try {
+            return $this->identityErrorCreateAction ??= $this->createIdentityErrorCreateAction();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            throw $throwable;
+        } catch (\Throwable $throwable) {
+            throw new StorageFacadeServiceException(IdentityErrorCreateActionInterface::class, $throwable);
         }
     }
 
@@ -373,6 +400,61 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    public function getPortalNodeStorageClearAction(): PortalNodeStorageClearActionInterface
+    {
+        try {
+            return $this->portalNodeStorageClearAction ??= $this->createPortalNodeStorageClearAction();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            throw $throwable;
+        } catch (\Throwable $throwable) {
+            throw new StorageFacadeServiceException(PortalNodeStorageClearActionInterface::class, $throwable);
+        }
+    }
+
+    public function getPortalNodeStorageDeleteAction(): PortalNodeStorageDeleteActionInterface
+    {
+        try {
+            return $this->portalNodeStorageDeleteAction ??= $this->createPortalNodeStorageDeleteAction();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            throw $throwable;
+        } catch (\Throwable $throwable) {
+            throw new StorageFacadeServiceException(PortalNodeStorageDeleteActionInterface::class, $throwable);
+        }
+    }
+
+    public function getPortalNodeStorageGetAction(): PortalNodeStorageGetActionInterface
+    {
+        try {
+            return $this->portalNodeStorageGetAction ??= $this->createPortalNodeStorageGetAction();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            throw $throwable;
+        } catch (\Throwable $throwable) {
+            throw new StorageFacadeServiceException(PortalNodeStorageGetActionInterface::class, $throwable);
+        }
+    }
+
+    public function getPortalNodeStorageListAction(): PortalNodeStorageListActionInterface
+    {
+        try {
+            return $this->portalNodeStorageListAction ??= $this->createPortalNodeStorageListAction();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            throw $throwable;
+        } catch (\Throwable $throwable) {
+            throw new StorageFacadeServiceException(PortalNodeStorageListActionInterface::class, $throwable);
+        }
+    }
+
+    public function getPortalNodeStorageSetAction(): PortalNodeStorageSetActionInterface
+    {
+        try {
+            return $this->portalNodeStorageSetAction ??= $this->createPortalNodeStorageSetAction();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            throw $throwable;
+        } catch (\Throwable $throwable) {
+            throw new StorageFacadeServiceException(PortalNodeStorageSetActionInterface::class, $throwable);
+        }
+    }
+
     public function getRouteCreateAction(): RouteCreateActionInterface
     {
         try {
@@ -485,6 +567,11 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     /**
      * @throws \Throwable
      */
+    abstract protected function createIdentityErrorCreateAction(): IdentityErrorCreateActionInterface;
+
+    /**
+     * @throws \Throwable
+     */
     abstract protected function createIdentityMapAction(): IdentityMapActionInterface;
 
     /**
@@ -591,6 +678,31 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
      * @throws \Throwable
      */
     abstract protected function createPortalNodeConfigurationSetAction(): PortalNodeConfigurationSetActionInterface;
+
+    /**
+     * @throws \Throwable
+     */
+    abstract protected function createPortalNodeStorageClearAction(): PortalNodeStorageClearActionInterface;
+
+    /**
+     * @throws \Throwable
+     */
+    abstract protected function createPortalNodeStorageDeleteAction(): PortalNodeStorageDeleteActionInterface;
+
+    /**
+     * @throws \Throwable
+     */
+    abstract protected function createPortalNodeStorageGetAction(): PortalNodeStorageGetActionInterface;
+
+    /**
+     * @throws \Throwable
+     */
+    abstract protected function createPortalNodeStorageListAction(): PortalNodeStorageListActionInterface;
+
+    /**
+     * @throws \Throwable
+     */
+    abstract protected function createPortalNodeStorageSetAction(): PortalNodeStorageSetActionInterface;
 
     /**
      * @throws \Throwable

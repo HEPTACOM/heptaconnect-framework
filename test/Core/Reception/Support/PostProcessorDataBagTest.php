@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\Support\PostProcessorDataBag
  */
-class PostProcessorDataBagTest extends TestCase
+final class PostProcessorDataBagTest extends TestCase
 {
     public function testPriorityIndependent(): void
     {
