@@ -20,6 +20,9 @@ use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalB\PortalB;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalC\PortalC;
 use Heptacom\HeptaConnect\TestSuite\Storage\TestCase;
 
+/**
+ * Test pre-implementation to test configuration of portal node related storage actions. Some other storage actions e.g. PortalNodeCreate are needed to set up test scenarios.
+ */
 abstract class PortalNodeConfigurationTestContract extends TestCase
 {
     private const PAYLOAD = [
@@ -37,6 +40,9 @@ abstract class PortalNodeConfigurationTestContract extends TestCase
         ],
     ];
 
+    /**
+     * Validates a complete portal node configuration "lifecycle" can be managed with the storage. It covers read, write, list and deletion of configuration entries.
+     */
     public function testLifecycle(): void
     {
         $facade = $this->createStorageFacade();
@@ -59,7 +65,7 @@ abstract class PortalNodeConfigurationTestContract extends TestCase
         ));
         $getCriteria = new PortalNodeConfigurationGetCriteria($portalNodeKeys);
 
-        static::assertSame(3, $createResults->count());
+        static::assertCount(3, $createResults);
 
         foreach ($portalNodeKeys as $step => $portalNodeKey) {
             static::assertCount($step, \iterable_to_array(\iterable_filter(
@@ -91,9 +97,13 @@ abstract class PortalNodeConfigurationTestContract extends TestCase
             static fn (PortalNodeConfigurationGetResult $g): bool => $g->getValue() !== []
         )));
 
-        $setAction->set(new PortalNodeConfigurationSetPayloads($portalNodeKeys->map(
-            static fn (PortalNodeKeyInterface $pk): PortalNodeConfigurationSetPayload => new PortalNodeConfigurationSetPayload($pk, null)
-        )));
+        $setPayload = new PortalNodeConfigurationSetPayloads();
+
+        foreach ($portalNodeKeys as $portalNodeKey) {
+            $setPayload->push([new PortalNodeConfigurationSetPayload($portalNodeKey, null)]);
+        }
+
+        $setAction->set($setPayload);
 
         static::assertEmpty(\iterable_to_array(\iterable_filter(
             $getAction->get($getCriteria),
@@ -103,5 +113,8 @@ abstract class PortalNodeConfigurationTestContract extends TestCase
         $deleteAction->delete(new PortalNodeDeleteCriteria($portalNodeKeys));
     }
 
+    /**
+     * Provides the storage implementation to test against.
+     */
     abstract protected function createStorageFacade(): StorageFacadeInterface;
 }

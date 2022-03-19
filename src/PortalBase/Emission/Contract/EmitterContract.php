@@ -8,6 +8,11 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityException;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Base class for every emitter implementation with various boilerplate-reducing entrypoints for rapid development.
+ * When used as source for entities, you most likely implement @see supports, batch, run
+ * When used as decorator to enrich data from previous emissions, you should implement @see supports, extend
+ */
 abstract class EmitterContract
 {
     private ?string $runDeclaringClass = null;
@@ -15,6 +20,10 @@ abstract class EmitterContract
     private ?string $batchDeclaringClass = null;
 
     /**
+     * First entrypoint to handle an emission in this flow component.
+     * It allows direct stack handling manipulation. @see EmitterStackInterface
+     * You most likely want to implement @see run, batch instead.
+     *
      * @param string[] $externalIds
      *
      * @return iterable<array-key, DatasetEntityContract>
@@ -32,15 +41,26 @@ abstract class EmitterContract
     }
 
     /**
+     * Must return the supported entity type.
+     *
      * @return class-string<DatasetEntityContract>
      */
     abstract public function supports(): string;
 
+    /**
+     * The entrypoint for handling an emission with the least need of additional programming.
+     * This is executed when this emitter on the stack is expected to act.
+     * It can be skipped when @see emit, batch is implemented accordingly.
+     * Returns an entity, when the data could be read, otherwise null.
+     */
     protected function run(string $externalId, EmitContextInterface $context): ?DatasetEntityContract
     {
         return null;
     }
 
+    /**
+     * Returns true, when the given entity is of the supported entity type.
+     */
     final protected function isSupported(?DatasetEntityContract $entity): bool
     {
         if ($entity === null) {
@@ -55,6 +75,10 @@ abstract class EmitterContract
     }
 
     /**
+     * Pre-implemented stack handling for processing the next emitter in the stack.
+     * Expected to only be called by @see emit
+     * It allows extending previous emitted entities with @see extend
+     *
      * @param string[] $externalIds
      *
      * @return iterable<array-key, DatasetEntityContract>
@@ -109,6 +133,9 @@ abstract class EmitterContract
     }
 
     /**
+     * Pre-implemented stack handling for processing this emitter in the stack.
+     * Expected to only be called by @see emit
+     *
      * @param string[] $externalIds
      *
      * @return iterable<array-key, DatasetEntityContract>
@@ -158,6 +185,11 @@ abstract class EmitterContract
     }
 
     /**
+     * The best entrypoint for handling an emission performant without to be expected to implement stack handling.
+     * This is executed when this emitter on the stack is expected to act.
+     * It can be skipped when @see emit is implemented accordingly.
+     * By default it executes @see run to process every entity in the batch and mark them as failed in case of an exception.
+     *
      * @param iterable<string> $externalIds
      *
      * @return iterable<DatasetEntityContract|null>
@@ -173,6 +205,10 @@ abstract class EmitterContract
         }
     }
 
+    /**
+     * The entrypoint for adding additional or changing existing data on an entity.
+     * It is only called from @see emitNext to extend previously emitted entities on the stack.
+     */
     protected function extend(DatasetEntityContract $entity, EmitContextInterface $context): DatasetEntityContract
     {
         return $entity;

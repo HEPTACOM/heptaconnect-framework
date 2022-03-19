@@ -8,5 +8,9 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface as SymfonyDeno
 
 interface DenormalizerInterface extends SymfonyDenormalizerInterface
 {
+    /**
+     * Returns the supported type to normalize.
+     * Used for a selection by strategy pattern.
+     */
     public function getType(): string;
 }

@@ -11,6 +11,8 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 interface JobGetActionInterface
 {
     /**
+     * Get jobs and their payloads from the storage.
+     *
      * @throws UnsupportedStorageKeyException
      *
      * @return iterable<JobGetResult>

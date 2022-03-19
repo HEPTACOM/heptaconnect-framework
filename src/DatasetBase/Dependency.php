@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base;
 
-class Dependency implements Contract\DependencyInterface
+final class Dependency implements Contract\DependencyInterface
 {
     use Support\DependencyTrait;
 

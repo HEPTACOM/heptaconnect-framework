@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\TestSuite\Storage\Fixture\PortalExtension\Portal
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalA\PortalA;
 
-class PortalExtensionA extends PortalExtensionContract
+final class PortalExtensionA extends PortalExtensionContract
 {
     /**
      * @psalm-return PortalA::class

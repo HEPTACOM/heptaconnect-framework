@@ -11,6 +11,9 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\InvalidOverviewCriteriaExceptio
 interface IdentityOverviewActionInterface
 {
     /**
+     * Paginate over all identities.
+     * Expected to be used for a human request listing.
+     *
      * @throws InvalidOverviewCriteriaException
      *
      * @return iterable<IdentityOverviewResult>

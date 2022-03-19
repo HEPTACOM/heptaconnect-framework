@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Activate\PortalExt
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Deactivate\PortalExtensionDeactivatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayloads;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Delete\PortalNodeDeleteCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalA\PortalA;
@@ -16,8 +17,14 @@ use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\PortalExtension\PortalExtens
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\PortalExtension\PortalExtensionB\PortalExtensionB;
 use Heptacom\HeptaConnect\TestSuite\Storage\TestCase;
 
+/**
+ * Test pre-implementation to test portal extension related storage actions. Some other storage actions e.g. PortalNodeCreate are needed to set up test scenarios.
+ */
 abstract class PortalExtensionTestContract extends TestCase
 {
+    /**
+     * Validates a complete portal extension "lifecycle" can be managed with the storage. It covers activation and deactivation of extensions.
+     */
     public function testLifecycle(): void
     {
         $facade = $this->createStorageFacade();
@@ -27,9 +34,13 @@ abstract class PortalExtensionTestContract extends TestCase
         $portalExtensionDeactivate = $facade->getPortalExtensionDeactivateAction();
         $portalExtensionFind = $facade->getPortalExtensionFindAction();
 
-        $portalNodeKey = $portalNodeCreate->create(new PortalNodeCreatePayloads([
+        $firstPortalNode = $portalNodeCreate->create(new PortalNodeCreatePayloads([
             new PortalNodeCreatePayload(PortalA::class),
-        ]))->first()->getPortalNodeKey();
+        ]))->first();
+
+        static::assertInstanceOf(PortalNodeCreateResult::class, $firstPortalNode);
+
+        $portalNodeKey = $firstPortalNode->getPortalNodeKey();
 
         $portalExtensionA = new PortalExtensionA();
         $portalExtensionB = new PortalExtensionB();
@@ -59,5 +70,8 @@ abstract class PortalExtensionTestContract extends TestCase
         $portalNodeDelete->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([$portalNodeKey])));
     }
 
+    /**
+     * Provides the storage implementation to test against.
+     */
     abstract protected function createStorageFacade(): StorageFacadeInterface;
 }

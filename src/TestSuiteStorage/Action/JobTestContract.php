@@ -19,19 +19,27 @@ use Heptacom\HeptaConnect\Storage\Base\Action\Job\Schedule\JobSchedulePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Start\JobStartPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayloads;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Delete\PortalNodeDeleteCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayloads;
+use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface;
 use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Dataset\EntityA;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalA\PortalA;
 use Heptacom\HeptaConnect\TestSuite\Storage\TestCase;
 
+/**
+ * Test pre-implementation to test job related storage actions. Some other storage actions e.g. PortalNodeCreate are needed to set up test scenarios.
+ */
 abstract class JobTestContract extends TestCase
 {
     private const MESSAGE = 'This is testing for testing';
 
+    /**
+     * Validates a complete job "lifecycle" can be managed with the storage. It covers creation, state changes and deletion of jobs.
+     */
     public function testLifecycle(): void
     {
         $facade = $this->createStorageFacade();
@@ -47,17 +55,27 @@ abstract class JobTestContract extends TestCase
         $jobSchedule = $facade->getJobScheduleAction();
         $jobStart = $facade->getJobStartAction();
 
-        $portalNodeKey = $portalNodeCreate->create(new PortalNodeCreatePayloads([
+        $firstPortalNode = $portalNodeCreate->create(new PortalNodeCreatePayloads([
             new PortalNodeCreatePayload(PortalA::class),
-        ]))->first()->getPortalNodeKey();
-        $routeKey = $routeCreate->create(new RouteCreatePayloads([
-            new RouteCreatePayload($portalNodeKey, $portalNodeKey, EntityA::class),
-        ]))->first()->getRouteKey();
+        ]))->first();
 
+        static::assertInstanceOf(PortalNodeCreateResult::class, $firstPortalNode);
+
+        $portalNodeKey = $firstPortalNode->getPortalNodeKey();
+
+        $firstRouteCreate = $routeCreate->create(new RouteCreatePayloads([
+            new RouteCreatePayload($portalNodeKey, $portalNodeKey, EntityA::class),
+        ]))->first();
+
+        static::assertInstanceOf(RouteCreateResult::class, $firstRouteCreate);
+
+        $routeKey = $firstRouteCreate->getRouteKey();
+
+        $primaryKey = 'd0662bd666c74a56a0e3329b0a32b14a';
         $entity = new EntityA();
-        $entity->setPrimaryKey('d0662bd666c74a56a0e3329b0a32b14a');
+        $entity->setPrimaryKey($primaryKey);
         $entity->value = '366b3b50ab9c477ca6189a5c0589c75a';
-        $mapping = new MappingComponentStruct($portalNodeKey, EntityA::class, $entity->getPrimaryKey());
+        $mapping = new MappingComponentStruct($portalNodeKey, EntityA::class, $primaryKey);
 
         $jobCreateResults = $jobCreate->create(new JobCreatePayloads([
             new JobCreatePayload(Exploration::class, $mapping, []),
@@ -116,5 +134,8 @@ abstract class JobTestContract extends TestCase
         $portalNodeDelete->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([$portalNodeKey])));
     }
 
+    /**
+     * Provides the storage implementation to test against.
+     */
     abstract protected function createStorageFacade(): StorageFacadeInterface;
 }

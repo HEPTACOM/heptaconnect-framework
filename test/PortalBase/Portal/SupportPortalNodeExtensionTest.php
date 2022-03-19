@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
  */
-class SupportPortalNodeExtensionTest extends TestCase
+final class SupportPortalNodeExtensionTest extends TestCase
 {
     public function testSupportsSomething(): void
     {

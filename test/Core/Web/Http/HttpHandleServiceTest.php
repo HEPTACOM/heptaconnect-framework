@@ -27,9 +27,11 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Component\LogMessage
  * @covers \Heptacom\HeptaConnect\Core\Portal\AbstractPortalNodeContext
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpHandleService
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult
  */
-class HttpHandleServiceTest extends TestCase
+final class HttpHandleServiceTest extends TestCase
 {
     public function testActingFails(): void
     {

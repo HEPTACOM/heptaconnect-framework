@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\IntegerCollection;
 /**
  * @extends AbstractTaggedCollection<int>
  */
-class TaggedIntegerCollection extends AbstractTaggedCollection
+final class TaggedIntegerCollection extends AbstractTaggedCollection
 {
     /**
      * @psalm-return IntegerCollection::class
