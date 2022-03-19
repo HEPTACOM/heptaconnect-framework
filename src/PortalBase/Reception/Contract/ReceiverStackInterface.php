@@ -10,6 +10,8 @@ use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
 interface ReceiverStackInterface
 {
     /**
+     * Forwards the reception to the next receiver on the stack and returns its response.
+     *
      * @return iterable<array-key, DatasetEntityContract>
      */
     public function next(

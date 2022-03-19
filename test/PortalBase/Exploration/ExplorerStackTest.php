@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack
  */
-class ExplorerStackTest extends TestCase
+final class ExplorerStackTest extends TestCase
 {
     public function testEmptyStackDoesNotFail(): void
     {

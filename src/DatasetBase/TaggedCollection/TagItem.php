@@ -10,7 +10,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\JsonSerializeObjectVarsTrait;
 /**
  * @template T
  */
-class TagItem implements \JsonSerializable
+final class TagItem implements \JsonSerializable
 {
     use JsonSerializeObjectVarsTrait;
 

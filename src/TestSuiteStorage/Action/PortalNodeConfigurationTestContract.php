@@ -20,6 +20,9 @@ use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalB\PortalB;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalC\PortalC;
 use Heptacom\HeptaConnect\TestSuite\Storage\TestCase;
 
+/**
+ * Test pre-implementation to test configuration of portal node related storage actions. Some other storage actions e.g. PortalNodeCreate are needed to set up test scenarios.
+ */
 abstract class PortalNodeConfigurationTestContract extends TestCase
 {
     private const PAYLOAD = [
@@ -37,6 +40,9 @@ abstract class PortalNodeConfigurationTestContract extends TestCase
         ],
     ];
 
+    /**
+     * Validates a complete portal node configuration "lifecycle" can be managed with the storage. It covers read, write, list and deletion of configuration entries.
+     */
     public function testLifecycle(): void
     {
         $facade = $this->createStorageFacade();
@@ -107,5 +113,8 @@ abstract class PortalNodeConfigurationTestContract extends TestCase
         $deleteAction->delete(new PortalNodeDeleteCriteria($portalNodeKeys));
     }
 
+    /**
+     * Provides the storage implementation to test against.
+     */
     abstract protected function createStorageFacade(): StorageFacadeInterface;
 }

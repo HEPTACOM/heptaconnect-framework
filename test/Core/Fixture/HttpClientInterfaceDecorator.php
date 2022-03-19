@@ -8,7 +8,7 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class HttpClientInterfaceDecorator implements ClientInterface
+final class HttpClientInterfaceDecorator implements ClientInterface
 {
     private ClientInterface $decorated;
 

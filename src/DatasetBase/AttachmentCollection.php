@@ -10,7 +10,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 /**
  * @extends AbstractObjectCollection<AttachableInterface>
  */
-class AttachmentCollection extends AbstractObjectCollection
+final class AttachmentCollection extends AbstractObjectCollection
 {
     protected function getT(): string
     {

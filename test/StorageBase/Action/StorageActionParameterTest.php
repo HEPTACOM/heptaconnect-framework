@@ -6,8 +6,10 @@ namespace Heptacom\HeptaConnect\Storage\Base\Test\Action;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
+use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\IdentityErrorKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\RouteKeyInterface;
@@ -20,6 +22,10 @@ use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Overview\IdentityOverview
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPayloadCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Reflect\IdentityReflectPayload;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreatePayload;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreatePayloads;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResults;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Delete\JobDeleteCriteria;
@@ -53,6 +59,15 @@ use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Get\Portal
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Get\PortalNodeConfigurationGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Set\PortalNodeConfigurationSetPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Set\PortalNodeConfigurationSetPayloads;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Clear\PortalNodeStorageClearCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Delete\PortalNodeStorageDeleteCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Get\PortalNodeStorageGetCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Get\PortalNodeStorageGetResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Listing\PortalNodeStorageListCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Listing\PortalNodeStorageListResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Set\PortalNodeStorageSetItem;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Set\PortalNodeStorageSetItems;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Set\PortalNodeStorageSetPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayloads;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResult;
@@ -91,6 +106,10 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPayloadCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Reflect\IdentityReflectPayload
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreatePayload
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreatePayloads
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResult
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResults
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreateResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Delete\JobDeleteCriteria
@@ -120,6 +139,16 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Listing\PortalNodeListResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Overview\PortalNodeOverviewCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Overview\PortalNodeOverviewResult
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Clear\PortalNodeStorageClearCriteria
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Delete\PortalNodeStorageDeleteCriteria
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Get\PortalNodeStorageGetCriteria
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Get\PortalNodeStorageGetResult
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Listing\PortalNodeStorageListCriteria
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Listing\PortalNodeStorageListResult
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\PortalNodeStorageItemContract
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Set\PortalNodeStorageSetItem
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Set\PortalNodeStorageSetItems
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Set\PortalNodeStorageSetPayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayloads
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResult
@@ -151,7 +180,7 @@ class StorageActionParameterTest extends TestCase
         foreach ($this->iterateAttachmentAwareActionStructs() as $attachmentAware) {
             $attachment = new FirstEntity();
             $attachmentAware->attach($attachment);
-            self::assertTrue($attachmentAware->isAttached($attachment));
+            static::assertTrue($attachmentAware->isAttached($attachment));
             $attachmentAware->detach($attachment);
         }
     }
@@ -165,6 +194,7 @@ class StorageActionParameterTest extends TestCase
         $mappingNodeKey = $this->createMock(MappingNodeKeyInterface::class);
         $jobKey = $this->createMock(JobKeyInterface::class);
         $routeKey = $this->createMock(RouteKeyInterface::class);
+        $identityErrorKey = $this->createMock(IdentityErrorKeyInterface::class);
         $entityCollection = new DatasetEntityCollection();
         $mappedDatasetEntityCollection = new MappedDatasetEntityCollection();
         $portalNodeKeys = new PortalNodeKeyCollection();
@@ -182,6 +212,10 @@ class StorageActionParameterTest extends TestCase
         yield new IdentityOverviewResult($portalNodeKey, $mappingNodeKey, $externalId, $entityType, $createdAt);
         yield new IdentityPersistPayload($portalNodeKey, new IdentityPersistPayloadCollection());
         yield new IdentityReflectPayload($portalNodeKey, $mappedDatasetEntityCollection);
+        yield new IdentityErrorCreatePayloads();
+        yield new IdentityErrorCreatePayload($mappingComponentStruct, new \Exception());
+        yield new IdentityErrorCreateResults();
+        yield new IdentityErrorCreateResult($identityErrorKey);
         yield new JobCreatePayload('', $mappingComponentStruct, null);
         yield new JobCreateResult($jobKey);
         yield new JobDeleteCriteria($jobKeys);
@@ -215,6 +249,15 @@ class StorageActionParameterTest extends TestCase
         yield new PortalNodeConfigurationGetResult($portalNodeKey, []);
         yield new PortalNodeConfigurationSetPayload($portalNodeKey, []);
         yield new PortalNodeConfigurationSetPayloads();
+        yield new PortalNodeStorageClearCriteria($portalNodeKey);
+        yield new PortalNodeStorageDeleteCriteria($portalNodeKey, new StringCollection());
+        yield new PortalNodeStorageGetResult($portalNodeKey, '', '', '');
+        yield new PortalNodeStorageGetCriteria($portalNodeKey, new StringCollection());
+        yield new PortalNodeStorageListCriteria($portalNodeKey);
+        yield new PortalNodeStorageListResult($portalNodeKey, '', '', '');
+        yield new PortalNodeStorageSetPayload($portalNodeKey, new PortalNodeStorageSetItems());
+        yield new PortalNodeStorageSetItem('', '', '', null);
+        yield new PortalNodeStorageSetItems();
         yield new RouteCreatePayload($portalNodeKey, $portalNodeKey, $entityType);
         yield new RouteCreatePayloads();
         yield new RouteCreateResult($routeKey);

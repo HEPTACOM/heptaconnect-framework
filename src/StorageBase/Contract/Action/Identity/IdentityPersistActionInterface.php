@@ -11,6 +11,9 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 interface IdentityPersistActionInterface
 {
     /**
+     * Write identities to the storage.
+     * These identities always have at least one identity to a different portal node already in the storage and need to be connected.
+     *
      * @throws CreateException
      * @throws UnsupportedStorageKeyException
      */

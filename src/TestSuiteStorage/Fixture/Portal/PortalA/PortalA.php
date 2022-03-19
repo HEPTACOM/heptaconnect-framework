@@ -6,6 +6,6 @@ namespace Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalA;
 
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 
-class PortalA extends PortalContract
+final class PortalA extends PortalContract
 {
 }

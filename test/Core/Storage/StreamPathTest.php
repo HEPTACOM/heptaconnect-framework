@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Heptacom\HeptaConnect\Core\Storage\Contract\StreamPathContract
  */
-class StreamPathTest extends TestCase
+final class StreamPathTest extends TestCase
 {
     public function testContract(): void
     {

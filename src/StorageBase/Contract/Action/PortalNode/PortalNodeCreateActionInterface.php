@@ -11,6 +11,8 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\CreateException;
 interface PortalNodeCreateActionInterface
 {
     /**
+     * Create portal nodes by portal.
+     *
      * @throws CreateException
      */
     public function create(PortalNodeCreatePayloads $payloads): PortalNodeCreateResults;

@@ -24,7 +24,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\ForeignKeyTrait
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\PrimaryKeyTrait
  */
-class AttachmentTest extends TestCase
+final class AttachmentTest extends TestCase
 {
     public function testStructAttachmentsAreEmptyByDefault(): void
     {

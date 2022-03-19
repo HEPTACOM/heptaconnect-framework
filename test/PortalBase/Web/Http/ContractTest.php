@@ -18,7 +18,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack
  */
-class ContractTest extends TestCase
+final class ContractTest extends TestCase
 {
     public function testImplementation(): void
     {

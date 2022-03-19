@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Core\Test\Fixture;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 
-class DependentPortal extends PortalContract
+final class DependentPortal extends PortalContract
 {
     private ExplorerCollection $explorerCollection;
 

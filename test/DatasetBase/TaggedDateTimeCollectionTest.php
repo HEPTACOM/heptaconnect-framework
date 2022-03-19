@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedDateTimeCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TagItem
  */
-class TaggedDateTimeCollectionTest extends TestCase
+final class TaggedDateTimeCollectionTest extends TestCase
 {
     use ProvidesDateTimeTestsData;
     use ProvidesInvalidTestsData;

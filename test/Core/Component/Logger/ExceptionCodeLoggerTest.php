@@ -12,7 +12,7 @@ use Psr\Log\LogLevel;
 /**
  * @covers \Heptacom\HeptaConnect\Core\Component\Logger\ExceptionCodeLogger
  */
-class ExceptionCodeLoggerTest extends TestCase
+final class ExceptionCodeLoggerTest extends TestCase
 {
     public function testExceptionLogContainsTypeAndCode(): void
     {

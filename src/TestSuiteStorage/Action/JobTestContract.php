@@ -30,10 +30,16 @@ use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Dataset\EntityA;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalA\PortalA;
 use Heptacom\HeptaConnect\TestSuite\Storage\TestCase;
 
+/**
+ * Test pre-implementation to test job related storage actions. Some other storage actions e.g. PortalNodeCreate are needed to set up test scenarios.
+ */
 abstract class JobTestContract extends TestCase
 {
     private const MESSAGE = 'This is testing for testing';
 
+    /**
+     * Validates a complete job "lifecycle" can be managed with the storage. It covers creation, state changes and deletion of jobs.
+     */
     public function testLifecycle(): void
     {
         $facade = $this->createStorageFacade();
@@ -128,5 +134,8 @@ abstract class JobTestContract extends TestCase
         $portalNodeDelete->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([$portalNodeKey])));
     }
 
+    /**
+     * Provides the storage implementation to test against.
+     */
     abstract protected function createStorageFacade(): StorageFacadeInterface;
 }
