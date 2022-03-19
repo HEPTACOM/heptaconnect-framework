@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
@@ -9,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Date
  */
-class DateTest extends TestCase
+final class DateTest extends TestCase
 {
     public function testMissingTimeComponent(): void
     {

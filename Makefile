@@ -5,7 +5,7 @@ PHPUNIT_EXTRA_ARGS := --config=test/phpunit.xml
 PHPUNIT := $(PHP) vendor/bin/phpunit $(PHPUNIT_EXTRA_ARGS)
 CURL := $(shell which curl)
 JQ := $(shell which jq)
-JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*' -not -path './src/Core/vendor/*' -not -path './src/DatasetBase/vendor/*' -not -path './src/PortalBase/vendor/*' -not -path './src/StorageBase/vendor/*')
+JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*' -not -path './src/Core/vendor/*' -not -path './src/DatasetBase/vendor/*' -not -path './src/PortalBase/vendor/*' -not -path './src/StorageBase/vendor/*' -not -path './src/TestSuiteStorage/vendor/*')
 GIT := $(shell which git)
 PHPSTAN_FILE := dev-ops/bin/phpstan/vendor/bin/phpstan
 COMPOSER_NORMALIZE_PHAR := https://github.com/ergebnis/composer-normalize/releases/download/2.22.0/composer-normalize.phar
@@ -32,6 +32,13 @@ clean: ## Cleans up all ignored files and directories
 	[[ ! -f composer.lock ]] || rm composer.lock
 	[[ ! -d vendor ]] || rm -rf vendor
 	[[ ! -d .build ]] || rm -rf .build
+	[[ ! -f dev-ops/bin/composer-normalize ]] || rm -f dev-ops/bin/composer-normalize
+	[[ ! -f dev-ops/bin/composer-require-checker ]] || rm -f dev-ops/bin/composer-require-checker
+	[[ ! -d dev-ops/bin/composer-unused/vendor ]] || rm -rf dev-ops/bin/composer-unused/vendor
+	[[ ! -d dev-ops/bin/easy-coding-standard/vendor ]] || rm -rf dev-ops/bin/easy-coding-standard/vendor
+	[[ ! -f dev-ops/bin/phpmd ]] || rm -f dev-ops/bin/phpmd
+	[[ ! -d dev-ops/bin/phpstan/vendor ]] || rm -rf dev-ops/bin/phpstan/vendor
+	[[ ! -d dev-ops/bin/psalm/vendor ]] || rm -rf dev-ops/bin/psalm/vendor
 
 .PHONY: it
 it: cs-fix cs test ## Fix code style and run unit tests
@@ -52,7 +59,8 @@ cs-php: vendor .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standard f
 
 .PHONY: cs-phpstan
 cs-phpstan: vendor .build $(PHPSTAN_FILE) ## Run phpstan for static code analysis
-	$(PHP) $(PHPSTAN_FILE) analyse -c dev-ops/phpstan.neon --error-format=junit
+	[[ -z "${CI}" ]] || $(PHP) $(PHPSTAN_FILE) analyse --level 8 -c dev-ops/phpstan.neon --error-format=junit > .build/phpstan.junit.xml
+	[[ -n "${CI}" ]] || $(PHP) $(PHPSTAN_FILE) analyse --level 8 -c dev-ops/phpstan.neon
 
 .PHONY: cs-psalm
 cs-psalm: vendor .build $(PSALM_FILE) ## Run psalm for static code analysis
@@ -68,6 +76,7 @@ cs-phpmd: vendor .build $(PHPMD_FILE) ## Run php mess detector for static code a
 	$(PHP) $(PHPMD_FILE) src/DatasetBase xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-dataset-base.junit.xml
 	$(PHP) $(PHPMD_FILE) src/PortalBase xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-portal-base.junit.xml
 	$(PHP) $(PHPMD_FILE) src/StorageBase xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-storage-base.junit.xml
+	$(PHP) $(PHPMD_FILE) src/TestSuiteStorage xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-test-suite-storage.junit.xml
 
 .PHONY: cs-composer-unused
 cs-composer-unused: vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to detect once-required packages that are not used anymore
@@ -76,10 +85,11 @@ cs-composer-unused: vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to det
 	cd src/DatasetBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
 	cd src/PortalBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
 	cd src/StorageBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
+	cd src/TestSuiteStorage && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
 
 .PHONY: cs-soft-require
 cs-soft-require: vendor .build $(COMPOSER_REQUIRE_CHECKER_FILE) ## Run composer-require-checker to detect library usage without requirement entry in composer.json
-	$(PHP) $(COMPOSER_REQUIRE_CHECKER_FILE) check --config-file=dev-ops/composer-soft-requirements.json composer.json
+	$(PHP) $(COMPOSER_REQUIRE_CHECKER_FILE) check --config-file=$(shell pwd)/dev-ops/composer-soft-requirements.json composer.json
 
 .PHONY: cs-composer-normalize
 cs-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-normalize for composer.json style analysis
@@ -88,6 +98,7 @@ cs-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-normali
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/DatasetBase/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/PortalBase/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/StorageBase/composer.json
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/TestSuiteStorage/composer.json
 
 .PHONY: cs-json
 cs-json: $(JSON_FILES) ## Run jq on every json file to ensure they are parsable and therefore valid
@@ -106,6 +117,7 @@ cs-fix-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-nor
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/DatasetBase/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/PortalBase/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/StorageBase/composer.json
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/TestSuiteStorage/composer.json
 
 .PHONY: cs-fix-php
 cs-fix-php: vendor .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standard for automatic code style fixes
@@ -180,6 +192,7 @@ build-packages:
 	dev-ops/bin/build-subpackage DatasetBase
 	dev-ops/bin/build-subpackage PortalBase
 	dev-ops/bin/build-subpackage StorageBase
+	dev-ops/bin/build-subpackage TestSuiteStorage
 
 .PHONY: publish-packages
 publish-packages: build-packages
@@ -189,6 +202,7 @@ publish-packages: build-packages
 	dev-ops/bin/publish-subpackage DatasetBase dataset-base "$(TAG)" "$(BRANCH)"
 	dev-ops/bin/publish-subpackage PortalBase portal-base "$(TAG)" "$(BRANCH)"
 	dev-ops/bin/publish-subpackage StorageBase storage-base "$(TAG)" "$(BRANCH)"
+	dev-ops/bin/publish-subpackage TestSuiteStorage test-suite-storage "$(TAG)" "$(BRANCH)"
 	$(GIT) reset --hard HEAD^1
 
 .PHONY: subtree-merge

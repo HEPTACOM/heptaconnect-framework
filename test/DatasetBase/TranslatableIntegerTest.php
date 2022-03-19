@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
@@ -12,7 +13,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableInteger
  */
-class TranslatableIntegerTest extends TestCase
+final class TranslatableIntegerTest extends TestCase
 {
     use ProvidesIntegerTestsData;
     use ProvidesInvalidTestsData;

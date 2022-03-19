@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\TaggedCollection;
@@ -6,10 +7,13 @@ namespace Heptacom\HeptaConnect\Dataset\Base\TaggedCollection;
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\BooleanCollection;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\AbstractTaggedCollection<bool>
+ * @extends AbstractTaggedCollection<bool>
  */
-class TaggedBooleanCollection extends AbstractTaggedCollection
+final class TaggedBooleanCollection extends AbstractTaggedCollection
 {
+    /**
+     * @psalm-return BooleanCollection::class
+     */
     protected function getCollectionType(): string
     {
         return BooleanCollection::class;

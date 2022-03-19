@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Storage;
@@ -19,12 +20,11 @@ use Psr\Log\AbstractLogger;
  * @covers \Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamNormalizer
  * @covers \Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\SerializableStream
  */
-class StreamNormalizerTest extends TestCase
+final class StreamNormalizerTest extends TestCase
 {
     public function testLogging(): void
     {
-        $logger = new class extends AbstractLogger
-        {
+        $logger = new class() extends AbstractLogger {
             private array $messages = [];
 
             private array $contexts = [];
@@ -39,7 +39,7 @@ class StreamNormalizerTest extends TestCase
                 return $this->contexts;
             }
 
-            public function log($level, $message, array $context = array())
+            public function log($level, $message, array $context = []): void
             {
                 $this->messages[] = $message;
                 $this->contexts[] = $context;

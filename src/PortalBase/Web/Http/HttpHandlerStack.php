@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Web\Http;
@@ -12,27 +13,27 @@ use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-class HttpHandlerStack implements HttpHandlerStackInterface, LoggerAwareInterface
+final class HttpHandlerStack implements HttpHandlerStackInterface, LoggerAwareInterface
 {
     /**
-     * @var array<array-key, \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract>
+     * @var array<array-key, HttpHandlerContract>
      */
     private array $handlers;
 
     private LoggerInterface $logger;
 
     /**
-     * @param iterable<array-key, \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract> $handlers
+     * @param iterable<array-key, HttpHandlerContract> $handlers
      */
     public function __construct(iterable $handlers)
     {
-        /** @var array<array-key, \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract> $arrayHandlers */
+        /** @var array<array-key, HttpHandlerContract> $arrayHandlers */
         $arrayHandlers = \iterable_to_array($handlers);
         $this->handlers = $arrayHandlers;
         $this->logger = new NullLogger();
     }
 
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
     }
@@ -48,7 +49,9 @@ class HttpHandlerStack implements HttpHandlerStackInterface, LoggerAwareInterfac
             return $response;
         }
 
-        $this->logger->debug(\sprintf('Execute FlowComponent web http handler: %s', \get_class($handler)));
+        $this->logger->debug('Execute FlowComponent web http handler', [
+            'web_http_handler' => $handler,
+        ]);
 
         return $handler->handle($request, $response, $context, $this);
     }

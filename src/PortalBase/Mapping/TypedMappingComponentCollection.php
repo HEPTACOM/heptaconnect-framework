@@ -1,20 +1,22 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Mapping;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract;
 
 class TypedMappingComponentCollection extends MappingComponentCollection
 {
     /**
-     * @psalm-var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @psalm-var class-string<DatasetEntityContract>
      */
     private string $type;
 
     /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $type
-     * @psalm-param iterable<int, \Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract> $items
+     * @psalm-param class-string<DatasetEntityContract>           $type
+     * @psalm-param iterable<int, MappingComponentStructContract> $items
      */
     public function __construct(string $type, iterable $items = [])
     {
@@ -24,7 +26,7 @@ class TypedMappingComponentCollection extends MappingComponentCollection
     }
 
     /**
-     * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @psalm-return class-string<DatasetEntityContract>
      */
     public function getType(): string
     {

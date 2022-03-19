@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Portal;
@@ -12,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
  */
-class ContractTest extends TestCase
+final class ContractTest extends TestCase
 {
     public function testExtendingPortalContract(): void
     {
@@ -88,6 +89,6 @@ class ContractTest extends TestCase
         static::assertEquals(['__NAMESPACE__' => '__DIR__'], $portalExt->getPsr4());
         static::assertEquals('__DIR__', $portalExt->getContainerConfigurationPath());
         static::assertEquals('__DIR__', $portalExt->getFlowComponentsPath());
-        static::assertSame(false, $portalExt->isActiveByDefault());
+        static::assertFalse($portalExt->isActiveByDefault());
     }
 }

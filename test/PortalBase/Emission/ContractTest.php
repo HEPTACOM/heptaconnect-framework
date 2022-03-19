@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Emission;
@@ -25,7 +26,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack
  */
-class ContractTest extends TestCase
+final class ContractTest extends TestCase
 {
     public function testExtendingEmitterContract(): void
     {
@@ -67,7 +68,8 @@ class ContractTest extends TestCase
         $decoratingEmitter = new class() extends EmitterContract {
             protected function extend(DatasetEntityContract $entity, EmitContextInterface $context): DatasetEntityContract
             {
-                $entity->attach(new class() implements AttachableInterface {});
+                $entity->attach(new class() implements AttachableInterface {
+                });
 
                 return $entity;
             }
@@ -99,7 +101,7 @@ class ContractTest extends TestCase
         static::assertCount(1, $decoratedEmitted->first()->getAttachments());
     }
 
-    public function testRunMethodExtensionWhenImplemented()
+    public function testRunMethodExtensionWhenImplemented(): void
     {
         $emitter = new class() extends EmitterContract {
             protected function run(string $externalId, EmitContextInterface $context): ?DatasetEntityContract
@@ -134,7 +136,7 @@ class ContractTest extends TestCase
         \iterable_to_array((new EmitterStack([$emitter], $emitter->supports()))->next($externalIds, $context));
     }
 
-    public function testRunMethodExtensionWhenNotImplemented()
+    public function testRunMethodExtensionWhenNotImplemented(): void
     {
         $emitter = new class() extends EmitterContract {
             public function supports(): string

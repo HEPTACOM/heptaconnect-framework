@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Support;
@@ -7,7 +8,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface;
 
 /**
  * @template T
- * @template-implements \Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface<T>
+ * @template-implements CollectionInterface<T>
  */
 abstract class AbstractCollection implements CollectionInterface
 {
@@ -103,9 +104,9 @@ abstract class AbstractCollection implements CollectionInterface
      * @param array-key|null $offset
      * @psalm-param T   $value
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
-        if (!\is_null($offset) && $this->isValidItem($value)) {
+        if ($offset !== null && $this->isValidItem($value)) {
             $this->items[$offset] = $value;
         }
     }
@@ -173,12 +174,6 @@ abstract class AbstractCollection implements CollectionInterface
         }
     }
 
-    /**
-     * @param mixed $item
-     * @param mixed $fallback
-     *
-     * @return mixed
-     */
     protected function executeAccessor($item, ?string $accessor, $fallback)
     {
         if (!\is_string($accessor)) {

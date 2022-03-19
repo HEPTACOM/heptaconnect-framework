@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Exploration;
@@ -14,7 +15,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection
  */
-class ExplorerCollectionTest extends TestCase
+final class ExplorerCollectionTest extends TestCase
 {
     public function testBySupport(): void
     {

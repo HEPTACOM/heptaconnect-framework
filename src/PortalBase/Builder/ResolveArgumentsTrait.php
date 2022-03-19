@@ -1,19 +1,15 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder;
 
-use Closure;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\ConfigurationContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use ReflectionClass;
-use ReflectionFunction;
-use ReflectionMethod;
-use ReflectionNamedType;
-use ReflectionType;
-use ReflectionUnionType;
+use Psr\Container\NotFoundExceptionInterface;
 
 trait ResolveArgumentsTrait
 {
@@ -25,17 +21,17 @@ trait ResolveArgumentsTrait
     /**
      * @param callable(int,string,?string,ContainerInterface):mixed $resolveArgument
      *
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws \ReflectionException
      */
     protected function resolveArguments(
-        Closure $method,
+        \Closure $method,
         PortalNodeContextInterface $context,
         callable $resolveArgument
     ): array {
         $container = $context->getContainer();
-        $reflection = new ReflectionFunction($method);
+        $reflection = new \ReflectionFunction($method);
         $bindingKeys = $this->getBindingKeys($container);
         $arguments = [];
 
@@ -57,18 +53,18 @@ trait ResolveArgumentsTrait
 
     private function getType(\ReflectionParameter $parameter, \ReflectionFunctionAbstract $function): ?string
     {
-        if (!($type = $parameter->getType()) instanceof ReflectionType) {
+        if (!($type = $parameter->getType()) instanceof \ReflectionNamedType) {
             return null;
         }
 
-        $name = $type instanceof ReflectionNamedType ? $type->getName() : (string) $type;
+        $name = $type->getName();
 
-        if ($function instanceof ReflectionMethod) {
+        if ($function instanceof \ReflectionMethod) {
             switch (\mb_strtolower($name)) {
                 case 'self':
                     return $function->getDeclaringClass()->name;
                 case 'parent':
-                    return ($parent = $function->getDeclaringClass()->getParentClass()) instanceof ReflectionClass ? $parent->name : null;
+                    return ($parent = $function->getDeclaringClass()->getParentClass()) instanceof \ReflectionClass ? $parent->name : null;
             }
         }
 
@@ -76,8 +72,8 @@ trait ResolveArgumentsTrait
     }
 
     /**
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      *
      * @return mixed|null
      */
@@ -95,8 +91,8 @@ trait ResolveArgumentsTrait
     }
 
     /**
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      *
      * @return array<string, mixed>
      */
@@ -169,13 +165,13 @@ trait ResolveArgumentsTrait
     /**
      * @return string[]
      */
-    private function getParameterTypes(?ReflectionType $type): array
+    private function getParameterTypes(?\ReflectionType $type): array
     {
-        if ($type instanceof ReflectionNamedType) {
+        if ($type instanceof \ReflectionNamedType) {
             return [$type->getName()];
         }
 
-        if (\class_exists(ReflectionUnionType::class) && $type instanceof ReflectionUnionType) {
+        if (\class_exists(\ReflectionUnionType::class) && $type instanceof \ReflectionUnionType) {
             return \array_merge([], ...\array_map([$this, 'getParameterTypes'], $type->getTypes()));
         }
 

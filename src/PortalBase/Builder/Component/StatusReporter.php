@@ -1,9 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
-use Closure;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\StatusReporterToken;
@@ -12,7 +12,7 @@ use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReportingCo
 use Opis\Closure\SerializableClosure;
 use Psr\Container\ContainerInterface;
 
-class StatusReporter extends StatusReporterContract
+final class StatusReporter extends StatusReporterContract
 {
     use ResolveArgumentsTrait;
 
@@ -25,7 +25,12 @@ class StatusReporter extends StatusReporterContract
         $run = $token->getRun();
 
         $this->topic = $token->getTopic();
-        $this->runMethod = $run instanceof Closure ? new SerializableClosure($run) : null;
+        $this->runMethod = $run instanceof \Closure ? new SerializableClosure($run) : null;
+    }
+
+    public function getRunMethod(): ?\Closure
+    {
+        return $this->runMethod instanceof SerializableClosure ? $this->runMethod->getClosure() : null;
     }
 
     public function supportsTopic(): string

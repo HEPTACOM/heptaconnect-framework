@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
@@ -6,7 +7,7 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
 interface ForeignKeyAwareInterface
 {
     /**
-     * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @psalm-return class-string<DatasetEntityContract>
      */
     public function getForeignEntityType(): string;
 

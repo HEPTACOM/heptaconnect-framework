@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Exploration;
@@ -19,7 +20,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack
  */
-class ExplorerStackBuilderTest extends TestCase
+final class ExplorerStackBuilderTest extends TestCase
 {
     public function testStackBuilderManualOrder(): void
     {
@@ -56,7 +57,7 @@ class ExplorerStackBuilderTest extends TestCase
         $stack = $stackBuilder->build();
         $stack->next($this->createMock(ExploreContextInterface::class));
 
-        self::assertEquals([2, 1], $calc);
+        static::assertEquals([2, 1], $calc);
     }
 
     public function testStackBuilderOrderFromCtor(): void
@@ -95,6 +96,6 @@ class ExplorerStackBuilderTest extends TestCase
         $stack = $stackBuilder->build();
         $stack->next($this->createMock(ExploreContextInterface::class));
 
-        self::assertEquals([2, 1], $calc);
+        static::assertEquals([2, 1], $calc);
     }
 }

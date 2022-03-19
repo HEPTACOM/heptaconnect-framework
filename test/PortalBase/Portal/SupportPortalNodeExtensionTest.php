@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Portal;
@@ -11,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
  */
-class SupportPortalNodeExtensionTest extends TestCase
+final class SupportPortalNodeExtensionTest extends TestCase
 {
     public function testSupportsSomething(): void
     {

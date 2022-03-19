@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Web\Http;
@@ -17,8 +18,12 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerStackBuilder
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerStackBuilderFactory
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection
  */
-class HttpHandlerStackBuilderFactoryTest extends TestCase
+final class HttpHandlerStackBuilderFactoryTest extends TestCase
 {
     public function testFirstSourceBeingSourceInBuilder(): void
     {
@@ -37,11 +42,11 @@ class HttpHandlerStackBuilderFactoryTest extends TestCase
 
         $factory = new HttpHandlerStackBuilderFactory($portalContainerFactory, $logger);
         $stack = $factory->createHttpHandlerStackBuilder($portalNodeKey, 'foobar');
-        self::assertTrue($stack->isEmpty());
+        static::assertTrue($stack->isEmpty());
         $stack->pushDecorators();
-        self::assertTrue($stack->isEmpty());
+        static::assertTrue($stack->isEmpty());
         $stack->pushSource();
-        self::assertFalse($stack->isEmpty());
+        static::assertFalse($stack->isEmpty());
     }
 
     public function testSecondSourceBeingDecoratorInBuilder(): void
@@ -63,10 +68,10 @@ class HttpHandlerStackBuilderFactoryTest extends TestCase
 
         $factory = new HttpHandlerStackBuilderFactory($portalContainerFactory, $logger);
         $stack = $factory->createHttpHandlerStackBuilder($portalNodeKey, 'foobar');
-        self::assertTrue($stack->isEmpty());
+        static::assertTrue($stack->isEmpty());
         $stack->pushDecorators();
-        self::assertFalse($stack->isEmpty());
+        static::assertFalse($stack->isEmpty());
         $stack->pushSource();
-        self::assertFalse($stack->isEmpty());
+        static::assertFalse($stack->isEmpty());
     }
 }

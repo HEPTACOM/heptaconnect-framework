@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base;
@@ -8,13 +9,13 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 
 /**
  * @template T
- * @template-extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract&T>
+ * @template-extends AbstractObjectCollection<DatasetEntityContract&T>
  * @psalm-consistent-constructor
  */
 class DatasetEntityCollection extends AbstractObjectCollection
 {
     /**
-     * @return \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>[]
+     * @return DatasetEntityCollection<DatasetEntityContract>[]
      */
     public function groupByType(): iterable
     {
@@ -31,6 +32,9 @@ class DatasetEntityCollection extends AbstractObjectCollection
         }
     }
 
+    /**
+     * @psalm-return Contract\DatasetEntityContract::class
+     */
     protected function getT(): string
     {
         return DatasetEntityContract::class;

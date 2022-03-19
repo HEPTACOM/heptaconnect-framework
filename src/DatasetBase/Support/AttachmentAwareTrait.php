@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Support;
@@ -18,17 +19,17 @@ trait AttachmentAwareTrait
     public function attach(AttachableInterface $attachment): void
     {
         $className = \get_class($attachment);
+        $attachments = new AttachmentCollection($this->attachments->filter(
+            fn (AttachableInterface $attachment): bool => \get_class($attachment) !== $className
+        ));
+        $attachments->push([$attachment]);
 
-        if ($this->hasAttached($className)) {
-            $this->unattach($className);
-        }
-
-        $this->attachments->push([$attachment]);
+        $this->attachments = $attachments;
     }
 
     public function hasAttached(string $class): bool
     {
-        if (!\class_exists($class)) {
+        if (!\class_exists($class) && !\interface_exists($class)) {
             return false;
         }
 
@@ -37,10 +38,25 @@ trait AttachmentAwareTrait
         )->valid();
     }
 
+    public function isAttached(AttachableInterface $attachable): bool
+    {
+        return $this->attachments->filter(
+            fn (AttachableInterface $attachment): bool => $attachment === $attachable
+        )->valid();
+    }
+
     public function getAttachment(string $class): ?AttachableInterface
     {
-        if (!\class_exists($class)) {
+        if (!\class_exists($class) && !\interface_exists($class)) {
             return null;
+        }
+
+        $iterator = $this->attachments->filter(
+            fn (AttachableInterface $attachment): bool => \get_class($attachment) === $class
+        );
+
+        if ($iterator->valid() && ($attachment = $iterator->current()) instanceof $class) {
+            return $attachment;
         }
 
         $iterator = $this->attachments->filter(
@@ -50,16 +66,31 @@ trait AttachmentAwareTrait
         return $iterator->valid() ? $iterator->current() : null;
     }
 
+    /**
+     * @deprecated Use detachByType instead. Will be removed in 0.10
+     *
+     * @param class-string $class
+     */
     public function unattach(string $class): void
     {
-        if (!\class_exists($class)) {
+        $this->detachByType($class);
+    }
+
+    public function detachByType(string $class): void
+    {
+        if (!\class_exists($class) && !\interface_exists($class)) {
             return;
         }
 
-        /** @var array<array-key, AttachableInterface> $newItems */
-        $newItems = \iterable_to_array($this->attachments->filter(
-            fn (AttachableInterface $attachment): bool => !$attachment instanceof $class)
-        );
-        $this->attachments = new AttachmentCollection($newItems);
+        $this->attachments = new AttachmentCollection($this->attachments->filter(
+            fn (AttachableInterface $attachment): bool => !$attachment instanceof $class
+        ));
+    }
+
+    public function detach(AttachableInterface $attachable): void
+    {
+        $this->attachments = new AttachmentCollection($this->attachments->filter(
+            fn (AttachableInterface $attachment): bool => $attachment !== $attachable
+        ));
     }
 }

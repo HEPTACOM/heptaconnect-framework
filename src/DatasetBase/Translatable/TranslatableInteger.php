@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Translatable;
@@ -6,7 +7,7 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Translatable;
 /**
  * @extends AbstractTranslatable<int>
  */
-class TranslatableInteger extends AbstractTranslatable
+final class TranslatableInteger extends AbstractTranslatable
 {
     protected function isValidValue($value): bool
     {

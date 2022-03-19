@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\TaggedCollection;
@@ -8,20 +9,20 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
 
 /**
  * @template T
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<\Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TagItem<T>>
+ * @extends AbstractCollection<TagItem<T>>
  */
 abstract class AbstractTaggedCollection extends AbstractCollection
 {
     /**
      * @psalm-param array-key $offset
-     * @psalm-return \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TagItem<T>
+     * @psalm-return TagItem
      */
     public function offsetGet($offset)
     {
         $offset = (string) $offset;
         $tag = parent::offsetGet($offset);
 
-        if (!\is_null($tag)) {
+        if ($tag !== null) {
             return $tag;
         }
 
@@ -31,7 +32,7 @@ abstract class AbstractTaggedCollection extends AbstractCollection
         return $tag;
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         parent::offsetSet($value->getTag(), $value);
     }
@@ -51,12 +52,12 @@ abstract class AbstractTaggedCollection extends AbstractCollection
     }
 
     /**
-     * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface<T>>
+     * @psalm-return class-string<CollectionInterface<T>>
      */
     abstract protected function getCollectionType(): string;
 
     /**
-     * @psalm-return \Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface<T>
+     * @psalm-return CollectionInterface<T>
      */
     private function createEmptyCollection(): CollectionInterface
     {

@@ -1,9 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Builder;
 
-use Closure;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\StatusReporterToken;
 
 class StatusReporterBuilder
@@ -15,7 +15,7 @@ class StatusReporterBuilder
         $this->token = $token;
     }
 
-    public function run(Closure $run): self
+    public function run(\Closure $run): self
     {
         $this->token->setRun($run);
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Fixture;
@@ -8,7 +9,7 @@ use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
 
-class UninstantiablePortal extends PortalContract
+final class UninstantiablePortal extends PortalContract
 {
     private function __construct()
     {

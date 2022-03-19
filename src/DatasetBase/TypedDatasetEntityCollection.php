@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base;
@@ -6,18 +7,18 @@ namespace Heptacom\HeptaConnect\Dataset\Base;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+ * @extends DatasetEntityCollection<DatasetEntityContract>
  */
-class TypedDatasetEntityCollection extends DatasetEntityCollection
+final class TypedDatasetEntityCollection extends DatasetEntityCollection
 {
     /**
-     * @psalm-var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @psalm-var class-string<DatasetEntityContract>
      */
     private string $type;
 
     /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $type
-     * @psalm-param iterable<int, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $items
+     * @psalm-param class-string<DatasetEntityContract> $type
+     * @psalm-param iterable<int, DatasetEntityContract> $items
      */
     public function __construct(string $type, iterable $items = [])
     {
@@ -27,7 +28,7 @@ class TypedDatasetEntityCollection extends DatasetEntityCollection
     }
 
     /**
-     * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @psalm-return class-string<DatasetEntityContract>
      */
     public function getType(): string
     {

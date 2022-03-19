@@ -1,9 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
-use Closure;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
@@ -13,12 +13,12 @@ use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Opis\Closure\SerializableClosure;
 use Psr\Container\ContainerInterface;
 
-class Receiver extends ReceiverContract
+final class Receiver extends ReceiverContract
 {
     use ResolveArgumentsTrait;
 
     /**
-     * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @var class-string<DatasetEntityContract>
      */
     private string $type;
 
@@ -32,8 +32,18 @@ class Receiver extends ReceiverContract
         $run = $token->getRun();
 
         $this->type = $token->getType();
-        $this->batchMethod = $batch instanceof Closure ? new SerializableClosure($batch) : null;
-        $this->runMethod = $run instanceof Closure ? new SerializableClosure($run) : null;
+        $this->batchMethod = $batch instanceof \Closure ? new SerializableClosure($batch) : null;
+        $this->runMethod = $run instanceof \Closure ? new SerializableClosure($run) : null;
+    }
+
+    public function getRunMethod(): ?\Closure
+    {
+        return $this->runMethod instanceof SerializableClosure ? $this->runMethod->getClosure() : null;
+    }
+
+    public function getBatchMethod(): ?\Closure
+    {
+        return $this->batchMethod instanceof SerializableClosure ? $this->batchMethod->getClosure() : null;
     }
 
     public function supports(): string

@@ -28,11 +28,11 @@
         "ext-zlib": "*",
         "bentools/iterable-functions": ">=1.4 <2",
         "composer/composer": ">=1.9",
-        "dragonmantank/cron-expression": ">=3",
         "league/flysystem": "^1",
         "myclabs/deep-copy": ">=1.10 <2",
         "opis/closure": "^3.6",
         "php-http/discovery": "^1.11",
+        "phpunit/phpunit": ">=9.3 <10",
         "psr/cache": "^1.0",
         "psr/container": "^1.0",
         "psr/event-dispatcher": "^1.0",
@@ -55,16 +55,17 @@
     },
     "require-dev": {
         "infection/infection": ">=0.21",
+        "league/flysystem": "^1.1",
         "nyholm/psr7": ">=1",
         "php-http/curl-client": ">=1",
-        "phpunit/phpunit": ">=9.3 <10",
         "symfony/cache": ">=3.2"
     },
     "replace": {
         "heptacom/heptaconnect-core": "*",
         "heptacom/heptaconnect-dataset-base": "*",
         "heptacom/heptaconnect-portal-base": "*",
-        "heptacom/heptaconnect-storage-base": "*"
+        "heptacom/heptaconnect-storage-base": "*",
+        "heptacom/heptaconnect-test-suite-storage": "*"
     },
     "conflict": {
         "nikic/php-parser": "4.7.0"
@@ -80,7 +81,8 @@
             "Heptacom\\HeptaConnect\\Dataset\\Base\\": "src/DatasetBase/",
             "Heptacom\\HeptaConnect\\Portal\\Base\\": "src/PortalBase/",
             "Heptacom\\HeptaConnect\\Storage\\Base\\": "src/StorageBase/",
-            "Heptacom\\HeptaConnect\\Core\\": "src/Core/"
+            "Heptacom\\HeptaConnect\\Core\\": "src/Core/",
+            "Heptacom\\HeptaConnect\\TestSuite\\Storage\\": "src/TestSuiteStorage/"
         }
     },
     "autoload-dev": {
@@ -95,6 +97,12 @@
         "allow-plugins": {
             "infection/extension-installer": true
         }
+    },
+    "extra": {
+        "unused": [
+            "bentools/iterable-functions",
+            "symfony/polyfill-php80"
+        ]
     },
     "website": "https://heptaconnect.io"
 }

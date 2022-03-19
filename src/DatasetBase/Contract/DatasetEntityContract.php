@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
@@ -12,7 +13,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\JsonSerializeObjectVarsTrait;
 use Heptacom\HeptaConnect\Dataset\Base\Support\PrimaryKeyTrait;
 use Heptacom\HeptaConnect\Dataset\Base\Support\SetStateTrait;
 
-abstract class DatasetEntityContract implements AttachableInterface, DeferralAwareInterface, PrimaryKeyAwareInterface, \JsonSerializable
+abstract class DatasetEntityContract implements AttachableInterface, AttachmentAwareInterface, DeferralAwareInterface, PrimaryKeyAwareInterface, \JsonSerializable
 {
     use AttachmentAwareTrait;
     use DeferralAwareTrait;

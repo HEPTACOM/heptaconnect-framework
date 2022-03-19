@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Portal;
@@ -9,10 +10,10 @@ use Heptacom\HeptaConnect\Core\Portal\PortalFactory;
 use Heptacom\HeptaConnect\Core\Portal\PortalRegistry;
 use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Find\PortalExtensionFindActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Find\PortalExtensionFindResult;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Get\PortalNodeGetActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Get\PortalNodeGetResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Find\PortalExtensionFindResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use HeptacomFixture\Portal\A\Portal;
 use HeptacomFixture\Portal\Extension\PortalExtension;
@@ -20,8 +21,14 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalRegistry
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Find\PortalExtensionFindResult
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetCriteria
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult
  */
-class PortalRegistryTest extends TestCase
+final class PortalRegistryTest extends TestCase
 {
     private ClassLoader $classLoader;
 
@@ -30,8 +37,8 @@ class PortalRegistryTest extends TestCase
         parent::setUp();
 
         $this->classLoader = new ClassLoader();
-        $this->classLoader->addPsr4('HeptacomFixture\\Portal\\A\\', __DIR__.'/../../../test-composer-integration/portal-package/src/');
-        $this->classLoader->addPsr4('HeptacomFixture\\Portal\\Extension\\', __DIR__.'/../../../test-composer-integration/portal-package-extension/src/');
+        $this->classLoader->addPsr4('HeptacomFixture\\Portal\\A\\', __DIR__ . '/../../../test-composer-integration/portal-package/src/');
+        $this->classLoader->addPsr4('HeptacomFixture\\Portal\\Extension\\', __DIR__ . '/../../../test-composer-integration/portal-package-extension/src/');
         $this->classLoader->register();
     }
 
@@ -68,7 +75,7 @@ class PortalRegistryTest extends TestCase
         );
 
         $extensions = $portalRegistry->getPortalExtensions($portalNodeKey);
-        self::assertSame(1, $extensions->count());
+        static::assertSame(1, $extensions->count());
     }
 
     public function testExtensionUnavailability(): void
@@ -97,6 +104,6 @@ class PortalRegistryTest extends TestCase
         );
 
         $extensions = $portalRegistry->getPortalExtensions($portalNodeKey);
-        self::assertSame(0, $extensions->count());
+        static::assertSame(0, $extensions->count());
     }
 }

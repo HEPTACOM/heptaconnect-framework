@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Web\Http;
@@ -21,7 +22,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack
  */
-class HttpHandlerStackBuilderTest extends TestCase
+final class HttpHandlerStackBuilderTest extends TestCase
 {
     public function testStackBuilderManualOrder(): void
     {
@@ -73,7 +74,7 @@ class HttpHandlerStackBuilderTest extends TestCase
             $this->createMock(HttpHandleContextInterface::class)
         );
 
-        self::assertEquals([2, 1], $calc);
+        static::assertEquals([2, 1], $calc);
     }
 
     public function testStackBuilderOrderFromCtor(): void
@@ -128,6 +129,6 @@ class HttpHandlerStackBuilderTest extends TestCase
             $this->createMock(HttpHandleContextInterface::class)
         );
 
-        self::assertEquals([2, 1], $calc);
+        static::assertEquals([2, 1], $calc);
     }
 }

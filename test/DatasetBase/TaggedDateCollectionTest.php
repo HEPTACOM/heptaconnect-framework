@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
@@ -16,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedDateCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TagItem
  */
-class TaggedDateCollectionTest extends TestCase
+final class TaggedDateCollectionTest extends TestCase
 {
     use ProvidesDateTestsData;
     use ProvidesInvalidTestsData;

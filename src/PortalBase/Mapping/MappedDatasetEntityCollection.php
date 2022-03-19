@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Mapping;
@@ -7,7 +8,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection<\Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct>
+ * @extends AbstractObjectCollection<MappedDatasetEntityStruct>
  */
 class MappedDatasetEntityCollection extends AbstractObjectCollection
 {
@@ -32,7 +33,7 @@ class MappedDatasetEntityCollection extends AbstractObjectCollection
                 }
             }
 
-            if (\is_null($portalNodeKeyHash)) {
+            if ($portalNodeKeyHash === null) {
                 $portalNodeKeyHash = \spl_object_hash($item->getMapping()->getPortalNodeKey());
                 $portalNodeKeys[$portalNodeKeyHash] = $item->getMapping()->getPortalNodeKey();
             }

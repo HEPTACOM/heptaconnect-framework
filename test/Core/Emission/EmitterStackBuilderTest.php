@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Emission;
@@ -19,7 +20,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack
  */
-class EmitterStackBuilderTest extends TestCase
+final class EmitterStackBuilderTest extends TestCase
 {
     public function testStackBuilderManualOrder(): void
     {
@@ -57,7 +58,7 @@ class EmitterStackBuilderTest extends TestCase
         $stack = $stackBuilder->build();
         $stack->next([], $this->createMock(EmitContextInterface::class));
 
-        self::assertEquals([2, 1], $calc);
+        static::assertEquals([2, 1], $calc);
     }
 
     public function testStackBuilderOrderFromCtor(): void
@@ -96,6 +97,6 @@ class EmitterStackBuilderTest extends TestCase
         $stack = $stackBuilder->build();
         $stack->next([], $this->createMock(EmitContextInterface::class));
 
-        self::assertEquals([2, 1], $calc);
+        static::assertEquals([2, 1], $calc);
     }
 }

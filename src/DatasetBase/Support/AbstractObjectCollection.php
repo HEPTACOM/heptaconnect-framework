@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Support;
@@ -7,7 +8,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface;
 
 /**
  * @template T
- * @template-extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<T>
+ * @template-extends AbstractCollection<T>
  */
 abstract class AbstractObjectCollection extends AbstractCollection implements AttachableInterface
 {

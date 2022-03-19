@@ -1,17 +1,19 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection<\Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface>
+ * @extends AbstractObjectCollection<AttachableInterface>
  */
-class AttachmentCollection extends AbstractObjectCollection
+final class AttachmentCollection extends AbstractObjectCollection
 {
     protected function getT(): string
     {
-        return Contract\AttachableInterface::class;
+        return AttachableInterface::class;
     }
 }

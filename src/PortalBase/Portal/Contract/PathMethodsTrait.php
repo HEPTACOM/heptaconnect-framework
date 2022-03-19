@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Portal\Contract;
@@ -48,6 +49,9 @@ trait PathMethodsTrait
         return \dirname($path);
     }
 
+    /**
+     * @return string[]|null
+     */
     private function getComposerPsr4(string $path): ?array
     {
         $composerJsonPath = \dirname($path) . \DIRECTORY_SEPARATOR . 'composer.json';

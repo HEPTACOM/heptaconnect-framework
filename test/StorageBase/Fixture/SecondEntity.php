@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Test\Fixture;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 
-class SecondEntity extends DatasetEntityContract
+final class SecondEntity extends DatasetEntityContract
 {
 }

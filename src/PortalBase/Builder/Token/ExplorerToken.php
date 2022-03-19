@@ -1,23 +1,24 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Token;
 
-use Closure;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 
 class ExplorerToken
 {
     /**
-     * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @var class-string<DatasetEntityContract>
      */
     private string $type;
 
-    private ?Closure $run = null;
+    private ?\Closure $run = null;
 
-    private ?Closure $isAllowed = null;
+    private ?\Closure $isAllowed = null;
 
     /**
-     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $type
+     * @param class-string<DatasetEntityContract> $type
      */
     public function __construct(string $type)
     {
@@ -25,29 +26,29 @@ class ExplorerToken
     }
 
     /**
-     * @return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @return class-string<DatasetEntityContract>
      */
     public function getType(): string
     {
         return $this->type;
     }
 
-    public function getRun(): ?Closure
+    public function getRun(): ?\Closure
     {
         return $this->run;
     }
 
-    public function setRun(?Closure $run): void
+    public function setRun(?\Closure $run): void
     {
         $this->run = $run;
     }
 
-    public function getIsAllowed(): ?Closure
+    public function getIsAllowed(): ?\Closure
     {
         return $this->isAllowed;
     }
 
-    public function setIsAllowed(?Closure $isAllowed): void
+    public function setIsAllowed(?\Closure $isAllowed): void
     {
         $this->isAllowed = $isAllowed;
     }

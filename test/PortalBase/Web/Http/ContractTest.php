@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Web\Http;
@@ -17,7 +18,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack
  */
-class ContractTest extends TestCase
+final class ContractTest extends TestCase
 {
     public function testImplementation(): void
     {
@@ -85,8 +86,8 @@ class ContractTest extends TestCase
         };
 
         $response = Psr17FactoryDiscovery::findResponseFactory()->createResponse(501);
-        self::assertSame('foobar', $handler->getPath());
-        self::assertSame($response, $handler->handle(
+        static::assertSame('foobar', $handler->getPath());
+        static::assertSame($response, $handler->handle(
             Psr17FactoryDiscovery::findServerRequestFactory()->createServerRequest('GET', '/foobar'),
             $response,
             $this->createMock(HttpHandleContextInterface::class),
@@ -116,12 +117,12 @@ class ContractTest extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $context->method('getContainer')->willReturn($container);
 
-        $container->method('get')->willReturnCallback(static fn(string $id) => [
+        $container->method('get')->willReturnCallback(static fn (string $id) => [
             LoggerInterface::class => $logger,
         ][$id] ?? null);
 
-        $logger->expects(self::once())->method('error');
-        self::assertSame('foobar', $handler->getPath());
+        $logger->expects(static::once())->method('error');
+        static::assertSame('foobar', $handler->getPath());
 
         try {
             $handler->handle(
@@ -130,9 +131,9 @@ class ContractTest extends TestCase
                 $context,
                 new HttpHandlerStack([$handler])
             );
-            self::fail('We expect an exception');
+            static::fail('We expect an exception');
         } catch (\Throwable $throwable) {
-            self::assertSame('Oh nose', $throwable->getMessage());
+            static::assertSame('Oh nose', $throwable->getMessage());
         }
     }
 }

@@ -1,30 +1,31 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Mapping;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection<\Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract>
+ * @extends AbstractObjectCollection<MappingComponentStructContract>
  */
 class MappingComponentCollection extends AbstractObjectCollection
 {
     /**
-     * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>[]
+     * @psalm-return class-string<DatasetEntityContract>[]
      *
      * @return string[]
      */
     public function getEntityTypes(): array
     {
         /** @var string[] $result */
-        /** @psalm-var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>[] $result */
+        /** @psalm-var class-string<DatasetEntityContract>[] $result */
         $result = [];
 
-        /** @var MappingComponentStructContract $mappingComponent */
         foreach ($this->getIterator() as $mappingComponent) {
             if (!\in_array($mappingComponent->getEntityType(), $result, true)) {
                 $result[] = $mappingComponent->getEntityType();
@@ -38,7 +39,6 @@ class MappingComponentCollection extends AbstractObjectCollection
     {
         $preResult = [];
 
-        /** @var MappingComponentStructContract $mappingComponent */
         foreach ($this->getIterator() as $mappingComponent) {
             $portalNodeKey = $mappingComponent->getPortalNodeKey();
             $preResult[\json_encode($portalNodeKey)] = $portalNodeKey;
@@ -54,7 +54,6 @@ class MappingComponentCollection extends AbstractObjectCollection
     {
         $preResult = [];
 
-        /** @var MappingComponentStructContract $mappingComponent */
         foreach ($this->getIterator() as $mappingComponent) {
             $preResult[$mappingComponent->getExternalId()] = $mappingComponent->getExternalId();
         }
@@ -63,8 +62,8 @@ class MappingComponentCollection extends AbstractObjectCollection
     }
 
     /**
-     * @psalm-param $entityType class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
-     * @psalm-return \Generator<\Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract>
+     * @psalm-param $entityType class-string<DatasetEntityContract>
+     * @psalm-return \Generator<MappingComponentStructContract>
      */
     public function filterByEntityType(string $entityType): \Generator
     {
@@ -74,7 +73,7 @@ class MappingComponentCollection extends AbstractObjectCollection
     }
 
     /**
-     * @psalm-return \Generator<\Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract>
+     * @psalm-return \Generator<MappingComponentStructContract>
      */
     public function filterByPortalNodeKey(PortalNodeKeyInterface $portalNodeKey): \Generator
     {

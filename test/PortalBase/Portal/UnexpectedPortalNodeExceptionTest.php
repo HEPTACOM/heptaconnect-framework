@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Portal;
@@ -10,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnexpectedPortalNodeException
  */
-class UnexpectedPortalNodeExceptionTest extends TestCase
+final class UnexpectedPortalNodeExceptionTest extends TestCase
 {
     public function testExceptionDetectsTypeCorrectly(): void
     {

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test;
@@ -9,16 +10,18 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Core\Component\Composer\PackageConfiguration
  * @covers \Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationClassMap
  * @covers \Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationCollection
  * @covers \Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader
  */
-class ComposerPackageConfigurationLoaderTest extends TestCase
+final class ComposerPackageConfigurationLoaderTest extends TestCase
 {
     public function testLoadingPlugin(): void
     {
-        $loader = new PackageConfigurationLoader(__DIR__.'/../../test-composer-integration/composer.json', new NullAdapter());
+        $loader = new PackageConfigurationLoader(__DIR__ . '/../../test-composer-integration/composer.json', new NullAdapter());
         $configs = $loader->getPackageConfigurations();
 
         static::assertCount(4, $configs);
@@ -30,19 +33,19 @@ class ComposerPackageConfigurationLoaderTest extends TestCase
         ));
         static::assertCount(3, $configs->filter(
             fn (PackageConfiguration $pkg): bool => $pkg->getTags()->filter(
-                    fn (string $tag): bool => \str_contains($tag, 'portal')
-                )->valid()
+                fn (string $tag): bool => \str_contains($tag, 'portal')
+            )->valid()
         ));
         static::assertCount(0, $configs->filter(
             fn (PackageConfiguration $pkg): bool => $pkg->getTags()->filter(
-                    fn (string $tag): bool => !\str_starts_with($tag, 'heptaconnect-')
-                )->valid()
+                fn (string $tag): bool => !\str_starts_with($tag, 'heptaconnect-')
+            )->valid()
         ));
         static::assertCount(2, $configs->filter(
             fn (PackageConfiguration $pkg): bool => \count(\array_filter(
-                    \array_keys($pkg->getConfiguration()),
-                    fn (string $configKey): bool => \str_contains($configKey, 'portal')
-                )) > 0
+                \array_keys($pkg->getConfiguration()),
+                fn (string $configKey): bool => \str_contains($configKey, 'portal')
+            )) > 0
         ));
         static::assertCount(4, $configs->filter(
             fn (PackageConfiguration $pkg): bool => $pkg->getAutoloadedFiles()->count() > 0

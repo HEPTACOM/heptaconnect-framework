@@ -1,0 +1,53 @@
+{
+    "name": "heptacom/heptaconnect-test-suite-storage",
+    "description": "HEPTAconnect test suite to challenge storages against real life scenarios",
+    "license": [
+        "AGPL-3.0-or-later",
+        "proprietary"
+    ],
+    "type": "library",
+    "keywords": [
+        "heptaconnect-storage",
+        "testing"
+    ],
+    "authors": [
+        {
+            "name": "HEPTACOM GmbH"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/HEPTACOM/heptaconnect-framework/issues",
+        "source": "https://github.com/HEPTACOM/heptaconnect-framework",
+        "docs": "https://heptaconnect.io/",
+        "rss": "https://heptaconnect.io/news/rss2.xml"
+    },
+    "require": {
+        "php": ">=7.4",
+        "heptacom/heptaconnect-dataset-base": "self.version",
+        "heptacom/heptaconnect-portal-base": "self.version",
+        "heptacom/heptaconnect-storage-base": "self.version"
+    },
+    "require-dev": {
+        "phpunit/phpunit": ">=9"
+    },
+    "suggest": {
+        "phpunit/phpunit": ">=9"
+    },
+    "repositories": {
+        "heptaconnect-sources": {
+            "type": "path",
+            "url": "../**"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Heptacom\\HeptaConnect\\TestSuite\\Storage\\": ""
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "infection/extension-installer": true
+        }
+    },
+    "website": "https://heptaconnect.io"
+}

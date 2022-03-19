@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Translatable\ScalarCollection;
@@ -8,7 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable;
 
 /**
  * @template T
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable<T>
+ * @extends AbstractTranslatable<T>
  *
  * @property T $fallback
  */

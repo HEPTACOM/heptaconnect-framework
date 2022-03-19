@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
@@ -10,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\BooleanCollection
  */
-class BooleanCollectionTest extends TestCase
+final class BooleanCollectionTest extends TestCase
 {
     use ProvidesBooleanTestsData;
 

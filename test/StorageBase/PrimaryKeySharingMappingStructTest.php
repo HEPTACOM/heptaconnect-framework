@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Test;
@@ -16,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\PrimaryKeySharingMappingStruct
  */
-class PrimaryKeySharingMappingStructTest extends TestCase
+final class PrimaryKeySharingMappingStructTest extends TestCase
 {
     public function testPrimaryKeySharing(): void
     {

@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base;
 
-class Date extends \DateTime
+final class Date extends \DateTime
 {
-    public function __construct(string $time = 'now', \DateTimeZone $timezone = null)
+    public function __construct(string $time = 'now', ?\DateTimeZone $timezone = null)
     {
         parent::__construct($time, $timezone);
         $this->setTime(0, 0);
@@ -16,7 +17,7 @@ class Date extends \DateTime
         return new Date('@' . $dateTime->getTimestamp(), $dateTime->getTimezone());
     }
 
-    public static function createDateFromFormat(string $format, string $time, \DateTimeZone $timezone = null): ?Date
+    public static function createDateFromFormat(string $format, string $time, ?\DateTimeZone $timezone = null): ?Date
     {
         $dateTime = parent::createFromFormat($format, $time, $timezone);
 
@@ -61,7 +62,7 @@ class Date extends \DateTime
      *
      * @phpstan-return static(\DateTime)|false
      *
-     * @return static|false
+     * @return false|static
      */
     public function setTime($hour, $minute, $second = 0, $microseconds = 0)
     {

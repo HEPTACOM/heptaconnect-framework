@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
@@ -18,7 +19,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\DependencyTrait
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\PrimaryKeyTrait
  */
-class DependencyTest extends TestCase
+final class DependencyTest extends TestCase
 {
     public function testStructDependenciesAreEmptyByDefault(): void
     {

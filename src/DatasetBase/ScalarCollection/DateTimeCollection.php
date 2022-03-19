@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\ScalarCollection;
@@ -6,9 +7,9 @@ namespace Heptacom\HeptaConnect\Dataset\Base\ScalarCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
 
 /**
- * @extends \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection<\DateTimeInterface>
+ * @extends AbstractCollection<\DateTimeInterface>
  */
-class DateTimeCollection extends AbstractCollection
+final class DateTimeCollection extends AbstractCollection
 {
     protected function isValidItem($item): bool
     {

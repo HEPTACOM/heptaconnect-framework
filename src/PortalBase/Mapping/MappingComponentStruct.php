@@ -1,24 +1,26 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Mapping;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
-class MappingComponentStruct extends MappingComponentStructContract
+final class MappingComponentStruct extends MappingComponentStructContract
 {
     protected PortalNodeKeyInterface $portalNodeKey;
 
     /**
-     * @psalm-var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @psalm-var class-string<DatasetEntityContract>
      */
     protected string $entityType;
 
     protected string $externalId;
 
     /**
-     * @psalm-param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
+     * @psalm-param class-string<DatasetEntityContract> $entityType
      */
     public function __construct(PortalNodeKeyInterface $portalNodeKey, string $entityType, string $externalId)
     {
@@ -33,7 +35,7 @@ class MappingComponentStruct extends MappingComponentStructContract
     }
 
     /**
-     * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @psalm-return class-string<DatasetEntityContract>
      */
     public function getEntityType(): string
     {

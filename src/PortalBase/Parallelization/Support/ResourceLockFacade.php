@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Parallelization\Support;
@@ -26,8 +27,8 @@ class ResourceLockFacade
         $isLocked = false;
 
         while (
-            ($isLocked = $this->resourceLocking->isLocked($resourceKey, $owner)) &&
-            (!$countIterations || $iterations-- > 0)
+            ($isLocked = $this->resourceLocking->isLocked($resourceKey, $owner))
+            && (!$countIterations || $iterations-- > 0)
         ) {
             \sleep($secondToWaits);
         }

@@ -1,9 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
-use Closure;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
@@ -13,12 +13,12 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Opis\Closure\SerializableClosure;
 use Psr\Container\ContainerInterface;
 
-class Emitter extends EmitterContract
+final class Emitter extends EmitterContract
 {
     use ResolveArgumentsTrait;
 
     /**
-     * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @var class-string<DatasetEntityContract>
      */
     private string $type;
 
@@ -35,14 +35,29 @@ class Emitter extends EmitterContract
         $extend = $token->getExtend();
 
         $this->type = $token->getType();
-        $this->batchMethod = $batch instanceof Closure ? new SerializableClosure($batch) : null;
-        $this->runMethod = $run instanceof Closure ? new SerializableClosure($run) : null;
-        $this->extendMethod = $extend instanceof Closure ? new SerializableClosure($extend) : null;
+        $this->batchMethod = $batch instanceof \Closure ? new SerializableClosure($batch) : null;
+        $this->runMethod = $run instanceof \Closure ? new SerializableClosure($run) : null;
+        $this->extendMethod = $extend instanceof \Closure ? new SerializableClosure($extend) : null;
     }
 
     public function supports(): string
     {
         return $this->type;
+    }
+
+    public function getRunMethod(): ?\Closure
+    {
+        return $this->runMethod instanceof SerializableClosure ? $this->runMethod->getClosure() : null;
+    }
+
+    public function getBatchMethod(): ?\Closure
+    {
+        return $this->batchMethod instanceof SerializableClosure ? $this->batchMethod->getClosure() : null;
+    }
+
+    public function getExtendMethod(): ?\Closure
+    {
+        return $this->extendMethod instanceof SerializableClosure ? $this->extendMethod->getClosure() : null;
     }
 
     protected function batch(iterable $externalIds, EmitContextInterface $context): iterable
@@ -97,7 +112,7 @@ class Emitter extends EmitterContract
             /** @var mixed $result */
             $result = $run(...$arguments);
 
-            if (\is_null($result) || $result instanceof DatasetEntityContract) {
+            if ($result === null || $result instanceof DatasetEntityContract) {
                 return $result;
             }
 

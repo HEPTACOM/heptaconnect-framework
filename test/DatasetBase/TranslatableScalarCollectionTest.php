@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
@@ -23,16 +24,16 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\ScalarCollection\TranslatableIntegerCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\ScalarCollection\TranslatableStringCollection
  */
-class TranslatableScalarCollectionTest extends TestCase
+final class TranslatableScalarCollectionTest extends TestCase
 {
     /**
      * @dataProvider provideTranslatableCollections
      */
     public function testNonNullableFallback(AbstractTranslatable $translatable): void
     {
-        self::assertNotNull($translatable->getFallback());
-        self::assertNotNull($translatable->getTranslation('any-key', true));
-        self::assertNotNull($translatable->getTranslation('any-key', false));
+        static::assertNotNull($translatable->getFallback());
+        static::assertNotNull($translatable->getTranslation('any-key', true));
+        static::assertNotNull($translatable->getTranslation('any-key', false));
     }
 
     public function provideTranslatableCollections(): iterable

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\TaggedCollection;
@@ -9,19 +10,19 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\JsonSerializeObjectVarsTrait;
 /**
  * @template T
  */
-class TagItem implements \JsonSerializable
+final class TagItem implements \JsonSerializable
 {
     use JsonSerializeObjectVarsTrait;
 
     /**
-     * @psalm-var \Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface<T>
+     * @psalm-var CollectionInterface<T>
      */
     protected CollectionInterface $collection;
 
     protected string $tag;
 
     /**
-     * @psalm-param \Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface<T> $collection
+     * @psalm-param CollectionInterface<T> $collection
      */
     public function __construct(CollectionInterface $collection, string $tag)
     {
@@ -30,7 +31,7 @@ class TagItem implements \JsonSerializable
     }
 
     /**
-     * @psalm-return \Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface<T>
+     * @psalm-return CollectionInterface<T>
      */
     public function getCollection(): CollectionInterface
     {
@@ -38,7 +39,7 @@ class TagItem implements \JsonSerializable
     }
 
     /**
-     * @psalm-param \Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface<T> $collection
+     * @psalm-param CollectionInterface<T> $collection
      * @psalm-return TagItem<T>
      */
     public function setCollection(CollectionInterface $collection): self

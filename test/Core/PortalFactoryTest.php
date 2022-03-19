@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test;
@@ -27,12 +28,12 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Core\Portal\Exception\UnexpectedRequiredParameterInConstructorOnInstantionException
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalFactory
  */
-class PortalFactoryTest extends TestCase
+final class PortalFactoryTest extends TestCase
 {
     public function testPortal(): void
     {
         $portalFactory = new PortalFactory();
-        require_once __DIR__.'/../../test-composer-integration/portal-package/src/Portal.php';
+        require_once __DIR__ . '/../../test-composer-integration/portal-package/src/Portal.php';
 
         static::assertInstanceOf(Portal::class, $portalFactory->instantiatePortal(Portal::class));
     }
@@ -40,7 +41,7 @@ class PortalFactoryTest extends TestCase
     public function testPortalExtension(): void
     {
         $portalFactory = new PortalFactory();
-        require_once __DIR__.'/../../test-composer-integration/portal-package-extension/src/PortalExtension.php';
+        require_once __DIR__ . '/../../test-composer-integration/portal-package-extension/src/PortalExtension.php';
 
         static::assertInstanceOf(PortalExtension::class, $portalFactory->instantiatePortalExtension(PortalExtension::class));
     }
@@ -147,6 +148,7 @@ class PortalFactoryTest extends TestCase
 
         try {
             $portalFactory->instantiatePortal(DependentPortal::class);
+            static::fail();
         } catch (UnexpectedRequiredParameterInConstructorOnInstantionException $exception) {
             static::assertEquals(DependentPortal::class, $exception->getClass());
 
@@ -162,6 +164,7 @@ class PortalFactoryTest extends TestCase
 
         try {
             $portalFactory->instantiatePortalExtension(DependentPortalExtension::class);
+            static::fail();
         } catch (UnexpectedRequiredParameterInConstructorOnInstantionException $exception) {
             static::assertEquals(DependentPortalExtension::class, $exception->getClass());
 

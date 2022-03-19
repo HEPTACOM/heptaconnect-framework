@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Exploration\Contract;
@@ -7,10 +8,19 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityException;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Base class for every explorer implementation with various boilerplate-reducing entrypoints for rapid development.
+ * When used as source for identities or entities, you need to implement @see supports, run
+ * When used as decorator to limit previous exploration, you should implement @see supports, isAllowed
+ */
 abstract class ExplorerContract
 {
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string|int>
+     * First entrypoint to handle an exploration in this flow component.
+     * It allows direct stack handling manipulation. @see ExplorerStackInterface
+     * You most likely want to implement @see run instead.
+     *
+     * @return iterable<array-key, DatasetEntityContract|string|int>
      */
     public function explore(ExploreContextInterface $context, ExplorerStackInterface $stack): iterable
     {
@@ -19,12 +29,19 @@ abstract class ExplorerContract
     }
 
     /**
-     * @return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * Must return the supported entity type.
+     *
+     * @return class-string<DatasetEntityContract>
      */
     abstract public function supports(): string;
 
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string|int>
+     * The entrypoint for handling an exploration with the least need of additional programming.
+     * This is executed when this explorer on the stack is expected to act.
+     * It can be skipped when @see explore is implemented accordingly.
+     * Returns anything that is either an identity for following emission or an entity that is already of emission quality.
+     *
+     * @return iterable<array-key, DatasetEntityContract|string|int>
      */
     protected function run(ExploreContextInterface $context): iterable
     {
@@ -32,11 +49,13 @@ abstract class ExplorerContract
     }
 
     /**
+     * Returns true, when the given entity is an identity or of the supported entity type.
+     *
      * @param DatasetEntityContract|string|int|null $entity
      */
     final protected function isSupported($entity): bool
     {
-        if (\is_null($entity)) {
+        if ($entity === null) {
             return false;
         }
 
@@ -44,7 +63,11 @@ abstract class ExplorerContract
     }
 
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string|int>
+     * Pre-implemented stack handling for processing the next explorer in the stack.
+     * Expected to only be called by @see explore
+     * It verifies results from the next explorer with @see isAllowed
+     *
+     * @return iterable<array-key, DatasetEntityContract|string|int>
      */
     final protected function exploreNext(
         ExploreContextInterface $context,
@@ -71,7 +94,10 @@ abstract class ExplorerContract
     }
 
     /**
-     * @return iterable<array-key, \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract|string|int>
+     * Pre-implemented stack handling for processing this explorer in the stack.
+     * Expected to only be called by @see explore
+     *
+     * @return iterable<array-key, DatasetEntityContract|string|int>
      */
     final protected function exploreCurrent(ExploreContextInterface $context): iterable
     {
@@ -94,6 +120,8 @@ abstract class ExplorerContract
     }
 
     /**
+     * Returns the result of @see isAllowed depending on the scenario of a direct emission or identity list.
+     *
      * @param DatasetEntityContract|string|int $entity
      */
     final protected function performAllowanceCheck($entity, ExploreContextInterface $context): bool
@@ -108,13 +136,17 @@ abstract class ExplorerContract
 
         $primaryKey = $entity->getPrimaryKey();
 
-        if ($entity instanceof DatasetEntityContract && !\is_null($primaryKey)) {
+        if ($entity instanceof DatasetEntityContract && $primaryKey !== null) {
             return $this->isAllowed($primaryKey, $entity, $context);
         }
 
         return false;
     }
 
+    /**
+     * The entrypoint for handling a filtered exploration with the least need of additional programming.
+     * Returns true, when the identity or entity is allowed to pass.
+     */
     protected function isAllowed(string $externalId, ?DatasetEntityContract $entity, ExploreContextInterface $context): bool
     {
         return true;

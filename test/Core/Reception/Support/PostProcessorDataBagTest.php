@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Reception\Support;
@@ -9,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\Support\PostProcessorDataBag
  */
-class PostProcessorDataBagTest extends TestCase
+final class PostProcessorDataBagTest extends TestCase
 {
     public function testPriorityIndependent(): void
     {
