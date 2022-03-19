@@ -15,6 +15,7 @@ use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Clear\PortalNode
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Delete\PortalNodeStorageDeleteCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Get\PortalNodeStorageGetCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Get\PortalNodeStorageGetResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Listing\PortalNodeStorageListCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Set\PortalNodeStorageSetItem;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Set\PortalNodeStorageSetItems;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Set\PortalNodeStorageSetPayload;
@@ -220,13 +221,14 @@ abstract class PortalNodeStorageTestContract extends TestCase
     /**
      * Validates the usage of preview portal node keys.
      */
-    public function testUsageOfPreviewPortal(): void
+    public function testUsageOfPreviewPortalFails(): void
     {
         $facade = $this->createStorageFacade();
         $clear = $facade->getPortalNodeStorageClearAction();
         $delete = $facade->getPortalNodeStorageDeleteAction();
         $get = $facade->getPortalNodeStorageGetAction();
         $set = $facade->getPortalNodeStorageSetAction();
+        $list = $facade->getPortalNodeStorageListAction();
 
         $portalNodeKey = new PreviewPortalNodeKey(PortalA::class);
 
@@ -239,35 +241,38 @@ abstract class PortalNodeStorageTestContract extends TestCase
             static::assertSame(PreviewPortalNodeKey::class, $exception->getStorageKeyClass());
         }
 
-        /** @var PortalNodeStorageGetResult[] $getResults */
-        $getResults = \iterable_to_array($get->get(new PortalNodeStorageGetCriteria($portalNodeKey, new StringCollection([
-            'foo',
-            'foo-timed',
-        ]))));
+        try {
+            \iterable_to_array($get->get(new PortalNodeStorageGetCriteria($portalNodeKey, new StringCollection([
+                'foo',
+                'foo-timed',
+            ]))));
+            static::fail();
+        } catch (UnsupportedStorageKeyException $exception) {
+            static::assertSame(PreviewPortalNodeKey::class, $exception->getStorageKeyClass());
+        }
 
-        static::assertCount(0, $getResults);
+        try {
+            \iterable_to_array($list->list(new PortalNodeStorageListCriteria($portalNodeKey)));
+            static::fail();
+        } catch (UnsupportedStorageKeyException $exception) {
+            static::assertSame(PreviewPortalNodeKey::class, $exception->getStorageKeyClass());
+        }
 
-        $delete->delete(new PortalNodeStorageDeleteCriteria($portalNodeKey, new StringCollection([
-            'bar',
-        ])));
+        try {
+            $delete->delete(new PortalNodeStorageDeleteCriteria($portalNodeKey, new StringCollection([
+                'bar',
+            ])));
+            static::fail();
+        } catch (UnsupportedStorageKeyException $exception) {
+            static::assertSame(PreviewPortalNodeKey::class, $exception->getStorageKeyClass());
+        }
 
-        static::assertCount(0, \iterable_to_array($get->get(new PortalNodeStorageGetCriteria($portalNodeKey, new StringCollection([
-            'foo',
-        ])))));
-
-        $delete->delete(new PortalNodeStorageDeleteCriteria($portalNodeKey, new StringCollection([
-            'foo',
-        ])));
-
-        static::assertCount(0, \iterable_to_array($get->get(new PortalNodeStorageGetCriteria($portalNodeKey, new StringCollection([
-            'foo',
-        ])))));
-
-        $clear->clear(new PortalNodeStorageClearCriteria($portalNodeKey));
-
-        static::assertCount(0, \iterable_to_array($get->get(new PortalNodeStorageGetCriteria($portalNodeKey, new StringCollection([
-            'foo',
-        ])))));
+        try {
+            $clear->clear(new PortalNodeStorageClearCriteria($portalNodeKey));
+            static::fail();
+        } catch (UnsupportedStorageKeyException $exception) {
+            static::assertSame(PreviewPortalNodeKey::class, $exception->getStorageKeyClass());
+        }
     }
 
     /**
