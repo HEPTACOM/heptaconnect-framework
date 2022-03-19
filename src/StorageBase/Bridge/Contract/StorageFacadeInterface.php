@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActio
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityReflectActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityError\IdentityErrorCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface;
@@ -50,6 +51,11 @@ interface StorageFacadeInterface
     /**
      * Provides storage action to map entities to their identities.
      *
+     * @throws StorageFacadeServiceExceptionInterface
+     */
+    public function getIdentityErrorCreateAction(): IdentityErrorCreateActionInterface;
+
+    /**
      * @throws StorageFacadeServiceExceptionInterface
      */
     public function getIdentityMapAction(): IdentityMapActionInterface;

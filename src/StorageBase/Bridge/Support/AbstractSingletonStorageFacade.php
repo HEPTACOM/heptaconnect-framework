@@ -11,6 +11,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActio
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityReflectActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityError\IdentityErrorCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface;
@@ -46,6 +47,8 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfigurati
 
 abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
 {
+    private ?IdentityErrorCreateActionInterface $identityErrorCreateAction = null;
+
     private ?IdentityMapActionInterface $identityMapAction = null;
 
     private ?IdentityOverviewActionInterface $identityOverviewAction = null;
@@ -115,6 +118,17 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     private ?WebHttpHandlerConfigurationFindActionInterface $webHttpHandlerConfigurationFindAction = null;
 
     private ?WebHttpHandlerConfigurationSetActionInterface $webHttpHandlerConfigurationSetAction = null;
+
+    public function getIdentityErrorCreateAction(): IdentityErrorCreateActionInterface
+    {
+        try {
+            return $this->identityErrorCreateAction ??= $this->createIdentityErrorCreateAction();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            throw $throwable;
+        } catch (\Throwable $throwable) {
+            throw new StorageFacadeServiceException(IdentityErrorCreateActionInterface::class, $throwable);
+        }
+    }
 
     public function getIdentityMapAction(): IdentityMapActionInterface
     {
@@ -511,6 +525,11 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
             throw new StorageFacadeServiceException(WebHttpHandlerConfigurationSetActionInterface::class, $throwable);
         }
     }
+
+    /**
+     * @throws \Throwable
+     */
+    abstract protected function createIdentityErrorCreateAction(): IdentityErrorCreateActionInterface;
 
     /**
      * @throws \Throwable

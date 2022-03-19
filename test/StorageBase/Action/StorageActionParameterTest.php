@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\IdentityErrorKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\RouteKeyInterface;
@@ -21,6 +22,10 @@ use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Overview\IdentityOverview
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPayloadCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Reflect\IdentityReflectPayload;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreatePayload;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreatePayloads;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResults;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Delete\JobDeleteCriteria;
@@ -101,6 +106,10 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPayloadCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Reflect\IdentityReflectPayload
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreatePayload
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreatePayloads
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResult
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResults
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreateResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Delete\JobDeleteCriteria
@@ -185,6 +194,7 @@ class StorageActionParameterTest extends TestCase
         $mappingNodeKey = $this->createMock(MappingNodeKeyInterface::class);
         $jobKey = $this->createMock(JobKeyInterface::class);
         $routeKey = $this->createMock(RouteKeyInterface::class);
+        $identityErrorKey = $this->createMock(IdentityErrorKeyInterface::class);
         $entityCollection = new DatasetEntityCollection();
         $mappedDatasetEntityCollection = new MappedDatasetEntityCollection();
         $portalNodeKeys = new PortalNodeKeyCollection();
@@ -202,6 +212,10 @@ class StorageActionParameterTest extends TestCase
         yield new IdentityOverviewResult($portalNodeKey, $mappingNodeKey, $externalId, $entityType, $createdAt);
         yield new IdentityPersistPayload($portalNodeKey, new IdentityPersistPayloadCollection());
         yield new IdentityReflectPayload($portalNodeKey, $mappedDatasetEntityCollection);
+        yield new IdentityErrorCreatePayloads();
+        yield new IdentityErrorCreatePayload($mappingComponentStruct, new \Exception());
+        yield new IdentityErrorCreateResults();
+        yield new IdentityErrorCreateResult($identityErrorKey);
         yield new JobCreatePayload('', $mappingComponentStruct, null);
         yield new JobCreateResult($jobKey);
         yield new JobDeleteCriteria($jobKeys);

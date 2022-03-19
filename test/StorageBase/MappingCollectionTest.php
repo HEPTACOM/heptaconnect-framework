@@ -7,7 +7,6 @@ namespace Heptacom\HeptaConnect\Storage\Base\Test;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct;
-use Heptacom\HeptaConnect\Portal\Base\Mapping\TypedMappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\MappingCollection;
@@ -23,7 +22,6 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct
- * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\TypedMappedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\MappingCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\TypedMappingCollection
  */
@@ -92,21 +90,5 @@ final class MappingCollectionTest extends TestCase
         static::assertEquals(DatasetEntityStruct::class, $groupByType[DatasetEntityStruct::class]->getType());
         static::assertEquals(FirstEntity::class, $groupByType[FirstEntity::class]->getType());
         static::assertEquals(SecondEntity::class, $groupByType[SecondEntity::class]->getType());
-    }
-
-    public function testTypedMappedDatasetEntityCollection(): void
-    {
-        $portalNodeKey = $this->createMock(PortalNodeKeyInterface::class);
-        $mappingNodeKey = $this->createMock(MappingNodeKeyInterface::class);
-        $collection = new TypedMappedDatasetEntityCollection(FirstEntity::class, [
-            new MappedDatasetEntityStruct(new MappingStruct($portalNodeKey, $mappingNodeKey, FirstEntity::class), new FirstEntity()),
-        ]);
-        $collection->push([
-            new MappedDatasetEntityStruct(new MappingStruct($portalNodeKey, $mappingNodeKey, DatasetEntityStruct::class), new DatasetEntityStruct()),
-            new MappedDatasetEntityStruct(new MappingStruct($portalNodeKey, $mappingNodeKey, FirstEntity::class), new FirstEntity()),
-            new MappedDatasetEntityStruct(new MappingStruct($portalNodeKey, $mappingNodeKey, SecondEntity::class), new SecondEntity()),
-        ]);
-        static::assertCount(2, $collection);
-        static::assertEquals(FirstEntity::class, $collection->getType());
     }
 }
