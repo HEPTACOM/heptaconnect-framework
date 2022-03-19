@@ -11,7 +11,7 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 interface PortalNodeStorageDeleteActionInterface
 {
     /**
-     * Delete stored values in a portal node by key and keys that timeout.
+     * Delete stored values in a portal node by key and expiration date.
      *
      * @throws DeleteException
      * @throws UnsupportedStorageKeyException
