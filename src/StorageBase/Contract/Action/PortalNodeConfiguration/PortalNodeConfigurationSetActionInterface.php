@@ -10,6 +10,9 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\CreateException;
 interface PortalNodeConfigurationSetActionInterface
 {
     /**
+     * Set configuration for portal nodes.
+     * The content must only consist of nested scalars.
+     *
      * @throws CreateException
      */
     public function set(PortalNodeConfigurationSetPayloads $payloads): void;

@@ -31,7 +31,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Storage\Base\MappingCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\TypedMappingCollection
  */
-class EmissionActorTest extends TestCase
+final class EmissionActorTest extends TestCase
 {
     /**
      * @dataProvider provideEmitCount

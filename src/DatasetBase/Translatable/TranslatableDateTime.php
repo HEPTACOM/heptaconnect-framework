@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Translatable;
 /**
  * @extends AbstractTranslatable<\DateTimeInterface>
  */
-class TranslatableDateTime extends AbstractTranslatable
+final class TranslatableDateTime extends AbstractTranslatable
 {
     protected function isValidValue($value): bool
     {

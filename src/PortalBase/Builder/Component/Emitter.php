@@ -13,12 +13,12 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Opis\Closure\SerializableClosure;
 use Psr\Container\ContainerInterface;
 
-class Emitter extends EmitterContract
+final class Emitter extends EmitterContract
 {
     use ResolveArgumentsTrait;
 
     /**
-     * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @var class-string<DatasetEntityContract>
      */
     private string $type;
 

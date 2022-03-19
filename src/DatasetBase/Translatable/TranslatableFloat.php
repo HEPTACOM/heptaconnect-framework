@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Translatable;
 /**
  * @extends AbstractTranslatable<float>
  */
-class TranslatableFloat extends AbstractTranslatable
+final class TranslatableFloat extends AbstractTranslatable
 {
     protected function isValidValue($value): bool
     {

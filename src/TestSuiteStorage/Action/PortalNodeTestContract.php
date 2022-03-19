@@ -7,11 +7,9 @@ namespace Heptacom\HeptaConnect\TestSuite\Storage\Action;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayloads;
-use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Delete\PortalNodeDeleteCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult;
-use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Listing\PortalNodeListResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Overview\PortalNodeOverviewCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface;
 use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
@@ -20,8 +18,14 @@ use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalB\PortalB;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalC\PortalC;
 use Heptacom\HeptaConnect\TestSuite\Storage\TestCase;
 
+/**
+ * Test pre-implementation to test portal node related storage actions.
+ */
 abstract class PortalNodeTestContract extends TestCase
 {
+    /**
+     * Validates a complete portal node "lifecycle" can be managed with the storage. It covers creation, listings and deletion of portal nodes.
+     */
     public function testLifecycle(): void
     {
         $facade = $this->createStorageFacade();
@@ -39,12 +43,11 @@ abstract class PortalNodeTestContract extends TestCase
         ]);
         $createResults = $createAction->create($createPayloads);
 
-        static::assertSame($createPayloads->count(), $createResults->count());
+        static::assertCount($createPayloads->count(), $createResults);
 
         $getCriteria = new PortalNodeGetCriteria(new PortalNodeKeyCollection());
         $collectedPortalNodeClasses = [];
 
-        /** @var PortalNodeCreateResult $createResult */
         foreach ($createResults as $createResult) {
             $getCriteria->getPortalNodeKeys()->push([$createResult->getPortalNodeKey()]);
             /** @var PortalNodeGetResult[] $getResult */
@@ -66,7 +69,6 @@ abstract class PortalNodeTestContract extends TestCase
         $deleteCriteria = new PortalNodeDeleteCriteria(new PortalNodeKeyCollection());
         $collectedPortalNodeClasses = [];
 
-        /** @var PortalNodeListResult $listResult */
         foreach ($listAction->list() as $listResult) {
             $deleteCriteria->getPortalNodeKeys()->push([$listResult->getPortalNodeKey()]);
             /** @var PortalNodeGetResult[] $getResult */
@@ -99,5 +101,8 @@ abstract class PortalNodeTestContract extends TestCase
         static::fail('You cannot delete something that does not exist');
     }
 
+    /**
+     * Provides the storage implementation to test against.
+     */
     abstract protected function createStorageFacade(): StorageFacadeInterface;
 }

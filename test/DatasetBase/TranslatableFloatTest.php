@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableFloat
  */
-class TranslatableFloatTest extends TestCase
+final class TranslatableFloatTest extends TestCase
 {
     use ProvidesFloatTestsData;
     use ProvidesInvalidTestsData;

@@ -22,7 +22,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack
  */
-class HttpHandlingActorTest extends TestCase
+final class HttpHandlingActorTest extends TestCase
 {
     public function testActingFails(): void
     {

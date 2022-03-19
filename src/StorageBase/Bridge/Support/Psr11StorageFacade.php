@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Bridge\Support;
 
+use Heptacom\HeptaConnect\Storage\Base\Bridge\Exception\StorageFacadeServiceException;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityReflectActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityError\IdentityErrorCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface;
@@ -30,6 +32,11 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNod
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageClearActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageDeleteActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageListActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionInterface;
@@ -50,104 +57,109 @@ class Psr11StorageFacade extends AbstractSingletonStorageFacade
         $this->container = $container;
     }
 
+    protected function createIdentityErrorCreateAction(): IdentityErrorCreateActionInterface
+    {
+        return $this->container->get(IdentityErrorCreateActionInterface::class);
+    }
+
     protected function createIdentityMapAction(): IdentityMapActionInterface
     {
-        return $this->container->get(IdentityMapActionInterface::class);
+        return $this->getInstanceFromContainer(IdentityMapActionInterface::class);
     }
 
     protected function createIdentityOverviewAction(): IdentityOverviewActionInterface
     {
-        return $this->container->get(IdentityOverviewActionInterface::class);
+        return $this->getInstanceFromContainer(IdentityOverviewActionInterface::class);
     }
 
     protected function createIdentityPersistAction(): IdentityPersistActionInterface
     {
-        return $this->container->get(IdentityPersistActionInterface::class);
+        return $this->getInstanceFromContainer(IdentityPersistActionInterface::class);
     }
 
     protected function createIdentityReflectAction(): IdentityReflectActionInterface
     {
-        return $this->container->get(IdentityReflectActionInterface::class);
+        return $this->getInstanceFromContainer(IdentityReflectActionInterface::class);
     }
 
     protected function createJobCreateAction(): JobCreateActionInterface
     {
-        return $this->container->get(JobCreateActionInterface::class);
+        return $this->getInstanceFromContainer(JobCreateActionInterface::class);
     }
 
     protected function createJobDeleteAction(): JobDeleteActionInterface
     {
-        return $this->container->get(JobDeleteActionInterface::class);
+        return $this->getInstanceFromContainer(JobDeleteActionInterface::class);
     }
 
     protected function createJobFailAction(): JobFailActionInterface
     {
-        return $this->container->get(JobFailActionInterface::class);
+        return $this->getInstanceFromContainer(JobFailActionInterface::class);
     }
 
     protected function createJobFinishAction(): JobFinishActionInterface
     {
-        return $this->container->get(JobFinishActionInterface::class);
+        return $this->getInstanceFromContainer(JobFinishActionInterface::class);
     }
 
     protected function createJobGetAction(): JobGetActionInterface
     {
-        return $this->container->get(JobGetActionInterface::class);
+        return $this->getInstanceFromContainer(JobGetActionInterface::class);
     }
 
     protected function createJobListFinishedAction(): JobListFinishedActionInterface
     {
-        return $this->container->get(JobListFinishedActionInterface::class);
+        return $this->getInstanceFromContainer(JobListFinishedActionInterface::class);
     }
 
     protected function createJobScheduleAction(): JobScheduleActionInterface
     {
-        return $this->container->get(JobScheduleActionInterface::class);
+        return $this->getInstanceFromContainer(JobScheduleActionInterface::class);
     }
 
     protected function createJobStartAction(): JobStartActionInterface
     {
-        return $this->container->get(JobStartActionInterface::class);
+        return $this->getInstanceFromContainer(JobStartActionInterface::class);
     }
 
     protected function createPortalExtensionActivateAction(): PortalExtensionActivateActionInterface
     {
-        return $this->container->get(PortalExtensionActivateActionInterface::class);
+        return $this->getInstanceFromContainer(PortalExtensionActivateActionInterface::class);
     }
 
     protected function createPortalExtensionDeactivateAction(): PortalExtensionDeactivateActionInterface
     {
-        return $this->container->get(PortalExtensionDeactivateActionInterface::class);
+        return $this->getInstanceFromContainer(PortalExtensionDeactivateActionInterface::class);
     }
 
     protected function createPortalExtensionFindAction(): PortalExtensionFindActionInterface
     {
-        return $this->container->get(PortalExtensionFindActionInterface::class);
+        return $this->getInstanceFromContainer(PortalExtensionFindActionInterface::class);
     }
 
     protected function createPortalNodeCreateAction(): PortalNodeCreateActionInterface
     {
-        return $this->container->get(PortalNodeCreateActionInterface::class);
+        return $this->getInstanceFromContainer(PortalNodeCreateActionInterface::class);
     }
 
     protected function createPortalNodeDeleteAction(): PortalNodeDeleteActionInterface
     {
-        return $this->container->get(PortalNodeDeleteActionInterface::class);
+        return $this->getInstanceFromContainer(PortalNodeDeleteActionInterface::class);
     }
 
     protected function createPortalNodeGetAction(): PortalNodeGetActionInterface
     {
-        return $this->container->get(PortalNodeGetActionInterface::class);
+        return $this->getInstanceFromContainer(PortalNodeGetActionInterface::class);
     }
 
     protected function createPortalNodeListAction(): PortalNodeListActionInterface
     {
-        return $this->container->get(PortalNodeListActionInterface::class);
+        return $this->getInstanceFromContainer(PortalNodeListActionInterface::class);
     }
 
     protected function createPortalNodeOverviewAction(): PortalNodeOverviewActionInterface
     {
-        return $this->container->get(PortalNodeOverviewActionInterface::class);
+        return $this->getInstanceFromContainer(PortalNodeOverviewActionInterface::class);
     }
 
     protected function createPortalNodeAliasGetAction(): PortalNodeAliasGetActionInterface
@@ -172,56 +184,99 @@ class Psr11StorageFacade extends AbstractSingletonStorageFacade
 
     protected function createPortalNodeConfigurationGetAction(): PortalNodeConfigurationGetActionInterface
     {
-        return $this->container->get(PortalNodeConfigurationGetActionInterface::class);
+        return $this->getInstanceFromContainer(PortalNodeConfigurationGetActionInterface::class);
     }
 
     protected function createPortalNodeConfigurationSetAction(): PortalNodeConfigurationSetActionInterface
     {
-        return $this->container->get(PortalNodeConfigurationSetActionInterface::class);
+        return $this->getInstanceFromContainer(PortalNodeConfigurationSetActionInterface::class);
+    }
+
+    protected function createPortalNodeStorageClearAction(): PortalNodeStorageClearActionInterface
+    {
+        return $this->getInstanceFromContainer(PortalNodeStorageClearActionInterface::class);
+    }
+
+    protected function createPortalNodeStorageDeleteAction(): PortalNodeStorageDeleteActionInterface
+    {
+        return $this->getInstanceFromContainer(PortalNodeStorageDeleteActionInterface::class);
+    }
+
+    protected function createPortalNodeStorageGetAction(): PortalNodeStorageGetActionInterface
+    {
+        return $this->getInstanceFromContainer(PortalNodeStorageGetActionInterface::class);
+    }
+
+    protected function createPortalNodeStorageListAction(): PortalNodeStorageListActionInterface
+    {
+        return $this->getInstanceFromContainer(PortalNodeStorageListActionInterface::class);
+    }
+
+    protected function createPortalNodeStorageSetAction(): PortalNodeStorageSetActionInterface
+    {
+        return $this->getInstanceFromContainer(PortalNodeStorageSetActionInterface::class);
     }
 
     protected function createRouteCreateAction(): RouteCreateActionInterface
     {
-        return $this->container->get(RouteCreateActionInterface::class);
+        return $this->getInstanceFromContainer(RouteCreateActionInterface::class);
     }
 
     protected function createRouteDeleteAction(): RouteDeleteActionInterface
     {
-        return $this->container->get(RouteDeleteActionInterface::class);
+        return $this->getInstanceFromContainer(RouteDeleteActionInterface::class);
     }
 
     protected function createRouteFindAction(): RouteFindActionInterface
     {
-        return $this->container->get(RouteFindActionInterface::class);
+        return $this->getInstanceFromContainer(RouteFindActionInterface::class);
     }
 
     protected function createRouteGetAction(): RouteGetActionInterface
     {
-        return $this->container->get(RouteGetActionInterface::class);
+        return $this->getInstanceFromContainer(RouteGetActionInterface::class);
     }
 
     protected function createReceptionRouteListAction(): ReceptionRouteListActionInterface
     {
-        return $this->container->get(ReceptionRouteListActionInterface::class);
+        return $this->getInstanceFromContainer(ReceptionRouteListActionInterface::class);
     }
 
     protected function createRouteOverviewAction(): RouteOverviewActionInterface
     {
-        return $this->container->get(RouteOverviewActionInterface::class);
+        return $this->getInstanceFromContainer(RouteOverviewActionInterface::class);
     }
 
     protected function createRouteCapabilityOverviewAction(): RouteCapabilityOverviewActionInterface
     {
-        return $this->container->get(RouteCapabilityOverviewActionInterface::class);
+        return $this->getInstanceFromContainer(RouteCapabilityOverviewActionInterface::class);
     }
 
     protected function createWebHttpHandlerConfigurationFindAction(): WebHttpHandlerConfigurationFindActionInterface
     {
-        return $this->container->get(WebHttpHandlerConfigurationFindActionInterface::class);
+        return $this->getInstanceFromContainer(WebHttpHandlerConfigurationFindActionInterface::class);
     }
 
     protected function createWebHttpHandlerConfigurationSetAction(): WebHttpHandlerConfigurationSetActionInterface
     {
-        return $this->container->get(WebHttpHandlerConfigurationSetActionInterface::class);
+        return $this->getInstanceFromContainer(WebHttpHandlerConfigurationSetActionInterface::class);
+    }
+
+    /**
+     * @template T
+     *
+     * @param class-string<T> $class
+     *
+     * @return T
+     */
+    private function getInstanceFromContainer(string $class)
+    {
+        $result = $this->container->get($class);
+
+        if (!$result instanceof $class) {
+            throw new StorageFacadeServiceException($class);
+        }
+
+        return $result;
     }
 }

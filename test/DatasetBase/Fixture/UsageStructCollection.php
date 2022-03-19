@@ -10,7 +10,7 @@ use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 /**
  * @extends DatasetEntityCollection<T>
  */
-class UsageStructCollection extends DatasetEntityCollection
+final class UsageStructCollection extends DatasetEntityCollection
 {
     protected function getT(): string
     {

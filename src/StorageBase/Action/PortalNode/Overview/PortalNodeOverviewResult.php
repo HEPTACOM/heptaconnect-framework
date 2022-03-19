@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Overview;
 
+use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
@@ -30,6 +31,7 @@ final class PortalNodeOverviewResult implements AttachmentAwareInterface
         string $portalClass,
         \DateTimeInterface $createdAt
     ) {
+        $this->attachments = new AttachmentCollection();
         $this->portalNodeKey = $portalNodeKey;
         $this->portalClass = $portalClass;
         $this->createdAt = $createdAt;

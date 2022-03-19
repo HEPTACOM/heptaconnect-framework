@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack
  */
-class ContractTest extends TestCase
+final class ContractTest extends TestCase
 {
     public function testExtendingReceiverContract(): void
     {

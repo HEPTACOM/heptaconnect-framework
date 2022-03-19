@@ -29,11 +29,22 @@ use Psr\Log\NullLogger;
 
 /**
  * @covers \Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilder
+ * @covers \Heptacom\HeptaConnect\Core\Exploration\DirectEmitter
  * @covers \Heptacom\HeptaConnect\Core\Exploration\ExplorationActor
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\DependencyTrait
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Map\MappingMapPayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Map\MappingMapResult
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Map\IdentityMapPayload
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Map\IdentityMapResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Mapping
  */
 class ExplorationActorTest extends TestCase

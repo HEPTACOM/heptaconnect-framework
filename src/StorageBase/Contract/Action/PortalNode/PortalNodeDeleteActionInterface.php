@@ -10,6 +10,8 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
 interface PortalNodeDeleteActionInterface
 {
     /**
+     * Delete portal nodes.
+     *
      * @throws NotFoundException
      */
     public function delete(PortalNodeDeleteCriteria $criteria): void;

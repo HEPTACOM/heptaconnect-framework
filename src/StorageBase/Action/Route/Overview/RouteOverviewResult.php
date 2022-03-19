@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview;
 
+use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\RouteKeyInterface;
 
@@ -16,21 +19,21 @@ final class RouteOverviewResult implements AttachmentAwareInterface
     protected RouteKeyInterface $routeKey;
 
     /**
-     * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @var class-string<DatasetEntityContract>
      */
     protected string $entityType;
 
     protected PortalNodeKeyInterface $sourcePortalNodeKey;
 
     /**
-     * @var class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>
+     * @var class-string<PortalContract>
      */
     protected string $sourcePortalClass;
 
     protected PortalNodeKeyInterface $targetPortalNodeKey;
 
     /**
-     * @var class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>
+     * @var class-string<PortalContract>
      */
     protected string $targetPortalClass;
 
@@ -42,10 +45,10 @@ final class RouteOverviewResult implements AttachmentAwareInterface
     private array $capabilities;
 
     /**
-     * @param class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract> $entityType
-     * @param class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>  $sourcePortalClass
-     * @param class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>  $targetPortalClass
-     * @param string[]                                                                         $capabilities
+     * @param class-string<DatasetEntityContract> $entityType
+     * @param class-string<PortalContract>        $sourcePortalClass
+     * @param class-string<PortalContract>        $targetPortalClass
+     * @param string[]                            $capabilities
      */
     public function __construct(
         RouteKeyInterface $routeKey,
@@ -57,6 +60,7 @@ final class RouteOverviewResult implements AttachmentAwareInterface
         \DateTimeInterface $createdAt,
         array $capabilities
     ) {
+        $this->attachments = new AttachmentCollection();
         $this->routeKey = $routeKey;
         $this->entityType = $entityType;
         $this->sourcePortalNodeKey = $sourcePortalNodeKey;
@@ -73,7 +77,7 @@ final class RouteOverviewResult implements AttachmentAwareInterface
     }
 
     /**
-     * @return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>
+     * @return class-string<DatasetEntityContract>
      */
     public function getEntityType(): string
     {
@@ -86,7 +90,7 @@ final class RouteOverviewResult implements AttachmentAwareInterface
     }
 
     /**
-     * @return class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>
+     * @return class-string<PortalContract>
      */
     public function getSourcePortalClass(): string
     {
@@ -99,7 +103,7 @@ final class RouteOverviewResult implements AttachmentAwareInterface
     }
 
     /**
-     * @return class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract>
+     * @return class-string<PortalContract>
      */
     public function getTargetPortalClass(): string
     {

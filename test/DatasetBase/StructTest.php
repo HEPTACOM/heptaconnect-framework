@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\JsonSerializeObjectVarsTrait
  */
-class StructTest extends TestCase
+final class StructTest extends TestCase
 {
     /**
      * @dataProvider provideStructs

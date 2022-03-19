@@ -11,6 +11,9 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\InvalidOverviewCriteriaExceptio
 interface PortalNodeOverviewActionInterface
 {
     /**
+     * Paginate over all portal nodes.
+     * Expected to be used for a human request listing.
+     *
      * @throws InvalidOverviewCriteriaException
      *
      * @return iterable<PortalNodeOverviewResult>

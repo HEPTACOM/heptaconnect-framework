@@ -5,16 +5,25 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\DevOps\PhpStan\Rule;
 
 use PhpParser\Node;
+use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Interface_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 
 /**
- * @implements \PHPStan\Rules\Rule<\PhpParser\Node\Stmt\Interface_>
+ * @implements Rule<Interface_>
  */
 final class InterfacesHaveDocumentationRule implements Rule
 {
+    private ReflectionProvider $reflectionProvider;
+
+    public function __construct(ReflectionProvider $reflectionProvider)
+    {
+        $this->reflectionProvider = $reflectionProvider;
+    }
+
     public function getNodeType(): string
     {
         return Interface_::class;
@@ -22,8 +31,27 @@ final class InterfacesHaveDocumentationRule implements Rule
 
     public function processNode(Node $node, Scope $scope): array
     {
+        $reflectionClass = $this->reflectionProvider->getClass($scope->getNamespace() . '\\' . $node->name, $scope);
+        $parentMethods = [];
+
+        foreach ($reflectionClass->getInterfaces() as $interface) {
+            foreach ($interface->getNativeReflection()->getMethods() as $method) {
+                $name = $method->getName();
+                $parentMethods[$name] = $name;
+            }
+        }
+
+        foreach ($reflectionClass->getParents() as $parentClass) {
+            foreach ($parentClass->getNativeReflection()->getMethods() as $method) {
+                $name = $method->getName();
+                $parentMethods[$name] = $name;
+            }
+        }
+
         $result = [];
-        $interfaceNeedsDocumentation = \count($node->getMethods()) > 1;
+        $methods = $node->getMethods();
+        $methods = \array_filter($methods, static fn (ClassMethod $cm): bool => !\in_array($cm->name->toString(), $parentMethods, true));
+        $interfaceNeedsDocumentation = \count($methods) !== 1;
 
         if ($interfaceNeedsDocumentation && $this->getCommentSummary($node) === '') {
             $result[] = RuleErrorBuilder::message('Interface must have a documentation')
@@ -52,6 +80,10 @@ final class InterfacesHaveDocumentationRule implements Rule
             $commentLines = \explode("\n", (string) $comment);
             $commentLines = \array_map(
                 static fn (string $l): string => \trim(\ltrim(\trim(\trim($l), '/'), '*')),
+                $commentLines
+            );
+            $commentLines = \array_map(
+                static fn (string $l): string => \preg_replace('/@.*$/', '', $l),
                 $commentLines
             );
             $commentSummary .= \implode('', $commentLines);
