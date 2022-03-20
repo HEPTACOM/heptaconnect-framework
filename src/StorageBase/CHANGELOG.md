@@ -20,6 +20,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add supporting base class `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade` to implement `\Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface` that ensures in the implementation that services are only factorized once
 - Add exception `\Heptacom\HeptaConnect\Storage\Base\Exception\ReadException` for storage actions to express issues on reading
 - Add route delete action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionInterface` with `\Heptacom\HeptaConnect\Storage\Base\Action\Route\Delete\RouteDeleteCriteria`
+- Add class `\Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestCriteria` as input for `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferenceGetRequestActionInterface::getRequest`
+- Add class `\Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestResult` as output for `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferenceGetRequestActionInterface::getRequest`
+- Add class `\Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestPersist\FileReferencePersistRequestPayload` as input for `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferencePersistRequestActionInterface::persistRequest`
+- Add class `\Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestPersist\FileReferencePersistRequestResult` as output for `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferencePersistRequestActionInterface::persistRequest`
+- Add class `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferenceGetRequestActionInterface` to read serialized requests from storage
+- Add class `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferencePersistRequestActionInterface`  to write serialized requests to storage
+- Add class `\Heptacom\HeptaConnect\Storage\Base\Contract\FileReferenceRequestKeyInterface` as storage key for stored request objects
+- Add class `\Heptacom\HeptaConnect\Storage\Base\FileReferenceRequestKeyCollection` as collection for `\Heptacom\HeptaConnect\Storage\Base\Contract\FileReferenceRequestKeyInterface`
+- Add method `\Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface::getFileReferenceGetRequestAction` to provide storage action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferenceGetRequestActionInterface`
+- Add method `\Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface::getFileReferencePersistRequestAction` to provide storage action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferencePersistRequestActionInterface`
 
 ### Changed
 
