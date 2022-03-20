@@ -16,11 +16,8 @@ abstract class ResolvedFileReferenceContract
 
     abstract public function getPublicUrl(): string;
 
-    // TODO: Add getPresignedUrl() for limited permissions
-    // abstract public function getPresignedUrl(): string;
-
     /**
-     * @throws \Throwable TODO: Specify exception
+     * @throws \Throwable
      */
     abstract public function getContents(): string;
 
