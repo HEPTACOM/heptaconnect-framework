@@ -30,7 +30,7 @@ final class PortalNodeConfigurationHelperTest extends TestCase
                 'list',
                 'nested' => [
                     'foo',
-                    'nested.foo'
+                    'nested.foo',
                 ],
                 'not' => 'found',
             ],
@@ -57,7 +57,7 @@ final class PortalNodeConfigurationHelperTest extends TestCase
         $resolver = $helper->json(__DIR__ . '/../../../Fixture/_files/portal-node-configuration.json');
         static::assertSame([
             'portal-a' => [
-                'foo' => 'bar'
+                'foo' => 'bar',
             ],
             'password' => 'secret',
         ], $resolver());
@@ -84,7 +84,7 @@ final class PortalNodeConfigurationHelperTest extends TestCase
                 'list',
                 'nested' => [
                     'password',
-                    'portal-a.foo'
+                    'portal-a.foo',
                 ],
                 'not' => 'found',
             ],

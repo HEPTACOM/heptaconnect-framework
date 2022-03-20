@@ -212,7 +212,7 @@ final class ConfigTest extends TestCase
                     1,
                 ],
                 'foo' => 'bar',
-            ]
+            ],
         ]);
 
         static::assertSame([
