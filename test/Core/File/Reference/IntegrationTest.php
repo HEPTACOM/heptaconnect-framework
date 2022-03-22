@@ -67,7 +67,7 @@ class IntegrationTest extends TestCase
 
         $body = $streamFactory->createStream('Flag');
         $body->seek(0);
-        $client->expects(self::once())
+        $client->expects(static::once())
             ->method('sendRequest')
             ->willReturn(Psr17FactoryDiscovery::findResponseFactory()->createResponse()->withBody($body));
 
@@ -106,7 +106,7 @@ class IntegrationTest extends TestCase
             $normalizationRegistry
         );
 
-        $client->expects(self::once())
+        $client->expects(static::once())
             ->method('sendRequest')
             ->willReturn(Psr17FactoryDiscovery::findResponseFactory()->createResponse(500));
 
@@ -117,7 +117,7 @@ class IntegrationTest extends TestCase
             $resolvedReference->getContents();
         } catch (\Throwable $throwable) {
             // TODO
-            self::fail('This exception needs to be typed!');
+            static::fail('This exception needs to be typed!');
         }
     }
 
@@ -144,7 +144,7 @@ class IntegrationTest extends TestCase
             $normalizationRegistry
         );
 
-        $fileContentsUrlProvider->expects(self::once())
+        $fileContentsUrlProvider->expects(static::once())
             ->method('resolve')
             ->willReturn(Psr17FactoryDiscovery::findUriFactory()->createUri('https://heptaconnect.io/'));
 
@@ -189,7 +189,7 @@ class IntegrationTest extends TestCase
             $resolvedReference->getContents();
         } catch (\Throwable $throwable) {
             // TODO
-            self::fail('This exception needs to be typed!');
+            static::fail('This exception needs to be typed!');
         }
     }
 
@@ -204,7 +204,7 @@ class IntegrationTest extends TestCase
                 $this->array = $array;
             }
 
-            public function supportsNormalization($data, string $format = null)
+            public function supportsNormalization($data, ?string $format = null)
             {
                 return true;
             }
@@ -214,15 +214,15 @@ class IntegrationTest extends TestCase
                 return 'array';
             }
 
-            public function normalize($object, string $format = null, array $context = [])
+            public function normalize($object, ?string $format = null, array $context = [])
             {
                 $result = $this->array->count();
                 $this->array[$result] = $object;
 
-                return (string)$result;
+                return (string) $result;
             }
         };
-        $denormalizer = new class ($array) implements DenormalizerInterface {
+        $denormalizer = new class($array) implements DenormalizerInterface {
             private \ArrayObject $array;
 
             public function __construct(\ArrayObject $array)
@@ -235,12 +235,12 @@ class IntegrationTest extends TestCase
                 return 'array';
             }
 
-            public function denormalize($data, string $type, string $format = null, array $context = [])
+            public function denormalize($data, string $type, ?string $format = null, array $context = [])
             {
-                return $this->array[(string)$data];
+                return $this->array[(string) $data];
             }
 
-            public function supportsDenormalization($data, string $type, string $format = null)
+            public function supportsDenormalization($data, string $type, ?string $format = null)
             {
                 return $type === 'array';
             }
