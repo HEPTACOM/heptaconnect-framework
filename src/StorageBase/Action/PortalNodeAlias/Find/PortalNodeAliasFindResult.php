@@ -4,21 +4,23 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Find;
 
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+
 class PortalNodeAliasFindResult
 {
-    private string $keyData;
+    private PortalNodeKeyInterface $key;
 
     private ?string $alias;
 
-    public function __construct(string $keyData, ?string $alias)
+    public function __construct(PortalNodeKeyInterface $key, ?string $alias)
     {
-        $this->keyData = $keyData;
+        $this->key = $key;
         $this->alias = $alias;
     }
 
-    public function getKeyData(): string
+    public function getKey(): PortalNodeKeyInterface
     {
-        return $this->keyData;
+        return $this->key;
     }
 
     public function getAlias(): ?string
