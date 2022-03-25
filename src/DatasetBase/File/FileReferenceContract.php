@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Dataset\Base\File;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
-class FileReferenceContract implements AttachableInterface
+abstract class FileReferenceContract implements AttachableInterface
 {
     private PortalNodeKeyInterface $portalNodeKey;
 
