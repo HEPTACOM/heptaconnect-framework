@@ -89,6 +89,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replace `\Heptacom\HeptaConnect\Storage\Base\Contract\PortalStorageContract::list` with storage action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageListActionInterface::list` and `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Listing\PortalNodeStorageListCriteria` and `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Listing\PortalNodeStorageListResult` that allows for optimizations for different use-cases
 - Rename `\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingExceptionKeyInterface` to `\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\IdentityErrorKeyInterface`
 - Replace `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingExceptionRepositoryContract::create` with storage action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityError\IdentityErrorCreateActionInterface`, `\Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResults`, `\Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResult`, `\Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreatePayloads` and `\Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreatePayload` to allow batch writing of identity errors
+- Move interface `\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\RouteKeyInterface` to `\Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface`
+- Move class `\Heptacom\HeptaConnect\Portal\Base\StorageKey\RouteKeyCollection` to `\Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection`
 
 ### Deprecated
 
