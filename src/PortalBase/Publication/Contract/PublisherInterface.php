@@ -11,17 +11,6 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 interface PublisherInterface
 {
     /**
-     * @param class-string<DatasetEntityContract> $entityType
-     *
-     * @deprecated Use publishBatch instead
-     */
-    public function publish(
-        string $entityType,
-        PortalNodeKeyInterface $portalNodeId,
-        string $externalId
-    ): void;
-
-    /**
      * Publish existence of the given identities.
      * This will ensure the given identities are stored in the storage and queued for emission.
      */
