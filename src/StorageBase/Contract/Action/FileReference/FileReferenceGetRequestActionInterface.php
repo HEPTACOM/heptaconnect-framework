@@ -10,6 +10,8 @@ use Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileRefer
 interface FileReferenceGetRequestActionInterface
 {
     /**
+     * Get serialized PSR-7 requests.
+     *
      * @return iterable<FileReferenceGetRequestResult>
      */
     public function getRequest(FileReferenceGetRequestCriteria $criteria): iterable;

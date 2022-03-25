@@ -9,5 +9,8 @@ use Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestPersist\FileR
 
 interface FileReferencePersistRequestActionInterface
 {
+    /**
+     * Persist serialized PSR-7 requests.
+     */
     public function persistRequest(FileReferencePersistRequestPayload $payload): FileReferencePersistRequestResult;
 }

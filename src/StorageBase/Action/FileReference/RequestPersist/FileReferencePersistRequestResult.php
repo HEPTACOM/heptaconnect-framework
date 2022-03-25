@@ -17,7 +17,7 @@ final class FileReferencePersistRequestResult implements AttachmentAwareInterfac
     private PortalNodeKeyInterface $portalNodeKey;
 
     /**
-     * @var FileReferenceRequestKeyInterface[]
+     * @var array<string, FileReferenceRequestKeyInterface>
      */
     private array $fileReferenceRequestKeys = [];
 

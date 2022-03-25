@@ -17,7 +17,7 @@ final class FileReferencePersistRequestPayload implements CreatePayloadInterface
     private PortalNodeKeyInterface $portalNodeKey;
 
     /**
-     * @var string[]
+     * @var array<string, string>
      */
     private array $serializedRequests = [];
 
