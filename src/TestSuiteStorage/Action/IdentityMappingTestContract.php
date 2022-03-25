@@ -170,10 +170,10 @@ abstract class IdentityMappingTestContract extends TestCase
         $firstMapped1 = $identityMapResult1->getMappedDatasetEntityCollection()->first();
         $firstMapped2 = $identityMapResult2->getMappedDatasetEntityCollection()->first();
 
-        self::assertInstanceOf(MappedDatasetEntityStruct::class, $firstMapped1);
-        self::assertInstanceOf(MappedDatasetEntityStruct::class, $firstMapped2);
+        static::assertInstanceOf(MappedDatasetEntityStruct::class, $firstMapped1);
+        static::assertInstanceOf(MappedDatasetEntityStruct::class, $firstMapped2);
 
-        self::assertTrue($firstMapped1->getMapping()->getMappingNodeKey()->equals($firstMapped2->getMapping()->getMappingNodeKey()));
+        static::assertTrue($firstMapped1->getMapping()->getMappingNodeKey()->equals($firstMapped2->getMapping()->getMappingNodeKey()));
     }
 
     /**
