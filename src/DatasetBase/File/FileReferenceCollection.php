@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 /**
  * @extends AbstractObjectCollection<FileReferenceContract>
  */
-class FileReferenceCollection extends AbstractObjectCollection
+final class FileReferenceCollection extends AbstractObjectCollection
 {
     protected function getT(): string
     {

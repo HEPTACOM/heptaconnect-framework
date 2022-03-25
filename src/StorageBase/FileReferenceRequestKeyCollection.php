@@ -10,7 +10,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\FileReferenceRequestKeyInterface
 /**
  * @extends AbstractCollection<FileReferenceRequestKeyInterface>
  */
-class FileReferenceRequestKeyCollection extends AbstractCollection
+final class FileReferenceRequestKeyCollection extends AbstractCollection
 {
     protected function isValidItem($item): bool
     {
