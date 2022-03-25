@@ -114,6 +114,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove unused contract `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract`
 - Remove unused `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingExceptionRepositoryContract::listByMapping`, `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingExceptionRepositoryContract::listByMappingAndType` and `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingExceptionRepositoryContract::delete`
 - Remove unused `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract`
+- Remove deprecated `Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::unattach`
 
 ### Fixed
 
