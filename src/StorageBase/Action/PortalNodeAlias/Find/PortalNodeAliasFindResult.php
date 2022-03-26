@@ -8,19 +8,19 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 
 class PortalNodeAliasFindResult
 {
-    private PortalNodeKeyInterface $key;
+    private PortalNodeKeyInterface $portalNodeKey;
 
     private ?string $alias;
 
-    public function __construct(PortalNodeKeyInterface $key, ?string $alias)
+    public function __construct(PortalNodeKeyInterface $portalNodeKey, ?string $alias)
     {
-        $this->key = $key;
+        $this->portalNodeKey = $portalNodeKey;
         $this->alias = $alias;
     }
 
-    public function getKey(): PortalNodeKeyInterface
+    public function getPortalNodeKey(): PortalNodeKeyInterface
     {
-        return $this->key;
+        return $this->portalNodeKey;
     }
 
     public function getAlias(): ?string
