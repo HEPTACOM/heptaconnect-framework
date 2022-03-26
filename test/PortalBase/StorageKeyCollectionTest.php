@@ -48,6 +48,16 @@ final class StorageKeyCollectionTest extends TestCase
             {
                 return [];
             }
+
+            public function withAlias(): PortalNodeKeyInterface
+            {
+                return $this;
+            }
+
+            public function withoutAlias(): PortalNodeKeyInterface
+            {
+                return $this;
+            }
         }]);
         static::assertCount(1, $collection);
     }
