@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Core\Test\Portal;
 
 use Composer\Autoload\ClassLoader;
-use Heptacom\HeptaConnect\Core\Bridge\File\FileContentsUrlProviderInterface;
-use Heptacom\HeptaConnect\Core\Bridge\File\FileRequestUrlProviderInterface;
 use Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface;
 use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder;
