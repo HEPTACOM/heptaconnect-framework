@@ -34,6 +34,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add method for portal extensions `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract::isActiveByDefault` to allow for default activity state configuration
 - Add supporting filter method `\Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection::bySupport` to filter portal extensions by their supported portal class
 - Add new service `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientContract` to container as an alternative to `Psr\Http\Client\ClientInterface` with behaviour by configuration with e.g. `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Support\DefaultRequestHeaders`
+- Add class `\Heptacom\HeptaConnect\Portal\Base\File\FileReferenceFactoryContract` to create instances of `\Heptacom\HeptaConnect\Dataset\Base\File\FileReferenceContract`
+- Add class `\Heptacom\HeptaConnect\Portal\Base\File\FileReferenceResolverContract` to resolve instances of `\Heptacom\HeptaConnect\Dataset\Base\File\FileReferenceContract` to instances of `\Heptacom\HeptaConnect\Portal\Base\File\ResolvedFileReferenceContract`
+- Add class `\Heptacom\HeptaConnect\Portal\Base\File\ResolvedFileReferenceContract` to access file references in read operations
+- Add new service `\Heptacom\HeptaConnect\Portal\Base\File\FileReferenceFactoryContract` to container to create file references from various sources
+- Add new service `\Heptacom\HeptaConnect\Portal\Base\File\FileReferenceResolverContract` to container to resolve file references for read operations
 
 ### Changed
 

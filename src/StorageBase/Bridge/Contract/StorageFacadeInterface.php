@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Bridge\Contract;
 
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferenceGetRequestActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferencePersistRequestActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface;
@@ -48,6 +50,20 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfigurati
  */
 interface StorageFacadeInterface
 {
+    /**
+     * Provides storage action to get file reference requests.
+     *
+     * @throws StorageFacadeServiceExceptionInterface
+     */
+    public function getFileReferenceGetRequestAction(): FileReferenceGetRequestActionInterface;
+
+    /**
+     * Provides storage action to persist file reference requests.
+     *
+     * @throws StorageFacadeServiceExceptionInterface
+     */
+    public function getFileReferencePersistRequestAction(): FileReferencePersistRequestActionInterface;
+
     /**
      * Provides storage action to map entities to their identities.
      *
