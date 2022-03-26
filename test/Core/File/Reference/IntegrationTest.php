@@ -396,7 +396,7 @@ class IntegrationTest extends TestCase
                 return $this->array[$index];
             }
 
-            public function supportsDenormalization($data, string $type, ?string $format = null)
+            public function supportsDenormalization($data, $type, $format = null)
             {
                 return $type === 'array';
             }
