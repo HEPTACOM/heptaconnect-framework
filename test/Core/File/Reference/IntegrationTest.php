@@ -415,12 +415,12 @@ class IntegrationTest extends TestCase
                 $this->services = $services;
             }
 
-            public function get(string $id)
+            public function get($id)
             {
                 return $this->services[$id] ?? null;
             }
 
-            public function has(string $id)
+            public function has($id)
             {
                 return ($this->services[$id] ?? null) !== null;
             }
