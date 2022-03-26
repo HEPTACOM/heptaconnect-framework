@@ -354,7 +354,7 @@ class IntegrationTest extends TestCase
                 $this->array = $array;
             }
 
-            public function supportsNormalization($data, ?string $format = null)
+            public function supportsNormalization($data, $format = null)
             {
                 return true;
             }
