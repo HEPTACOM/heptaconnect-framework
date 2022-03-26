@@ -13,10 +13,10 @@ abstract class FileReferenceFactoryContract
      * Creates a file reference from a public URI. This public URI **MUST** comply with the following rules:
      *
      * - A `GET` request without any additional header lines **MUST** respond with the contents of the referenced file.
-     * - The hostname of the URI **MUST** be resolvable by public DNS servers and **MUST** have either an `A` record or
-     *   an `AAAA` record stored in its public DNS.
-     * - Either the `A` record or the `AAAA` record of the publicly resolved DNS of the URI **MUST** point to a host
-     *   that is reachable from a third party and is able to fulfil a `GET` request.
+     * - The hostname of the URI **MUST** be resolvable by a third party to an `A` record or an `AAAA` record.
+     *   At best the hostname is known by public DNS servers.
+     * - The host of the URI **MUST** point to a server, that is reachable from a third party and is able to fulfil
+     *   a `GET` request.
      *
      * Usage of this method creates a dependency on the availability of the referenced hosts from a third party host.
      *
