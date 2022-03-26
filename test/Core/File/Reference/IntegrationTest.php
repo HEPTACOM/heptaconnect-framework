@@ -16,11 +16,14 @@ use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract;
 use Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry;
 use Heptacom\HeptaConnect\Core\Test\Fixture\DependentPortal;
+use Heptacom\HeptaConnect\Core\Web\Http\HttpClient;
 use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\DenormalizerInterface;
 use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizerInterface;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientContract;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Http\Discovery\Psr17FactoryDiscovery;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Client\ClientInterface;
 
 /**
@@ -31,7 +34,11 @@ use Psr\Http\Client\ClientInterface;
  * @covers \Heptacom\HeptaConnect\Core\File\ResolvedReference\ResolvedContentsFileReference
  * @covers \Heptacom\HeptaConnect\Core\File\ResolvedReference\ResolvedPublicUrlFileReference
  * @covers \Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry
+ * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpClient
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\File\FileReferenceContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\File\ResolvedFileReferenceContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\SerializableStream
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Support\DefaultRequestHeaders
  * @covers \Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey
  */
@@ -43,7 +50,7 @@ class IntegrationTest extends TestCase
         $client = $this->createMock(ClientInterface::class);
         $fileContentsUrlProvider = $this->createMock(FileContentsUrlProviderInterface::class);
         $fileRequestUrlProvider = $this->createMock(FileRequestUrlProviderInterface::class);
-
+        $portalStackServiceContainerFactory = $this->createMock(PortalStackServiceContainerFactory::class);
         $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
         $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class);
         $factory = new FileReferenceFactory(
@@ -57,7 +64,7 @@ class IntegrationTest extends TestCase
             $fileRequestUrlProvider,
             $normalizationRegistry,
             $this->createMock(RequestStorageContract::class),
-            $this->createMock(PortalStackServiceContainerFactory::class)
+            $portalStackServiceContainerFactory
         );
 
         $body = $streamFactory->createStream('Flag');
@@ -65,6 +72,14 @@ class IntegrationTest extends TestCase
         $client->expects(static::once())
             ->method('sendRequest')
             ->willReturn(Psr17FactoryDiscovery::findResponseFactory()->createResponse()->withBody($body));
+
+        $portalStackServiceContainerFactory->expects(self::atLeastOnce())
+            ->method('create')
+            ->with($portalNodeKey)
+            ->willReturn($this->getInMemoryContainer([
+                HttpClientContract::class => new HttpClient($client, Psr17FactoryDiscovery::findUriFactory()),
+                ClientInterface::class => $client,
+            ]));
 
         $reference = $factory->fromPublicUrl('https://heptaconnect.io/');
 
@@ -84,6 +99,7 @@ class IntegrationTest extends TestCase
         $client = $this->createMock(ClientInterface::class);
         $fileContentsUrlProvider = $this->createMock(FileContentsUrlProviderInterface::class);
         $fileRequestUrlProvider = $this->createMock(FileRequestUrlProviderInterface::class);
+        $portalStackServiceContainerFactory = $this->createMock(PortalStackServiceContainerFactory::class);
 
         $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class);
         $factory = new FileReferenceFactory(
@@ -97,12 +113,20 @@ class IntegrationTest extends TestCase
             $fileRequestUrlProvider,
             $normalizationRegistry,
             $this->createMock(RequestStorageContract::class),
-            $this->createMock(PortalStackServiceContainerFactory::class)
+            $portalStackServiceContainerFactory
         );
 
         $client->expects(static::once())
             ->method('sendRequest')
             ->willReturn(Psr17FactoryDiscovery::findResponseFactory()->createResponse(500));
+
+        $portalStackServiceContainerFactory->expects(self::atLeastOnce())
+            ->method('create')
+            ->with($portalNodeKey)
+            ->willReturn($this->getInMemoryContainer([
+                HttpClientContract::class => new HttpClient($client, Psr17FactoryDiscovery::findUriFactory()),
+                ClientInterface::class => $client,
+            ]));
 
         $reference = $factory->fromPublicUrl('https://heptaconnect.io/');
         $resolvedReference = $resolver->resolve($reference);
@@ -177,12 +201,9 @@ class IntegrationTest extends TestCase
         $reference = $factory->fromContents('{"foo": "bar"}', 'text/json');
         $resolvedReference = $resolver->resolve($reference);
 
-        try {
-            $resolvedReference->getContents();
-        } catch (\Throwable $throwable) {
-            // TODO
-            static::fail('This exception needs to be typed!');
-        }
+        $resolvedReference->getContents();
+
+        static::expectException(\Throwable::class);
     }
 
     private function createInMemoryNormalizationRegistry(): NormalizationRegistry
@@ -239,5 +260,27 @@ class IntegrationTest extends TestCase
         };
 
         return new NormalizationRegistry([$normalizer], [$denormalizer]);
+    }
+
+    private function getInMemoryContainer(array $services): ContainerInterface
+    {
+        return new class ($services) implements ContainerInterface {
+            private array $services;
+
+            public function __construct(array $services)
+            {
+                $this->services = $services;
+            }
+
+            public function get(string $id)
+            {
+                return $this->services[$id] ?? null;
+            }
+
+            public function has(string $id)
+            {
+                return ($this->services[$id] ?? null) !== null;
+            }
+        };
     }
 }

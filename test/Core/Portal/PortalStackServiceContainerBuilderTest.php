@@ -11,9 +11,11 @@ use Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterf
 use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder;
 use Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory;
+use Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract;
 use Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory;
 use Heptacom\HeptaConnect\Core\Test\Fixture\HttpClientInterfaceDecorator;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface;
+use Heptacom\HeptaConnect\Portal\Base\File\FileReferenceResolverContract;
 use Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract;
 use Heptacom\HeptaConnect\Portal\Base\Parallelization\Contract\ResourceLockingContract;
 use Heptacom\HeptaConnect\Portal\Base\Parallelization\Support\ResourceLockFacade;
@@ -45,6 +47,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\File\FileReferenceFactory
  * @covers \Heptacom\HeptaConnect\Core\Portal\Exception\ServiceNotInstantiable
  * @covers \Heptacom\HeptaConnect\Core\Portal\Exception\ServiceNotInstantiableEndlessLoopDetected
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalConfiguration
@@ -103,10 +106,10 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
             $configurationService,
             $this->createMock(PublisherInterface::class),
             $httpHandlerUrlProviderFactory,
-            $this->createMock(FileContentsUrlProviderInterface::class),
-            $this->createMock(FileRequestUrlProviderInterface::class),
+            $this->createMock(RequestStorageContract::class),
         );
         $builder->setDirectEmissionFlow($this->createMock(DirectEmissionFlowContract::class));
+        $builder->setFileReferenceResolver($this->createMock(FileReferenceResolverContract::class));
         $container = $builder->build(
             new Portal(),
             new PortalExtensionCollection([
@@ -165,10 +168,10 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
             $configurationService,
             $this->createMock(PublisherInterface::class),
             $httpHandlerUrlProviderFactory,
-            $this->createMock(FileContentsUrlProviderInterface::class),
-            $this->createMock(FileRequestUrlProviderInterface::class),
+            $this->createMock(RequestStorageContract::class),
         );
         $builder->setDirectEmissionFlow($this->createMock(DirectEmissionFlowContract::class));
+        $builder->setFileReferenceResolver($this->createMock(FileReferenceResolverContract::class));
         $container = $builder->build(
             new Portal(),
             new PortalExtensionCollection([
