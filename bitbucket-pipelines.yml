@@ -56,6 +56,7 @@ definitions:
                 script:
                     - make clean
                     - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
+                    - make .build
                     - mv vendor .build/vendor-high
                     - echo 'mkdir -p vendor; rm -rf vendor; mv .build/vendor-high vendor' > setup-vendor.sh
         -   step: &composer-low-install
@@ -69,6 +70,7 @@ definitions:
                     - make clean
                     - composer update --prefer-lowest --prefer-stable
                     - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
+                    - make .build
                     - mv vendor .build/vendor-low
                     - echo 'mkdir -p vendor; rm -rf vendor; mv .build/vendor-low vendor' > setup-vendor.sh
         -   step: &composer-high-install-80
@@ -79,6 +81,7 @@ definitions:
                     - make clean
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
+                    - make .build
                     - mv vendor .build/vendor-high-80
                     - echo 'mkdir -p vendor; rm -rf vendor; mv .build/vendor-high-80 vendor' > setup-vendor.sh
         -   step: &composer-low-install-80
@@ -89,6 +92,7 @@ definitions:
                     - make clean
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
+                    - make .build
                     - mv vendor .build/vendor-low-80
                     - echo 'mkdir -p vendor; rm -rf vendor; mv .build/vendor-low-80 vendor' > setup-vendor.sh
         -   step: &composer-install-core
