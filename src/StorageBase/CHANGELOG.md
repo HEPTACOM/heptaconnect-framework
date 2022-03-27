@@ -28,8 +28,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add class `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferencePersistRequestActionInterface`  to write serialized requests to storage
 - Add class `\Heptacom\HeptaConnect\Storage\Base\Contract\FileReferenceRequestKeyInterface` as storage key for stored request objects
 - Add class `\Heptacom\HeptaConnect\Storage\Base\FileReferenceRequestKeyCollection` as collection for `\Heptacom\HeptaConnect\Storage\Base\Contract\FileReferenceRequestKeyInterface`
-- Add method `\Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface::getFileReferenceGetRequestAction` to provide storage action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferenceGetRequestActionInterface`
-- Add method `\Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface::getFileReferencePersistRequestAction` to provide storage action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferencePersistRequestActionInterface`
+- Add `\Heptacom\HeptaConnect\Storage\Base\AliasAwarePortalNodeStorageKey` as implementation to identify a portal node key that must be displayed as alias whenever possible
+- Add storage action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasFindActionInterface`, `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Find\PortalNodeAliasFindCriteria` and `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Find\PortalNodeAliasFindResult` to find portal node keys by alias
+- Add storage action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasGetActionInterface`, `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Get\PortalNodeAliasGetCriteria` and `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Get\PortalNodeAliasGetResult` to get aliases by portal node keys
+- Add storage action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasOverviewActionInterface`, `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Overview\PortalNodeAliasOverviewCriteria` and `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Overview\PortalNodeAliasOverviewResult` to overview all defined portal node aliases
+- Add storage action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasSetActionInterface`, `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Set\PortalNodeAliasSetPayload` and `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Set\PortalNodeAliasSetPayloads` to set and unset portal node aliases
+- Add exception `\Heptacom\HeptaConnect\Storage\Base\Exception\UpdateException` to identify errors on updates in the storage
 
 ### Changed
 
