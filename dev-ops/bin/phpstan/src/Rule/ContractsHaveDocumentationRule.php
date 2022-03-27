@@ -68,6 +68,7 @@ final class ContractsHaveDocumentationRule implements Rule
         $result = [];
         $methods = $node->getMethods();
         $methods = \array_filter($methods, static fn (ClassMethod $cm): bool => !$cm->isPrivate());
+        $methods = \array_filter($methods, static fn (ClassMethod $cm): bool => !$cm->isMagic());
         $methods = \array_filter($methods, static fn (ClassMethod $cm): bool => !\in_array($cm->name->toString(), $parentMethods, true));
         $interfaceNeedsDocumentation = \count($methods) !== 1;
 
