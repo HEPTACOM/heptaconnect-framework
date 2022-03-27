@@ -48,7 +48,7 @@ final class ContractsHaveDocumentationRule implements Rule
             return [];
         }
 
-        $reflectionClass = $this->reflectionProvider->getClass($scope->getNamespace() . '\\' . $node->name, $scope);
+        $reflectionClass = $this->reflectionProvider->getClass($scope->getNamespace() . '\\' . $node->name);
         $parentMethods = [];
 
         foreach ($reflectionClass->getInterfaces() as $interface) {
@@ -68,6 +68,7 @@ final class ContractsHaveDocumentationRule implements Rule
         $result = [];
         $methods = $node->getMethods();
         $methods = \array_filter($methods, static fn (ClassMethod $cm): bool => !$cm->isPrivate());
+        $methods = \array_filter($methods, static fn (ClassMethod $cm): bool => !$cm->isMagic());
         $methods = \array_filter($methods, static fn (ClassMethod $cm): bool => !\in_array($cm->name->toString(), $parentMethods, true));
         $interfaceNeedsDocumentation = \count($methods) !== 1;
 
@@ -101,7 +102,7 @@ final class ContractsHaveDocumentationRule implements Rule
                 $commentLines
             );
             $commentLines = \array_map(
-                static fn (string $l): string => \preg_replace('/@.*$/', '', $l),
+                static fn (string $l): string => (string) \preg_replace('/@.*$/', '', $l),
                 $commentLines
             );
             $commentSummary .= \implode('', $commentLines);
