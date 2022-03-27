@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Core\Test;
 
 use Heptacom\HeptaConnect\Core\Component\LogMessage;
+use Heptacom\HeptaConnect\Core\Reception\Contract\ReceiveContextFactoryInterface;
 use Heptacom\HeptaConnect\Core\Reception\Contract\ReceiverStackBuilderFactoryInterface;
 use Heptacom\HeptaConnect\Core\Reception\Contract\ReceiverStackBuilderInterface;
 use Heptacom\HeptaConnect\Core\Reception\Contract\ReceptionActorInterface;
-use Heptacom\HeptaConnect\Core\Reception\ReceiveContextFactory;
 use Heptacom\HeptaConnect\Core\Reception\ReceiveService;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
 use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
@@ -38,7 +38,7 @@ final class ReceiveServiceTest extends TestCase
      */
     public function testReceiveCount(int $count): void
     {
-        $receiveContextFactory = $this->createMock(ReceiveContextFactory::class);
+        $receiveContextFactory = $this->createMock(ReceiveContextFactoryInterface::class);
         $logger = $this->createMock(LoggerInterface::class);
         $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
 
@@ -72,7 +72,7 @@ final class ReceiveServiceTest extends TestCase
      */
     public function testMissingReceiver(int $count): void
     {
-        $receiveContextFactory = $this->createMock(ReceiveContextFactory::class);
+        $receiveContextFactory = $this->createMock(ReceiveContextFactoryInterface::class);
 
         $logger = $this->createMock(LoggerInterface::class);
         $logger->expects($count > 0 ? static::atLeastOnce() : static::never())

@@ -6,9 +6,9 @@ namespace Heptacom\HeptaConnect\Core\Test;
 
 use Heptacom\HeptaConnect\Core\Component\LogMessage;
 use Heptacom\HeptaConnect\Core\Emission\Contract\EmissionActorInterface;
+use Heptacom\HeptaConnect\Core\Emission\Contract\EmitContextFactoryInterface;
 use Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface;
 use Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderInterface;
-use Heptacom\HeptaConnect\Core\Emission\EmitContextFactory;
 use Heptacom\HeptaConnect\Core\Emission\EmitService;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
@@ -50,7 +50,7 @@ final class EmitServiceTest extends TestCase
         $stackBuilderFactory->method('createEmitterStackBuilder')->willReturn($stackBuilder);
 
         $emitService = new EmitService(
-            $this->createMock(EmitContextFactory::class),
+            $this->createMock(EmitContextFactoryInterface::class),
             $this->createMock(LoggerInterface::class),
             $this->createMock(StorageKeyGeneratorContract::class),
             $stackBuilderFactory,
@@ -66,7 +66,7 @@ final class EmitServiceTest extends TestCase
     {
         $emitContext = $this->createMock(EmitContextInterface::class);
 
-        $emitContextFactory = $this->createMock(EmitContextFactory::class);
+        $emitContextFactory = $this->createMock(EmitContextFactoryInterface::class);
         $emitContextFactory->method('createContext')->willReturn($emitContext);
 
         $logger = $this->createMock(LoggerInterface::class);
