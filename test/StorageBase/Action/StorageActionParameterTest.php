@@ -275,7 +275,7 @@ class StorageActionParameterTest extends TestCase
         yield new PortalNodeGetResult($portalNodeKey, $portalClass);
         yield new PortalNodeListResult($portalNodeKey);
         yield new PortalNodeOverviewCriteria();
-        yield new PortalNodeOverviewResult($portalNodeKey, $portalClass, $createdAt, '');
+        yield new PortalNodeOverviewResult($portalNodeKey, $portalClass, $createdAt);
         yield new PortalNodeConfigurationGetCriteria($portalNodeKeys);
         yield new PortalNodeConfigurationGetResult($portalNodeKey, []);
         yield new PortalNodeConfigurationSetPayload($portalNodeKey, []);

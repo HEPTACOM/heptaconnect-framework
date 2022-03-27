@@ -23,22 +23,18 @@ final class PortalNodeOverviewResult implements AttachmentAwareInterface
 
     protected \DateTimeInterface $createdAt;
 
-    protected string $alias;
-
     /**
      * @param class-string<PortalContract> $portalClass
      */
     public function __construct(
         PortalNodeKeyInterface $portalNodeKey,
         string $portalClass,
-        \DateTimeInterface $createdAt,
-        string $alias
+        \DateTimeInterface $createdAt
     ) {
         $this->attachments = new AttachmentCollection();
         $this->portalNodeKey = $portalNodeKey;
         $this->portalClass = $portalClass;
         $this->createdAt = $createdAt;
-        $this->alias = $alias;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface
@@ -57,10 +53,5 @@ final class PortalNodeOverviewResult implements AttachmentAwareInterface
     public function getCreatedAt(): \DateTimeInterface
     {
         return $this->createdAt;
-    }
-
-    public function getAlias(): string
-    {
-        return $this->alias;
     }
 }

@@ -18,8 +18,6 @@ final class PortalNodeOverviewCriteria extends OverviewCriteriaContract implemen
 
     public const FIELD_CREATED = 'created';
 
-    public const FIELD_ALIAS = 'alias';
-
     /**
      * @var array<string, string>
      */
