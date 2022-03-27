@@ -11,6 +11,8 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\ReadException;
 interface PortalNodeAliasFindActionInterface
 {
     /**
+     * Find portal nodes by their given aliases.
+     *
      * @throws ReadException
      *
      * @return iterable<PortalNodeAliasFindResult>

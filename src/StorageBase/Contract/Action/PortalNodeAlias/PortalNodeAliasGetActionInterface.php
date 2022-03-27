@@ -12,6 +12,8 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 interface PortalNodeAliasGetActionInterface
 {
     /**
+     * Get portal nodes and their aliases looked up by the given portal node keys.
+     *
      * @throws ReadException
      * @throws UnsupportedStorageKeyException
      *
