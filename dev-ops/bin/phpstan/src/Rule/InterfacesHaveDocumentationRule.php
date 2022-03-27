@@ -83,7 +83,7 @@ final class InterfacesHaveDocumentationRule implements Rule
                 $commentLines
             );
             $commentLines = \array_map(
-                static fn (string $l): string => \preg_replace('/@.*$/', '', $l),
+                static fn (string $l): string => (string) \preg_replace('/@.*$/', '', $l),
                 $commentLines
             );
             $commentSummary .= \implode('', $commentLines);
