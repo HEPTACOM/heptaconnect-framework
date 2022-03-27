@@ -48,7 +48,7 @@ final class ContractsHaveDocumentationRule implements Rule
             return [];
         }
 
-        $reflectionClass = $this->reflectionProvider->getClass($scope->getNamespace() . '\\' . $node->name, $scope);
+        $reflectionClass = $this->reflectionProvider->getClass($scope->getNamespace() . '\\' . $node->name);
         $parentMethods = [];
 
         foreach ($reflectionClass->getInterfaces() as $interface) {
