@@ -31,7 +31,7 @@ final class InterfacesHaveDocumentationRule implements Rule
 
     public function processNode(Node $node, Scope $scope): array
     {
-        $reflectionClass = $this->reflectionProvider->getClass($scope->getNamespace() . '\\' . $node->name, $scope);
+        $reflectionClass = $this->reflectionProvider->getClass($scope->getNamespace() . '\\' . $node->name);
         $parentMethods = [];
 
         foreach ($reflectionClass->getInterfaces() as $interface) {
@@ -83,7 +83,7 @@ final class InterfacesHaveDocumentationRule implements Rule
                 $commentLines
             );
             $commentLines = \array_map(
-                static fn (string $l): string => \preg_replace('/@.*$/', '', $l),
+                static fn (string $l): string => (string) \preg_replace('/@.*$/', '', $l),
                 $commentLines
             );
             $commentSummary .= \implode('', $commentLines);
