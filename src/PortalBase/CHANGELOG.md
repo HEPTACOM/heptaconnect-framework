@@ -34,6 +34,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add method for portal extensions `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract::isActiveByDefault` to allow for default activity state configuration
 - Add supporting filter method `\Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection::bySupport` to filter portal extensions by their supported portal class
 - Add new service `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientContract` to container as an alternative to `Psr\Http\Client\ClientInterface` with behaviour by configuration with e.g. `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Support\DefaultRequestHeaders`
+- Add class `\Heptacom\HeptaConnect\Portal\Base\File\FileReferenceFactoryContract` to create instances of `\Heptacom\HeptaConnect\Dataset\Base\File\FileReferenceContract`
+- Add class `\Heptacom\HeptaConnect\Portal\Base\File\FileReferenceResolverContract` to resolve instances of `\Heptacom\HeptaConnect\Dataset\Base\File\FileReferenceContract` to instances of `\Heptacom\HeptaConnect\Portal\Base\File\ResolvedFileReferenceContract`
+- Add class `\Heptacom\HeptaConnect\Portal\Base\File\ResolvedFileReferenceContract` to access file references in read operations
+- Add new service `\Heptacom\HeptaConnect\Portal\Base\File\FileReferenceFactoryContract` to container to create file references from various sources
+- Add new service `\Heptacom\HeptaConnect\Portal\Base\File\FileReferenceResolverContract` to container to resolve file references for read operations
+- Add methods `\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface::withAlias` and `\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface::withoutAlias` to flag a portal node key to prefer the display as alias or storage key
 
 ### Changed
 
@@ -55,6 +61,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove contracts and exceptions `\Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobServiceInterface`, `\Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobRunInterface`, `\Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobInterface`, `\Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobHandlerContract`, `\Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobContextInterface`, `\Heptacom\HeptaConnect\Portal\Base\Cronjob\Exception\InvalidCronExpressionException`, `\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\CronjobKeyInterface` and `\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\CronjobRunKeyInterface` as the feature of cronjobs in its current implementation is removed
 - Remove deprecated methods `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalStorageInterface::canSet` and `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalStorageInterface::canGet`
 - Remove unused `\Heptacom\HeptaConnect\Portal\Base\Mapping\TypedMappedDatasetEntityCollection`
+- Remove deprecated method `Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface::publish`
+- Remove unused `\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingKeyInterface` and `\Heptacom\HeptaConnect\Portal\Base\StorageKey\MappingKeyCollection`
+- Move unused `\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\RouteKeyInterface` and `\Heptacom\HeptaConnect\Portal\Base\StorageKey\RouteKeyCollection` to package `heptacom/heptaconnect-storage-base` as `\Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface` and `\Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection`
 
 ### Fixed
 

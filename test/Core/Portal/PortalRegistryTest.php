@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Core\Test\Portal;
 
 use Composer\Autoload\ClassLoader;
 use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
-use Heptacom\HeptaConnect\Core\Portal\PortalFactory;
+use Heptacom\HeptaConnect\Core\Portal\Contract\PortalFactoryContract;
 use Heptacom\HeptaConnect\Core\Portal\PortalRegistry;
 use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -51,7 +51,7 @@ final class PortalRegistryTest extends TestCase
 
     public function testExtensionAvailability(): void
     {
-        $portalFactory = $this->createMock(PortalFactory::class);
+        $portalFactory = $this->createMock(PortalFactoryContract::class);
         $portalLoader = $this->createMock(ComposerPortalLoader::class);
         $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
@@ -80,7 +80,7 @@ final class PortalRegistryTest extends TestCase
 
     public function testExtensionUnavailability(): void
     {
-        $portalFactory = $this->createMock(PortalFactory::class);
+        $portalFactory = $this->createMock(PortalFactoryContract::class);
         $portalLoader = $this->createMock(ComposerPortalLoader::class);
         $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
