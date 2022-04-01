@@ -420,44 +420,48 @@ final class FlowComponentTest extends TestCase
 
         $explorerToken = new ExplorerToken(FirstEntity::class);
         $explorerToken->setRun(function () use (&$supports, &$thisClasses): array {
-            /** @var $this ExplorerContract */
-            $thisClasses[] = \get_class($this);
+            /* @var $this ExplorerContract */
+            $thisClasses[] = static::class;
             $supports[] = $this->supports();
+
             return [];
         });
         $explorer = new Explorer($explorerToken);
 
         $emitterToken = new EmitterToken(FirstEntity::class);
         $emitterToken->setBatch(function () use (&$supports, &$thisClasses): array {
-            /** @var $this EmitterContract */
-            $thisClasses[] = \get_class($this);
+            /* @var $this EmitterContract */
+            $thisClasses[] = static::class;
             $supports[] = $this->supports();
+
             return [];
         });
         $emitter = new Emitter($emitterToken);
 
         $receiverToken = new ReceiverToken(FirstEntity::class);
         $receiverToken->setBatch(function () use (&$supports, &$thisClasses): void {
-            /** @var $this ReceiverContract */
-            $thisClasses[] = \get_class($this);
+            /* @var $this ReceiverContract */
+            $thisClasses[] = static::class;
             $supports[] = $this->supports();
         });
         $receiver = new Receiver($receiverToken);
 
         $statusReporterToken = new StatusReporterToken(StatusReporterContract::TOPIC_HEALTH);
         $statusReporterToken->setRun(function () use (&$supports, &$thisClasses): array {
-            /** @var $this StatusReporterContract */
-            $thisClasses[] = \get_class($this);
+            /* @var $this StatusReporterContract */
+            $thisClasses[] = static::class;
             $supports[] = $this->supportsTopic();
+
             return [];
         });
         $statusReporter = new StatusReporter($statusReporterToken);
 
         $httpHandlerToken = new HttpHandlerToken('/');
         $httpHandlerToken->setRun(function (ResponseInterface $response) use (&$supports, &$thisClasses): ResponseInterface {
-            /** @var $this HttpHandlerContract */
-            $thisClasses[] = \get_class($this);
+            /* @var $this HttpHandlerContract */
+            $thisClasses[] = static::class;
             $supports[] = $this->getPath();
+
             return $response;
         });
         $httpHandler = new HttpHandler($httpHandlerToken);

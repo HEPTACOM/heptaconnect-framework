@@ -8,7 +8,8 @@ trait BindThisTrait
 {
     private function bindThis(\Closure $closure): \Closure
     {
-        \set_error_handler(static function () {});
+        \set_error_handler(static function (): void {
+        });
 
         try {
             if ($c = \Closure::bind($closure, $this)) {
