@@ -40,4 +40,14 @@ final class PreviewPortalNodeKey implements PortalNodeKeyInterface
     {
         return ['preview' => $this->portalType];
     }
+
+    public function withAlias(): PortalNodeKeyInterface
+    {
+        return $this;
+    }
+
+    public function withoutAlias(): PortalNodeKeyInterface
+    {
+        return $this;
+    }
 }

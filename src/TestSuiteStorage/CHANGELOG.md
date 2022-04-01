@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `\Heptacom\HeptaConnect\TestSuite\Storage\Action\PortalNodeConfigurationTestContract` to test basic life cycle of a portal node configuration
 - Add `\Heptacom\HeptaConnect\TestSuite\Storage\Action\IdentityMappingTestContract` to test identities and mapping
 - Add `\Heptacom\HeptaConnect\TestSuite\Storage\Action\PortalNodeStorageTestContract` to test portal node storage
+- Add `\Heptacom\HeptaConnect\TestSuite\Storage\Action\PortalNodeAliasTestContract` to test basic life cycle of portal node aliases
 
 ### Changed
 

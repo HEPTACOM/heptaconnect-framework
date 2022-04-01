@@ -27,6 +27,10 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDele
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasFindActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageClearActionInterface;
@@ -43,6 +47,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewAction
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\RouteCapability\RouteCapabilityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationSetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 
 /**
  * Central storage action providing facade.
@@ -209,6 +214,14 @@ interface StorageFacadeInterface
      */
     public function getPortalNodeOverviewAction(): PortalNodeOverviewActionInterface;
 
+    public function getPortalNodeAliasGetAction(): PortalNodeAliasGetActionInterface;
+
+    public function getPortalNodeAliasFindAction(): PortalNodeAliasFindActionInterface;
+
+    public function getPortalNodeAliasSetAction(): PortalNodeAliasSetActionInterface;
+
+    public function getPortalNodeAliasOverviewAction(): PortalNodeAliasOverviewActionInterface;
+
     /**
      * Provides storage action to get portal node configuration.
      *
@@ -306,6 +319,13 @@ interface StorageFacadeInterface
      * @throws StorageFacadeServiceExceptionInterface
      */
     public function getRouteCapabilityOverviewAction(): RouteCapabilityOverviewActionInterface;
+
+    /**
+     * Provides a service to generate and translate string from/to object representation of @see StorageKeyInterface
+     *
+     * @throws StorageFacadeServiceExceptionInterface
+     */
+    public function getStorageKeyGenerator(): StorageKeyGeneratorContract;
 
     /**
      * Provides storage action to get web HTTP handler configuration by portal node and path.

@@ -19,13 +19,16 @@ final class PortalNodeCreatePayload implements CreatePayloadInterface, Attachmen
      */
     protected string $portalClass;
 
+    protected ?string $alias;
+
     /**
      * @param class-string<PortalContract> $portalClass
      */
-    public function __construct(string $portalClass)
+    public function __construct(string $portalClass, ?string $alias = null)
     {
         $this->attachments = new AttachmentCollection();
         $this->portalClass = $portalClass;
+        $this->alias = $alias;
     }
 
     /**
@@ -42,5 +45,15 @@ final class PortalNodeCreatePayload implements CreatePayloadInterface, Attachmen
     public function setPortalClass(string $portalClass): void
     {
         $this->portalClass = $portalClass;
+    }
+
+    public function getAlias(): ?string
+    {
+        return $this->alias;
+    }
+
+    public function setAlias(?string $alias): void
+    {
+        $this->alias = $alias;
     }
 }
