@@ -51,6 +51,8 @@ final class PortalNodeConfigurationInstructionProcessorTest extends TestCase
 
         $portalNodeKey->method('equals')
             ->willReturnCallback(static fn (StorageKeyInterface $s) => $s === $portalNodeKey);
+        $portalNodeKey->method('withoutAlias')->willReturnSelf();
+        $portalNodeKey->method('withAlias')->willReturnSelf();
         $storageKeyGenerator->method('serialize')
             ->with($portalNodeKey)
             ->willReturn('PortalNode:1234');
