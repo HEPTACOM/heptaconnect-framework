@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [0.9.0.0] - 2022-04-02
+
+### Added
+
 - Add structure to store code origin data in `\Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin`
 - Add exception `\Heptacom\HeptaConnect\Portal\Base\FlowComponent\Exception\CodeOriginNotFound` to indicate issues when looking for code origins
 - Add `\Heptacom\HeptaConnect\Portal\Base\Builder\Component\HttpHandler::getRunMethod` to expose configured callback for origin access reading
@@ -54,8 +68,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Set `array-key` type to return of `\Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection::bySupport`, `\Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection::bySupport`, `\Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection::bySupport`, `\Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterCollection::bySupportedTopic` and `\Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection::bySupport` to `int`
 - Add final modifier to `\Heptacom\HeptaConnect\Portal\Base\Builder\Component\Emitter`, `\Heptacom\HeptaConnect\Portal\Base\Builder\Component\Explorer`, `\Heptacom\HeptaConnect\Portal\Base\Builder\Component\HttpHandler`, `\Heptacom\HeptaConnect\Portal\Base\Builder\Component\Receiver`, `\Heptacom\HeptaConnect\Portal\Base\Builder\Component\StatusReporter`, `\Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack`, `\Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack`, `\Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct`, `\Heptacom\HeptaConnect\Portal\Base\Profiling\NullProfiler`, `\Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack`, `\Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterStack` and `\Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack` to ensure correct usage of implementation. Decoration by their interfaces or base classes is still possible
 
-### Deprecated
-
 ### Removed
 
 - Remove container service ids `Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection`, `Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection.decorator`, `Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection`, `Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection.decorator`, `Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterCollection`, `Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection`, `Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection.decorator`, `Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection` and `Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection.decorator` due to refactoring of flow component stack building
@@ -65,10 +77,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove deprecated method `Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface::publish`
 - Remove unused `\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingKeyInterface` and `\Heptacom\HeptaConnect\Portal\Base\StorageKey\MappingKeyCollection`
 - Move unused `\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\RouteKeyInterface` and `\Heptacom\HeptaConnect\Portal\Base\StorageKey\RouteKeyCollection` to package `heptacom/heptaconnect-storage-base` as `\Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface` and `\Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection`
-
-### Fixed
-
-### Security
 
 ## [0.8.5] - 2021-12-28
 

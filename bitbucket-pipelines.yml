@@ -39,8 +39,10 @@ definitions:
                 <<: *default-step
                 name: Mirror tags to Github
                 script:
+                    # Change replace entries from * (any version) to self.version (the one we release)
                     - jq --indent 4 '.replace=(.replace|to_entries|map(.value = "self.version")|from_entries)' composer.json > composer-tag.json
                     - mv composer-tag.json composer.json
+                    - git add composer.json
                     - git commit -m "Tag composer.json"
                     - git remote add github "git@github.com:HEPTACOM/${BITBUCKET_REPO_SLUG}.git"
                     - git push --force github tag "${BITBUCKET_TAG}"
