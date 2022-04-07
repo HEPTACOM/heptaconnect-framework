@@ -201,6 +201,9 @@ pipelines:
                     -   step: *test-code-style-phpstan
                     -   step: *test-code-style-psalm
                     -   step: *test-infection
+        '*.*.x':
+            -   step: *github-keyword-gate-step
+            -   step: *github-mirror-branch
 
     tags:
         '*':
