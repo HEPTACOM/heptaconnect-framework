@@ -92,7 +92,8 @@
             "Heptacom\\HeptaConnect\\Dataset\\Base\\Test\\": "test/DatasetBase/",
             "Heptacom\\HeptaConnect\\Portal\\Base\\Test\\": "test/PortalBase/",
             "Heptacom\\HeptaConnect\\Storage\\Base\\Test\\": "test/StorageBase/",
-            "Heptacom\\HeptaConnect\\Core\\Test\\": "test/Core/"
+            "Heptacom\\HeptaConnect\\Core\\Test\\": "test/Core/",
+            "Heptacom\\HeptaConnect\\Ui\\Admin\\Base\\Test\\": "test/UiAdminBase/"
         }
     },
     "config": {
