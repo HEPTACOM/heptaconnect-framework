@@ -15,6 +15,9 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Added
 
+- Add composer dependency `heptacom/heptaconnect-dataset-base: self.version`
+- Add composer dependency `heptacom/heptaconnect-portal-base: self.version`
+
 ### Changed
 
 ### Deprecated
