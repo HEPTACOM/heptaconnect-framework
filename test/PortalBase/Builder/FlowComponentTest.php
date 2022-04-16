@@ -43,6 +43,12 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Portal\PortalConfiguration
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Builder\HttpHandlerBuilder
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Component\Emitter
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Component\Explorer
@@ -60,6 +66,14 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack
+ * @covers \Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterStack
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack
  */
