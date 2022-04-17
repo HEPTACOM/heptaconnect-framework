@@ -31,12 +31,16 @@ final class PortalNodeStatusReportUiTest extends TestCase
 
         $statusReporterService->method('report')->willReturnOnConsecutiveCalls(
             [
-                StatusReporterContract::TOPIC_HEALTH => true,
-                'key' => 'value',
+                StatusReporterContract::TOPIC_HEALTH => [
+                    StatusReporterContract::TOPIC_HEALTH => true,
+                    'key' => 'value',
+                ],
             ],
             [
-                StatusReporterContract::TOPIC_HEALTH => false,
-                'key' => 'value',
+                StatusReporterContract::TOPIC_HEALTH => [
+                    StatusReporterContract::TOPIC_HEALTH => false,
+                    'key' => 'value',
+                ],
             ],
         );
 
