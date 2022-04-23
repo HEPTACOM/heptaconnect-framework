@@ -16,11 +16,6 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerCodeOriginFinderInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverCodeOriginFinderInterface;
-use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreateResult;
-use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreateResults;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeCreateActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDeleteActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListCriteria;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -34,11 +29,6 @@ use Psr\Container\ContainerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayloads
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreateResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreateResults
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Delete\PortalNodeDeleteCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListCriteria
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListResult
@@ -48,8 +38,6 @@ final class PortalEntityListUiTest extends TestCase
     public function testCriteriaFilters(): void
     {
         $portalStackServiceContainerFactory = $this->createMock(PortalStackServiceContainerFactory::class);
-        $portalNodeCreateAction = $this->createMock(PortalNodeCreateActionInterface::class);
-        $portalNodeDeleteAction = $this->createMock(PortalNodeDeleteActionInterface::class);
         $container = $this->createMock(ContainerInterface::class);
 
         $flowComponentRegistry = new FlowComponentRegistry(
@@ -80,9 +68,6 @@ final class PortalEntityListUiTest extends TestCase
         $container->method('get')->willReturnCallback(static fn (string $id) => [
             FlowComponentRegistry::class => $flowComponentRegistry,
         ][$id]);
-        $portalNodeCreateAction->method('create')->willReturn(new PortalNodeCreateResults([
-            new PortalNodeCreateResult(new PreviewPortalNodeKey(FooBarPortal::class)),
-        ]));
         $portalStackServiceContainerFactory->method('create')->willReturn($container);
 
         $explorerCodeOriginFinder = $this->createMock(ExplorerCodeOriginFinderInterface::class);
@@ -91,8 +76,6 @@ final class PortalEntityListUiTest extends TestCase
 
         $action = new PortalEntityListUi(
             $portalStackServiceContainerFactory,
-            $portalNodeCreateAction,
-            $portalNodeDeleteAction,
             $explorerCodeOriginFinder,
             $emitterCodeOriginFinder,
             $receiverCodeOriginFinder
@@ -113,8 +96,6 @@ final class PortalEntityListUiTest extends TestCase
 
         $action = new PortalEntityListUi(
             $portalStackServiceContainerFactory,
-            $portalNodeCreateAction,
-            $portalNodeDeleteAction,
             $explorerCodeOriginFinder,
             $emitterCodeOriginFinder,
             $receiverCodeOriginFinder
@@ -138,8 +119,6 @@ final class PortalEntityListUiTest extends TestCase
 
         $action = new PortalEntityListUi(
             $portalStackServiceContainerFactory,
-            $portalNodeCreateAction,
-            $portalNodeDeleteAction,
             $explorerCodeOriginFinder,
             $emitterCodeOriginFinder,
             $receiverCodeOriginFinder
@@ -163,8 +142,6 @@ final class PortalEntityListUiTest extends TestCase
 
         $action = new PortalEntityListUi(
             $portalStackServiceContainerFactory,
-            $portalNodeCreateAction,
-            $portalNodeDeleteAction,
             $explorerCodeOriginFinder,
             $emitterCodeOriginFinder,
             $receiverCodeOriginFinder
@@ -188,8 +165,6 @@ final class PortalEntityListUiTest extends TestCase
 
         $action = new PortalEntityListUi(
             $portalStackServiceContainerFactory,
-            $portalNodeCreateAction,
-            $portalNodeDeleteAction,
             $explorerCodeOriginFinder,
             $emitterCodeOriginFinder,
             $receiverCodeOriginFinder
@@ -213,8 +188,6 @@ final class PortalEntityListUiTest extends TestCase
 
         $action = new PortalEntityListUi(
             $portalStackServiceContainerFactory,
-            $portalNodeCreateAction,
-            $portalNodeDeleteAction,
             $explorerCodeOriginFinder,
             $emitterCodeOriginFinder,
             $receiverCodeOriginFinder
@@ -236,8 +209,6 @@ final class PortalEntityListUiTest extends TestCase
 
         $action = new PortalEntityListUi(
             $portalStackServiceContainerFactory,
-            $portalNodeCreateAction,
-            $portalNodeDeleteAction,
             $explorerCodeOriginFinder,
             $emitterCodeOriginFinder,
             $receiverCodeOriginFinder
