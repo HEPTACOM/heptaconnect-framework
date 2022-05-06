@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Change order of stack handling and remove fallback value for the reported topic in `\Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract::report`
+
 ### Security
 
 ## [0.9.0.2] - 2022-04-23

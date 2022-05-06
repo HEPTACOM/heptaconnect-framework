@@ -30,7 +30,7 @@ abstract class StatusReporterContract
      */
     public function report(StatusReportingContextInterface $context, StatusReporterStackInterface $stack): array
     {
-        return \array_merge([$this->supportsTopic() => false], $stack->next($context), $this->run($context));
+        return \array_merge($this->run($context), $stack->next($context));
     }
 
     /**
