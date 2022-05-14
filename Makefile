@@ -17,6 +17,7 @@ PHPMD_FILE := dev-ops/bin/phpmd
 PSALM_FILE := dev-ops/bin/psalm/vendor/bin/psalm
 COMPOSER_UNUSED_FILE := dev-ops/bin/composer-unused/vendor/bin/composer-unused
 EASY_CODING_STANDARD_FILE := dev-ops/bin/easy-coding-standard/vendor/bin/ecs
+PHPCHURN_FILE := dev-ops/bin/php-churn/vendor/bin/churn
 
 .DEFAULT_GOAL := help
 .PHONY: help
@@ -39,6 +40,7 @@ clean: ## Cleans up all ignored files and directories
 	[[ ! -f dev-ops/bin/phpmd ]] || rm -f dev-ops/bin/phpmd
 	[[ ! -d dev-ops/bin/phpstan/vendor ]] || rm -rf dev-ops/bin/phpstan/vendor
 	[[ ! -d dev-ops/bin/psalm/vendor ]] || rm -rf dev-ops/bin/psalm/vendor
+	[[ ! -d dev-ops/bin/php-churn/vendor ]] || rm -rf dev-ops/bin/php-churn/vendor
 
 .PHONY: it
 it: cs-fix cs test ## Fix code style and run unit tests
@@ -51,7 +53,7 @@ run-phpunit-coverage:
 	$(PHPUNIT) --coverage-text
 
 .PHONY: cs
-cs: cs-php cs-phpstan cs-psalm cs-phpmd cs-soft-require cs-composer-unused cs-composer-normalize cs-json ## Run every code style check target
+cs: cs-php cs-phpstan cs-psalm cs-phpmd cs-soft-require cs-composer-unused cs-composer-normalize cs-json cs-phpchurn ## Run every code style check target
 
 .PHONY: cs-php
 cs-php: vendor .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standard for code style analysis
@@ -105,6 +107,10 @@ cs-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-normali
 
 .PHONY: cs-json
 cs-json: $(JSON_FILES) ## Run jq on every json file to ensure they are parsable and therefore valid
+
+.PHONY: cs-phpchurn
+cs-phpchurn: vendor .build $(PHPCHURN_FILE) ## Run php-churn for prediction of refactoring cases
+	$(PHP) $(PHPCHURN_FILE) run --configuration dev-ops/churn.yml --format text
 
 .PHONY: $(JSON_FILES)
 $(JSON_FILES):
@@ -164,6 +170,9 @@ $(COMPOSER_UNUSED_FILE): ## Install composer-unused executable
 
 $(EASY_CODING_STANDARD_FILE): ## Install easy-coding-standard executable
 	$(COMPOSER) install -d dev-ops/bin/easy-coding-standard
+
+$(PHPCHURN_FILE): ## Install php-churn executable
+	$(COMPOSER) install -d dev-ops/bin/php-churn
 
 .PHONY: composer-update
 composer-update:

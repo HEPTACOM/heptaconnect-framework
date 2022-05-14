@@ -40,7 +40,7 @@ abstract class HttpClientContract implements ClientInterface
     }
 
     /**
-     * Get the request header configurations that are applied to any request.
+     * Get the request header configurations that are applied to any request unless they are already present.
      */
     public function getDefaultRequestHeaders(): DefaultRequestHeaders
     {
@@ -48,7 +48,7 @@ abstract class HttpClientContract implements ClientInterface
     }
 
     /**
-     * Set the request header configurations that are applied to any request.
+     * Set the request header configurations that are applied to any request unless they are already present.
      */
     public function withDefaultRequestHeaders(DefaultRequestHeaders $defaultRequestHeaders): self
     {
