@@ -122,6 +122,11 @@ definitions:
                 name: Install Test Suite Storage
                 script:
                     - composer install -d src/TestSuiteStorage
+        -   step: &composer-install-ui-admin-base
+                <<: *default-step
+                name: Install UI Admin Base
+                script:
+                    - composer install -d src/UiAdminBase
         -   step: &test-unit
                 <<: *default-step
                 name: Unit tests
@@ -204,6 +209,7 @@ pipelines:
                     -   step: *composer-install-portal-base
                     -   step: *composer-install-storage-base
                     -   step: *composer-install-test-suite-storage
+                    -   step: *composer-install-ui-admin-base
             -   step: *composer-high-install
             -   parallel:
                     -   step: *test-unit
@@ -250,6 +256,7 @@ pipelines:
                     -   step: *composer-install-portal-base
                     -   step: *composer-install-storage-base
                     -   step: *composer-install-test-suite-storage
+                    -   step: *composer-install-ui-admin-base
             -   step: *composer-low-install
             -   step: *composer-high-install
             -   step: *github-keyword-gate-step
@@ -262,6 +269,7 @@ pipelines:
                 -   step: *composer-install-portal-base
                 -   step: *composer-install-storage-base
                 -   step: *composer-install-test-suite-storage
+                -   step: *composer-install-ui-admin-base
         -   step: *composer-high-install
         -   parallel:
                 -   step: *test-unit
