@@ -17,7 +17,9 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 - Add composer dependency `heptacom/heptaconnect-dataset-base: self.version`
 - Add composer dependency `heptacom/heptaconnect-portal-base: self.version`
+- Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\BrowseCriteriaContract` to identify and pre-structure any browse criteria
 - Add UI admin action `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Portal\PortalEntityListUiActionInterface` with `\Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListCriteria` and `\Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListResult` to list supported entity types in a fresh portal node stack of the given criteria
+- Add UI admin action `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeExtensionBrowseUiActionInterface` with `\Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBrowse\PortalNodeExtensionBrowseCriteria` and `\Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBrowse\PortalNodeExtensionBrowseResult` to list portal extension on a portal node and their active state
 
 ### Changed
 
