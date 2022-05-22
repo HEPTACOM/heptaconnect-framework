@@ -12,7 +12,7 @@ interface PortalNodeStatusReportUiActionInterface
     /**
      * Perform status report on a portal node.
      *
-     * @return iterable<PortalNodeStatusReportResult>
+     * @return iterable<string, PortalNodeStatusReportResult>
      */
     public function report(PortalNodeStatusReportPayload $payloads): iterable;
 }
