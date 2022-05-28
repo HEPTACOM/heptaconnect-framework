@@ -5,7 +5,7 @@ PHPUNIT_EXTRA_ARGS := --config=test/phpunit.xml
 PHPUNIT := $(PHP) vendor/bin/phpunit $(PHPUNIT_EXTRA_ARGS)
 CURL := $(shell which curl)
 JQ := $(shell which jq)
-JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*' -not -path './.build/*')
+JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*' -not -path './.build/*' -not -path './dev-ops/bin/*/vendor/*')
 PHPSTAN_FILE := dev-ops/bin/phpstan/vendor/bin/phpstan
 COMPOSER_NORMALIZE_PHAR := https://github.com/ergebnis/composer-normalize/releases/download/2.22.0/composer-normalize.phar
 COMPOSER_NORMALIZE_FILE := dev-ops/bin/composer-normalize
