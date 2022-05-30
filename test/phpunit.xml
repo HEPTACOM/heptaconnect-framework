@@ -21,6 +21,7 @@
     </testsuites>
     <coverage
         includeUncoveredFiles="true"
+        pathCoverage="true"
         processUncoveredFiles="true"
     >
         <include>
