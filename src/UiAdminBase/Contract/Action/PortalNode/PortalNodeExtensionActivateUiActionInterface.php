@@ -14,7 +14,7 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodeMissingExce
 interface PortalNodeExtensionActivateUiActionInterface
 {
     /**
-     * Activate portal extensions on the given portal node.
+     * Activate portal extensions by the given queries on the given portal node.
      *
      * @throws InvalidArgumentThrowableInterface
      * @throws PortalExtensionIsAlreadyActiveOnPortalNodeException
@@ -22,5 +22,5 @@ interface PortalNodeExtensionActivateUiActionInterface
      * @throws PortalExtensionDoesNotSupportPortalNodeException
      * @throws PortalNodeMissingException
      */
-    public function activate(PortalNodeExtensionActivatePayload $payloads): void;
+    public function activate(PortalNodeExtensionActivatePayload $payload): void;
 }
