@@ -18,7 +18,7 @@ final class PortalNodeExtensionActivatePayload implements AttachmentAwareInterfa
     /**
      * @var class-string[]
      */
-    private array $portalExtensionQuery = [];
+    private array $portalExtensionQueries = [];
 
     public function __construct(PortalNodeKeyInterface $portalNodeKey)
     {
@@ -39,16 +39,16 @@ final class PortalNodeExtensionActivatePayload implements AttachmentAwareInterfa
     /**
      * @return class-string[]
      */
-    public function getPortalExtensionQuery(): array
+    public function getPortalExtensionQueries(): array
     {
-        return $this->portalExtensionQuery;
+        return $this->portalExtensionQueries;
     }
 
     /**
-     * @param class-string[] $portalExtensionQuery
+     * @param class-string[] $portalExtensionQueries
      */
-    public function setPortalExtensionQuery(array $portalExtensionQuery): void
+    public function setPortalExtensionQueries(array $portalExtensionQueries): void
     {
-        $this->portalExtensionQuery = $portalExtensionQuery;
+        $this->portalExtensionQueries = $portalExtensionQueries;
     }
 }
