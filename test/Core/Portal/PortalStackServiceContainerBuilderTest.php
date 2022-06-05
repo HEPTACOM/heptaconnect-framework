@@ -32,6 +32,7 @@ use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerUrlProviderInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use HeptacomFixture\Portal\A\AutomaticService\ExceptionNotInContainer;
+use HeptacomFixture\Portal\A\Dto\NotEvenService;
 use HeptacomFixture\Portal\A\ManualService\ExceptionInContainer;
 use HeptacomFixture\Portal\A\Portal;
 use HeptacomFixture\Portal\Extension\PortalExtension;
@@ -188,5 +189,6 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
 
         static::assertTrue($container->has(ClientInterface::class));
         static::assertTrue($container->has(HttpClientInterfaceDecorator::class));
+        static::assertFalse($container->has(NotEvenService::class));
     }
 }

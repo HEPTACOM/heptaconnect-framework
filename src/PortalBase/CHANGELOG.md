@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Extract similarities of `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract` and `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract` into a new common base class `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract`
+- Add `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract::getContainerExcludedClasses` to allow portals and portal extensions to add and remove automatically excluded classes from container auto-prototyping
 
 ### Changed
 

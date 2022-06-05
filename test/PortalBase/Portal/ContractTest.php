@@ -40,6 +40,11 @@ final class ContractTest extends TestCase
             {
                 return '__DIR__';
             }
+
+            public function getContainerExcludedClasses(): array
+            {
+                return \array_merge(parent::getContainerExcludedClasses(), [self::class]);
+            }
         };
 
         static::assertEquals(['__NAMESPACE__' => '__DIR__'], $portal->getPsr4());
@@ -84,6 +89,11 @@ final class ContractTest extends TestCase
             public function isActiveByDefault(): bool
             {
                 return false;
+            }
+
+            public function getContainerExcludedClasses(): array
+            {
+                return \array_merge(parent::getContainerExcludedClasses(), [self::class]);
             }
         };
 
