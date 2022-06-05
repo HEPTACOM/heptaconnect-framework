@@ -11,8 +11,8 @@ class Portal extends PortalContract
 {
     public function getContainerExcludedClasses(): array
     {
-        return [
+        return \array_merge(parent::getContainerExcludedClasses(), [
             NotEvenService::class,
-        ];
+        ]);
     }
 }
