@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\ClosureInstructio
 use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\Contract\InstructionLoaderInterface;
 use Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationInstructionProcessor;
 use Heptacom\HeptaConnect\Core\Portal\Contract\PortalRegistryInterface;
+use Heptacom\HeptaConnect\Core\Portal\PackageQueryMatcher;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortalExtension;
 use Heptacom\HeptaConnect\Core\Test\Fixture\UninstantiablePortal;
@@ -26,6 +27,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\ClosureInstructionToken
  * @covers \Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\Contract\InstructionTokenContract
  * @covers \Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationInstructionProcessor
+ * @covers \Heptacom\HeptaConnect\Core\Portal\PackageQueryMatcher
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException
@@ -80,8 +82,8 @@ final class PortalNodeConfigurationInstructionProcessorTest extends TestCase
 
         $processor = new PortalNodeConfigurationInstructionProcessor(
             $logger,
-            $storageKeyGenerator,
             $portalRegistry,
+            new PackageQueryMatcher($storageKeyGenerator),
             [$instructionLoader]
         );
 
