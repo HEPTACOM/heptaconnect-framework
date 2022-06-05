@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingServiceIn
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeStatusReportUi;
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
-use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport\PortalNodeStatusReportPayloads;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport\PortalNodeStatusReportPayload;
 use Heptacom\HeptaConnect\Ui\Admin\Symfony\Test\Fixture\Portal\UiAdminPortal;
 use PHPUnit\Framework\TestCase;
 
@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey
- * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport\PortalNodeStatusReportPayloads
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport\PortalNodeStatusReportPayload
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport\PortalNodeStatusReportResult
  */
 final class PortalNodeStatusReportUiTest extends TestCase
@@ -44,7 +44,7 @@ final class PortalNodeStatusReportUiTest extends TestCase
             ],
         );
 
-        $criteria = new PortalNodeStatusReportPayloads($portalNodeKey, [StatusReporterContract::TOPIC_HEALTH]);
+        $criteria = new PortalNodeStatusReportPayload($portalNodeKey, [StatusReporterContract::TOPIC_HEALTH]);
         $reportResult = \iterable_to_array($action->report($criteria));
         static::assertCount(1, $reportResult);
         static::assertSame(StatusReporterContract::TOPIC_HEALTH, $reportResult[0]->getTopic());
