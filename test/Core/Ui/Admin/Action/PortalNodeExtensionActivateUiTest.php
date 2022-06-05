@@ -65,7 +65,7 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
             $portalLoader
         );
         $payload = New PortalNodeExtensionActivatePayload($portalNodeKey);
-        $payload->setPortalExtensionClasses([
+        $payload->setPortalExtensionQuery([
             FooBarPortalExtension::class,
         ]);
 
@@ -96,7 +96,7 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
             $portalLoader
         );
         $payload = New PortalNodeExtensionActivatePayload($portalNodeKey);
-        $payload->setPortalExtensionClasses([
+        $payload->setPortalExtensionQuery([
             FooBarPortalExtension::class,
         ]);
 
@@ -128,7 +128,7 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
             $portalLoader
         );
         $payload = New PortalNodeExtensionActivatePayload($portalNodeKey);
-        $payload->setPortalExtensionClasses([
+        $payload->setPortalExtensionQuery([
             'A\\Class\\That\\Does\\Not\\Exist',
         ]);
 
