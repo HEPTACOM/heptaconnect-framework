@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Deprecated
 
+- Deprecate `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PathMethodsTrait` as content will be moved to `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract` without replacement trait
+
 ### Removed
 
 ### Fixed
