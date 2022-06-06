@@ -47,12 +47,12 @@ final class PortalNodeStatusReportUiTest extends TestCase
         $criteria = new PortalNodeStatusReportPayload($portalNodeKey, [StatusReporterContract::TOPIC_HEALTH]);
         $reportResult = \iterable_to_array($action->report($criteria));
         static::assertCount(1, $reportResult);
-        static::assertSame(StatusReporterContract::TOPIC_HEALTH, $reportResult[0]->getTopic());
-        static::assertTrue($reportResult[0]->getSuccess());
+        static::assertSame(StatusReporterContract::TOPIC_HEALTH, $reportResult[StatusReporterContract::TOPIC_HEALTH]->getTopic());
+        static::assertTrue($reportResult[StatusReporterContract::TOPIC_HEALTH]->getSuccess());
 
         $reportResult = \iterable_to_array($action->report($criteria));
         static::assertCount(1, $reportResult);
-        static::assertSame(StatusReporterContract::TOPIC_HEALTH, $reportResult[0]->getTopic());
-        static::assertFalse($reportResult[0]->getSuccess());
+        static::assertSame(StatusReporterContract::TOPIC_HEALTH, $reportResult[StatusReporterContract::TOPIC_HEALTH]->getTopic());
+        static::assertFalse($reportResult[StatusReporterContract::TOPIC_HEALTH]->getSuccess());
     }
 }

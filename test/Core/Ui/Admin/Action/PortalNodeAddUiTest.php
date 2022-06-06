@@ -47,11 +47,11 @@ final class PortalNodeAddUiTest extends TestCase
         $portalNodeAliasFindAction->method('find')->willReturn([]);
 
         $action = new PortalNodeAddUi($portalNodeCreateAction, $portalNodeAliasFindAction);
-        $payload = New PortalNodeAddPayload(FooBarPortal::class);
+        $payload = new PortalNodeAddPayload(FooBarPortal::class);
 
         $result = $action->add($payload);
 
-        self::assertSame($portalNodeKey, $result->getPortalNodeKey());
+        static::assertSame($portalNodeKey, $result->getPortalNodeKey());
     }
 
     public function testPayloadPortalIsNotCreatedDoesNotExist(): void
@@ -63,7 +63,7 @@ final class PortalNodeAddUiTest extends TestCase
         $portalNodeAliasFindAction->method('find')->willReturn([]);
 
         $action = new PortalNodeAddUi($portalNodeCreateAction, $portalNodeAliasFindAction);
-        $payload = New PortalNodeAddPayload(FooBarPortal::class);
+        $payload = new PortalNodeAddPayload(FooBarPortal::class);
 
         self::expectException(PersistException::class);
 
@@ -81,7 +81,7 @@ final class PortalNodeAddUiTest extends TestCase
         ]);
 
         $action = new PortalNodeAddUi($portalNodeCreateAction, $portalNodeAliasFindAction);
-        $payload = New PortalNodeAddPayload(FooBarPortal::class);
+        $payload = new PortalNodeAddPayload(FooBarPortal::class);
         $payload->setPortalNodeAlias('foobar');
 
         self::expectException(PortalNodeAliasIsAlreadyAssignedException::class);
