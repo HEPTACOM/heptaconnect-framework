@@ -36,8 +36,8 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBrowse\PortalNodeExtensionBrowseCriteria
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBrowse\PortalNodeExtensionBrowseResult
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\BrowseCriteriaContract
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\NoMatchForPackageQueryException
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalExtensionsAreAlreadyActiveOnPortalNodeException
- * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalExtensionMissingException
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodeMissingException
  */
 final class PortalNodeExtensionActivateUiTest extends TestCase
@@ -49,8 +49,8 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
         $portalExtensionActivateAction = $this->createMock(PortalExtensionActivateActionInterface::class);
         $portalLoader = $this->createMock(ComposerPortalLoader::class);
         $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class);
-        $portalExtensionFindResult = new PortalExtensionFindResult();
         $packageQueryMatcher = $this->createMock(PackageQueryMatcherInterface::class);
+        $portalExtensionFindResult = new PortalExtensionFindResult();
 
         $portalExtensionFindResult->add(FooBarPortalExtension::class, true);
         $portalNodeGetAction->method('get')->willReturn([
@@ -59,7 +59,6 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
         $portalNodeExtensionFindAction->method('find')->willReturn($portalExtensionFindResult);
         $portalLoader->method('getPortalExtensions')
             ->willReturn(new PortalExtensionCollection([new FooBarPortalExtension()]));
-
         $packageQueryMatcher->expects(static::atLeastOnce())
             ->method('matchPortalExtensions')
             ->willReturnArgument(1);
@@ -88,8 +87,8 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
         $portalExtensionActivateAction = $this->createMock(PortalExtensionActivateActionInterface::class);
         $portalLoader = $this->createMock(ComposerPortalLoader::class);
         $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class);
-        $portalExtensionFindResult = new PortalExtensionFindResult();
         $packageQueryMatcher = $this->createMock(PackageQueryMatcherInterface::class);
+        $portalExtensionFindResult = new PortalExtensionFindResult();
 
         $portalExtensionFindResult->add(FooBarPortalExtension::class, true);
         $portalNodeGetAction->method('get')->willReturn([]);
@@ -121,8 +120,8 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
         $portalExtensionActivateAction = $this->createMock(PortalExtensionActivateActionInterface::class);
         $portalLoader = $this->createMock(ComposerPortalLoader::class);
         $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class);
-        $portalExtensionFindResult = new PortalExtensionFindResult();
         $packageQueryMatcher = $this->createMock(PackageQueryMatcherInterface::class);
+        $portalExtensionFindResult = new PortalExtensionFindResult();
 
         $portalExtensionFindResult->add(FooBarPortalExtension::class, true);
         $portalNodeGetAction->method('get')->willReturn([
@@ -130,7 +129,6 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
         ]);
         $portalNodeExtensionFindAction->method('find')->willReturn($portalExtensionFindResult);
         $portalLoader->method('getPortalExtensions')->willReturn(new PortalExtensionCollection([]));
-
         $packageQueryMatcher->expects(static::atLeastOnce())
             ->method('matchPortalExtensions')
             ->willReturn(new PortalExtensionCollection());

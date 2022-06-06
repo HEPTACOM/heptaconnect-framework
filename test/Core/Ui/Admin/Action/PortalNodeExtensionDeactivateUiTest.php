@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 
 use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
+use Heptacom\HeptaConnect\Core\Portal\Contract\PackageQueryMatcherInterface;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortalExtension;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionDeactivateUi;
@@ -15,9 +16,9 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExt
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
-use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionDeactivate\PortalNodeExtensionDeactivatePayloads;
-use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalExtensionIsAlreadyInactiveOnPortalNodeException;
-use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalExtensionMissingException;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionDeactivate\PortalNodeExtensionDeactivatePayload;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\NoMatchForPackageQueryException;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalExtensionsAreAlreadyInactiveOnPortalNodeException;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodeMissingException;
 use PHPUnit\Framework\TestCase;
 
@@ -33,10 +34,10 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBrowse\PortalNodeExtensionBrowseCriteria
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBrowse\PortalNodeExtensionBrowseResult
- * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionDeactivate\PortalNodeExtensionDeactivatePayloads
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionDeactivate\PortalNodeExtensionDeactivatePayload
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\BrowseCriteriaContract
- * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalExtensionIsAlreadyInactiveOnPortalNodeException
- * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalExtensionMissingException
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\NoMatchForPackageQueryException
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalExtensionsAreAlreadyInactiveOnPortalNodeException
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodeMissingException
  */
 final class PortalNodeExtensionDeactivateUiTest extends TestCase
@@ -48,6 +49,7 @@ final class PortalNodeExtensionDeactivateUiTest extends TestCase
         $portalExtensionDeactivateAction = $this->createMock(PortalExtensionDeactivateActionInterface::class);
         $portalLoader = $this->createMock(ComposerPortalLoader::class);
         $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class);
+        $packageQueryMatcher = $this->createMock(PackageQueryMatcherInterface::class);
         $portalExtensionFindResult = new PortalExtensionFindResult();
 
         $portalExtensionFindResult->add(FooBarPortalExtension::class, false);
@@ -57,19 +59,23 @@ final class PortalNodeExtensionDeactivateUiTest extends TestCase
         $portalNodeExtensionFindAction->method('find')->willReturn($portalExtensionFindResult);
         $portalLoader->method('getPortalExtensions')
             ->willReturn(new PortalExtensionCollection([new FooBarPortalExtension()]));
+        $packageQueryMatcher->expects(static::atLeastOnce())
+            ->method('matchPortalExtensions')
+            ->willReturnArgument(1);
 
         $action = new PortalNodeExtensionDeactivateUi(
             $portalNodeGetAction,
             $portalNodeExtensionFindAction,
             $portalExtensionDeactivateAction,
+            $packageQueryMatcher,
             $portalLoader
         );
-        $payload = new PortalNodeExtensionDeactivatePayloads($portalNodeKey);
-        $payload->setPortalExtensionClasses([
+        $payload = new PortalNodeExtensionDeactivatePayload($portalNodeKey);
+        $payload->setPortalExtensionQueries([
             FooBarPortalExtension::class,
         ]);
 
-        self::expectException(PortalExtensionIsAlreadyInactiveOnPortalNodeException::class);
+        self::expectException(PortalExtensionsAreAlreadyInactiveOnPortalNodeException::class);
 
         $action->deactivate($payload);
     }
@@ -81,6 +87,7 @@ final class PortalNodeExtensionDeactivateUiTest extends TestCase
         $portalExtensionDeactivateAction = $this->createMock(PortalExtensionDeactivateActionInterface::class);
         $portalLoader = $this->createMock(ComposerPortalLoader::class);
         $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class);
+        $packageQueryMatcher = $this->createMock(PackageQueryMatcherInterface::class);
         $portalExtensionFindResult = new PortalExtensionFindResult();
 
         $portalExtensionFindResult->add(FooBarPortalExtension::class, true);
@@ -93,10 +100,11 @@ final class PortalNodeExtensionDeactivateUiTest extends TestCase
             $portalNodeGetAction,
             $portalNodeExtensionFindAction,
             $portalExtensionDeactivateAction,
+            $packageQueryMatcher,
             $portalLoader
         );
-        $payload = new PortalNodeExtensionDeactivatePayloads($portalNodeKey);
-        $payload->setPortalExtensionClasses([
+        $payload = new PortalNodeExtensionDeactivatePayload($portalNodeKey);
+        $payload->setPortalExtensionQueries([
             FooBarPortalExtension::class,
         ]);
 
@@ -112,6 +120,7 @@ final class PortalNodeExtensionDeactivateUiTest extends TestCase
         $portalExtensionDeactivateAction = $this->createMock(PortalExtensionDeactivateActionInterface::class);
         $portalLoader = $this->createMock(ComposerPortalLoader::class);
         $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class);
+        $packageQueryMatcher = $this->createMock(PackageQueryMatcherInterface::class);
         $portalExtensionFindResult = new PortalExtensionFindResult();
 
         $portalExtensionFindResult->add(FooBarPortalExtension::class, true);
@@ -120,19 +129,23 @@ final class PortalNodeExtensionDeactivateUiTest extends TestCase
         ]);
         $portalNodeExtensionFindAction->method('find')->willReturn($portalExtensionFindResult);
         $portalLoader->method('getPortalExtensions')->willReturn(new PortalExtensionCollection([]));
+        $packageQueryMatcher->expects(static::atLeastOnce())
+            ->method('matchPortalExtensions')
+            ->willReturn(new PortalExtensionCollection());
 
         $action = new PortalNodeExtensionDeactivateUi(
             $portalNodeGetAction,
             $portalNodeExtensionFindAction,
             $portalExtensionDeactivateAction,
+            $packageQueryMatcher,
             $portalLoader
         );
-        $payload = new PortalNodeExtensionDeactivatePayloads($portalNodeKey);
-        $payload->setPortalExtensionClasses([
+        $payload = new PortalNodeExtensionDeactivatePayload($portalNodeKey);
+        $payload->setPortalExtensionQueries([
             'A\\Class\\That\\Does\\Not\\Exist',
         ]);
 
-        self::expectException(PortalExtensionMissingException::class);
+        self::expectException(NoMatchForPackageQueryException::class);
 
         $action->deactivate($payload);
     }
