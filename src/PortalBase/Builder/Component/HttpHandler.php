@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
+use Heptacom\HeptaConnect\Portal\Base\Builder\BindThisTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken;
@@ -18,6 +19,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final class HttpHandler extends HttpHandlerContract
 {
+    use BindThisTrait;
     use ResolveArgumentsTrait;
 
     private string $path;
@@ -175,7 +177,7 @@ final class HttpHandler extends HttpHandlerContract
             return null;
         }
 
-        $callable = $closure->getClosure();
+        $callable = $this->bindThis($closure->getClosure());
         $arguments = $this->resolveArguments($callable, $context, function (
             int $_,
             string $propertyName,

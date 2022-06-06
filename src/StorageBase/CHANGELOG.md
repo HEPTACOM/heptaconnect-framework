@@ -9,6 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [0.9.0.2] - 2022-04-23
+
+## [0.9.0.1] - 2022-04-19
+
+## [0.9.0.0] - 2022-04-02
+
+### Added
+
 - Add job state transition to schedule jobs after they failed with `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobScheduleActionInterface`, `\Heptacom\HeptaConnect\Storage\Base\Action\Job\Schedule\JobSchedulePayload` and `\Heptacom\HeptaConnect\Storage\Base\Action\Job\Schedule\JobScheduleResult`
 - Add job state transition to fail jobs after they run with `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface`, `\Heptacom\HeptaConnect\Storage\Base\Action\Job\Fail\JobFailPayload` and `\Heptacom\HeptaConnect\Storage\Base\Action\Job\Fail\JobFailResult`
 - Add job state transition message to `\Heptacom\HeptaConnect\Storage\Base\Action\Job\Schedule\JobSchedulePayload`, `\Heptacom\HeptaConnect\Storage\Base\Action\Job\Fail\JobFailPayload`, `\Heptacom\HeptaConnect\Storage\Base\Action\Job\Finish\JobFinishPayload` and `\Heptacom\HeptaConnect\Storage\Base\Action\Job\Start\JobStartPayload`
@@ -20,6 +38,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add supporting base class `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade` to implement `\Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface` that ensures in the implementation that services are only factorized once
 - Add exception `\Heptacom\HeptaConnect\Storage\Base\Exception\ReadException` for storage actions to express issues on reading
 - Add route delete action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionInterface` with `\Heptacom\HeptaConnect\Storage\Base\Action\Route\Delete\RouteDeleteCriteria`
+- Add class `\Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestCriteria` as input for `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferenceGetRequestActionInterface::getRequest`
+- Add class `\Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestResult` as output for `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferenceGetRequestActionInterface::getRequest`
+- Add class `\Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestPersist\FileReferencePersistRequestPayload` as input for `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferencePersistRequestActionInterface::persistRequest`
+- Add class `\Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestPersist\FileReferencePersistRequestResult` as output for `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferencePersistRequestActionInterface::persistRequest`
+- Add class `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferenceGetRequestActionInterface` to read serialized requests from storage
+- Add class `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferencePersistRequestActionInterface`  to write serialized requests to storage
+- Add class `\Heptacom\HeptaConnect\Storage\Base\Contract\FileReferenceRequestKeyInterface` as storage key for stored request objects
+- Add class `\Heptacom\HeptaConnect\Storage\Base\FileReferenceRequestKeyCollection` as collection for `\Heptacom\HeptaConnect\Storage\Base\Contract\FileReferenceRequestKeyInterface`
+- Add `\Heptacom\HeptaConnect\Storage\Base\AliasAwarePortalNodeStorageKey` as implementation to identify a portal node key that must be displayed as alias whenever possible
+- Add storage action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasFindActionInterface`, `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Find\PortalNodeAliasFindCriteria` and `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Find\PortalNodeAliasFindResult` to find portal node keys by alias
+- Add storage action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasGetActionInterface`, `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Get\PortalNodeAliasGetCriteria` and `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Get\PortalNodeAliasGetResult` to get aliases by portal node keys
+- Add storage action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasOverviewActionInterface`, `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Overview\PortalNodeAliasOverviewCriteria` and `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Overview\PortalNodeAliasOverviewResult` to overview all defined portal node aliases
+- Add storage action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasSetActionInterface`, `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Set\PortalNodeAliasSetPayload` and `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Set\PortalNodeAliasSetPayloads` to set and unset portal node aliases
+- Add exception `\Heptacom\HeptaConnect\Storage\Base\Exception\UpdateException` to identify errors on updates in the storage
 
 ### Changed
 
@@ -89,8 +121,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replace `\Heptacom\HeptaConnect\Storage\Base\Contract\PortalStorageContract::list` with storage action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageListActionInterface::list` and `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Listing\PortalNodeStorageListCriteria` and `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Listing\PortalNodeStorageListResult` that allows for optimizations for different use-cases
 - Rename `\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingExceptionKeyInterface` to `\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\IdentityErrorKeyInterface`
 - Replace `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingExceptionRepositoryContract::create` with storage action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityError\IdentityErrorCreateActionInterface`, `\Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResults`, `\Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResult`, `\Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreatePayloads` and `\Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreatePayload` to allow batch writing of identity errors
-
-### Deprecated
+- Move interface `\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\RouteKeyInterface` to `\Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface`
+- Move class `\Heptacom\HeptaConnect\Portal\Base\StorageKey\RouteKeyCollection` to `\Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection`
 
 ### Removed
 
@@ -114,10 +146,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove unused contract `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract`
 - Remove unused `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingExceptionRepositoryContract::listByMapping`, `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingExceptionRepositoryContract::listByMappingAndType` and `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingExceptionRepositoryContract::delete`
 - Remove unused `\Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract`
-
-### Fixed
-
-### Security
+- Remove deprecated `\Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract::generateKey`
 
 ## [0.8.5] - 2021-12-28
 

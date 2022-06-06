@@ -12,7 +12,7 @@ git remote add subpackage "${EXTERNAL_REPOSITORY}" || exit $?
 SUBTREE_HASH=$(git subtree split --prefix "${SOURCE_DIRECTORY}" "${COMMIT}" || exit $?)
 
 if [[ -n "${BRANCH}" ]]; then
-    git push subpackage "${SUBTREE_HASH}:${BRANCH}" --force
+    git push subpackage "${SUBTREE_HASH}:refs/heads/${BRANCH}" --force --verbose
 fi
 
 if [[ -n "${TAG}" ]]; then

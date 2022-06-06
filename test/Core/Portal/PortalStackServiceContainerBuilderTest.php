@@ -9,9 +9,11 @@ use Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterf
 use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder;
 use Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory;
+use Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract;
 use Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory;
 use Heptacom\HeptaConnect\Core\Test\Fixture\HttpClientInterfaceDecorator;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface;
+use Heptacom\HeptaConnect\Portal\Base\File\FileReferenceResolverContract;
 use Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract;
 use Heptacom\HeptaConnect\Portal\Base\Parallelization\Contract\ResourceLockingContract;
 use Heptacom\HeptaConnect\Portal\Base\Parallelization\Support\ResourceLockFacade;
@@ -30,6 +32,7 @@ use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerUrlProviderInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use HeptacomFixture\Portal\A\AutomaticService\ExceptionNotInContainer;
+use HeptacomFixture\Portal\A\Dto\ShouldNotBeAService;
 use HeptacomFixture\Portal\A\ManualService\ExceptionInContainer;
 use HeptacomFixture\Portal\A\Portal;
 use HeptacomFixture\Portal\Extension\PortalExtension;
@@ -43,6 +46,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\File\FileReferenceFactory
  * @covers \Heptacom\HeptaConnect\Core\Portal\Exception\ServiceNotInstantiable
  * @covers \Heptacom\HeptaConnect\Core\Portal\Exception\ServiceNotInstantiableEndlessLoopDetected
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalConfiguration
@@ -55,6 +59,7 @@ use Symfony\Component\DependencyInjection\Reference;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Parallelization\Support\ResourceLockFacade
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PathMethodsTrait
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection
  */
@@ -101,8 +106,10 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
             $configurationService,
             $this->createMock(PublisherInterface::class),
             $httpHandlerUrlProviderFactory,
+            $this->createMock(RequestStorageContract::class),
         );
         $builder->setDirectEmissionFlow($this->createMock(DirectEmissionFlowContract::class));
+        $builder->setFileReferenceResolver($this->createMock(FileReferenceResolverContract::class));
         $container = $builder->build(
             new Portal(),
             new PortalExtensionCollection([
@@ -161,8 +168,10 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
             $configurationService,
             $this->createMock(PublisherInterface::class),
             $httpHandlerUrlProviderFactory,
+            $this->createMock(RequestStorageContract::class),
         );
         $builder->setDirectEmissionFlow($this->createMock(DirectEmissionFlowContract::class));
+        $builder->setFileReferenceResolver($this->createMock(FileReferenceResolverContract::class));
         $container = $builder->build(
             new Portal(),
             new PortalExtensionCollection([
@@ -180,5 +189,6 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
 
         static::assertTrue($container->has(ClientInterface::class));
         static::assertTrue($container->has(HttpClientInterfaceDecorator::class));
+        static::assertFalse($container->has(ShouldNotBeAService::class));
     }
 }

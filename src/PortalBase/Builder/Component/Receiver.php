@@ -6,6 +6,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
+use Heptacom\HeptaConnect\Portal\Base\Builder\BindThisTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiveContextInterface;
@@ -15,6 +16,7 @@ use Psr\Container\ContainerInterface;
 
 final class Receiver extends ReceiverContract
 {
+    use BindThisTrait;
     use ResolveArgumentsTrait;
 
     /**
@@ -56,7 +58,7 @@ final class Receiver extends ReceiverContract
         ReceiveContextInterface $context
     ): void {
         if ($this->batchMethod instanceof SerializableClosure) {
-            $batch = $this->batchMethod->getClosure();
+            $batch = $this->bindThis($this->batchMethod->getClosure());
             $arguments = $this->resolveArguments($batch, $context, function (
                 int $_propertyIndex,
                 string $propertyName,
@@ -83,7 +85,7 @@ final class Receiver extends ReceiverContract
         ReceiveContextInterface $context
     ): void {
         if ($this->runMethod instanceof SerializableClosure) {
-            $run = $this->runMethod->getClosure();
+            $run = $this->bindThis($this->runMethod->getClosure());
             $arguments = $this->resolveArguments($run, $context, function (
                 int $_propertyIndex,
                 string $propertyName,
