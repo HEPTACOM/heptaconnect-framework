@@ -7,17 +7,14 @@ namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortalExtension;
-use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionActivateUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionDeactivateUi;
 use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Find\PortalExtensionFindResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionActivateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionDeactivateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
-use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionActivate\PortalNodeExtensionActivatePayloads;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionDeactivate\PortalNodeExtensionDeactivatePayloads;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalExtensionIsAlreadyInactiveOnPortalNodeException;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalExtensionMissingException;
@@ -67,7 +64,7 @@ final class PortalNodeExtensionDeactivateUiTest extends TestCase
             $portalExtensionDeactivateAction,
             $portalLoader
         );
-        $payload = New PortalNodeExtensionDeactivatePayloads($portalNodeKey);
+        $payload = new PortalNodeExtensionDeactivatePayloads($portalNodeKey);
         $payload->setPortalExtensionClasses([
             FooBarPortalExtension::class,
         ]);
@@ -98,7 +95,7 @@ final class PortalNodeExtensionDeactivateUiTest extends TestCase
             $portalExtensionDeactivateAction,
             $portalLoader
         );
-        $payload = New PortalNodeExtensionDeactivatePayloads($portalNodeKey);
+        $payload = new PortalNodeExtensionDeactivatePayloads($portalNodeKey);
         $payload->setPortalExtensionClasses([
             FooBarPortalExtension::class,
         ]);
@@ -130,7 +127,7 @@ final class PortalNodeExtensionDeactivateUiTest extends TestCase
             $portalExtensionDeactivateAction,
             $portalLoader
         );
-        $payload = New PortalNodeExtensionDeactivatePayloads($portalNodeKey);
+        $payload = new PortalNodeExtensionDeactivatePayloads($portalNodeKey);
         $payload->setPortalExtensionClasses([
             'A\\Class\\That\\Does\\Not\\Exist',
         ]);
