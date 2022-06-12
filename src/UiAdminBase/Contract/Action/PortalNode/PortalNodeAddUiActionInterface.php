@@ -13,7 +13,7 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodeAliasIsAlre
 interface PortalNodeAddUiActionInterface
 {
     /**
-     * Create a new portal node by given portal and alias.
+     * Create a new portal node by given portal class and alias.
      *
      * @throws InvalidArgumentThrowableInterface
      * @throws PersistException
