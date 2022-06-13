@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 
+use Heptacom\HeptaConnect\Core\Portal\Contract\PortalNodeContainerFacadeContract;
 use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEmitter;
@@ -18,7 +19,6 @@ use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerCodeOriginFin
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverCodeOriginFinderInterface;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListCriteria;
 use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerInterface;
 
 /**
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalEntityListUi
@@ -38,7 +38,7 @@ final class PortalEntityListUiTest extends TestCase
     public function testCriteriaFilters(): void
     {
         $portalStackServiceContainerFactory = $this->createMock(PortalStackServiceContainerFactory::class);
-        $container = $this->createMock(ContainerInterface::class);
+        $containerFacade = $this->createMock(PortalNodeContainerFacadeContract::class);
 
         $flowComponentRegistry = new FlowComponentRegistry(
             [
@@ -65,10 +65,8 @@ final class PortalEntityListUiTest extends TestCase
             []
         );
 
-        $container->method('get')->willReturnCallback(static fn (string $id) => [
-            FlowComponentRegistry::class => $flowComponentRegistry,
-        ][$id]);
-        $portalStackServiceContainerFactory->method('create')->willReturn($container);
+        $containerFacade->method('getFlowComponentRegistry')->willReturn($flowComponentRegistry);
+        $portalStackServiceContainerFactory->method('create')->willReturn($containerFacade);
 
         $explorerCodeOriginFinder = $this->createMock(ExplorerCodeOriginFinderInterface::class);
         $emitterCodeOriginFinder = $this->createMock(EmitterCodeOriginFinderInterface::class);
