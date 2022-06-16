@@ -66,6 +66,7 @@ final class PortalNodeAddUiTest extends TestCase
         $payload = new PortalNodeAddPayload(FooBarPortal::class);
 
         self::expectException(PersistException::class);
+        self::expectExceptionCode(1650718863);
 
         $action->add($payload);
     }

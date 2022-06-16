@@ -29,7 +29,9 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationInstructionProcessor
  * @covers \Heptacom\HeptaConnect\Core\Portal\PackageQueryMatcher
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException
  */
 final class PortalNodeConfigurationInstructionProcessorTest extends TestCase

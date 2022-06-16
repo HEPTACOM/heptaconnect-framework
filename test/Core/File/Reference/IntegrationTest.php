@@ -14,6 +14,8 @@ use Heptacom\HeptaConnect\Core\File\Reference\RequestFileReference;
 use Heptacom\HeptaConnect\Core\File\ResolvedReference\ResolvedContentsFileReference;
 use Heptacom\HeptaConnect\Core\File\ResolvedReference\ResolvedPublicUrlFileReference;
 use Heptacom\HeptaConnect\Core\File\ResolvedReference\ResolvedRequestFileReference;
+use Heptacom\HeptaConnect\Core\Portal\Contract\PortalNodeContainerFacadeContract;
+use Heptacom\HeptaConnect\Core\Portal\PortalNodeContainerFacade;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract;
 use Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry;
@@ -50,6 +52,7 @@ use Psr\Http\Message\RequestInterface;
  * @covers \Heptacom\HeptaConnect\Core\File\ResolvedReference\ResolvedContentsFileReference
  * @covers \Heptacom\HeptaConnect\Core\File\ResolvedReference\ResolvedPublicUrlFileReference
  * @covers \Heptacom\HeptaConnect\Core\File\ResolvedReference\ResolvedRequestFileReference
+ * @covers \Heptacom\HeptaConnect\Core\Portal\PortalNodeContainerFacade
  * @covers \Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry
  * @covers \Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestDenormalizer
  * @covers \Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestNormalizer
@@ -405,9 +408,9 @@ class IntegrationTest extends TestCase
         return new NormalizationRegistry([$normalizer], [$denormalizer]);
     }
 
-    private function getInMemoryContainer(array $services): ContainerInterface
+    private function getInMemoryContainer(array $services): PortalNodeContainerFacadeContract
     {
-        return new class($services) implements ContainerInterface {
+        $container = new class($services) implements ContainerInterface {
             private array $services;
 
             public function __construct(array $services)
@@ -425,6 +428,8 @@ class IntegrationTest extends TestCase
                 return ($this->services[$id] ?? null) !== null;
             }
         };
+
+        return new PortalNodeContainerFacade($container);
     }
 
     private function createInMemoryRequestStorage(): RequestStorageContract
