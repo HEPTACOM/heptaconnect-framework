@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- Remove deprecated `Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::unattach`
+
 ### Fixed
 
 ### Security
