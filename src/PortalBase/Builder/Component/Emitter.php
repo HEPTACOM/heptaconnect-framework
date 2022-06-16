@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Portal\Base\Builder\BindThisTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\EmitterToken;
@@ -15,6 +16,7 @@ use Psr\Container\ContainerInterface;
 
 final class Emitter extends EmitterContract
 {
+    use BindThisTrait;
     use ResolveArgumentsTrait;
 
     /**
@@ -63,7 +65,7 @@ final class Emitter extends EmitterContract
     protected function batch(iterable $externalIds, EmitContextInterface $context): iterable
     {
         if ($this->batchMethod instanceof SerializableClosure) {
-            $batch = $this->batchMethod->getClosure();
+            $batch = $this->bindThis($this->batchMethod->getClosure());
             $arguments = $this->resolveArguments($batch, $context, function (
                 int $_propertyIndex,
                 string $propertyName,
@@ -95,7 +97,7 @@ final class Emitter extends EmitterContract
         EmitContextInterface $context
     ): ?DatasetEntityContract {
         if ($this->runMethod instanceof SerializableClosure) {
-            $run = $this->runMethod->getClosure();
+            $run = $this->bindThis($this->runMethod->getClosure());
             $arguments = $this->resolveArguments($run, $context, function (
                 int $_propertyIndex,
                 string $propertyName,
@@ -127,7 +129,7 @@ final class Emitter extends EmitterContract
         EmitContextInterface $context
     ): DatasetEntityContract {
         if ($this->extendMethod instanceof SerializableClosure) {
-            $extend = $this->extendMethod->getClosure();
+            $extend = $this->bindThis($this->extendMethod->getClosure());
             $arguments = $this->resolveArguments($extend, $context, function (
                 int $_propertyIndex,
                 string $propertyName,

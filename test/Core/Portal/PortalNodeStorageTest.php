@@ -51,11 +51,11 @@ class PortalNodeStorageTest extends TestCase
         );
         $storage = $factory->createPortalStorage(new PreviewPortalNodeKey(Portal::class));
 
-        $deleteAction->expects(self::never())->method('delete');
-        $clearAction->expects(self::never())->method('clear');
-        $getAction->expects(self::never())->method('get');
-        $setAction->expects(self::never())->method('set');
-        $listAction->expects(self::never())->method('list');
+        $deleteAction->expects(static::never())->method('delete');
+        $clearAction->expects(static::never())->method('clear');
+        $getAction->expects(static::never())->method('get');
+        $setAction->expects(static::never())->method('set');
+        $listAction->expects(static::never())->method('list');
 
         $storage->clear();
         $storage->delete('foobar');

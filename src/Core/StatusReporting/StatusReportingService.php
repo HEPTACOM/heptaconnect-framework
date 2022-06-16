@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Core\StatusReporting;
 
 use Heptacom\HeptaConnect\Core\Component\LogMessage;
-use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingContextFactoryInterface;
 use Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingServiceInterface;
@@ -17,7 +16,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Psr\Log\LoggerInterface;
 
-class StatusReportingService implements StatusReportingServiceInterface
+final class StatusReportingService implements StatusReportingServiceInterface
 {
     private LoggerInterface $logger;
 
@@ -46,9 +45,9 @@ class StatusReportingService implements StatusReportingServiceInterface
 
     public function report(PortalNodeKeyInterface $portalNodeKey, ?string $topic): array
     {
-        $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
-        /** @var FlowComponentRegistry $flowComponentRegistry */
-        $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
+        $flowComponentRegistry = $this->portalStackServiceContainerFactory
+            ->create($portalNodeKey)
+            ->getFlowComponentRegistry();
         $statusReporters = new StatusReporterCollection();
 
         foreach ($flowComponentRegistry->getOrderedSources() as $source) {

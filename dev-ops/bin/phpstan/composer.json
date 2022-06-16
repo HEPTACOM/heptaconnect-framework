@@ -14,5 +14,10 @@
     },
     "conflict": {
         "nikic/php-parser": "4.7.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
     }
 }

@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Core\Reception;
 
 use Heptacom\HeptaConnect\Core\Portal\AbstractPortalNodeContext;
+use Heptacom\HeptaConnect\Core\Portal\Contract\PortalNodeContainerFacadeContract;
 use Heptacom\HeptaConnect\Core\Reception\PostProcessing\MarkAsFailedData;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiveContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Support\PostProcessorDataBag;
 use Heptacom\HeptaConnect\Portal\Base\Support\Contract\EntityStatusContract;
-use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class ReceiveContext extends AbstractPortalNodeContext implements ReceiveContextInterface
+final class ReceiveContext extends AbstractPortalNodeContext implements ReceiveContextInterface
 {
     private EntityStatusContract $entityStatus;
 
@@ -25,12 +25,12 @@ class ReceiveContext extends AbstractPortalNodeContext implements ReceiveContext
     private array $postProcessors;
 
     public function __construct(
-        ContainerInterface $container,
+        PortalNodeContainerFacadeContract $containerFacade,
         ?array $configuration,
         EntityStatusContract $entityStatus,
         array $postProcessors
     ) {
-        parent::__construct($container, $configuration);
+        parent::__construct($containerFacade, $configuration);
         $this->entityStatus = $entityStatus;
         $this->postProcessors = $postProcessors;
         $this->postProcessingBag = new PostProcessorDataBag();

@@ -4,10 +4,36 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Builder;
 
+use Heptacom\HeptaConnect\Core\Portal\PortalConfiguration;
+use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Component\Emitter;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Component\Explorer;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Component\HttpHandler;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Component\Receiver;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Component\StatusReporter;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException;
 use Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Token\EmitterToken;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Token\StatusReporterToken;
+use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
+use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
+use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\ConfigurationContract;
+use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiveContextInterface;
+use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
+use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack;
+use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract;
+use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReportingContextInterface;
+use Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterStack;
+use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandleContextInterface;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -17,12 +43,37 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Portal\PortalConfiguration
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Builder\HttpHandlerBuilder
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Component\Emitter
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Component\Explorer
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Component\HttpHandler
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Component\Receiver
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Component\StatusReporter
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Token\EmitterToken
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Token\StatusReporterToken
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Component\HttpHandler
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\BindThisTrait
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack
+ * @covers \Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterStack
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack
  */
@@ -351,5 +402,113 @@ final class FlowComponentTest extends TestCase
         $request->method('getMethod')->willReturn('get');
         static::assertCount(1, $handlers);
         static::assertSame($response, $handlers[0]->handle($request, $response, $context, $stack));
+    }
+
+    public function testAllowThisInToken(): void
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $container = $this->createMock(ContainerInterface::class);
+        $container->method('get')->willReturnCallback(static fn (string $id) => [
+            LoggerInterface::class => $logger,
+            ConfigurationContract::class => new PortalConfiguration([]),
+        ][$id] ?? null);
+        $container->method('has')->willReturnCallback(static fn (string $id) => \in_array($id, [
+            LoggerInterface::class,
+            ConfigurationContract::class,
+        ], true));
+
+        $exploreContext = $this->createMock(ExploreContextInterface::class);
+        $emitContext = $this->createMock(EmitContextInterface::class);
+        $receiveContext = $this->createMock(ReceiveContextInterface::class);
+        $statusReportingContext = $this->createMock(StatusReportingContextInterface::class);
+        $httpHandleContext = $this->createMock(HttpHandleContextInterface::class);
+
+        $exploreContext->method('getContainer')->willReturn($container);
+        $emitContext->method('getContainer')->willReturn($container);
+        $receiveContext->method('getContainer')->willReturn($container);
+        $statusReportingContext->method('getContainer')->willReturn($container);
+        $httpHandleContext->method('getContainer')->willReturn($container);
+
+        $thisClasses = [];
+        $supports = [];
+
+        $explorerToken = new ExplorerToken(FirstEntity::class);
+        $explorerToken->setRun(function () use (&$supports, &$thisClasses): array {
+            /* @var $this ExplorerContract */
+            $thisClasses[] = static::class;
+            $supports[] = $this->supports();
+
+            return [];
+        });
+        $explorer = new Explorer($explorerToken);
+
+        $emitterToken = new EmitterToken(FirstEntity::class);
+        $emitterToken->setBatch(function () use (&$supports, &$thisClasses): array {
+            /* @var $this EmitterContract */
+            $thisClasses[] = static::class;
+            $supports[] = $this->supports();
+
+            return [];
+        });
+        $emitter = new Emitter($emitterToken);
+
+        $receiverToken = new ReceiverToken(FirstEntity::class);
+        $receiverToken->setBatch(function () use (&$supports, &$thisClasses): void {
+            /* @var $this ReceiverContract */
+            $thisClasses[] = static::class;
+            $supports[] = $this->supports();
+        });
+        $receiver = new Receiver($receiverToken);
+
+        $statusReporterToken = new StatusReporterToken(StatusReporterContract::TOPIC_HEALTH);
+        $statusReporterToken->setRun(function () use (&$supports, &$thisClasses): array {
+            /* @var $this StatusReporterContract */
+            $thisClasses[] = static::class;
+            $supports[] = $this->supportsTopic();
+
+            return [];
+        });
+        $statusReporter = new StatusReporter($statusReporterToken);
+
+        $httpHandlerToken = new HttpHandlerToken('/');
+        $httpHandlerToken->setRun(function (ResponseInterface $response) use (&$supports, &$thisClasses): ResponseInterface {
+            /* @var $this HttpHandlerContract */
+            $thisClasses[] = static::class;
+            $supports[] = $this->getPath();
+
+            return $response;
+        });
+        $httpHandler = new HttpHandler($httpHandlerToken);
+
+        \iterable_to_array($explorer->explore($exploreContext, new ExplorerStack([])));
+        \iterable_to_array($emitter->emit([], $emitContext, new EmitterStack([], FirstEntity::class)));
+        \iterable_to_array($receiver->receive(
+            new TypedDatasetEntityCollection(FirstEntity::class, [new FirstEntity()]),
+            $receiveContext,
+            new ReceiverStack([])
+        ));
+        $statusReporter->report($statusReportingContext, new StatusReporterStack([], $logger));
+        $httpHandler->handle(
+            $this->createMock(ServerRequestInterface::class),
+            $this->createMock(ResponseInterface::class),
+            $httpHandleContext,
+            new HttpHandlerStack([])
+        );
+
+        static::assertSame([
+            Explorer::class,
+            Emitter::class,
+            Receiver::class,
+            StatusReporter::class,
+            HttpHandler::class,
+        ], $thisClasses);
+
+        static::assertSame([
+            FirstEntity::class,
+            FirstEntity::class,
+            FirstEntity::class,
+            StatusReporter::TOPIC_HEALTH,
+            '',
+        ], $supports);
     }
 }

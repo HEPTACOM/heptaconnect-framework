@@ -6,13 +6,12 @@ namespace Heptacom\HeptaConnect\Core\Exploration;
 
 use Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorerStackBuilderFactoryInterface;
 use Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorerStackBuilderInterface;
-use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Psr\Log\LoggerInterface;
 
-class ExplorerStackBuilderFactory implements ExplorerStackBuilderFactoryInterface
+final class ExplorerStackBuilderFactory implements ExplorerStackBuilderFactoryInterface
 {
     private PortalStackServiceContainerFactory $portalContainerFactory;
 
@@ -28,9 +27,9 @@ class ExplorerStackBuilderFactory implements ExplorerStackBuilderFactoryInterfac
         PortalNodeKeyInterface $portalNodeKey,
         string $entityType
     ): ExplorerStackBuilderInterface {
-        $container = $this->portalContainerFactory->create($portalNodeKey);
-        /** @var FlowComponentRegistry $flowComponentRegistry */
-        $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
+        $flowComponentRegistry = $this->portalContainerFactory
+            ->create($portalNodeKey)
+            ->getFlowComponentRegistry();
         $components = new ExplorerCollection();
 
         foreach ($flowComponentRegistry->getOrderedSources() as $source) {

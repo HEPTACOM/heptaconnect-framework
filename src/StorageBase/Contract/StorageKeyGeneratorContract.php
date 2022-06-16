@@ -15,19 +15,6 @@ use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 abstract class StorageKeyGeneratorContract
 {
     /**
-     * Generate a storage specific implementation of a key specified by its interface.
-     *
-     * @see StorageKeyInterface
-     *
-     * @psalm-param class-string<StorageKeyInterface> $keyClassName
-     *
-     * @throws UnsupportedStorageKeyException
-     *
-     * @deprecated Use generateKeys instead
-     */
-    abstract public function generateKey(string $keyClassName): StorageKeyInterface;
-
-    /**
      * Generate a storage specific implementations of keys specified by their interface.
      *
      * @see StorageKeyInterface

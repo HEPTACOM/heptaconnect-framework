@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Storage\Base\Bridge\Support;
 
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Exception\StorageFacadeServiceException;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferenceGetRequestActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferencePersistRequestActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface;
@@ -26,6 +28,10 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDele
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasFindActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageClearActionInterface;
@@ -42,6 +48,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewAction
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\RouteCapability\RouteCapabilityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationSetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Psr\Container\ContainerInterface;
 
 class Psr11StorageFacade extends AbstractSingletonStorageFacade
@@ -51,6 +58,16 @@ class Psr11StorageFacade extends AbstractSingletonStorageFacade
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+    }
+
+    protected function createFileReferenceGetRequestAction(): FileReferenceGetRequestActionInterface
+    {
+        return $this->getInstanceFromContainer(FileReferenceGetRequestActionInterface::class);
+    }
+
+    protected function createFileReferencePersistRequestAction(): FileReferencePersistRequestActionInterface
+    {
+        return $this->getInstanceFromContainer(FileReferencePersistRequestActionInterface::class);
     }
 
     protected function createIdentityErrorCreateAction(): IdentityErrorCreateActionInterface
@@ -158,6 +175,26 @@ class Psr11StorageFacade extends AbstractSingletonStorageFacade
         return $this->getInstanceFromContainer(PortalNodeOverviewActionInterface::class);
     }
 
+    protected function createPortalNodeAliasGetAction(): PortalNodeAliasGetActionInterface
+    {
+        return $this->container->get(PortalNodeAliasGetActionInterface::class);
+    }
+
+    protected function createPortalNodeAliasFindAction(): PortalNodeAliasFindActionInterface
+    {
+        return $this->container->get(PortalNodeAliasFindActionInterface::class);
+    }
+
+    protected function createPortalNodeAliasSetAction(): PortalNodeAliasSetActionInterface
+    {
+        return $this->container->get(PortalNodeAliasSetActionInterface::class);
+    }
+
+    protected function createPortalNodeAliasOverviewAction(): PortalNodeAliasOverviewActionInterface
+    {
+        return $this->container->get(PortalNodeAliasOverviewActionInterface::class);
+    }
+
     protected function createPortalNodeConfigurationGetAction(): PortalNodeConfigurationGetActionInterface
     {
         return $this->getInstanceFromContainer(PortalNodeConfigurationGetActionInterface::class);
@@ -226,6 +263,11 @@ class Psr11StorageFacade extends AbstractSingletonStorageFacade
     protected function createRouteCapabilityOverviewAction(): RouteCapabilityOverviewActionInterface
     {
         return $this->getInstanceFromContainer(RouteCapabilityOverviewActionInterface::class);
+    }
+
+    protected function createStorageKeyGenerator(): StorageKeyGeneratorContract
+    {
+        return $this->getInstanceFromContainer(StorageKeyGeneratorContract::class);
     }
 
     protected function createWebHttpHandlerConfigurationFindAction(): WebHttpHandlerConfigurationFindActionInterface

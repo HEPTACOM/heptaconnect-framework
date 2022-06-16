@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Portal\Base\StorageKey;
+namespace Heptacom\HeptaConnect\Storage\Base;
 
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\RouteKeyInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface;
 
 /**
  * @extends AbstractCollection<RouteKeyInterface>
