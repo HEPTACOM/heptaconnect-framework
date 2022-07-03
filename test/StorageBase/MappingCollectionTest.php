@@ -17,9 +17,13 @@ use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\SecondEntity;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct
  * @covers \Heptacom\HeptaConnect\Storage\Base\MappingCollection
@@ -34,7 +38,7 @@ final class MappingCollectionTest extends TestCase
             new MappingStruct(
                 $this->createMock(PortalNodeKeyInterface::class),
                 $this->createMock(MappingNodeKeyInterface::class),
-                DatasetEntityStruct::class
+                DatasetEntityStruct::class()
             ),
         ]);
         static::assertEquals(1, $collection->count());
@@ -46,7 +50,7 @@ final class MappingCollectionTest extends TestCase
         $mapping = new MappingStruct(
             $this->createMock(PortalNodeKeyInterface::class),
             $this->createMock(MappingNodeKeyInterface::class),
-            DatasetEntityStruct::class
+            DatasetEntityStruct::class()
         );
         $struct = new MappedDatasetEntityStruct($mapping, $datasetEntity);
 
@@ -70,12 +74,12 @@ final class MappingCollectionTest extends TestCase
         $portalNodeKey = $this->createMock(PortalNodeKeyInterface::class);
         $mappingNodeKey = $this->createMock(MappingNodeKeyInterface::class);
         $collection = new MappingCollection([
-            new MappingStruct($portalNodeKey, $mappingNodeKey, FirstEntity::class),
+            new MappingStruct($portalNodeKey, $mappingNodeKey, FirstEntity::class()),
         ]);
         $collection->push([
-            new MappingStruct($portalNodeKey, $mappingNodeKey, DatasetEntityStruct::class),
-            new MappingStruct($portalNodeKey, $mappingNodeKey, FirstEntity::class),
-            new MappingStruct($portalNodeKey, $mappingNodeKey, SecondEntity::class),
+            new MappingStruct($portalNodeKey, $mappingNodeKey, DatasetEntityStruct::class()),
+            new MappingStruct($portalNodeKey, $mappingNodeKey, FirstEntity::class()),
+            new MappingStruct($portalNodeKey, $mappingNodeKey, SecondEntity::class()),
         ]);
         static::assertCount(4, $collection);
         /** @var array<class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract>, \Heptacom\HeptaConnect\Storage\Base\TypedMappingCollection> $groupByType */
@@ -87,8 +91,8 @@ final class MappingCollectionTest extends TestCase
         static::assertCount(1, $groupByType[DatasetEntityStruct::class]);
         static::assertCount(2, $groupByType[FirstEntity::class]);
         static::assertCount(1, $groupByType[SecondEntity::class]);
-        static::assertEquals(DatasetEntityStruct::class, $groupByType[DatasetEntityStruct::class]->getType());
-        static::assertEquals(FirstEntity::class, $groupByType[FirstEntity::class]->getType());
-        static::assertEquals(SecondEntity::class, $groupByType[SecondEntity::class]->getType());
+        static::assertTrue(DatasetEntityStruct::class()->same($groupByType[DatasetEntityStruct::class]->getEntityType()));
+        static::assertTrue(FirstEntity::class()->same($groupByType[FirstEntity::class]->getEntityType()));
+        static::assertTrue(SecondEntity::class()->same($groupByType[SecondEntity::class]->getEntityType()));
     }
 }

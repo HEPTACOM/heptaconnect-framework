@@ -7,6 +7,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Test\Action;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
+use Heptacom\HeptaConnect\Dataset\Base\Support\UnsafeClassString;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\IdentityErrorKeyInterface;
@@ -109,9 +110,13 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestResult
@@ -228,7 +233,7 @@ class StorageActionParameterTest extends TestCase
         $portalClass = Portal::class;
         $externalId = '1c1500cf-241b-4ecc-bdb1-f691daf59481';
         $entityType = FirstEntity::class;
-        $mappingComponentStruct = new MappingComponentStruct($portalNodeKey, $entityType, $externalId);
+        $mappingComponentStruct = new MappingComponentStruct($portalNodeKey, $entityType::class(), $externalId);
         $jobKeys = new JobKeyCollection();
         $routeKeys = new RouteKeyCollection();
         $createdAt = \date_create();
@@ -240,7 +245,7 @@ class StorageActionParameterTest extends TestCase
         yield new IdentityMapPayload($portalNodeKey, $entityCollection);
         yield new IdentityMapResult($mappedDatasetEntityCollection);
         yield new IdentityOverviewCriteria();
-        yield new IdentityOverviewResult($portalNodeKey, $mappingNodeKey, $externalId, $entityType, $createdAt);
+        yield new IdentityOverviewResult($portalNodeKey, $mappingNodeKey, $externalId, new UnsafeClassString($entityType), $createdAt);
         yield new IdentityPersistPayload($portalNodeKey, new IdentityPersistPayloadCollection());
         yield new IdentityReflectPayload($portalNodeKey, $mappedDatasetEntityCollection);
         yield new IdentityErrorCreatePayloads();
@@ -297,19 +302,19 @@ class StorageActionParameterTest extends TestCase
         yield new PortalNodeAliasOverviewResult($portalNodeKey, '');
         yield new PortalNodeAliasSetPayload($portalNodeKey, null);
         yield new PortalNodeAliasSetPayloads();
-        yield new RouteCreatePayload($portalNodeKey, $portalNodeKey, $entityType);
+        yield new RouteCreatePayload($portalNodeKey, $portalNodeKey, $entityType::class());
         yield new RouteCreatePayloads();
         yield new RouteCreateResult($routeKey);
         yield new RouteCreateResults();
         yield new RouteDeleteCriteria($routeKeys);
-        yield new RouteFindCriteria($portalNodeKey, $portalNodeKey, $entityType);
+        yield new RouteFindCriteria($portalNodeKey, $portalNodeKey, $entityType::class());
         yield new RouteFindResult($routeKey);
         yield new RouteGetCriteria($routeKeys);
-        yield new RouteGetResult($routeKey, $portalNodeKey, $portalNodeKey, $entityType, []);
-        yield new ReceptionRouteListCriteria($portalNodeKey, $entityType);
+        yield new RouteGetResult($routeKey, $portalNodeKey, $portalNodeKey, $entityType::class(), []);
+        yield new ReceptionRouteListCriteria($portalNodeKey, $entityType::class());
         yield new ReceptionRouteListResult($routeKey);
         yield new RouteOverviewCriteria();
-        yield new RouteOverviewResult($routeKey, $entityType, $portalNodeKey, $portalClass, $portalNodeKey, $portalClass, $createdAt, []);
+        yield new RouteOverviewResult($routeKey, $entityType::class(), $portalNodeKey, $portalClass, $portalNodeKey, $portalClass, $createdAt, []);
         yield new RouteCapabilityOverviewCriteria();
         yield new RouteCapabilityOverviewResult('', $createdAt);
         yield new WebHttpHandlerConfigurationFindCriteria($portalNodeKey, '', '');

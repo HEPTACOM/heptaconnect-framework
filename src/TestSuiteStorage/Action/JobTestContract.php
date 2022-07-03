@@ -64,7 +64,7 @@ abstract class JobTestContract extends TestCase
         $portalNodeKey = $firstPortalNode->getPortalNodeKey();
 
         $firstRouteCreate = $routeCreate->create(new RouteCreatePayloads([
-            new RouteCreatePayload($portalNodeKey, $portalNodeKey, EntityA::class),
+            new RouteCreatePayload($portalNodeKey, $portalNodeKey, EntityA::class()),
         ]))->first();
 
         static::assertInstanceOf(RouteCreateResult::class, $firstRouteCreate);
@@ -75,7 +75,7 @@ abstract class JobTestContract extends TestCase
         $entity = new EntityA();
         $entity->setPrimaryKey($primaryKey);
         $entity->value = '366b3b50ab9c477ca6189a5c0589c75a';
-        $mapping = new MappingComponentStruct($portalNodeKey, EntityA::class, $primaryKey);
+        $mapping = new MappingComponentStruct($portalNodeKey, EntityA::class(), $primaryKey);
 
         $jobCreateResults = $jobCreate->create(new JobCreatePayloads([
             new JobCreatePayload(Exploration::class, $mapping, []),

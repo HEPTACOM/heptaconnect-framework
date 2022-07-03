@@ -6,8 +6,8 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Create;
 
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
+use Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Create\CreatePayloadInterface;
 
@@ -19,10 +19,7 @@ final class RouteCreatePayload implements CreatePayloadInterface, AttachmentAwar
 
     protected PortalNodeKeyInterface $targetPortalNodeKey;
 
-    /**
-     * @var class-string<DatasetEntityContract>
-     */
-    protected string $entityType;
+    protected EntityTypeClassString $entityType;
 
     /**
      * @var string[]
@@ -30,13 +27,12 @@ final class RouteCreatePayload implements CreatePayloadInterface, AttachmentAwar
     protected array $capabilities;
 
     /**
-     * @param class-string<DatasetEntityContract> $entityType
-     * @param string[]                            $capabilities
+     * @param string[] $capabilities
      */
     public function __construct(
         PortalNodeKeyInterface $sourcePortalNodeKey,
         PortalNodeKeyInterface $targetPortalNodeKey,
-        string $entityType,
+        EntityTypeClassString $entityType,
         array $capabilities = []
     ) {
         $this->attachments = new AttachmentCollection();
@@ -66,18 +62,12 @@ final class RouteCreatePayload implements CreatePayloadInterface, AttachmentAwar
         $this->targetPortalNodeKey = $targetPortalNodeKey;
     }
 
-    /**
-     * @return class-string<DatasetEntityContract>
-     */
-    public function getEntityType(): string
+    public function getEntityType(): EntityTypeClassString
     {
         return $this->entityType;
     }
 
-    /**
-     * @param class-string<DatasetEntityContract> $entityType
-     */
-    public function setEntityType(string $entityType): void
+    public function setEntityType(EntityTypeClassString $entityType): void
     {
         $this->entityType = $entityType;
     }

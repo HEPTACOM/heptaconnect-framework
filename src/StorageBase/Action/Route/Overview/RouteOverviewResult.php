@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview;
 
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -18,10 +18,7 @@ final class RouteOverviewResult implements AttachmentAwareInterface
 
     protected RouteKeyInterface $routeKey;
 
-    /**
-     * @var class-string<DatasetEntityContract>
-     */
-    protected string $entityType;
+    protected ClassStringReferenceContract $entityType;
 
     protected PortalNodeKeyInterface $sourcePortalNodeKey;
 
@@ -45,14 +42,13 @@ final class RouteOverviewResult implements AttachmentAwareInterface
     private array $capabilities;
 
     /**
-     * @param class-string<DatasetEntityContract> $entityType
-     * @param class-string<PortalContract>        $sourcePortalClass
-     * @param class-string<PortalContract>        $targetPortalClass
-     * @param string[]                            $capabilities
+     * @param class-string<PortalContract> $sourcePortalClass
+     * @param class-string<PortalContract> $targetPortalClass
+     * @param string[]                     $capabilities
      */
     public function __construct(
         RouteKeyInterface $routeKey,
-        string $entityType,
+        ClassStringReferenceContract $entityType,
         PortalNodeKeyInterface $sourcePortalNodeKey,
         string $sourcePortalClass,
         PortalNodeKeyInterface $targetPortalNodeKey,
@@ -76,10 +72,7 @@ final class RouteOverviewResult implements AttachmentAwareInterface
         return $this->routeKey;
     }
 
-    /**
-     * @return class-string<DatasetEntityContract>
-     */
-    public function getEntityType(): string
+    public function getEntityType(): ClassStringReferenceContract
     {
         return $this->entityType;
     }

@@ -23,8 +23,8 @@ class MappingCollection extends AbstractObjectCollection
         foreach ($this->items as $mapping) {
             $entityType = $mapping->getEntityType();
 
-            $typedMappings[$entityType] ??= new TypedMappingCollection($entityType);
-            $typedMappings[$entityType]->push([$mapping]);
+            $typedMappings[$entityType->getClassString()] ??= new TypedMappingCollection($entityType);
+            $typedMappings[$entityType->getClassString()]->push([$mapping]);
         }
 
         yield from $typedMappings;
