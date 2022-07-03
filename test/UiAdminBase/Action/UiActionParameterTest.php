@@ -25,8 +25,12 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString
  * @covers \Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin
  * @covers \Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListCriteria
@@ -63,7 +67,7 @@ final class UiActionParameterTest extends TestCase
         $portalExtensionClass = FooBarPortalExtension::class;
 
         yield new PortalEntityListCriteria($portalClass);
-        yield new PortalEntityListResult($codeOrigin, $entityType, FooBarEmitter::class);
+        yield new PortalEntityListResult($codeOrigin, $entityType::class(), FooBarEmitter::class);
         yield new PortalNodeAddPayload($portalClass);
         yield new PortalNodeAddResult($portalNodeKey);
         yield new PortalNodeExtensionActivatePayload($portalNodeKey);
