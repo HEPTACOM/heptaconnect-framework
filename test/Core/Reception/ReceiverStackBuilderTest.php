@@ -16,9 +16,15 @@ use Psr\Log\LoggerInterface;
 
 /**
  * @covers \Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilder
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack
  * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection
  */
@@ -28,7 +34,7 @@ final class ReceiverStackBuilderTest extends TestCase
     {
         $stackBuilder = new ReceiverStackBuilder(
             new ReceiverCollection(),
-            FooBarEntity::class,
+            FooBarEntity::class(),
             $this->createMock(LoggerInterface::class),
         );
 
@@ -58,7 +64,7 @@ final class ReceiverStackBuilderTest extends TestCase
         $stackBuilder->push($receiver2); // resembles decorators
         $stack = $stackBuilder->build();
         $stack->next(
-            new TypedDatasetEntityCollection(FooBarEntity::class),
+            new TypedDatasetEntityCollection(FooBarEntity::class()),
             $this->createMock(ReceiveContextInterface::class)
         );
 
@@ -92,7 +98,7 @@ final class ReceiverStackBuilderTest extends TestCase
 
         $stackBuilder = new ReceiverStackBuilder(
             new ReceiverCollection([$receiver1, $receiver2, $receiver2]),
-            FooBarEntity::class,
+            FooBarEntity::class(),
             $this->createMock(LoggerInterface::class),
         );
 
@@ -100,7 +106,7 @@ final class ReceiverStackBuilderTest extends TestCase
         $stackBuilder->pushDecorators();
         $stack = $stackBuilder->build();
         $stack->next(
-            new TypedDatasetEntityCollection(FooBarEntity::class),
+            new TypedDatasetEntityCollection(FooBarEntity::class()),
             $this->createMock(ReceiveContextInterface::class)
         );
 

@@ -23,8 +23,13 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \Heptacom\HeptaConnect\Core\Component\LogMessage
  * @covers \Heptacom\HeptaConnect\Core\Emission\EmissionActor
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Listing\ReceptionRouteListCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Listing\ReceptionRouteListResult
@@ -46,7 +51,7 @@ final class EmissionActorTest extends TestCase
         $mapping = $this->createMock(MappingInterface::class);
         $mapping->expects(static::atLeast($count))
             ->method('getEntityType')
-            ->willReturn(FooBarEntity::class);
+            ->willReturn(FooBarEntity::class());
 
         $receptionRouteListAction = $this->createMock(ReceptionRouteListActionInterface::class);
         $receptionRouteListAction->expects($count > 0 ? static::once() : static::never())
@@ -60,8 +65,8 @@ final class EmissionActorTest extends TestCase
             $receptionRouteListAction
         );
         $emissionActor->performEmission(
-            new TypedMappingCollection(FooBarEntity::class, \array_fill(0, $count, $mapping)),
-            new EmitterStack([new ThrowEmitter()], FooBarEntity::class),
+            new TypedMappingCollection(FooBarEntity::class(), \array_fill(0, $count, $mapping)),
+            new EmitterStack([new ThrowEmitter()], FooBarEntity::class()),
             $this->createMock(EmitContextInterface::class)
         );
     }

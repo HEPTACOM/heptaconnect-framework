@@ -23,9 +23,13 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Reception\ReceiveService
  * @covers \Heptacom\HeptaConnect\Core\Component\LogMessage
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct
@@ -62,7 +66,7 @@ final class ReceiveServiceTest extends TestCase
         );
         $portalNodeKey = $this->createMock(PortalNodeKeyInterface::class);
         $receiveService->receive(
-            new TypedDatasetEntityCollection(FooBarEntity::class, \array_fill(0, $count, new FooBarEntity())),
+            new TypedDatasetEntityCollection(FooBarEntity::class(), \array_fill(0, $count, new FooBarEntity())),
             $portalNodeKey
         );
     }
@@ -99,7 +103,7 @@ final class ReceiveServiceTest extends TestCase
             $this->createMock(ReceptionActorInterface::class),
         );
         $receiveService->receive(
-            new TypedDatasetEntityCollection(FooBarEntity::class, \array_fill(0, $count, new FooBarEntity())),
+            new TypedDatasetEntityCollection(FooBarEntity::class(), \array_fill(0, $count, new FooBarEntity())),
             $portalNodeKey
         );
     }

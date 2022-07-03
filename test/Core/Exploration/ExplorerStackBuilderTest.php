@@ -15,8 +15,14 @@ use Psr\Log\LoggerInterface;
 
 /**
  * @covers \Heptacom\HeptaConnect\Core\Exploration\ExplorerStackBuilder
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack
  */
@@ -26,7 +32,7 @@ final class ExplorerStackBuilderTest extends TestCase
     {
         $stackBuilder = new ExplorerStackBuilder(
             new ExplorerCollection(),
-            FooBarEntity::class,
+            FooBarEntity::class(),
             $this->createMock(LoggerInterface::class),
         );
 
@@ -87,7 +93,7 @@ final class ExplorerStackBuilderTest extends TestCase
 
         $stackBuilder = new ExplorerStackBuilder(
             new ExplorerCollection([$explorer1, $explorer2, $explorer2]),
-            FooBarEntity::class,
+            FooBarEntity::class(),
             $this->createMock(LoggerInterface::class),
         );
 

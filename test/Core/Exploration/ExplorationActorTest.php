@@ -32,11 +32,17 @@ use Psr\Log\NullLogger;
  * @covers \Heptacom\HeptaConnect\Core\Exploration\DirectEmitter
  * @covers \Heptacom\HeptaConnect\Core\Exploration\ExplorationActor
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\DependencyTrait
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection
@@ -62,7 +68,7 @@ class ExplorationActorTest extends TestCase
         $context = $this->createMock(ExploreContextInterface::class);
         $portalNodeKey = $this->createMock(PortalNodeKeyInterface::class);
         $mappingNodeKey = $this->createMock(MappingNodeKeyInterface::class);
-        $emitterStackBuilder = new EmitterStackBuilder(new EmitterCollection(), FooBarEntity::class, $logger);
+        $emitterStackBuilder = new EmitterStackBuilder(new EmitterCollection(), FooBarEntity::class(), $logger);
         $entity1 = new FooBarEntity();
         $entity2 = new FooBarEntity();
         $entity3 = new FooBarEntity();
@@ -97,7 +103,7 @@ class ExplorationActorTest extends TestCase
                         $entity->getPrimaryKey(),
                         $payload->getPortalNodeKey(),
                         $mappingNodeKey,
-                        \get_class($entity)
+                        $entity::class()
                     ),
                     $entity
                 )]);
@@ -106,7 +112,7 @@ class ExplorationActorTest extends TestCase
             return new IdentityMapResult($result);
         });
 
-        $actor->performExploration(FooBarEntity::class, $stack, $context);
+        $actor->performExploration(FooBarEntity::class(), $stack, $context);
 
         static::assertSame($capturedPortalNodeKey, $portalNodeKey);
         static::assertSame([
@@ -129,7 +135,7 @@ class ExplorationActorTest extends TestCase
         $context = $this->createMock(ExploreContextInterface::class);
         $portalNodeKey = $this->createMock(PortalNodeKeyInterface::class);
         $mappingNodeKey = $this->createMock(MappingNodeKeyInterface::class);
-        $emitterStackBuilder = new EmitterStackBuilder(new EmitterCollection(), FooBarEntity::class, $logger);
+        $emitterStackBuilder = new EmitterStackBuilder(new EmitterCollection(), FooBarEntity::class(), $logger);
         $actor = new ExplorationActor(
             $logger,
             $emissionActor,
@@ -161,7 +167,7 @@ class ExplorationActorTest extends TestCase
                         $entity->getPrimaryKey(),
                         $payload->getPortalNodeKey(),
                         $mappingNodeKey,
-                        \get_class($entity)
+                        $entity::class()
                     ),
                     $entity
                 )]);
@@ -170,7 +176,7 @@ class ExplorationActorTest extends TestCase
             return new IdentityMapResult($result);
         });
 
-        $actor->performExploration(FooBarEntity::class, $stack, $context);
+        $actor->performExploration(FooBarEntity::class(), $stack, $context);
 
         static::assertSame($capturedPortalNodeKey, $portalNodeKey);
         static::assertSame([
