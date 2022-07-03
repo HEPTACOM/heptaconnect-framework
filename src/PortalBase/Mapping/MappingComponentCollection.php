@@ -6,6 +6,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Mapping;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
+use Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
@@ -26,9 +27,10 @@ class MappingComponentCollection extends AbstractObjectCollection
         /** @psalm-var class-string<DatasetEntityContract>[] $result */
         $result = [];
 
+        /** @var MappingComponentStructContract $mappingComponent */
         foreach ($this->getIterator() as $mappingComponent) {
-            if (!\in_array($mappingComponent->getEntityType(), $result, true)) {
-                $result[] = $mappingComponent->getEntityType();
+            if (!\in_array($mappingComponent->getEntityType()->getClassString(), $result, true)) {
+                $result[] = $mappingComponent->getEntityType()->getClassString();
             }
         }
 
@@ -62,13 +64,12 @@ class MappingComponentCollection extends AbstractObjectCollection
     }
 
     /**
-     * @psalm-param $entityType class-string<DatasetEntityContract>
      * @psalm-return \Generator<MappingComponentStructContract>
      */
-    public function filterByEntityType(string $entityType): \Generator
+    public function filterByEntityType(EntityTypeClassString $entityType): \Generator
     {
         return $this->filter(
-            static fn (MappingComponentStructContract $mc): bool => $mc->getEntityType() === $entityType
+            static fn (MappingComponentStructContract $mc): bool => $mc->getEntityType()->same($entityType)
         );
     }
 

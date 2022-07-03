@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString;
 use Heptacom\HeptaConnect\Portal\Base\Builder\BindThisTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
@@ -19,10 +20,7 @@ final class Explorer extends ExplorerContract
     use BindThisTrait;
     use ResolveArgumentsTrait;
 
-    /**
-     * @var class-string<DatasetEntityContract>
-     */
-    private string $type;
+    private EntityTypeClassString $entityType;
 
     private ?SerializableClosure $runMethod;
 
@@ -33,7 +31,7 @@ final class Explorer extends ExplorerContract
         $run = $token->getRun();
         $isAllowed = $token->getIsAllowed();
 
-        $this->type = $token->getType();
+        $this->entityType = $token->getEntityType();
         $this->runMethod = $run instanceof \Closure ? new SerializableClosure($run) : null;
         $this->isAllowedMethod = $isAllowed instanceof \Closure ? new SerializableClosure($isAllowed) : null;
     }
@@ -50,7 +48,7 @@ final class Explorer extends ExplorerContract
 
     public function supports(): string
     {
-        return $this->type;
+        return $this->entityType->getClassString();
     }
 
     protected function run(ExploreContextInterface $context): iterable
@@ -96,7 +94,7 @@ final class Explorer extends ExplorerContract
                     return $externalId;
                 }
 
-                if (\is_string($propertyType) && \is_a($propertyType, $this->supports(), true)) {
+                if (\is_string($propertyType) && $this->getSupportedEntityType()->matchClassStringIsOfType($propertyType)) {
                     return $entity;
                 }
 
@@ -134,7 +132,7 @@ final class Explorer extends ExplorerContract
                 continue;
             }
 
-            throw new InvalidResultException(1637034100, 'Explorer', 'run', 'string|int|' . $this->supports());
+            throw new InvalidResultException(1637034100, 'Explorer', 'run', 'string|int|' . $this->getSupportedEntityType()->getClassString());
         }
     }
 }

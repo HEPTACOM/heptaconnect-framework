@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Emission\Contract;
 
+use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeContextInterface;
 
 /**
@@ -21,6 +23,9 @@ interface EmitContextInterface extends PortalNodeContextInterface
 
     /**
      * Store an exception attached to the given identity to be reviewed later.
+     *
+     * @throws InvalidClassNameException
+     * @throws InvalidSubtypeClassNameException
      */
     public function markAsFailed(string $externalId, string $entityType, \Throwable $throwable): void;
 }

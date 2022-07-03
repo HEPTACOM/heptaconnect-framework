@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Emission;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
+use Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 
 /**
@@ -14,13 +14,13 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 class EmitterCollection extends AbstractObjectCollection
 {
     /**
-     * @param class-string<DatasetEntityContract> $entityType
-     *
      * @return iterable<int, EmitterContract>
      */
-    public function bySupport(string $entityType): iterable
+    public function bySupport(EntityTypeClassString $entityType): iterable
     {
-        return $this->filter(static fn (EmitterContract $emitter) => $entityType === $emitter->supports());
+        return $this->filter(
+            static fn (EmitterContract $emitter): bool => $entityType->same($emitter->getSupportedEntityType())
+        );
     }
 
     /**

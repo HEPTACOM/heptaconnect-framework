@@ -9,13 +9,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Wrap `\Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract::supports` in new method `\Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract::getSupportedEntityType` to provide an instance of `\Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Wrap `\Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract::supports` in new method `\Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract::getSupportedEntityType` to provide an instance of `\Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Wrap `\Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract::supports` in new method `\Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract::getSupportedEntityType` to provide an instance of `\Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+
 ### Changed
 
+- Change return type of `\Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface::supports`, `\Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack::supports`, `\Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface::getEntityType` and `\Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract::getEntityType` to be `\Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString` instead of a string for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Change `$type` parameter in `\Heptacom\HeptaConnect\Portal\Base\Mapping\TypedMappingComponentCollection::__construct` to be a `\Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString` instead of a string for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Change `$entityType` parameter in `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\EmitterToken::__construct`, `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken::__construct`, `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken::__construct`, `\Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack::__construct`, `\Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection::bySupport`, `\Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection::bySupport`, `\Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct::__construct`, `\Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentCollection::filterByEntityType` and `\Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection::bySupport` to be a `\Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString` instead of a string for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Lowered visibility of `\Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract::supports`, `\Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract::supports` and `\Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract::supports` to be protected instead of public
+
 ### Deprecated
+
+- Deprecate method `\Heptacom\HeptaConnect\Portal\Base\Mapping\TypedMappingComponentCollection::getType` in favour of new method `\Heptacom\HeptaConnect\Portal\Base\Mapping\TypedMappingComponentCollection::getEntityType` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Deprecate method `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\EmitterToken::getType` in favour of new method `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\EmitterToken::getEntityType` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Deprecate method `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken::getType` in favour of new method `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken::getEntityType` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Deprecate method `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken::getType` in favour of new method `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken::getEntityType` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 
 ### Removed
 
 ### Fixed
+
+- Flow components allowed class string, that not necessarily have to reference an entity class, as supported entity type. Therefore `\Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface::markAsFailed`, `\Heptacom\HeptaConnect\Core\Emission\EmitContext::markAsFailed`, `\Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent::explorer`, `\Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent::emitter`, `\Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent::receiver` and the new `\Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract::getSupportedEntityType`, `\Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract::getSupportedEntityType`, `\Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract::getSupportedEntityType` throw exception `\Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException` or `\Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException` on invalid input
 
 ### Security
 

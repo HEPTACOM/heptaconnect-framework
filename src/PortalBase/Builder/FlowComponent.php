@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Builder;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException;
+use Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\EmitterBuilder;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\ExplorerBuilder;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\HttpHandlerBuilder;
@@ -71,10 +74,13 @@ class FlowComponent implements LoggerAwareInterface
 
     /**
      * @param class-string<DatasetEntityContract> $type
+     *
+     * @throws InvalidClassNameException
+     * @throws InvalidSubtypeClassNameException
      */
     public static function explorer(string $type, ?\Closure $run = null, ?\Closure $isAllowed = null): ExplorerBuilder
     {
-        self::$explorerTokens[] = $token = new ExplorerToken($type);
+        self::$explorerTokens[] = $token = new ExplorerToken(new EntityTypeClassString($type));
         $builder = new ExplorerBuilder($token);
 
         if ($run instanceof \Closure) {
@@ -90,6 +96,9 @@ class FlowComponent implements LoggerAwareInterface
 
     /**
      * @param class-string<DatasetEntityContract> $type
+     *
+     * @throws InvalidClassNameException
+     * @throws InvalidSubtypeClassNameException
      */
     public static function emitter(
         string $type,
@@ -97,7 +106,7 @@ class FlowComponent implements LoggerAwareInterface
         ?\Closure $extend = null,
         ?\Closure $batch = null
     ): EmitterBuilder {
-        self::$emitterTokens[] = $token = new EmitterToken($type);
+        self::$emitterTokens[] = $token = new EmitterToken(new EntityTypeClassString($type));
         $builder = new EmitterBuilder($token);
 
         if ($run instanceof \Closure) {
@@ -117,10 +126,13 @@ class FlowComponent implements LoggerAwareInterface
 
     /**
      * @param class-string<DatasetEntityContract> $type
+     *
+     * @throws InvalidClassNameException
+     * @throws InvalidSubtypeClassNameException
      */
     public static function receiver(string $type, ?\Closure $run = null, ?\Closure $batch = null): ReceiverBuilder
     {
-        self::$receiverTokens[] = $token = new ReceiverToken($type);
+        self::$receiverTokens[] = $token = new ReceiverToken(new EntityTypeClassString($type));
         $builder = new ReceiverBuilder($token);
 
         if ($run instanceof \Closure) {

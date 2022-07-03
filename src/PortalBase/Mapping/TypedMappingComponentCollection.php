@@ -5,32 +5,36 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Mapping;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract;
 
 class TypedMappingComponentCollection extends MappingComponentCollection
 {
-    /**
-     * @psalm-var class-string<DatasetEntityContract>
-     */
-    private string $type;
+    private EntityTypeClassString $entityType;
 
     /**
-     * @psalm-param class-string<DatasetEntityContract>           $type
      * @psalm-param iterable<int, MappingComponentStructContract> $items
      */
-    public function __construct(string $type, iterable $items = [])
+    public function __construct(EntityTypeClassString $entityType, iterable $items = [])
     {
-        $this->type = $type;
+        $this->entityType = $entityType;
 
         parent::__construct($items);
     }
 
+    public function getEntityType(): EntityTypeClassString
+    {
+        return $this->entityType;
+    }
+
     /**
+     * @deprecated use @see getEntityType instead
+     *
      * @psalm-return class-string<DatasetEntityContract>
      */
     public function getType(): string
     {
-        return $this->type;
+        return $this->entityType->getClassString();
     }
 
     /**
@@ -38,6 +42,6 @@ class TypedMappingComponentCollection extends MappingComponentCollection
      */
     protected function isValidItem($item): bool
     {
-        return parent::isValidItem($item) && $item->getEntityType() === $this->type;
+        return parent::isValidItem($item) && $item->getEntityType()->same($this->entityType);
     }
 }

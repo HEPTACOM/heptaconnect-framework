@@ -22,6 +22,8 @@ final class SupportPortalNodeExtensionTest extends TestCase
                 return PortalContract::class;
             }
         };
+        // @TODO check for helper is_a
+
         static::assertTrue(\is_a($extension->supports(), PortalContract::class, true));
     }
 

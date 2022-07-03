@@ -14,8 +14,12 @@ use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct
  */
@@ -23,8 +27,8 @@ final class EmitterStackTest extends TestCase
 {
     public function testEmptyStackDoesNotFail(): void
     {
-        $stack = new EmitterStack([], FirstEntity::class);
-        static::assertEquals(FirstEntity::class, $stack->supports());
+        $stack = new EmitterStack([], FirstEntity::class());
+        static::assertTrue(FirstEntity::class()->same($stack->supports()));
         static::assertCount(0, $stack->next(
             [],
             $this->createMock(EmitContextInterface::class)
@@ -61,7 +65,7 @@ final class EmitterStackTest extends TestCase
                 yield from $stack->next($ids, $con);
             });
 
-        $stack = new EmitterStack([$emitter1, $emitter2, $emitter3], FirstEntity::class);
+        $stack = new EmitterStack([$emitter1, $emitter2, $emitter3], FirstEntity::class());
         static::assertCount(3, $stack->next([], $this->createMock(EmitContextInterface::class)));
     }
 }

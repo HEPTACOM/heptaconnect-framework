@@ -11,8 +11,14 @@ use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\SecondEntity;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection
  */
 final class ExplorerCollectionTest extends TestCase
@@ -28,10 +34,10 @@ final class ExplorerCollectionTest extends TestCase
             $this->getExplorer(SecondEntity::class),
             $this->getExplorer(FirstEntity::class),
         ]);
-        static::assertNotEmpty($collection->bySupport(FirstEntity::class));
-        static::assertNotEmpty($collection->bySupport(SecondEntity::class));
-        static::assertCount(3, $collection->bySupport(FirstEntity::class));
-        static::assertCount(2, $collection->bySupport(SecondEntity::class));
+        static::assertNotEmpty($collection->bySupport(FirstEntity::class()));
+        static::assertNotEmpty($collection->bySupport(SecondEntity::class()));
+        static::assertCount(3, $collection->bySupport(FirstEntity::class()));
+        static::assertCount(2, $collection->bySupport(SecondEntity::class()));
     }
 
     private function getExplorer(string $support): ExplorerContract
