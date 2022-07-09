@@ -34,7 +34,7 @@ abstract class ClassStringContract extends ClassStringReferenceContract
     /**
      * Compares the given class-string to be equal or a subtype of this represented class string.
      */
-    final public function matchClassStringIsOfType(ClassStringReferenceContract $classString): bool
+    final public function isClassStringOfType(ClassStringReferenceContract $classString): bool
     {
         return \is_a($classString->getClassString(), $this->getClassString(), true);
     }
@@ -42,7 +42,7 @@ abstract class ClassStringContract extends ClassStringReferenceContract
     /**
      * Compares the given object to be of type or a subtype of this represented class string.
      */
-    final public function matchObjectIsOfType(?object $object): bool
+    final public function isObjectOfType(?object $object): bool
     {
         if (!\is_object($object)) {
             return false;
@@ -54,7 +54,7 @@ abstract class ClassStringContract extends ClassStringReferenceContract
     /**
      * Compares the given object to be of type of this canonical class string.
      */
-    final public function matchObjectEqualsType(?object $object): bool
+    final public function equalsObjectType(?object $object): bool
     {
         if (!\is_object($object)) {
             return false;
@@ -66,7 +66,7 @@ abstract class ClassStringContract extends ClassStringReferenceContract
     /**
      * Compares the given object to be of type of this canonical class string.
      */
-    final public function matchObjectSameType(?object $object): bool
+    final public function sameObjectType(?object $object): bool
     {
         if (!\is_object($object)) {
             return false;

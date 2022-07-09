@@ -83,7 +83,7 @@ abstract class EmitterContract
             return false;
         }
 
-        return $this->getSupportedEntityType()->matchObjectIsOfType($entity);
+        return $this->getSupportedEntityType()->isObjectOfType($entity);
     }
 
     /**

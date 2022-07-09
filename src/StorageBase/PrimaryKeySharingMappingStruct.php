@@ -114,7 +114,7 @@ final class PrimaryKeySharingMappingStruct implements AttachableInterface, Forei
     public function addOwner(DatasetEntityContract $owner): void
     {
         if (
-            !$this->getForeignEntityType()->matchObjectSameType($owner)
+            !$this->getForeignEntityType()->sameObjectType($owner)
             || $owner->getPrimaryKey() !== $this->getForeignKey()
         ) {
             throw new UnsharableOwnerException($this->getForeignEntityType()->getClassString(), $this->getForeignKey(), $owner);

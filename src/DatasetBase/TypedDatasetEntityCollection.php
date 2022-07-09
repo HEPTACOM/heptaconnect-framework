@@ -45,6 +45,6 @@ final class TypedDatasetEntityCollection extends DatasetEntityCollection
      */
     protected function isValidItem($item): bool
     {
-        return parent::isValidItem($item) && $this->type->matchObjectIsOfType($item);
+        return parent::isValidItem($item) && $this->type->isObjectOfType($item);
     }
 }

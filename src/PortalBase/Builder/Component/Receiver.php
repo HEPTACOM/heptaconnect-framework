@@ -91,7 +91,7 @@ final class Receiver extends ReceiverContract
                 ?string $propertyType,
                 ContainerInterface $container
             ) use ($entity) {
-                if (\is_string($propertyType) && $this->getSupportedEntityType()->matchClassStringIsOfType(new UnsafeClassString($propertyType))) {
+                if (\is_string($propertyType) && $this->getSupportedEntityType()->isClassStringOfType(new UnsafeClassString($propertyType))) {
                     return $entity;
                 }
 

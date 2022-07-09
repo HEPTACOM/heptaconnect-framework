@@ -95,7 +95,7 @@ final class Explorer extends ExplorerContract
                     return $externalId;
                 }
 
-                if (\is_string($propertyType) && $this->getSupportedEntityType()->matchClassStringIsOfType(new UnsafeClassString($propertyType))) {
+                if (\is_string($propertyType) && $this->getSupportedEntityType()->isClassStringOfType(new UnsafeClassString($propertyType))) {
                     return $entity;
                 }
 

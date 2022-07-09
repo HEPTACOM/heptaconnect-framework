@@ -36,7 +36,7 @@ abstract class DatasetEntityContract implements AttachableInterface, AttachmentA
 
             /** @var ForeignKeyAwareInterface $aware */
             foreach ($this->getAttachments()->filter(
-                fn ($o) => $o instanceof ForeignKeyAwareInterface && $o->getForeignEntityType()->matchObjectEqualsType($this)
+                fn ($o) => $o instanceof ForeignKeyAwareInterface && $o->getForeignEntityType()->equalsObjectType($this)
             ) as $aware) {
                 if ($aware->getForeignKey() !== $primaryKey) {
                     $aware->setForeignKey($primaryKey);

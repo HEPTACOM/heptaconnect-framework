@@ -85,7 +85,7 @@ abstract class ReceiverContract
      */
     final protected function isSupported(DatasetEntityContract $entity): bool
     {
-        return $this->getSupportedEntityType()->matchObjectIsOfType($entity);
+        return $this->getSupportedEntityType()->isObjectOfType($entity);
     }
 
     /**

@@ -75,7 +75,7 @@ abstract class ExplorerContract
             return false;
         }
 
-        return \is_string($entity) || \is_int($entity) || $this->getSupportedEntityType()->matchObjectIsOfType($entity);
+        return \is_string($entity) || \is_int($entity) || $this->getSupportedEntityType()->isObjectOfType($entity);
     }
 
     /**
