@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\DatasetBase\Test;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
 use PHPUnit\Framework\TestCase;
@@ -28,12 +30,14 @@ final class EntityClassStringContractTest extends TestCase
 
     public function testExceptionOnInvalidClassString(): void
     {
+        static::expectException(InvalidClassNameException::class);
         static::expectExceptionCode(1655559295);
         new EntityTypeClassString('foo\bar');
     }
 
     public function testExceptionOnInvalidSubClassString(): void
     {
+        static::expectException(InvalidSubtypeClassNameException::class);
         static::expectExceptionCode(1655559296);
         DatasetEntityContract::class();
     }
