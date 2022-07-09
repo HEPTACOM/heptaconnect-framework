@@ -26,7 +26,7 @@ final class PrimaryKeySharingMappingStructTest extends TestCase
     public function testPrimaryKeySharing(): void
     {
         $struct = new PrimaryKeySharingMappingStruct(
-            Simple::class,
+            Simple::class(),
             null,
             $this->createMock(PortalNodeKeyInterface::class),
             $this->createMock(MappingNodeKeyInterface::class),
@@ -48,7 +48,7 @@ final class PrimaryKeySharingMappingStructTest extends TestCase
     public function testSerialization(): void
     {
         $struct = new PrimaryKeySharingMappingStruct(
-            Simple::class,
+            Simple::class(),
             null,
             $this->createMock(PortalNodeKeyInterface::class),
             $this->createMock(MappingNodeKeyInterface::class),
