@@ -42,24 +42,36 @@ abstract class ClassStringContract extends ClassStringReferenceContract
     /**
      * Compares the given object to be of type or a subtype of this represented class string.
      */
-    final public function matchObjectIsOfType(object $object): bool
+    final public function matchObjectIsOfType(?object $object): bool
     {
+        if (!\is_object($object)) {
+            return false;
+        }
+
         return \is_a($object, $this->getClassString(), false);
     }
 
     /**
      * Compares the given object to be of type of this canonical class string.
      */
-    final public function matchObjectEqualsType(object $object): bool
+    final public function matchObjectEqualsType(?object $object): bool
     {
+        if (!\is_object($object)) {
+            return false;
+        }
+
         return $this->equals(new UnsafeClassString(\get_class($object)));
     }
 
     /**
      * Compares the given object to be of type of this canonical class string.
      */
-    final public function matchObjectSameType(object $object): bool
+    final public function matchObjectSameType(?object $object): bool
     {
+        if (!\is_object($object)) {
+            return false;
+        }
+
         return $this->same(new UnsafeClassString(\get_class($object)));
     }
 }

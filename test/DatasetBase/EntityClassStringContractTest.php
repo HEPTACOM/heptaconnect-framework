@@ -68,4 +68,11 @@ final class EntityClassStringContractTest extends TestCase
         static::assertTrue($subEntityClassString->matchObjectEqualsType($subEntity));
         static::assertTrue($subEntityClassString->matchObjectSameType($subEntity));
     }
+
+    public function testObjectNullAllowed(): void
+    {
+        static::assertFalse(SerializationDatasetEntity::class()->matchObjectIsOfType(null));
+        static::assertFalse(SerializationDatasetEntity::class()->matchObjectEqualsType(null));
+        static::assertFalse(SerializationDatasetEntity::class()->matchObjectSameType(null));
+    }
 }
