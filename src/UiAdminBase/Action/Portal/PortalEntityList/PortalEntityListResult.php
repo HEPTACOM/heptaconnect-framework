@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList;
 
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
-use Heptacom\HeptaConnect\Dataset\Base\EntityType;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin;
 
@@ -16,7 +16,7 @@ final class PortalEntityListResult implements AttachmentAwareInterface
 
     private CodeOrigin $codeOrigin;
 
-    private EntityType $supportedEntityType;
+    private ClassStringReferenceContract $supportedEntityType;
 
     /**
      * @var class-string
@@ -28,7 +28,7 @@ final class PortalEntityListResult implements AttachmentAwareInterface
      */
     public function __construct(
         CodeOrigin $codeOrigin,
-        EntityType $supportedEntityType,
+        ClassStringReferenceContract $supportedEntityType,
         string $flowComponentClass
     ) {
         $this->attachments = new AttachmentCollection();
@@ -42,7 +42,7 @@ final class PortalEntityListResult implements AttachmentAwareInterface
         return $this->codeOrigin;
     }
 
-    public function getSupportedEntityType(): EntityType
+    public function getSupportedEntityType(): ClassStringReferenceContract
     {
         return $this->supportedEntityType;
     }

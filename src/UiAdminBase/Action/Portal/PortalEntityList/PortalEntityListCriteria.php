@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList;
 
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
-use Heptacom\HeptaConnect\Dataset\Base\EntityType;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 
@@ -19,7 +19,7 @@ final class PortalEntityListCriteria implements AttachmentAwareInterface
      */
     private string $portal;
 
-    private ?EntityType $filterSupportedEntityType = null;
+    private ?ClassStringReferenceContract $filterSupportedEntityType = null;
 
     private bool $showExplorer = true;
 
@@ -52,12 +52,12 @@ final class PortalEntityListCriteria implements AttachmentAwareInterface
         $this->portal = $portal;
     }
 
-    public function getFilterSupportedEntityType(): ?EntityType
+    public function getFilterSupportedEntityType(): ?ClassStringReferenceContract
     {
         return $this->filterSupportedEntityType;
     }
 
-    public function setFilterSupportedEntityType(?EntityType $filterSupportedEntityType): void
+    public function setFilterSupportedEntityType(?ClassStringReferenceContract $filterSupportedEntityType): void
     {
         $this->filterSupportedEntityType = $filterSupportedEntityType;
     }
