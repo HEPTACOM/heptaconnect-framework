@@ -19,7 +19,7 @@ class ReceiverCollection extends AbstractObjectCollection
     public function bySupport(EntityTypeClassString $entityType): iterable
     {
         return $this->filter(
-            static fn (ReceiverContract $emitter): bool => $entityType->same($emitter->getSupportedEntityType())
+            static fn (ReceiverContract $receiver): bool => $entityType->same($receiver->getSupportedEntityType())
         );
     }
 
