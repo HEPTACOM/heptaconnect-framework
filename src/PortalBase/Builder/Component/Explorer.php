@@ -47,7 +47,7 @@ final class Explorer extends ExplorerContract
         return $this->isAllowedMethod instanceof SerializableClosure ? $this->isAllowedMethod->getClosure() : null;
     }
 
-    public function supports(): string
+    protected function supports(): string
     {
         return $this->entityType->getClassString();
     }

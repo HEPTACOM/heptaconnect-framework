@@ -47,7 +47,7 @@ final class Receiver extends ReceiverContract
         return $this->batchMethod instanceof SerializableClosure ? $this->batchMethod->getClosure() : null;
     }
 
-    public function supports(): string
+    protected function supports(): string
     {
         return $this->entityType->getClassString();
     }

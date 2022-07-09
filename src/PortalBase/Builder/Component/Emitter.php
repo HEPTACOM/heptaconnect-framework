@@ -41,7 +41,7 @@ final class Emitter extends EmitterContract
         $this->extendMethod = $extend instanceof \Closure ? new SerializableClosure($extend) : null;
     }
 
-    public function supports(): string
+    protected function supports(): string
     {
         return $this->entityType->getClassString();
     }
