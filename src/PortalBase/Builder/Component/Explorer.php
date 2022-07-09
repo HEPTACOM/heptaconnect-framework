@@ -6,6 +6,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString;
+use Heptacom\HeptaConnect\Dataset\Base\Support\UnsafeClassString;
 use Heptacom\HeptaConnect\Portal\Base\Builder\BindThisTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
@@ -94,7 +95,7 @@ final class Explorer extends ExplorerContract
                     return $externalId;
                 }
 
-                if (\is_string($propertyType) && $this->getSupportedEntityType()->matchClassStringIsOfType($propertyType)) {
+                if (\is_string($propertyType) && $this->getSupportedEntityType()->matchClassStringIsOfType(new UnsafeClassString($propertyType))) {
                     return $entity;
                 }
 

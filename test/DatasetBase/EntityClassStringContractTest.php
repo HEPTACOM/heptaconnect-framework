@@ -44,26 +44,26 @@ final class EntityClassStringContractTest extends TestCase
         $subEntityClass = \get_class(new class() extends SerializationDatasetEntity {
         });
 
-        static::assertTrue(SerializationDatasetEntity::class()->matchClassStringIsOfType(SerializationDatasetEntity::class));
+        static::assertTrue(SerializationDatasetEntity::class()->matchClassStringIsOfType(SerializationDatasetEntity::class()));
         static::assertTrue(SerializationDatasetEntity::class()->matchObjectIsOfType($entity));
         static::assertTrue(SerializationDatasetEntity::class()->matchObjectEqualsType($entity));
         static::assertTrue(SerializationDatasetEntity::class()->matchObjectSameType($entity));
 
         $subEntityClassString = $subEntityClass::class();
 
-        static::assertFalse($subEntityClassString->matchClassStringIsOfType(SerializationDatasetEntity::class));
+        static::assertFalse($subEntityClassString->matchClassStringIsOfType(SerializationDatasetEntity::class()));
         static::assertFalse($subEntityClassString->matchObjectIsOfType($entity));
         static::assertFalse($subEntityClassString->matchObjectEqualsType($entity));
         static::assertFalse($subEntityClassString->matchObjectSameType($entity));
 
         $subEntity = new $subEntityClass();
 
-        static::assertTrue(SerializationDatasetEntity::class()->matchClassStringIsOfType($subEntityClass));
+        static::assertTrue(SerializationDatasetEntity::class()->matchClassStringIsOfType($subEntityClass::class()));
         static::assertTrue(SerializationDatasetEntity::class()->matchObjectIsOfType($subEntity));
         static::assertFalse(SerializationDatasetEntity::class()->matchObjectEqualsType($subEntity));
         static::assertFalse(SerializationDatasetEntity::class()->matchObjectSameType($subEntity));
 
-        static::assertTrue($subEntityClassString->matchClassStringIsOfType($subEntityClass));
+        static::assertTrue($subEntityClassString->matchClassStringIsOfType($subEntityClass::class()));
         static::assertTrue($subEntityClassString->matchObjectIsOfType($subEntity));
         static::assertTrue($subEntityClassString->matchObjectEqualsType($subEntity));
         static::assertTrue($subEntityClassString->matchObjectSameType($subEntity));

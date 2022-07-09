@@ -34,9 +34,9 @@ abstract class ClassStringContract extends ClassStringReferenceContract
     /**
      * Compares the given class-string to be equal or a subtype of this represented class string.
      */
-    final public function matchClassStringIsOfType(string $classString): bool
+    final public function matchClassStringIsOfType(ClassStringReferenceContract $classString): bool
     {
-        return \is_a($classString, $this->getClassString(), true);
+        return \is_a($classString->getClassString(), $this->getClassString(), true);
     }
 
     /**
