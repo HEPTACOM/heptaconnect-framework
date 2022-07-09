@@ -41,11 +41,6 @@ final class Emitter extends EmitterContract
         $this->extendMethod = $extend instanceof \Closure ? new SerializableClosure($extend) : null;
     }
 
-    protected function supports(): string
-    {
-        return $this->entityType->getClassString();
-    }
-
     public function getRunMethod(): ?\Closure
     {
         return $this->runMethod instanceof SerializableClosure ? $this->runMethod->getClosure() : null;
@@ -59,6 +54,11 @@ final class Emitter extends EmitterContract
     public function getExtendMethod(): ?\Closure
     {
         return $this->extendMethod instanceof SerializableClosure ? $this->extendMethod->getClosure() : null;
+    }
+
+    protected function supports(): string
+    {
+        return $this->entityType->getClassString();
     }
 
     protected function batch(iterable $externalIds, EmitContextInterface $context): iterable

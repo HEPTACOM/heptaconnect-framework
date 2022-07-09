@@ -46,7 +46,7 @@ final class PrimaryKeySharingMappingStruct implements AttachableInterface, Forei
         $this->mappingNodeKey = $mappingNodeKey;
     }
 
-    public function __wakeup()
+    public function __wakeup(): void
     {
         // construct for validation, but don't store to prevent serialization
         // validation should always be true, as `unserialize` would fail when the class is not available
@@ -55,7 +55,7 @@ final class PrimaryKeySharingMappingStruct implements AttachableInterface, Forei
 
     public function getEntityType(): EntityType
     {
-        /**
+        /*
          * We do not expect a throw here, because it has been validated in @see __construct, __wakeup
          */
         return new EntityType($this->entityType);
