@@ -20,16 +20,6 @@ class ExplorerToken
         $this->entityType = $entityType;
     }
 
-    /**
-     * @deprecated Use @see getEntityType instead
-     *
-     * @return class-string<DatasetEntityContract>
-     */
-    public function getType(): string
-    {
-        return $this->entityType->getClassString();
-    }
-
     public function getEntityType(): EntityTypeClassString
     {
         return $this->entityType;
