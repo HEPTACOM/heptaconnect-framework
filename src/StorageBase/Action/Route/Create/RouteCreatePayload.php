@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Create;
 
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
-use Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassString;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Create\CreatePayloadInterface;
@@ -19,7 +19,7 @@ final class RouteCreatePayload implements CreatePayloadInterface, AttachmentAwar
 
     protected PortalNodeKeyInterface $targetPortalNodeKey;
 
-    protected EntityTypeClassString $entityType;
+    protected EntityType $entityType;
 
     /**
      * @var string[]
@@ -32,7 +32,7 @@ final class RouteCreatePayload implements CreatePayloadInterface, AttachmentAwar
     public function __construct(
         PortalNodeKeyInterface $sourcePortalNodeKey,
         PortalNodeKeyInterface $targetPortalNodeKey,
-        EntityTypeClassString $entityType,
+        EntityType $entityType,
         array $capabilities = []
     ) {
         $this->attachments = new AttachmentCollection();
@@ -62,12 +62,12 @@ final class RouteCreatePayload implements CreatePayloadInterface, AttachmentAwar
         $this->targetPortalNodeKey = $targetPortalNodeKey;
     }
 
-    public function getEntityType(): EntityTypeClassString
+    public function getEntityType(): EntityType
     {
         return $this->entityType;
     }
 
-    public function setEntityType(EntityTypeClassString $entityType): void
+    public function setEntityType(EntityType $entityType): void
     {
         $this->entityType = $entityType;
     }

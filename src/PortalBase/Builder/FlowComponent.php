@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Builder;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
-use Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassString;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\EmitterBuilder;
@@ -80,7 +80,7 @@ class FlowComponent implements LoggerAwareInterface
      */
     public static function explorer(string $type, ?\Closure $run = null, ?\Closure $isAllowed = null): ExplorerBuilder
     {
-        self::$explorerTokens[] = $token = new ExplorerToken(new EntityTypeClassString($type));
+        self::$explorerTokens[] = $token = new ExplorerToken(new EntityType($type));
         $builder = new ExplorerBuilder($token);
 
         if ($run instanceof \Closure) {
@@ -106,7 +106,7 @@ class FlowComponent implements LoggerAwareInterface
         ?\Closure $extend = null,
         ?\Closure $batch = null
     ): EmitterBuilder {
-        self::$emitterTokens[] = $token = new EmitterToken(new EntityTypeClassString($type));
+        self::$emitterTokens[] = $token = new EmitterToken(new EntityType($type));
         $builder = new EmitterBuilder($token);
 
         if ($run instanceof \Closure) {
@@ -132,7 +132,7 @@ class FlowComponent implements LoggerAwareInterface
      */
     public static function receiver(string $type, ?\Closure $run = null, ?\Closure $batch = null): ReceiverBuilder
     {
-        self::$receiverTokens[] = $token = new ReceiverToken(new EntityTypeClassString($type));
+        self::$receiverTokens[] = $token = new ReceiverToken(new EntityType($type));
         $builder = new ReceiverBuilder($token);
 
         if ($run instanceof \Closure) {

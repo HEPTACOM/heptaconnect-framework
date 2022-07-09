@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Exploration\Contract;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
-use Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassString;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityException;
@@ -18,7 +18,7 @@ use Psr\Log\LoggerInterface;
  */
 abstract class ExplorerContract
 {
-    private ?EntityTypeClassString $supportedEntityType = null;
+    private ?EntityType $supportedEntityType = null;
 
     /**
      * First entrypoint to handle an exploration in this flow component.
@@ -39,9 +39,9 @@ abstract class ExplorerContract
      * @throws InvalidClassNameException
      * @throws InvalidSubtypeClassNameException
      */
-    final public function getSupportedEntityType(): EntityTypeClassString
+    final public function getSupportedEntityType(): EntityType
     {
-        return $this->supportedEntityType ??= new EntityTypeClassString($this->supports());
+        return $this->supportedEntityType ??= new EntityType($this->supports());
     }
 
     /**

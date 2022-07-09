@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Mapping;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
-use Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassString;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -66,7 +66,7 @@ class MappingComponentCollection extends AbstractObjectCollection
     /**
      * @psalm-return \Generator<MappingComponentStructContract>
      */
-    public function filterByEntityType(EntityTypeClassString $entityType): \Generator
+    public function filterByEntityType(EntityType $entityType): \Generator
     {
         return $this->filter(
             static fn (MappingComponentStructContract $mc): bool => $mc->getEntityType()->same($entityType)

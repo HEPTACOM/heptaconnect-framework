@@ -11,15 +11,15 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
  */
 final class TypedDatasetEntityCollection extends DatasetEntityCollection
 {
-    private EntityTypeClassString $type;
+    private EntityType $type;
 
     /**
-     * @psalm-param class-string<DatasetEntityContract>|EntityTypeClassString $type
+     * @psalm-param class-string<DatasetEntityContract>|EntityType $type
      * @psalm-param iterable<int, DatasetEntityContract> $items
      */
     public function __construct($type, iterable $items = [])
     {
-        $this->type = new EntityTypeClassString((string) $type);
+        $this->type = new EntityType((string) $type);
 
         parent::__construct($items);
     }
@@ -34,7 +34,7 @@ final class TypedDatasetEntityCollection extends DatasetEntityCollection
         return $this->type->getClassString();
     }
 
-    public function getEntityType(): EntityTypeClassString
+    public function getEntityType(): EntityType
     {
         return $this->type;
     }

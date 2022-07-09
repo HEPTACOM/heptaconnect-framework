@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Test\Fixture;
 
-use Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassString;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -15,12 +15,12 @@ final class MappingStruct implements MappingInterface
 
     private MappingNodeKeyInterface $mappingNodeKey;
 
-    private EntityTypeClassString $entityType;
+    private EntityType $entityType;
 
     public function __construct(
         PortalNodeKeyInterface $portalNodeKey,
         MappingNodeKeyInterface $mappingNodeKey,
-        EntityTypeClassString $entityType
+        EntityType $entityType
     ) {
         $this->portalNodeKey = $portalNodeKey;
         $this->mappingNodeKey = $mappingNodeKey;
@@ -47,7 +47,7 @@ final class MappingStruct implements MappingInterface
         return $this->mappingNodeKey;
     }
 
-    public function getEntityType(): EntityTypeClassString
+    public function getEntityType(): EntityType
     {
         return $this->entityType;
     }

@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
 
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\DependencyCollection;
-use Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassString;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Dataset\Base\Support\DeferralAwareTrait;
 use Heptacom\HeptaConnect\Dataset\Base\Support\DependencyAwareTrait;
@@ -48,8 +48,8 @@ abstract class DatasetEntityContract implements AttachableInterface, AttachmentA
     /**
      * Returns an class string instance for the type of the extending class.
      */
-    final public static function class(): EntityTypeClassString
+    final public static function class(): EntityType
     {
-        return new EntityTypeClassString(static::class);
+        return new EntityType(static::class);
     }
 }

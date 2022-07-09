@@ -10,7 +10,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract;
 /**
  * @extends SubtypeClassStringContract<DatasetEntityContract>
  */
-class EntityTypeClassString extends SubtypeClassStringContract
+class EntityType extends SubtypeClassStringContract
 {
     public function getExpectedSuperClassName(): string
     {

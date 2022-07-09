@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Mapping\Contract;
 
-use Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassString;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\Support\JsonSerializeObjectVarsTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
@@ -24,7 +24,7 @@ abstract class MappingComponentStructContract implements \JsonSerializable
     /**
      * Get entity type of the mapping.
      */
-    abstract public function getEntityType(): EntityTypeClassString;
+    abstract public function getEntityType(): EntityType;
 
     /**
      * Get the primary key used by the referenced identity.

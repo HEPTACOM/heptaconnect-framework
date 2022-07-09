@@ -7,11 +7,11 @@ namespace Heptacom\HeptaConnect\Dataset\Base;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 
 /**
- * @extends AbstractObjectCollection<EntityTypeClassString>
+ * @extends AbstractObjectCollection<EntityType>
  */
-class EntityTypeClassStringCollection extends ClassStringReferenceCollection
+class EntityTypeCollection extends ClassStringReferenceCollection
 {
-    public function has(EntityTypeClassString $classString): bool
+    public function has(EntityType $classString): bool
     {
         foreach ($this->filter([$classString, 'equals']) as $_) {
             return true;
@@ -22,6 +22,6 @@ class EntityTypeClassStringCollection extends ClassStringReferenceCollection
 
     protected function getT(): string
     {
-        return EntityTypeClassString::class;
+        return EntityType::class;
     }
 }

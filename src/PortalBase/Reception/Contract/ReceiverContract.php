@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Reception\Contract;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
-use Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassString;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
@@ -16,7 +16,7 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityE
  */
 abstract class ReceiverContract
 {
-    private ?EntityTypeClassString $supportedEntityType = null;
+    private ?EntityType $supportedEntityType = null;
 
     /**
      * First entrypoint to handle a reception in this flow component.
@@ -40,9 +40,9 @@ abstract class ReceiverContract
      * @throws InvalidClassNameException
      * @throws InvalidSubtypeClassNameException
      */
-    final public function getSupportedEntityType(): EntityTypeClassString
+    final public function getSupportedEntityType(): EntityType
     {
-        return $this->supportedEntityType ??= new EntityTypeClassString($this->supports());
+        return $this->supportedEntityType ??= new EntityType($this->supports());
     }
 
     /**

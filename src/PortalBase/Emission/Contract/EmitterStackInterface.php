@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Emission\Contract;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
-use Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassString;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 
 /**
  * Resembles a collection of emitters that can be used to emit a common supported entity type.
@@ -24,5 +24,5 @@ interface EmitterStackInterface
     /**
      * Gets the supported entity type of the stack.
      */
-    public function supports(): EntityTypeClassString;
+    public function supports(): EntityType;
 }

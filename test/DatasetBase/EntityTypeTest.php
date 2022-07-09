@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\DatasetBase\Test;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
-use Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassString;
-use Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassStringCollection;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
+use Heptacom\HeptaConnect\Dataset\Base\EntityTypeCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
-use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,14 +17,14 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassString
- * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassStringCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityTypeCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  */
-final class EntityTypeClassStringTest extends TestCase
+final class EntityTypeTest extends TestCase
 {
     public function testNoExceptionOnValidClassString(): void
     {
@@ -36,7 +35,7 @@ final class EntityTypeClassStringTest extends TestCase
     {
         static::expectException(InvalidClassNameException::class);
         static::expectExceptionCode(1655559295);
-        new EntityTypeClassString('foo\bar');
+        new EntityType('foo\bar');
     }
 
     public function testExceptionOnInvalidSubClassString(): void
@@ -86,7 +85,7 @@ final class EntityTypeClassStringTest extends TestCase
 
     public function testCollection(): void
     {
-        $collection = new EntityTypeClassStringCollection();
+        $collection = new EntityTypeCollection();
         $collection->push([
             SerializationDatasetEntity::class(),
         ]);

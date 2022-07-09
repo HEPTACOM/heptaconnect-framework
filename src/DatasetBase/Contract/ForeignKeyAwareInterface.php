@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
 
-use Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassString;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 
 interface ForeignKeyAwareInterface
 {
-    public function getForeignEntityType(): EntityTypeClassString;
+    public function getForeignEntityType(): EntityType;
 
     public function getForeignKey(): ?string;
 
