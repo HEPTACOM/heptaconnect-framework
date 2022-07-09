@@ -46,7 +46,7 @@ abstract class DatasetEntityContract implements AttachableInterface, AttachmentA
     }
 
     /**
-     * Returns an class string instance for the type of the extending class.
+     * Returns a class string instance for the type of the extending class.
      */
     final public static function class(): EntityType
     {
