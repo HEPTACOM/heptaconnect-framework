@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Builder;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassString;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException;
-use Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\EmitterBuilder;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\ExplorerBuilder;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\HttpHandlerBuilder;

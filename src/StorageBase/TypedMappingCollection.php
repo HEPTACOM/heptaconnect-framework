@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base;
 
-use Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString;
+use Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassString;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 
 class TypedMappingCollection extends MappingCollection

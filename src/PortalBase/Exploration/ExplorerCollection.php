@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Exploration;
 
+use Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassString;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
-use Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 
 /**

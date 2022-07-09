@@ -9,20 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add `\Heptacom\HeptaConnect\Dataset\Base\Support\UnsafeClassString` based on class `\Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract` to have a string references, that could be a class-string for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Add `\Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString` based on class `\Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract` to have a string references, that could be a class-string for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Add base class `\Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract` to have a type safe way to make class string references for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Add base class `\Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract` to have a type safe way to make class string references that are of a subtype for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
-- Add `\Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString` as a type safe subtype class reference to `\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Add `\Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassString` as a type safe subtype class reference to `\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Add `\Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException` and `\Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException` to reference class-string issues for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 
 ### Changed
 
-- Change return type of `\Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface::getForeignEntityType` from `class-string` to `\Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString` to improve type safety for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Change return type of `\Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface::getForeignEntityType` from `class-string` to `\Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassString` to improve type safety for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 
 ### Deprecated
 
 - Deprecate `\Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection::getType` in favour of `\Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection::getEntityType` to improve type safety for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
-- Deprecate `$type` parameter in `\Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection::__construct` to be a string. Prefer an instance of `\Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Deprecate `$type` parameter in `\Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection::__construct` to be a string. Prefer an instance of `\Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassString` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 
 ### Removed
 

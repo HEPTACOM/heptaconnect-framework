@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\DatasetBase\Test;
 
-use Heptacom\HeptaConnect\Dataset\Base\Support\UnsafeClassString;
+use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\UnsafeClassString
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString
  */
 final class UnsafeClassStringTest extends TestCase
 {

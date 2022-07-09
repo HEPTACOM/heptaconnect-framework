@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
 
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
-use Heptacom\HeptaConnect\Dataset\Base\Support\UnsafeClassString;
+use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 
 /**
  * @template T
