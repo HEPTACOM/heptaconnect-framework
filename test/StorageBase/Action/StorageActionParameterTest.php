@@ -237,6 +237,7 @@ class StorageActionParameterTest extends TestCase
         $jobKeys = new JobKeyCollection();
         $routeKeys = new RouteKeyCollection();
         $createdAt = \date_create();
+        $unsafeClass = new UnsafeClassString($entityType);
 
         yield new FileReferencePersistRequestPayload($portalNodeKey);
         yield new FileReferencePersistRequestResult($portalNodeKey);
@@ -245,7 +246,8 @@ class StorageActionParameterTest extends TestCase
         yield new IdentityMapPayload($portalNodeKey, $entityCollection);
         yield new IdentityMapResult($mappedDatasetEntityCollection);
         yield new IdentityOverviewCriteria();
-        yield new IdentityOverviewResult($portalNodeKey, $mappingNodeKey, $externalId, new UnsafeClassString($entityType), $createdAt);
+        yield new IdentityOverviewResult($portalNodeKey, $mappingNodeKey, $externalId, $unsafeClass, $createdAt);
+        yield new IdentityOverviewResult($portalNodeKey, $mappingNodeKey, $externalId, $entityType::class(), $createdAt);
         yield new IdentityPersistPayload($portalNodeKey, new IdentityPersistPayloadCollection());
         yield new IdentityReflectPayload($portalNodeKey, $mappedDatasetEntityCollection);
         yield new IdentityErrorCreatePayloads();
@@ -308,13 +310,17 @@ class StorageActionParameterTest extends TestCase
         yield new RouteCreateResults();
         yield new RouteDeleteCriteria($routeKeys);
         yield new RouteFindCriteria($portalNodeKey, $portalNodeKey, $entityType::class());
+        yield new RouteFindCriteria($portalNodeKey, $portalNodeKey, $unsafeClass);
         yield new RouteFindResult($routeKey);
         yield new RouteGetCriteria($routeKeys);
         yield new RouteGetResult($routeKey, $portalNodeKey, $portalNodeKey, $entityType::class(), []);
+        yield new RouteGetResult($routeKey, $portalNodeKey, $portalNodeKey, $unsafeClass, []);
         yield new ReceptionRouteListCriteria($portalNodeKey, $entityType::class());
+        yield new ReceptionRouteListCriteria($portalNodeKey, $unsafeClass);
         yield new ReceptionRouteListResult($routeKey);
         yield new RouteOverviewCriteria();
         yield new RouteOverviewResult($routeKey, $entityType::class(), $portalNodeKey, $portalClass, $portalNodeKey, $portalClass, $createdAt, []);
+        yield new RouteOverviewResult($routeKey, $unsafeClass, $portalNodeKey, $portalClass, $portalNodeKey, $portalClass, $createdAt, []);
         yield new RouteCapabilityOverviewCriteria();
         yield new RouteCapabilityOverviewResult('', $createdAt);
         yield new WebHttpHandlerConfigurationFindCriteria($portalNodeKey, '', '');

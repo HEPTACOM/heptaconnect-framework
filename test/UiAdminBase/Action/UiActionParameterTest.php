@@ -7,6 +7,7 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Test\Action;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEmitter;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortalExtension;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\FirstEntity;
@@ -65,9 +66,11 @@ final class UiActionParameterTest extends TestCase
         $codeOrigin = new CodeOrigin(__FILE__, 0, 1);
         $portalNodeKey = new PreviewPortalNodeKey($portalClass);
         $portalExtensionClass = FooBarPortalExtension::class;
+        $unsafeClass = new UnsafeClassString($entityType);
 
         yield new PortalEntityListCriteria($portalClass);
         yield new PortalEntityListResult($codeOrigin, $entityType::class(), FooBarEmitter::class);
+        yield new PortalEntityListResult($codeOrigin, $unsafeClass, FooBarEmitter::class);
         yield new PortalNodeAddPayload($portalClass);
         yield new PortalNodeAddResult($portalNodeKey);
         yield new PortalNodeExtensionActivatePayload($portalNodeKey);
