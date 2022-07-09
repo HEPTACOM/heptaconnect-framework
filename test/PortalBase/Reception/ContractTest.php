@@ -50,7 +50,7 @@ final class ContractTest extends TestCase
             $this->createMock(ReceiveContextInterface::class),
             $this->createMock(ReceiverStackInterface::class)
         ));
-        static::assertTrue($receiver->getSupportedEntityType()->same(FirstEntity::class()));
+        static::assertTrue($receiver->getSupportedEntityType()->equals(FirstEntity::class()));
     }
 
     public function testExtendingReceiverContractLikeIn0Dot9(): void
@@ -75,7 +75,7 @@ final class ContractTest extends TestCase
             $this->createMock(ReceiveContextInterface::class),
             $this->createMock(ReceiverStackInterface::class)
         ));
-        static::assertTrue($receiver->getSupportedEntityType()->same(FirstEntity::class()));
+        static::assertTrue($receiver->getSupportedEntityType()->equals(FirstEntity::class()));
     }
 
     public function testAttachmentReadingReceiverContract(): void
@@ -100,8 +100,8 @@ final class ContractTest extends TestCase
                 return FirstEntity::class;
             }
         };
-        static::assertTrue(FirstEntity::class()->same($receiver->getSupportedEntityType()));
-        static::assertTrue(FirstEntity::class()->same($decoratingReceiver->getSupportedEntityType()));
+        static::assertTrue(FirstEntity::class()->equals($receiver->getSupportedEntityType()));
+        static::assertTrue(FirstEntity::class()->equals($decoratingReceiver->getSupportedEntityType()));
 
         $context = $this->createMock(ReceiveContextInterface::class);
         $entities = new TypedDatasetEntityCollection(FirstEntity::class(), [new FirstEntity()]);

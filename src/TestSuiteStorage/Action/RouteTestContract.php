@@ -133,7 +133,7 @@ abstract class RouteTestContract extends TestCase
                 static::assertTrue($getResult->getRouteKey()->equals($findResult->getRouteKey()));
                 static::assertTrue($getResult->getSourcePortalNodeKey()->equals($createPayload->getSourcePortalNodeKey()));
                 static::assertTrue($getResult->getTargetPortalNodeKey()->equals($createPayload->getTargetPortalNodeKey()));
-                static::assertTrue($getResult->getEntityType()->same($createPayload->getEntityType()));
+                static::assertTrue($getResult->getEntityType()->equals($createPayload->getEntityType()));
 
                 /** @var ReceptionRouteListResult[] $listResults */
                 $listResults = \iterable_to_array($this->routeReceptionListAction->list(new ReceptionRouteListCriteria(

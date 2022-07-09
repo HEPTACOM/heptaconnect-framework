@@ -58,7 +58,7 @@ final class Emitter extends EmitterContract
 
     protected function supports(): string
     {
-        return $this->entityType->getClassString();
+        return (string) $this->entityType;
     }
 
     protected function batch(iterable $externalIds, EmitContextInterface $context): iterable
@@ -165,7 +165,7 @@ final class Emitter extends EmitterContract
         /** @var array-key $resultKey */
         foreach ($result as $resultKey => $resultItem) {
             if (!$resultItem instanceof DatasetEntityContract || !$this->isSupported($resultItem)) {
-                throw new InvalidResultException(1637017868, 'Emitter', 'batch', $this->getSupportedEntityType()->getClassString());
+                throw new InvalidResultException(1637017868, 'Emitter', 'batch', (string) $this->getSupportedEntityType());
             }
 
             yield $resultKey => $resultItem;

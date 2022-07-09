@@ -31,7 +31,7 @@ class TypedMappingCollection extends MappingCollection
      */
     public function getType(): string
     {
-        return $this->entityType->getClassString();
+        return (string) $this->entityType;
     }
 
     protected function isValidItem($item): bool
@@ -44,6 +44,6 @@ class TypedMappingCollection extends MappingCollection
             return false;
         }
 
-        return $item->getEntityType()->same($this->entityType);
+        return $item->getEntityType()->equals($this->entityType);
     }
 }

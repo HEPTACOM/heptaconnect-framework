@@ -29,8 +29,8 @@ class MappingComponentCollection extends AbstractObjectCollection
 
         /** @var MappingComponentStructContract $mappingComponent */
         foreach ($this->getIterator() as $mappingComponent) {
-            if (!\in_array($mappingComponent->getEntityType()->getClassString(), $result, true)) {
-                $result[] = $mappingComponent->getEntityType()->getClassString();
+            if (!\in_array((string) $mappingComponent->getEntityType(), $result, true)) {
+                $result[] = (string) $mappingComponent->getEntityType();
             }
         }
 
@@ -69,7 +69,7 @@ class MappingComponentCollection extends AbstractObjectCollection
     public function filterByEntityType(EntityType $entityType): \Generator
     {
         return $this->filter(
-            static fn (MappingComponentStructContract $mc): bool => $mc->getEntityType()->same($entityType)
+            static fn (MappingComponentStructContract $mc): bool => $mc->getEntityType()->equals($entityType)
         );
     }
 

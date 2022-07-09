@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\EntityTypeCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
 use PHPUnit\Framework\TestCase;
 
@@ -21,6 +22,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityTypeCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  */
@@ -29,6 +31,13 @@ final class EntityTypeTest extends TestCase
     public function testNoExceptionOnValidClassString(): void
     {
         static::assertSame(SerializationDatasetEntity::class, (string) SerializationDatasetEntity::class());
+    }
+
+    public function testExceptionOnInvalidClassStringFormat(): void
+    {
+        static::expectException(UnexpectedLeadingNamespaceSeparatorInClassNameException::class);
+        static::expectExceptionCode(1655559294);
+        new EntityType('\\' . SerializationDatasetEntity::class);
     }
 
     public function testExceptionOnInvalidClassString(): void
@@ -54,33 +63,28 @@ final class EntityTypeTest extends TestCase
         static::assertTrue(SerializationDatasetEntity::class()->isClassStringOfType(SerializationDatasetEntity::class()));
         static::assertTrue(SerializationDatasetEntity::class()->isObjectOfType($entity));
         static::assertTrue(SerializationDatasetEntity::class()->equalsObjectType($entity));
-        static::assertTrue(SerializationDatasetEntity::class()->sameObjectType($entity));
 
         $subEntityClassString = $subEntityClass::class();
 
         static::assertFalse($subEntityClassString->isClassStringOfType(SerializationDatasetEntity::class()));
         static::assertFalse($subEntityClassString->isObjectOfType($entity));
         static::assertFalse($subEntityClassString->equalsObjectType($entity));
-        static::assertFalse($subEntityClassString->sameObjectType($entity));
 
         $subEntity = new $subEntityClass();
 
         static::assertTrue(SerializationDatasetEntity::class()->isClassStringOfType($subEntityClass::class()));
         static::assertTrue(SerializationDatasetEntity::class()->isObjectOfType($subEntity));
         static::assertFalse(SerializationDatasetEntity::class()->equalsObjectType($subEntity));
-        static::assertFalse(SerializationDatasetEntity::class()->sameObjectType($subEntity));
 
         static::assertTrue($subEntityClassString->isClassStringOfType($subEntityClass::class()));
         static::assertTrue($subEntityClassString->isObjectOfType($subEntity));
         static::assertTrue($subEntityClassString->equalsObjectType($subEntity));
-        static::assertTrue($subEntityClassString->sameObjectType($subEntity));
     }
 
     public function testObjectNullAllowed(): void
     {
         static::assertFalse(SerializationDatasetEntity::class()->isObjectOfType(null));
         static::assertFalse(SerializationDatasetEntity::class()->equalsObjectType(null));
-        static::assertFalse(SerializationDatasetEntity::class()->sameObjectType(null));
     }
 
     public function testCollection(): void

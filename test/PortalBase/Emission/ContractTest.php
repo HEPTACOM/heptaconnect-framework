@@ -46,7 +46,7 @@ final class ContractTest extends TestCase
                 return FirstEntity::class;
             }
         };
-        static::assertTrue(FirstEntity::class()->same($emitter->getSupportedEntityType()));
+        static::assertTrue(FirstEntity::class()->equals($emitter->getSupportedEntityType()));
         static::assertCount(0, $emitter->emit(
             [],
             $this->createMock(EmitContextInterface::class),
@@ -67,7 +67,7 @@ final class ContractTest extends TestCase
                 return FirstEntity::class;
             }
         };
-        static::assertTrue(FirstEntity::class()->same($emitter->getSupportedEntityType()));
+        static::assertTrue(FirstEntity::class()->equals($emitter->getSupportedEntityType()));
         static::assertCount(0, $emitter->emit(
             [],
             $this->createMock(EmitContextInterface::class),
@@ -105,8 +105,8 @@ final class ContractTest extends TestCase
                 return FirstEntity::class;
             }
         };
-        static::assertTrue(FirstEntity::class()->same($emitter->getSupportedEntityType()));
-        static::assertTrue(FirstEntity::class()->same($decoratingEmitter->getSupportedEntityType()));
+        static::assertTrue(FirstEntity::class()->equals($emitter->getSupportedEntityType()));
+        static::assertTrue(FirstEntity::class()->equals($decoratingEmitter->getSupportedEntityType()));
 
         $context = $this->createMock(EmitContextInterface::class);
         $container = $this->createMock(ContainerInterface::class);

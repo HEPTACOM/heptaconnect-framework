@@ -49,7 +49,7 @@ final class Receiver extends ReceiverContract
 
     protected function supports(): string
     {
-        return $this->entityType->getClassString();
+        return (string) $this->entityType;
     }
 
     protected function batch(

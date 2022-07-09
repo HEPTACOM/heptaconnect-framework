@@ -36,7 +36,7 @@ final class ContractTest extends TestCase
                 return FirstEntity::class;
             }
         };
-        static::assertTrue(FirstEntity::class()->same($explorer->getSupportedEntityType()));
+        static::assertTrue(FirstEntity::class()->equals($explorer->getSupportedEntityType()));
         static::assertCount(0, $explorer->explore(
             $this->createMock(ExploreContextInterface::class),
             $this->createMock(ExplorerStackInterface::class)
@@ -56,7 +56,7 @@ final class ContractTest extends TestCase
                 return FirstEntity::class;
             }
         };
-        static::assertTrue(FirstEntity::class()->same($explorer->getSupportedEntityType()));
+        static::assertTrue(FirstEntity::class()->equals($explorer->getSupportedEntityType()));
         static::assertCount(0, $explorer->explore(
             $this->createMock(ExploreContextInterface::class),
             $this->createMock(ExplorerStackInterface::class)
@@ -88,8 +88,8 @@ final class ContractTest extends TestCase
                 return $externalId === 'good';
             }
         };
-        static::assertTrue(FirstEntity::class()->same($explorer->getSupportedEntityType()));
-        static::assertTrue(FirstEntity::class()->same($decoratingExplorer->getSupportedEntityType()));
+        static::assertTrue(FirstEntity::class()->equals($explorer->getSupportedEntityType()));
+        static::assertTrue(FirstEntity::class()->equals($decoratingExplorer->getSupportedEntityType()));
 
         $context = $this->createMock(ExploreContextInterface::class);
 

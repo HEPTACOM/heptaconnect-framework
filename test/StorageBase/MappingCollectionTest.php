@@ -91,8 +91,8 @@ final class MappingCollectionTest extends TestCase
         static::assertCount(1, $groupByType[DatasetEntityStruct::class]);
         static::assertCount(2, $groupByType[FirstEntity::class]);
         static::assertCount(1, $groupByType[SecondEntity::class]);
-        static::assertTrue(DatasetEntityStruct::class()->same($groupByType[DatasetEntityStruct::class]->getEntityType()));
-        static::assertTrue(FirstEntity::class()->same($groupByType[FirstEntity::class]->getEntityType()));
-        static::assertTrue(SecondEntity::class()->same($groupByType[SecondEntity::class]->getEntityType()));
+        static::assertTrue(DatasetEntityStruct::class()->equals($groupByType[DatasetEntityStruct::class]->getEntityType()));
+        static::assertTrue(FirstEntity::class()->equals($groupByType[FirstEntity::class]->getEntityType()));
+        static::assertTrue(SecondEntity::class()->equals($groupByType[SecondEntity::class]->getEntityType()));
     }
 }

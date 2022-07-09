@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Dataset\Base;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException;
 
 /**
  * @extends DatasetEntityCollection<DatasetEntityContract>
@@ -16,6 +19,10 @@ final class TypedDatasetEntityCollection extends DatasetEntityCollection
     /**
      * @psalm-param class-string<DatasetEntityContract>|EntityType $type
      * @psalm-param iterable<int, DatasetEntityContract> $items
+     *
+     * @throws InvalidClassNameException
+     * @throws InvalidSubtypeClassNameException
+     * @throws UnexpectedLeadingNamespaceSeparatorInClassNameException
      */
     public function __construct($type, iterable $items = [])
     {
@@ -31,7 +38,7 @@ final class TypedDatasetEntityCollection extends DatasetEntityCollection
      */
     public function getType(): string
     {
-        return $this->type->getClassString();
+        return (string) $this->type;
     }
 
     public function getEntityType(): EntityType

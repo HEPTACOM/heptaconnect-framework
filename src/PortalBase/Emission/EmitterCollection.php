@@ -19,7 +19,7 @@ class EmitterCollection extends AbstractObjectCollection
     public function bySupport(EntityType $entityType): iterable
     {
         return $this->filter(
-            static fn (EmitterContract $emitter): bool => $entityType->same($emitter->getSupportedEntityType())
+            static fn (EmitterContract $emitter): bool => $entityType->equals($emitter->getSupportedEntityType())
         );
     }
 

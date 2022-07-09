@@ -6,6 +6,7 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
 
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException;
 
 /**
  * @template T
@@ -18,12 +19,12 @@ abstract class SubtypeClassStringContract extends ClassStringContract
      *
      * @throws InvalidClassNameException
      * @throws InvalidSubtypeClassNameException
+     * @throws UnexpectedLeadingNamespaceSeparatorInClassNameException
      */
     public function __construct(string $classString)
     {
         parent::__construct($classString);
 
-        $classString = $this->getClassString();
         $expectedClass = $this->getExpectedSuperClassName();
 
         if (!\is_subclass_of($classString, $expectedClass, true)) {

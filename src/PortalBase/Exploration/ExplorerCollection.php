@@ -19,7 +19,7 @@ class ExplorerCollection extends AbstractObjectCollection
     public function bySupport(EntityType $entityType): iterable
     {
         return $this->filter(
-            static fn (ExplorerContract $explorer): bool => $entityType->same($explorer->getSupportedEntityType())
+            static fn (ExplorerContract $explorer): bool => $entityType->equals($explorer->getSupportedEntityType())
         );
     }
 

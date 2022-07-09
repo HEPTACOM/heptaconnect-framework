@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityException;
 use Psr\Log\LoggerInterface;
 
@@ -50,6 +51,7 @@ abstract class EmitterContract
      *
      * @throws InvalidClassNameException
      * @throws InvalidSubtypeClassNameException
+     * @throws UnexpectedLeadingNamespaceSeparatorInClassNameException
      */
     final public function getSupportedEntityType(): EntityType
     {

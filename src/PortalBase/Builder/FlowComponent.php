@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\EmitterBuilder;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\ExplorerBuilder;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\HttpHandlerBuilder;
@@ -77,6 +78,7 @@ class FlowComponent implements LoggerAwareInterface
      *
      * @throws InvalidClassNameException
      * @throws InvalidSubtypeClassNameException
+     * @throws UnexpectedLeadingNamespaceSeparatorInClassNameException
      */
     public static function explorer(string $type, ?\Closure $run = null, ?\Closure $isAllowed = null): ExplorerBuilder
     {
@@ -99,6 +101,7 @@ class FlowComponent implements LoggerAwareInterface
      *
      * @throws InvalidClassNameException
      * @throws InvalidSubtypeClassNameException
+     * @throws UnexpectedLeadingNamespaceSeparatorInClassNameException
      */
     public static function emitter(
         string $type,
@@ -129,6 +132,7 @@ class FlowComponent implements LoggerAwareInterface
      *
      * @throws InvalidClassNameException
      * @throws InvalidSubtypeClassNameException
+     * @throws UnexpectedLeadingNamespaceSeparatorInClassNameException
      */
     public static function receiver(string $type, ?\Closure $run = null, ?\Closure $batch = null): ReceiverBuilder
     {

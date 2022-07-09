@@ -28,7 +28,7 @@ final class EmitterStackTest extends TestCase
     public function testEmptyStackDoesNotFail(): void
     {
         $stack = new EmitterStack([], FirstEntity::class());
-        static::assertTrue(FirstEntity::class()->same($stack->supports()));
+        static::assertTrue(FirstEntity::class()->equals($stack->supports()));
         static::assertCount(0, $stack->next(
             [],
             $this->createMock(EmitContextInterface::class)

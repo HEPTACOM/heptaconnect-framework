@@ -24,13 +24,7 @@ final class UnsafeClassStringTest extends TestCase
 {
     public function testNoExceptionOnInvalidClassString(): void
     {
-        static::assertSame('foo bar', (new UnsafeClassString('foo bar'))->getClassString());
-    }
-
-    public function testPrefixStripping(): void
-    {
-        static::assertSame('foo bar', (new UnsafeClassString('\foo bar'))->getClassString());
-        static::assertSame('\foo bar', (new UnsafeClassString('\foo bar'))->getAbsoluteClassString());
+        static::assertSame('foo bar', (string) (new UnsafeClassString('foo bar')));
     }
 
     public function testComparison(): void
@@ -39,11 +33,8 @@ final class UnsafeClassStringTest extends TestCase
         $foobar = new UnsafeClassString('foo bar');
         $notFoobar = new UnsafeClassString('gizmo');
         static::assertTrue($foobar->equals($foobar));
-        static::assertTrue($foobarWithLeadingNsSep->equals($foobar));
+        static::assertFalse($foobarWithLeadingNsSep->equals($foobar));
         static::assertFalse($notFoobar->equals($foobar));
-        static::assertTrue($foobar->same($foobar));
-        static::assertFalse($foobarWithLeadingNsSep->same($foobar));
-        static::assertFalse($notFoobar->same($foobar));
     }
 
     public function testOriginalInputCanBeFetched(): void

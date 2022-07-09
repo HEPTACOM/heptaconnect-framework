@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityException;
 
@@ -39,6 +40,7 @@ abstract class ReceiverContract
      *
      * @throws InvalidClassNameException
      * @throws InvalidSubtypeClassNameException
+     * @throws UnexpectedLeadingNamespaceSeparatorInClassNameException
      */
     final public function getSupportedEntityType(): EntityType
     {
@@ -112,7 +114,7 @@ abstract class ReceiverContract
         TypedDatasetEntityCollection $entities,
         ReceiveContextInterface $context
     ): iterable {
-        if (!$entities->getEntityType()->same($this->getSupportedEntityType())) {
+        if (!$entities->getEntityType()->equals($this->getSupportedEntityType())) {
             foreach ($entities as $entity) {
                 $context->markAsFailed($entity, new UnsupportedDatasetEntityException());
             }
@@ -136,7 +138,7 @@ abstract class ReceiverContract
         TypedDatasetEntityCollection $entities,
         ReceiveContextInterface $context
     ): iterable {
-        if (!$entities->getEntityType()->same($this->getSupportedEntityType())) {
+        if (!$entities->getEntityType()->equals($this->getSupportedEntityType())) {
             foreach ($entities as $entity) {
                 $context->markAsFailed($entity, new UnsupportedDatasetEntityException());
             }

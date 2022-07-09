@@ -49,7 +49,7 @@ final class Explorer extends ExplorerContract
 
     protected function supports(): string
     {
-        return $this->entityType->getClassString();
+        return (string) $this->entityType;
     }
 
     protected function run(ExploreContextInterface $context): iterable
@@ -133,7 +133,7 @@ final class Explorer extends ExplorerContract
                 continue;
             }
 
-            throw new InvalidResultException(1637034100, 'Explorer', 'run', 'string|int|' . $this->getSupportedEntityType()->getClassString());
+            throw new InvalidResultException(1637034100, 'Explorer', 'run', 'string|int|' . $this->getSupportedEntityType());
         }
     }
 }
