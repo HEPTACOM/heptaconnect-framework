@@ -9,10 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add `\Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString` based on class `\Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract` to have a string references, that could be a class-string for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Add `\Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString` based on class `\Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract` with `\Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection` to have a string references, that could be a class-string for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Add base class `\Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract` to have a type safe way to make class string references for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Add base class `\Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract` to have a type safe way to make class string references that are of a subtype for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
-- Add `\Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassString` as a type safe subtype class reference to `\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Add `\Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassString` with `\Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassStringCollection` as a type safe subtype class reference to `\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Add `\Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException` and `\Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException` to reference class-string issues for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 
 ### Changed

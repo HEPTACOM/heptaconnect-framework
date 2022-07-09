@@ -6,9 +6,11 @@ namespace Heptacom\HeptaConnect\DatasetBase\Test;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassString;
+use Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassStringCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
+use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -16,10 +18,12 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassString
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassStringCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassString
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  */
 final class EntityTypeClassStringTest extends TestCase
 {
@@ -78,5 +82,20 @@ final class EntityTypeClassStringTest extends TestCase
         static::assertFalse(SerializationDatasetEntity::class()->isObjectOfType(null));
         static::assertFalse(SerializationDatasetEntity::class()->equalsObjectType(null));
         static::assertFalse(SerializationDatasetEntity::class()->sameObjectType(null));
+    }
+
+    public function testCollection(): void
+    {
+        $collection = new EntityTypeClassStringCollection();
+        $collection->push([
+            SerializationDatasetEntity::class(),
+        ]);
+        static::assertSame(1, $collection->count());
+        static::assertTrue($collection->has(SerializationDatasetEntity::class()));
+
+        $subEntity = new class() extends SerializationDatasetEntity {
+        };
+
+        static::assertFalse($collection->has($subEntity::class()));
     }
 }

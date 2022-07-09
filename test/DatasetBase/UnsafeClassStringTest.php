@@ -4,11 +4,20 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\DatasetBase\Test;
 
+use Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection;
+use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
 use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityTypeClassString
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString
  */
 final class UnsafeClassStringTest extends TestCase
@@ -42,5 +51,15 @@ final class UnsafeClassStringTest extends TestCase
         $foobarWithLeadingNsSep = new UnsafeClassString('\foo bar');
         static::assertSame('\foo bar', (string) $foobarWithLeadingNsSep);
         static::assertSame('\foo bar', \json_decode(\json_encode($foobarWithLeadingNsSep)));
+    }
+
+    public function testCollection(): void
+    {
+        $collection = new ClassStringReferenceCollection();
+        $collection->push([
+            SerializationDatasetEntity::class(),
+            new UnsafeClassString('\foo bar'),
+        ]);
+        static::assertSame(2, $collection->count());
     }
 }
