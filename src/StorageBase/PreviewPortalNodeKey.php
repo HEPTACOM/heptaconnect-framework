@@ -24,7 +24,7 @@ final class PreviewPortalNodeKey implements PortalNodeKeyInterface
 
     public function equals(StorageKeyInterface $other): bool
     {
-        return $other === $this || ($other instanceof PreviewPortalNodeKey && $other->getPortalType()->same($this->getPortalType()));
+        return $other === $this || ($other instanceof PreviewPortalNodeKey && $other->getPortalType()->equals($this->getPortalType()));
     }
 
     public function jsonSerialize()

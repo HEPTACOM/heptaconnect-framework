@@ -8,8 +8,6 @@ use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
-use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionType;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
 final class PortalNodeExtensionBrowseResult implements AttachmentAwareInterface

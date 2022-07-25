@@ -59,7 +59,7 @@ final class PortalRegistryTest extends TestCase
         $portalNodeKey = $this->createMock(PortalNodeKeyInterface::class);
 
         $portalExtensionFindResult = new PortalExtensionFindResult();
-        $portalExtensionFindResult->add(PortalExtension::class, true);
+        $portalExtensionFindResult->add(PortalExtension::class(), true);
 
         $portalNodeGetAction->method('get')->willReturn([new PortalNodeGetResult($portalNodeKey, Portal::class())]);
         $storageKeyGenerator->method('serialize')->willReturn('foobar');
@@ -88,7 +88,7 @@ final class PortalRegistryTest extends TestCase
         $portalNodeKey = $this->createMock(PortalNodeKeyInterface::class);
 
         $portalExtensionFindResult = new PortalExtensionFindResult();
-        $portalExtensionFindResult->add(PortalExtension::class, false);
+        $portalExtensionFindResult->add(PortalExtension::class(), false);
 
         $portalNodeGetAction->method('get')->willReturn([new PortalNodeGetResult($portalNodeKey, Portal::class())]);
         $storageKeyGenerator->method('serialize')->willReturn('foobar');

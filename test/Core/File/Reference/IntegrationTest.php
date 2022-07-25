@@ -82,7 +82,7 @@ class IntegrationTest extends TestCase
         $fileRequestUrlProvider = $this->createMock(FileRequestUrlProviderInterface::class);
         $portalStackServiceContainerFactory = $this->createMock(PortalStackServiceContainerFactory::class);
         $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
-        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class());
         $factory = new FileReferenceFactory(
             $portalNodeKey,
             $streamFactory,
@@ -131,7 +131,7 @@ class IntegrationTest extends TestCase
         $fileRequestUrlProvider = $this->createMock(FileRequestUrlProviderInterface::class);
         $portalStackServiceContainerFactory = $this->createMock(PortalStackServiceContainerFactory::class);
 
-        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class());
         $factory = new FileReferenceFactory(
             $portalNodeKey,
             Psr17FactoryDiscovery::findStreamFactory(),
@@ -173,7 +173,7 @@ class IntegrationTest extends TestCase
         $fileRequestUrlProvider = $this->createMock(FileRequestUrlProviderInterface::class);
 
         $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
-        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class());
         $factory = new FileReferenceFactory(
             $portalNodeKey,
             $streamFactory,
@@ -208,7 +208,7 @@ class IntegrationTest extends TestCase
     {
         $normalizationRegistry = $this->createInMemoryNormalizationRegistry();
         $fileContentsUrlProvider = $this->createMock(FileContentsUrlProviderInterface::class);
-        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class());
 
         $resolvedReference = new ResolvedContentsFileReference(
             $portalNodeKey,
@@ -234,7 +234,7 @@ class IntegrationTest extends TestCase
 
         $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
         $requestFactory = Psr17FactoryDiscovery::findRequestFactory();
-        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class());
         $factory = new FileReferenceFactory(
             $portalNodeKey,
             $streamFactory,
@@ -303,7 +303,7 @@ class IntegrationTest extends TestCase
         $portalStackServiceContainerFactory = $this->createMock(PortalStackServiceContainerFactory::class);
         $requestStorage = $this->createInMemoryRequestStorage();
 
-        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class());
         $factory = new FileReferenceFactory(
             $portalNodeKey,
             Psr17FactoryDiscovery::findStreamFactory(),

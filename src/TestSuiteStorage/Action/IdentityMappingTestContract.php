@@ -69,15 +69,15 @@ abstract class IdentityMappingTestContract extends TestCase
         $getCriteria = new PortalNodeGetCriteria(new PortalNodeKeyCollection($createResults->column('getPortalNodeKey')));
 
         foreach ($portalNodeGet->get($getCriteria) as $portalNode) {
-            if ($portalNode->getPortalClass()->same(PortalA::class())) {
+            if ($portalNode->getPortalClass()->equals(PortalA::class())) {
                 $this->portalA = $portalNode->getPortalNodeKey();
             }
 
-            if ($portalNode->getPortalClass()->same(PortalB::class())) {
+            if ($portalNode->getPortalClass()->equals(PortalB::class())) {
                 $this->portalB = $portalNode->getPortalNodeKey();
             }
 
-            if ($portalNode->getPortalClass()->same(PortalC::class())) {
+            if ($portalNode->getPortalClass()->equals(PortalC::class())) {
                 $this->portalC = $portalNode->getPortalNodeKey();
             }
         }

@@ -23,7 +23,7 @@ final class SupportPortalNodeExtensionTest extends TestCase
             }
         };
 
-        static::assertTrue($extension->getSupportedPortal()->same(Portal::class()));
+        static::assertTrue($extension->getSupportedPortal()->equals(Portal::class()));
     }
 
     public function testConfigurationExtension(): void

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 
 use Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingServiceInterface;
+use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeStatusReportUi;
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport\PortalNodeStatusReportPayload;
-use Heptacom\HeptaConnect\Ui\Admin\Symfony\Test\Fixture\Portal\UiAdminPortal;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -27,7 +27,7 @@ final class PortalNodeStatusReportUiTest extends TestCase
     {
         $statusReporterService = $this->createMock(StatusReportingServiceInterface::class);
         $action = new PortalNodeStatusReportUi($statusReporterService);
-        $portalNodeKey = new PreviewPortalNodeKey(UiAdminPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
 
         $statusReporterService->method('report')->willReturnOnConsecutiveCalls(
             [

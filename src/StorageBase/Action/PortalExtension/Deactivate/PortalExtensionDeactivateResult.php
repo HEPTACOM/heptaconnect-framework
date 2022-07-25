@@ -7,7 +7,6 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Deactivate;
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionTypeCollection;
 
 final class PortalExtensionDeactivateResult implements AttachmentAwareInterface

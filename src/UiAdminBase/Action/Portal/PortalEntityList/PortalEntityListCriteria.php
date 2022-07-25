@@ -8,7 +8,6 @@ use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
-use Heptacom\HeptaConnect\Dataset\Base\Support\EntityTypeClassString;
 use Heptacom\HeptaConnect\Portal\Base\Portal\PortalType;
 
 final class PortalEntityListCriteria implements AttachmentAwareInterface

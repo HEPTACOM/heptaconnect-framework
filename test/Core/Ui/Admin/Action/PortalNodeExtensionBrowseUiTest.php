@@ -40,7 +40,7 @@ final class PortalNodeExtensionBrowseUiTest extends TestCase
         $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
         $portalExtensionFindResult = new PortalExtensionFindResult();
 
-        $portalExtensionFindResult->add(FooBarPortalExtension::class, true);
+        $portalExtensionFindResult->add(FooBarPortalExtension::class(), true);
         $portalNodeGetAction->method('get')->willReturn([
             new PortalNodeGetResult($portalNodeKey, FooBarPortal::class()),
         ]);

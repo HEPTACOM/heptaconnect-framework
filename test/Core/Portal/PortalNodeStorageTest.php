@@ -49,7 +49,7 @@ class PortalNodeStorageTest extends TestCase
             $setAction,
             $logger
         );
-        $storage = $factory->createPortalStorage(new PreviewPortalNodeKey(Portal::class));
+        $storage = $factory->createPortalStorage(new PreviewPortalNodeKey(Portal::class()));
 
         $deleteAction->expects(static::never())->method('delete');
         $clearAction->expects(static::never())->method('clear');
