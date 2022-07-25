@@ -75,8 +75,8 @@ abstract class RouteTestContract extends TestCase
         $this->routeDeleteAction = $facade->getRouteDeleteAction();
 
         $portalNodeCreateResult = $this->portalNodeCreateAction->create(new PortalNodeCreatePayloads([
-            new PortalNodeCreatePayload(PortalA::class),
-            new PortalNodeCreatePayload(PortalB::class),
+            new PortalNodeCreatePayload(PortalA::class()),
+            new PortalNodeCreatePayload(PortalB::class()),
         ]));
         $firstResult = $portalNodeCreateResult->first();
         $lastResult = $portalNodeCreateResult->last();

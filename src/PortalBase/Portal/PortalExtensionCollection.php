@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Portal;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 
@@ -12,10 +13,13 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
  */
 class PortalExtensionCollection extends AbstractCollection
 {
-    public function bySupport(string $portalClass): self
+    /**
+     * @param PortalType $portalClass
+     */
+    public function bySupport(ClassStringReferenceContract $portalClass): self
     {
         return new self($this->filter(
-            fn (PortalExtensionContract $extension) => \is_a($extension->supports(), $portalClass, true)
+            fn (PortalExtensionContract $extension) => $extension->getSupportedPortal()->same($portalClass)
         ));
     }
 

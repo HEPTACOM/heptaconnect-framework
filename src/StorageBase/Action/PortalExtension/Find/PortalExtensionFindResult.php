@@ -8,6 +8,8 @@ use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionType;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionTypeCollection;
 
 final class PortalExtensionFindResult implements AttachmentAwareInterface
 {
@@ -23,16 +25,13 @@ final class PortalExtensionFindResult implements AttachmentAwareInterface
         $this->attachments = new AttachmentCollection();
     }
 
-    /**
-     * @param class-string<PortalExtensionContract> $class
-     */
-    public function add(string $class, bool $active): void
+    public function add(PortalExtensionType $portalExtensionType, bool $active): void
     {
-        $this->extensions[$class] ??= $active;
+        $this->extensions[(string) $portalExtensionType] ??= $active;
     }
 
     public function isActive(PortalExtensionContract $portalExtension): bool
     {
-        return $this->extensions[\get_class($portalExtension)] ?? $portalExtension->isActiveByDefault();
+        return $this->extensions[(string) $portalExtension::class()] ?? $portalExtension->isActiveByDefault();
     }
 }

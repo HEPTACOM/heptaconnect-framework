@@ -61,7 +61,7 @@ final class PortalRegistryTest extends TestCase
         $portalExtensionFindResult = new PortalExtensionFindResult();
         $portalExtensionFindResult->add(PortalExtension::class, true);
 
-        $portalNodeGetAction->method('get')->willReturn([new PortalNodeGetResult($portalNodeKey, Portal::class)]);
+        $portalNodeGetAction->method('get')->willReturn([new PortalNodeGetResult($portalNodeKey, Portal::class())]);
         $storageKeyGenerator->method('serialize')->willReturn('foobar');
         $portalLoader->method('getPortalExtensions')->willReturn(new PortalExtensionCollection([new PortalExtension()]));
         $portalExtensionFindAction->method('find')->willReturn($portalExtensionFindResult);
@@ -90,7 +90,7 @@ final class PortalRegistryTest extends TestCase
         $portalExtensionFindResult = new PortalExtensionFindResult();
         $portalExtensionFindResult->add(PortalExtension::class, false);
 
-        $portalNodeGetAction->method('get')->willReturn([new PortalNodeGetResult($portalNodeKey, Portal::class)]);
+        $portalNodeGetAction->method('get')->willReturn([new PortalNodeGetResult($portalNodeKey, Portal::class())]);
         $storageKeyGenerator->method('serialize')->willReturn('foobar');
         $portalLoader->method('getPortalExtensions')->willReturn(new PortalExtensionCollection([new PortalExtension()]));
         $portalExtensionFindAction->method('find')->willReturn($portalExtensionFindResult);

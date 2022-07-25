@@ -6,8 +6,10 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get;
 
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalType;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
 final class PortalNodeGetResult implements AttachmentAwareInterface
@@ -16,15 +18,9 @@ final class PortalNodeGetResult implements AttachmentAwareInterface
 
     protected PortalNodeKeyInterface $portalNodeKey;
 
-    /**
-     * @var class-string<PortalContract>
-     */
-    protected string $portalClass;
+    protected ClassStringReferenceContract $portalClass;
 
-    /**
-     * @param class-string<PortalContract> $portalClass
-     */
-    public function __construct(PortalNodeKeyInterface $portalNodeKey, string $portalClass)
+    public function __construct(PortalNodeKeyInterface $portalNodeKey, ClassStringReferenceContract $portalClass)
     {
         $this->attachments = new AttachmentCollection();
         $this->portalNodeKey = $portalNodeKey;
@@ -36,10 +32,7 @@ final class PortalNodeGetResult implements AttachmentAwareInterface
         return $this->portalNodeKey;
     }
 
-    /**
-     * @return class-string<PortalContract>
-     */
-    public function getPortalClass(): string
+    public function getPortalClass(): ClassStringReferenceContract
     {
         return $this->portalClass;
     }

@@ -22,17 +22,11 @@ final class RouteOverviewResult implements AttachmentAwareInterface
 
     protected PortalNodeKeyInterface $sourcePortalNodeKey;
 
-    /**
-     * @var class-string<PortalContract>
-     */
-    protected string $sourcePortalClass;
+    protected ClassStringReferenceContract $sourcePortalClass;
 
     protected PortalNodeKeyInterface $targetPortalNodeKey;
 
-    /**
-     * @var class-string<PortalContract>
-     */
-    protected string $targetPortalClass;
+    protected ClassStringReferenceContract $targetPortalClass;
 
     protected \DateTimeInterface $createdAt;
 
@@ -42,17 +36,15 @@ final class RouteOverviewResult implements AttachmentAwareInterface
     private array $capabilities;
 
     /**
-     * @param class-string<PortalContract> $sourcePortalClass
-     * @param class-string<PortalContract> $targetPortalClass
-     * @param string[]                     $capabilities
+     * @param string[] $capabilities
      */
     public function __construct(
         RouteKeyInterface $routeKey,
         ClassStringReferenceContract $entityType,
         PortalNodeKeyInterface $sourcePortalNodeKey,
-        string $sourcePortalClass,
+        ClassStringReferenceContract $sourcePortalClass,
         PortalNodeKeyInterface $targetPortalNodeKey,
-        string $targetPortalClass,
+        ClassStringReferenceContract $targetPortalClass,
         \DateTimeInterface $createdAt,
         array $capabilities
     ) {
@@ -82,10 +74,7 @@ final class RouteOverviewResult implements AttachmentAwareInterface
         return $this->sourcePortalNodeKey;
     }
 
-    /**
-     * @return class-string<PortalContract>
-     */
-    public function getSourcePortalClass(): string
+    public function getSourcePortalClass(): ClassStringReferenceContract
     {
         return $this->sourcePortalClass;
     }
@@ -95,10 +84,7 @@ final class RouteOverviewResult implements AttachmentAwareInterface
         return $this->targetPortalNodeKey;
     }
 
-    /**
-     * @return class-string<PortalContract>
-     */
-    public function getTargetPortalClass(): string
+    public function getTargetPortalClass(): ClassStringReferenceContract
     {
         return $this->targetPortalClass;
     }
