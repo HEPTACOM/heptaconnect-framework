@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Portal\Contract;
 
+use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalType;
 use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,6 +18,8 @@ abstract class PortalExtensionContract
 {
     use PathMethodsTrait;
 
+    private ?PortalType $supportedPortal = null;
+
     /**
      * Change the portal configuration structure, validation and default value schemes for any portal node this extension is combined with.
      */
@@ -24,11 +29,22 @@ abstract class PortalExtensionContract
     }
 
     /**
+     * Returns the supported portal.
+     *
+     * @throws InvalidClassNameException
+     * @throws InvalidSubtypeClassNameException
+     */
+    final public function getSupportedPortal(): PortalType
+    {
+        return $this->supportedPortal ??= new PortalType($this->supports());
+    }
+
+    /**
      * Must return the supported portal.
      *
      * @return class-string<PortalContract>
      */
-    abstract public function supports(): string;
+    abstract protected function supports(): string;
 
     /**
      * Returns true, when it must be active for any supported portal nodes, if not configured otherwise.
