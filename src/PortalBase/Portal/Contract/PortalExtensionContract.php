@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Portal\Contract;
 
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -35,5 +36,13 @@ abstract class PortalExtensionContract
     public function isActiveByDefault(): bool
     {
         return true;
+    }
+
+    /**
+     * Returns a class string instance for the type of the extending class.
+     */
+    final public static function class(): PortalExtensionType
+    {
+        return new PortalExtensionType(static::class);
     }
 }
