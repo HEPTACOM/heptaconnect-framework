@@ -91,7 +91,7 @@ final class PortalEntityListUiTest extends TestCase
         $explorerCodeOriginFinder->expects(static::once())->method('findOrigin');
         $receiverCodeOriginFinder->expects(static::once())->method('findOrigin');
 
-        $criteria = new PortalEntityListCriteria(FooBarPortal::class);
+        $criteria = new PortalEntityListCriteria(FooBarPortal::class());
         static::assertCount(3, \iterable_to_array($action->list($criteria)));
 
         // reset
@@ -111,7 +111,7 @@ final class PortalEntityListUiTest extends TestCase
         $explorerCodeOriginFinder->expects(static::never())->method('findOrigin');
         $receiverCodeOriginFinder->expects(static::once())->method('findOrigin');
 
-        $criteria = new PortalEntityListCriteria(FooBarPortal::class);
+        $criteria = new PortalEntityListCriteria(FooBarPortal::class());
         $criteria->setShowEmitter(false);
         $criteria->setShowExplorer(false);
         $criteria->setShowReceiver(true);
@@ -134,7 +134,7 @@ final class PortalEntityListUiTest extends TestCase
         $explorerCodeOriginFinder->expects(static::once())->method('findOrigin');
         $receiverCodeOriginFinder->expects(static::never())->method('findOrigin');
 
-        $criteria = new PortalEntityListCriteria(FooBarPortal::class);
+        $criteria = new PortalEntityListCriteria(FooBarPortal::class());
         $criteria->setShowEmitter(false);
         $criteria->setShowExplorer(true);
         $criteria->setShowReceiver(false);
@@ -157,7 +157,7 @@ final class PortalEntityListUiTest extends TestCase
         $explorerCodeOriginFinder->expects(static::never())->method('findOrigin');
         $receiverCodeOriginFinder->expects(static::never())->method('findOrigin');
 
-        $criteria = new PortalEntityListCriteria(FooBarPortal::class);
+        $criteria = new PortalEntityListCriteria(FooBarPortal::class());
         $criteria->setShowEmitter(true);
         $criteria->setShowExplorer(false);
         $criteria->setShowReceiver(false);
@@ -180,7 +180,7 @@ final class PortalEntityListUiTest extends TestCase
         $explorerCodeOriginFinder->expects(static::once())->method('findOrigin');
         $receiverCodeOriginFinder->expects(static::never())->method('findOrigin');
 
-        $criteria = new PortalEntityListCriteria(FooBarPortal::class);
+        $criteria = new PortalEntityListCriteria(FooBarPortal::class());
         $criteria->setShowEmitter(true);
         $criteria->setShowExplorer(true);
         $criteria->setShowReceiver(false);
@@ -203,7 +203,7 @@ final class PortalEntityListUiTest extends TestCase
         $explorerCodeOriginFinder->expects(static::once())->method('findOrigin');
         $receiverCodeOriginFinder->expects(static::once())->method('findOrigin');
 
-        $criteria = new PortalEntityListCriteria(FooBarPortal::class);
+        $criteria = new PortalEntityListCriteria(FooBarPortal::class());
         $criteria->setFilterSupportedEntityType(FooBarEntity::class());
         static::assertCount(3, \iterable_to_array($action->list($criteria)));
 
@@ -224,7 +224,7 @@ final class PortalEntityListUiTest extends TestCase
         $explorerCodeOriginFinder->expects(static::never())->method('findOrigin');
         $receiverCodeOriginFinder->expects(static::never())->method('findOrigin');
 
-        $criteria = new PortalEntityListCriteria(FooBarPortal::class);
+        $criteria = new PortalEntityListCriteria(FooBarPortal::class());
         $criteria->setFilterSupportedEntityType((new class() extends DatasetEntityContract {
         })::class());
         static::assertCount(0, \iterable_to_array($action->list($criteria)));

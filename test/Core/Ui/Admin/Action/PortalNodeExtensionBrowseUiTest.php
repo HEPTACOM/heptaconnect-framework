@@ -37,12 +37,12 @@ final class PortalNodeExtensionBrowseUiTest extends TestCase
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $portalNodeExtensionFindAction = $this->createMock(PortalExtensionFindActionInterface::class);
         $portalLoader = $this->createMock(ComposerPortalLoader::class);
-        $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
         $portalExtensionFindResult = new PortalExtensionFindResult();
 
         $portalExtensionFindResult->add(FooBarPortalExtension::class, true);
         $portalNodeGetAction->method('get')->willReturn([
-            new PortalNodeGetResult($portalNodeKey, FooBarPortal::class),
+            new PortalNodeGetResult($portalNodeKey, FooBarPortal::class()),
         ]);
         $portalNodeExtensionFindAction->method('find')->willReturn($portalExtensionFindResult);
         $portalLoader->method('getPortalExtensions')
