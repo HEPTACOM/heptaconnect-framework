@@ -22,6 +22,11 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory
  * @covers \Heptacom\HeptaConnect\Core\Portal\PreviewPortalNodeStorage
  * @covers \Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
  * @covers \Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey
  */
 class PortalNodeStorageTest extends TestCase
