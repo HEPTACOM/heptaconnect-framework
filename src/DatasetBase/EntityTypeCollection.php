@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base;
 
-use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
+use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractClassStringReferenceCollection;
 
 /**
- * @extends AbstractObjectCollection<EntityType>
+ * @extends AbstractClassStringReferenceCollection<EntityType>
  */
-class EntityTypeCollection extends ClassStringReferenceCollection
+final class EntityTypeCollection extends AbstractClassStringReferenceCollection
 {
     protected function getT(): string
     {
