@@ -13,7 +13,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract;
  * @psalm-method class-string<DatasetEntityContract> __toString()
  * @psalm-method class-string<DatasetEntityContract> jsonSerialize()
  */
-class EntityType extends SubtypeClassStringContract
+final class EntityType extends SubtypeClassStringContract
 {
     public function getExpectedSuperClassName(): string
     {

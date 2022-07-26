@@ -8,6 +8,8 @@ use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException;
 
 /**
+ * Base class to hold a validated canonical class string of any class or interface.
+ *
  * @template T
  *
  * @psalm-method class-string<T> __toString()
