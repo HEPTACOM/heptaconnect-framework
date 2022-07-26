@@ -9,6 +9,9 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract;
 
 /**
  * @extends SubtypeClassStringContract<DatasetEntityContract>
+ *
+ * @psalm-method class-string<DatasetEntityContract> __toString()
+ * @psalm-method class-string<DatasetEntityContract> jsonSerialize()
  */
 class EntityType extends SubtypeClassStringContract
 {

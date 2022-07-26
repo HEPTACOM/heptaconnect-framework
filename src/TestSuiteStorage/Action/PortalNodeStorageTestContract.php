@@ -230,7 +230,7 @@ abstract class PortalNodeStorageTestContract extends TestCase
         $set = $facade->getPortalNodeStorageSetAction();
         $list = $facade->getPortalNodeStorageListAction();
 
-        $portalNodeKey = new PreviewPortalNodeKey(PortalA::class);
+        $portalNodeKey = new PreviewPortalNodeKey(PortalA::class());
 
         try {
             $set->set(new PortalNodeStorageSetPayload($portalNodeKey, new PortalNodeStorageSetItems([

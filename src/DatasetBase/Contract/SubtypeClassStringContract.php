@@ -15,8 +15,6 @@ use Heptacom\HeptaConnect\Dataset\Base\Exception\UnexpectedLeadingNamespaceSepar
 abstract class SubtypeClassStringContract extends ClassStringContract
 {
     /**
-     * @param class-string<T> $classString
-     *
      * @throws InvalidClassNameException
      * @throws InvalidSubtypeClassNameException
      * @throws UnexpectedLeadingNamespaceSeparatorInClassNameException

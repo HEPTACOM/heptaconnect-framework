@@ -9,6 +9,8 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 
 /**
  * @extends SubtypeClassStringContract<PortalExtensionContract>
+ * @psalm-method class-string<PortalExtensionContract> __toString()
+ * @psalm-method class-string<PortalExtensionContract> jsonSerialize()
  */
 final class PortalExtensionType extends SubtypeClassStringContract
 {

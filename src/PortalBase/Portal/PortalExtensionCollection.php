@@ -13,9 +13,6 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
  */
 class PortalExtensionCollection extends AbstractCollection
 {
-    /**
-     * @param PortalType $portalClass
-     */
     public function bySupport(ClassStringReferenceContract $portalClass): self
     {
         return new self($this->filter(

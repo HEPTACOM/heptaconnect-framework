@@ -18,8 +18,6 @@ abstract class ClassStringContract extends ClassStringReferenceContract
     private const NAMESPACE_SEPARATOR = '\\';
 
     /**
-     * @param class-string<T> $classString
-     *
      * @throws InvalidClassNameException
      * @throws UnexpectedLeadingNamespaceSeparatorInClassNameException
      */
