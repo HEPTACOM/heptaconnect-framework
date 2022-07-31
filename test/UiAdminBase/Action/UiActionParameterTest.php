@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortalExtension;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
+use Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\FirstEntity;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\Portal;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListCriteria;
@@ -20,6 +21,7 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBro
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBrowse\PortalNodeExtensionBrowseResult;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport\PortalNodeStatusReportPayload;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport\PortalNodeStatusReportResult;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteRemove\RouteRemoveCriteria;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -38,6 +40,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBrowse\PortalNodeExtensionBrowseResult
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport\PortalNodeStatusReportPayload
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport\PortalNodeStatusReportResult
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteRemove\RouteRemoveCriteria
  */
 final class UiActionParameterTest extends TestCase
 {
@@ -61,6 +64,7 @@ final class UiActionParameterTest extends TestCase
         $codeOrigin = new CodeOrigin(__FILE__, 0, 1);
         $portalNodeKey = new PreviewPortalNodeKey($portalClass);
         $portalExtensionClass = FooBarPortalExtension::class;
+        $routeKeys = new RouteKeyCollection();
 
         yield new PortalEntityListCriteria($portalClass);
         yield new PortalEntityListResult($codeOrigin, $entityType, FooBarEmitter::class);
@@ -71,5 +75,6 @@ final class UiActionParameterTest extends TestCase
         yield new PortalNodeExtensionBrowseResult($portalNodeKey, true, $portalExtensionClass);
         yield new PortalNodeStatusReportPayload($portalNodeKey, []);
         yield new PortalNodeStatusReportResult($portalNodeKey, '', true, []);
+        yield new RouteRemoveCriteria($routeKeys);
     }
 }
