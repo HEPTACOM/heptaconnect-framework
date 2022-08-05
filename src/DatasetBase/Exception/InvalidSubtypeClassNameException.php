@@ -23,7 +23,7 @@ class InvalidSubtypeClassNameException extends \InvalidArgumentException
         ?\Throwable $previous = null
     ) {
         $message = \sprintf(
-            'Given value "%s" is neither extending nor implementing "%"',
+            'Given value "%s" is neither extending nor implementing "%s"',
             $givenSuperClassName,
             $expectedSuperClassName
         );
