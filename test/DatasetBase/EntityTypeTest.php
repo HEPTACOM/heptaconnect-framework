@@ -62,22 +62,26 @@ final class EntityTypeTest extends TestCase
         });
 
         static::assertTrue(SerializationDatasetEntity::class()->isClassStringOfType(SerializationDatasetEntity::class()));
+        static::assertTrue(SerializationDatasetEntity::class()->isTypeOfClassString(SerializationDatasetEntity::class()));
         static::assertTrue(SerializationDatasetEntity::class()->isObjectOfType($entity));
         static::assertTrue(SerializationDatasetEntity::class()->equalsObjectType($entity));
 
         $subEntityClassString = $subEntityClass::class();
 
         static::assertFalse($subEntityClassString->isClassStringOfType(SerializationDatasetEntity::class()));
+        static::assertTrue($subEntityClassString->isTypeOfClassString(SerializationDatasetEntity::class()));
         static::assertFalse($subEntityClassString->isObjectOfType($entity));
         static::assertFalse($subEntityClassString->equalsObjectType($entity));
 
         $subEntity = new $subEntityClass();
 
         static::assertTrue(SerializationDatasetEntity::class()->isClassStringOfType($subEntityClass::class()));
+        static::assertFalse(SerializationDatasetEntity::class()->isTypeOfClassString($subEntityClass::class()));
         static::assertTrue(SerializationDatasetEntity::class()->isObjectOfType($subEntity));
         static::assertFalse(SerializationDatasetEntity::class()->equalsObjectType($subEntity));
 
         static::assertTrue($subEntityClassString->isClassStringOfType($subEntityClass::class()));
+        static::assertTrue($subEntityClassString->isTypeOfClassString($subEntityClass::class()));
         static::assertTrue($subEntityClassString->isObjectOfType($subEntity));
         static::assertTrue($subEntityClassString->equalsObjectType($subEntity));
     }

@@ -54,6 +54,14 @@ abstract class ClassStringContract extends ClassStringReferenceContract
     }
 
     /**
+     * Compares this represented class string to be equal or a subtype of the given class-string.
+     */
+    final public function isTypeOfClassString(ClassStringReferenceContract $classString): bool
+    {
+        return \is_a((string) $this, (string) $classString, true);
+    }
+
+    /**
      * Compares the given object to be of type or a subtype of this represented class string.
      */
     final public function isObjectOfType(?object $object): bool
