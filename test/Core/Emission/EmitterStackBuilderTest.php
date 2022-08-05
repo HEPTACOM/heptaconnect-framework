@@ -15,8 +15,14 @@ use Psr\Log\LoggerInterface;
 
 /**
  * @covers \Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilder
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack
  */
@@ -26,7 +32,7 @@ final class EmitterStackBuilderTest extends TestCase
     {
         $stackBuilder = new EmitterStackBuilder(
             new EmitterCollection(),
-            FooBarEntity::class,
+            FooBarEntity::class(),
             $this->createMock(LoggerInterface::class),
         );
 
@@ -89,7 +95,7 @@ final class EmitterStackBuilderTest extends TestCase
 
         $stackBuilder = new EmitterStackBuilder(
             new EmitterCollection([$emitter1, $emitter2, $emitter2]),
-            FooBarEntity::class,
+            FooBarEntity::class(),
             $this->createMock(LoggerInterface::class),
         );
         $stackBuilder->pushSource();

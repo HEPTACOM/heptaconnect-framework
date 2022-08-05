@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Reception\Contract;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityException;
 
@@ -13,6 +17,8 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityE
  */
 abstract class ReceiverContract
 {
+    private ?EntityType $supportedEntityType = null;
+
     /**
      * First entrypoint to handle a reception in this flow component.
      * It allows direct stack handling manipulation. @see ReceiverStackInterface
@@ -30,11 +36,23 @@ abstract class ReceiverContract
     }
 
     /**
+     * Returns the supported entity type.
+     *
+     * @throws InvalidClassNameException
+     * @throws InvalidSubtypeClassNameException
+     * @throws UnexpectedLeadingNamespaceSeparatorInClassNameException
+     */
+    final public function getSupportedEntityType(): EntityType
+    {
+        return $this->supportedEntityType ??= new EntityType($this->supports());
+    }
+
+    /**
      * Must return the supported entity type.
      *
      * @return class-string<DatasetEntityContract>
      */
-    abstract public function supports(): string;
+    abstract protected function supports(): string;
 
     /**
      * The entrypoint for handling a reception with the least need of additional programming.
@@ -69,7 +87,7 @@ abstract class ReceiverContract
      */
     final protected function isSupported(DatasetEntityContract $entity): bool
     {
-        return \is_a($entity, $this->supports(), false);
+        return $this->getSupportedEntityType()->isObjectOfType($entity);
     }
 
     /**
@@ -96,7 +114,7 @@ abstract class ReceiverContract
         TypedDatasetEntityCollection $entities,
         ReceiveContextInterface $context
     ): iterable {
-        if (!\is_a($entities->getType(), $this->supports(), true)) {
+        if (!$entities->getEntityType()->equals($this->getSupportedEntityType())) {
             foreach ($entities as $entity) {
                 $context->markAsFailed($entity, new UnsupportedDatasetEntityException());
             }
@@ -120,7 +138,7 @@ abstract class ReceiverContract
         TypedDatasetEntityCollection $entities,
         ReceiveContextInterface $context
     ): iterable {
-        if (!\is_a($entities->getType(), $this->supports(), true)) {
+        if (!$entities->getEntityType()->equals($this->getSupportedEntityType())) {
             foreach ($entities as $entity) {
                 $context->markAsFailed($entity, new UnsupportedDatasetEntityException());
             }

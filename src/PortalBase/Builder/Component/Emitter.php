@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
+use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use Heptacom\HeptaConnect\Portal\Base\Builder\BindThisTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
@@ -19,10 +21,7 @@ final class Emitter extends EmitterContract
     use BindThisTrait;
     use ResolveArgumentsTrait;
 
-    /**
-     * @var class-string<DatasetEntityContract>
-     */
-    private string $type;
+    private EntityType $entityType;
 
     private ?SerializableClosure $batchMethod;
 
@@ -36,15 +35,10 @@ final class Emitter extends EmitterContract
         $run = $token->getRun();
         $extend = $token->getExtend();
 
-        $this->type = $token->getType();
+        $this->entityType = $token->getEntityType();
         $this->batchMethod = $batch instanceof \Closure ? new SerializableClosure($batch) : null;
         $this->runMethod = $run instanceof \Closure ? new SerializableClosure($run) : null;
         $this->extendMethod = $extend instanceof \Closure ? new SerializableClosure($extend) : null;
-    }
-
-    public function supports(): string
-    {
-        return $this->type;
     }
 
     public function getRunMethod(): ?\Closure
@@ -60,6 +54,11 @@ final class Emitter extends EmitterContract
     public function getExtendMethod(): ?\Closure
     {
         return $this->extendMethod instanceof SerializableClosure ? $this->extendMethod->getClosure() : null;
+    }
+
+    protected function supports(): string
+    {
+        return (string) $this->entityType;
     }
 
     protected function batch(iterable $externalIds, EmitContextInterface $context): iterable
@@ -86,7 +85,7 @@ final class Emitter extends EmitterContract
                 return $this->validateBatchResult($result);
             }
 
-            throw new InvalidResultException(1637017869, 'Emitter', 'batch', 'iterable of ' . $this->supports());
+            throw new InvalidResultException(1637017869, 'Emitter', 'batch', 'iterable of ' . $this->getSupportedEntityType());
         }
 
         return parent::batch($externalIds, $context);
@@ -136,7 +135,7 @@ final class Emitter extends EmitterContract
                 ?string $propertyType,
                 ContainerInterface $container
             ) use ($entity) {
-                if (\is_string($propertyType) && \is_a($propertyType, $this->supports(), true)) {
+                if (\is_string($propertyType) && $this->getSupportedEntityType()->isClassStringOfType(new UnsafeClassString($propertyType))) {
                     return $entity;
                 }
 
@@ -166,7 +165,7 @@ final class Emitter extends EmitterContract
         /** @var array-key $resultKey */
         foreach ($result as $resultKey => $resultItem) {
             if (!$resultItem instanceof DatasetEntityContract || !$this->isSupported($resultItem)) {
-                throw new InvalidResultException(1637017868, 'Emitter', 'batch', $this->supports());
+                throw new InvalidResultException(1637017868, 'Emitter', 'batch', (string) $this->getSupportedEntityType());
             }
 
             yield $resultKey => $resultItem;

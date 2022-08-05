@@ -19,8 +19,13 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeAddUi
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayloads
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreateResult
@@ -39,7 +44,7 @@ final class PortalNodeAddUiTest extends TestCase
     {
         $portalNodeCreateAction = $this->createMock(PortalNodeCreateActionInterface::class);
         $portalNodeAliasFindAction = $this->createMock(PortalNodeAliasFindActionInterface::class);
-        $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
 
         $portalNodeCreateAction->method('create')->willReturn(new PortalNodeCreateResults([
             new PortalNodeCreateResult($portalNodeKey),
@@ -47,7 +52,7 @@ final class PortalNodeAddUiTest extends TestCase
         $portalNodeAliasFindAction->method('find')->willReturn([]);
 
         $action = new PortalNodeAddUi($portalNodeCreateAction, $portalNodeAliasFindAction);
-        $payload = new PortalNodeAddPayload(FooBarPortal::class);
+        $payload = new PortalNodeAddPayload(FooBarPortal::class());
 
         $result = $action->add($payload);
 
@@ -63,7 +68,7 @@ final class PortalNodeAddUiTest extends TestCase
         $portalNodeAliasFindAction->method('find')->willReturn([]);
 
         $action = new PortalNodeAddUi($portalNodeCreateAction, $portalNodeAliasFindAction);
-        $payload = new PortalNodeAddPayload(FooBarPortal::class);
+        $payload = new PortalNodeAddPayload(FooBarPortal::class());
 
         self::expectException(PersistException::class);
         self::expectExceptionCode(1650718863);
@@ -78,11 +83,11 @@ final class PortalNodeAddUiTest extends TestCase
 
         $portalNodeCreateAction->method('create')->willReturn(new PortalNodeCreateResults());
         $portalNodeAliasFindAction->method('find')->willReturn([
-            new PortalNodeAliasFindResult(new PreviewPortalNodeKey(FooBarPortal::class), 'foobar'),
+            new PortalNodeAliasFindResult(new PreviewPortalNodeKey(FooBarPortal::class()), 'foobar'),
         ]);
 
         $action = new PortalNodeAddUi($portalNodeCreateAction, $portalNodeAliasFindAction);
-        $payload = new PortalNodeAddPayload(FooBarPortal::class);
+        $payload = new PortalNodeAddPayload(FooBarPortal::class());
         $payload->setPortalNodeAlias('foobar');
 
         self::expectException(PortalNodeAliasIsAlreadyAssignedException::class);

@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Get;
 
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface;
@@ -21,10 +21,7 @@ final class RouteGetResult implements AttachmentAwareInterface
 
     protected PortalNodeKeyInterface $targetPortalNodeKey;
 
-    /**
-     * @var class-string<DatasetEntityContract>
-     */
-    protected string $entityType;
+    protected ClassStringReferenceContract $entityType;
 
     /**
      * @var string[]
@@ -32,14 +29,13 @@ final class RouteGetResult implements AttachmentAwareInterface
     protected array $capabilities;
 
     /**
-     * @param class-string<DatasetEntityContract> $entityType
-     * @param string[]                            $capabilities
+     * @param string[] $capabilities
      */
     public function __construct(
         RouteKeyInterface $routeKey,
         PortalNodeKeyInterface $sourcePortalNodeKey,
         PortalNodeKeyInterface $targetPortalNodeKey,
-        string $entityType,
+        ClassStringReferenceContract $entityType,
         array $capabilities
     ) {
         $this->attachments = new AttachmentCollection();
@@ -65,10 +61,7 @@ final class RouteGetResult implements AttachmentAwareInterface
         return $this->sourcePortalNodeKey;
     }
 
-    /**
-     * @return class-string<DatasetEntityContract>
-     */
-    public function getEntityType(): string
+    public function getEntityType(): ClassStringReferenceContract
     {
         return $this->entityType;
     }
