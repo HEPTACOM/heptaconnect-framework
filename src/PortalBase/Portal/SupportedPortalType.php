@@ -28,7 +28,7 @@ final class SupportedPortalType extends ClassStringContract
 
         $expectedClass = $this->getExpectedSuperClassName();
 
-        /** Quite similar to @see \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract but allows @see PortalContract itself as well */
+        /* Quite similar to @see \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract but allows @see PortalContract itself as well */
         if (!\is_a($classString, $expectedClass, true)) {
             throw new InvalidSubtypeClassNameException($classString, $expectedClass, 1659729321);
         }

@@ -7,7 +7,6 @@ namespace Heptacom\HeptaConnect\Portal\Base\Portal\Contract;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException;
 use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionType;
-use Heptacom\HeptaConnect\Portal\Base\Portal\PortalType;
 use Heptacom\HeptaConnect\Portal\Base\Portal\SupportedPortalType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
