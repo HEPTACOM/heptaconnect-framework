@@ -16,6 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\SupportedPortalType
  */
 final class SupportPortalNodeExtensionTest extends TestCase
 {
