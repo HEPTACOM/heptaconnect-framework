@@ -6,23 +6,17 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList;
 
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalType;
 
 final class PortalEntityListCriteria implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    /**
-     * @var class-string<PortalContract>
-     */
-    private string $portal;
+    private PortalType $portal;
 
-    /**
-     * @var class-string<DatasetEntityContract>|null
-     */
-    private ?string $filterSupportedEntityType = null;
+    private ?ClassStringReferenceContract $filterSupportedEntityType = null;
 
     private bool $showExplorer = true;
 
@@ -30,43 +24,28 @@ final class PortalEntityListCriteria implements AttachmentAwareInterface
 
     private bool $showReceiver = true;
 
-    /**
-     * @param class-string<PortalContract> $portal
-     */
-    public function __construct(string $portal)
+    public function __construct(PortalType $portal)
     {
         $this->attachments = new AttachmentCollection();
         $this->portal = $portal;
     }
 
-    /**
-     * @return class-string<PortalContract>
-     */
-    public function getPortal(): string
+    public function getPortal(): PortalType
     {
         return $this->portal;
     }
 
-    /**
-     * @param class-string<PortalContract> $portal
-     */
-    public function setPortal(string $portal): void
+    public function setPortal(PortalType $portal): void
     {
         $this->portal = $portal;
     }
 
-    /**
-     * @return class-string<DatasetEntityContract>|null
-     */
-    public function getFilterSupportedEntityType(): ?string
+    public function getFilterSupportedEntityType(): ?ClassStringReferenceContract
     {
         return $this->filterSupportedEntityType;
     }
 
-    /**
-     * @param class-string<DatasetEntityContract>|null $filterSupportedEntityType
-     */
-    public function setFilterSupportedEntityType(?string $filterSupportedEntityType): void
+    public function setFilterSupportedEntityType(?ClassStringReferenceContract $filterSupportedEntityType): void
     {
         $this->filterSupportedEntityType = $filterSupportedEntityType;
     }

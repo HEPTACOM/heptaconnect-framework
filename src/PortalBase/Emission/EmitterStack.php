@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Emission;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
@@ -19,18 +19,14 @@ final class EmitterStack implements EmitterStackInterface, LoggerAwareInterface
      */
     private array $emitters;
 
-    /**
-     * @var class-string<DatasetEntityContract>
-     */
-    private string $entityType;
+    private EntityType $entityType;
 
     private LoggerInterface $logger;
 
     /**
      * @param iterable<array-key, EmitterContract> $emitters
-     * @param class-string<DatasetEntityContract>  $entityType
      */
-    public function __construct(iterable $emitters, string $entityType)
+    public function __construct(iterable $emitters, EntityType $entityType)
     {
         /** @var array<array-key, EmitterContract> $arrayEmitters */
         $arrayEmitters = \iterable_to_array($emitters);
@@ -59,7 +55,7 @@ final class EmitterStack implements EmitterStackInterface, LoggerAwareInterface
         return $emitter->emit($externalIds, $context, $this);
     }
 
-    public function supports(): string
+    public function supports(): EntityType
     {
         return $this->entityType;
     }

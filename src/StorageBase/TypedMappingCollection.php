@@ -4,33 +4,34 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 
 class TypedMappingCollection extends MappingCollection
 {
-    /**
-     * @psalm-var class-string<DatasetEntityContract>
-     */
-    private string $type;
+    private EntityType $entityType;
 
     /**
-     * @psalm-param class-string<DatasetEntityContract> $type
-     * @psalm-param iterable<int, MappingInterface>     $items
+     * @psalm-param iterable<int, MappingInterface> $items
      */
-    public function __construct(string $type, iterable $items = [])
+    public function __construct(EntityType $entityType, iterable $items = [])
     {
-        $this->type = $type;
+        $this->entityType = $entityType;
 
         parent::__construct($items);
     }
 
+    public function getEntityType(): EntityType
+    {
+        return $this->entityType;
+    }
+
     /**
-     * @psalm-return class-string<DatasetEntityContract>
+     * @deprecated Use @see getEntityType instead
      */
     public function getType(): string
     {
-        return $this->type;
+        return (string) $this->entityType;
     }
 
     protected function isValidItem($item): bool
@@ -43,6 +44,6 @@ class TypedMappingCollection extends MappingCollection
             return false;
         }
 
-        return $item->getEntityType() === $this->type;
+        return $item->getEntityType()->equals($this->entityType);
     }
 }

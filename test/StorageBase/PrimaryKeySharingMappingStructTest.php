@@ -12,9 +12,13 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
  * @covers \Heptacom\HeptaConnect\Storage\Base\PrimaryKeySharingMappingStruct
  */
 final class PrimaryKeySharingMappingStructTest extends TestCase
@@ -22,7 +26,7 @@ final class PrimaryKeySharingMappingStructTest extends TestCase
     public function testPrimaryKeySharing(): void
     {
         $struct = new PrimaryKeySharingMappingStruct(
-            Simple::class,
+            Simple::class(),
             null,
             $this->createMock(PortalNodeKeyInterface::class),
             $this->createMock(MappingNodeKeyInterface::class),
@@ -44,7 +48,7 @@ final class PrimaryKeySharingMappingStructTest extends TestCase
     public function testSerialization(): void
     {
         $struct = new PrimaryKeySharingMappingStruct(
-            Simple::class,
+            Simple::class(),
             null,
             $this->createMock(PortalNodeKeyInterface::class),
             $this->createMock(MappingNodeKeyInterface::class),
