@@ -21,8 +21,15 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteRemoveUi
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Get\RouteGetCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Get\RouteGetResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Delete\RouteDeleteCriteria
@@ -39,12 +46,12 @@ final class RouteRemoveUiTest extends TestCase
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
         $routeDeleteAction = $this->createMock(RouteDeleteActionInterface::class);
         $routeKey = $this->createMock(RouteKeyInterface::class);
-        $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
 
         $routeKey->method('equals')
             ->willReturnCallback(static fn (StorageKeyInterface $key): bool => $key === $routeKey);
         $routeGetAction->expects(static::once())->method('get')->willReturn([
-            new RouteGetResult($routeKey, $portalNodeKey, $portalNodeKey, FooBarEntity::class, []),
+            new RouteGetResult($routeKey, $portalNodeKey, $portalNodeKey, FooBarEntity::class(), []),
         ]);
 
         $routeDeleteAction->expects(static::once())->method('delete');
@@ -83,13 +90,13 @@ final class RouteRemoveUiTest extends TestCase
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
         $routeDeleteAction = $this->createMock(RouteDeleteActionInterface::class);
         $routeKey = $this->createMock(RouteKeyInterface::class);
-        $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
 
         $routeKey->method('equals')
             ->willReturnCallback(static fn (StorageKeyInterface $key): bool => $key === $routeKey);
 
         $routeGetAction->expects(static::once())->method('get')->willReturn([
-            new RouteGetResult($routeKey, $portalNodeKey, $portalNodeKey, FooBarEntity::class, []),
+            new RouteGetResult($routeKey, $portalNodeKey, $portalNodeKey, FooBarEntity::class(), []),
         ]);
         $routeDeleteAction->expects(static::once())->method('delete')->willThrowException(new \LogicException('Woops'));
 
