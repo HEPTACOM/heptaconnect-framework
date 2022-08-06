@@ -13,12 +13,17 @@ use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack
  */
 final class ContractTest extends TestCase
 {
-    public function testExtendingExplorerContract(): void
+    public function testExtendingExplorerContractLikeIn0Dot9(): void
     {
         $explorer = new class() extends ExplorerContract {
             public function explore(ExploreContextInterface $context, ExplorerStackInterface $stack): iterable
@@ -31,7 +36,27 @@ final class ContractTest extends TestCase
                 return FirstEntity::class;
             }
         };
-        static::assertEquals(FirstEntity::class, $explorer->supports());
+        static::assertTrue(FirstEntity::class()->equals($explorer->getSupportedEntityType()));
+        static::assertCount(0, $explorer->explore(
+            $this->createMock(ExploreContextInterface::class),
+            $this->createMock(ExplorerStackInterface::class)
+        ));
+    }
+
+    public function testExtendingExplorerContract(): void
+    {
+        $explorer = new class() extends ExplorerContract {
+            public function explore(ExploreContextInterface $context, ExplorerStackInterface $stack): iterable
+            {
+                yield from [];
+            }
+
+            protected function supports(): string
+            {
+                return FirstEntity::class;
+            }
+        };
+        static::assertTrue(FirstEntity::class()->equals($explorer->getSupportedEntityType()));
         static::assertCount(0, $explorer->explore(
             $this->createMock(ExploreContextInterface::class),
             $this->createMock(ExplorerStackInterface::class)
@@ -63,8 +88,8 @@ final class ContractTest extends TestCase
                 return $externalId === 'good';
             }
         };
-        static::assertEquals(FirstEntity::class, $explorer->supports());
-        static::assertEquals(FirstEntity::class, $decoratingExplorer->supports());
+        static::assertTrue(FirstEntity::class()->equals($explorer->getSupportedEntityType()));
+        static::assertTrue(FirstEntity::class()->equals($decoratingExplorer->getSupportedEntityType()));
 
         $context = $this->createMock(ExploreContextInterface::class);
 

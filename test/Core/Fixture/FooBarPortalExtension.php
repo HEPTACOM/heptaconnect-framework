@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 
 final class FooBarPortalExtension extends PortalExtensionContract
 {
-    public function supports(): string
+    protected function supports(): string
     {
         return FooBarPortal::class;
     }

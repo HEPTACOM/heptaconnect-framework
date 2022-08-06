@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Reception;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 
@@ -14,13 +14,13 @@ use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 class ReceiverCollection extends AbstractObjectCollection
 {
     /**
-     * @param class-string<DatasetEntityContract> $entityType
-     *
      * @return iterable<int, ReceiverContract>
      */
-    public function bySupport(string $entityType): iterable
+    public function bySupport(EntityType $entityType): iterable
     {
-        return $this->filter(fn (ReceiverContract $emitter) => $entityType === $emitter->supports());
+        return $this->filter(
+            static fn (ReceiverContract $receiver): bool => $entityType->equals($receiver->getSupportedEntityType())
+        );
     }
 
     /**

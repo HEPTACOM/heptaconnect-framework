@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\TestSuite\Storage\Action;
 
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayloads;
@@ -39,7 +38,7 @@ abstract class PortalNodeStorageTestContract extends TestCase
         $portalNodeCreateAction = $facade->getPortalNodeCreateAction();
         $portalNodeDeleteAction = $facade->getPortalNodeDeleteAction();
         $portalNodeCreateResult = $portalNodeCreateAction->create(new PortalNodeCreatePayloads([
-            new PortalNodeCreatePayload(PortalContract::class),
+            new PortalNodeCreatePayload(PortalA::class()),
         ]));
         $portalNodeKey = $portalNodeCreateResult[0]->getPortalNodeKey();
         $set = $facade->getPortalNodeStorageSetAction();
@@ -88,7 +87,7 @@ abstract class PortalNodeStorageTestContract extends TestCase
         $portalNodeCreateAction = $facade->getPortalNodeCreateAction();
         $portalNodeDeleteAction = $facade->getPortalNodeDeleteAction();
         $portalNodeCreateResult = $portalNodeCreateAction->create(new PortalNodeCreatePayloads([
-            new PortalNodeCreatePayload(PortalContract::class),
+            new PortalNodeCreatePayload(PortalA::class()),
         ]));
         $portalNodeKey = $portalNodeCreateResult[0]->getPortalNodeKey();
         $set = $facade->getPortalNodeStorageSetAction();
@@ -136,7 +135,7 @@ abstract class PortalNodeStorageTestContract extends TestCase
         $set = $facade->getPortalNodeStorageSetAction();
 
         $firstPortalNode = $portalNodeCreate->create(new PortalNodeCreatePayloads([
-            new PortalNodeCreatePayload(PortalA::class),
+            new PortalNodeCreatePayload(PortalA::class()),
         ]))->first();
 
         static::assertInstanceOf(PortalNodeCreateResult::class, $firstPortalNode);
@@ -230,7 +229,7 @@ abstract class PortalNodeStorageTestContract extends TestCase
         $set = $facade->getPortalNodeStorageSetAction();
         $list = $facade->getPortalNodeStorageListAction();
 
-        $portalNodeKey = new PreviewPortalNodeKey(PortalA::class);
+        $portalNodeKey = new PreviewPortalNodeKey(PortalA::class());
 
         try {
             $set->set(new PortalNodeStorageSetPayload($portalNodeKey, new PortalNodeStorageSetItems([

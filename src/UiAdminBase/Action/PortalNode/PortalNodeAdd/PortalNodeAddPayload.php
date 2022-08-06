@@ -7,40 +7,28 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeAdd;
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalType;
 
 final class PortalNodeAddPayload implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    /**
-     * @var class-string<PortalContract>
-     */
-    private string $portalClass;
+    private PortalType $portalClass;
 
     private ?string $portalNodeAlias = null;
 
-    /**
-     * @param class-string<PortalContract> $portalClass
-     */
-    public function __construct(string $portalClass)
+    public function __construct(PortalType $portalClass)
     {
         $this->attachments = new AttachmentCollection();
         $this->portalClass = $portalClass;
     }
 
-    /**
-     * @return class-string<PortalContract>
-     */
-    public function getPortalClass(): string
+    public function getPortalClass(): PortalType
     {
         return $this->portalClass;
     }
 
-    /**
-     * @param class-string<PortalContract> $portalClass
-     */
-    public function setPortalClass(string $portalClass): void
+    public function setPortalClass(PortalType $portalClass): void
     {
         $this->portalClass = $portalClass;
     }

@@ -9,6 +9,8 @@ use Heptacom\HeptaConnect\Core\Portal\Contract\PackageQueryMatcherInterface;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortalExtension;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionActivateUi;
+use Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Find\PortalExtensionFindResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult;
@@ -24,8 +26,20 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionActivateUi
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractClassStringReferenceCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionType
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionTypeCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\SupportedPortalType
  * @covers \Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Activate\PortalExtensionActivatePayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Find\PortalExtensionFindResult
@@ -49,13 +63,13 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
         $portalNodeExtensionFindAction = $this->createMock(PortalExtensionFindActionInterface::class);
         $portalExtensionActivateAction = $this->createMock(PortalExtensionActivateActionInterface::class);
         $portalLoader = $this->createMock(ComposerPortalLoader::class);
-        $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
         $portalExtensionFindResult = new PortalExtensionFindResult();
         $packageQueryMatcher = $this->createMock(PackageQueryMatcherInterface::class);
 
-        $portalExtensionFindResult->add(FooBarPortalExtension::class, true);
+        $portalExtensionFindResult->add(FooBarPortalExtension::class(), true);
         $portalNodeGetAction->method('get')->willReturn([
-            new PortalNodeGetResult($portalNodeKey, FooBarPortal::class),
+            new PortalNodeGetResult($portalNodeKey, FooBarPortal::class()),
         ]);
         $portalNodeExtensionFindAction->method('find')->willReturn($portalExtensionFindResult);
         $portalLoader->method('getPortalExtensions')
@@ -73,9 +87,9 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
             $portalLoader
         );
         $payload = new PortalNodeExtensionActivatePayload($portalNodeKey);
-        $payload->setPortalExtensionQueries([
-            FooBarPortalExtension::class,
-        ]);
+        $payload->setPortalExtensionQueries(new ClassStringReferenceCollection([
+            FooBarPortalExtension::class(),
+        ]));
 
         self::expectException(PortalExtensionsAreAlreadyActiveOnPortalNodeException::class);
 
@@ -88,11 +102,11 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
         $portalNodeExtensionFindAction = $this->createMock(PortalExtensionFindActionInterface::class);
         $portalExtensionActivateAction = $this->createMock(PortalExtensionActivateActionInterface::class);
         $portalLoader = $this->createMock(ComposerPortalLoader::class);
-        $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
         $portalExtensionFindResult = new PortalExtensionFindResult();
         $packageQueryMatcher = $this->createMock(PackageQueryMatcherInterface::class);
 
-        $portalExtensionFindResult->add(FooBarPortalExtension::class, true);
+        $portalExtensionFindResult->add(FooBarPortalExtension::class(), true);
         $portalNodeGetAction->method('get')->willReturn([]);
         $portalNodeExtensionFindAction->method('find')->willReturn($portalExtensionFindResult);
         $portalLoader->method('getPortalExtensions')
@@ -106,9 +120,9 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
             $portalLoader
         );
         $payload = new PortalNodeExtensionActivatePayload($portalNodeKey);
-        $payload->setPortalExtensionQueries([
-            FooBarPortalExtension::class,
-        ]);
+        $payload->setPortalExtensionQueries(new ClassStringReferenceCollection([
+            FooBarPortalExtension::class(),
+        ]));
 
         self::expectException(PortalNodeMissingException::class);
 
@@ -121,13 +135,13 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
         $portalNodeExtensionFindAction = $this->createMock(PortalExtensionFindActionInterface::class);
         $portalExtensionActivateAction = $this->createMock(PortalExtensionActivateActionInterface::class);
         $portalLoader = $this->createMock(ComposerPortalLoader::class);
-        $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
         $portalExtensionFindResult = new PortalExtensionFindResult();
         $packageQueryMatcher = $this->createMock(PackageQueryMatcherInterface::class);
 
-        $portalExtensionFindResult->add(FooBarPortalExtension::class, true);
+        $portalExtensionFindResult->add(FooBarPortalExtension::class(), true);
         $portalNodeGetAction->method('get')->willReturn([
-            new PortalNodeGetResult($portalNodeKey, FooBarPortal::class),
+            new PortalNodeGetResult($portalNodeKey, FooBarPortal::class()),
         ]);
         $portalNodeExtensionFindAction->method('find')->willReturn($portalExtensionFindResult);
         $portalLoader->method('getPortalExtensions')->willReturn(new PortalExtensionCollection([]));
@@ -144,9 +158,14 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
             $portalLoader
         );
         $payload = new PortalNodeExtensionActivatePayload($portalNodeKey);
-        $payload->setPortalExtensionQueries([
-            'A\\Class\\That\\Does\\Not\\Exist',
-        ]);
+        $payload->setPortalExtensionQueries(new ClassStringReferenceCollection([
+            (new class() extends PortalExtensionContract {
+                protected function supports(): string
+                {
+                    return FooBarPortal::class;
+                }
+            })::class(),
+        ]));
 
         self::expectException(NoMatchForPackageQueryException::class);
 

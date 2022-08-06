@@ -7,51 +7,37 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Activate;
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionTypeCollection;
 
 final class PortalExtensionActivateResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    /**
-     * @var array<class-string<PortalExtensionContract>>
-     */
-    private array $passedActivations;
+    private PortalExtensionTypeCollection $passedActivations;
 
-    /**
-     * @var array<class-string<PortalExtensionContract>>
-     */
-    private array $failedActivations;
+    private PortalExtensionTypeCollection $failedActivations;
 
-    /**
-     * @param array<class-string<PortalExtensionContract>> $passedActivations
-     * @param array<class-string<PortalExtensionContract>> $failedActivations
-     */
-    public function __construct(array $passedActivations, array $failedActivations)
-    {
+    public function __construct(
+        PortalExtensionTypeCollection $passedActivations,
+        PortalExtensionTypeCollection $failedActivations
+    ) {
         $this->attachments = new AttachmentCollection();
         $this->passedActivations = $passedActivations;
         $this->failedActivations = $failedActivations;
     }
 
-    /**
-     * @return array<class-string<PortalExtensionContract>>
-     */
-    public function getPassedActivations(): array
+    public function getPassedActivations(): PortalExtensionTypeCollection
     {
         return $this->passedActivations;
     }
 
-    /**
-     * @return array<class-string<PortalExtensionContract>>
-     */
-    public function getFailedActivations(): array
+    public function getFailedActivations(): PortalExtensionTypeCollection
     {
         return $this->failedActivations;
     }
 
     public function isSuccess(): bool
     {
-        return $this->failedActivations === [];
+        return $this->failedActivations->count() < 1;
     }
 }

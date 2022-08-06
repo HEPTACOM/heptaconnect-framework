@@ -7,7 +7,8 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Activate;
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionType;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionTypeCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
 final class PortalExtensionActivatePayload implements AttachmentAwareInterface
@@ -16,15 +17,13 @@ final class PortalExtensionActivatePayload implements AttachmentAwareInterface
 
     private PortalNodeKeyInterface $portalNodeKey;
 
-    /**
-     * @var array<class-string<PortalExtensionContract>, bool>
-     */
-    private array $extensions = [];
+    private PortalExtensionTypeCollection $extensions;
 
     public function __construct(PortalNodeKeyInterface $portalNodeKey)
     {
         $this->attachments = new AttachmentCollection();
         $this->portalNodeKey = $portalNodeKey;
+        $this->extensions = new PortalExtensionTypeCollection();
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface
@@ -32,27 +31,24 @@ final class PortalExtensionActivatePayload implements AttachmentAwareInterface
         return $this->portalNodeKey;
     }
 
-    /**
-     * @param class-string<PortalExtensionContract> $extensionClass
-     */
-    public function addExtension(string $extensionClass): void
+    public function addExtension(PortalExtensionType $portalExtensionType): void
     {
-        $this->extensions[$extensionClass] = true;
+        if ($this->extensions->has($portalExtensionType)) {
+            return;
+        }
+
+        $this->extensions->push([$portalExtensionType]);
     }
 
-    /**
-     * @param class-string<PortalExtensionContract> $extensionClass
-     */
-    public function removeExtension(string $extensionClass): void
+    public function removeExtension(PortalExtensionType $portalExtensionType): void
     {
-        unset($this->extensions[$extensionClass]);
+        $this->extensions = new PortalExtensionTypeCollection($this->extensions->filter(
+            static fn (PortalExtensionType $item): bool => !$item->equals($portalExtensionType)
+        ));
     }
 
-    /**
-     * @return array<class-string<PortalExtensionContract>>
-     */
-    public function getExtensions(): array
+    public function getExtensions(): PortalExtensionTypeCollection
     {
-        return \array_keys($this->extensions);
+        return new PortalExtensionTypeCollection($this->extensions);
     }
 }

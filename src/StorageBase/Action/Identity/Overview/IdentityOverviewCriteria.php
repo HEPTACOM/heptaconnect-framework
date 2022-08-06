@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Identity\Overview;
 
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\MappingNodeKeyCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
@@ -34,7 +34,7 @@ final class IdentityOverviewCriteria extends OverviewCriteriaContract implements
     ];
 
     /**
-     * @var array<class-string<DatasetEntityContract>>
+     * @var ClassStringReferenceContract[]
      */
     protected array $entityTypeFilter = [];
 
@@ -55,7 +55,7 @@ final class IdentityOverviewCriteria extends OverviewCriteriaContract implements
     }
 
     /**
-     * @return array<class-string<DatasetEntityContract>>
+     * @return ClassStringReferenceContract[]
      */
     public function getEntityTypeFilter(): array
     {
@@ -63,7 +63,7 @@ final class IdentityOverviewCriteria extends OverviewCriteriaContract implements
     }
 
     /**
-     * @param array<class-string<DatasetEntityContract>> $entityTypeFilter
+     * @param ClassStringReferenceContract[] $entityTypeFilter
      */
     public function setEntityTypeFilter(array $entityTypeFilter): void
     {
