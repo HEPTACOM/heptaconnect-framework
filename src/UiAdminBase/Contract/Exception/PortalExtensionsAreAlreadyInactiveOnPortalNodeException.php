@@ -4,24 +4,18 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception;
 
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionTypeCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
 final class PortalExtensionsAreAlreadyInactiveOnPortalNodeException extends \InvalidArgumentException implements InvalidArgumentThrowableInterface
 {
     private PortalNodeKeyInterface $portalNodeKey;
 
-    /**
-     * @var class-string<PortalExtensionContract>[]
-     */
-    private array $portalExtensionClasses;
+    private PortalExtensionTypeCollection $portalExtensionClasses;
 
-    /**
-     * @param class-string<PortalExtensionContract>[] $portalExtensionClasses
-     */
     public function __construct(
         PortalNodeKeyInterface $portalNodeKey,
-        array $portalExtensionClasses,
+        PortalExtensionTypeCollection $portalExtensionClasses,
         int $code,
         ?\Throwable $previous = null
     ) {
@@ -35,10 +29,7 @@ final class PortalExtensionsAreAlreadyInactiveOnPortalNodeException extends \Inv
         return $this->portalNodeKey;
     }
 
-    /**
-     * @return class-string<PortalExtensionContract>[]
-     */
-    public function getPortalExtensionClasses(): array
+    public function getPortalExtensionClasses(): PortalExtensionTypeCollection
     {
         return $this->portalExtensionClasses;
     }
