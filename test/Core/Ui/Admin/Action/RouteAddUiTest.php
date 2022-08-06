@@ -26,8 +26,15 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUi
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
  * @covers \Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayloads
@@ -59,14 +66,14 @@ final class RouteAddUiTest extends TestCase
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $routeKey = $this->createMock(RouteKeyInterface::class);
-        $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
 
         $routeCreateAction->method('create')->willReturn(new RouteCreateResults([
             new RouteCreateResult($routeKey),
         ]));
         $routeFindAction->method('find')->willReturn(null);
         $routeGetAction->method('get')->willReturn([
-            new RouteGetResult($routeKey, $portalNodeKey, $portalNodeKey, FooBarEntity::class, []),
+            new RouteGetResult($routeKey, $portalNodeKey, $portalNodeKey, FooBarEntity::class(), []),
         ]);
         $portalNodeGetAction->method('get')
             ->willReturn([
@@ -76,7 +83,7 @@ final class RouteAddUiTest extends TestCase
         $action = new RouteAddUi($routeCreateAction, $routeFindAction, $routeGetAction, $portalNodeGetAction);
 
         $result = $action->add(new RouteAddPayloadCollection([
-            new RouteAddPayload($portalNodeKey, $portalNodeKey, FooBarEntity::class),
+            new RouteAddPayload($portalNodeKey, $portalNodeKey, FooBarEntity::class()),
         ]));
 
         static::assertSame($routeKey, $result->first()->getRouteKey());
@@ -88,7 +95,7 @@ final class RouteAddUiTest extends TestCase
         $routeFindAction = $this->createMock(RouteFindActionInterface::class);
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
-        $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
 
         $routeCreateAction->method('create')->willReturn(new RouteCreateResults());
         $routeFindAction->method('find')->willReturn(null);
@@ -99,7 +106,7 @@ final class RouteAddUiTest extends TestCase
         self::expectException(PortalNodeMissingException::class);
 
         $action->add(new RouteAddPayloadCollection([
-            new RouteAddPayload($portalNodeKey, $portalNodeKey, FooBarEntity::class),
+            new RouteAddPayload($portalNodeKey, $portalNodeKey, FooBarEntity::class()),
         ]));
     }
 
@@ -110,7 +117,7 @@ final class RouteAddUiTest extends TestCase
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
         $routeKey = $this->createMock(RouteKeyInterface::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
-        $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
 
         $routeCreateAction->method('create')->willReturn(new RouteCreateResults());
         $routeFindAction->method('find')->willReturn(new RouteFindResult($routeKey));
@@ -124,7 +131,7 @@ final class RouteAddUiTest extends TestCase
         self::expectException(RouteAlreadyExistsException::class);
 
         $action->add(new RouteAddPayloadCollection([
-            new RouteAddPayload($portalNodeKey, $portalNodeKey, FooBarEntity::class),
+            new RouteAddPayload($portalNodeKey, $portalNodeKey, FooBarEntity::class()),
         ]));
     }
 }

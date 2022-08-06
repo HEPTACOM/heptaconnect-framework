@@ -7,6 +7,7 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd;
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
@@ -18,10 +19,7 @@ final class RouteAddPayload implements AttachmentAwareInterface
 
     protected PortalNodeKeyInterface $targetPortalNodeKey;
 
-    /**
-     * @var class-string<DatasetEntityContract>
-     */
-    protected string $entityType;
+    protected EntityType $entityType;
 
     /**
      * @var string[]
@@ -29,13 +27,12 @@ final class RouteAddPayload implements AttachmentAwareInterface
     protected array $capabilities;
 
     /**
-     * @param class-string<DatasetEntityContract> $entityType
-     * @param string[]                            $capabilities
+     * @param string[] $capabilities
      */
     public function __construct(
         PortalNodeKeyInterface $sourcePortalNodeKey,
         PortalNodeKeyInterface $targetPortalNodeKey,
-        string $entityType,
+        EntityType $entityType,
         array $capabilities = []
     ) {
         $this->attachments = new AttachmentCollection();
@@ -65,18 +62,12 @@ final class RouteAddPayload implements AttachmentAwareInterface
         $this->targetPortalNodeKey = $targetPortalNodeKey;
     }
 
-    /**
-     * @return class-string<DatasetEntityContract>
-     */
-    public function getEntityType(): string
+    public function getEntityType(): EntityType
     {
         return $this->entityType;
     }
 
-    /**
-     * @param class-string<DatasetEntityContract> $entityType
-     */
-    public function setEntityType(string $entityType): void
+    public function setEntityType(EntityType $entityType): void
     {
         $this->entityType = $entityType;
     }
