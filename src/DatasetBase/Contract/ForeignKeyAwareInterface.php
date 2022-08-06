@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
 
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
+
 interface ForeignKeyAwareInterface
 {
-    /**
-     * @psalm-return class-string<DatasetEntityContract>
-     */
-    public function getForeignEntityType(): string;
+    public function getForeignEntityType(): EntityType;
 
     public function getForeignKey(): ?string;
 

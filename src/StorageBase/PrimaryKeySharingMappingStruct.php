@@ -7,6 +7,7 @@ namespace Heptacom\HeptaConnect\Storage\Base;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\Support\ForeignKeyTrait;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
@@ -33,24 +34,31 @@ final class PrimaryKeySharingMappingStruct implements AttachableInterface, Forei
      */
     protected $owners = [];
 
-    /**
-     * @param class-string<DatasetEntityContract> $entityType
-     */
     public function __construct(
-        string $entityType,
+        EntityType $entityType,
         ?string $externalId,
         PortalNodeKeyInterface $portalNodeKey,
         MappingNodeKeyInterface $mappingNodeKey
     ) {
-        $this->entityType = $entityType;
+        $this->entityType = (string) $entityType;
         $this->externalId = $externalId;
         $this->portalNodeKey = $portalNodeKey;
         $this->mappingNodeKey = $mappingNodeKey;
     }
 
-    public function getEntityType(): string
+    public function __wakeup(): void
     {
-        return $this->entityType;
+        // construct for validation, but don't store to prevent serialization
+        // validation should always be true, as `unserialize` would fail when the class is not available
+        new EntityType($this->entityType);
+    }
+
+    public function getEntityType(): EntityType
+    {
+        /*
+         * We do not expect a throw here, because it has been validated in @see __construct, __wakeup
+         */
+        return new EntityType($this->entityType);
     }
 
     public function getExternalId(): ?string
@@ -75,7 +83,7 @@ final class PrimaryKeySharingMappingStruct implements AttachableInterface, Forei
         return $this->mappingNodeKey;
     }
 
-    public function getForeignEntityType(): string
+    public function getForeignEntityType(): EntityType
     {
         return $this->getEntityType();
     }
@@ -105,9 +113,11 @@ final class PrimaryKeySharingMappingStruct implements AttachableInterface, Forei
      */
     public function addOwner(DatasetEntityContract $owner): void
     {
-        if (\get_class($owner) !== $this->getForeignEntityType()
-            || $owner->getPrimaryKey() !== $this->getForeignKey()) {
-            throw new UnsharableOwnerException($this->getForeignEntityType(), $this->getForeignKey(), $owner);
+        if (
+            !$this->getForeignEntityType()->equalsObjectType($owner)
+            || $owner->getPrimaryKey() !== $this->getForeignKey()
+        ) {
+            throw new UnsharableOwnerException((string) $this->getForeignEntityType(), $this->getForeignKey(), $owner);
         }
 
         $this->owners[] = $owner;

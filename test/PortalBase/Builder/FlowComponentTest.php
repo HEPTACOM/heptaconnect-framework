@@ -44,10 +44,14 @@ use Psr\Log\LoggerInterface;
 
 /**
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalConfiguration
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Builder\HttpHandlerBuilder
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Component\Emitter
@@ -432,31 +436,31 @@ final class FlowComponentTest extends TestCase
         $thisClasses = [];
         $supports = [];
 
-        $explorerToken = new ExplorerToken(FirstEntity::class);
+        $explorerToken = new ExplorerToken(FirstEntity::class());
         $explorerToken->setRun(function () use (&$supports, &$thisClasses): array {
             /* @var $this ExplorerContract */
             $thisClasses[] = static::class;
-            $supports[] = $this->supports();
+            $supports[] = (string) $this->getSupportedEntityType();
 
             return [];
         });
         $explorer = new Explorer($explorerToken);
 
-        $emitterToken = new EmitterToken(FirstEntity::class);
+        $emitterToken = new EmitterToken(FirstEntity::class());
         $emitterToken->setBatch(function () use (&$supports, &$thisClasses): array {
             /* @var $this EmitterContract */
             $thisClasses[] = static::class;
-            $supports[] = $this->supports();
+            $supports[] = (string) $this->getSupportedEntityType();
 
             return [];
         });
         $emitter = new Emitter($emitterToken);
 
-        $receiverToken = new ReceiverToken(FirstEntity::class);
+        $receiverToken = new ReceiverToken(FirstEntity::class());
         $receiverToken->setBatch(function () use (&$supports, &$thisClasses): void {
             /* @var $this ReceiverContract */
             $thisClasses[] = static::class;
-            $supports[] = $this->supports();
+            $supports[] = (string) $this->getSupportedEntityType();
         });
         $receiver = new Receiver($receiverToken);
 
@@ -481,9 +485,9 @@ final class FlowComponentTest extends TestCase
         $httpHandler = new HttpHandler($httpHandlerToken);
 
         \iterable_to_array($explorer->explore($exploreContext, new ExplorerStack([])));
-        \iterable_to_array($emitter->emit([], $emitContext, new EmitterStack([], FirstEntity::class)));
+        \iterable_to_array($emitter->emit([], $emitContext, new EmitterStack([], FirstEntity::class())));
         \iterable_to_array($receiver->receive(
-            new TypedDatasetEntityCollection(FirstEntity::class, [new FirstEntity()]),
+            new TypedDatasetEntityCollection(FirstEntity::class(), [new FirstEntity()]),
             $receiveContext,
             new ReceiverStack([])
         ));
