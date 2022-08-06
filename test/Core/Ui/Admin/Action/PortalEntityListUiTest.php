@@ -23,10 +23,20 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalEntityListUi
  * @covers \Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey
@@ -83,7 +93,7 @@ final class PortalEntityListUiTest extends TestCase
         $explorerCodeOriginFinder->expects(static::once())->method('findOrigin');
         $receiverCodeOriginFinder->expects(static::once())->method('findOrigin');
 
-        $criteria = new PortalEntityListCriteria(FooBarPortal::class);
+        $criteria = new PortalEntityListCriteria(FooBarPortal::class());
         static::assertCount(3, \iterable_to_array($action->list($criteria)));
 
         // reset
@@ -103,7 +113,7 @@ final class PortalEntityListUiTest extends TestCase
         $explorerCodeOriginFinder->expects(static::never())->method('findOrigin');
         $receiverCodeOriginFinder->expects(static::once())->method('findOrigin');
 
-        $criteria = new PortalEntityListCriteria(FooBarPortal::class);
+        $criteria = new PortalEntityListCriteria(FooBarPortal::class());
         $criteria->setShowEmitter(false);
         $criteria->setShowExplorer(false);
         $criteria->setShowReceiver(true);
@@ -126,7 +136,7 @@ final class PortalEntityListUiTest extends TestCase
         $explorerCodeOriginFinder->expects(static::once())->method('findOrigin');
         $receiverCodeOriginFinder->expects(static::never())->method('findOrigin');
 
-        $criteria = new PortalEntityListCriteria(FooBarPortal::class);
+        $criteria = new PortalEntityListCriteria(FooBarPortal::class());
         $criteria->setShowEmitter(false);
         $criteria->setShowExplorer(true);
         $criteria->setShowReceiver(false);
@@ -149,7 +159,7 @@ final class PortalEntityListUiTest extends TestCase
         $explorerCodeOriginFinder->expects(static::never())->method('findOrigin');
         $receiverCodeOriginFinder->expects(static::never())->method('findOrigin');
 
-        $criteria = new PortalEntityListCriteria(FooBarPortal::class);
+        $criteria = new PortalEntityListCriteria(FooBarPortal::class());
         $criteria->setShowEmitter(true);
         $criteria->setShowExplorer(false);
         $criteria->setShowReceiver(false);
@@ -172,7 +182,7 @@ final class PortalEntityListUiTest extends TestCase
         $explorerCodeOriginFinder->expects(static::once())->method('findOrigin');
         $receiverCodeOriginFinder->expects(static::never())->method('findOrigin');
 
-        $criteria = new PortalEntityListCriteria(FooBarPortal::class);
+        $criteria = new PortalEntityListCriteria(FooBarPortal::class());
         $criteria->setShowEmitter(true);
         $criteria->setShowExplorer(true);
         $criteria->setShowReceiver(false);
@@ -195,8 +205,8 @@ final class PortalEntityListUiTest extends TestCase
         $explorerCodeOriginFinder->expects(static::once())->method('findOrigin');
         $receiverCodeOriginFinder->expects(static::once())->method('findOrigin');
 
-        $criteria = new PortalEntityListCriteria(FooBarPortal::class);
-        $criteria->setFilterSupportedEntityType(FooBarEntity::class);
+        $criteria = new PortalEntityListCriteria(FooBarPortal::class());
+        $criteria->setFilterSupportedEntityType(FooBarEntity::class());
         static::assertCount(3, \iterable_to_array($action->list($criteria)));
 
         // reset
@@ -216,8 +226,9 @@ final class PortalEntityListUiTest extends TestCase
         $explorerCodeOriginFinder->expects(static::never())->method('findOrigin');
         $receiverCodeOriginFinder->expects(static::never())->method('findOrigin');
 
-        $criteria = new PortalEntityListCriteria(FooBarPortal::class);
-        $criteria->setFilterSupportedEntityType(DatasetEntityContract::class);
+        $criteria = new PortalEntityListCriteria(FooBarPortal::class());
+        $criteria->setFilterSupportedEntityType((new class() extends DatasetEntityContract {
+        })::class());
         static::assertCount(0, \iterable_to_array($action->list($criteria)));
     }
 }

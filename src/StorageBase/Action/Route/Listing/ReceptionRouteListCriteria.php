@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Listing;
 
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
@@ -16,15 +16,9 @@ final class ReceptionRouteListCriteria implements AttachmentAwareInterface
 
     protected PortalNodeKeyInterface $sourcePortalNodeKey;
 
-    /**
-     * @var class-string<DatasetEntityContract>
-     */
-    protected string $entityType;
+    protected ClassStringReferenceContract $entityType;
 
-    /**
-     * @param class-string<DatasetEntityContract> $entityType
-     */
-    public function __construct(PortalNodeKeyInterface $sourcePortalNodeKey, string $entityType)
+    public function __construct(PortalNodeKeyInterface $sourcePortalNodeKey, ClassStringReferenceContract $entityType)
     {
         $this->attachments = new AttachmentCollection();
         $this->sourcePortalNodeKey = $sourcePortalNodeKey;
@@ -41,18 +35,12 @@ final class ReceptionRouteListCriteria implements AttachmentAwareInterface
         $this->sourcePortalNodeKey = $sourcePortalNodeKey;
     }
 
-    /**
-     * @return class-string<DatasetEntityContract>
-     */
-    public function getEntityType(): string
+    public function getEntityType(): ClassStringReferenceContract
     {
         return $this->entityType;
     }
 
-    /**
-     * @param class-string<DatasetEntityContract> $entityType
-     */
-    public function setEntityType(string $entityType): void
+    public function setEntityType(ClassStringReferenceContract $entityType): void
     {
         $this->entityType = $entityType;
     }

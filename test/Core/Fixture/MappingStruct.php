@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Fixture;
 
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -42,8 +43,8 @@ final class MappingStruct implements MappingInterface
         return $this->portalNodeId;
     }
 
-    public function getEntityType(): string
+    public function getEntityType(): EntityType
     {
-        return FooBarEntity::class;
+        return FooBarEntity::class();
     }
 }

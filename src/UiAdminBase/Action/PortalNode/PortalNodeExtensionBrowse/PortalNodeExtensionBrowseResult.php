@@ -6,8 +6,8 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtens
 
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
 final class PortalNodeExtensionBrowseResult implements AttachmentAwareInterface
@@ -18,20 +18,17 @@ final class PortalNodeExtensionBrowseResult implements AttachmentAwareInterface
 
     private bool $active;
 
-    /**
-     * @var class-string<PortalExtensionContract>
-     */
-    private string $portalExtensionClass;
+    private ClassStringReferenceContract $portalExtensionType;
 
-    /**
-     * @param class-string<PortalExtensionContract> $portalExtensionClass
-     */
-    public function __construct(PortalNodeKeyInterface $portalNodeKey, bool $active, string $portalExtensionClass)
-    {
+    public function __construct(
+        PortalNodeKeyInterface $portalNodeKey,
+        bool $active,
+        ClassStringReferenceContract $portalExtensionType
+    ) {
         $this->attachments = new AttachmentCollection();
         $this->portalNodeKey = $portalNodeKey;
         $this->active = $active;
-        $this->portalExtensionClass = $portalExtensionClass;
+        $this->portalExtensionType = $portalExtensionType;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface
@@ -44,11 +41,8 @@ final class PortalNodeExtensionBrowseResult implements AttachmentAwareInterface
         return $this->active;
     }
 
-    /**
-     * @return class-string<PortalExtensionContract>
-     */
-    public function getPortalExtensionClass(): string
+    public function getPortalExtensionClass(): ClassStringReferenceContract
     {
-        return $this->portalExtensionClass;
+        return $this->portalExtensionType;
     }
 }

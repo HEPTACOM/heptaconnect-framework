@@ -61,7 +61,7 @@ abstract class StorageKeyGeneratorContract
             $portalType = (string) ($json['preview'] ?? null);
 
             if (\is_a($portalType, PortalContract::class, true)) {
-                return new PreviewPortalNodeKey($portalType);
+                return new PreviewPortalNodeKey($portalType::class());
             }
         } catch (\Throwable $throwable) {
             throw new UnsupportedStorageKeyException(StorageKeyInterface::class, $throwable);
