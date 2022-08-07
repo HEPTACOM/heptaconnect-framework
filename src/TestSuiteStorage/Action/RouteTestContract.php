@@ -32,6 +32,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionIn
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Enum\RouteCapability;
 use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
 use Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection;
@@ -94,6 +95,21 @@ abstract class RouteTestContract extends TestCase
 
         $this->portalA = $firstResult->getPortalNodeKey();
         $this->portalB = $lastResult->getPortalNodeKey();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        try {
+            $this->portalNodeDeleteAction->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([$this->portalA])));
+        } catch (NotFoundException $e) {
+        }
+
+        try {
+            $this->portalNodeDeleteAction->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([$this->portalB])));
+        } catch (NotFoundException $e) {
+        }
     }
 
     /**
@@ -230,11 +246,6 @@ abstract class RouteTestContract extends TestCase
         }
 
         $this->routeDeleteAction->delete(new RouteDeleteCriteria($routeKeys));
-
-        $this->portalNodeDeleteAction->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([
-            $this->portalA,
-            $this->portalB,
-        ])));
     }
 
     public function testRouteLifecycleWithDeletedPortalNodes(): void
@@ -280,8 +291,191 @@ abstract class RouteTestContract extends TestCase
         }
     }
 
+    public function testDeletedAt(): void
+    {
+        $routeKeys = $this->setUpOverview();
+        $criteria = new RouteOverviewCriteria();
+        static::assertCount(4, \iterable_to_array($this->routeOverviewAction->overview($criteria)));
+        $this->tearDownOverview($routeKeys);
+    }
+
+    public function testPagination(): void
+    {
+        $routeKeys = $this->setUpOverview();
+
+        $criteria0 = new RouteOverviewCriteria();
+        $criteria0->setPageSize(1);
+        $criteria0->setPage(0);
+
+        $criteria1 = clone $criteria0;
+        $criteria1->setPage(1);
+
+        $criteria2 = clone $criteria0;
+        $criteria2->setPage(2);
+
+        $criteria3 = clone $criteria0;
+        $criteria3->setPage(3);
+
+        $criteria4 = clone $criteria0;
+        $criteria4->setPage(4);
+
+        $criteria5 = clone $criteria0;
+        $criteria5->setPage(5);
+
+        static::assertCount(1, \iterable_to_array($this->routeOverviewAction->overview($criteria0)));
+        static::assertCount(1, \iterable_to_array($this->routeOverviewAction->overview($criteria1)));
+        static::assertCount(1, \iterable_to_array($this->routeOverviewAction->overview($criteria2)));
+        static::assertCount(1, \iterable_to_array($this->routeOverviewAction->overview($criteria3)));
+        static::assertCount(1, \iterable_to_array($this->routeOverviewAction->overview($criteria4)));
+        static::assertCount(0, \iterable_to_array($this->routeOverviewAction->overview($criteria5)));
+
+        $this->tearDownOverview($routeKeys);
+    }
+
+    public function testSortByDateAsc(): void
+    {
+        $routeKeys = $this->setUpOverview();
+        $criteria = new RouteOverviewCriteria();
+        $criteria->setSort([
+            RouteOverviewCriteria::FIELD_CREATED => RouteOverviewCriteria::SORT_ASC,
+        ]);
+
+        /** @var RouteOverviewResult $item */
+        foreach ($this->routeOverviewAction->overview($criteria) as $item) {
+            $this->tearDownOverview($routeKeys);
+            static::assertTrue($item->getRouteKey()->equals($routeKeys['routeFirst']));
+
+            break;
+        }
+    }
+
+    public function testSortByDateDesc(): void
+    {
+        $routeKeys = $this->setUpOverview();
+        $criteria = new RouteOverviewCriteria();
+        $criteria->setSort([
+            RouteOverviewCriteria::FIELD_CREATED => RouteOverviewCriteria::SORT_DESC,
+        ]);
+
+        /** @var RouteOverviewResult $item */
+        foreach ($this->routeOverviewAction->overview($criteria) as $item) {
+            $this->tearDownOverview($routeKeys);
+            static::assertTrue($item->getRouteKey()->equals($routeKeys['routeLast']));
+
+            break;
+        }
+    }
+
+    public function testSortByEntityTypeAsc(): void
+    {
+        $routeKeys = $this->setUpOverview();
+        $criteria = new RouteOverviewCriteria();
+        $criteria->setSort([
+            RouteOverviewCriteria::FIELD_ENTITY_TYPE => RouteOverviewCriteria::SORT_ASC,
+        ]);
+
+        $indexA = null;
+        $indexB = null;
+
+        /** @var RouteOverviewResult $item */
+        foreach ($this->routeOverviewAction->overview($criteria) as $index => $item) {
+            if ($item->getRouteKey()->equals($routeKeys['routeTypeA'])) {
+                $indexA = $index;
+            }
+
+            if ($item->getRouteKey()->equals($routeKeys['routeTypeB'])) {
+                $indexB = $index;
+            }
+        }
+
+        $this->tearDownOverview($routeKeys);
+
+        static::assertGreaterThan($indexA, $indexB);
+    }
+
+    public function testSortByEntityTypeDesc(): void
+    {
+        $routeKeys = $this->setUpOverview();
+        $criteria = new RouteOverviewCriteria();
+        $criteria->setSort([
+            RouteOverviewCriteria::FIELD_ENTITY_TYPE => RouteOverviewCriteria::SORT_DESC,
+        ]);
+
+        $indexA = null;
+        $indexB = null;
+
+        /** @var RouteOverviewResult $item */
+        foreach ($this->routeOverviewAction->overview($criteria) as $index => $item) {
+            if ($item->getRouteKey()->equals($routeKeys['routeTypeA'])) {
+                $indexA = $index;
+            }
+
+            if ($item->getRouteKey()->equals($routeKeys['routeTypeB'])) {
+                $indexB = $index;
+            }
+        }
+
+        $this->tearDownOverview($routeKeys);
+
+        static::assertGreaterThan($indexB, $indexA);
+    }
+
     /**
      * Provides the storage implementation to test against.
      */
     abstract protected function createStorageFacade(): StorageFacadeInterface;
+
+    /**
+     * @return array{
+     *                routeDeleted: RouteKeyInterface,
+     *                routeTypeA: RouteKeyInterface,
+     *                routeTypeB: RouteKeyInterface,
+     *                routeFirst: RouteKeyInterface,
+     *                routeLast: RouteKeyInterface
+     *                }
+     */
+    private function setUpOverview(): array
+    {
+        $routeDeleted = $this->routeCreateAction->create(new RouteCreatePayloads([
+            new RouteCreatePayload($this->portalA, $this->portalB, EntityA::class()),
+        ]))->first()->getRouteKey();
+        $this->routeDeleteAction->delete(new RouteDeleteCriteria(new RouteKeyCollection([$routeDeleted])));
+
+        $routeFirst = $this->routeCreateAction->create(new RouteCreatePayloads([
+            new RouteCreatePayload($this->portalA, $this->portalB, EntityA::class()),
+        ]))->first()->getRouteKey();
+
+        \sleep(1);
+
+        $routeTypeA = $this->routeCreateAction->create(new RouteCreatePayloads([
+            new RouteCreatePayload($this->portalA, $this->portalB, EntityA::class()),
+        ]))->first()->getRouteKey();
+        $routeTypeB = $this->routeCreateAction->create(new RouteCreatePayloads([
+            new RouteCreatePayload($this->portalA, $this->portalB, EntityB::class()),
+        ]))->first()->getRouteKey();
+
+        \sleep(1);
+
+        $routeLast = $this->routeCreateAction->create(new RouteCreatePayloads([
+            new RouteCreatePayload($this->portalA, $this->portalB, EntityA::class()),
+        ]))->first()->getRouteKey();
+
+        return [
+            'routeDeleted' => $routeDeleted,
+            'routeTypeA' => $routeTypeA,
+            'routeTypeB' => $routeTypeB,
+            'routeFirst' => $routeFirst,
+            'routeLast' => $routeLast,
+        ];
+    }
+
+    /**
+     * @param RouteKeyInterface[] $routeKeys
+     */
+    private function tearDownOverview(array $routeKeys): void
+    {
+        unset($routeKeys['routeDeleted']);
+
+        $this->routeDeleteAction->delete(new RouteDeleteCriteria(new RouteKeyCollection(\array_values($routeKeys))));
+    }
 }

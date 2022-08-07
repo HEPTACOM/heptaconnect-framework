@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add tests in `\Heptacom\HeptaConnect\TestSuite\Storage\Action\RouteTestContract` to test `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewActionInterface` usage for different sorting and pagination behaviours
+
 ### Changed
 
 ### Deprecated
