@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortalExtension;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin;
+use Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\FirstEntity;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\Portal;
@@ -21,6 +22,8 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBro
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBrowse\PortalNodeExtensionBrowseResult;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport\PortalNodeStatusReportPayload;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport\PortalNodeStatusReportResult;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteBrowse\RouteBrowseCriteria;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteBrowse\RouteBrowseResult;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -47,6 +50,8 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBrowse\PortalNodeExtensionBrowseResult
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport\PortalNodeStatusReportPayload
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport\PortalNodeStatusReportResult
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteBrowse\RouteBrowseCriteria
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteBrowse\RouteBrowseResult
  */
 final class UiActionParameterTest extends TestCase
 {
@@ -69,6 +74,7 @@ final class UiActionParameterTest extends TestCase
         $entityType = FirstEntity::class;
         $codeOrigin = new CodeOrigin(__FILE__, 0, 1);
         $portalNodeKey = new PreviewPortalNodeKey($portalClass::class());
+        $routeKey = $this->createMock(RouteKeyInterface::class);
         $portalExtensionClass = FooBarPortalExtension::class;
         $unsafeClass = new UnsafeClassString($entityType);
 
@@ -83,5 +89,8 @@ final class UiActionParameterTest extends TestCase
         yield new PortalNodeExtensionBrowseResult($portalNodeKey, true, $unsafeClass);
         yield new PortalNodeStatusReportPayload($portalNodeKey, []);
         yield new PortalNodeStatusReportResult($portalNodeKey, '', true, []);
+        yield new RouteBrowseCriteria();
+        yield new RouteBrowseResult($routeKey, $portalNodeKey, $portalNodeKey, $entityType::class(), []);
+        yield new RouteBrowseResult($routeKey, $portalNodeKey, $portalNodeKey, $unsafeClass, []);
     }
 }
