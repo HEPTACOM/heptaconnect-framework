@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add filter for source portal node, target portal node, entity type and capability to `\Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview\RouteOverviewCriteria` to limit the overview to certain results
+
 ### Changed
 
 - Change `$entityType` parameter in `\Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayload::__construct`, `\Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayload::setEntityType`, `\Heptacom\HeptaConnect\Storage\Base\Action\Identity\Mapping::__construct` and `\Heptacom\HeptaConnect\Storage\Base\PrimaryKeySharingMappingStruct::__construct` to be a `\Heptacom\HeptaConnect\Dataset\Base\EntityType` instead of a string for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)

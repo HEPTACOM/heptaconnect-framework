@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\TestSuite\Storage\Action;
 
+use Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload;
@@ -20,6 +21,8 @@ use Heptacom\HeptaConnect\Storage\Base\Action\Route\Get\RouteGetCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Get\RouteGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Listing\ReceptionRouteListCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Listing\ReceptionRouteListResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview\RouteOverviewCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview\RouteOverviewResult;
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDeleteActionInterface;
@@ -28,6 +31,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionIn
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Enum\RouteCapability;
 use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
 use Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection;
@@ -51,6 +55,8 @@ abstract class RouteTestContract extends TestCase
 
     private ReceptionRouteListActionInterface $routeReceptionListAction;
 
+    private RouteOverviewActionInterface $routeOverviewAction;
+
     private RouteFindActionInterface $routeFindAction;
 
     private RouteGetActionInterface $routeGetAction;
@@ -73,6 +79,7 @@ abstract class RouteTestContract extends TestCase
         $this->routeFindAction = $facade->getRouteFindAction();
         $this->routeGetAction = $facade->getRouteGetAction();
         $this->routeDeleteAction = $facade->getRouteDeleteAction();
+        $this->routeOverviewAction = $facade->getRouteOverviewAction();
 
         $portalNodeCreateResult = $this->portalNodeCreateAction->create(new PortalNodeCreatePayloads([
             new PortalNodeCreatePayload(PortalA::class()),
@@ -121,6 +128,27 @@ abstract class RouteTestContract extends TestCase
 
             static::assertCount(1, \iterable_to_array($createResults->filter(
                 static fn (RouteCreateResult $r): bool => $r->getRouteKey()->equals($findResult->getRouteKey())
+            )));
+
+            $overviewCriteria = new RouteOverviewCriteria();
+            $overviewCriteria->setEntityTypeFilter(new ClassStringReferenceCollection([$createPayload->getEntityType()]));
+            $overviewCriteria->setSourcePortalNodeKeyFilter(new PortalNodeKeyCollection([$createPayload->getSourcePortalNodeKey()]));
+            $overviewCriteria->setTargetPortalNodeKeyFilter(new PortalNodeKeyCollection([$createPayload->getTargetPortalNodeKey()]));
+            $overviewCriteria->setPage(1);
+            $overviewCriteria->setPageSize(1);
+
+            $overviewResult = $this->routeOverviewAction->overview($overviewCriteria);
+
+            static::assertCount(1, \iterable_to_array(\iterable_filter(
+                $overviewResult,
+                static fn (RouteOverviewResult $r): bool => $r->getRouteKey()->equals($findResult->getRouteKey())
+            )));
+
+            $overviewAllResult = $this->routeOverviewAction->overview(new RouteOverviewCriteria());
+
+            static::assertCount(1, \iterable_to_array(\iterable_filter(
+                $overviewAllResult,
+                static fn (RouteOverviewResult $r): bool => $r->getRouteKey()->equals($findResult->getRouteKey())
             )));
 
             $routeGetCriteria = new RouteGetCriteria(new RouteKeyCollection([$findResult->getRouteKey()]));
