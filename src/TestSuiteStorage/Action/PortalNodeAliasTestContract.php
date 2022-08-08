@@ -39,8 +39,8 @@ abstract class PortalNodeAliasTestContract extends TestCase
         $overviewAlias = $facade->getPortalNodeAliasOverviewAction();
 
         $createPayloads = new PortalNodeCreatePayloads([
-            new PortalNodeCreatePayload(PortalA::class),
-            new PortalNodeCreatePayload(PortalB::class),
+            new PortalNodeCreatePayload(PortalA::class()),
+            new PortalNodeCreatePayload(PortalB::class()),
         ]);
         $createResults = $createAction->create($createPayloads);
         $portalNodeKeys = new PortalNodeKeyCollection(\iterable_map(

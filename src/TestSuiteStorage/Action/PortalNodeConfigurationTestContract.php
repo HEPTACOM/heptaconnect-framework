@@ -54,9 +54,9 @@ abstract class PortalNodeConfigurationTestContract extends TestCase
         \ksort($testPayload['object']);
 
         $createPayloads = new PortalNodeCreatePayloads([
-            new PortalNodeCreatePayload(PortalA::class),
-            new PortalNodeCreatePayload(PortalB::class),
-            new PortalNodeCreatePayload(PortalC::class),
+            new PortalNodeCreatePayload(PortalA::class()),
+            new PortalNodeCreatePayload(PortalB::class()),
+            new PortalNodeCreatePayload(PortalC::class()),
         ]);
         $createResults = $createAction->create($createPayloads);
         $portalNodeKeys = new PortalNodeKeyCollection(\iterable_map(

@@ -4,36 +4,27 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base;
 
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalType;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 
 final class PreviewPortalNodeKey implements PortalNodeKeyInterface
 {
-    /**
-     * @var class-string<PortalContract>
-     */
-    private string $portalType;
+    private PortalType $portalType;
 
-    /**
-     * @param class-string<PortalContract> $portalType
-     */
-    public function __construct(string $portalType)
+    public function __construct(PortalType $portalType)
     {
         $this->portalType = $portalType;
     }
 
-    /**
-     * @return class-string<PortalContract>
-     */
-    public function getPortalType(): string
+    public function getPortalType(): PortalType
     {
         return $this->portalType;
     }
 
     public function equals(StorageKeyInterface $other): bool
     {
-        return $other === $this || ($other instanceof PreviewPortalNodeKey && $other->getPortalType() === $this->getPortalType());
+        return $other === $this || ($other instanceof PreviewPortalNodeKey && $other->getPortalType()->equals($this->getPortalType()));
     }
 
     public function jsonSerialize()

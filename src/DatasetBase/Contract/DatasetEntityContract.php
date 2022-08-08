@@ -6,6 +6,7 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
 
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\DependencyCollection;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Dataset\Base\Support\DeferralAwareTrait;
 use Heptacom\HeptaConnect\Dataset\Base\Support\DependencyAwareTrait;
@@ -35,12 +36,20 @@ abstract class DatasetEntityContract implements AttachableInterface, AttachmentA
 
             /** @var ForeignKeyAwareInterface $aware */
             foreach ($this->getAttachments()->filter(
-                static fn ($o) => $o instanceof ForeignKeyAwareInterface && $o->getForeignEntityType() === static::class
+                fn ($o) => $o instanceof ForeignKeyAwareInterface && $o->getForeignEntityType()->equalsObjectType($this)
             ) as $aware) {
                 if ($aware->getForeignKey() !== $primaryKey) {
                     $aware->setForeignKey($primaryKey);
                 }
             }
         }
+    }
+
+    /**
+     * Returns a class string instance for the type of the extending class.
+     */
+    final public static function class(): EntityType
+    {
+        return new EntityType(static::class);
     }
 }

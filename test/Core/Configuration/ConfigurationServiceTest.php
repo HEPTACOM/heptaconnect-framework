@@ -67,7 +67,7 @@ final class ConfigurationServiceTest extends TestCase
         });
         $registry->method('getPortalExtensions')->willReturn(new PortalExtensionCollection([
             new class() extends PortalExtensionContract {
-                public function supports(): string
+                protected function supports(): string
                 {
                     return PortalContract::class;
                 }

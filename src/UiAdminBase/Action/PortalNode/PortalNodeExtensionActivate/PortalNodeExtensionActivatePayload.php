@@ -2,29 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionDeactivate;
+namespace Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionActivate;
 
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
+use Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
-final class PortalNodeExtensionDeactivatePayloads implements AttachmentAwareInterface
+final class PortalNodeExtensionActivatePayload implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
     private PortalNodeKeyInterface $portalNodeKey;
 
-    /**
-     * @var class-string<PortalExtensionContract>[]
-     */
-    private array $portalExtensionClasses = [];
+    private ClassStringReferenceCollection $portalExtensionQueries;
 
     public function __construct(PortalNodeKeyInterface $portalNodeKey)
     {
         $this->attachments = new AttachmentCollection();
         $this->portalNodeKey = $portalNodeKey;
+        $this->portalExtensionQueries = new ClassStringReferenceCollection();
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface
@@ -37,19 +35,13 @@ final class PortalNodeExtensionDeactivatePayloads implements AttachmentAwareInte
         $this->portalNodeKey = $portalNodeKey;
     }
 
-    /**
-     * @return class-string<PortalExtensionContract>[]
-     */
-    public function getPortalExtensionClasses(): array
+    public function getPortalExtensionQueries(): ClassStringReferenceCollection
     {
-        return $this->portalExtensionClasses;
+        return $this->portalExtensionQueries;
     }
 
-    /**
-     * @param class-string<PortalExtensionContract>[] $portalExtensionClasses
-     */
-    public function setPortalExtensionClasses(array $portalExtensionClasses): void
+    public function setPortalExtensionQueries(ClassStringReferenceCollection $portalExtensionQueries): void
     {
-        $this->portalExtensionClasses = $portalExtensionClasses;
+        $this->portalExtensionQueries = $portalExtensionQueries;
     }
 }

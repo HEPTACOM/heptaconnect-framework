@@ -66,16 +66,6 @@ trait AttachmentAwareTrait
         return $iterator->valid() ? $iterator->current() : null;
     }
 
-    /**
-     * @deprecated Use detachByType instead. Will be removed in 0.10
-     *
-     * @param class-string $class
-     */
-    public function unattach(string $class): void
-    {
-        $this->detachByType($class);
-    }
-
     public function detachByType(string $class): void
     {
         if (!\class_exists($class) && !\interface_exists($class)) {

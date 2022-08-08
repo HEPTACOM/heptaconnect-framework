@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Core\Test\Web\Http;
 
 use Heptacom\HeptaConnect\Core\Component\LogMessage;
+use Heptacom\HeptaConnect\Core\Portal\Contract\PortalNodeContainerFacadeContract;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleContextFactoryInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackBuilderFactoryInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackBuilderInterface;
@@ -16,7 +17,6 @@ use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\W
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -48,7 +48,7 @@ final class HttpHandleServiceTest extends TestCase
         $response = $this->createMock(ResponseInterface::class);
         $responseFactory = $this->createMock(ResponseFactoryInterface::class);
         $responseFactory->method('createResponse')->willReturn($response);
-        $context = new HttpHandleContext($this->createMock(ContainerInterface::class), []);
+        $context = new HttpHandleContext($this->createMock(PortalNodeContainerFacadeContract::class), []);
         $contextFactory = $this->createMock(HttpHandleContextFactoryInterface::class);
         $contextFactory->method('createContext')->willReturn($context);
         $stackBuilder = $this->createMock(HttpHandlerStackBuilderInterface::class);
