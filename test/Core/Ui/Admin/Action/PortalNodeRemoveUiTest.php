@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 
+use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeRemoveUi;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult;
@@ -13,13 +14,17 @@ use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeRemove\PortalNodeRemoveCriteria;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PersistException;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodeMissingException;
-use Heptacom\HeptaConnect\Ui\Admin\Symfony\Test\Fixture\Portal\UiAdminPortal;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeRemoveUi
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
  * @covers \Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult
@@ -35,12 +40,12 @@ final class PortalNodeRemoveUiTest extends TestCase
     {
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $portalNodeDeleteAction = $this->createMock(PortalNodeDeleteActionInterface::class);
-        $portalNodeKey = new PreviewPortalNodeKey(UiAdminPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
 
-        $portalNodeGetAction->expects(self::once())->method('get')->willReturn([
+        $portalNodeGetAction->expects(static::once())->method('get')->willReturn([
             new PortalNodeGetResult($portalNodeKey, $portalNodeKey->getPortalType()),
         ]);
-        $portalNodeDeleteAction->expects(self::once())->method('delete');
+        $portalNodeDeleteAction->expects(static::once())->method('delete');
 
         $action = new PortalNodeRemoveUi($portalNodeGetAction, $portalNodeDeleteAction);
         $criteria = new PortalNodeRemoveCriteria(new PortalNodeKeyCollection([
@@ -54,10 +59,10 @@ final class PortalNodeRemoveUiTest extends TestCase
     {
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $portalNodeDeleteAction = $this->createMock(PortalNodeDeleteActionInterface::class);
-        $portalNodeKey = new PreviewPortalNodeKey(UiAdminPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
 
-        $portalNodeGetAction->expects(self::once())->method('get')->willReturn([]);
-        $portalNodeDeleteAction->expects(self::never())->method('delete');
+        $portalNodeGetAction->expects(static::once())->method('get')->willReturn([]);
+        $portalNodeDeleteAction->expects(static::never())->method('delete');
 
         $action = new PortalNodeRemoveUi($portalNodeGetAction, $portalNodeDeleteAction);
         $criteria = new PortalNodeRemoveCriteria(new PortalNodeKeyCollection([
@@ -73,12 +78,12 @@ final class PortalNodeRemoveUiTest extends TestCase
     {
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $portalNodeDeleteAction = $this->createMock(PortalNodeDeleteActionInterface::class);
-        $portalNodeKey = new PreviewPortalNodeKey(UiAdminPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
 
-        $portalNodeGetAction->expects(self::once())->method('get')->willReturn([
+        $portalNodeGetAction->expects(static::once())->method('get')->willReturn([
             new PortalNodeGetResult($portalNodeKey, $portalNodeKey->getPortalType()),
         ]);
-        $portalNodeDeleteAction->expects(self::once())->method('delete')->willThrowException(new \LogicException('Woops'));
+        $portalNodeDeleteAction->expects(static::once())->method('delete')->willThrowException(new \LogicException('Woops'));
 
         $action = new PortalNodeRemoveUi($portalNodeGetAction, $portalNodeDeleteAction);
         $criteria = new PortalNodeRemoveCriteria(new PortalNodeKeyCollection([
@@ -94,10 +99,10 @@ final class PortalNodeRemoveUiTest extends TestCase
     {
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $portalNodeDeleteAction = $this->createMock(PortalNodeDeleteActionInterface::class);
-        $portalNodeKey = new PreviewPortalNodeKey(UiAdminPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
 
-        $portalNodeGetAction->expects(self::once())->method('get')->willThrowException(new \LogicException('Woops'));
-        $portalNodeDeleteAction->expects(self::never())->method('delete');
+        $portalNodeGetAction->expects(static::once())->method('get')->willThrowException(new \LogicException('Woops'));
+        $portalNodeDeleteAction->expects(static::never())->method('delete');
 
         $action = new PortalNodeRemoveUi($portalNodeGetAction, $portalNodeDeleteAction);
         $criteria = new PortalNodeRemoveCriteria(new PortalNodeKeyCollection([
