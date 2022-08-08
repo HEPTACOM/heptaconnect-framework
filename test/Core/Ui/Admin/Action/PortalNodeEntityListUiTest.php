@@ -15,8 +15,13 @@ use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeEntityListUi;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface;
+use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerCodeOriginFinderInterface;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverCodeOriginFinderInterface;
+use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
+use Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterCollection;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeEntityList\PortalNodeEntityListCriteria;
 use PHPUnit\Framework\TestCase;
@@ -55,25 +60,25 @@ final class PortalNodeEntityListUiTest extends TestCase
 
         $flowComponentRegistry = new FlowComponentRegistry(
             [
-                FooBarPortal::class => [
+                FooBarPortal::class => new ExplorerCollection([
                     new FooBarExplorer(5),
-                ],
+                ]),
             ],
             [
-                FooBarPortal::class => [
+                FooBarPortal::class => new EmitterCollection([
                     new FooBarEmitter(5),
-                ],
+                ]),
             ],
             [
-                FooBarPortal::class => [
+                FooBarPortal::class => new ReceiverCollection([
                     new FooBarReceiver(),
-                ],
+                ]),
             ],
             [
-                FooBarPortal::class => [],
+                FooBarPortal::class => new StatusReporterCollection(),
             ],
             [
-                FooBarPortal::class => [],
+                FooBarPortal::class => new HttpHandlerCollection(),
             ],
             []
         );
