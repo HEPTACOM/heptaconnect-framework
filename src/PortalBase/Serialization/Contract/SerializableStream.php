@@ -42,7 +42,7 @@ final class SerializableStream implements StreamInterface
             throw new StreamCopyException(1636887427);
         }
 
-        $oldInternalIsSeekable = \stream_get_meta_data($oldInternal)['seekable'] ?? false;
+        $oldInternalIsSeekable = \stream_get_meta_data($oldInternal)['seekable'];
         $newExternal = \fopen('php://temp', 'rb+');
 
         if ($newExternal === false) {
