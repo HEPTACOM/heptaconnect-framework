@@ -59,8 +59,7 @@ abstract class PortalNodeConfigurationTestContract extends TestCase
             new PortalNodeCreatePayload(PortalC::class()),
         ]);
         $createResults = $createAction->create($createPayloads);
-        $portalNodeKeys = new PortalNodeKeyCollection(\iterable_map(
-            $createResults,
+        $portalNodeKeys = new PortalNodeKeyCollection($createResults->map(
             static fn (PortalNodeCreateResult $r): PortalNodeKeyInterface => $r->getPortalNodeKey()
         ));
         $getCriteria = new PortalNodeConfigurationGetCriteria($portalNodeKeys);
@@ -88,6 +87,9 @@ abstract class PortalNodeConfigurationTestContract extends TestCase
             static::assertTrue($getResults[0]->getPortalNodeKey()->equals($portalNodeKey));
 
             $readConfiguration = $getResults[0]->getValue();
+
+            static::assertArrayHasKey('object', $readConfiguration);
+
             \ksort($readConfiguration['object']);
             static::assertSame($testPayload, $readConfiguration);
         }

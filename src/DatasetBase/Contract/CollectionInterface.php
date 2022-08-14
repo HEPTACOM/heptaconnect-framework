@@ -47,9 +47,11 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
     public function filter(callable $filterFn): \Generator;
 
     /**
-     * @psalm-param callable(T, array-key):mixed|callable(T):mixed $mapFn
+     * @template TMapResult
      *
-     * @return iterable<int, T>
+     * @psalm-param callable(T, array-key):TMapResult|callable(T):TMapResult $mapFn
+     *
+     * @return iterable<int, TMapResult>
      */
     public function map(callable $mapFn): iterable;
 
