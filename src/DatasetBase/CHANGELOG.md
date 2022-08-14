@@ -9,8 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add method `\Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection::join` to implode strings
-
 ### Changed
 
 ### Deprecated
@@ -20,6 +18,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ### Security
+
+## [0.9.1.0] - 2022-08-15
+
+### Added
+
+- Add method `\Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection::join` to implode strings
 
 ## [0.9.0.2] - 2022-04-23
 
