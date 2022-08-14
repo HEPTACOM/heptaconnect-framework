@@ -42,6 +42,9 @@ parameters:
 			message: '#^Method Heptacom\\HeptaConnect\\Dataset\\Base\\Translatable\\ScalarCollection\\AbstractTranslatableScalarCollection::getInitialValue\(\) return type with generic interface Heptacom\\HeptaConnect\\Dataset\\Base\\Contract\\CollectionInterface does not specify its types: T$#'
 			path: ../src/DatasetBase/Translatable/ScalarCollection/AbstractTranslatableScalarCollection.php
 		-
+			message: '#Parameter \#1 \$callback of function set_error_handler expects#'
+			path: ../src/PortalBase/Builder/BindThisTrait.php
+		-
 			# never trust user input
 			message: '#Instanceof between Heptacom\\HeptaConnect\\Dataset\\Base\\Contract\\DatasetEntityContract and Heptacom\\HeptaConnect\\Dataset\\Base\\Contract\\DatasetEntityContract will always evaluate to true.#'
 			path: ../src/PortalBase/Emission/Contract/EmitterContract.php
