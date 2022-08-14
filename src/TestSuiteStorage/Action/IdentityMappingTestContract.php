@@ -177,6 +177,9 @@ abstract class IdentityMappingTestContract extends TestCase
     }
 
     /**
+     * Test transformation of entity primary keys through the identity storage of mapping and mappings nodes.
+     * The focus is on finding matches mappings on both portal nodes..
+     *
      * @param class-string<DatasetEntityContract> $entityClass
      * @dataProvider provideEntityClasses
      */

@@ -77,6 +77,8 @@ interface StorageFacadeInterface
     public function getIdentityErrorCreateAction(): IdentityErrorCreateActionInterface;
 
     /**
+     * Provides storage action to match entities to their identities.
+     *
      * @throws StorageFacadeServiceExceptionInterface
      */
     public function getIdentityMapAction(): IdentityMapActionInterface;
@@ -214,12 +216,32 @@ interface StorageFacadeInterface
      */
     public function getPortalNodeOverviewAction(): PortalNodeOverviewActionInterface;
 
+    /**
+     * Provides storage action to get portal nodes and their aliases looked up by their keys.
+     *
+     * @throws StorageFacadeServiceExceptionInterface
+     */
     public function getPortalNodeAliasGetAction(): PortalNodeAliasGetActionInterface;
 
+    /**
+     * Provides storage action to find portal nodes by their aliases.
+     *
+     * @throws StorageFacadeServiceExceptionInterface
+     */
     public function getPortalNodeAliasFindAction(): PortalNodeAliasFindActionInterface;
 
+    /**
+     * Provides storage action to write portal node aliases.
+     *
+     * @throws StorageFacadeServiceExceptionInterface
+     */
     public function getPortalNodeAliasSetAction(): PortalNodeAliasSetActionInterface;
 
+    /**
+     * Provides storage action to paginate over all portal nodes aliases.
+     *
+     * @throws StorageFacadeServiceExceptionInterface
+     */
     public function getPortalNodeAliasOverviewAction(): PortalNodeAliasOverviewActionInterface;
 
     /**
