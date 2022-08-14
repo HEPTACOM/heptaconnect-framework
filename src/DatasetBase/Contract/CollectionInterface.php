@@ -8,7 +8,6 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
  * Describes collection resembling classes.
  *
  * @template T
- * @extends iterable<int, T>
  * @extends \ArrayAccess<int, T>
  * @extends \IteratorAggregate<int, T>
  */

@@ -89,12 +89,21 @@ abstract class IdentityMappingTestContract extends TestCase
     {
         $facade = $this->createStorageFacade();
         $portalNodeDelete = $facade->getPortalNodeDeleteAction();
+        $deleteCriteria = new PortalNodeDeleteCriteria(new PortalNodeKeyCollection());
 
-        $portalNodeDelete->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([
-            $this->portalA,
-            $this->portalB,
-            $this->portalC,
-        ])));
+        if ($this->portalA instanceof PortalNodeKeyInterface) {
+            $deleteCriteria->getPortalNodeKeys()->push([$this->portalA]);
+        }
+
+        if ($this->portalB instanceof PortalNodeKeyInterface) {
+            $deleteCriteria->getPortalNodeKeys()->push([$this->portalB]);
+        }
+
+        if ($this->portalC instanceof PortalNodeKeyInterface) {
+            $deleteCriteria->getPortalNodeKeys()->push([$this->portalC]);
+        }
+
+        $portalNodeDelete->delete($deleteCriteria);
         $this->portalA = null;
         $this->portalB = null;
         $this->portalC = null;
