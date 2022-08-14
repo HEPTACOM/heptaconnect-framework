@@ -1,6 +1,7 @@
 rules:
 	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\ContractsHaveDocumentationRule
 	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\DoNotUseGlobBraceRule
+	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\FinalClassesMustNotHaveProtectedFieldsAndMethodsRule
 	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\ImplementationsMustBeFinalRule
 	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\InterfacesHaveDocumentationRule
 parameters:
