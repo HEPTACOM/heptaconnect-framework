@@ -270,11 +270,11 @@ abstract class PortalNodeStorageTestContract extends TestCase
     {
         $getValues = \array_combine(
             \array_map(
-                static fn(PortalNodeStorageGetResult $getResult): string => $getResult->getStorageKey(),
+                static fn (PortalNodeStorageGetResult $getResult): string => $getResult->getStorageKey(),
                 $getResults
             ),
             \array_map(
-                static fn(PortalNodeStorageGetResult $getResult): string => $getResult->getValue(),
+                static fn (PortalNodeStorageGetResult $getResult): string => $getResult->getValue(),
                 $getResults
             )
         );
