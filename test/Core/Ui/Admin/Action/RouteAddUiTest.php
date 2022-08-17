@@ -91,7 +91,7 @@ final class RouteAddUiTest extends TestCase
         static::assertSame($routeKey, $result->first()->getRouteKey());
     }
 
-    public function testPortalMissingCheck(): void
+    public function testPortalNodeMissingCheck(): void
     {
         $routeCreateAction = $this->createMock(RouteCreateActionInterface::class);
         $routeFindAction = $this->createMock(RouteFindActionInterface::class);
