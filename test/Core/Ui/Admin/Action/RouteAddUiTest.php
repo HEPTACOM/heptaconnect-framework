@@ -20,7 +20,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddPayload;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddPayloadCollection;
-use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodeMissingException;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodesMissingException;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\RouteAlreadyExistsException;
 use PHPUnit\Framework\TestCase;
 
@@ -54,7 +54,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResultCollection
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PersistException
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodeAliasIsAlreadyAssignedException
- * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodeMissingException
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodesMissingException
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\RouteAlreadyExistsException
  */
 final class RouteAddUiTest extends TestCase
@@ -103,7 +103,7 @@ final class RouteAddUiTest extends TestCase
 
         $action = new RouteAddUi($routeCreateAction, $routeFindAction, $routeGetAction, $portalNodeGetAction);
 
-        self::expectException(PortalNodeMissingException::class);
+        self::expectException(PortalNodesMissingException::class);
 
         $action->add(new RouteAddPayloadCollection([
             new RouteAddPayload($portalNodeKey, $portalNodeKey, FooBarEntity::class()),

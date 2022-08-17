@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddPayloadCol
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResultCollection;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\InvalidArgumentThrowableInterface;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PersistException;
-use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodeMissingException;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodesMissingException;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\RouteAlreadyExistsException;
 
 interface RouteAddUiActionInterface
@@ -18,7 +18,7 @@ interface RouteAddUiActionInterface
      *
      * @throws InvalidArgumentThrowableInterface
      * @throws PersistException
-     * @throws PortalNodeMissingException
+     * @throws PortalNodesMissingException
      * @throws RouteAlreadyExistsException
      */
     public function add(RouteAddPayloadCollection $payloads): RouteAddResultCollection;
