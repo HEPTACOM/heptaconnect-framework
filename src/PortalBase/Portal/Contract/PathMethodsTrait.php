@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Portal\Contract;
 
+/**
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ * @SuppressWarnings(PHPMD.NPathComplexity)
+ */
 trait PathMethodsTrait
 {
     public function getPsr4(): array
