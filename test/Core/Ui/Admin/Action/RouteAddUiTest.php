@@ -17,6 +17,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionIn
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddPayload;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddPayloadCollection;
@@ -46,6 +47,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Get\RouteGetResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract
  * @covers \Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey
  * @covers \Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddPayload
@@ -80,7 +82,7 @@ final class RouteAddUiTest extends TestCase
                 new PortalNodeGetResult($portalNodeKey, $portalNodeKey->getPortalType()),
             ]);
 
-        $action = new RouteAddUi($routeCreateAction, $routeFindAction, $routeGetAction, $portalNodeGetAction);
+        $action = new RouteAddUi($routeCreateAction, $routeFindAction, $routeGetAction, $portalNodeGetAction, $this->getStorageKeyGenerator());
 
         $result = $action->add(new RouteAddPayloadCollection([
             new RouteAddPayload($portalNodeKey, $portalNodeKey, FooBarEntity::class()),
@@ -101,7 +103,7 @@ final class RouteAddUiTest extends TestCase
         $routeFindAction->method('find')->willReturn(null);
         $portalNodeGetAction->method('get')->willReturn([]);
 
-        $action = new RouteAddUi($routeCreateAction, $routeFindAction, $routeGetAction, $portalNodeGetAction);
+        $action = new RouteAddUi($routeCreateAction, $routeFindAction, $routeGetAction, $portalNodeGetAction, $this->getStorageKeyGenerator());
 
         self::expectException(PortalNodesMissingException::class);
 
@@ -126,12 +128,22 @@ final class RouteAddUiTest extends TestCase
                 new PortalNodeGetResult($portalNodeKey, $portalNodeKey->getPortalType()),
             ]);
 
-        $action = new RouteAddUi($routeCreateAction, $routeFindAction, $routeGetAction, $portalNodeGetAction);
+        $action = new RouteAddUi($routeCreateAction, $routeFindAction, $routeGetAction, $portalNodeGetAction, $this->getStorageKeyGenerator());
 
         self::expectException(RouteAlreadyExistsException::class);
 
         $action->add(new RouteAddPayloadCollection([
             new RouteAddPayload($portalNodeKey, $portalNodeKey, FooBarEntity::class()),
         ]));
+    }
+
+    private function getStorageKeyGenerator(): StorageKeyGeneratorContract
+    {
+        return new class() extends StorageKeyGeneratorContract {
+            public function generateKeys(string $keyClassName, int $count): iterable
+            {
+                return [];
+            }
+        };
     }
 }
