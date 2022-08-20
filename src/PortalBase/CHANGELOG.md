@@ -37,6 +37,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- Move `\Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack` out of this package into the `heptaconnect/core` as `\Heptacom\HeptaConnect\Core\Emission\EmitterStack`
+
 ### Fixed
 
 - Flow components allowed class string, that not necessarily have to reference an entity class, as supported entity type. Therefore `\Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface::markAsFailed`, `\Heptacom\HeptaConnect\Core\Emission\EmitContext::markAsFailed`, `\Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent::explorer`, `\Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent::emitter`, `\Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent::receiver` and the new `\Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract::getSupportedEntityType`, `\Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract::getSupportedEntityType`, `\Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract::getSupportedEntityType` throw exception `\Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException` or `\Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException` on invalid input

@@ -6,11 +6,11 @@ namespace Heptacom\HeptaConnect\Core\Test\Emission;
 
 use Heptacom\HeptaConnect\Core\Component\LogMessage;
 use Heptacom\HeptaConnect\Core\Emission\EmissionActor;
+use Heptacom\HeptaConnect\Core\Emission\EmitterStack;
 use Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
 use Heptacom\HeptaConnect\Core\Test\Fixture\ThrowEmitter;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
-use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Listing\ReceptionRouteListResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListActionInterface;
@@ -23,6 +23,7 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \Heptacom\HeptaConnect\Core\Component\LogMessage
  * @covers \Heptacom\HeptaConnect\Core\Emission\EmissionActor
+ * @covers \Heptacom\HeptaConnect\Core\Emission\EmitterStack
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
@@ -30,7 +31,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
- * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Listing\ReceptionRouteListCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Listing\ReceptionRouteListResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\MappingCollection
@@ -66,7 +67,11 @@ final class EmissionActorTest extends TestCase
         );
         $emissionActor->performEmission(
             new TypedMappingCollection(FooBarEntity::class(), \array_fill(0, $count, $mapping)),
-            new EmitterStack([new ThrowEmitter()], FooBarEntity::class()),
+            new EmitterStack(
+                [new ThrowEmitter()],
+                FooBarEntity::class(),
+                $this->createMock(LoggerInterface::class)
+            ),
             $this->createMock(EmitContextInterface::class)
         );
     }

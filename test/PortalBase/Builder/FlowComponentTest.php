@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Builder;
 
+use Heptacom\HeptaConnect\Core\Emission\EmitterStack;
 use Heptacom\HeptaConnect\Core\Portal\PortalConfiguration;
 use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Component\Emitter;
@@ -20,7 +21,6 @@ use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\StatusReporterToken;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
-use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack;
@@ -43,6 +43,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Emission\EmitterStack
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalConfiguration
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
@@ -71,7 +72,6 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack
  * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract
@@ -485,7 +485,7 @@ final class FlowComponentTest extends TestCase
         $httpHandler = new HttpHandler($httpHandlerToken);
 
         \iterable_to_array($explorer->explore($exploreContext, new ExplorerStack([])));
-        \iterable_to_array($emitter->emit([], $emitContext, new EmitterStack([], FirstEntity::class())));
+        \iterable_to_array($emitter->emit([], $emitContext, new EmitterStack([], FirstEntity::class(), $this->createMock(LoggerInterface::class))));
         \iterable_to_array($receiver->receive(
             new TypedDatasetEntityCollection(FirstEntity::class(), [new FirstEntity()]),
             $receiveContext,

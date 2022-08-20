@@ -28,6 +28,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Emission\EmitterStack
  * @covers \Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilder
  * @covers \Heptacom\HeptaConnect\Core\Exploration\DirectEmitter
  * @covers \Heptacom\HeptaConnect\Core\Exploration\ExplorationActor
@@ -44,7 +45,6 @@ use Psr\Log\NullLogger;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection
- * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentCollection

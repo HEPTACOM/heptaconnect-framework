@@ -2,16 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Portal\Base\Test\Emission;
+namespace Heptacom\HeptaConnect\Core\Test\Emission;
 
+use Heptacom\HeptaConnect\Core\Emission\EmitterStack;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
-use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 
 /**
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
@@ -19,15 +20,17 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
- * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack
+ * @covers \Heptacom\HeptaConnect\Core\Emission\EmitterStack
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct
  */
 final class EmitterStackTest extends TestCase
 {
     public function testEmptyStackDoesNotFail(): void
     {
-        $stack = new EmitterStack([], FirstEntity::class());
+        $stack = new EmitterStack([], FirstEntity::class(), $this->createMock(LoggerInterface::class));
         static::assertTrue(FirstEntity::class()->equals($stack->supports()));
         static::assertCount(0, $stack->next(
             [],
@@ -65,7 +68,7 @@ final class EmitterStackTest extends TestCase
                 yield from $stack->next($ids, $con);
             });
 
-        $stack = new EmitterStack([$emitter1, $emitter2, $emitter3], FirstEntity::class());
+        $stack = new EmitterStack([$emitter1, $emitter2, $emitter3], FirstEntity::class(), $this->createMock(LoggerInterface::class));
         static::assertCount(3, $stack->next([], $this->createMock(EmitContextInterface::class)));
     }
 }

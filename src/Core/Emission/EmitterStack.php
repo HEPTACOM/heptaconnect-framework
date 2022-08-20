@@ -2,47 +2,36 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Portal\Base\Emission;
+namespace Heptacom\HeptaConnect\Core\Emission;
 
 use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
-use Psr\Log\LoggerAwareInterface;
+use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 
-final class EmitterStack implements EmitterStackInterface, LoggerAwareInterface
+final class EmitterStack implements EmitterStackInterface
 {
-    /**
-     * @var array<array-key, EmitterContract>
-     */
-    private array $emitters;
+    private EmitterCollection $emitters;
 
     private EntityType $entityType;
 
     private LoggerInterface $logger;
 
     /**
-     * @param iterable<array-key, EmitterContract> $emitters
+     * @param iterable<EmitterContract> $emitters
      */
-    public function __construct(iterable $emitters, EntityType $entityType)
+    public function __construct(iterable $emitters, EntityType $entityType, LoggerInterface $logger)
     {
-        /** @var array<array-key, EmitterContract> $arrayEmitters */
-        $arrayEmitters = \iterable_to_array($emitters);
-        $this->emitters = $arrayEmitters;
+        $this->emitters = new EmitterCollection($emitters);
         $this->entityType = $entityType;
-        $this->logger = new NullLogger();
-    }
-
-    public function setLogger(LoggerInterface $logger): void
-    {
         $this->logger = $logger;
     }
 
     public function next(iterable $externalIds, EmitContextInterface $context): iterable
     {
-        $emitter = \array_shift($this->emitters);
+        $emitter = $this->emitters->shift();
 
         if (!$emitter instanceof EmitterContract) {
             return [];
