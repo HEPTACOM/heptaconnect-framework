@@ -4,22 +4,26 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Exploration;
 
+use Heptacom\HeptaConnect\Core\Exploration\ExplorerStack;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerStackInterface;
-use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Exploration\ExplorerStack
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection
  */
 final class ContractTest extends TestCase
 {
@@ -93,7 +97,13 @@ final class ContractTest extends TestCase
 
         $context = $this->createMock(ExploreContextInterface::class);
 
-        static::assertCount(1, (new ExplorerStack([$decoratingExplorer, $explorer]))->next($context));
-        static::assertCount(2, (new ExplorerStack([$explorer]))->next($context));
+        static::assertCount(1, (new ExplorerStack(
+            [$decoratingExplorer, $explorer],
+            $this->createMock(LoggerInterface::class)
+        ))->next($context));
+        static::assertCount(2, (new ExplorerStack(
+            [$explorer],
+            $this->createMock(LoggerInterface::class)
+        ))->next($context));
     }
 }

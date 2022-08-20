@@ -2,23 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Portal\Base\Test\Exploration;
+namespace Heptacom\HeptaConnect\Core\Test\Exploration;
 
+use Heptacom\HeptaConnect\Core\Exploration\ExplorerStack;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerStackInterface;
-use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 
 /**
- * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack
+ * @covers \Heptacom\HeptaConnect\Core\Exploration\ExplorerStack
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection
  */
 final class ExplorerStackTest extends TestCase
 {
     public function testEmptyStackDoesNotFail(): void
     {
-        $stack = new ExplorerStack([]);
+        $stack = new ExplorerStack([], $this->createMock(LoggerInterface::class));
         static::assertCount(0, $stack->next(
             $this->createMock(ExploreContextInterface::class)
         ));
@@ -53,7 +57,7 @@ final class ExplorerStackTest extends TestCase
                 yield from $stack->next($c);
             });
 
-        $stack = new ExplorerStack([$explorer1, $explorer2, $explorer3]);
+        $stack = new ExplorerStack([$explorer1, $explorer2, $explorer3], $this->createMock(LoggerInterface::class));
         static::assertCount(3, $stack->next($this->createMock(ExploreContextInterface::class)));
     }
 }

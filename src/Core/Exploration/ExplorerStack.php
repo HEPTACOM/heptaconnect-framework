@@ -2,41 +2,32 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Portal\Base\Exploration;
+namespace Heptacom\HeptaConnect\Core\Exploration;
 
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerStackInterface;
-use Psr\Log\LoggerAwareInterface;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 
-final class ExplorerStack implements ExplorerStackInterface, LoggerAwareInterface
+final class ExplorerStack implements ExplorerStackInterface
 {
-    /**
-     * @var array<array-key, ExplorerContract>
-     */
-    private array $explorers;
+    private ExplorerCollection $explorers;
 
     private LoggerInterface $logger;
 
     /**
      * @param iterable<array-key, ExplorerContract> $explorers
      */
-    public function __construct(iterable $explorers)
+    public function __construct(iterable $explorers, LoggerInterface $logger)
     {
-        $this->explorers = \iterable_to_array($explorers);
-        $this->logger = new NullLogger();
-    }
-
-    public function setLogger(LoggerInterface $logger): void
-    {
+        $this->explorers = new ExplorerCollection($explorers);
         $this->logger = $logger;
     }
 
     public function next(ExploreContextInterface $context): iterable
     {
-        $explorer = \array_shift($this->explorers);
+        $explorer = $this->explorers->shift();
 
         if (!$explorer instanceof ExplorerContract) {
             return [];
