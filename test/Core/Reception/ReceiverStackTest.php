@@ -2,18 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Portal\Base\Test\Reception;
+namespace Heptacom\HeptaConnect\Core\Test\Reception;
 
+use Heptacom\HeptaConnect\Core\Reception\ReceiverStack;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
 use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiveContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverStackInterface;
-use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Reception\ReceiverStack
  * @covers \Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
@@ -24,13 +26,13 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
- * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection
  */
 final class ReceiverStackTest extends TestCase
 {
     public function testEmptyStackDoesNotFail(): void
     {
-        $stack = new ReceiverStack([]);
+        $stack = new ReceiverStack([], $this->createMock(LoggerInterface::class));
         static::assertCount(0, $stack->next(
             new TypedDatasetEntityCollection(FirstEntity::class()),
             $this->createMock(ReceiveContextInterface::class)
@@ -68,7 +70,7 @@ final class ReceiverStackTest extends TestCase
                 yield from $stack->next($col, $con);
             });
 
-        $stack = new ReceiverStack([$receiver1, $receiver2, $receiver3]);
+        $stack = new ReceiverStack([$receiver1, $receiver2, $receiver3], $this->createMock(LoggerInterface::class));
         static::assertCount(3, $stack->next(new TypedDatasetEntityCollection(FooBarEntity::class()), $this->createMock(ReceiveContextInterface::class)));
     }
 }

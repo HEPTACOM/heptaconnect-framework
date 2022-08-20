@@ -7,6 +7,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Test\Builder;
 use Heptacom\HeptaConnect\Core\Emission\EmitterStack;
 use Heptacom\HeptaConnect\Core\Exploration\ExplorerStack;
 use Heptacom\HeptaConnect\Core\Portal\PortalConfiguration;
+use Heptacom\HeptaConnect\Core\Reception\ReceiverStack;
 use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Component\Emitter;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Component\Explorer;
@@ -27,7 +28,6 @@ use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\ConfigurationContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiveContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
-use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack;
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract;
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReportingContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterStack;
@@ -75,7 +75,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack
+ * @covers \Heptacom\HeptaConnect\Core\Reception\ReceiverStack
  * @covers \Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterStack
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract
@@ -489,7 +489,7 @@ final class FlowComponentTest extends TestCase
         \iterable_to_array($receiver->receive(
             new TypedDatasetEntityCollection(FirstEntity::class(), [new FirstEntity()]),
             $receiveContext,
-            new ReceiverStack([])
+            new ReceiverStack([], $this->createMock(LoggerInterface::class))
         ));
         $statusReporter->report($statusReportingContext, new StatusReporterStack([], $logger));
         $httpHandler->handle(

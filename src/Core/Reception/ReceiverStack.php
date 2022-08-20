@@ -2,42 +2,33 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Portal\Base\Reception;
+namespace Heptacom\HeptaConnect\Core\Reception;
 
 use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiveContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverStackInterface;
-use Psr\Log\LoggerAwareInterface;
+use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
 use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 
-final class ReceiverStack implements ReceiverStackInterface, LoggerAwareInterface
+final class ReceiverStack implements ReceiverStackInterface
 {
-    /**
-     * @var array<array-key, ReceiverContract>
-     */
-    private array $receivers;
+    private ReceiverCollection $receivers;
 
     private LoggerInterface $logger;
 
     /**
      * @param iterable<array-key, ReceiverContract> $receivers
      */
-    public function __construct(iterable $receivers)
+    public function __construct(iterable $receivers, LoggerInterface $logger)
     {
-        $this->receivers = \iterable_to_array($receivers);
-        $this->logger = new NullLogger();
-    }
-
-    public function setLogger(LoggerInterface $logger): void
-    {
+        $this->receivers = new ReceiverCollection($receivers);
         $this->logger = $logger;
     }
 
     public function next(TypedDatasetEntityCollection $entities, ReceiveContextInterface $context): iterable
     {
-        $receiver = \array_shift($this->receivers);
+        $receiver = $this->receivers->shift();
 
         if (!$receiver instanceof ReceiverContract) {
             return [];
