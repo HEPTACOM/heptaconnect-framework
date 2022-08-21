@@ -484,7 +484,11 @@ final class FlowComponentTest extends TestCase
         });
         $httpHandler = new HttpHandler($httpHandlerToken);
 
-        \iterable_to_array($explorer->explore($exploreContext, new ExplorerStack([], $this->createMock(LoggerInterface::class))));
+        \iterable_to_array($explorer->explore($exploreContext, new ExplorerStack(
+            [],
+            FirstEntity::class(),
+            $this->createMock(LoggerInterface::class)
+        )));
         \iterable_to_array($emitter->emit([], $emitContext, new EmitterStack([], FirstEntity::class(), $this->createMock(LoggerInterface::class))));
         \iterable_to_array($receiver->receive(
             new TypedDatasetEntityCollection(FirstEntity::class(), [new FirstEntity()]),

@@ -99,10 +99,12 @@ final class ContractTest extends TestCase
 
         static::assertCount(1, (new ExplorerStack(
             [$decoratingExplorer, $explorer],
+            FirstEntity::class(),
             $this->createMock(LoggerInterface::class)
         ))->next($context));
         static::assertCount(2, (new ExplorerStack(
             [$explorer],
+            FirstEntity::class(),
             $this->createMock(LoggerInterface::class)
         ))->next($context));
     }
