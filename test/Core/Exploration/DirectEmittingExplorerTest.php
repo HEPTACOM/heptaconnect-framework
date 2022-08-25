@@ -19,6 +19,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Exploration\AbstractBufferedResultProcessingExplorer
  * @covers \Heptacom\HeptaConnect\Core\Exploration\DirectEmitter
  * @covers \Heptacom\HeptaConnect\Core\Exploration\DirectEmittingExplorer
  * @covers \Heptacom\HeptaConnect\Core\Job\JobCollection
