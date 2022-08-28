@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Core\Test\Web\Http;
 
 use Heptacom\HeptaConnect\Core\Component\LogMessage;
-use Heptacom\HeptaConnect\Core\Web\Http\HttpHandlingActor;
+use Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerStackProcessor;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandleContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack;
@@ -17,12 +17,12 @@ use Psr\Log\LoggerInterface;
 
 /**
  * @covers \Heptacom\HeptaConnect\Core\Component\LogMessage
- * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpHandlingActor
+ * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerStackProcessor
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack
  */
-final class HttpHandlingActorTest extends TestCase
+final class HttpHandlerStackProcessorTest extends TestCase
 {
     public function testActingFails(): void
     {
@@ -49,7 +49,7 @@ final class HttpHandlingActorTest extends TestCase
         $request = $this->createMock(ServerRequestInterface::class);
         $response = $this->createMock(ResponseInterface::class);
         $response->method('withStatus')->willReturnSelf();
-        $actor = new HttpHandlingActor($logger);
+        $actor = new HttpHandlerStackProcessor($logger);
         $container = $this->createMock(ContainerInterface::class);
         $container->method('get')->willReturnCallback(static fn (string $id) => [
             LoggerInterface::class => $logger,
@@ -57,6 +57,6 @@ final class HttpHandlingActorTest extends TestCase
         $context = $this->createMock(HttpHandleContextInterface::class);
         $context->method('getContainer')->willReturn($container);
 
-        $actor->performHttpHandling($request, $response, $stack, $context);
+        $actor->processStack($request, $response, $stack, $context);
     }
 }
