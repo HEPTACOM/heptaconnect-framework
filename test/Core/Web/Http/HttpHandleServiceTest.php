@@ -7,6 +7,7 @@ namespace Heptacom\HeptaConnect\Core\Test\Web\Http;
 use Heptacom\HeptaConnect\Core\Component\LogMessage;
 use Heptacom\HeptaConnect\Core\Portal\Contract\PortalNodeContainerFacadeContract;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleContextFactoryInterface;
+use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleHttpHandlersFactoryInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackBuilderFactoryInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackBuilderInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackProcessorInterface;
@@ -71,6 +72,7 @@ final class HttpHandleServiceTest extends TestCase
             $this->createMock(StorageKeyGeneratorContract::class),
             $responseFactory,
             $findAction,
+            $this->createMock(HttpHandleHttpHandlersFactoryInterface::class),
         );
         $service->handle($request, $portalNodeKey);
     }
