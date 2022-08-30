@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Core\Reception\Contract\ReceiveContextFactoryInterface
 use Heptacom\HeptaConnect\Core\Reception\Contract\ReceiverStackBuilderFactoryInterface;
 use Heptacom\HeptaConnect\Core\Reception\Contract\ReceiverStackBuilderInterface;
 use Heptacom\HeptaConnect\Core\Reception\Contract\ReceptionActorInterface;
+use Heptacom\HeptaConnect\Core\Reception\Contract\ReceptionReceiversFactoryInterface;
 use Heptacom\HeptaConnect\Core\Reception\ReceiverStack;
 use Heptacom\HeptaConnect\Core\Reception\ReceiveService;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
@@ -63,6 +64,7 @@ final class ReceiveServiceTest extends TestCase
             $storageKeyGenerator,
             $stackBuilderFactory,
             $this->createMock(ReceptionActorInterface::class),
+            $this->createMock(ReceptionReceiversFactoryInterface::class),
         );
         $portalNodeKey = $this->createMock(PortalNodeKeyInterface::class);
         $receiveService->receive(
@@ -101,6 +103,7 @@ final class ReceiveServiceTest extends TestCase
             $storageKeyGenerator,
             $stackBuilderFactory,
             $this->createMock(ReceptionActorInterface::class),
+            $this->createMock(ReceptionReceiversFactoryInterface::class),
         );
         $receiveService->receive(
             new TypedDatasetEntityCollection(FooBarEntity::class(), \array_fill(0, $count, new FooBarEntity())),
