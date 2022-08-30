@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Core\Component\LogMessage;
 use Heptacom\HeptaConnect\Core\Reception\Contract\ReceiverStackBuilderFactoryInterface;
 use Heptacom\HeptaConnect\Core\Reception\Contract\ReceiverStackBuilderInterface;
 use Heptacom\HeptaConnect\Core\Reception\ReceiverStack;
-use Heptacom\HeptaConnect\Core\Reception\ReceptionActor;
+use Heptacom\HeptaConnect\Core\Reception\ReceiverStackProcessor;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
 use Heptacom\HeptaConnect\Core\Test\Fixture\ThrowReceiver;
 use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
@@ -21,7 +21,7 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \Heptacom\HeptaConnect\Core\Component\LogMessage
  * @covers \Heptacom\HeptaConnect\Core\Event\PostReceptionEvent
- * @covers \Heptacom\HeptaConnect\Core\Reception\ReceptionActor
+ * @covers \Heptacom\HeptaConnect\Core\Reception\ReceiverStackProcessor
  * @covers \Heptacom\HeptaConnect\Core\Reception\ReceiverStack
  * @covers \Heptacom\HeptaConnect\Core\Reception\Support\PrimaryKeyChangesAttachable
  * @covers \Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection
@@ -38,7 +38,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\Support\PostProcessorDataBag
  * @covers \Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract
  */
-final class ReceptionActorTest extends TestCase
+final class ReceiverStackProcessorTest extends TestCase
 {
     /**
      * @dataProvider provideEmitCount
@@ -61,7 +61,7 @@ final class ReceptionActorTest extends TestCase
 
         $entity = new FooBarEntity();
 
-        $receptionActor = new ReceptionActor(
+        $stackProcessor = new ReceiverStackProcessor(
             $logger,
             new DeepObjectIteratorContract(),
         );
@@ -69,7 +69,7 @@ final class ReceptionActorTest extends TestCase
         $context = $this->createMock(ReceiveContextInterface::class);
         $context->method('getPostProcessingBag')->willReturn(new PostProcessorDataBag());
 
-        $receptionActor->performReception(
+        $stackProcessor->processStack(
             new TypedDatasetEntityCollection(FooBarEntity::class(), \array_fill(0, $count, $entity)),
             $stack,
             $context

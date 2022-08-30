@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Core\Component\LogMessage;
 use Heptacom\HeptaConnect\Core\Reception\Contract\ReceiveContextFactoryInterface;
 use Heptacom\HeptaConnect\Core\Reception\Contract\ReceiverStackBuilderFactoryInterface;
 use Heptacom\HeptaConnect\Core\Reception\Contract\ReceiverStackBuilderInterface;
-use Heptacom\HeptaConnect\Core\Reception\Contract\ReceptionActorInterface;
+use Heptacom\HeptaConnect\Core\Reception\Contract\ReceiverStackProcessorInterface;
 use Heptacom\HeptaConnect\Core\Reception\Contract\ReceptionReceiversFactoryInterface;
 use Heptacom\HeptaConnect\Core\Reception\ReceiverStack;
 use Heptacom\HeptaConnect\Core\Reception\ReceiveService;
@@ -63,7 +63,7 @@ final class ReceiveServiceTest extends TestCase
             $logger,
             $storageKeyGenerator,
             $stackBuilderFactory,
-            $this->createMock(ReceptionActorInterface::class),
+            $this->createMock(ReceiverStackProcessorInterface::class),
             $this->createMock(ReceptionReceiversFactoryInterface::class),
         );
         $portalNodeKey = $this->createMock(PortalNodeKeyInterface::class);
@@ -102,7 +102,7 @@ final class ReceiveServiceTest extends TestCase
             $logger,
             $storageKeyGenerator,
             $stackBuilderFactory,
-            $this->createMock(ReceptionActorInterface::class),
+            $this->createMock(ReceiverStackProcessorInterface::class),
             $this->createMock(ReceptionReceiversFactoryInterface::class),
         );
         $receiveService->receive(
