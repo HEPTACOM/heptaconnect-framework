@@ -46,21 +46,20 @@ final class IdentityMappingExplorerTest extends TestCase
         $context = $this->createMock(ExploreContextInterface::class);
         $identityMapAction = $this->createMock(IdentityMapActionInterface::class);
         $batchSize = 3;
+        $pks = $this->generatePrimaryKeys($batchSize * 5);
 
         $identityMapAction
             ->expects(static::exactly(5))
             ->method('map')
-            ->willReturn(new IdentityMapResult(new MappedDatasetEntityCollection()))
-            ->with(static::callback($this->validateMapPayloadCount($batchSize)));
+            ->willReturnCallback(static::validateMapPayloadCountAndPks(\array_fill(0, 5, $batchSize), $pks));
 
         $explorer = new IdentityMappingExplorer($entityType, new PrimaryKeyToEntityHydrator(), $identityMapAction, $batchSize);
 
-        $stack->method('next')->willReturnOnConsecutiveCalls(
-            \array_map('strval', \array_keys(\array_fill(0, $batchSize * 5, 0))),
-            []
-        );
+        $stack->method('next')->willReturnOnConsecutiveCalls($pks, []);
 
         \iterable_to_array($explorer->explore($context, $stack));
+
+        static::assertSame([], $pks);
     }
 
     public function testConvertsRemainingPksIfPkCountIsNotDividablePerfectlyByBatchSize(): void
@@ -71,6 +70,7 @@ final class IdentityMappingExplorerTest extends TestCase
         $stack = $this->createMock(ExplorerStackInterface::class);
         $context = $this->createMock(ExploreContextInterface::class);
         $batchSize = 3;
+        $pks = $this->generatePrimaryKeys($batchSize * 5 + 2);
 
         $container->method('get')->willReturnCallback(fn (string $id) => [
             LoggerInterface::class => $this->createMock(LoggerInterface::class),
@@ -79,29 +79,15 @@ final class IdentityMappingExplorerTest extends TestCase
         $identityMapAction
             ->expects(static::exactly(6))
             ->method('map')
-            ->willReturn(new IdentityMapResult(new MappedDatasetEntityCollection()))
-            ->withConsecutive([
-                static::callback($this->validateMapPayloadCount($batchSize)),
-            ], [
-                static::callback($this->validateMapPayloadCount($batchSize)),
-            ], [
-                static::callback($this->validateMapPayloadCount($batchSize)),
-            ], [
-                static::callback($this->validateMapPayloadCount($batchSize)),
-            ], [
-                static::callback($this->validateMapPayloadCount($batchSize)),
-            ], [
-                static::callback($this->validateMapPayloadCount(2)),
-            ]);
+            ->willReturnCallback(static::validateMapPayloadCountAndPks([$batchSize, $batchSize, $batchSize, $batchSize, $batchSize, 2], $pks));
 
         $explorer = new IdentityMappingExplorer($entityType, new PrimaryKeyToEntityHydrator(), $identityMapAction, $batchSize);
 
-        $stack->method('next')->willReturnOnConsecutiveCalls(
-            \array_map('strval', \array_keys(\array_fill(0, $batchSize * 5 + 2, 0))),
-            []
-        );
+        $stack->method('next')->willReturnOnConsecutiveCalls($pks, []);
 
         \iterable_to_array($explorer->explore($context, $stack));
+
+        static::assertSame([], $pks);
     }
 
     public function testConvertsPksToJobsAndDispatchesThemUntilAnExceptionIsThrown(): void
@@ -113,6 +99,7 @@ final class IdentityMappingExplorerTest extends TestCase
         $stack = $this->createMock(ExplorerStackInterface::class);
         $context = $this->createMock(ExploreContextInterface::class);
         $batchSize = 3;
+        $pks = $this->generatePrimaryKeys($batchSize + 2);
 
         $container->method('get')->willReturnCallback(fn (string $id) => [
             LoggerInterface::class => $portalNodeLogger,
@@ -121,31 +108,49 @@ final class IdentityMappingExplorerTest extends TestCase
         $identityMapAction
             ->expects(static::exactly(2))
             ->method('map')
-            ->willReturn(new IdentityMapResult(new MappedDatasetEntityCollection()))
-            ->withConsecutive([
-                static::callback($this->validateMapPayloadCount($batchSize)),
-            ], [
-                static::callback($this->validateMapPayloadCount(2)),
-            ]);
+            ->willReturnCallback(static::validateMapPayloadCountAndPks([$batchSize, 2], $pks));
         $portalNodeLogger->expects(static::once())->method('critical');
 
         $explorer = new IdentityMappingExplorer($entityType, new PrimaryKeyToEntityHydrator(), $identityMapAction, $batchSize);
 
-        $stack->method('next')->willReturnCallback(static function () use ($batchSize): iterable {
-            yield from \array_map('strval', \array_keys(\array_fill(0, $batchSize + 2, 0)));
+        $stack->method('next')->willReturnCallback(static function () use ($pks): iterable {
+            yield from $pks;
 
             throw new \RuntimeException('Test message');
         });
 
         \iterable_to_array($explorer->explore($context, $stack));
+
+        static::assertSame([], $pks);
     }
 
-    private function validateMapPayloadCount(int $batchSize): \Closure
+    private function generatePrimaryKeys(int $count): array
     {
-        return static function (IdentityMapPayload $payload) use ($batchSize): bool {
+        return \array_map('strval', \range(100, 100 + ($count - 1)));
+    }
+
+    /**
+     * @param int[]    $batchSizes
+     * @param string[] $primaryKeys
+     */
+    private function validateMapPayloadCountAndPks(array $batchSizes, array &$primaryKeys): \Closure
+    {
+        return static function (IdentityMapPayload $payload) use (&$batchSizes, &$primaryKeys): IdentityMapResult {
+            $batchSize = \array_shift($batchSizes);
+
+            static::assertIsInt($batchSize);
             static::assertCount($batchSize, $payload->getEntityCollection());
 
-            return true;
+            foreach ($payload->getEntityCollection() as $entity) {
+                $pk = $entity->getPrimaryKey();
+
+                static::assertNotNull($pk);
+                static::assertContains($pk, $primaryKeys);
+
+                $primaryKeys = \array_diff($primaryKeys, [$pk]);
+            }
+
+            return new IdentityMapResult(new MappedDatasetEntityCollection());
         };
     }
 }

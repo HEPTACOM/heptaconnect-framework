@@ -6,13 +6,13 @@ namespace Heptacom\HeptaConnect\Core\Test\Emission;
 
 use Heptacom\HeptaConnect\Core\Emission\ReceiveJobDispatchingEmitter;
 use Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract;
+use Heptacom\HeptaConnect\Core\Job\JobCollection;
 use Heptacom\HeptaConnect\Core\Job\Transition\Contract\EmittedEntitiesToJobsConverterInterface;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
+use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
-use PHPUnit\Framework\Constraint\Count;
-use PHPUnit\Framework\Constraint\IsNull;
-use PHPUnit\Framework\Constraint\LogicalNot;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -41,19 +41,21 @@ final class ReceiveJobDispatchingEmitterTest extends TestCase
         $stack = $this->createMock(EmitterStackInterface::class);
         $context = $this->createMock(EmitContextInterface::class);
         $batchSize = 3;
-        $entity = new FooBarEntity();
-        $entity->setPrimaryKey('');
+        $pks = $this->generatePrimaryKeys($batchSize * 5);
+        $entities = $this->generateEntities($pks);
 
         $jobConverter
             ->expects(static::exactly(5))
             ->method('convert')
-            ->with(new LogicalNot(new IsNull()), new Count($batchSize));
+            ->willReturnCallback(static::validatePayloadForJobCountAndPks(\array_fill(0, 5, $batchSize), $pks));
 
         $emitter = new ReceiveJobDispatchingEmitter($entityType, $jobConverter, $jobDispatcher, $batchSize);
 
-        $stack->method('next')->willReturnOnConsecutiveCalls(\array_fill(0, $batchSize * 5, $entity), []);
+        $stack->method('next')->willReturnOnConsecutiveCalls($entities, []);
 
-        \iterable_to_array($emitter->emit(\array_fill(0, $batchSize * 5, ''), $context, $stack));
+        \iterable_to_array($emitter->emit($pks, $context, $stack));
+
+        static::assertSame([], $pks);
     }
 
     public function testConvertsRemainingEntitiesIfEntityCountIsNotDividablePerfectlyByBatchSize(): void
@@ -64,31 +66,21 @@ final class ReceiveJobDispatchingEmitterTest extends TestCase
         $stack = $this->createMock(EmitterStackInterface::class);
         $context = $this->createMock(EmitContextInterface::class);
         $batchSize = 3;
-        $entity = new FooBarEntity();
-        $entity->setPrimaryKey('');
+        $pks = $this->generatePrimaryKeys($batchSize * 5 + 2);
+        $entities = $this->generateEntities($pks);
 
         $jobConverter
             ->expects(static::exactly(6))
             ->method('convert')
-            ->withConsecutive([
-                new LogicalNot(new IsNull()), new Count($batchSize),
-            ], [
-                new LogicalNot(new IsNull()), new Count($batchSize),
-            ], [
-                new LogicalNot(new IsNull()), new Count($batchSize),
-            ], [
-                new LogicalNot(new IsNull()), new Count($batchSize),
-            ], [
-                new LogicalNot(new IsNull()), new Count($batchSize),
-            ], [
-                new LogicalNot(new IsNull()), new Count(2),
-            ]);
+            ->willReturnCallback(static::validatePayloadForJobCountAndPks([$batchSize, $batchSize, $batchSize, $batchSize, $batchSize, 2], $pks));
 
         $emitter = new ReceiveJobDispatchingEmitter($entityType, $jobConverter, $jobDispatcher, $batchSize);
 
-        $stack->method('next')->willReturnOnConsecutiveCalls(\array_fill(0, $batchSize * 5 + 2, $entity), []);
+        $stack->method('next')->willReturnOnConsecutiveCalls($entities, []);
 
-        \iterable_to_array($emitter->emit(\array_fill(0, $batchSize * 5 + 2, ''), $context, $stack));
+        \iterable_to_array($emitter->emit($pks, $context, $stack));
+
+        static::assertSame([], $pks);
     }
 
     public function testConvertsEntitiesToJobsAndDispatchesThemUntilAnExceptionIsThrown(): void
@@ -99,25 +91,21 @@ final class ReceiveJobDispatchingEmitterTest extends TestCase
         $stack = $this->createMock(EmitterStackInterface::class);
         $context = $this->createMock(EmitContextInterface::class);
         $batchSize = 3;
-        $entity = new FooBarEntity();
-        $entity->setPrimaryKey('');
+        $pks = $this->generatePrimaryKeys($batchSize + 2);
+        $entities = $this->generateEntities($pks);
 
         $jobConverter
             ->expects(static::exactly(2))
             ->method('convert')
-            ->withConsecutive([
-                new LogicalNot(new IsNull()), new Count($batchSize),
-            ], [
-                new LogicalNot(new IsNull()), new Count(2),
-            ]);
+            ->willReturnCallback(static::validatePayloadForJobCountAndPks([$batchSize, 2], $pks));
         $jobDispatcher
             ->expects(static::exactly(2))
             ->method('dispatch');
 
         $emitter = new ReceiveJobDispatchingEmitter($entityType, $jobConverter, $jobDispatcher, $batchSize);
 
-        $stack->method('next')->willReturnCallback(static function () use ($batchSize, $entity): iterable {
-            yield from \array_fill(0, $batchSize + 2, $entity);
+        $stack->method('next')->willReturnCallback(static function () use ($batchSize, $entities): iterable {
+            yield from $entities;
 
             throw new \RuntimeException('Test message');
         });
@@ -125,6 +113,60 @@ final class ReceiveJobDispatchingEmitterTest extends TestCase
         static::expectException(\RuntimeException::class);
         static::expectExceptionMessage('Test message');
 
-        \iterable_to_array($emitter->emit(\array_fill(0, $batchSize * 17, ''), $context, $stack));
+        \iterable_to_array($emitter->emit($pks, $context, $stack));
+
+        static::assertSame([], $pks);
+    }
+
+    private function generatePrimaryKeys(int $count): array
+    {
+        return \array_map('strval', \range(100, 100 + ($count - 1)));
+    }
+
+    /**
+     * @param string[] $primaryKeys
+     *
+     * @return FooBarEntity[]
+     */
+    private function generateEntities(array $primaryKeys): array
+    {
+        $result = [];
+
+        foreach ($primaryKeys as $primaryKey) {
+            $entity = new FooBarEntity();
+            $entity->setPrimaryKey($primaryKey);
+
+            $result[] = $entity;
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param int[]    $batchSizes
+     * @param string[] $primaryKeys
+     */
+    private function validatePayloadForJobCountAndPks(array $batchSizes, array &$primaryKeys): \Closure
+    {
+        return static function (
+            PortalNodeKeyInterface $portalNodeKey,
+            DatasetEntityCollection $entities
+        ) use (&$primaryKeys, &$batchSizes): JobCollection {
+            $batchSize = \array_shift($batchSizes);
+
+            static::assertIsInt($batchSize);
+            static::assertCount($batchSize, $entities);
+
+            foreach ($entities as $entity) {
+                $pk = $entity->getPrimaryKey();
+
+                static::assertNotNull($pk);
+                static::assertContains($pk, $primaryKeys);
+
+                $primaryKeys = \array_diff($primaryKeys, [$pk]);
+            }
+
+            return new JobCollection();
+        };
     }
 }

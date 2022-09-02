@@ -13,7 +13,6 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerStackInterface;
-use PHPUnit\Framework\Constraint\IsIdentical;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -52,20 +51,18 @@ final class DirectEmittingExplorerTest extends TestCase
         $emitContext = $this->createMock(EmitContextInterface::class);
         $logger = $this->createMock(LoggerInterface::class);
         $batchSize = 3;
-
-        $entity = new FooBarEntity();
-        $entity->setPrimaryKey('');
+        $pks = $this->generatePrimaryKeys($batchSize * 5);
+        $entities = $this->generateEntities($pks);
 
         $explorerStack
             ->expects(static::once())
             ->method('next')
-            ->willReturn(\array_fill(0, $batchSize * 5, $entity));
+            ->willReturn($entities);
 
         $emitterStackProcessor
             ->expects(static::exactly(5))
             ->method('processStack')
-            ->with(new IsIdentical(\array_fill(0, $batchSize, '')))
-            ->willReturn(new TypedDatasetEntityCollection($entityType));
+            ->willReturnCallback(static::validateMapPayloadCountAndPks([$batchSize, $batchSize, $batchSize, $batchSize, $batchSize], $pks, $entities));
 
         $explorer = new DirectEmittingExplorer(
             $entityType,
@@ -78,6 +75,8 @@ final class DirectEmittingExplorerTest extends TestCase
         );
 
         \iterable_to_array($explorer->explore($exploreContext, $explorerStack));
+
+        static::assertSame([], $pks);
     }
 
     public function testEmitRemainingEntitiesIfEntityCountIsNotDividablePerfectlyByBatchSize(): void
@@ -93,9 +92,8 @@ final class DirectEmittingExplorerTest extends TestCase
         $portalNodeLogger = $this->createMock(LoggerInterface::class);
         $container = $this->createMock(ContainerInterface::class);
         $batchSize = 3;
-
-        $entity = new FooBarEntity();
-        $entity->setPrimaryKey('');
+        $pks = $this->generatePrimaryKeys($batchSize * 5 + 2);
+        $entities = $this->generateEntities($pks);
 
         $container->method('get')->willReturnCallback(static fn (string $id) => [
             LoggerInterface::class => $portalNodeLogger,
@@ -105,12 +103,12 @@ final class DirectEmittingExplorerTest extends TestCase
         $explorerStack
             ->expects(static::once())
             ->method('next')
-            ->willReturn(\array_fill(0, $batchSize * 5 + 2, $entity));
+            ->willReturn($entities);
 
         $emitterStackProcessor
             ->expects(static::exactly(6))
             ->method('processStack')
-            ->willReturn(new TypedDatasetEntityCollection($entityType));
+            ->willReturnCallback(static::validateMapPayloadCountAndPks([$batchSize, $batchSize, $batchSize, $batchSize, $batchSize, 2], $pks, $entities));
 
         $explorer = new DirectEmittingExplorer(
             $entityType,
@@ -123,6 +121,8 @@ final class DirectEmittingExplorerTest extends TestCase
         );
 
         \iterable_to_array($explorer->explore($exploreContext, $explorerStack));
+
+        static::assertSame([], $pks);
     }
 
     public function testEmitEntitiesUntilAnExceptionIsThrown(): void
@@ -138,9 +138,8 @@ final class DirectEmittingExplorerTest extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $logger = $this->createMock(LoggerInterface::class);
         $batchSize = 3;
-
-        $entity = new FooBarEntity();
-        $entity->setPrimaryKey('');
+        $pks = $this->generatePrimaryKeys($batchSize + 2);
+        $entities = $this->generateEntities($pks);
 
         $container->method('get')->willReturnCallback(static fn (string $id) => [
             LoggerInterface::class => $portalNodeLogger,
@@ -150,8 +149,8 @@ final class DirectEmittingExplorerTest extends TestCase
         $explorerStack
             ->expects(static::once())
             ->method('next')
-            ->willReturnCallback(static function () use ($batchSize, $entity): iterable {
-                yield from \array_fill(0, $batchSize + 2, $entity);
+            ->willReturnCallback(static function () use ($batchSize, $entities): iterable {
+                yield from $entities;
 
                 throw new \RuntimeException('Test message');
             });
@@ -159,7 +158,7 @@ final class DirectEmittingExplorerTest extends TestCase
         $emitterStackProcessor
             ->expects(static::exactly(2))
             ->method('processStack')
-            ->willReturn(new TypedDatasetEntityCollection($entityType));
+            ->willReturnCallback(static::validateMapPayloadCountAndPks([$batchSize, 2], $pks, $entities));
 
         $explorer = new DirectEmittingExplorer(
             $entityType,
@@ -172,5 +171,62 @@ final class DirectEmittingExplorerTest extends TestCase
         );
 
         \iterable_to_array($explorer->explore($exploreContext, $explorerStack));
+
+        static::assertSame([], $pks);
+    }
+
+    private function generatePrimaryKeys(int $count): array
+    {
+        return \array_map('strval', \range(100, 100 + ($count - 1)));
+    }
+
+    /**
+     * @param string[] $primaryKeys
+     *
+     * @return FooBarEntity[]
+     */
+    private function generateEntities(array $primaryKeys): array
+    {
+        $result = [];
+
+        foreach ($primaryKeys as $primaryKey) {
+            $entity = new FooBarEntity();
+            $entity->setPrimaryKey($primaryKey);
+
+            $result[] = $entity;
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param int[]          $batchSizes
+     * @param string[]       $primaryKeys
+     * @param FooBarEntity[] $entities
+     */
+    private function validateMapPayloadCountAndPks(array $batchSizes, array &$primaryKeys, array $entities): \Closure
+    {
+        return static function (
+            array $externalIds,
+            EmitterStackInterface $stack,
+            EmitContextInterface $context
+        ) use (&$primaryKeys, &$batchSizes, $entities): TypedDatasetEntityCollection {
+            $batchSize = \array_shift($batchSizes);
+
+            static::assertIsInt($batchSize);
+            static::assertCount($batchSize, $externalIds);
+
+            foreach ($externalIds as $externalId) {
+                static::assertNotNull($externalId);
+                static::assertContains($externalId, $primaryKeys);
+
+                $primaryKeys = \array_diff($primaryKeys, [$externalId]);
+            }
+
+            return new TypedDatasetEntityCollection(FooBarEntity::class(), \array_filter(
+                $entities,
+                static fn (FooBarEntity $entity): bool => \in_array($entity->getPrimaryKey(), $externalIds, true)
+            ));
+        };
     }
 }
