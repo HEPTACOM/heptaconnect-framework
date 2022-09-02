@@ -78,8 +78,6 @@ final class DirectEmittingExplorerTest extends TestCase
         );
 
         \iterable_to_array($explorer->explore($exploreContext, $explorerStack));
-
-        static::assertCount($batchSize, $directEmitter->getEntities());
     }
 
     public function testEmitRemainingEntitiesIfEntityCountIsNotDividablePerfectlyByBatchSize(): void
@@ -125,8 +123,6 @@ final class DirectEmittingExplorerTest extends TestCase
         );
 
         \iterable_to_array($explorer->explore($exploreContext, $explorerStack));
-
-        static::assertCount(2, $directEmitter->getEntities());
     }
 
     public function testEmitEntitiesUntilAnExceptionIsThrown(): void
@@ -176,7 +172,5 @@ final class DirectEmittingExplorerTest extends TestCase
         );
 
         \iterable_to_array($explorer->explore($exploreContext, $explorerStack));
-
-        static::assertCount(2, $directEmitter->getEntities());
     }
 }
