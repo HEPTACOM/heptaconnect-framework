@@ -36,4 +36,10 @@ final class StringCollectionTest extends TestCase
         $collection->push([$item]);
         static::assertCount(0, $collection);
     }
+
+    public function testJoin(): void
+    {
+        $collection = new StringCollection(['php', 'is', 'nice']);
+        static::assertSame('php;is;nice', $collection->join(';'));
+    }
 }
