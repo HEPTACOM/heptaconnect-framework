@@ -79,7 +79,7 @@ final class LockingReceiverTest extends TestCase
         static::assertCount(20, $result);
     }
 
-    public function testAllRetriesAndHalfSucceeds(): void
+    public function testAllRetriesAndPartiallySucceeds(): void
     {
         $logger = $this->createMock(LoggerInterface::class);
         $receiver = new LockingReceiver(FooBarEntity::class(), $logger);
@@ -96,9 +96,9 @@ final class LockingReceiverTest extends TestCase
         $failingEntities = $this->generateEntities(10, 4);
         $this->lockEntities($failingEntities);
 
-        $entities = $this->generateEntities(10);
+        $entities = $this->generateEntities(10, 1);
         $entities->push($failingEntities);
-        $entities->push($this->generateEntities(10));
+        $entities->push($this->generateEntities(10, 1));
 
         $result = $receiver->receive($entities, $context, $stack);
 
