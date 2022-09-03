@@ -86,4 +86,11 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
      * @return static
      */
     public function reverse(): self;
+
+    /**
+     * Returns true, when the item is in the collection, otherwise false.
+     *
+     * @param T $value
+     */
+    public function contains($value): bool;
 }

@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add method `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::asArray` and implementation in `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::asArray` to access the items of the collection as fixed size array
 - Add method `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::reverse` and implementation in `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::reverse` to get a reversed collection
 - Add method `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::isEmpty` and implementation in `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::isEmpty` to check whether the collection is empty without counting
+- Add method `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::contains` and implementation in `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::contains` to check whether the given item is in the collection
 
 ### Changed
 

@@ -199,6 +199,11 @@ abstract class AbstractCollection implements CollectionInterface
         return $result;
     }
 
+    public function contains($value): bool
+    {
+        return \in_array($value, $this->items, true);
+    }
+
     /**
      * @psalm-param T $item
      */
