@@ -40,7 +40,7 @@ final class IntegerCollectionTest extends TestCase
         static::assertCount(0, $collection);
         static::assertNull($collection->max());
         static::assertNull($collection->min());
-        static::assertNull($collection->sum());
+        static::assertSame(0, $collection->sum());
     }
 
     public function testAggregate(): void
