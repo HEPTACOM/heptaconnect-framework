@@ -15,10 +15,11 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 class DatasetEntityCollection extends AbstractObjectCollection
 {
     /**
-     * @return DatasetEntityCollection<DatasetEntityContract>[]
+     * @return iterable<class-string<DatasetEntityContract>, DatasetEntityCollection<DatasetEntityContract>>
      */
     public function groupByType(): iterable
     {
+        /** @var array<class-string<DatasetEntityContract>, DatasetEntityContract[]> $groups */
         $groups = [];
 
         /** @var DatasetEntityContract $item */

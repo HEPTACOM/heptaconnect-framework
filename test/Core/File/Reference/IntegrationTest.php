@@ -14,6 +14,8 @@ use Heptacom\HeptaConnect\Core\File\Reference\RequestFileReference;
 use Heptacom\HeptaConnect\Core\File\ResolvedReference\ResolvedContentsFileReference;
 use Heptacom\HeptaConnect\Core\File\ResolvedReference\ResolvedPublicUrlFileReference;
 use Heptacom\HeptaConnect\Core\File\ResolvedReference\ResolvedRequestFileReference;
+use Heptacom\HeptaConnect\Core\Portal\Contract\PortalNodeContainerFacadeContract;
+use Heptacom\HeptaConnect\Core\Portal\PortalNodeContainerFacade;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract;
 use Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry;
@@ -50,14 +52,20 @@ use Psr\Http\Message\RequestInterface;
  * @covers \Heptacom\HeptaConnect\Core\File\ResolvedReference\ResolvedContentsFileReference
  * @covers \Heptacom\HeptaConnect\Core\File\ResolvedReference\ResolvedPublicUrlFileReference
  * @covers \Heptacom\HeptaConnect\Core\File\ResolvedReference\ResolvedRequestFileReference
+ * @covers \Heptacom\HeptaConnect\Core\Portal\PortalNodeContainerFacade
  * @covers \Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry
  * @covers \Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestDenormalizer
  * @covers \Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestNormalizer
  * @covers \Heptacom\HeptaConnect\Core\Storage\RequestStorage
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpClient
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\File\FileReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\File\ResolvedFileReferenceContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
  * @covers \Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\SerializableStream
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Exception\HttpException
@@ -79,7 +87,7 @@ class IntegrationTest extends TestCase
         $fileRequestUrlProvider = $this->createMock(FileRequestUrlProviderInterface::class);
         $portalStackServiceContainerFactory = $this->createMock(PortalStackServiceContainerFactory::class);
         $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
-        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class());
         $factory = new FileReferenceFactory(
             $portalNodeKey,
             $streamFactory,
@@ -128,7 +136,7 @@ class IntegrationTest extends TestCase
         $fileRequestUrlProvider = $this->createMock(FileRequestUrlProviderInterface::class);
         $portalStackServiceContainerFactory = $this->createMock(PortalStackServiceContainerFactory::class);
 
-        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class());
         $factory = new FileReferenceFactory(
             $portalNodeKey,
             Psr17FactoryDiscovery::findStreamFactory(),
@@ -170,7 +178,7 @@ class IntegrationTest extends TestCase
         $fileRequestUrlProvider = $this->createMock(FileRequestUrlProviderInterface::class);
 
         $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
-        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class());
         $factory = new FileReferenceFactory(
             $portalNodeKey,
             $streamFactory,
@@ -205,7 +213,7 @@ class IntegrationTest extends TestCase
     {
         $normalizationRegistry = $this->createInMemoryNormalizationRegistry();
         $fileContentsUrlProvider = $this->createMock(FileContentsUrlProviderInterface::class);
-        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class());
 
         $resolvedReference = new ResolvedContentsFileReference(
             $portalNodeKey,
@@ -231,7 +239,7 @@ class IntegrationTest extends TestCase
 
         $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
         $requestFactory = Psr17FactoryDiscovery::findRequestFactory();
-        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class());
         $factory = new FileReferenceFactory(
             $portalNodeKey,
             $streamFactory,
@@ -300,7 +308,7 @@ class IntegrationTest extends TestCase
         $portalStackServiceContainerFactory = $this->createMock(PortalStackServiceContainerFactory::class);
         $requestStorage = $this->createInMemoryRequestStorage();
 
-        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(DependentPortal::class());
         $factory = new FileReferenceFactory(
             $portalNodeKey,
             Psr17FactoryDiscovery::findStreamFactory(),
@@ -405,9 +413,9 @@ class IntegrationTest extends TestCase
         return new NormalizationRegistry([$normalizer], [$denormalizer]);
     }
 
-    private function getInMemoryContainer(array $services): ContainerInterface
+    private function getInMemoryContainer(array $services): PortalNodeContainerFacadeContract
     {
-        return new class($services) implements ContainerInterface {
+        $container = new class($services) implements ContainerInterface {
             private array $services;
 
             public function __construct(array $services)
@@ -425,6 +433,8 @@ class IntegrationTest extends TestCase
                 return ($this->services[$id] ?? null) !== null;
             }
         };
+
+        return new PortalNodeContainerFacade($container);
     }
 
     private function createInMemoryRequestStorage(): RequestStorageContract

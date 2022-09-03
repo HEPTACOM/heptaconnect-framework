@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
+use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use Heptacom\HeptaConnect\Portal\Base\Builder\BindThisTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken;
@@ -19,10 +21,7 @@ final class Receiver extends ReceiverContract
     use BindThisTrait;
     use ResolveArgumentsTrait;
 
-    /**
-     * @var class-string<DatasetEntityContract>
-     */
-    private string $type;
+    private EntityType $entityType;
 
     private ?SerializableClosure $batchMethod;
 
@@ -33,7 +32,7 @@ final class Receiver extends ReceiverContract
         $batch = $token->getBatch();
         $run = $token->getRun();
 
-        $this->type = $token->getType();
+        $this->entityType = $token->getEntityType();
         $this->batchMethod = $batch instanceof \Closure ? new SerializableClosure($batch) : null;
         $this->runMethod = $run instanceof \Closure ? new SerializableClosure($run) : null;
     }
@@ -48,9 +47,9 @@ final class Receiver extends ReceiverContract
         return $this->batchMethod instanceof SerializableClosure ? $this->batchMethod->getClosure() : null;
     }
 
-    public function supports(): string
+    protected function supports(): string
     {
-        return $this->type;
+        return (string) $this->entityType;
     }
 
     protected function batch(
@@ -92,7 +91,7 @@ final class Receiver extends ReceiverContract
                 ?string $propertyType,
                 ContainerInterface $container
             ) use ($entity) {
-                if (\is_string($propertyType) && \is_a($propertyType, $this->supports(), true)) {
+                if (\is_string($propertyType) && $this->getSupportedEntityType()->isClassStringOfType(new UnsafeClassString($propertyType))) {
                     return $entity;
                 }
 

@@ -9,10 +9,7 @@ use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalC\PortalC;
 
 final class PortalExtensionC extends PortalExtensionContract
 {
-    /**
-     * @psalm-return PortalC::class
-     */
-    public function supports(): string
+    protected function supports(): string
     {
         return PortalC::class;
     }

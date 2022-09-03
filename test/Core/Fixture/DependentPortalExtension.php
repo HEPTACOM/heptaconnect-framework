@@ -15,7 +15,7 @@ final class DependentPortalExtension extends PortalExtensionContract
         $this->number = $number;
     }
 
-    public function supports(): string
+    protected function supports(): string
     {
         return UninstantiablePortal::class;
     }

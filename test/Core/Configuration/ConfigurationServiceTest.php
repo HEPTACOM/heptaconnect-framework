@@ -19,6 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @covers \Heptacom\HeptaConnect\Core\Configuration\ConfigurationService
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection
@@ -67,7 +68,7 @@ final class ConfigurationServiceTest extends TestCase
         });
         $registry->method('getPortalExtensions')->willReturn(new PortalExtensionCollection([
             new class() extends PortalExtensionContract {
-                public function supports(): string
+                protected function supports(): string
                 {
                     return PortalContract::class;
                 }

@@ -75,8 +75,8 @@ abstract class RouteTestContract extends TestCase
         $this->routeDeleteAction = $facade->getRouteDeleteAction();
 
         $portalNodeCreateResult = $this->portalNodeCreateAction->create(new PortalNodeCreatePayloads([
-            new PortalNodeCreatePayload(PortalA::class),
-            new PortalNodeCreatePayload(PortalB::class),
+            new PortalNodeCreatePayload(PortalA::class()),
+            new PortalNodeCreatePayload(PortalB::class()),
         ]));
         $firstResult = $portalNodeCreateResult->first();
         $lastResult = $portalNodeCreateResult->last();
@@ -99,7 +99,7 @@ abstract class RouteTestContract extends TestCase
         foreach ([$this->portalA, $this->portalB] as $sourcePortal) {
             foreach ([$this->portalA, $this->portalB] as $targetPortal) {
                 foreach ([EntityA::class, EntityB::class, EntityC::class] as $entityType) {
-                    $createPayloads->push([new RouteCreatePayload($sourcePortal, $targetPortal, $entityType)]);
+                    $createPayloads->push([new RouteCreatePayload($sourcePortal, $targetPortal, $entityType::class())]);
                 }
             }
         }
@@ -133,7 +133,7 @@ abstract class RouteTestContract extends TestCase
                 static::assertTrue($getResult->getRouteKey()->equals($findResult->getRouteKey()));
                 static::assertTrue($getResult->getSourcePortalNodeKey()->equals($createPayload->getSourcePortalNodeKey()));
                 static::assertTrue($getResult->getTargetPortalNodeKey()->equals($createPayload->getTargetPortalNodeKey()));
-                static::assertSame($getResult->getEntityType(), $createPayload->getEntityType());
+                static::assertTrue($getResult->getEntityType()->equals($createPayload->getEntityType()));
 
                 /** @var ReceptionRouteListResult[] $listResults */
                 $listResults = \iterable_to_array($this->routeReceptionListAction->list(new ReceptionRouteListCriteria(
@@ -163,7 +163,7 @@ abstract class RouteTestContract extends TestCase
         foreach ([$this->portalA, $this->portalB] as $sourcePortal) {
             foreach ([$this->portalA, $this->portalB] as $targetPortal) {
                 foreach ([EntityA::class, EntityB::class, EntityC::class] as $entityType) {
-                    $createPayloads->push([new RouteCreatePayload($sourcePortal, $targetPortal, $entityType, [
+                    $createPayloads->push([new RouteCreatePayload($sourcePortal, $targetPortal, $entityType::class(), [
                         RouteCapability::RECEPTION,
                     ])]);
                 }
@@ -216,7 +216,7 @@ abstract class RouteTestContract extends TestCase
         foreach ([$this->portalA, $this->portalB] as $sourcePortal) {
             foreach ([$this->portalA, $this->portalB] as $targetPortal) {
                 foreach ([EntityA::class, EntityB::class, EntityC::class] as $entityType) {
-                    $createPayloads->push([new RouteCreatePayload($sourcePortal, $targetPortal, $entityType, [
+                    $createPayloads->push([new RouteCreatePayload($sourcePortal, $targetPortal, $entityType::class(), [
                         RouteCapability::RECEPTION,
                     ])]);
                 }

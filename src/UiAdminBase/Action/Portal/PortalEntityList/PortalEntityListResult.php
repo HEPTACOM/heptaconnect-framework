@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList;
 
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin;
 
@@ -16,10 +16,7 @@ final class PortalEntityListResult implements AttachmentAwareInterface
 
     private CodeOrigin $codeOrigin;
 
-    /**
-     * @var class-string<DatasetEntityContract>
-     */
-    private string $supportedEntityType;
+    private ClassStringReferenceContract $supportedEntityType;
 
     /**
      * @var class-string
@@ -27,11 +24,13 @@ final class PortalEntityListResult implements AttachmentAwareInterface
     private string $flowComponentClass;
 
     /**
-     * @param class-string<DatasetEntityContract> $supportedEntityType
-     * @param class-string                        $flowComponentClass
+     * @param class-string $flowComponentClass
      */
-    public function __construct(CodeOrigin $codeOrigin, string $supportedEntityType, string $flowComponentClass)
-    {
+    public function __construct(
+        CodeOrigin $codeOrigin,
+        ClassStringReferenceContract $supportedEntityType,
+        string $flowComponentClass
+    ) {
         $this->attachments = new AttachmentCollection();
         $this->codeOrigin = $codeOrigin;
         $this->supportedEntityType = $supportedEntityType;
@@ -43,10 +42,7 @@ final class PortalEntityListResult implements AttachmentAwareInterface
         return $this->codeOrigin;
     }
 
-    /**
-     * @return class-string<DatasetEntityContract>
-     */
-    public function getSupportedEntityType(): string
+    public function getSupportedEntityType(): ClassStringReferenceContract
     {
         return $this->supportedEntityType;
     }
