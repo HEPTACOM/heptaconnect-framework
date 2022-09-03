@@ -59,43 +59,4 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
     public function map(callable $mapFn): iterable;
 
     public function column(string $valueAccessor, ?string $keyAccessor = null): iterable;
-
-    /**
-     * Create a new collection of the same type, but without any content.
-     */
-    public function withoutItems(): self;
-
-    /**
-     * Group items in maximum $size big chunks. The last chunk can be less than $size items.
-     *
-     * @psalm-param positive-int $size
-     * @psalm-return iterable<self&non-empty-list<T>>
-     */
-    public function chunk(int $size): iterable;
-
-    /**
-     * Returns the items as a fixed size array. This is useful to use with methods that don't support iterables.
-     *
-     * @return array<T>
-     */
-    public function asArray(): array;
-
-    /**
-     * Returns the collection in reversed order.
-     *
-     * @return static
-     */
-    public function reverse(): self;
-
-    /**
-     * Returns true, when the item is in the collection, otherwise false.
-     *
-     * @param T $value
-     */
-    public function contains($value): bool;
-
-    /**
-     * Returns a copy of this collection only containing items a single time.
-     */
-    public function unique(): self;
 }
