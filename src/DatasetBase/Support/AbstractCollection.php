@@ -202,17 +202,11 @@ abstract class AbstractCollection implements CollectionInterface
     }
 
     /**
-     * Returns the collection in reversed order.
-     *
-     * @return static
+     * Reorders the collection into the opposite order it is now..
      */
-    public function reverse(): self
+    public function reverse(): void
     {
-        $result = $this->withoutItems();
-
-        $result->push(\array_reverse($this->items));
-
-        return $result;
+        $this->items = \array_reverse($this->items);
     }
 
     /**
