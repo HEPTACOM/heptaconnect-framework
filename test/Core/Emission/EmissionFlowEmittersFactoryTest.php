@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Emission;
 
-use Heptacom\HeptaConnect\Core\Emission\EmissionEmittersFactory;
+use Heptacom\HeptaConnect\Core\Emission\EmissionFlowEmittersFactory;
 use Heptacom\HeptaConnect\Core\Emission\ReceiveJobDispatchingEmitter;
 use Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract;
 use Heptacom\HeptaConnect\Core\Job\Transition\Contract\EmittedEntitiesToJobsConverterInterface;
@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Core\Emission\AbstractBufferedResultProcessingEmitter
- * @covers \Heptacom\HeptaConnect\Core\Emission\EmissionEmittersFactory
+ * @covers \Heptacom\HeptaConnect\Core\Emission\EmissionFlowEmittersFactory
  * @covers \Heptacom\HeptaConnect\Core\Emission\ReceiveJobDispatchingEmitter
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
@@ -27,11 +27,11 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection
  */
-final class EmissionEmittersFactoryTest extends TestCase
+final class EmissionFlowEmittersFactoryTest extends TestCase
 {
     public function testCollectionContainsExpectedServices(): void
     {
-        $factory = new EmissionEmittersFactory(
+        $factory = new EmissionFlowEmittersFactory(
             $this->createMock(EmittedEntitiesToJobsConverterInterface::class),
             $this->createMock(JobDispatcherContract::class),
             1

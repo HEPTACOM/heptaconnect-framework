@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Core\Test;
 
 use Heptacom\HeptaConnect\Core\Component\LogMessage;
-use Heptacom\HeptaConnect\Core\Emission\Contract\EmissionEmittersFactoryInterface;
+use Heptacom\HeptaConnect\Core\Emission\Contract\EmissionFlowEmittersFactoryInterface;
 use Heptacom\HeptaConnect\Core\Emission\Contract\EmitContextFactoryInterface;
 use Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface;
 use Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderInterface;
@@ -60,7 +60,7 @@ final class EmitServiceTest extends TestCase
             $this->createMock(LoggerInterface::class),
             $this->createMock(StorageKeyGeneratorContract::class),
             $stackBuilderFactory,
-            $this->createMock(EmissionEmittersFactoryInterface::class),
+            $this->createMock(EmissionFlowEmittersFactoryInterface::class),
             $this->createMock(EmitterStackProcessorInterface::class),
         );
         $emitService->emit(new TypedMappingComponentCollection(FooBarEntity::class(), \array_fill(0, $count, $mapping)));
@@ -100,7 +100,7 @@ final class EmitServiceTest extends TestCase
             $logger,
             $this->createMock(StorageKeyGeneratorContract::class),
             $stackBuilderFactory,
-            $this->createMock(EmissionEmittersFactoryInterface::class),
+            $this->createMock(EmissionFlowEmittersFactoryInterface::class),
             $this->createMock(EmitterStackProcessorInterface::class),
         );
         $emitService->emit(new TypedMappingComponentCollection(FooBarEntity::class(), \array_fill(0, $count, $mapping)));

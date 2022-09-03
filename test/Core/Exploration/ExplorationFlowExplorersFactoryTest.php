@@ -7,10 +7,10 @@ namespace Heptacom\HeptaConnect\Core\Test\Exploration;
 use Heptacom\HeptaConnect\Core\Emission\Contract\EmitContextFactoryInterface;
 use Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface;
 use Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackProcessorInterface;
-use Heptacom\HeptaConnect\Core\Exploration\Contract\DirectEmissionEmittersFactoryInterface;
+use Heptacom\HeptaConnect\Core\Exploration\Contract\DirectEmissionFlowEmittersFactoryInterface;
 use Heptacom\HeptaConnect\Core\Exploration\DirectEmittingExplorer;
 use Heptacom\HeptaConnect\Core\Exploration\EmissionJobDispatchingExplorer;
-use Heptacom\HeptaConnect\Core\Exploration\ExplorationExplorersFactory;
+use Heptacom\HeptaConnect\Core\Exploration\ExplorationFlowExplorersFactory;
 use Heptacom\HeptaConnect\Core\Exploration\IdentityMappingExplorer;
 use Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract;
 use Heptacom\HeptaConnect\Core\Job\Transition\Contract\ExploredPrimaryKeysToJobsConverterInterface;
@@ -27,7 +27,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Exploration\DirectEmitter
  * @covers \Heptacom\HeptaConnect\Core\Exploration\DirectEmittingExplorer
  * @covers \Heptacom\HeptaConnect\Core\Exploration\EmissionJobDispatchingExplorer
- * @covers \Heptacom\HeptaConnect\Core\Exploration\ExplorationExplorersFactory
+ * @covers \Heptacom\HeptaConnect\Core\Exploration\ExplorationFlowExplorersFactory
  * @covers \Heptacom\HeptaConnect\Core\Exploration\IdentityMappingExplorer
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
@@ -38,17 +38,17 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection
  */
-final class ExplorationExplorersFactoryTest extends TestCase
+final class ExplorationFlowExplorersFactoryTest extends TestCase
 {
     public function testCollectionContainsExpectedServices(): void
     {
-        $directEmissionEmittersFactory = $this->createMock(DirectEmissionEmittersFactoryInterface::class);
+        $directEmissionEmittersFactory = $this->createMock(DirectEmissionFlowEmittersFactoryInterface::class);
         $directEmissionEmittersFactory
             ->expects(static::once())
             ->method('createEmitters')
             ->willReturn(new EmitterCollection());
 
-        $factory = new ExplorationExplorersFactory(
+        $factory = new ExplorationFlowExplorersFactory(
             $directEmissionEmittersFactory,
             $this->createMock(EmitterStackBuilderFactoryInterface::class),
             $this->createMock(EmitterStackProcessorInterface::class),

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Exploration;
 
-use Heptacom\HeptaConnect\Core\Emission\Contract\EmissionEmittersFactoryInterface;
+use Heptacom\HeptaConnect\Core\Emission\Contract\EmissionFlowEmittersFactoryInterface;
 use Heptacom\HeptaConnect\Core\Emission\IdentityMappingEmitter;
-use Heptacom\HeptaConnect\Core\Exploration\DirectEmissionEmittersFactory;
+use Heptacom\HeptaConnect\Core\Exploration\DirectEmissionFlowEmittersFactory;
 use Heptacom\HeptaConnect\Core\Storage\PrimaryKeyToEntityHydrator;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEmitter;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Heptacom\HeptaConnect\Core\Emission\AbstractBufferedResultProcessingEmitter
  * @covers \Heptacom\HeptaConnect\Core\Emission\IdentityMappingEmitter
- * @covers \Heptacom\HeptaConnect\Core\Exploration\DirectEmissionEmittersFactory
+ * @covers \Heptacom\HeptaConnect\Core\Exploration\DirectEmissionFlowEmittersFactory
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
@@ -30,12 +30,12 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection
  */
-final class DirectEmissionEmittersFactoryTest extends TestCase
+final class DirectEmissionFlowEmittersFactoryTest extends TestCase
 {
     public function testCollectionContainsExpectedServices(): void
     {
-        $emissionEmittersFactory = $this->createMock(EmissionEmittersFactoryInterface::class);
-        $factory = new DirectEmissionEmittersFactory(
+        $emissionEmittersFactory = $this->createMock(EmissionFlowEmittersFactoryInterface::class);
+        $factory = new DirectEmissionFlowEmittersFactory(
             $emissionEmittersFactory,
             new PrimaryKeyToEntityHydrator(),
             $this->createMock(IdentityMapActionInterface::class),
