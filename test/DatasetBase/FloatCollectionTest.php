@@ -44,7 +44,7 @@ final class FloatCollectionTest extends TestCase
         static::assertFalse($collection->contains($item));
         static::assertNull($collection->max());
         static::assertNull($collection->min());
-        static::assertNull($collection->sum());
+        static::assertSame(0.0, $collection->sum());
     }
 
     public function testAggregate(): void
