@@ -22,14 +22,12 @@ final class FloatCollectionTest extends TestCase
     public function testInsertTypeInTypeCollection(float $item): void
     {
         $collection = new FloatCollection();
-        static::assertFalse($collection->contains($item));
         $collection->push([$item]);
         static::assertCount(1, $collection);
         static::assertEquals($item, $collection[0]);
         static::assertSame($item, $collection->max());
         static::assertSame($item, $collection->min());
         static::assertSame($item, $collection->sum());
-        static::assertTrue($collection->contains($item));
     }
 
     /**
@@ -38,10 +36,8 @@ final class FloatCollectionTest extends TestCase
     public function testInsertOtherTypeInTypeCollection($item): void
     {
         $collection = new FloatCollection();
-        static::assertFalse($collection->contains($item));
         $collection->push([$item]);
         static::assertCount(0, $collection);
-        static::assertFalse($collection->contains($item));
         static::assertNull($collection->max());
         static::assertNull($collection->min());
         static::assertNull($collection->sum());

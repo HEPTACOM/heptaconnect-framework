@@ -12,19 +12,6 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface;
  */
 class MappingNodeStructCollection extends AbstractObjectCollection
 {
-    public function contains($value): bool
-    {
-        return $this->containsByEqualsCheck(
-            $value,
-            static fn (MappingNodeStructInterface $a, MappingNodeStructInterface $b): bool => $a->getKey()->equals($b->getKey())
-        );
-    }
-
-    public function unique(): self
-    {
-        return $this->uniqueByContains();
-    }
-
     /**
      * @psalm-return Contract\MappingNodeStructInterface::class
      */
