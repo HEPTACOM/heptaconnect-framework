@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change return type of `\Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection::bySupport` from `Generator` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
 - Change return type of `\Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection::bySupport` from `Generator` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
 - Change return type of `\Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection::bySupport` from `Generator` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
+- Change return type of `\Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterCollection::bySupportedTopic` from `Generator` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
 
 ### Deprecated
 
