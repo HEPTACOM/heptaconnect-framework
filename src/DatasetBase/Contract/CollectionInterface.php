@@ -93,4 +93,9 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
      * @param T $value
      */
     public function contains($value): bool;
+
+    /**
+     * Returns a copy of this collection only containing items a single time.
+     */
+    public function unique(): self;
 }

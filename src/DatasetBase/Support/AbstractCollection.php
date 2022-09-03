@@ -204,6 +204,15 @@ abstract class AbstractCollection implements CollectionInterface
         return \in_array($value, $this->items, true);
     }
 
+    public function unique(): self
+    {
+        $result = $this->withoutItems();
+
+        $result->push(\array_unique($this->items, \SORT_REGULAR));
+
+        return $result;
+    }
+
     /**
      * @psalm-param T $item
      */
