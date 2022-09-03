@@ -169,7 +169,6 @@ pipelines:
             -   step: *github-mirror-branch
             -   step: *composer-high-install
             -   parallel:
-                    -   step: *test-unit
                     -   step: *test-coverage
                     -   step: *test-code-style-composer-normalize
                     -   step: *test-code-style-composer-unused
@@ -177,7 +176,6 @@ pipelines:
                     -   step: *test-code-style-php
             -   step: *composer-low-install
             -   parallel:
-                    -   step: *test-unit
                     -   step: *test-coverage
                     -   step: *test-code-style-composer-normalize
                     -   step: *test-code-style-composer-unused
@@ -213,7 +211,6 @@ pipelines:
     default:
         -   step: *composer-high-install
         -   parallel:
-                -   step: *test-unit
                 -   step: *test-coverage
                 -   step: *test-code-style-composer-normalize
                 -   step: *test-code-style-composer-unused
@@ -221,7 +218,6 @@ pipelines:
                 -   step: *test-code-style-php
         -   step: *composer-low-install
         -   parallel:
-                -   step: *test-unit
                 -   step: *test-coverage
                 -   step: *test-code-style-composer-normalize
                 -   step: *test-code-style-composer-unused
