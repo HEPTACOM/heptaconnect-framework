@@ -220,6 +220,14 @@ final class CollectionTest extends TestCase
         static::assertSame($items, $collection->asArray());
     }
 
+    public function testReverse(): void
+    {
+        $items = \range(1, 26);
+        $collection = new IntegerCollection($items);
+        $items = \range(26, 1, -1);
+        static::assertSame($items, $collection->reverse()->asArray());
+    }
+
     /**
      * @return iterable<string, array<int, array<int, DatasetEntityContract>>>
      */

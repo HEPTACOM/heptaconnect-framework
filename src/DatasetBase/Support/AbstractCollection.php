@@ -185,6 +185,15 @@ abstract class AbstractCollection implements CollectionInterface
         return $this->items;
     }
 
+    public function reverse(): self
+    {
+        $result = $this->withoutItems();
+
+        $result->push(\array_reverse($this->items));
+
+        return $result;
+    }
+
     /**
      * @psalm-param T $item
      */
