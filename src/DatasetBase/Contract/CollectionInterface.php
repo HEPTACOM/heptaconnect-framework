@@ -62,6 +62,8 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
 
     /**
      * Create a new collection of the same type, but without any content.
+     *
+     * @return static
      */
     public function withoutItems(): self;
 
@@ -96,6 +98,8 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
 
     /**
      * Returns a copy of this collection only containing items a single time.
+     *
+     * @return static
      */
     public function unique(): self;
 }
