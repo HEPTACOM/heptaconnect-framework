@@ -67,6 +67,11 @@ abstract class AbstractCollection implements CollectionInterface
         $this->items = [];
     }
 
+    public function isEmpty(): bool
+    {
+        return $this->items === [];
+    }
+
     public function count(): int
     {
         return \count($this->items);
@@ -154,6 +159,66 @@ abstract class AbstractCollection implements CollectionInterface
         foreach ($this as $key => $value) {
             yield $this->executeAccessor($value, $keyAccessor, $key) => $this->executeAccessor($value, $valueAccessor, $value);
         }
+    }
+
+    /**
+     * Group items in maximum $size big chunks. The last chunk can be less than $size items.
+     *
+     * @psalm-param positive-int $size
+     * @psalm-return iterable<self&non-empty-list<T>>
+     */
+    public function chunk(int $size): iterable
+    {
+        $size = \max($size, 1);
+        $buffer = [];
+        $chunkIndex = 0;
+
+        foreach ($this as $item) {
+            $buffer[$chunkIndex++] = $item;
+
+            if (($chunkIndex % $size) === 0) {
+                $result = $this->withoutItems();
+                $result->push($buffer);
+                yield $result;
+                $buffer = [];
+            }
+        }
+
+        if ($buffer !== []) {
+            $result = $this->withoutItems();
+            $result->push($buffer);
+            yield $result;
+        }
+    }
+
+    /**
+     * Returns the items as a fixed size array. This is useful to use with methods that don't support iterables.
+     *
+     * @return array<T>
+     */
+    public function asArray(): array
+    {
+        return $this->items;
+    }
+
+    /**
+     * Reorders the collection into the opposite order it is now.
+     */
+    public function reverse(): void
+    {
+        $this->items = \array_reverse($this->items);
+    }
+
+    /**
+     * Create a new collection of the same type, but without any content.
+     */
+    public function withoutItems(): self
+    {
+        $that = clone $this;
+
+        $that->clear();
+
+        return $that;
     }
 
     /**
