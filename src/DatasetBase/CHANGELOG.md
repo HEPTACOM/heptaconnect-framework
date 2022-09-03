@@ -23,8 +23,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::asArray` from implementation into the interface `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::asArray`
 - Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::reverse` from implementation into the interface `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::reverse`
 - Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::isEmpty` from implementation into the interface `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::isEmpty`
-- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::contains` from implementation into the interface `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::contains`
-- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::unique` from implementation into the interface `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::unique`
 
 ### Changed
 

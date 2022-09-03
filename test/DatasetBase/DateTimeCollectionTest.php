@@ -22,11 +22,9 @@ final class DateTimeCollectionTest extends TestCase
     public function testInsertTypeInTypeCollection(\DateTimeInterface $item): void
     {
         $collection = new DateTimeCollection();
-        static::assertFalse($collection->contains($item));
         $collection->push([$item]);
         static::assertCount(1, $collection);
         static::assertEquals($item, $collection[0]);
-        static::assertTrue($collection->contains($item));
     }
 
     /**
@@ -35,9 +33,7 @@ final class DateTimeCollectionTest extends TestCase
     public function testInsertOtherTypeInTypeCollection($item): void
     {
         $collection = new DateTimeCollection();
-        static::assertFalse($collection->contains($item));
         $collection->push([$item]);
         static::assertCount(0, $collection);
-        static::assertFalse($collection->contains($item));
     }
 }

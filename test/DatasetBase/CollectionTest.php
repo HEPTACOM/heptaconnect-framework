@@ -234,19 +234,6 @@ final class CollectionTest extends TestCase
         static::assertSame($items, $collection->reverse()->asArray());
     }
 
-    public function testUnique(): void
-    {
-        $items = \range(1, 26);
-        $collection = new IntegerCollection($items);
-        $collection->push(\range(26, 1, -1));
-
-        static::assertCount(52, $collection);
-
-        $unique = $collection->unique();
-
-        static::assertCount(26, $unique);
-    }
-
     /**
      * @return iterable<string, array<int, array<int, DatasetEntityContract>>>
      */

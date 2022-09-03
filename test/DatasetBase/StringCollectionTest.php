@@ -22,11 +22,9 @@ final class StringCollectionTest extends TestCase
     public function testInsertTypeInTypeCollection(string $item): void
     {
         $collection = new StringCollection();
-        static::assertFalse($collection->contains($item));
         $collection->push([$item]);
         static::assertCount(1, $collection);
         static::assertEquals($item, $collection[0]);
-        static::assertTrue($collection->contains($item));
     }
 
     /**
@@ -35,10 +33,8 @@ final class StringCollectionTest extends TestCase
     public function testInsertOtherTypeInTypeCollection($item): void
     {
         $collection = new StringCollection();
-        static::assertFalse($collection->contains($item));
         $collection->push([$item]);
         static::assertCount(0, $collection);
-        static::assertFalse($collection->contains($item));
     }
 
     public function testJoin(): void

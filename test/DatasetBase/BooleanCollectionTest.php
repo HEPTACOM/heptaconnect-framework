@@ -21,10 +21,8 @@ final class BooleanCollectionTest extends TestCase
     public function testInsertTypeInTypeCollection(bool $item): void
     {
         $collection = new BooleanCollection();
-        static::assertFalse($collection->contains($item));
         $collection->push([$item]);
         static::assertCount(1, $collection);
         static::assertEquals($item, $collection[0]);
-        static::assertTrue($collection->contains($item));
     }
 }
