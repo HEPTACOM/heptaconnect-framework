@@ -156,6 +156,30 @@ abstract class AbstractCollection implements CollectionInterface
         }
     }
 
+    public function chunk(int $size): iterable
+    {
+        $size = \max($size, 1);
+        $buffer = [];
+        $chunkIndex = 0;
+
+        foreach ($this as $item) {
+            $buffer[$chunkIndex++] = $item;
+
+            if (($chunkIndex % $size) === 0) {
+                $result = $this->withoutItems();
+                $result->push($buffer);
+                yield $result;
+                $buffer = [];
+            }
+        }
+
+        if ($buffer !== []) {
+            $result = $this->withoutItems();
+            $result->push($buffer);
+            yield $result;
+        }
+    }
+
     /**
      * @psalm-param T $item
      */
@@ -197,5 +221,14 @@ abstract class AbstractCollection implements CollectionInterface
         }
 
         return $fallback;
+    }
+
+    public function withoutItems(): self
+    {
+        $that = clone $this;
+
+        $that->clear();
+
+        return $that;
     }
 }
