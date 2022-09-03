@@ -206,6 +206,20 @@ abstract class AbstractCollection implements CollectionInterface
         return $result;
     }
 
+    public function contains($value): bool
+    {
+        return \in_array($value, $this->items, true);
+    }
+
+    public function unique(): self
+    {
+        $result = $this->withoutItems();
+
+        $result->push(\array_unique($this->items, \SORT_REGULAR));
+
+        return $result;
+    }
+
     public function withoutItems(): self
     {
         $that = clone $this;
@@ -256,5 +270,44 @@ abstract class AbstractCollection implements CollectionInterface
         }
 
         return $fallback;
+    }
+
+    /**
+     * Alternative implementation for @see contains to check contains by more detailed object comparision.
+     * This is useful, when the collection contains items that can be equal even if they are not identical.
+     *
+     * @param T         $value
+     * @param Closure(T $a,    T $b): bool $equalsCondition
+     */
+    final protected function containsByEqualsCheck($value, \Closure $equalsCondition): bool
+    {
+        if (!$this->isValidItem($value)) {
+            return false;
+        }
+
+        foreach ($this->items as $item) {
+            if ($equalsCondition($item, $value)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Alternative implementation for @see unique to verify uniqueness by more detailed object comparision.
+     * This is useful, when the collection contains items that can be equal even if they are not identical.
+     */
+    final protected function uniqueByContains(): self
+    {
+        $result = $this->withoutItems();
+
+        foreach ($this as $item) {
+            if (!$result->contains($item)) {
+                $result->push([$item]);
+            }
+        }
+
+        return $result;
     }
 }

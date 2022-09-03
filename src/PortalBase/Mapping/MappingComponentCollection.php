@@ -18,6 +18,21 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
  */
 class MappingComponentCollection extends AbstractObjectCollection
 {
+    public function contains($value): bool
+    {
+        return $this->containsByEqualsCheck(
+            $value,
+            static fn (MappingComponentStructContract $a, MappingComponentStructContract $b): bool => $a->getPortalNodeKey()->equals($b->getPortalNodeKey())
+                && $a->getEntityType() === $b->getEntityType()
+                && $a->getExternalId() === $b->getExternalId()
+        );
+    }
+
+    public function unique(): self
+    {
+        return $this->uniqueByContains();
+    }
+
     /**
      * @psalm-return class-string<DatasetEntityContract>[]
      *
