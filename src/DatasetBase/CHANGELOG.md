@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add method `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::withoutItems` and implementation in `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::withoutItems` to create safely new instances of the same type but without content
 - Add method `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::chunk` and implementation in `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::chunk` to iterate over the items prepared in a buffer of a certain size
+- Add method `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::asArray` and implementation in `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::asArray` to access the items of the collection as fixed size array
 
 ### Changed
 

@@ -67,4 +67,11 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
      * @psalm-return iterable<self&non-empty-list<T>>
      */
     public function chunk(int $size): iterable;
+
+    /**
+     * Returns the items as a fixed size array. This is useful to use with methods that don't support iterables.
+     *
+     * @return array<T>
+     */
+    public function asArray(): array;
 }

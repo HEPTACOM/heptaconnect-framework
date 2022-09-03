@@ -213,6 +213,13 @@ final class CollectionTest extends TestCase
         static::assertSame([[1], [2], [3]], $chunks);
     }
 
+    public function testToArray(): void
+    {
+        $items = \range(1, 26);
+        $collection = new IntegerCollection($items);
+        static::assertSame($items, $collection->asArray());
+    }
+
     /**
      * @return iterable<string, array<int, array<int, DatasetEntityContract>>>
      */

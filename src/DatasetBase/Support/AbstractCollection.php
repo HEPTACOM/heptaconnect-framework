@@ -180,6 +180,11 @@ abstract class AbstractCollection implements CollectionInterface
         }
     }
 
+    public function asArray(): array
+    {
+        return $this->items;
+    }
+
     /**
      * @psalm-param T $item
      */
