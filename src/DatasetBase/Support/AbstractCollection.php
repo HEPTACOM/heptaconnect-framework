@@ -161,12 +161,6 @@ abstract class AbstractCollection implements CollectionInterface
         }
     }
 
-    /**
-     * Group items in maximum $size big chunks. The last chunk can be less than $size items.
-     *
-     * @psalm-param positive-int $size
-     * @psalm-return iterable<self&non-empty-list<T>>
-     */
     public function chunk(int $size): iterable
     {
         $size = \max($size, 1);
@@ -191,21 +185,11 @@ abstract class AbstractCollection implements CollectionInterface
         }
     }
 
-    /**
-     * Returns the items as a fixed size array. This is useful to use with methods that don't support iterables.
-     *
-     * @return array<T>
-     */
     public function asArray(): array
     {
         return $this->items;
     }
 
-    /**
-     * Returns the collection in reversed order.
-     *
-     * @return static
-     */
     public function reverse(): self
     {
         $result = $this->withoutItems();
@@ -215,19 +199,11 @@ abstract class AbstractCollection implements CollectionInterface
         return $result;
     }
 
-    /**
-     * Returns true, when the item is in the collection, otherwise false.
-     *
-     * @param T $value
-     */
     public function contains($value): bool
     {
         return \in_array($value, $this->items, true);
     }
 
-    /**
-     * Returns a copy of this collection only containing items a single time.
-     */
     public function unique(): self
     {
         $result = $this->withoutItems();
@@ -237,9 +213,6 @@ abstract class AbstractCollection implements CollectionInterface
         return $result;
     }
 
-    /**
-     * Create a new collection of the same type, but without any content.
-     */
     public function withoutItems(): self
     {
         $that = clone $this;

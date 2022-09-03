@@ -18,13 +18,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add exception code `1655559294` to `\Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract::__construct` when the given class string has a leading namespace separator
 - Add exception code `1655559295` to `\Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract::__construct` when the given class string does not refer to an existing class or interface
 - Add exception code `1655559296` to `\Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract::__construct` when the given class string is not of the expected type
-- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::withoutItems` to create safely new instances of the same type but without content
-- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::chunk` to iterate over the items prepared in a buffer of a certain size
-- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::asArray` to access the items of the collection as fixed size array
-- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::reverse` to get a reversed collection
-- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::isEmpty` to check whether the collection is empty without counting
-- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::contains` to check whether the given item is in the collection
-- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::unique` to build a collection with items that are not identical to the other items in the collection
+- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::withoutItems` from implementation into the interface `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::withoutItems`
+- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::chunk` from implementation into the interface `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::chunk`
+- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::asArray` from implementation into the interface `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::asArray`
+- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::reverse` from implementation into the interface `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::reverse`
+- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::isEmpty` from implementation into the interface `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::isEmpty`
+- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::contains` from implementation into the interface `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::contains`
+- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::unique` from implementation into the interface `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::unique`
 
 ### Changed
 
