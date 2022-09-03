@@ -33,7 +33,7 @@ final class PortalExtensionDeactivatePayload implements AttachmentAwareInterface
 
     public function addExtension(PortalExtensionType $portalExtensionType): void
     {
-        if ($this->extensions->has($portalExtensionType)) {
+        if ($this->extensions->contains($portalExtensionType)) {
             return;
         }
 
