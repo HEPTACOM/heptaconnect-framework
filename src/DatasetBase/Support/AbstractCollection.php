@@ -286,4 +286,21 @@ abstract class AbstractCollection implements CollectionInterface
 
         return false;
     }
+
+    /**
+     * Alternative implementation for @see unique to verify uniqueness by more detailed object comparision.
+     * This is useful, when the collection contains items that can be equal even if they are not identical.
+     */
+    final protected function uniqueByContains(): self
+    {
+        $result = $this->withoutItems();
+
+        foreach ($this as $item) {
+            if (!$result->contains($item)) {
+                $result->push([$item]);
+            }
+        }
+
+        return $result;
+    }
 }

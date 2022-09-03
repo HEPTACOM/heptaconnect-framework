@@ -20,6 +20,11 @@ class MappingNodeStructCollection extends AbstractObjectCollection
         );
     }
 
+    public function unique(): self
+    {
+        return $this->uniqueByContains();
+    }
+
     /**
      * @psalm-return Contract\MappingNodeStructInterface::class
      */

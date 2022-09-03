@@ -25,6 +25,11 @@ class MappingComponentCollection extends AbstractObjectCollection
         );
     }
 
+    public function unique(): self
+    {
+        return $this->uniqueByContains();
+    }
+
     /**
      * @psalm-return class-string<DatasetEntityContract>[]
      *
