@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeEntity
 
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
@@ -16,10 +16,7 @@ final class PortalNodeEntityListCriteria implements AttachmentAwareInterface
 
     private PortalNodeKeyInterface $portalNodeKey;
 
-    /**
-     * @var class-string<DatasetEntityContract>|null
-     */
-    private ?string $filterSupportedEntityType = null;
+    private ?ClassStringReferenceContract $filterSupportedEntityType = null;
 
     private bool $showExplorer = true;
 
@@ -43,18 +40,12 @@ final class PortalNodeEntityListCriteria implements AttachmentAwareInterface
         $this->portalNodeKey = $portalNodeKey;
     }
 
-    /**
-     * @return class-string<DatasetEntityContract>|null
-     */
-    public function getFilterSupportedEntityType(): ?string
+    public function getFilterSupportedEntityType(): ?ClassStringReferenceContract
     {
         return $this->filterSupportedEntityType;
     }
 
-    /**
-     * @param class-string<DatasetEntityContract>|null $filterSupportedEntityType
-     */
-    public function setFilterSupportedEntityType(?string $filterSupportedEntityType): void
+    public function setFilterSupportedEntityType(?ClassStringReferenceContract $filterSupportedEntityType): void
     {
         $this->filterSupportedEntityType = $filterSupportedEntityType;
     }

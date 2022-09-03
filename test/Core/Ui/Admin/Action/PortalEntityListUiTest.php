@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalEntityListUi;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListCriteria;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeEntityList\PortalNodeEntityListCriteria;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeEntityListUiActionInterface;
@@ -58,10 +59,10 @@ final class PortalEntityListUiTest extends TestCase
 
         \iterable_to_array($action->list($criteria));
 
-        self::assertSame($criteria->getShowExplorer(), $passedCriteria->getShowExplorer());
-        self::assertSame($criteria->getShowEmitter(), $passedCriteria->getShowEmitter());
-        self::assertSame($criteria->getShowReceiver(), $passedCriteria->getShowReceiver());
-        self::assertSame($criteria->getFilterSupportedEntityType(), $passedCriteria->getFilterSupportedEntityType());
+        static::assertSame($criteria->getShowExplorer(), $passedCriteria->getShowExplorer());
+        static::assertSame($criteria->getShowEmitter(), $passedCriteria->getShowEmitter());
+        static::assertSame($criteria->getShowReceiver(), $passedCriteria->getShowReceiver());
+        static::assertSame($criteria->getFilterSupportedEntityType(), $passedCriteria->getFilterSupportedEntityType());
     }
 
     public function testDeleteFakePortalAlsoOnError(): void
@@ -73,50 +74,50 @@ final class PortalEntityListUiTest extends TestCase
 
         self::expectException(\LogicException::class);
 
-        \iterable_to_array($action->list(new PortalEntityListCriteria(FooBarPortal::class)));
+        \iterable_to_array($action->list(new PortalEntityListCriteria(FooBarPortal::class())));
     }
 
     public function provideGoodFilters(): iterable
     {
-        $criteria = new PortalEntityListCriteria(FooBarPortal::class);
+        $criteria = new PortalEntityListCriteria(FooBarPortal::class());
 
         yield [$criteria];
 
-        $criteria = new PortalEntityListCriteria(FooBarPortal::class);
+        $criteria = new PortalEntityListCriteria(FooBarPortal::class());
         $criteria->setShowEmitter(false);
         $criteria->setShowExplorer(false);
         $criteria->setShowReceiver(true);
 
         yield [$criteria];
 
-        $criteria = new PortalEntityListCriteria(FooBarPortal::class);
+        $criteria = new PortalEntityListCriteria(FooBarPortal::class());
         $criteria->setShowEmitter(false);
         $criteria->setShowExplorer(true);
         $criteria->setShowReceiver(false);
 
         yield [$criteria];
 
-        $criteria = new PortalEntityListCriteria(FooBarPortal::class);
+        $criteria = new PortalEntityListCriteria(FooBarPortal::class());
         $criteria->setShowEmitter(true);
         $criteria->setShowExplorer(false);
         $criteria->setShowReceiver(false);
 
         yield [$criteria];
 
-        $criteria = new PortalEntityListCriteria(FooBarPortal::class);
+        $criteria = new PortalEntityListCriteria(FooBarPortal::class());
         $criteria->setShowEmitter(true);
         $criteria->setShowExplorer(true);
         $criteria->setShowReceiver(false);
 
         yield [$criteria];
 
-        $criteria = new PortalEntityListCriteria(FooBarPortal::class);
-        $criteria->setFilterSupportedEntityType(FooBarEntity::class);
+        $criteria = new PortalEntityListCriteria(FooBarPortal::class());
+        $criteria->setFilterSupportedEntityType(FooBarEntity::class());
 
         yield [$criteria];
 
-        $criteria = new PortalEntityListCriteria(FooBarPortal::class);
-        $criteria->setFilterSupportedEntityType(DatasetEntityContract::class);
+        $criteria = new PortalEntityListCriteria(FooBarPortal::class());
+        $criteria->setFilterSupportedEntityType(new UnsafeClassString(DatasetEntityContract::class));
 
         yield [$criteria];
     }
