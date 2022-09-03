@@ -30,6 +30,11 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
     public function clear(): void;
 
     /**
+     * Returns true, when no entry is in the collection, otherwise false.
+     */
+    public function isEmpty(): bool;
+
+    /**
      * @return T|null
      */
     public function first();

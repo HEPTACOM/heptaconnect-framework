@@ -62,8 +62,10 @@ final class CollectionTest extends TestCase
         $collection = new UsageStructCollection();
         $collection->push([new SerializationDatasetEntity(), new SerializationDatasetEntity()]);
         static::assertCount(2, $collection);
+        static::assertFalse($collection->isEmpty());
         $collection->clear();
         static::assertCount(0, $collection);
+        static::assertTrue($collection->isEmpty());
     }
 
     public function testFirst(): void
@@ -111,9 +113,11 @@ final class CollectionTest extends TestCase
         $collection = new UsageStructCollection();
         $collection->push([new SerializationDatasetEntity()]);
         static::assertCount(1, $collection->getIterator());
+        static::assertFalse($collection->isEmpty());
 
         $collection->clear();
         static::assertCount(0, $collection->getIterator());
+        static::assertTrue($collection->isEmpty());
     }
 
     public function testSerialization(): void
@@ -161,7 +165,9 @@ final class CollectionTest extends TestCase
             ],
         ], $coded);
 
+        static::assertFalse($collection->isEmpty());
         $collection->clear();
+        static::assertTrue($collection->isEmpty());
         $coded = $this->jsonEncodeAndDecode($collection);
         static::assertEmpty($coded);
     }
