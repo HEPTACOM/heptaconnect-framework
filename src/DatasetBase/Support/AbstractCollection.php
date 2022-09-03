@@ -290,6 +290,8 @@ abstract class AbstractCollection implements CollectionInterface
     /**
      * Alternative implementation for @see unique to verify uniqueness by more detailed object comparision.
      * This is useful, when the collection contains items that can be equal even if they are not identical.
+     *
+     * @return static
      */
     final protected function uniqueByContains(): self
     {
