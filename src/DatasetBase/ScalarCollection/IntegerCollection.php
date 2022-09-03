@@ -29,10 +29,10 @@ final class IntegerCollection extends AbstractCollection
         return (int) \max($this->items);
     }
 
-    public function sum(): ?int
+    public function sum(): int
     {
         if ($this->isEmpty()) {
-            return null;
+            return 0;
         }
 
         return (int) \array_sum($this->items);

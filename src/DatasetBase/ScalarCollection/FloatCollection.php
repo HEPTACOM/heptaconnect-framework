@@ -29,10 +29,10 @@ final class FloatCollection extends AbstractCollection
         return (float) \max($this->items);
     }
 
-    public function sum(): ?float
+    public function sum(): float
     {
         if ($this->isEmpty()) {
-            return null;
+            return 0.0;
         }
 
         return (float) \array_sum($this->items);
