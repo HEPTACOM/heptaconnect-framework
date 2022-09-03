@@ -59,9 +59,9 @@ class MappingComponentCollection extends AbstractObjectCollection
     }
 
     /**
-     * @psalm-return \Generator<MappingComponentStructContract>
+     * @return static
      */
-    public function filterByEntityType(EntityType $entityType): \Generator
+    public function filterByEntityType(EntityType $entityType): self
     {
         return $this->filter(
             static fn (MappingComponentStructContract $mc): bool => $mc->getEntityType()->equals($entityType)
@@ -69,9 +69,9 @@ class MappingComponentCollection extends AbstractObjectCollection
     }
 
     /**
-     * @psalm-return \Generator<MappingComponentStructContract>
+     * @return static
      */
-    public function filterByPortalNodeKey(PortalNodeKeyInterface $portalNodeKey): \Generator
+    public function filterByPortalNodeKey(PortalNodeKeyInterface $portalNodeKey): self
     {
         return $this->filter(
             static fn (MappingComponentStructContract $mc): bool => $mc->getPortalNodeKey()->equals($portalNodeKey)

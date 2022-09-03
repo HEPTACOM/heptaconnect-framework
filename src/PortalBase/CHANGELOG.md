@@ -30,6 +30,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Rename method `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken::getType` to `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken::getEntityType` with new return type for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Rename method `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken::getType` to `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken::getEntityType` with new return type for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Change `$portalClass` parameter in `\Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection::bySupport` to be a `\Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract` instead of a string for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Change return type of `\Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentCollection::filterByPortalNodeKey` from `Generator` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
+- Change return type of `\Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentCollection::filterByEntityType` from `Generator` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
 
 ### Deprecated
 

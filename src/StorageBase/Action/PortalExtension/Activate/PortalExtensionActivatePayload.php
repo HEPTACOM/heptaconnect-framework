@@ -42,9 +42,9 @@ final class PortalExtensionActivatePayload implements AttachmentAwareInterface
 
     public function removeExtension(PortalExtensionType $portalExtensionType): void
     {
-        $this->extensions = new PortalExtensionTypeCollection($this->extensions->filter(
+        $this->extensions = $this->extensions->filter(
             static fn (PortalExtensionType $item): bool => !$item->equals($portalExtensionType)
-        ));
+        );
     }
 
     public function getExtensions(): PortalExtensionTypeCollection

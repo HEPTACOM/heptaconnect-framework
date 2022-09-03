@@ -144,9 +144,16 @@ abstract class AbstractCollection implements CollectionInterface
         return $end === false ? null : $end;
     }
 
-    public function filter(callable $filterFn): \Generator
+    /**
+     * @return static
+     */
+    public function filter(callable $filterFn): self
     {
-        yield from \array_filter($this->items, $filterFn);
+        $result = $this->withoutItems();
+
+        $result->push(\array_filter($this->items, $filterFn));
+
+        return $result;
     }
 
     public function map(callable $mapFn): iterable
