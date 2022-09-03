@@ -10,7 +10,12 @@ use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
  * @covers \Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey
  */
@@ -19,8 +24,8 @@ final class PortalNodeKeyCollectionTest extends TestCase
     public function testContains(): void
     {
         $collection = new PortalNodeKeyCollection();
-        $key1 = new PreviewPortalNodeKey(Portal::class);
-        $key2 = new PreviewPortalNodeKey(Portal::class);
+        $key1 = new PreviewPortalNodeKey(Portal::class());
+        $key2 = new PreviewPortalNodeKey(Portal::class());
 
         static::assertFalse($collection->contains($key1));
         static::assertFalse($collection->contains($key2));
@@ -34,8 +39,8 @@ final class PortalNodeKeyCollectionTest extends TestCase
     public function testUnique(): void
     {
         $collection = new PortalNodeKeyCollection();
-        $key1 = new PreviewPortalNodeKey(Portal::class);
-        $key2 = new PreviewPortalNodeKey(Portal::class);
+        $key1 = new PreviewPortalNodeKey(Portal::class());
+        $key2 = new PreviewPortalNodeKey(Portal::class());
 
         static::assertFalse($collection->contains($key1));
         static::assertFalse($collection->contains($key2));

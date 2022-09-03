@@ -20,4 +20,17 @@ abstract class AbstractClassStringReferenceCollection extends AbstractObjectColl
 
         return false;
     }
+
+    public function contains($value): bool
+    {
+        return $this->containsByEqualsCheck(
+            $value,
+            static fn (ClassStringReferenceContract $a, ClassStringReferenceContract $b): bool => $a->equals($b)
+        );
+    }
+
+    public function unique(): AbstractCollection
+    {
+        return $this->uniqueByContains();
+    }
 }
