@@ -213,6 +213,15 @@ abstract class AbstractCollection implements CollectionInterface
         return $result;
     }
 
+    public function withoutItems(): self
+    {
+        $that = clone $this;
+
+        $that->clear();
+
+        return $that;
+    }
+
     /**
      * @psalm-param T $item
      */
@@ -254,15 +263,6 @@ abstract class AbstractCollection implements CollectionInterface
         }
 
         return $fallback;
-    }
-
-    public function withoutItems(): self
-    {
-        $that = clone $this;
-
-        $that->clear();
-
-        return $that;
     }
 
     /**
