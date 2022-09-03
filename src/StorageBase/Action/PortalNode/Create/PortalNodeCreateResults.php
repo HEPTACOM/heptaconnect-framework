@@ -16,6 +16,9 @@ final class PortalNodeCreateResults extends AbstractObjectCollection implements 
 {
     use AttachmentAwareTrait;
 
+    /**
+     * @psalm-param iterable<int, PortalNodeCreateResult> $items
+     */
     public function __construct(iterable $items = [])
     {
         parent::__construct($items);

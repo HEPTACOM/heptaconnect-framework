@@ -27,9 +27,13 @@
         <testsuite name="Storage Base Tests">
             <directory>StorageBase</directory>
         </testsuite>
+        <testsuite name="UI Admin Base Tests">
+            <directory>UiAdminBase</directory>
+        </testsuite>
     </testsuites>
     <coverage
         includeUncoveredFiles="true"
+        pathCoverage="true"
         processUncoveredFiles="true"
     >
         <include>
@@ -37,6 +41,7 @@
             <directory suffix=".php">../src/DatasetBase/</directory>
             <directory suffix=".php">../src/PortalBase/</directory>
             <directory suffix=".php">../src/StorageBase/</directory>
+            <directory suffix=".php">../src/UiAdminBase/</directory>
         </include>
     </coverage>
 </phpunit>

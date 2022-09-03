@@ -9,19 +9,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add `\Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString` based on class `\Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract` with `\Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection` and `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractClassStringReferenceCollection` to have a string references, that could be a class-string for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Add base class `\Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract` to have a type safe way to make class string references for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Add base class `\Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract` to have a type safe way to make class string references that are of a subtype for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Add `\Heptacom\HeptaConnect\Dataset\Base\EntityType` with `\Heptacom\HeptaConnect\Dataset\Base\EntityTypeCollection` as a type safe subtype class reference to `\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Add `\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract::class` as factory method to create an instance of `\Heptacom\HeptaConnect\Dataset\Base\EntityType` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Add `\Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException`, `\Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException` and `\Heptacom\HeptaConnect\Dataset\Base\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException` to reference class-string issues for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Add exception code `1655559294` to `\Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract::__construct` when the given class string has a leading namespace separator
+- Add exception code `1655559295` to `\Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract::__construct` when the given class string does not refer to an existing class or interface
+- Add exception code `1655559296` to `\Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract::__construct` when the given class string is not of the expected type
 - Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::withoutItems` to create safely new instances of the same type but without content
 - Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::chunk` to iterate over the items prepared in a buffer of a certain size
 - Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::asArray` to access the items of the collection as fixed size array
 - Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::reverse` to get a reversed collection
 - Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::isEmpty` to check whether the collection is empty without counting
 - Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::contains` to check whether the given item is in the collection
-- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::containsByEqualsCheck` for any extending class to build alternative contains implementations based upon comparison
 - Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::unique` to build a collection with items that are not identical to the other items in the collection
-- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::uniqueByContains` for any extending class to build alternative unique implementations based upon contain checks
 
 ### Changed
 
+- Change return type of `\Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface::getForeignEntityType` from `class-string` to `\Heptacom\HeptaConnect\Dataset\Base\EntityType` to improve type safety for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+
 ### Deprecated
+
+- Deprecate `\Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection::getType` in favour of `\Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection::getEntityType` to improve type safety for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Deprecate `$type` parameter in `\Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection::__construct` to be a string. Prefer an instance of `\Heptacom\HeptaConnect\Dataset\Base\EntityType` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 
 ### Removed
 

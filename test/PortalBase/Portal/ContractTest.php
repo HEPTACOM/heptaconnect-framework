@@ -6,6 +6,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Test\Portal;
 
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
+use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\Portal;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -55,9 +56,20 @@ final class ContractTest extends TestCase
     public function testExtendingPortalExtensionContract(): void
     {
         $portalExt = new class() extends PortalExtensionContract {
+            protected function supports(): string
+            {
+                return Portal::class;
+            }
+        };
+        static::assertCount(0, $portalExt->extendConfiguration(new OptionsResolver())->resolve());
+    }
+
+    public function testExtendingPortalExtensionContractLikeIn0Dot9(): void
+    {
+        $portalExt = new class() extends PortalExtensionContract {
             public function supports(): string
             {
-                return self::class;
+                return Portal::class;
             }
         };
         static::assertCount(0, $portalExt->extendConfiguration(new OptionsResolver())->resolve());
@@ -66,9 +78,9 @@ final class ContractTest extends TestCase
     public function testOverridingPathOfPortalExtensionContract(): void
     {
         $portalExt = new class() extends PortalExtensionContract {
-            public function supports(): string
+            protected function supports(): string
             {
-                return self::class;
+                return Portal::class;
             }
 
             public function getPsr4(): array

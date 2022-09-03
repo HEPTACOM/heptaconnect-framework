@@ -35,7 +35,7 @@ abstract class PortalExtensionTestContract extends TestCase
         $portalExtensionFind = $facade->getPortalExtensionFindAction();
 
         $firstPortalNode = $portalNodeCreate->create(new PortalNodeCreatePayloads([
-            new PortalNodeCreatePayload(PortalA::class),
+            new PortalNodeCreatePayload(PortalA::class()),
         ]))->first();
 
         static::assertInstanceOf(PortalNodeCreateResult::class, $firstPortalNode);
@@ -50,7 +50,7 @@ abstract class PortalExtensionTestContract extends TestCase
         static::assertFalse($portalExtensionFindResult->isActive($portalExtensionB));
 
         $portalExtensionActivatePayload = new PortalExtensionActivatePayload($portalNodeKey);
-        $portalExtensionActivatePayload->addExtension(PortalExtensionB::class);
+        $portalExtensionActivatePayload->addExtension(PortalExtensionB::class());
         $portalExtensionActivateResult = $portalExtensionActivate->activate($portalExtensionActivatePayload);
         $portalExtensionFindResult = $portalExtensionFind->find($portalNodeKey);
 
@@ -59,7 +59,7 @@ abstract class PortalExtensionTestContract extends TestCase
         static::assertTrue($portalExtensionFindResult->isActive($portalExtensionB));
 
         $portalExtensionDeactivatePayload = new PortalExtensionDeactivatePayload($portalNodeKey);
-        $portalExtensionDeactivatePayload->addExtension(PortalExtensionA::class);
+        $portalExtensionDeactivatePayload->addExtension(PortalExtensionA::class());
         $portalExtensionDeactivateResult = $portalExtensionDeactivate->deactivate($portalExtensionDeactivatePayload);
         $portalExtensionFindResult = $portalExtensionFind->find($portalNodeKey);
 

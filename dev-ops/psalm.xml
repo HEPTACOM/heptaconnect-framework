@@ -8,6 +8,7 @@
 >
     <issueHandlers>
         <LessSpecificReturnType errorLevel="info" />
+        <ImplicitToStringCast errorLevel="info" />
 
         <!-- DatasetBase -->
         <LessSpecificImplementedReturnType>
@@ -134,13 +135,6 @@
             </errorLevel>
         </MixedArgument>
 
-        <PossiblyInvalidArgument>
-            <errorLevel type="info">
-                <!-- having an empty array for an iterable is "invalid" -->
-                <file name="../src/PortalBase/Mapping/TypedMappedDatasetEntityCollection.php"/>
-            </errorLevel>
-        </PossiblyInvalidArgument>
-
         <MixedAssignment>
             <errorLevel type="info">
                 <!-- there is a lot of unclear content handling. You basically just know mixed -->
@@ -198,6 +192,7 @@
         <directory name="../src/DatasetBase/" />
         <directory name="../src/PortalBase/" />
         <directory name="../src/StorageBase/" />
+        <directory name="../src/UiAdminBase/" />
         <directory name="../src/TestSuiteStorage/" />
         <ignoreFiles>
             <directory name="../vendor/" />

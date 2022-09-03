@@ -5,7 +5,7 @@ PHPUNIT_EXTRA_ARGS := --config=test/phpunit.xml
 PHPUNIT := $(PHP) vendor/bin/phpunit $(PHPUNIT_EXTRA_ARGS)
 CURL := $(shell which curl)
 JQ := $(shell which jq)
-JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*' -not -path './.build/*' -not -path './src/Core/vendor/*' -not -path './src/DatasetBase/vendor/*' -not -path './src/PortalBase/vendor/*' -not -path './src/StorageBase/vendor/*' -not -path './src/TestSuiteStorage/vendor/*' -not -path './test/Core/Fixture/_files/portal-node-configuration-invalid.json')
+JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*' -not -path './.build/*' -not -path './dev-ops/bin/*/vendor/*' -not -path './src/Core/vendor/*' -not -path './src/DatasetBase/vendor/*' -not -path './src/PortalBase/vendor/*' -not -path './src/StorageBase/vendor/*' -not -path './src/TestSuiteStorage/vendor/*' -not -path './src/UiAdminBase/vendor/*' -not -path './test/Core/Fixture/_files/portal-node-configuration-invalid.json')
 GIT := $(shell which git)
 PHPSTAN_FILE := dev-ops/bin/phpstan/vendor/bin/phpstan
 COMPOSER_NORMALIZE_PHAR := https://github.com/ergebnis/composer-normalize/releases/download/2.22.0/composer-normalize.phar
@@ -17,6 +17,7 @@ PHPMD_FILE := dev-ops/bin/phpmd
 PSALM_FILE := dev-ops/bin/psalm/vendor/bin/psalm
 COMPOSER_UNUSED_FILE := dev-ops/bin/composer-unused/vendor/bin/composer-unused
 EASY_CODING_STANDARD_FILE := dev-ops/bin/easy-coding-standard/vendor/bin/ecs
+PHPCHURN_FILE := dev-ops/bin/php-churn/vendor/bin/churn
 
 .DEFAULT_GOAL := help
 .PHONY: help
@@ -39,6 +40,7 @@ clean: ## Cleans up all ignored files and directories
 	[[ ! -f dev-ops/bin/phpmd ]] || rm -f dev-ops/bin/phpmd
 	[[ ! -d dev-ops/bin/phpstan/vendor ]] || rm -rf dev-ops/bin/phpstan/vendor
 	[[ ! -d dev-ops/bin/psalm/vendor ]] || rm -rf dev-ops/bin/psalm/vendor
+	[[ ! -d dev-ops/bin/php-churn/vendor ]] || rm -rf dev-ops/bin/php-churn/vendor
 
 .PHONY: it
 it: cs-fix cs test ## Fix code style and run unit tests
@@ -51,7 +53,7 @@ run-phpunit-coverage:
 	$(PHPUNIT) --coverage-text
 
 .PHONY: cs
-cs: cs-php cs-phpstan cs-psalm cs-phpmd cs-soft-require cs-composer-unused cs-composer-normalize cs-json ## Run every code style check target
+cs: cs-php cs-phpstan cs-psalm cs-phpmd cs-soft-require cs-composer-unused cs-composer-normalize cs-json cs-phpchurn ## Run every code style check target
 
 .PHONY: cs-php
 cs-php: vendor .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standard for code style analysis
@@ -68,15 +70,15 @@ cs-psalm: vendor .build $(PSALM_FILE) ## Run psalm for static code analysis
 
 .PHONY: cs-phpmd
 cs-phpmd: vendor .build $(PHPMD_FILE) ## Run php mess detector for static code analysis
-	# TODO Re-add rulesets/unused.xml when phpmd fixes false-positive UnusedPrivateField
-	$(PHP) $(PHPMD_FILE) --ignore-violations-on-exit src ansi rulesets/codesize.xml,rulesets/naming.xml
-	[[ -f .build/phpmd-junit.xslt ]] || $(CURL) https://phpmd.org/junit.xslt -o .build/phpmd-junit.xslt
-	$(PHP) $(PHPMD_FILE) src xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md.junit.xml
-	$(PHP) $(PHPMD_FILE) src/Core xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-core.junit.xml
-	$(PHP) $(PHPMD_FILE) src/DatasetBase xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-dataset-base.junit.xml
-	$(PHP) $(PHPMD_FILE) src/PortalBase xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-portal-base.junit.xml
-	$(PHP) $(PHPMD_FILE) src/StorageBase xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-storage-base.junit.xml
-	$(PHP) $(PHPMD_FILE) src/TestSuiteStorage xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-test-suite-storage.junit.xml
+	[[ -z "${CI}" ]] || [[ -f .build/phpmd-junit.xslt ]] || $(CURL) https://phpmd.org/junit.xslt -o .build/phpmd-junit.xslt
+	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md.junit.xml
+	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/Core xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-core.junit.xml
+	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/DatasetBase xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-dataset-base.junit.xml
+	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/PortalBase xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-portal-base.junit.xml
+	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/StorageBase xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-storage-base.junit.xml
+	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/TestSuiteStorage xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-test-suite-storage.junit.xml
+	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/UiAdminBase xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-ui-admin-base.junit.xml
+	[[ -n "${CI}" ]] || $(PHP) $(PHPMD_FILE) src ansi dev-ops/phpmd.xml
 
 .PHONY: cs-composer-unused
 cs-composer-unused: vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to detect once-required packages that are not used anymore
@@ -86,6 +88,7 @@ cs-composer-unused: vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to det
 	cd src/PortalBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
 	cd src/StorageBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
 	cd src/TestSuiteStorage && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
+	cd src/UiAdminBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
 
 .PHONY: cs-soft-require
 cs-soft-require: vendor .build $(COMPOSER_REQUIRE_CHECKER_FILE) ## Run composer-require-checker to detect library usage without requirement entry in composer.json
@@ -99,9 +102,14 @@ cs-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-normali
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/PortalBase/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/StorageBase/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/TestSuiteStorage/composer.json
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/UiAdminBase/composer.json
 
 .PHONY: cs-json
 cs-json: $(JSON_FILES) ## Run jq on every json file to ensure they are parsable and therefore valid
+
+.PHONY: cs-phpchurn
+cs-phpchurn: vendor .build $(PHPCHURN_FILE) ## Run php-churn for prediction of refactoring cases
+	$(PHP) $(PHPCHURN_FILE) run --configuration dev-ops/churn.yml --format text
 
 .PHONY: $(JSON_FILES)
 $(JSON_FILES):
@@ -118,6 +126,7 @@ cs-fix-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-nor
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/PortalBase/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/StorageBase/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/TestSuiteStorage/composer.json
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/UiAdminBase/composer.json
 
 .PHONY: cs-fix-php
 cs-fix-php: vendor .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standard for automatic code style fixes
@@ -161,6 +170,9 @@ $(COMPOSER_UNUSED_FILE): ## Install composer-unused executable
 $(EASY_CODING_STANDARD_FILE): ## Install easy-coding-standard executable
 	$(COMPOSER) install -d dev-ops/bin/easy-coding-standard
 
+$(PHPCHURN_FILE): ## Install php-churn executable
+	$(COMPOSER) install -d dev-ops/bin/php-churn
+
 .PHONY: composer-update
 composer-update:
 	[[ -f vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) update
@@ -193,6 +205,7 @@ build-packages:
 	dev-ops/bin/build-subpackage PortalBase
 	dev-ops/bin/build-subpackage StorageBase
 	dev-ops/bin/build-subpackage TestSuiteStorage
+	dev-ops/bin/build-subpackage UiAdminBase
 
 .PHONY: publish-packages
 publish-packages: build-packages
@@ -203,6 +216,7 @@ publish-packages: build-packages
 	dev-ops/bin/publish-subpackage PortalBase portal-base "$(TAG)" "$(BRANCH)"
 	dev-ops/bin/publish-subpackage StorageBase storage-base "$(TAG)" "$(BRANCH)"
 	dev-ops/bin/publish-subpackage TestSuiteStorage test-suite-storage "$(TAG)" "$(BRANCH)"
+	dev-ops/bin/publish-subpackage UiAdminBase ui-admin-base "$(TAG)" "$(BRANCH)"
 	$(GIT) reset --hard HEAD^1
 
 .PHONY: subtree-merge

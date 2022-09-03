@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<ruleset
+    name="PHPMD rule set"
+    xmlns="http://pmd.sf.net/ruleset/1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"
+    xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd"
+>
+    <description>
+        HEPTAconnect rule set.
+    </description>
+
+    <rule ref="rulesets/codesize.xml" />
+
+    <rule ref="rulesets/naming.xml">
+        <exclude name="BooleanGetMethodName" />
+
+        <!-- Included with configuration below -->
+        <exclude name="LongClassName" />
+        <exclude name="LongVariable" />
+        <exclude name="ShortVariable" />
+    </rule>
+    <rule ref="rulesets/naming.xml/LongClassName">
+        <properties>
+            <property name="subtract-suffixes" value="ServiceContract,ServiceInterface,Collection,Contract,Interface"/>
+        </properties>
+    </rule>
+    <rule ref="rulesets/naming.xml/LongVariable">
+        <properties>
+            <property name="subtract-suffixes" value="Service,Collection"/>
+        </properties>
+    </rule>
+    <rule ref="rulesets/naming.xml/ShortVariable">
+        <properties>
+            <property name="minimum">
+                <value>2</value>
+            </property>
+        </properties>
+    </rule>
+</ruleset>

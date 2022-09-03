@@ -4,17 +4,13 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test;
 
-use Heptacom\HeptaConnect\Core\Portal\Exception\ClassNotFoundOnInstantionException;
 use Heptacom\HeptaConnect\Core\Portal\Exception\InaccessableConstructorOnInstantionException;
-use Heptacom\HeptaConnect\Core\Portal\Exception\UnexpectedClassInheritanceOnInstantionException;
 use Heptacom\HeptaConnect\Core\Portal\Exception\UnexpectedRequiredParameterInConstructorOnInstantionException;
 use Heptacom\HeptaConnect\Core\Portal\PortalFactory;
 use Heptacom\HeptaConnect\Core\Test\Fixture\DependentPortal;
 use Heptacom\HeptaConnect\Core\Test\Fixture\DependentPortalExtension;
 use Heptacom\HeptaConnect\Core\Test\Fixture\UninstantiablePortal;
 use Heptacom\HeptaConnect\Core\Test\Fixture\UninstantiablePortalExtension;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 use HeptacomFixture\Portal\A\Portal;
 use HeptacomFixture\Portal\Extension\PortalExtension;
 use PHPUnit\Framework\TestCase;
@@ -22,11 +18,16 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Heptacom\HeptaConnect\Core\Portal\Contract\PortalFactoryContract
  * @covers \Heptacom\HeptaConnect\Core\Portal\Exception\AbstractInstantiationException
- * @covers \Heptacom\HeptaConnect\Core\Portal\Exception\ClassNotFoundOnInstantionException
  * @covers \Heptacom\HeptaConnect\Core\Portal\Exception\InaccessableConstructorOnInstantionException
- * @covers \Heptacom\HeptaConnect\Core\Portal\Exception\UnexpectedClassInheritanceOnInstantionException
  * @covers \Heptacom\HeptaConnect\Core\Portal\Exception\UnexpectedRequiredParameterInConstructorOnInstantionException
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalFactory
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionType
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
  */
 final class PortalFactoryTest extends TestCase
 {
@@ -35,7 +36,7 @@ final class PortalFactoryTest extends TestCase
         $portalFactory = new PortalFactory();
         require_once __DIR__ . '/../../test-composer-integration/portal-package/src/Portal.php';
 
-        static::assertInstanceOf(Portal::class, $portalFactory->instantiatePortal(Portal::class));
+        static::assertInstanceOf(Portal::class, $portalFactory->instantiatePortal(Portal::class()));
     }
 
     public function testPortalExtension(): void
@@ -43,73 +44,7 @@ final class PortalFactoryTest extends TestCase
         $portalFactory = new PortalFactory();
         require_once __DIR__ . '/../../test-composer-integration/portal-package-extension/src/PortalExtension.php';
 
-        static::assertInstanceOf(PortalExtension::class, $portalFactory->instantiatePortalExtension(PortalExtension::class));
-    }
-
-    public function testFailingAtNonPortalClasses(): void
-    {
-        $portalFactory = new PortalFactory();
-
-        try {
-            /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */
-            $portalFactory->instantiatePortal(\DateTime::class);
-        } catch (UnexpectedClassInheritanceOnInstantionException $exception) {
-            static::assertEquals('DateTime', $exception->getClass());
-            static::assertEquals(PortalContract::class, $exception->getExpectedInheritedClass());
-
-            static::assertEquals(0, $exception->getCode());
-            static::assertNull($exception->getPrevious());
-            static::assertStringContainsString('Could not instantiate object', $exception->getMessage());
-        }
-    }
-
-    public function testFailingAtNonPortalExtensionClasses(): void
-    {
-        $portalFactory = new PortalFactory();
-
-        try {
-            /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */
-            $portalFactory->instantiatePortalExtension(\DateTime::class);
-        } catch (UnexpectedClassInheritanceOnInstantionException $exception) {
-            static::assertEquals('DateTime', $exception->getClass());
-            static::assertEquals(PortalExtensionContract::class, $exception->getExpectedInheritedClass());
-
-            static::assertEquals(0, $exception->getCode());
-            static::assertNull($exception->getPrevious());
-            static::assertStringContainsString('Could not instantiate object', $exception->getMessage());
-        }
-    }
-
-    public function testFailingAtNonExistingPortalClasses(): void
-    {
-        $portalFactory = new PortalFactory();
-
-        try {
-            /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */
-            $portalFactory->instantiatePortal('Unknown🙃Class');
-        } catch (ClassNotFoundOnInstantionException $exception) {
-            static::assertEquals('Unknown🙃Class', $exception->getClass());
-
-            static::assertEquals(0, $exception->getCode());
-            static::assertNull($exception->getPrevious());
-            static::assertStringContainsString('Could not instantiate object', $exception->getMessage());
-        }
-    }
-
-    public function testFailingAtNonExistingPortalExtensionClasses(): void
-    {
-        $portalFactory = new PortalFactory();
-
-        try {
-            /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */
-            $portalFactory->instantiatePortalExtension('Unknown🙃Class');
-        } catch (ClassNotFoundOnInstantionException $exception) {
-            static::assertEquals('Unknown🙃Class', $exception->getClass());
-
-            static::assertEquals(0, $exception->getCode());
-            static::assertNull($exception->getPrevious());
-            static::assertStringContainsString('Could not instantiate object', $exception->getMessage());
-        }
+        static::assertInstanceOf(PortalExtension::class, $portalFactory->instantiatePortalExtension(PortalExtension::class()));
     }
 
     public function testFailingAtNonInstantiablePortalClasses(): void
@@ -117,7 +52,7 @@ final class PortalFactoryTest extends TestCase
         $portalFactory = new PortalFactory();
 
         try {
-            $portalFactory->instantiatePortal(UninstantiablePortal::class);
+            $portalFactory->instantiatePortal(UninstantiablePortal::class());
         } catch (InaccessableConstructorOnInstantionException $exception) {
             static::assertEquals(UninstantiablePortal::class, $exception->getClass());
 
@@ -132,7 +67,7 @@ final class PortalFactoryTest extends TestCase
         $portalFactory = new PortalFactory();
 
         try {
-            $portalFactory->instantiatePortalExtension(UninstantiablePortalExtension::class);
+            $portalFactory->instantiatePortalExtension(UninstantiablePortalExtension::class());
         } catch (InaccessableConstructorOnInstantionException $exception) {
             static::assertEquals(UninstantiablePortalExtension::class, $exception->getClass());
 
@@ -147,7 +82,7 @@ final class PortalFactoryTest extends TestCase
         $portalFactory = new PortalFactory();
 
         try {
-            $portalFactory->instantiatePortal(DependentPortal::class);
+            $portalFactory->instantiatePortal(DependentPortal::class());
             static::fail();
         } catch (UnexpectedRequiredParameterInConstructorOnInstantionException $exception) {
             static::assertEquals(DependentPortal::class, $exception->getClass());
@@ -163,7 +98,7 @@ final class PortalFactoryTest extends TestCase
         $portalFactory = new PortalFactory();
 
         try {
-            $portalFactory->instantiatePortalExtension(DependentPortalExtension::class);
+            $portalFactory->instantiatePortalExtension(DependentPortalExtension::class());
             static::fail();
         } catch (UnexpectedRequiredParameterInConstructorOnInstantionException $exception) {
             static::assertEquals(DependentPortalExtension::class, $exception->getClass());
