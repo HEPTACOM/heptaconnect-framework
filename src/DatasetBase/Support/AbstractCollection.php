@@ -202,7 +202,7 @@ abstract class AbstractCollection implements CollectionInterface
     }
 
     /**
-     * Reorders the collection into the opposite order it is now..
+     * Reorders the collection into the opposite order it is now.
      */
     public function reverse(): void
     {
