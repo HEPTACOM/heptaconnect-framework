@@ -231,7 +231,8 @@ final class CollectionTest extends TestCase
         $items = \range(1, 26);
         $collection = new IntegerCollection($items);
         $items = \range(26, 1, -1);
-        static::assertSame($items, $collection->reverse()->asArray());
+        $collection->reverse();
+        static::assertSame($items, $collection->asArray());
     }
 
     public function testUnique(): void

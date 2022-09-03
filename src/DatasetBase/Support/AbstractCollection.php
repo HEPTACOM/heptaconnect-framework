@@ -197,13 +197,9 @@ abstract class AbstractCollection implements CollectionInterface
         return $this->items;
     }
 
-    public function reverse(): self
+    public function reverse(): void
     {
-        $result = $this->withoutItems();
-
-        $result->push(\array_reverse($this->items));
-
-        return $result;
+        $this->items = \array_reverse($this->items);
     }
 
     public function contains($value): bool

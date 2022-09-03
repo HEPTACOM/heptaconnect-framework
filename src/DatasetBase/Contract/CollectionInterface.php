@@ -83,11 +83,9 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
     public function asArray(): array;
 
     /**
-     * Returns the collection in reversed order.
-     *
-     * @return static
+     * Reorders the collection into the opposite order it is now.
      */
-    public function reverse(): self;
+    public function reverse(): void;
 
     /**
      * Returns true, when the item is in the collection, otherwise false.
