@@ -25,6 +25,9 @@ final class IntegerCollectionTest extends TestCase
         $collection->push([$item]);
         static::assertCount(1, $collection);
         static::assertEquals($item, $collection[0]);
+        static::assertSame($item, $collection->max());
+        static::assertSame($item, $collection->min());
+        static::assertSame($item, $collection->sum());
     }
 
     /**
@@ -35,5 +38,21 @@ final class IntegerCollectionTest extends TestCase
         $collection = new IntegerCollection();
         $collection->push([$item]);
         static::assertCount(0, $collection);
+        static::assertNull($collection->max());
+        static::assertNull($collection->min());
+        static::assertNull($collection->sum());
+    }
+
+    public function testAggregate(): void
+    {
+        $collection = new IntegerCollection();
+
+        foreach ($this->provideValidIntegerTestCases() as [$value]) {
+            $collection->push([$value]);
+        }
+
+        static::assertSame(922337203685477580, $collection->max());
+        static::assertSame(-922337203685477580, $collection->min());
+        static::assertSame(-994, $collection->sum());
     }
 }
