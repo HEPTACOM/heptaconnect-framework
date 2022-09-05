@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Core\Test;
 
 use Heptacom\HeptaConnect\Core\Component\LogMessage;
-use Heptacom\HeptaConnect\Core\Emission\Contract\EmissionActorInterface;
+use Heptacom\HeptaConnect\Core\Emission\Contract\EmissionFlowEmittersFactoryInterface;
 use Heptacom\HeptaConnect\Core\Emission\Contract\EmitContextFactoryInterface;
 use Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface;
 use Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderInterface;
+use Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackProcessorInterface;
 use Heptacom\HeptaConnect\Core\Emission\EmitService;
+use Heptacom\HeptaConnect\Core\Emission\EmitterStack;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
-use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\TypedMappingComponentCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -21,6 +22,7 @@ use Psr\Log\LoggerInterface;
 
 /**
  * @covers \Heptacom\HeptaConnect\Core\Emission\EmitService
+ * @covers \Heptacom\HeptaConnect\Core\Emission\EmitterStack
  * @covers \Heptacom\HeptaConnect\Core\Component\LogMessage
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
@@ -29,7 +31,6 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
- * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\TypedMappingComponentCollection
  */
@@ -45,7 +46,7 @@ final class EmitServiceTest extends TestCase
             ->method('getEntityType')
             ->willReturn(FooBarEntity::class());
 
-        $stack = new EmitterStack([], FooBarEntity::class());
+        $stack = new EmitterStack([], FooBarEntity::class(), $this->createMock(LoggerInterface::class));
         $stackBuilder = $this->createMock(EmitterStackBuilderInterface::class);
         $stackBuilder->method('build')->willReturn($stack);
         $stackBuilder->method('pushSource')->willReturnSelf();
@@ -59,7 +60,8 @@ final class EmitServiceTest extends TestCase
             $this->createMock(LoggerInterface::class),
             $this->createMock(StorageKeyGeneratorContract::class),
             $stackBuilderFactory,
-            $this->createMock(EmissionActorInterface::class),
+            $this->createMock(EmissionFlowEmittersFactoryInterface::class),
+            $this->createMock(EmitterStackProcessorInterface::class),
         );
         $emitService->emit(new TypedMappingComponentCollection(FooBarEntity::class(), \array_fill(0, $count, $mapping)));
     }
@@ -84,7 +86,7 @@ final class EmitServiceTest extends TestCase
             ->method('getEntityType')
             ->willReturn(FooBarEntity::class());
 
-        $stack = new EmitterStack([], FooBarEntity::class());
+        $stack = new EmitterStack([], FooBarEntity::class(), $this->createMock(LoggerInterface::class));
         $stackBuilder = $this->createMock(EmitterStackBuilderInterface::class);
         $stackBuilder->method('build')->willReturn($stack);
         $stackBuilder->method('pushSource')->willReturnSelf();
@@ -98,7 +100,8 @@ final class EmitServiceTest extends TestCase
             $logger,
             $this->createMock(StorageKeyGeneratorContract::class),
             $stackBuilderFactory,
-            $this->createMock(EmissionActorInterface::class),
+            $this->createMock(EmissionFlowEmittersFactoryInterface::class),
+            $this->createMock(EmitterStackProcessorInterface::class),
         );
         $emitService->emit(new TypedMappingComponentCollection(FooBarEntity::class(), \array_fill(0, $count, $mapping)));
     }
