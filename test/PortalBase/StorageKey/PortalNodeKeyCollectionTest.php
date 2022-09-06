@@ -51,7 +51,7 @@ final class PortalNodeKeyCollectionTest extends TestCase
         static::assertTrue($collection->contains($key2));
         static::assertCount(2, $collection);
 
-        $unique = $collection->unique();
+        $unique = $collection->asUnique();
 
         static::assertTrue($unique->contains($key1));
         static::assertTrue($unique->contains($key2));

@@ -21,7 +21,7 @@ class PortalNodeKeyCollection extends AbstractCollection
         );
     }
 
-    public function unique(): self
+    public function asUnique(): self
     {
         return $this->uniqueByContains();
     }

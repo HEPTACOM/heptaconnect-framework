@@ -243,7 +243,7 @@ final class CollectionTest extends TestCase
 
         static::assertCount(52, $collection);
 
-        $unique = $collection->unique();
+        $unique = $collection->asUnique();
 
         static::assertCount(26, $unique);
     }

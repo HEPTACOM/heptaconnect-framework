@@ -28,7 +28,7 @@ class MappingComponentCollection extends AbstractObjectCollection
         );
     }
 
-    public function unique(): self
+    public function asUnique(): self
     {
         return $this->uniqueByContains();
     }
@@ -40,14 +40,14 @@ class MappingComponentCollection extends AbstractObjectCollection
      */
     public function getEntityTypes(): array
     {
-        $entityTypes = (new EntityTypeCollection($this->column('getEntityType')))->unique()->asArray();
+        $entityTypes = (new EntityTypeCollection($this->column('getEntityType')))->asUnique()->asArray();
 
         return \array_map(static fn (EntityType $type): string => (string) $type, $entityTypes);
     }
 
     public function getPortalNodeKeys(): PortalNodeKeyCollection
     {
-        return (new PortalNodeKeyCollection($this->column('getPortalNodeKey')))->unique();
+        return (new PortalNodeKeyCollection($this->column('getPortalNodeKey')))->asUnique();
     }
 
     /**
@@ -55,7 +55,7 @@ class MappingComponentCollection extends AbstractObjectCollection
      */
     public function getExternalIds(): array
     {
-        return (new StringCollection($this->column('getExternalId')))->unique()->asArray();
+        return (new StringCollection($this->column('getExternalId')))->asUnique()->asArray();
     }
 
     /**

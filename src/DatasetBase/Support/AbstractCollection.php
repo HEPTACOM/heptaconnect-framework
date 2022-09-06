@@ -207,7 +207,7 @@ abstract class AbstractCollection implements CollectionInterface
         return \in_array($value, $this->items, true);
     }
 
-    public function unique(): self
+    public function asUnique(): self
     {
         $result = $this->withoutItems();
 
@@ -291,7 +291,7 @@ abstract class AbstractCollection implements CollectionInterface
     }
 
     /**
-     * Alternative implementation for @see unique to verify uniqueness by more detailed object comparision.
+     * Alternative implementation for @see asUnique to verify uniqueness by more detailed object comparision.
      * This is useful, when the collection contains items that can be equal even if they are not identical.
      *
      * @return static

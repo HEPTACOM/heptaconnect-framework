@@ -20,7 +20,7 @@ abstract class AbstractClassStringReferenceCollection extends AbstractObjectColl
         );
     }
 
-    public function unique(): AbstractCollection
+    public function asUnique(): AbstractCollection
     {
         return $this->uniqueByContains();
     }

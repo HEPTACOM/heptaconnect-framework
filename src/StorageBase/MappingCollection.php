@@ -22,7 +22,7 @@ class MappingCollection extends AbstractObjectCollection
         );
     }
 
-    public function unique(): self
+    public function asUnique(): self
     {
         return $this->uniqueByContains();
     }
