@@ -102,7 +102,7 @@ final class RouteAddUiTest extends TestCase
         static::assertSame($routeKey, $result->first()->getRouteKey());
     }
 
-    public function testPayloadIsButNotReturnedFromStorageSoItMustBeReverted(): void
+    public function testPayloadWrittenIsButNotReturnedFromStorageSoItMustBeReverted(): void
     {
         $routeCreateAction = $this->createMock(RouteCreateActionInterface::class);
         $routeFindAction = $this->createMock(RouteFindActionInterface::class);
