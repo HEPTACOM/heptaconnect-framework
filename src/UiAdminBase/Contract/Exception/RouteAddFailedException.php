@@ -22,7 +22,10 @@ final class RouteAddFailedException extends \InvalidArgumentException implements
         int $code,
         ?\Throwable $previous = null
     ) {
-        parent::__construct('Some route scenarios could not be created. Any just created scenarios were tried to delete', $code, $previous);
+        $allRevertedMessage = 'Some route scenarios could not be created. All just created scenarios were deleted';
+        $notAllRevertedMessage = 'Some route scenarios could not be created. Some just created scenarios could not be deleted';
+
+        parent::__construct($failedToRevert->isEmpty() ? $allRevertedMessage : $notAllRevertedMessage, $code, $previous);
         $this->failedToCreate = $failedToCreate;
         $this->failedToRevert = $failedToRevert;
         $this->createdAndReverted = $createdAndReverted;
