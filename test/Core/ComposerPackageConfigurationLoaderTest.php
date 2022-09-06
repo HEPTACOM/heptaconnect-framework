@@ -32,14 +32,14 @@ final class ComposerPackageConfigurationLoaderTest extends TestCase
             fn (PackageConfiguration $pkg): bool => $pkg->getName() === 'heptacom-fixture/heptaconnect-portal-extension-a'
         ));
         static::assertCount(3, $configs->filter(
-            fn (PackageConfiguration $pkg): bool => $pkg->getTags()->filter(
+            fn (PackageConfiguration $pkg): bool => !$pkg->getTags()->filter(
                 fn (string $tag): bool => \str_contains($tag, 'portal')
-            )->valid()
+            )->isEmpty()
         ));
         static::assertCount(0, $configs->filter(
-            fn (PackageConfiguration $pkg): bool => $pkg->getTags()->filter(
+            fn (PackageConfiguration $pkg): bool => !$pkg->getTags()->filter(
                 fn (string $tag): bool => !\str_starts_with($tag, 'heptaconnect-')
-            )->valid()
+            )->isEmpty()
         ));
         static::assertCount(2, $configs->filter(
             fn (PackageConfiguration $pkg): bool => \count(\array_filter(
