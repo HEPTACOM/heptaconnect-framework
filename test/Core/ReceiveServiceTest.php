@@ -8,18 +8,20 @@ use Heptacom\HeptaConnect\Core\Component\LogMessage;
 use Heptacom\HeptaConnect\Core\Reception\Contract\ReceiveContextFactoryInterface;
 use Heptacom\HeptaConnect\Core\Reception\Contract\ReceiverStackBuilderFactoryInterface;
 use Heptacom\HeptaConnect\Core\Reception\Contract\ReceiverStackBuilderInterface;
-use Heptacom\HeptaConnect\Core\Reception\Contract\ReceptionActorInterface;
+use Heptacom\HeptaConnect\Core\Reception\Contract\ReceiverStackProcessorInterface;
+use Heptacom\HeptaConnect\Core\Reception\Contract\ReceptionFlowReceiversFactoryInterface;
+use Heptacom\HeptaConnect\Core\Reception\ReceiverStack;
 use Heptacom\HeptaConnect\Core\Reception\ReceiveService;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
 use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverStackInterface;
-use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Reception\ReceiverStack
  * @covers \Heptacom\HeptaConnect\Core\Reception\ReceiveService
  * @covers \Heptacom\HeptaConnect\Core\Component\LogMessage
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
@@ -33,7 +35,6 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct
- * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack
  */
 final class ReceiveServiceTest extends TestCase
 {
@@ -62,7 +63,8 @@ final class ReceiveServiceTest extends TestCase
             $logger,
             $storageKeyGenerator,
             $stackBuilderFactory,
-            $this->createMock(ReceptionActorInterface::class),
+            $this->createMock(ReceiverStackProcessorInterface::class),
+            $this->createMock(ReceptionFlowReceiversFactoryInterface::class),
         );
         $portalNodeKey = $this->createMock(PortalNodeKeyInterface::class);
         $receiveService->receive(
@@ -83,7 +85,7 @@ final class ReceiveServiceTest extends TestCase
             ->method('critical')
             ->with(LogMessage::RECEIVE_NO_RECEIVER_FOR_TYPE());
 
-        $stack = new ReceiverStack([]);
+        $stack = new ReceiverStack([], $this->createMock(LoggerInterface::class));
         $stackBuilder = $this->createMock(ReceiverStackBuilderInterface::class);
         $stackBuilder->method('build')->willReturn($stack);
         $stackBuilder->method('pushSource')->willReturnSelf();
@@ -100,7 +102,8 @@ final class ReceiveServiceTest extends TestCase
             $logger,
             $storageKeyGenerator,
             $stackBuilderFactory,
-            $this->createMock(ReceptionActorInterface::class),
+            $this->createMock(ReceiverStackProcessorInterface::class),
+            $this->createMock(ReceptionFlowReceiversFactoryInterface::class),
         );
         $receiveService->receive(
             new TypedDatasetEntityCollection(FooBarEntity::class(), \array_fill(0, $count, new FooBarEntity())),

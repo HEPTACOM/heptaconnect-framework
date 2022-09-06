@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Emission;
 
+use Heptacom\HeptaConnect\Core\Emission\EmitterStack;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
-use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -29,7 +29,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection
- * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack
+ * @covers \Heptacom\HeptaConnect\Core\Emission\EmitterStack
  */
 final class ContractTest extends TestCase
 {
@@ -115,9 +115,19 @@ final class ContractTest extends TestCase
 
         $container->method('get')->willReturn($logger);
 
-        $emitted = new DatasetEntityCollection((new EmitterStack([$emitter], $emitter->getSupportedEntityType()))->next($externalIds, $context));
+        $emitted = new DatasetEntityCollection(
+            (new EmitterStack(
+                [$emitter],
+                $emitter->getSupportedEntityType(),
+                $this->createMock(LoggerInterface::class)
+            ))->next($externalIds, $context)
+        );
         $decoratedEmitted = new DatasetEntityCollection(
-            (new EmitterStack([$decoratingEmitter, $emitter], $emitter->getSupportedEntityType()))
+            (new EmitterStack(
+                [$decoratingEmitter, $emitter],
+                $emitter->getSupportedEntityType(),
+                $this->createMock(LoggerInterface::class)
+            ))
                 ->next($externalIds, $context)
         );
 
@@ -159,7 +169,14 @@ final class ContractTest extends TestCase
 
         $externalIds = ['foo'];
 
-        \iterable_to_array((new EmitterStack([$emitter], $emitter->getSupportedEntityType()))->next($externalIds, $context));
+        \iterable_to_array(
+            (new EmitterStack(
+                [$emitter],
+                $emitter->getSupportedEntityType(),
+                $this->createMock(LoggerInterface::class)
+            ))
+                ->next($externalIds, $context)
+        );
     }
 
     public function testRunMethodExtensionWhenNotImplemented(): void
@@ -175,6 +192,13 @@ final class ContractTest extends TestCase
         $context->expects(static::never())->method('markAsFailed');
         $externalIds = ['foo'];
 
-        \iterable_to_array((new EmitterStack([$emitter], $emitter->getSupportedEntityType()))->next($externalIds, $context));
+        \iterable_to_array(
+            (new EmitterStack(
+                [$emitter],
+                $emitter->getSupportedEntityType(),
+                $this->createMock(LoggerInterface::class)
+            ))
+                ->next($externalIds, $context)
+        );
     }
 }
