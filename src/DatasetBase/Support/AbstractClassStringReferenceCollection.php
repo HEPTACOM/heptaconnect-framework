@@ -19,9 +19,4 @@ abstract class AbstractClassStringReferenceCollection extends AbstractObjectColl
             static fn (ClassStringReferenceContract $a, ClassStringReferenceContract $b): bool => $a->equals($b)
         );
     }
-
-    public function unique(): AbstractCollection
-    {
-        return $this->uniqueByContains();
-    }
 }

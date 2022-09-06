@@ -99,5 +99,5 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
      *
      * @return static
      */
-    public function unique(): self;
+    public function asUnique(): self;
 }

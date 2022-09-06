@@ -16,6 +16,18 @@ final class StringCollection extends AbstractCollection
         return \implode($glue, $this->items);
     }
 
+    /**
+     * @return static
+     */
+    public function asUnique(): self
+    {
+        $result = $this->withoutItems();
+
+        $result->push(\array_map('strval', \array_keys(\array_flip($this->items))));
+
+        return $result;
+    }
+
     protected function isValidItem($item): bool
     {
         /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */
