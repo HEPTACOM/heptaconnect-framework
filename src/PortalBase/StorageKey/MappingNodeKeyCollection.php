@@ -21,11 +21,6 @@ class MappingNodeKeyCollection extends AbstractCollection
         );
     }
 
-    public function asUnique(): self
-    {
-        return $this->uniqueByContains();
-    }
-
     protected function isValidItem($item): bool
     {
         /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */

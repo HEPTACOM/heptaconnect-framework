@@ -22,11 +22,6 @@ class MappingCollection extends AbstractObjectCollection
         );
     }
 
-    public function asUnique(): self
-    {
-        return $this->uniqueByContains();
-    }
-
     /**
      * @return iterable<TypedMappingCollection>
      */

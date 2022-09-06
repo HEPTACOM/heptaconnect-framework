@@ -26,7 +26,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::contains` to check whether the given item is in the collection
 - Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::containsByEqualsCheck` for any extending class to build alternative contains implementations based upon comparison
 - Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::asUnique` to build a collection with items that are not identical to the other items in the collection
-- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::uniqueByContains` for any extending class to build alternative unique implementations based upon contain checks
 
 ### Changed
 
