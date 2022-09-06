@@ -23,7 +23,7 @@ class MappingComponentCollection extends AbstractObjectCollection
         return $this->containsByEqualsCheck(
             $value,
             static fn (MappingComponentStructContract $a, MappingComponentStructContract $b): bool => $a->getPortalNodeKey()->equals($b->getPortalNodeKey())
-                && $a->getEntityType() === $b->getEntityType()
+                && $a->getEntityType()->equals($b->getEntityType())
                 && $a->getExternalId() === $b->getExternalId()
         );
     }
