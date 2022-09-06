@@ -207,6 +207,9 @@ abstract class AbstractCollection implements CollectionInterface
         return \in_array($value, $this->items, true);
     }
 
+    /**
+     * @return static
+     */
     public function asUnique(): self
     {
         $result = $this->withoutItems();
