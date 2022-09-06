@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\IntegerCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\UsageStructCollection;
 use PHPUnit\Framework\TestCase;
@@ -12,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\IntegerCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\JsonSerializeObjectVarsTrait
@@ -60,8 +62,10 @@ final class CollectionTest extends TestCase
         $collection = new UsageStructCollection();
         $collection->push([new SerializationDatasetEntity(), new SerializationDatasetEntity()]);
         static::assertCount(2, $collection);
+        static::assertFalse($collection->isEmpty());
         $collection->clear();
         static::assertCount(0, $collection);
+        static::assertTrue($collection->isEmpty());
     }
 
     public function testFirst(): void
@@ -109,9 +113,11 @@ final class CollectionTest extends TestCase
         $collection = new UsageStructCollection();
         $collection->push([new SerializationDatasetEntity()]);
         static::assertCount(1, $collection->getIterator());
+        static::assertFalse($collection->isEmpty());
 
         $collection->clear();
         static::assertCount(0, $collection->getIterator());
+        static::assertTrue($collection->isEmpty());
     }
 
     public function testSerialization(): void
@@ -159,7 +165,9 @@ final class CollectionTest extends TestCase
             ],
         ], $coded);
 
+        static::assertFalse($collection->isEmpty());
         $collection->clear();
+        static::assertTrue($collection->isEmpty());
         $coded = $this->jsonEncodeAndDecode($collection);
         static::assertEmpty($coded);
     }
@@ -189,6 +197,55 @@ final class CollectionTest extends TestCase
             ],
         ]);
         static::assertCount(3, $collection);
+    }
+
+    public function testChunking(): void
+    {
+        $items = \range(1, 96);
+        $collection = new IntegerCollection($items);
+        $chunks = \iterable_to_array($collection->chunk(30));
+        $chunks = \array_map('iterable_to_array', $chunks);
+        static::assertCount(30, $chunks[0]);
+        static::assertCount(30, $chunks[1]);
+        static::assertCount(30, $chunks[2]);
+        static::assertCount(6, $chunks[3]);
+        static::assertSame(\array_chunk($items, 30), $chunks);
+
+        static::assertSame([], \iterable_to_array((new IntegerCollection())->chunk(10)));
+
+        $chunks = \iterable_to_array((new IntegerCollection([1, 2, 3]))->chunk(-5));
+        $chunks = \array_map('iterable_to_array', $chunks);
+
+        static::assertSame([[1], [2], [3]], $chunks);
+    }
+
+    public function testToArray(): void
+    {
+        $items = \range(1, 26);
+        $collection = new IntegerCollection($items);
+        static::assertSame($items, $collection->asArray());
+    }
+
+    public function testReverse(): void
+    {
+        $items = \range(1, 26);
+        $collection = new IntegerCollection($items);
+        $items = \range(26, 1, -1);
+        $collection->reverse();
+        static::assertSame($items, $collection->asArray());
+    }
+
+    public function testUnique(): void
+    {
+        $items = \range(1, 26);
+        $collection = new IntegerCollection($items);
+        $collection->push(\range(26, 1, -1));
+
+        static::assertCount(52, $collection);
+
+        $unique = $collection->unique();
+
+        static::assertCount(26, $unique);
     }
 
     /**

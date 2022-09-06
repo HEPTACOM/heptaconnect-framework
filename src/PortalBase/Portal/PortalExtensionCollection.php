@@ -15,9 +15,9 @@ class PortalExtensionCollection extends AbstractCollection
 {
     public function bySupport(ClassStringReferenceContract $portalClass): self
     {
-        return new self($this->filter(
+        return $this->filter(
             fn (PortalExtensionContract $extension) => $extension->getSupportedPortal()->isTypeOfClassString($portalClass)
-        ));
+        );
     }
 
     protected function isValidItem($item): bool

@@ -12,6 +12,21 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
  */
 class MappingCollection extends AbstractObjectCollection
 {
+    public function contains($value): bool
+    {
+        return $this->containsByEqualsCheck(
+            $value,
+            static fn (MappingInterface $a, MappingInterface $b): bool => $a->getMappingNodeKey()->equals($b->getMappingNodeKey())
+                && $a->getPortalNodeKey()->equals($b->getPortalNodeKey())
+                && $a->getExternalId() === $b->getExternalId()
+        );
+    }
+
+    public function unique(): self
+    {
+        return $this->uniqueByContains();
+    }
+
     /**
      * @return iterable<TypedMappingCollection>
      */
