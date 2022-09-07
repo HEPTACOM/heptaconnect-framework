@@ -20,6 +20,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\JobKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\ReadException;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\StorageKeyNotSupportedException;
 use PHPUnit\Framework\Constraint\IsIdentical;
 use PHPUnit\Framework\TestCase;
@@ -45,6 +46,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException
  * @covers \Heptacom\HeptaConnect\Storage\Base\JobKeyCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\ReadException
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\StorageKeyNotSupportedException
  */
 final class StorageKeyAccessorTest extends TestCase
@@ -87,7 +89,7 @@ final class StorageKeyAccessorTest extends TestCase
         static::assertFalse($accessor->exists($testKey));
     }
 
-    public function testPortalNodeKeyRaisesErrorInStorage(): void
+    public function testPortalNodeKeyIsIncompatibleWithStorageErrorInStorage(): void
     {
         $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
@@ -103,6 +105,26 @@ final class StorageKeyAccessorTest extends TestCase
 
         self::expectException(StorageKeyNotSupportedException::class);
         self::expectExceptionCode(1660417909);
+
+        $accessor->exists($testKey);
+    }
+
+    public function testPortalNodeKeyRaisesErrorInStorage(): void
+    {
+        $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
+        $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
+        $routeGetAction = $this->createMock(RouteGetActionInterface::class);
+        $jobGetAction = $this->createMock(JobGetActionInterface::class);
+        $testKey = $this->createMock(PortalNodeKeyInterface::class);
+
+        $portalNodeGetAction->expects(static::once())->method('get')->willThrowException(new \RuntimeException('woops'));
+        $routeGetAction->expects(static::never())->method('get');
+        $jobGetAction->expects(static::never())->method('get');
+
+        $accessor = new StorageKeyAccessor($storageKeyGenerator, $portalNodeGetAction, $routeGetAction, $jobGetAction);
+
+        self::expectException(ReadException::class);
+        self::expectExceptionCode(1660417911);
 
         $accessor->exists($testKey);
     }
@@ -151,7 +173,7 @@ final class StorageKeyAccessorTest extends TestCase
         static::assertFalse($accessor->exists($testKey));
     }
 
-    public function testRouteKeyRaisesErrorInStorage(): void
+    public function testRouteKeyIsIncompatibleWithStorageErrorInStorage(): void
     {
         $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
@@ -214,7 +236,7 @@ final class StorageKeyAccessorTest extends TestCase
         static::assertFalse($accessor->exists($testKey));
     }
 
-    public function testJobKeyRaisesErrorInStorage(): void
+    public function testRouteIsIncompatibleWithStorageErrorInStorage(): void
     {
         $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);

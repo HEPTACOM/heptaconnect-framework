@@ -19,6 +19,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add composer dependency `heptacom/heptaconnect-portal-base: self.version`
 - Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\BrowseCriteriaContract` to identify and pre-structure any browse criteria
 - Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PersistException` to allow as fallback exception when any write operation fails
+- Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\ReadException` to allow as fallback exception when any read operation fails
 - Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalExtensionIsAlreadyInactiveOnPortalNodeException` to identify portal extension state change to inactive is not possible as it is already deactivated
 - Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodesMissingException` to identify issues when portal nodes are referenced but don't exist
 - Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodeAliasIsAlreadyAssignedException` to identify exceptions when writing portal node aliases are not unique
