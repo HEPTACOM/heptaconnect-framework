@@ -142,9 +142,9 @@ abstract class RouteTestContract extends TestCase
             static::assertNotNull($findResult);
             /* @var RouteFindResult $findResult */
 
-            static::assertCount(1, \iterable_to_array($createResults->filter(
+            static::assertCount(1, $createResults->filter(
                 static fn (RouteCreateResult $r): bool => $r->getRouteKey()->equals($findResult->getRouteKey())
-            )));
+            ));
 
             $overviewCriteria = new RouteOverviewCriteria();
             $overviewCriteria->setEntityTypeFilter(new ClassStringReferenceCollection([$createPayload->getEntityType()]));

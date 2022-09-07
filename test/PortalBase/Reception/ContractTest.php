@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Reception;
 
+use Heptacom\HeptaConnect\Core\Reception\ReceiverStack;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiveContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverStackInterface;
-use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Reception\ReceiverStack
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
@@ -24,7 +26,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection
  */
 final class ContractTest extends TestCase
 {
@@ -107,9 +109,9 @@ final class ContractTest extends TestCase
         $entities = new TypedDatasetEntityCollection(FirstEntity::class(), [new FirstEntity()]);
 
         $singleStack = [$receiver];
-        static::assertCount(\count($singleStack), (new ReceiverStack($singleStack))->next($entities, $context));
+        static::assertCount(\count($singleStack), (new ReceiverStack($singleStack, $this->createMock(LoggerInterface::class)))->next($entities, $context));
 
         $decoratedStack = [$receiver, $decoratingReceiver];
-        static::assertCount(\count($decoratedStack), (new ReceiverStack($decoratedStack))->next($entities, $context));
+        static::assertCount(\count($decoratedStack), (new ReceiverStack($decoratedStack, $this->createMock(LoggerInterface::class)))->next($entities, $context));
     }
 }

@@ -33,7 +33,7 @@ final class PortalExtensionActivatePayload implements AttachmentAwareInterface
 
     public function addExtension(PortalExtensionType $portalExtensionType): void
     {
-        if ($this->extensions->has($portalExtensionType)) {
+        if ($this->extensions->contains($portalExtensionType)) {
             return;
         }
 
@@ -42,9 +42,9 @@ final class PortalExtensionActivatePayload implements AttachmentAwareInterface
 
     public function removeExtension(PortalExtensionType $portalExtensionType): void
     {
-        $this->extensions = new PortalExtensionTypeCollection($this->extensions->filter(
+        $this->extensions = $this->extensions->filter(
             static fn (PortalExtensionType $item): bool => !$item->equals($portalExtensionType)
-        ));
+        );
     }
 
     public function getExtensions(): PortalExtensionTypeCollection
