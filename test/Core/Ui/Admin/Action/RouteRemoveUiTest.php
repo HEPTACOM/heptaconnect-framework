@@ -16,7 +16,7 @@ use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteRemove\RouteRemoveCriteria;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PersistException;
-use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\RouteMissingException;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\RoutesMissingException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -37,7 +37,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteRemove\RouteRemoveCriteria
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PersistException
- * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\RouteMissingException
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\RoutesMissingException
  */
 final class RouteRemoveUiTest extends TestCase
 {
@@ -80,7 +80,7 @@ final class RouteRemoveUiTest extends TestCase
             $routeKey,
         ]));
 
-        self::expectException(RouteMissingException::class);
+        self::expectException(RoutesMissingException::class);
 
         $action->remove($criteria);
     }

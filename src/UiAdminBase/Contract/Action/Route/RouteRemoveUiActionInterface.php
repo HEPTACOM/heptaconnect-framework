@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Route;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteRemove\RouteRemoveCriteria;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\InvalidArgumentThrowableInterface;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PersistException;
-use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\RouteMissingException;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\RoutesMissingException;
 
 interface RouteRemoveUiActionInterface
 {
@@ -16,7 +16,7 @@ interface RouteRemoveUiActionInterface
      *
      * @throws InvalidArgumentThrowableInterface
      * @throws PersistException
-     * @throws RouteMissingException
+     * @throws RoutesMissingException
      */
     public function remove(RouteRemoveCriteria $criteria): void;
 }
