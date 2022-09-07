@@ -6,6 +6,8 @@ namespace Heptacom\HeptaConnect\Portal\Base\Mapping;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\EntityType;
+use Heptacom\HeptaConnect\Dataset\Base\EntityTypeCollection;
+use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -16,6 +18,16 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
  */
 class MappingComponentCollection extends AbstractObjectCollection
 {
+    public function contains($value): bool
+    {
+        return $this->containsByEqualsCheck(
+            $value,
+            static fn (MappingComponentStructContract $a, MappingComponentStructContract $b): bool => $a->getPortalNodeKey()->equals($b->getPortalNodeKey())
+                && $a->getEntityType()->equals($b->getEntityType())
+                && $a->getExternalId() === $b->getExternalId()
+        );
+    }
+
     /**
      * @psalm-return class-string<DatasetEntityContract>[]
      *
@@ -23,30 +35,14 @@ class MappingComponentCollection extends AbstractObjectCollection
      */
     public function getEntityTypes(): array
     {
-        /** @var string[] $result */
-        /** @psalm-var class-string<DatasetEntityContract>[] $result */
-        $result = [];
+        $entityTypes = (new EntityTypeCollection($this->column('getEntityType')))->asUnique()->asArray();
 
-        /** @var MappingComponentStructContract $mappingComponent */
-        foreach ($this->getIterator() as $mappingComponent) {
-            if (!\in_array((string) $mappingComponent->getEntityType(), $result, true)) {
-                $result[] = (string) $mappingComponent->getEntityType();
-            }
-        }
-
-        return $result;
+        return \array_map(static fn (EntityType $type): string => (string) $type, $entityTypes);
     }
 
     public function getPortalNodeKeys(): PortalNodeKeyCollection
     {
-        $preResult = [];
-
-        foreach ($this->getIterator() as $mappingComponent) {
-            $portalNodeKey = $mappingComponent->getPortalNodeKey();
-            $preResult[\json_encode($portalNodeKey)] = $portalNodeKey;
-        }
-
-        return new PortalNodeKeyCollection(\array_values($preResult));
+        return (new PortalNodeKeyCollection($this->column('getPortalNodeKey')))->asUnique();
     }
 
     /**
@@ -54,19 +50,13 @@ class MappingComponentCollection extends AbstractObjectCollection
      */
     public function getExternalIds(): array
     {
-        $preResult = [];
-
-        foreach ($this->getIterator() as $mappingComponent) {
-            $preResult[$mappingComponent->getExternalId()] = $mappingComponent->getExternalId();
-        }
-
-        return \array_values($preResult);
+        return (new StringCollection($this->column('getExternalId')))->asUnique()->asArray();
     }
 
     /**
-     * @psalm-return \Generator<MappingComponentStructContract>
+     * @return static
      */
-    public function filterByEntityType(EntityType $entityType): \Generator
+    public function filterByEntityType(EntityType $entityType): self
     {
         return $this->filter(
             static fn (MappingComponentStructContract $mc): bool => $mc->getEntityType()->equals($entityType)
@@ -74,9 +64,9 @@ class MappingComponentCollection extends AbstractObjectCollection
     }
 
     /**
-     * @psalm-return \Generator<MappingComponentStructContract>
+     * @return static
      */
-    public function filterByPortalNodeKey(PortalNodeKeyInterface $portalNodeKey): \Generator
+    public function filterByPortalNodeKey(PortalNodeKeyInterface $portalNodeKey): self
     {
         return $this->filter(
             static fn (MappingComponentStructContract $mc): bool => $mc->getPortalNodeKey()->equals($portalNodeKey)

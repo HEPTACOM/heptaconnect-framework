@@ -21,7 +21,7 @@ use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionActivate\PortalNodeExtensionActivatePayload;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\NoMatchForPackageQueryException;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalExtensionsAreAlreadyActiveOnPortalNodeException;
-use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodeMissingException;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodesMissingException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -52,7 +52,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\BrowseCriteriaContract
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\NoMatchForPackageQueryException
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalExtensionsAreAlreadyActiveOnPortalNodeException
- * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodeMissingException
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodesMissingException
  */
 final class PortalNodeExtensionActivateUiTest extends TestCase
 {
@@ -124,7 +124,7 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
             FooBarPortalExtension::class(),
         ]));
 
-        self::expectException(PortalNodeMissingException::class);
+        self::expectException(PortalNodesMissingException::class);
 
         $action->activate($payload);
     }
