@@ -279,6 +279,29 @@ final class StorageKeyAccessorTest extends TestCase
     /**
      * @dataProvider provideSerializationStorageKeys
      */
+    public function testKeySerializeFailsInImplementation(StorageKeyInterface $key): void
+    {
+        $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
+        $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
+        $routeGetAction = $this->createMock(RouteGetActionInterface::class);
+        $jobGetAction = $this->createMock(JobGetActionInterface::class);
+
+        $storageKeyGenerator->expects(static::once())->method('serialize')->willThrowException(new \RuntimeException('Woopsie'));
+        $portalNodeGetAction->expects(static::never())->method('get');
+        $routeGetAction->expects(static::never())->method('get');
+        $jobGetAction->expects(static::never())->method('get');
+
+        self::expectException(ReadException::class);
+        self::expectExceptionCode(1660417912);
+
+        $accessor = new StorageKeyAccessor($storageKeyGenerator, $portalNodeGetAction, $routeGetAction, $jobGetAction);
+
+        $accessor->serialize($key);
+    }
+
+    /**
+     * @dataProvider provideSerializationStorageKeys
+     */
     public function testKeyDeserialize(StorageKeyInterface $key): void
     {
         $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
@@ -294,6 +317,26 @@ final class StorageKeyAccessorTest extends TestCase
         $accessor = new StorageKeyAccessor($storageKeyGenerator, $portalNodeGetAction, $routeGetAction, $jobGetAction);
 
         static::assertSame($key, $accessor->deserialize('foobar'));
+    }
+
+    public function testKeyDeserializeFailsInImplementation(): void
+    {
+        $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
+        $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
+        $routeGetAction = $this->createMock(RouteGetActionInterface::class);
+        $jobGetAction = $this->createMock(JobGetActionInterface::class);
+
+        $storageKeyGenerator->expects(static::once())->method('deserialize')->willThrowException(new \RuntimeException('Woopsie'));
+        $portalNodeGetAction->expects(static::never())->method('get');
+        $routeGetAction->expects(static::never())->method('get');
+        $jobGetAction->expects(static::never())->method('get');
+
+        $accessor = new StorageKeyAccessor($storageKeyGenerator, $portalNodeGetAction, $routeGetAction, $jobGetAction);
+
+        self::expectException(ReadException::class);
+        self::expectExceptionCode(1660417913);
+
+        $accessor->deserialize('foobar');
     }
 
     public function provideSerializationStorageKeys(): iterable
