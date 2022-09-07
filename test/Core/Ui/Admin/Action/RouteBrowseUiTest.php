@@ -45,7 +45,7 @@ final class RouteBrowseUiTest extends TestCase
 
         $routeOverviewAction = $this->createMock(RouteOverviewActionInterface::class);
         $routeOverviewAction->method('overview')
-            ->willReturnCallback(static function (RouteOverviewCriteria $crit) use (&$storageCriteria) : iterable {
+            ->willReturnCallback(static function (RouteOverviewCriteria $crit) use (&$storageCriteria): iterable {
                 $storageCriteria = $crit;
 
                 return [];
