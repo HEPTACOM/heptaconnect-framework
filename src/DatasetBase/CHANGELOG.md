@@ -18,10 +18,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add exception code `1655559294` to `\Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract::__construct` when the given class string has a leading namespace separator
 - Add exception code `1655559295` to `\Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract::__construct` when the given class string does not refer to an existing class or interface
 - Add exception code `1655559296` to `\Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract::__construct` when the given class string is not of the expected type
+- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::withoutItems` from implementation into the interface `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::withoutItems`
+- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::chunk` from implementation into the interface `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::chunk`
+- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::asArray` from implementation into the interface `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::asArray`
+- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::reverse` from implementation into the interface `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::reverse`
+- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::isEmpty` from implementation into the interface `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::isEmpty`
+- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::contains` to check whether the given item is in the collection
+- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::containsByEqualsCheck` for any extending class to build alternative contains implementations based upon comparison
+- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::asUnique` to build a collection with items that are not identical to the other items in the collection
 
 ### Changed
 
 - Change return type of `\Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface::getForeignEntityType` from `class-string` to `\Heptacom\HeptaConnect\Dataset\Base\EntityType` to improve type safety for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Change return type of `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::filter` from `Generator` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
 
 ### Deprecated
 
@@ -33,6 +42,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ### Security
+
+## [0.9.1.0] - 2022-08-15
+
+### Added
+
+- Add method `\Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection::join` to implode strings
 
 ## [0.9.0.2] - 2022-04-23
 

@@ -12,12 +12,11 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
  */
 abstract class AbstractClassStringReferenceCollection extends AbstractObjectCollection
 {
-    public function has(ClassStringReferenceContract $classString): bool
+    public function contains($value): bool
     {
-        foreach ($this->filter([$classString, 'equals']) as $_) {
-            return true;
-        }
-
-        return false;
+        return $this->containsByEqualsCheck(
+            $value,
+            static fn (ClassStringReferenceContract $a, ClassStringReferenceContract $b): bool => $a->equals($b)
+        );
     }
 }
