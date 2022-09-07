@@ -119,9 +119,9 @@ abstract class RouteTestContract extends TestCase
             static::assertNotNull($findResult);
             /* @var RouteFindResult $findResult */
 
-            static::assertCount(1, \iterable_to_array($createResults->filter(
+            static::assertCount(1, $createResults->filter(
                 static fn (RouteCreateResult $r): bool => $r->getRouteKey()->equals($findResult->getRouteKey())
-            )));
+            ));
 
             $routeGetCriteria = new RouteGetCriteria(new RouteKeyCollection([$findResult->getRouteKey()]));
             /** @var RouteGetResult[] $getResults */

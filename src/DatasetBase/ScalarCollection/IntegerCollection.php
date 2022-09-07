@@ -11,6 +11,45 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
  */
 final class IntegerCollection extends AbstractCollection
 {
+    public function min(): ?int
+    {
+        if ($this->isEmpty()) {
+            return null;
+        }
+
+        return (int) \min($this->items);
+    }
+
+    public function max(): ?int
+    {
+        if ($this->isEmpty()) {
+            return null;
+        }
+
+        return (int) \max($this->items);
+    }
+
+    public function sum(): int
+    {
+        if ($this->isEmpty()) {
+            return 0;
+        }
+
+        return (int) \array_sum($this->items);
+    }
+
+    /**
+     * @return static
+     */
+    public function asUnique(): self
+    {
+        $result = $this->withoutItems();
+
+        $result->push(\array_keys(\array_flip($this->items)));
+
+        return $result;
+    }
+
     protected function isValidItem($item): bool
     {
         /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */
