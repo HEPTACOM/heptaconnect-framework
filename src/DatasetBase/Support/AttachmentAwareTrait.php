@@ -19,9 +19,9 @@ trait AttachmentAwareTrait
     public function attach(AttachableInterface $attachment): void
     {
         $className = \get_class($attachment);
-        $attachments = new AttachmentCollection($this->attachments->filter(
+        $attachments = $this->attachments->filter(
             fn (AttachableInterface $attachment): bool => \get_class($attachment) !== $className
-        ));
+        );
         $attachments->push([$attachment]);
 
         $this->attachments = $attachments;
@@ -33,16 +33,14 @@ trait AttachmentAwareTrait
             return false;
         }
 
-        return $this->attachments->filter(
-            fn (AttachableInterface $attachment): bool => $attachment instanceof $class
-        )->valid();
+        return !$this->attachments
+            ->filter(static fn (AttachableInterface $attachment): bool => $attachment instanceof $class)
+            ->isEmpty();
     }
 
     public function isAttached(AttachableInterface $attachable): bool
     {
-        return $this->attachments->filter(
-            fn (AttachableInterface $attachment): bool => $attachment === $attachable
-        )->valid();
+        return $this->attachments->contains($attachable);
     }
 
     public function getAttachment(string $class): ?AttachableInterface
@@ -51,19 +49,17 @@ trait AttachmentAwareTrait
             return null;
         }
 
-        $iterator = $this->attachments->filter(
+        $attachments = $this->attachments->filter(
             fn (AttachableInterface $attachment): bool => \get_class($attachment) === $class
         );
 
-        if ($iterator->valid() && ($attachment = $iterator->current()) instanceof $class) {
+        if (!$attachments->isEmpty() && ($attachment = $attachments->first()) instanceof $class) {
             return $attachment;
         }
 
-        $iterator = $this->attachments->filter(
-            fn (AttachableInterface $attachment): bool => $attachment instanceof $class
-        );
-
-        return $iterator->valid() ? $iterator->current() : null;
+        return $this->attachments
+            ->filter(fn (AttachableInterface $attachment): bool => $attachment instanceof $class)
+            ->first();
     }
 
     public function detachByType(string $class): void
@@ -72,15 +68,15 @@ trait AttachmentAwareTrait
             return;
         }
 
-        $this->attachments = new AttachmentCollection($this->attachments->filter(
+        $this->attachments = $this->attachments->filter(
             fn (AttachableInterface $attachment): bool => !$attachment instanceof $class
-        ));
+        );
     }
 
     public function detach(AttachableInterface $attachable): void
     {
-        $this->attachments = new AttachmentCollection($this->attachments->filter(
+        $this->attachments = $this->attachments->filter(
             fn (AttachableInterface $attachment): bool => $attachment !== $attachable
-        ));
+        );
     }
 }
