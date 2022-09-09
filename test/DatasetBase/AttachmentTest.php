@@ -124,26 +124,32 @@ final class AttachmentTest extends TestCase
         $attachment2 = new AttachmentAChild();
 
         static::assertCount(0, $attachableAware->getAttachments());
+        static::assertTrue($attachableAware->getAttachments()->isEmpty());
 
         $attachableAware->attach($attachment1);
 
         static::assertCount(1, $attachableAware->getAttachments());
+        static::assertFalse($attachableAware->getAttachments()->isEmpty());
 
         $attachableAware->attach($attachment2);
 
         static::assertCount(2, $attachableAware->getAttachments());
+        static::assertFalse($attachableAware->getAttachments()->isEmpty());
 
         $attachableAware->getAttachments()->clear();
 
         static::assertCount(0, $attachableAware->getAttachments());
+        static::assertTrue($attachableAware->getAttachments()->isEmpty());
 
         $attachableAware->attach($attachment2);
 
         static::assertCount(1, $attachableAware->getAttachments());
+        static::assertFalse($attachableAware->getAttachments()->isEmpty());
 
         $attachableAware->attach($attachment1);
 
         static::assertCount(2, $attachableAware->getAttachments());
+        static::assertFalse($attachableAware->getAttachments()->isEmpty());
     }
 
     public function testAttachmentTypeChecksCanBeNonAttachableInterfaces(): void

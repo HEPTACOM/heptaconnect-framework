@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
  */
@@ -39,6 +40,11 @@ final class ContractTest extends TestCase
             public function getFlowComponentsPath(): string
             {
                 return '__DIR__';
+            }
+
+            public function getContainerExcludedClasses(): array
+            {
+                return \array_merge(parent::getContainerExcludedClasses(), [self::class]);
             }
         };
 
@@ -95,6 +101,11 @@ final class ContractTest extends TestCase
             public function isActiveByDefault(): bool
             {
                 return false;
+            }
+
+            public function getContainerExcludedClasses(): array
+            {
+                return \array_merge(parent::getContainerExcludedClasses(), [self::class]);
             }
         };
 

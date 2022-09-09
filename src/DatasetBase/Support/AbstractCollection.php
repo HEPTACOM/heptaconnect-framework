@@ -9,6 +9,10 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface;
 /**
  * @template T
  * @template-implements CollectionInterface<T>
+ *
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.TooManyMethods)
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 abstract class AbstractCollection implements CollectionInterface
 {
@@ -65,6 +69,11 @@ abstract class AbstractCollection implements CollectionInterface
     public function clear(): void
     {
         $this->items = [];
+    }
+
+    public function isEmpty(): bool
+    {
+        return $this->items === [];
     }
 
     public function count(): int
@@ -139,9 +148,16 @@ abstract class AbstractCollection implements CollectionInterface
         return $end === false ? null : $end;
     }
 
-    public function filter(callable $filterFn): \Generator
+    /**
+     * @return static
+     */
+    public function filter(callable $filterFn): self
     {
-        yield from \array_filter($this->items, $filterFn);
+        $result = $this->withoutItems();
+
+        $result->push(\array_filter($this->items, $filterFn));
+
+        return $result;
     }
 
     public function map(callable $mapFn): iterable
@@ -154,6 +170,70 @@ abstract class AbstractCollection implements CollectionInterface
         foreach ($this as $key => $value) {
             yield $this->executeAccessor($value, $keyAccessor, $key) => $this->executeAccessor($value, $valueAccessor, $value);
         }
+    }
+
+    public function chunk(int $size): iterable
+    {
+        $size = \max($size, 1);
+        $buffer = [];
+        $chunkIndex = 0;
+
+        foreach ($this as $item) {
+            $buffer[$chunkIndex++] = $item;
+
+            if (($chunkIndex % $size) === 0) {
+                $result = $this->withoutItems();
+                $result->push($buffer);
+                yield $result;
+                $buffer = [];
+            }
+        }
+
+        if ($buffer !== []) {
+            $result = $this->withoutItems();
+            $result->push($buffer);
+            yield $result;
+        }
+    }
+
+    public function asArray(): array
+    {
+        return $this->items;
+    }
+
+    public function reverse(): void
+    {
+        $this->items = \array_reverse($this->items);
+    }
+
+    public function contains($value): bool
+    {
+        return \in_array($value, $this->items, true);
+    }
+
+    /**
+     * @return static
+     */
+    public function asUnique(): self
+    {
+        $result = $this->withoutItems();
+
+        foreach ($this->items as $item) {
+            if (!$result->contains($item)) {
+                $result->push([$item]);
+            }
+        }
+
+        return $result;
+    }
+
+    public function withoutItems(): self
+    {
+        $that = clone $this;
+
+        $that->clear();
+
+        return $that;
     }
 
     /**
@@ -197,5 +277,27 @@ abstract class AbstractCollection implements CollectionInterface
         }
 
         return $fallback;
+    }
+
+    /**
+     * Alternative implementation for @see contains to check contains by more detailed object comparision.
+     * This is useful, when the collection contains items that can be equal even if they are not identical.
+     *
+     * @param T         $value
+     * @param Closure(T $a,    T $b): bool $equalsCondition
+     */
+    final protected function containsByEqualsCheck($value, \Closure $equalsCondition): bool
+    {
+        if (!$this->isValidItem($value)) {
+            return false;
+        }
+
+        foreach ($this->items as $item) {
+            if ($equalsCondition($item, $value)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
