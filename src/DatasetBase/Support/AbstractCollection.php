@@ -10,6 +10,8 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface;
  * @template T
  * @template-implements CollectionInterface<T>
  *
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 abstract class AbstractCollection implements CollectionInterface
