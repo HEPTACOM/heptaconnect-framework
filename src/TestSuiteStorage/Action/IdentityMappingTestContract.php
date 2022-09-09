@@ -273,7 +273,6 @@ abstract class IdentityMappingTestContract extends TestCase
             }
 
             static::assertIsString($targetId);
-
             $identityPersistPayloadCollection->push([
                 new IdentityPersistCreatePayload($mappingNodeKey, $targetId),
             ]);
