@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionDea
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\InvalidArgumentThrowableInterface;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\NoMatchForPackageQueryException;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalExtensionsAreAlreadyInactiveOnPortalNodeException;
-use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodeMissingException;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodesMissingException;
 
 interface PortalNodeExtensionDeactivateUiActionInterface
 {
@@ -18,7 +18,7 @@ interface PortalNodeExtensionDeactivateUiActionInterface
      * @throws InvalidArgumentThrowableInterface
      * @throws NoMatchForPackageQueryException
      * @throws PortalExtensionsAreAlreadyInactiveOnPortalNodeException
-     * @throws PortalNodeMissingException
+     * @throws PortalNodesMissingException
      */
     public function deactivate(PortalNodeExtensionDeactivatePayload $payload): void;
 }

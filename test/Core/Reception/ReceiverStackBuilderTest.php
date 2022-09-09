@@ -25,7 +25,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack
+ * @covers \Heptacom\HeptaConnect\Core\Reception\ReceiverStack
  * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection
  */
 final class ReceiverStackBuilderTest extends TestCase

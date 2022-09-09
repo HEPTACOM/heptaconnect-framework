@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Portal\Contract;
 
 /**
+ * @deprecated 0.10 It will be moved to @see PackageContract
  * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  * @SuppressWarnings(PHPMD.NPathComplexity)
  */
