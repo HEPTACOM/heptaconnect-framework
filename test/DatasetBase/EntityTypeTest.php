@@ -99,11 +99,11 @@ final class EntityTypeTest extends TestCase
             SerializationDatasetEntity::class(),
         ]);
         static::assertSame(1, $collection->count());
-        static::assertTrue($collection->has(SerializationDatasetEntity::class()));
+        static::assertTrue($collection->contains(SerializationDatasetEntity::class()));
 
         $subEntity = new class() extends SerializationDatasetEntity {
         };
 
-        static::assertFalse($collection->has($subEntity::class()));
+        static::assertFalse($collection->contains($subEntity::class()));
     }
 }

@@ -31,7 +31,9 @@ use Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityError
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResults;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayload;
+use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayloads;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreateResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreateResults;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Delete\JobDeleteCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Fail\JobFailPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Fail\JobFailResult;
@@ -139,7 +141,9 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResults
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayload
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayloads
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreateResult
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreateResults
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Delete\JobDeleteCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Fail\JobFailPayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Fail\JobFailResult
@@ -260,7 +264,9 @@ class StorageActionParameterTest extends TestCase
         yield new IdentityErrorCreateResults();
         yield new IdentityErrorCreateResult($identityErrorKey);
         yield new JobCreatePayload('', $mappingComponentStruct, null);
+        yield new JobCreatePayloads();
         yield new JobCreateResult($jobKey);
+        yield new JobCreateResults();
         yield new JobDeleteCriteria($jobKeys);
         yield new JobFailPayload($jobKeys, $createdAt, '');
         yield new JobFailResult($jobKeys, $jobKeys);

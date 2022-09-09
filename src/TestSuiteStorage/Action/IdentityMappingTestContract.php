@@ -284,6 +284,7 @@ abstract class IdentityMappingTestContract extends TestCase
                     static::fail('Entity was not identified correctly.');
             }
 
+            static::assertIsString($targetId);
             $identityPersistPayloadCollection->push([
                 new IdentityPersistCreatePayload($mappingNodeKey, $targetId),
             ]);

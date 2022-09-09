@@ -8,6 +8,9 @@ use Heptacom\HeptaConnect\Portal\Base\Serialization\Exception\StreamCopyExceptio
 use Http\Discovery\Psr17FactoryDiscovery;
 use Psr\Http\Message\StreamInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ */
 final class SerializableStream implements StreamInterface
 {
     private StreamInterface $stream;

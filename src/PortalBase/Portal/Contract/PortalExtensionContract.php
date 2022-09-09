@@ -14,10 +14,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * Defines a portal extension.
  * It needs to be present for a portal extension to work as a reference point on the disk.
  */
-abstract class PortalExtensionContract
+abstract class PortalExtensionContract extends PackageContract
 {
-    use PathMethodsTrait;
-
     private ?SupportedPortalType $supportedPortal = null;
 
     /**

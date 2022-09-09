@@ -42,6 +42,11 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
     public function clear(): void;
 
     /**
+     * Returns true, when no entry is in the collection, otherwise false.
+     */
+    public function isEmpty(): bool;
+
+    /**
      * Returns the first element of the collection.
      * When the collection is empty, null is returned.
      *
@@ -62,16 +67,18 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
      *
      * @param callable(mixed):bool $filterFn
      *
-     * @psalm-return \Generator<int, T>
+     * @return static
      */
-    public function filter(callable $filterFn): \Generator;
+    public function filter(callable $filterFn): self;
 
     /**
      * Returns an iterable list of anything, that is returned for each item by the given callable.
      *
-     * @psalm-param callable(T, array-key):mixed|callable(T):mixed $mapFn
+     * @template TMapResult
      *
-     * @return iterable<int, T>
+     * @psalm-param callable(T, array-key):TMapResult|callable(T):TMapResult $mapFn
+     *
+     * @return iterable<int, TMapResult>
      */
     public function map(callable $mapFn): iterable;
 
@@ -79,4 +86,45 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
      * Returns an iterable list of values, that are pulled of each item by its property name, getter name or array index.
      */
     public function column(string $valueAccessor, ?string $keyAccessor = null): iterable;
+
+    /**
+     * Create a new collection of the same type, but without any content.
+     *
+     * @return static
+     */
+    public function withoutItems(): self;
+
+    /**
+     * Group items in maximum $size big chunks. The last chunk can be less than $size items.
+     *
+     * @psalm-param positive-int $size
+     * @psalm-return iterable<self&non-empty-list<T>>
+     */
+    public function chunk(int $size): iterable;
+
+    /**
+     * Returns the items as a fixed size array. This is useful to use with methods that don't support iterables.
+     *
+     * @return array<T>
+     */
+    public function asArray(): array;
+
+    /**
+     * Reorders the collection into the opposite order it is now.
+     */
+    public function reverse(): void;
+
+    /**
+     * Returns true, when the item is in the collection, otherwise false.
+     *
+     * @param T $value
+     */
+    public function contains($value): bool;
+
+    /**
+     * Returns a copy of this collection only containing items a single time.
+     *
+     * @return static
+     */
+    public function asUnique(): self;
 }
