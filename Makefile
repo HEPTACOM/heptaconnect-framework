@@ -78,7 +78,7 @@ cs-phpmd: vendor .build $(PHPMD_FILE) ## Run php mess detector for static code a
 	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/StorageBase xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-storage-base.junit.xml
 	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/TestSuiteStorage xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-test-suite-storage.junit.xml
 	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/UiAdminBase xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-ui-admin-base.junit.xml
-	[[ -n "${CI}" ]] || $(PHP) $(PHPMD_FILE) src ansi dev-ops/phpmd.xml
+	$(PHP) $(PHPMD_FILE) src ansi dev-ops/phpmd.xml
 
 .PHONY: cs-composer-unused
 cs-composer-unused: vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to detect once-required packages that are not used anymore
