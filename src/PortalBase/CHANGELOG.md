@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `\Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionType` with `\Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionTypeCollection` as a type safe subtype class reference to `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Add `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract::class` as factory method to create an instance of `\Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionType` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Wrap `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract::supports` in new method `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract::getSupportedPortal` to provide an instance of `\Heptacom\HeptaConnect\Portal\Base\Portal\SupportedPortalType` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Add `\Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerStackInterface::supports` to get the entity type of the explorer stack
 
 ### Changed
 
@@ -30,12 +31,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Rename method `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken::getType` to `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken::getEntityType` with new return type for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Rename method `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken::getType` to `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken::getEntityType` with new return type for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Change `$portalClass` parameter in `\Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection::bySupport` to be a `\Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract` instead of a string for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Change return type of `\Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentCollection::filterByPortalNodeKey` from `Generator` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
+- Change return type of `\Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentCollection::filterByEntityType` from `Generator` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
+- Change return type of `\Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection::bySupport` from `iterable` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
+- Change return type of `\Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection::bySupport` from `iterable` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
+- Change return type of `\Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection::bySupport` from `iterable` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
+- Change return type of `\Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterCollection::bySupportedTopic` from `iterable` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
+- Change return type of `\Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection::bySupport` from `iterable` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
 
 ### Deprecated
 
 - Deprecate method `\Heptacom\HeptaConnect\Portal\Base\Mapping\TypedMappingComponentCollection::getType` in favour of new method `\Heptacom\HeptaConnect\Portal\Base\Mapping\TypedMappingComponentCollection::getEntityType` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 
 ### Removed
+
+- Move `\Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack` out of this package into the `heptaconnect/core` as `\Heptacom\HeptaConnect\Core\Emission\EmitterStack`
+- Move `\Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack` out of this package into the `heptaconnect/core` as `\Heptacom\HeptaConnect\Core\Exploration\ExplorerStack`
+- Move `\Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack` out of this package into the `heptaconnect/core` as `\Heptacom\HeptaConnect\Core\Reception\ReceiverStack`
 
 ### Fixed
 
