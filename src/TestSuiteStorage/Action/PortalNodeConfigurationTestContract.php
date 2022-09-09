@@ -61,7 +61,7 @@ abstract class PortalNodeConfigurationTestContract extends TestCase
         $createResults = $createAction->create($createPayloads);
         $portalNodeKeys = new PortalNodeKeyCollection(\iterable_map(
             $createResults,
-            static fn (PortalNodeCreateResult $createResult): PortalNodeKeyInterface => $createResult->getPortalNodeKey()
+            static fn (PortalNodeCreateResult $result): PortalNodeKeyInterface => $result->getPortalNodeKey()
         ));
         $getCriteria = new PortalNodeConfigurationGetCriteria($portalNodeKeys);
 
@@ -70,7 +70,7 @@ abstract class PortalNodeConfigurationTestContract extends TestCase
         foreach ($portalNodeKeys as $step => $portalNodeKey) {
             static::assertCount($step, \iterable_to_array(\iterable_filter(
                 $getAction->get($getCriteria),
-                static fn (PortalNodeConfigurationGetResult $getResult): bool => $getResult->getValue() !== []
+                static fn (PortalNodeConfigurationGetResult $result): bool => $result->getValue() !== []
             )));
 
             $setAction->set(new PortalNodeConfigurationSetPayloads([
@@ -79,7 +79,7 @@ abstract class PortalNodeConfigurationTestContract extends TestCase
 
             static::assertCount($step + 1, \iterable_to_array(\iterable_filter(
                 $getAction->get($getCriteria),
-                static fn (PortalNodeConfigurationGetResult $getResult): bool => $getResult->getValue() !== []
+                static fn (PortalNodeConfigurationGetResult $result): bool => $result->getValue() !== []
             )));
 
             /** @var PortalNodeConfigurationGetResult[] $getResults */
@@ -94,7 +94,7 @@ abstract class PortalNodeConfigurationTestContract extends TestCase
 
         static::assertCount($portalNodeKeys->count(), \iterable_to_array(\iterable_filter(
             $getAction->get($getCriteria),
-            static fn (PortalNodeConfigurationGetResult $getResult): bool => $getResult->getValue() !== []
+            static fn (PortalNodeConfigurationGetResult $result): bool => $result->getValue() !== []
         )));
 
         $setPayload = new PortalNodeConfigurationSetPayloads();
@@ -107,7 +107,7 @@ abstract class PortalNodeConfigurationTestContract extends TestCase
 
         static::assertEmpty(\iterable_to_array(\iterable_filter(
             $getAction->get($getCriteria),
-            static fn (PortalNodeConfigurationGetResult $getResult): bool => $getResult->getValue() !== []
+            static fn (PortalNodeConfigurationGetResult $result): bool => $result->getValue() !== []
         )));
 
         $deleteAction->delete(new PortalNodeDeleteCriteria($portalNodeKeys));
