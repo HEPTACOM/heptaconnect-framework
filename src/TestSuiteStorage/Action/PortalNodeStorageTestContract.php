@@ -60,11 +60,7 @@ abstract class PortalNodeStorageTestContract extends TestCase
             'FooBar ',
         ]))));
 
-        $getValues = \array_combine(
-            \array_map(static fn (PortalNodeStorageGetResult $g): string => $g->getStorageKey(), $getResults),
-            \array_map(static fn (PortalNodeStorageGetResult $g): string => $g->getValue(), $getResults)
-        );
-        \ksort($getValues);
+        $getValues = $this->transformGetResultsToMap($getResults);
 
         static::assertSame([
             'FooBar' => 'FooBar',
@@ -105,11 +101,7 @@ abstract class PortalNodeStorageTestContract extends TestCase
             'Foo<Bar',
         ]))));
 
-        $getValues = \array_combine(
-            \array_map(static fn (PortalNodeStorageGetResult $g): string => $g->getStorageKey(), $getResults),
-            \array_map(static fn (PortalNodeStorageGetResult $g): string => $g->getValue(), $getResults)
-        );
-        \ksort($getValues);
+        $getValues = $this->transformGetResultsToMap($getResults);
 
         static::assertSame([
             '<foobar>' => '<foobar>',
@@ -156,11 +148,7 @@ abstract class PortalNodeStorageTestContract extends TestCase
 
         static::assertCount(2, $getResults);
 
-        $getValues = \array_combine(
-            \array_map(static fn (PortalNodeStorageGetResult $g): string => $g->getStorageKey(), $getResults),
-            \array_map(static fn (PortalNodeStorageGetResult $g): string => $g->getValue(), $getResults)
-        );
-        \ksort($getValues);
+        $getValues = $this->transformGetResultsToMap($getResults);
 
         static::assertSame([
             'foo' => 'bar',
@@ -176,11 +164,7 @@ abstract class PortalNodeStorageTestContract extends TestCase
 
         static::assertCount(1, $getResults);
 
-        $getValues = \array_combine(
-            \array_map(static fn (PortalNodeStorageGetResult $g): string => $g->getStorageKey(), $getResults),
-            \array_map(static fn (PortalNodeStorageGetResult $g): string => $g->getValue(), $getResults)
-        );
-        \ksort($getValues);
+        $getValues = $this->transformGetResultsToMap($getValues);
 
         static::assertSame([
             'foo' => 'bar',
@@ -278,4 +262,27 @@ abstract class PortalNodeStorageTestContract extends TestCase
      * Provides the storage implementation to test against.
      */
     abstract protected function createStorageFacade(): StorageFacadeInterface;
+
+    /**
+     * @return array<string, string>
+     */
+    private function transformGetResultsToMap(array $getResults): array
+    {
+        $getValues = \array_combine(
+            \array_map(
+                static fn (PortalNodeStorageGetResult $getResult): string => $getResult->getStorageKey(),
+                $getResults
+            ),
+            \array_map(
+                static fn (PortalNodeStorageGetResult $getResult): string => $getResult->getValue(),
+                $getResults
+            )
+        );
+
+        static::assertIsArray($getResults);
+
+        \ksort($getValues);
+
+        return $getValues;
+    }
 }

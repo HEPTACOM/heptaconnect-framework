@@ -72,7 +72,7 @@ class Psr11StorageFacade extends AbstractSingletonStorageFacade
 
     protected function createIdentityErrorCreateAction(): IdentityErrorCreateActionInterface
     {
-        return $this->container->get(IdentityErrorCreateActionInterface::class);
+        return $this->getInstanceFromContainer(IdentityErrorCreateActionInterface::class);
     }
 
     protected function createIdentityMapAction(): IdentityMapActionInterface
@@ -177,22 +177,22 @@ class Psr11StorageFacade extends AbstractSingletonStorageFacade
 
     protected function createPortalNodeAliasGetAction(): PortalNodeAliasGetActionInterface
     {
-        return $this->container->get(PortalNodeAliasGetActionInterface::class);
+        return $this->getInstanceFromContainer(PortalNodeAliasGetActionInterface::class);
     }
 
     protected function createPortalNodeAliasFindAction(): PortalNodeAliasFindActionInterface
     {
-        return $this->container->get(PortalNodeAliasFindActionInterface::class);
+        return $this->getInstanceFromContainer(PortalNodeAliasFindActionInterface::class);
     }
 
     protected function createPortalNodeAliasSetAction(): PortalNodeAliasSetActionInterface
     {
-        return $this->container->get(PortalNodeAliasSetActionInterface::class);
+        return $this->getInstanceFromContainer(PortalNodeAliasSetActionInterface::class);
     }
 
     protected function createPortalNodeAliasOverviewAction(): PortalNodeAliasOverviewActionInterface
     {
-        return $this->container->get(PortalNodeAliasOverviewActionInterface::class);
+        return $this->getInstanceFromContainer(PortalNodeAliasOverviewActionInterface::class);
     }
 
     protected function createPortalNodeConfigurationGetAction(): PortalNodeConfigurationGetActionInterface

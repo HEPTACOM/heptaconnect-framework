@@ -40,6 +40,9 @@ use Heptacom\HeptaConnect\TestSuite\Storage\TestCase;
 
 /**
  * Test pre-implementation to test route related storage actions. Some other storage actions e.g. PortalNodeCreate are needed to set up test scenarios.
+ *
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
  */
 abstract class RouteTestContract extends TestCase
 {
@@ -119,9 +122,9 @@ abstract class RouteTestContract extends TestCase
             static::assertNotNull($findResult);
             /* @var RouteFindResult $findResult */
 
-            static::assertCount(1, \iterable_to_array($createResults->filter(
+            static::assertCount(1, $createResults->filter(
                 static fn (RouteCreateResult $r): bool => $r->getRouteKey()->equals($findResult->getRouteKey())
-            )));
+            ));
 
             $routeGetCriteria = new RouteGetCriteria(new RouteKeyCollection([$findResult->getRouteKey()]));
             /** @var RouteGetResult[] $getResults */
