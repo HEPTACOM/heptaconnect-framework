@@ -6,6 +6,7 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode;
 
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBrowse\PortalNodeExtensionBrowseCriteria;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBrowse\PortalNodeExtensionBrowseResult;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionContextInterface;
 
 interface PortalNodeExtensionBrowseUiActionInterface
 {
@@ -14,5 +15,5 @@ interface PortalNodeExtensionBrowseUiActionInterface
      *
      * @return iterable<PortalNodeExtensionBrowseResult>
      */
-    public function browse(PortalNodeExtensionBrowseCriteria $criteria): iterable;
+    public function browse(PortalNodeExtensionBrowseCriteria $criteria, UiActionContextInterface $context): iterable;
 }

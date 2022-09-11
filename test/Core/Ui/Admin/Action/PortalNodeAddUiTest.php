@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
+use Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContext;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeAddUi;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreateResults;
@@ -18,6 +19,7 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodeAliasIsAlre
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContext
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeAddUi
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
@@ -54,7 +56,7 @@ final class PortalNodeAddUiTest extends TestCase
         $action = new PortalNodeAddUi($portalNodeCreateAction, $portalNodeAliasFindAction);
         $payload = new PortalNodeAddPayload(FooBarPortal::class());
 
-        $result = $action->add($payload);
+        $result = $action->add($payload, new UiActionContext());
 
         static::assertSame($portalNodeKey, $result->getPortalNodeKey());
     }
@@ -73,7 +75,7 @@ final class PortalNodeAddUiTest extends TestCase
         self::expectException(PersistException::class);
         self::expectExceptionCode(1650718863);
 
-        $action->add($payload);
+        $action->add($payload, new UiActionContext());
     }
 
     public function testPayloadAliasIsAlreadyTaken(): void
@@ -92,6 +94,6 @@ final class PortalNodeAddUiTest extends TestCase
 
         self::expectException(PortalNodeAliasIsAlreadyAssignedException::class);
 
-        $action->add($payload);
+        $action->add($payload, new UiActionContext());
     }
 }

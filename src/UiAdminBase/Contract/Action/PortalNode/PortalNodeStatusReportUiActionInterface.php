@@ -6,6 +6,7 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode;
 
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport\PortalNodeStatusReportPayload;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport\PortalNodeStatusReportResult;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionContextInterface;
 
 interface PortalNodeStatusReportUiActionInterface
 {
@@ -14,5 +15,5 @@ interface PortalNodeStatusReportUiActionInterface
      *
      * @return iterable<string, PortalNodeStatusReportResult>
      */
-    public function report(PortalNodeStatusReportPayload $payloads): iterable;
+    public function report(PortalNodeStatusReportPayload $payloads, UiActionContextInterface $context): iterable;
 }

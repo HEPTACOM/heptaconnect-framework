@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode;
 
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionDeactivate\PortalNodeExtensionDeactivatePayload;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionContextInterface;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\InvalidArgumentThrowableInterface;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\NoMatchForPackageQueryException;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalExtensionsAreAlreadyInactiveOnPortalNodeException;
@@ -20,5 +21,5 @@ interface PortalNodeExtensionDeactivateUiActionInterface
      * @throws PortalExtensionsAreAlreadyInactiveOnPortalNodeException
      * @throws PortalNodesMissingException
      */
-    public function deactivate(PortalNodeExtensionDeactivatePayload $payload): void;
+    public function deactivate(PortalNodeExtensionDeactivatePayload $payload, UiActionContextInterface $context): void;
 }

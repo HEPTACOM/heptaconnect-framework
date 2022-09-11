@@ -7,6 +7,7 @@ namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortalExtension;
+use Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContext;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionBrowseUi;
 use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Find\PortalExtensionFindResult;
@@ -18,6 +19,7 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBro
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContext
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionBrowseUi
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
@@ -65,16 +67,16 @@ final class PortalNodeExtensionBrowseUiTest extends TestCase
         $criteria = new PortalNodeExtensionBrowseCriteria($portalNodeKey);
         $criteria->setPage(1);
         $criteria->setPageSize(10);
-        static::assertCount(10, \iterable_to_array($action->browse($criteria)));
+        static::assertCount(10, \iterable_to_array($action->browse($criteria, new UiActionContext())));
 
         $criteria = new PortalNodeExtensionBrowseCriteria($portalNodeKey);
         $criteria->setPage(5);
         $criteria->setPageSize(10);
-        static::assertCount(5, \iterable_to_array($action->browse($criteria)));
+        static::assertCount(5, \iterable_to_array($action->browse($criteria, new UiActionContext())));
 
         $criteria = new PortalNodeExtensionBrowseCriteria($portalNodeKey);
         $criteria->setPage(null);
         $criteria->setPageSize(10);
-        static::assertCount(45, \iterable_to_array($action->browse($criteria)));
+        static::assertCount(45, \iterable_to_array($action->browse($criteria, new UiActionContext())));
     }
 }

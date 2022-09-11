@@ -12,6 +12,7 @@ use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarExplorer;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarReceiver;
+use Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContext;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeEntityListUi;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
@@ -29,6 +30,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContext
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeEntityListUi
  * @covers \Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalNodeContainerFacade
@@ -106,7 +108,7 @@ final class PortalNodeEntityListUiTest extends TestCase
         $receiverCodeOriginFinder->expects(static::once())->method('findOrigin');
 
         $criteria = new PortalNodeEntityListCriteria(new PreviewPortalNodeKey(FooBarPortal::class()));
-        static::assertCount(3, \iterable_to_array($action->list($criteria)));
+        static::assertCount(3, \iterable_to_array($action->list($criteria, new UiActionContext())));
 
         // reset
 
@@ -129,7 +131,7 @@ final class PortalNodeEntityListUiTest extends TestCase
         $criteria->setShowEmitter(false);
         $criteria->setShowExplorer(false);
         $criteria->setShowReceiver(true);
-        static::assertCount(1, \iterable_to_array($action->list($criteria)));
+        static::assertCount(1, \iterable_to_array($action->list($criteria, new UiActionContext())));
 
         // reset
 
@@ -152,7 +154,7 @@ final class PortalNodeEntityListUiTest extends TestCase
         $criteria->setShowEmitter(false);
         $criteria->setShowExplorer(true);
         $criteria->setShowReceiver(false);
-        static::assertCount(1, \iterable_to_array($action->list($criteria)));
+        static::assertCount(1, \iterable_to_array($action->list($criteria, new UiActionContext())));
 
         // reset
 
@@ -175,7 +177,7 @@ final class PortalNodeEntityListUiTest extends TestCase
         $criteria->setShowEmitter(true);
         $criteria->setShowExplorer(false);
         $criteria->setShowReceiver(false);
-        static::assertCount(1, \iterable_to_array($action->list($criteria)));
+        static::assertCount(1, \iterable_to_array($action->list($criteria, new UiActionContext())));
 
         // reset
 
@@ -198,7 +200,7 @@ final class PortalNodeEntityListUiTest extends TestCase
         $criteria->setShowEmitter(true);
         $criteria->setShowExplorer(true);
         $criteria->setShowReceiver(false);
-        static::assertCount(2, \iterable_to_array($action->list($criteria)));
+        static::assertCount(2, \iterable_to_array($action->list($criteria, new UiActionContext())));
 
         // reset
 
@@ -219,7 +221,7 @@ final class PortalNodeEntityListUiTest extends TestCase
 
         $criteria = new PortalNodeEntityListCriteria(new PreviewPortalNodeKey(FooBarPortal::class()));
         $criteria->setFilterSupportedEntityType(FooBarEntity::class());
-        static::assertCount(3, \iterable_to_array($action->list($criteria)));
+        static::assertCount(3, \iterable_to_array($action->list($criteria, new UiActionContext())));
 
         // reset
 
@@ -240,6 +242,6 @@ final class PortalNodeEntityListUiTest extends TestCase
 
         $criteria = new PortalNodeEntityListCriteria(new PreviewPortalNodeKey(FooBarPortal::class()));
         $criteria->setFilterSupportedEntityType(new UnsafeClassString(DatasetEntityContract::class));
-        static::assertCount(0, \iterable_to_array($action->list($criteria)));
+        static::assertCount(0, \iterable_to_array($action->list($criteria, new UiActionContext())));
     }
 }

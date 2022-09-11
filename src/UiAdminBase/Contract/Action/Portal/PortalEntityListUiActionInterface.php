@@ -6,6 +6,7 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Portal;
 
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListCriteria;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListResult;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionContextInterface;
 
 interface PortalEntityListUiActionInterface
 {
@@ -14,5 +15,5 @@ interface PortalEntityListUiActionInterface
      *
      * @return iterable<PortalEntityListResult>
      */
-    public function list(PortalEntityListCriteria $criteria): iterable;
+    public function list(PortalEntityListCriteria $criteria, UiActionContextInterface $context): iterable;
 }

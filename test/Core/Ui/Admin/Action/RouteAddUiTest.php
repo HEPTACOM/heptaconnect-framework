@@ -7,6 +7,7 @@ namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 use Heptacom\HeptaConnect\Core\Test\Fixture\DependentPortal;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
+use Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContext;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUi;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResult;
@@ -28,6 +29,7 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\RouteAlreadyExistsExc
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContext
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUi
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
@@ -95,9 +97,12 @@ final class RouteAddUiTest extends TestCase
             $portalNodeGetAction
         );
 
-        $result = $action->add(new RouteAddPayloadCollection([
-            new RouteAddPayload($portalNodeKey, $portalNodeKey, FooBarEntity::class()),
-        ]));
+        $result = $action->add(
+            new RouteAddPayloadCollection([
+                new RouteAddPayload($portalNodeKey, $portalNodeKey, FooBarEntity::class()),
+            ]),
+            new UiActionContext()
+        );
 
         static::assertSame($routeKey, $result->first()->getRouteKey());
     }
@@ -140,10 +145,13 @@ final class RouteAddUiTest extends TestCase
         self::expectException(RouteAddFailedException::class);
         self::expectExceptionCode(1654573097);
 
-        $action->add(new RouteAddPayloadCollection([
-            new RouteAddPayload($portalNodeKeyA, $portalNodeKeyB, FooBarEntity::class()),
-            new RouteAddPayload($portalNodeKeyB, $portalNodeKeyA, FooBarEntity::class()),
-        ]));
+        $action->add(
+            new RouteAddPayloadCollection([
+                new RouteAddPayload($portalNodeKeyA, $portalNodeKeyB, FooBarEntity::class()),
+                new RouteAddPayload($portalNodeKeyB, $portalNodeKeyA, FooBarEntity::class()),
+            ]),
+            new UiActionContext()
+        );
     }
 
     public function testPortalNodeMissingCheck(): void
@@ -170,9 +178,12 @@ final class RouteAddUiTest extends TestCase
 
         self::expectException(PortalNodesMissingException::class);
 
-        $action->add(new RouteAddPayloadCollection([
-            new RouteAddPayload($portalNodeKey, $portalNodeKey, FooBarEntity::class()),
-        ]));
+        $action->add(
+            new RouteAddPayloadCollection([
+                new RouteAddPayload($portalNodeKey, $portalNodeKey, FooBarEntity::class()),
+            ]),
+            new UiActionContext()
+        );
     }
 
     public function testRouteAlreadyExists(): void
@@ -203,8 +214,11 @@ final class RouteAddUiTest extends TestCase
 
         self::expectException(RouteAlreadyExistsException::class);
 
-        $action->add(new RouteAddPayloadCollection([
-            new RouteAddPayload($portalNodeKey, $portalNodeKey, FooBarEntity::class()),
-        ]));
+        $action->add(
+            new RouteAddPayloadCollection([
+                new RouteAddPayload($portalNodeKey, $portalNodeKey, FooBarEntity::class()),
+            ]),
+            new UiActionContext()
+        );
     }
 }

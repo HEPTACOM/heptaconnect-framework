@@ -6,6 +6,7 @@ namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 
 use Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingServiceInterface;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
+use Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContext;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeStatusReportUi;
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
@@ -13,6 +14,7 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContext
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeStatusReportUi
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
@@ -50,12 +52,12 @@ final class PortalNodeStatusReportUiTest extends TestCase
         );
 
         $criteria = new PortalNodeStatusReportPayload($portalNodeKey, [StatusReporterContract::TOPIC_HEALTH]);
-        $reportResult = \iterable_to_array($action->report($criteria));
+        $reportResult = \iterable_to_array($action->report($criteria, new UiActionContext()));
         static::assertCount(1, $reportResult);
         static::assertSame(StatusReporterContract::TOPIC_HEALTH, $reportResult[StatusReporterContract::TOPIC_HEALTH]->getTopic());
         static::assertTrue($reportResult[StatusReporterContract::TOPIC_HEALTH]->getSuccess());
 
-        $reportResult = \iterable_to_array($action->report($criteria));
+        $reportResult = \iterable_to_array($action->report($criteria, new UiActionContext()));
         static::assertCount(1, $reportResult);
         static::assertSame(StatusReporterContract::TOPIC_HEALTH, $reportResult[StatusReporterContract::TOPIC_HEALTH]->getTopic());
         static::assertFalse($reportResult[StatusReporterContract::TOPIC_HEALTH]->getSuccess());

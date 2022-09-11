@@ -6,6 +6,7 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Route;
 
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddPayloadCollection;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResultCollection;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionContextInterface;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\InvalidArgumentThrowableInterface;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PersistException;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodesMissingException;
@@ -23,5 +24,5 @@ interface RouteAddUiActionInterface
      * @throws RouteAddFailedException
      * @throws RouteAlreadyExistsException
      */
-    public function add(RouteAddPayloadCollection $payloads): RouteAddResultCollection;
+    public function add(RouteAddPayloadCollection $payloads, UiActionContextInterface $context): RouteAddResultCollection;
 }
