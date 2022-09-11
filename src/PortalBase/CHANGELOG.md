@@ -9,22 +9,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Extract similarities of `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract` and `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract` into a new common base class `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract`
-- Add `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract::getContainerExcludedClasses` to allow portals and portal extensions to add and remove automatically excluded classes from container auto-prototyping
-
 ### Changed
 
 ### Deprecated
-
-- Deprecate `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PathMethodsTrait` as content will be moved to `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract` without replacement trait
 
 ### Removed
 
 ### Fixed
 
-- Change order of stack handling and remove fallback value for the reported topic in `\Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract::report`
-
 ### Security
+
+## [0.9.1.0] - 2022-08-15
+
+### Added
+
+- Extract similarities of `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract` and `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract` into a new common base class `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract`
+- Add `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract::getContainerExcludedClasses` to allow portals and portal extensions to add and remove automatically excluded classes from container auto-prototyping
+
+### Deprecated
+
+- Deprecate `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PathMethodsTrait` as content will be moved to `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract` without replacement trait
+
+### Fixed
+
+- Change order of stack handling and remove fallback value for the reported topic in `\Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract::report`
 
 ## [0.9.0.2] - 2022-04-23
 
