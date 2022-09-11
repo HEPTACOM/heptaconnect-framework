@@ -7,6 +7,7 @@ CURL := $(shell which curl)
 JQ := $(shell which jq)
 JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*' -not -path './.build/*' -not -path './dev-ops/bin/*/vendor/*' -not -path './src/Core/vendor/*' -not -path './src/DatasetBase/vendor/*' -not -path './src/PortalBase/vendor/*' -not -path './src/StorageBase/vendor/*' -not -path './src/TestSuiteStorage/vendor/*' -not -path './src/UiAdminBase/vendor/*' -not -path './test/Core/Fixture/_files/portal-node-configuration-invalid.json')
 GIT := $(shell which git)
+XSLTPROC := $(shell which xsltproc)
 PHPSTAN_FILE := dev-ops/bin/phpstan/vendor/bin/phpstan
 COMPOSER_NORMALIZE_PHAR := https://github.com/ergebnis/composer-normalize/releases/download/2.22.0/composer-normalize.phar
 COMPOSER_NORMALIZE_FILE := dev-ops/bin/composer-normalize
@@ -71,14 +72,13 @@ cs-psalm: vendor .build $(PSALM_FILE) ## Run psalm for static code analysis
 .PHONY: cs-phpmd
 cs-phpmd: vendor .build $(PHPMD_FILE) ## Run php mess detector for static code analysis
 	[[ -z "${CI}" ]] || [[ -f .build/phpmd-junit.xslt ]] || $(CURL) https://phpmd.org/junit.xslt -o .build/phpmd-junit.xslt
-	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md.junit.xml
 	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/Core xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-core.junit.xml
 	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/DatasetBase xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-dataset-base.junit.xml
 	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/PortalBase xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-portal-base.junit.xml
 	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/StorageBase xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-storage-base.junit.xml
 	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/TestSuiteStorage xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-test-suite-storage.junit.xml
 	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/UiAdminBase xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-ui-admin-base.junit.xml
-	[[ -n "${CI}" ]] || $(PHP) $(PHPMD_FILE) src ansi dev-ops/phpmd.xml
+	$(PHP) $(PHPMD_FILE) src ansi dev-ops/phpmd.xml
 
 .PHONY: cs-composer-unused
 cs-composer-unused: vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to detect once-required packages that are not used anymore

@@ -16,6 +16,9 @@ final class RouteCreateResults extends AbstractObjectCollection implements Attac
 {
     use AttachmentAwareTrait;
 
+    /**
+     * @psalm-param iterable<int, RouteCreateResult> $items
+     */
     public function __construct(iterable $items = [])
     {
         parent::__construct($items);
