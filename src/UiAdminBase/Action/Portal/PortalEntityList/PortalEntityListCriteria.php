@@ -9,8 +9,9 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\Portal\PortalType;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Audit\AuditableDataAwareInterface;
 
-final class PortalEntityListCriteria implements AttachmentAwareInterface
+final class PortalEntityListCriteria implements AttachmentAwareInterface, AuditableDataAwareInterface
 {
     use AttachmentAwareTrait;
 
@@ -78,5 +79,16 @@ final class PortalEntityListCriteria implements AttachmentAwareInterface
     public function setShowReceiver(bool $showReceiver): void
     {
         $this->showReceiver = $showReceiver;
+    }
+
+    public function getAuditableData(): array
+    {
+        return [
+            'portal' => $this->getPortal(),
+            'filterSupportedEntityType' => $this->getFilterSupportedEntityType(),
+            'showExplorer' => $this->getShowExplorer(),
+            'showEmitter' => $this->getShowEmitter(),
+            'showReceiver' => $this->getShowReceiver(),
+        ];
     }
 }

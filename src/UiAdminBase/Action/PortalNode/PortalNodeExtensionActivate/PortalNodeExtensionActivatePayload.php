@@ -9,8 +9,9 @@ use Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Audit\AuditableDataAwareInterface;
 
-final class PortalNodeExtensionActivatePayload implements AttachmentAwareInterface
+final class PortalNodeExtensionActivatePayload implements AttachmentAwareInterface, AuditableDataAwareInterface
 {
     use AttachmentAwareTrait;
 
@@ -43,5 +44,13 @@ final class PortalNodeExtensionActivatePayload implements AttachmentAwareInterfa
     public function setPortalExtensionQueries(ClassStringReferenceCollection $portalExtensionQueries): void
     {
         $this->portalExtensionQueries = $portalExtensionQueries;
+    }
+
+    public function getAuditableData(): array
+    {
+        return [
+            'portalNode' => $this->getPortalNodeKey(),
+            'portalExtensionQueries' => $this->getPortalExtensionQueries(),
+        ];
     }
 }

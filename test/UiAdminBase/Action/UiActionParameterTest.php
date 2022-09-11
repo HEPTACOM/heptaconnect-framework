@@ -7,6 +7,7 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Test\Action;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEmitter;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortalExtension;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface;
 use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface;
@@ -30,6 +31,7 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddPayload;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddPayloadCollection;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResult;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResultCollection;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Audit\AuditableDataAwareInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -67,7 +69,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class UiActionParameterTest extends TestCase
 {
-    public function testAttachabilityOfStorageActionStructs(): void
+    public function testAttachabilityOfUiActionStructs(): void
     {
         foreach ($this->iterateAttachmentAwareActionStructs() as $attachmentAware) {
             $attachment = new FirstEntity();
@@ -75,6 +77,24 @@ final class UiActionParameterTest extends TestCase
             static::assertTrue($attachmentAware->isAttached($attachment));
             $attachmentAware->detach($attachment);
         }
+    }
+
+    public function testAuditabilityOfUiActionStructs(): void
+    {
+        foreach ($this->iterateAuditableAwareActionStructs() as $auditableAware) {
+            static::assertNotSame([], $auditableAware->getAuditableData());
+        }
+    }
+
+    /**
+     * @return iterable<AuditableDataAwareInterface>
+     */
+    private function iterateAuditableAwareActionStructs(): iterable
+    {
+        yield from \iterable_filter(
+            $this->iterateAttachmentAwareActionStructs(),
+            static fn (object $struct): bool => !$struct instanceof CollectionInterface
+        );
     }
 
     /**

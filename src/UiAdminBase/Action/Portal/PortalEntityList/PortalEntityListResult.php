@@ -9,8 +9,9 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Audit\AuditableDataAwareInterface;
 
-final class PortalEntityListResult implements AttachmentAwareInterface
+final class PortalEntityListResult implements AttachmentAwareInterface, AuditableDataAwareInterface
 {
     use AttachmentAwareTrait;
 
@@ -53,5 +54,14 @@ final class PortalEntityListResult implements AttachmentAwareInterface
     public function getFlowComponentClass(): string
     {
         return $this->flowComponentClass;
+    }
+
+    public function getAuditableData(): array
+    {
+        return [
+            'codeOrigin' => $this->getCodeOrigin(),
+            'supportedEntityType' => $this->getSupportedEntityType(),
+            'flowComponentClass' => $this->getFlowComponentClass(),
+        ];
     }
 }
