@@ -7,7 +7,6 @@ namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 use Heptacom\HeptaConnect\Core\Test\Fixture\DependentPortal;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
-use Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContext;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUi;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResult;
@@ -58,6 +57,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddPayloadCollection
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResult
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResultCollection
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PersistException
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodeAliasIsAlreadyAssignedException
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodesMissingException
@@ -66,6 +66,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class RouteAddUiTest extends TestCase
 {
+    use UiActionTestTrait;
+
     public function testPayloadIsWritten(): void
     {
         $routeCreateAction = $this->createMock(RouteCreateActionInterface::class);
@@ -101,7 +103,7 @@ final class RouteAddUiTest extends TestCase
             new RouteAddPayloadCollection([
                 new RouteAddPayload($portalNodeKey, $portalNodeKey, FooBarEntity::class()),
             ]),
-            new UiActionContext()
+            $this->createUiActionContext()
         );
 
         static::assertSame($routeKey, $result->first()->getRouteKey());
@@ -150,7 +152,7 @@ final class RouteAddUiTest extends TestCase
                 new RouteAddPayload($portalNodeKeyA, $portalNodeKeyB, FooBarEntity::class()),
                 new RouteAddPayload($portalNodeKeyB, $portalNodeKeyA, FooBarEntity::class()),
             ]),
-            new UiActionContext()
+            $this->createUiActionContext()
         );
     }
 
@@ -182,7 +184,7 @@ final class RouteAddUiTest extends TestCase
             new RouteAddPayloadCollection([
                 new RouteAddPayload($portalNodeKey, $portalNodeKey, FooBarEntity::class()),
             ]),
-            new UiActionContext()
+            $this->createUiActionContext()
         );
     }
 
@@ -218,7 +220,7 @@ final class RouteAddUiTest extends TestCase
             new RouteAddPayloadCollection([
                 new RouteAddPayload($portalNodeKey, $portalNodeKey, FooBarEntity::class()),
             ]),
-            new UiActionContext()
+            $this->createUiActionContext()
         );
     }
 }

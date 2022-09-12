@@ -7,7 +7,6 @@ namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortalExtension;
-use Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContext;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionBrowseUi;
 use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Find\PortalExtensionFindResult;
@@ -38,10 +37,13 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBrowse\PortalNodeExtensionBrowseCriteria
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBrowse\PortalNodeExtensionBrowseResult
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\BrowseCriteriaContract
  */
 final class PortalNodeExtensionBrowseUiTest extends TestCase
 {
+    use UiActionTestTrait;
+
     public function testCriteriaFilters(): void
     {
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
@@ -67,16 +69,16 @@ final class PortalNodeExtensionBrowseUiTest extends TestCase
         $criteria = new PortalNodeExtensionBrowseCriteria($portalNodeKey);
         $criteria->setPage(1);
         $criteria->setPageSize(10);
-        static::assertCount(10, \iterable_to_array($action->browse($criteria, new UiActionContext())));
+        static::assertCount(10, \iterable_to_array($action->browse($criteria, $this->createUiActionContext())));
 
         $criteria = new PortalNodeExtensionBrowseCriteria($portalNodeKey);
         $criteria->setPage(5);
         $criteria->setPageSize(10);
-        static::assertCount(5, \iterable_to_array($action->browse($criteria, new UiActionContext())));
+        static::assertCount(5, \iterable_to_array($action->browse($criteria, $this->createUiActionContext())));
 
         $criteria = new PortalNodeExtensionBrowseCriteria($portalNodeKey);
         $criteria->setPage(null);
         $criteria->setPageSize(10);
-        static::assertCount(45, \iterable_to_array($action->browse($criteria, new UiActionContext())));
+        static::assertCount(45, \iterable_to_array($action->browse($criteria, $this->createUiActionContext())));
     }
 }

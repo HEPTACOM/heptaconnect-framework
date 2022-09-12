@@ -6,7 +6,6 @@ namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
-use Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContext;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalEntityListUi;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
@@ -39,9 +38,12 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListCriteria
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListResult
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeEntityList\PortalNodeEntityListCriteria
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext
  */
 final class PortalEntityListUiTest extends TestCase
 {
+    use UiActionTestTrait;
+
     /**
      * @dataProvider provideGoodFilters
      */
@@ -59,7 +61,7 @@ final class PortalEntityListUiTest extends TestCase
 
         $action = new PortalEntityListUi($portalNodeEntityListUiAction);
 
-        \iterable_to_array($action->list($criteria, new UiActionContext()));
+        \iterable_to_array($action->list($criteria, $this->createUiActionContext()));
 
         static::assertSame($criteria->getShowExplorer(), $passedCriteria->getShowExplorer());
         static::assertSame($criteria->getShowEmitter(), $passedCriteria->getShowEmitter());
@@ -76,7 +78,7 @@ final class PortalEntityListUiTest extends TestCase
 
         self::expectException(\LogicException::class);
 
-        \iterable_to_array($action->list(new PortalEntityListCriteria(FooBarPortal::class()), new UiActionContext()));
+        \iterable_to_array($action->list(new PortalEntityListCriteria(FooBarPortal::class()), $this->createUiActionContext()));
     }
 
     public function provideGoodFilters(): iterable

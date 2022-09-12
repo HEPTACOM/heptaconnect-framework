@@ -31,6 +31,7 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddPayload;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddPayloadCollection;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResult;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResultCollection;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Audit\AuditableDataAwareInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -66,6 +67,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddPayloadCollection
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResult
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResultCollection
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext
  */
 final class UiActionParameterTest extends TestCase
 {
@@ -93,7 +95,7 @@ final class UiActionParameterTest extends TestCase
     {
         yield from \iterable_filter(
             $this->iterateAttachmentAwareActionStructs(),
-            static fn (object $struct): bool => !$struct instanceof CollectionInterface
+            static fn (object $struct): bool => !$struct instanceof CollectionInterface && !$struct instanceof UiAuditContext
         );
     }
 
@@ -110,6 +112,7 @@ final class UiActionParameterTest extends TestCase
         $portalExtensionClass = FooBarPortalExtension::class;
         $unsafeClass = new UnsafeClassString($entityType);
 
+        yield new UiAuditContext('', '');
         yield new PortalEntityListCriteria($portalClass::class());
         yield new PortalEntityListResult($codeOrigin, $entityType::class(), FooBarEmitter::class);
         yield new PortalNodeAddPayload($portalClass::class());

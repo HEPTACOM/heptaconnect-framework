@@ -6,7 +6,6 @@ namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 
 use Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingServiceInterface;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
-use Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContext;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeStatusReportUi;
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
@@ -27,9 +26,12 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport\PortalNodeStatusReportPayload
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport\PortalNodeStatusReportResult
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext
  */
 final class PortalNodeStatusReportUiTest extends TestCase
 {
+    use UiActionTestTrait;
+
     public function testPayloads(): void
     {
         $statusReporterService = $this->createMock(StatusReportingServiceInterface::class);
@@ -52,12 +54,12 @@ final class PortalNodeStatusReportUiTest extends TestCase
         );
 
         $criteria = new PortalNodeStatusReportPayload($portalNodeKey, [StatusReporterContract::TOPIC_HEALTH]);
-        $reportResult = \iterable_to_array($action->report($criteria, new UiActionContext()));
+        $reportResult = \iterable_to_array($action->report($criteria, $this->createUiActionContext()));
         static::assertCount(1, $reportResult);
         static::assertSame(StatusReporterContract::TOPIC_HEALTH, $reportResult[StatusReporterContract::TOPIC_HEALTH]->getTopic());
         static::assertTrue($reportResult[StatusReporterContract::TOPIC_HEALTH]->getSuccess());
 
-        $reportResult = \iterable_to_array($action->report($criteria, new UiActionContext()));
+        $reportResult = \iterable_to_array($action->report($criteria, $this->createUiActionContext()));
         static::assertCount(1, $reportResult);
         static::assertSame(StatusReporterContract::TOPIC_HEALTH, $reportResult[StatusReporterContract::TOPIC_HEALTH]->getTopic());
         static::assertFalse($reportResult[StatusReporterContract::TOPIC_HEALTH]->getSuccess());

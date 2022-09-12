@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
-use Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContext;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeAddUi;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreateResults;
@@ -37,11 +36,14 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeAdd\PortalNodeAddPayload
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeAdd\PortalNodeAddResult
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PersistException
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodeAliasIsAlreadyAssignedException
  */
 final class PortalNodeAddUiTest extends TestCase
 {
+    use UiActionTestTrait;
+
     public function testPayloadIsWritten(): void
     {
         $portalNodeCreateAction = $this->createMock(PortalNodeCreateActionInterface::class);
@@ -56,7 +58,7 @@ final class PortalNodeAddUiTest extends TestCase
         $action = new PortalNodeAddUi($portalNodeCreateAction, $portalNodeAliasFindAction);
         $payload = new PortalNodeAddPayload(FooBarPortal::class());
 
-        $result = $action->add($payload, new UiActionContext());
+        $result = $action->add($payload, $this->createUiActionContext());
 
         static::assertSame($portalNodeKey, $result->getPortalNodeKey());
     }
@@ -75,7 +77,7 @@ final class PortalNodeAddUiTest extends TestCase
         self::expectException(PersistException::class);
         self::expectExceptionCode(1650718863);
 
-        $action->add($payload, new UiActionContext());
+        $action->add($payload, $this->createUiActionContext());
     }
 
     public function testPayloadAliasIsAlreadyTaken(): void
@@ -94,6 +96,6 @@ final class PortalNodeAddUiTest extends TestCase
 
         self::expectException(PortalNodeAliasIsAlreadyAssignedException::class);
 
-        $action->add($payload, new UiActionContext());
+        $action->add($payload, $this->createUiActionContext());
     }
 }
