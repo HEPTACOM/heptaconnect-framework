@@ -34,5 +34,15 @@ final class AuditTrailFactoryTest extends TestCase
         $throwable = new \RuntimeException('oops');
 
         static::assertSame($throwable, $trail->throwable($throwable));
+
+        $object = new \stdClass();
+
+        static::assertSame($object, $trail->return($object));
+
+        static::assertCount(3, \iterable_to_array($trail->returnIterable((static function (): iterable {
+            yield new \stdClass();
+            yield new \stdClass();
+            yield new \stdClass();
+        })())));
     }
 }

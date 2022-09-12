@@ -4,6 +4,7 @@ rules:
 	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\FinalClassesMustNotHaveProtectedFieldsAndMethodsRule
 	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\ImplementationsMustBeFinalRule
 	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\InterfacesHaveDocumentationRule
+	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\UiActionsPublicMethodMustCallTracerOnReturnRule
 	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\UiActionsPublicMethodMustCallTracerOnThrowRule
 parameters:
 	checkMissingIterableValueType: false

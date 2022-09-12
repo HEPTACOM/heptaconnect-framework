@@ -33,6 +33,24 @@ trait UiActionTestTrait
                 return $throwable;
             });
 
+        $trail->method('return')
+            ->willReturnCallback(static function (object $result) use ($trail): object {
+                $trail->end();
+
+                return $result;
+            });
+
+        $trail->method('returnIterable')
+            ->willReturnCallback(static function (iterable $result) use ($trail): iterable {
+                try {
+                    yield from $result;
+
+                    $trail->end();
+                } catch (\Throwable $throwable) {
+                    throw $trail->throwable($throwable);
+                }
+            });
+
         $result = $this->createMock(AuditTrailFactoryInterface::class);
         $result->expects(static::atLeastOnce())
             ->method('create')
