@@ -50,6 +50,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBrowse\PortalNodeExtensionBrowseCriteria
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBrowse\PortalNodeExtensionBrowseResult
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionDeactivate\PortalNodeExtensionDeactivatePayload
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\UiActionType
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\BrowseCriteriaContract
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\NoMatchForPackageQueryException
@@ -82,6 +83,7 @@ final class PortalNodeExtensionDeactivateUiTest extends TestCase
             ->willReturnArgument(1);
 
         $action = new PortalNodeExtensionDeactivateUi(
+            $this->createAuditTrailFactory(),
             $portalNodeGetAction,
             $portalNodeExtensionFindAction,
             $portalExtensionDeactivateAction,
@@ -115,6 +117,7 @@ final class PortalNodeExtensionDeactivateUiTest extends TestCase
             ->willReturn(new PortalExtensionCollection([new FooBarPortalExtension()]));
 
         $action = new PortalNodeExtensionDeactivateUi(
+            $this->createAuditTrailFactory(),
             $portalNodeGetAction,
             $portalNodeExtensionFindAction,
             $portalExtensionDeactivateAction,
@@ -152,6 +155,7 @@ final class PortalNodeExtensionDeactivateUiTest extends TestCase
             ->willReturn(new PortalExtensionCollection());
 
         $action = new PortalNodeExtensionDeactivateUi(
+            $this->createAuditTrailFactory(),
             $portalNodeGetAction,
             $portalNodeExtensionFindAction,
             $portalExtensionDeactivateAction,
@@ -196,6 +200,7 @@ final class PortalNodeExtensionDeactivateUiTest extends TestCase
             ));
 
         $action = new PortalNodeExtensionDeactivateUi(
+            $this->createAuditTrailFactory(),
             $portalNodeGetAction,
             $portalNodeExtensionFindAction,
             $portalExtensionDeactivateAction,

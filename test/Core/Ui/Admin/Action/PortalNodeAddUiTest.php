@@ -36,6 +36,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeAdd\PortalNodeAddPayload
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeAdd\PortalNodeAddResult
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\UiActionType
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PersistException
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodeAliasIsAlreadyAssignedException
@@ -55,7 +56,11 @@ final class PortalNodeAddUiTest extends TestCase
         ]));
         $portalNodeAliasFindAction->method('find')->willReturn([]);
 
-        $action = new PortalNodeAddUi($portalNodeCreateAction, $portalNodeAliasFindAction);
+        $action = new PortalNodeAddUi(
+            $this->createAuditTrailFactory(),
+            $portalNodeCreateAction,
+            $portalNodeAliasFindAction
+        );
         $payload = new PortalNodeAddPayload(FooBarPortal::class());
 
         $result = $action->add($payload, $this->createUiActionContext());
@@ -71,7 +76,11 @@ final class PortalNodeAddUiTest extends TestCase
         $portalNodeCreateAction->method('create')->willReturn(new PortalNodeCreateResults());
         $portalNodeAliasFindAction->method('find')->willReturn([]);
 
-        $action = new PortalNodeAddUi($portalNodeCreateAction, $portalNodeAliasFindAction);
+        $action = new PortalNodeAddUi(
+            $this->createAuditTrailFactory(),
+            $portalNodeCreateAction,
+            $portalNodeAliasFindAction
+        );
         $payload = new PortalNodeAddPayload(FooBarPortal::class());
 
         self::expectException(PersistException::class);
@@ -90,7 +99,11 @@ final class PortalNodeAddUiTest extends TestCase
             new PortalNodeAliasFindResult(new PreviewPortalNodeKey(FooBarPortal::class()), 'foobar'),
         ]);
 
-        $action = new PortalNodeAddUi($portalNodeCreateAction, $portalNodeAliasFindAction);
+        $action = new PortalNodeAddUi(
+            $this->createAuditTrailFactory(),
+            $portalNodeCreateAction,
+            $portalNodeAliasFindAction
+        );
         $payload = new PortalNodeAddPayload(FooBarPortal::class());
         $payload->setPortalNodeAlias('foobar');
 

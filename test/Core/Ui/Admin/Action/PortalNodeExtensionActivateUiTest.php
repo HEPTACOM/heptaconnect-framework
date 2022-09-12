@@ -50,6 +50,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionActivate\PortalNodeExtensionActivatePayload
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBrowse\PortalNodeExtensionBrowseCriteria
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBrowse\PortalNodeExtensionBrowseResult
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\UiActionType
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\BrowseCriteriaContract
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\NoMatchForPackageQueryException
@@ -83,6 +84,7 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
             ->willReturnArgument(1);
 
         $action = new PortalNodeExtensionActivateUi(
+            $this->createAuditTrailFactory(),
             $portalNodeGetAction,
             $portalNodeExtensionFindAction,
             $portalExtensionActivateAction,
@@ -106,7 +108,6 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
         $portalExtensionActivateAction = $this->createMock(PortalExtensionActivateActionInterface::class);
         $portalLoader = $this->createMock(ComposerPortalLoader::class);
         $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
-        $portalExtensionFindResult = new PortalExtensionFindResult();
         $packageQueryMatcher = $this->createMock(PackageQueryMatcherInterface::class);
         $portalExtensionFindResult = new PortalExtensionFindResult();
 
@@ -117,6 +118,7 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
             ->willReturn(new PortalExtensionCollection([new FooBarPortalExtension()]));
 
         $action = new PortalNodeExtensionActivateUi(
+            $this->createAuditTrailFactory(),
             $portalNodeGetAction,
             $portalNodeExtensionFindAction,
             $portalExtensionActivateAction,
@@ -155,6 +157,7 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
             ->willReturn(new PortalExtensionCollection());
 
         $action = new PortalNodeExtensionActivateUi(
+            $this->createAuditTrailFactory(),
             $portalNodeGetAction,
             $portalNodeExtensionFindAction,
             $portalExtensionActivateAction,

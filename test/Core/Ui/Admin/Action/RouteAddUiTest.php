@@ -57,6 +57,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddPayloadCollection
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResult
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResultCollection
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\UiActionType
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PersistException
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodeAliasIsAlreadyAssignedException
@@ -92,6 +93,7 @@ final class RouteAddUiTest extends TestCase
         $routeDeleteAction->expects(static::never())->method('delete');
 
         $action = new RouteAddUi(
+            $this->createAuditTrailFactory(),
             $routeCreateAction,
             $routeFindAction,
             $routeGetAction,
@@ -137,6 +139,7 @@ final class RouteAddUiTest extends TestCase
             ->willReturnCallback(static fn (RouteKeyInterface $key): bool => $key === $routeKey);
 
         $action = new RouteAddUi(
+            $this->createAuditTrailFactory(),
             $routeCreateAction,
             $routeFindAction,
             $routeGetAction,
@@ -171,6 +174,7 @@ final class RouteAddUiTest extends TestCase
         $routeDeleteAction->expects(static::never())->method('delete');
 
         $action = new RouteAddUi(
+            $this->createAuditTrailFactory(),
             $routeCreateAction,
             $routeFindAction,
             $routeGetAction,
@@ -207,6 +211,7 @@ final class RouteAddUiTest extends TestCase
         $routeDeleteAction->expects(static::never())->method('delete');
 
         $action = new RouteAddUi(
+            $this->createAuditTrailFactory(),
             $routeCreateAction,
             $routeFindAction,
             $routeGetAction,

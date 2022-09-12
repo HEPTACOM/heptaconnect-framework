@@ -17,6 +17,7 @@ use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionDeactivateUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeStatusReportUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUiDefault;
+use Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerCodeOriginFinderInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverCodeOriginFinderInterface;
@@ -63,6 +64,7 @@ final class UiActionInterfaceTest extends TestCase
      */
     private function iterateUiActions(): iterable
     {
+        $auditTrailFactory = $this->createMock(AuditTrailFactoryInterface::class);
         $portalNodeEntityListUiAction = $this->createMock(PortalNodeEntityListUiActionInterface::class);
         $portalNodeCreateAction = $this->createMock(PortalNodeCreateActionInterface::class);
         $portalNodeAliasFindAction = $this->createMock(PortalNodeAliasFindActionInterface::class);
@@ -83,13 +85,13 @@ final class UiActionInterfaceTest extends TestCase
         $routeDeleteAction = $this->createMock(RouteDeleteActionInterface::class);
 
         yield new PortalEntityListUi($portalNodeEntityListUiAction);
-        yield new PortalNodeAddUi($portalNodeCreateAction, $portalNodeAliasFindAction);
+        yield new PortalNodeAddUi($auditTrailFactory, $portalNodeCreateAction, $portalNodeAliasFindAction);
         yield new PortalNodeEntityListUi($portalStackServiceContainerFactory, $explorerCodeOriginFinder, $emitterCodeOriginFinder, $receiverCodeOriginFinder);
-        yield new PortalNodeExtensionActivateUi($portalNodeGetAction, $portalExtensionFindAction, $portalExtensionActivateAction, $packageQueryMatcher, $portalLoader);
+        yield new PortalNodeExtensionActivateUi($auditTrailFactory, $portalNodeGetAction, $portalExtensionFindAction, $portalExtensionActivateAction, $packageQueryMatcher, $portalLoader);
         yield new PortalNodeExtensionBrowseUi($portalNodeGetAction, $portalExtensionFindAction, $portalLoader);
-        yield new PortalNodeExtensionDeactivateUi($portalNodeGetAction, $portalExtensionFindAction, $portalExtensionDeactivateAction, $packageQueryMatcher, $portalLoader);
+        yield new PortalNodeExtensionDeactivateUi($auditTrailFactory, $portalNodeGetAction, $portalExtensionFindAction, $portalExtensionDeactivateAction, $packageQueryMatcher, $portalLoader);
         yield new PortalNodeStatusReportUi($statusReportingService);
         yield new RouteAddUiDefault();
-        yield new RouteAddUi($routeCreateAction, $routeFindAction, $routeGetAction, $routeDeleteAction, $portalNodeGetAction);
+        yield new RouteAddUi($auditTrailFactory, $routeCreateAction, $routeFindAction, $routeGetAction, $routeDeleteAction, $portalNodeGetAction);
     }
 }

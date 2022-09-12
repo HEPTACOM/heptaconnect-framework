@@ -13,13 +13,13 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditTrail
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditTrailFactory
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext
  */
 final class AuditTrailFactoryTest extends TestCase
 {
     public function testAuditTrailLifecycle(): void
     {
-        static::expectNotToPerformAssertions();
-
         $action = new class() implements UiActionInterface {
             public static function class(): UiActionType
             {
@@ -30,5 +30,9 @@ final class AuditTrailFactoryTest extends TestCase
         $factory = new AuditTrailFactory();
         $trail = $factory->create($action, new UiAuditContext('test', 'phpunit'), []);
         $trail->end();
+
+        $throwable = new \RuntimeException('oops');
+
+        static::assertSame($throwable, $trail->throwable($throwable));
     }
 }
