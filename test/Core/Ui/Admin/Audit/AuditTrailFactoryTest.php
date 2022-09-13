@@ -38,6 +38,7 @@ final class AuditTrailFactoryTest extends TestCase
         $object = new \stdClass();
 
         static::assertSame($object, $trail->return($object));
+        static::assertSame($object, $trail->yield($object));
 
         static::assertCount(3, \iterable_to_array($trail->returnIterable((static function (): iterable {
             yield new \stdClass();

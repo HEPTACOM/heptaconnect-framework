@@ -51,6 +51,8 @@ trait UiActionTestTrait
                 }
             });
 
+        $trail->method('yield')->willReturnArgument(0);
+
         $result = $this->createMock(AuditTrailFactoryInterface::class);
         $result->expects(static::atLeastOnce())
             ->method('create')

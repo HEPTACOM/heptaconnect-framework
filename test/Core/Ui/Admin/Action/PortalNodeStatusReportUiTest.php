@@ -26,6 +26,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport\PortalNodeStatusReportPayload
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport\PortalNodeStatusReportResult
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\UiActionType
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext
  */
 final class PortalNodeStatusReportUiTest extends TestCase
@@ -35,7 +36,7 @@ final class PortalNodeStatusReportUiTest extends TestCase
     public function testPayloads(): void
     {
         $statusReporterService = $this->createMock(StatusReportingServiceInterface::class);
-        $action = new PortalNodeStatusReportUi($statusReporterService);
+        $action = new PortalNodeStatusReportUi($this->createAuditTrailFactory(), $statusReporterService);
         $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
 
         $statusReporterService->method('report')->willReturnOnConsecutiveCalls(

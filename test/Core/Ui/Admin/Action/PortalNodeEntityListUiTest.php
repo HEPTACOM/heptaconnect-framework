@@ -53,6 +53,7 @@ use Psr\Container\ContainerInterface;
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListResult
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeEntityList\PortalNodeEntityListCriteria
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeEntityList\PortalNodeEntityListResult
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\UiActionType
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext
  */
 final class PortalNodeEntityListUiTest extends TestCase
@@ -99,6 +100,7 @@ final class PortalNodeEntityListUiTest extends TestCase
         $receiverCodeOriginFinder = $this->createMock(ReceiverCodeOriginFinderInterface::class);
 
         $action = new PortalNodeEntityListUi(
+            $this->createAuditTrailFactory(),
             $portalStackServiceContainerFactory,
             $explorerCodeOriginFinder,
             $emitterCodeOriginFinder,
@@ -119,6 +121,7 @@ final class PortalNodeEntityListUiTest extends TestCase
         $receiverCodeOriginFinder = $this->createMock(ReceiverCodeOriginFinderInterface::class);
 
         $action = new PortalNodeEntityListUi(
+            $this->createAuditTrailFactory(),
             $portalStackServiceContainerFactory,
             $explorerCodeOriginFinder,
             $emitterCodeOriginFinder,
@@ -142,6 +145,7 @@ final class PortalNodeEntityListUiTest extends TestCase
         $receiverCodeOriginFinder = $this->createMock(ReceiverCodeOriginFinderInterface::class);
 
         $action = new PortalNodeEntityListUi(
+            $this->createAuditTrailFactory(),
             $portalStackServiceContainerFactory,
             $explorerCodeOriginFinder,
             $emitterCodeOriginFinder,
@@ -165,6 +169,7 @@ final class PortalNodeEntityListUiTest extends TestCase
         $receiverCodeOriginFinder = $this->createMock(ReceiverCodeOriginFinderInterface::class);
 
         $action = new PortalNodeEntityListUi(
+            $this->createAuditTrailFactory(),
             $portalStackServiceContainerFactory,
             $explorerCodeOriginFinder,
             $emitterCodeOriginFinder,
@@ -188,6 +193,7 @@ final class PortalNodeEntityListUiTest extends TestCase
         $receiverCodeOriginFinder = $this->createMock(ReceiverCodeOriginFinderInterface::class);
 
         $action = new PortalNodeEntityListUi(
+            $this->createAuditTrailFactory(),
             $portalStackServiceContainerFactory,
             $explorerCodeOriginFinder,
             $emitterCodeOriginFinder,
@@ -211,6 +217,7 @@ final class PortalNodeEntityListUiTest extends TestCase
         $receiverCodeOriginFinder = $this->createMock(ReceiverCodeOriginFinderInterface::class);
 
         $action = new PortalNodeEntityListUi(
+            $this->createAuditTrailFactory(),
             $portalStackServiceContainerFactory,
             $explorerCodeOriginFinder,
             $emitterCodeOriginFinder,
@@ -232,6 +239,7 @@ final class PortalNodeEntityListUiTest extends TestCase
         $receiverCodeOriginFinder = $this->createMock(ReceiverCodeOriginFinderInterface::class);
 
         $action = new PortalNodeEntityListUi(
+            $this->createAuditTrailFactory(),
             $portalStackServiceContainerFactory,
             $explorerCodeOriginFinder,
             $emitterCodeOriginFinder,

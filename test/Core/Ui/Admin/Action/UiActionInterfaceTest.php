@@ -86,11 +86,11 @@ final class UiActionInterfaceTest extends TestCase
 
         yield new PortalEntityListUi($auditTrailFactory, $portalNodeEntityListUiAction);
         yield new PortalNodeAddUi($auditTrailFactory, $portalNodeCreateAction, $portalNodeAliasFindAction);
-        yield new PortalNodeEntityListUi($portalStackServiceContainerFactory, $explorerCodeOriginFinder, $emitterCodeOriginFinder, $receiverCodeOriginFinder);
+        yield new PortalNodeEntityListUi($auditTrailFactory, $portalStackServiceContainerFactory, $explorerCodeOriginFinder, $emitterCodeOriginFinder, $receiverCodeOriginFinder);
         yield new PortalNodeExtensionActivateUi($auditTrailFactory, $portalNodeGetAction, $portalExtensionFindAction, $portalExtensionActivateAction, $packageQueryMatcher, $portalLoader);
-        yield new PortalNodeExtensionBrowseUi($portalNodeGetAction, $portalExtensionFindAction, $portalLoader);
+        yield new PortalNodeExtensionBrowseUi($auditTrailFactory, $portalNodeGetAction, $portalExtensionFindAction, $portalLoader);
         yield new PortalNodeExtensionDeactivateUi($auditTrailFactory, $portalNodeGetAction, $portalExtensionFindAction, $portalExtensionDeactivateAction, $packageQueryMatcher, $portalLoader);
-        yield new PortalNodeStatusReportUi($statusReportingService);
+        yield new PortalNodeStatusReportUi($auditTrailFactory, $statusReportingService);
         yield new RouteAddUiDefault($auditTrailFactory);
         yield new RouteAddUi($auditTrailFactory, $routeCreateAction, $routeFindAction, $routeGetAction, $routeDeleteAction, $portalNodeGetAction);
     }
