@@ -19,48 +19,48 @@ trait UiActionTestTrait
 
     private function createAuditTrailFactory(): AuditTrailFactoryInterface
     {
-        $trail = $this->createMock(AuditTrailInterface::class);
-
-        $trail->expects(static::atLeastOnce())
-            ->method('end');
-
-        $trail->method('throwable')
-            ->willReturnCallback(static function (\Throwable $throwable) use ($trail): \Throwable {
-                static::assertNotSame(0, $throwable->getCode());
-
-                $trail->end();
-
-                return $throwable;
-            });
-
-        $trail->method('return')
-            ->willReturnCallback(static function (object $result) use ($trail): object {
-                $trail->end();
-
-                return $result;
-            });
-
-        $trail->method('returnIterable')
-            ->willReturnCallback(static function (iterable $result) use ($trail): iterable {
-                try {
-                    yield from $result;
-
-                    $trail->end();
-                } catch (\Throwable $throwable) {
-                    throw $trail->throwable($throwable);
-                }
-            });
-
-        $trail->method('yield')->willReturnArgument(0);
-
         $result = $this->createMock(AuditTrailFactoryInterface::class);
         $result->expects(static::atLeastOnce())
             ->method('create')
-            ->willReturnCallback(static function (
+            ->willReturnCallback(function (
                 UiActionInterface $uiAction,
                 UiAuditContext $auditContext,
                 array $ingoing
-            ) use ($trail): AuditTrailInterface {
+            ): AuditTrailInterface {
+                $trail = $this->createMock(AuditTrailInterface::class);
+
+                $trail->expects(static::atLeastOnce())
+                    ->method('end');
+
+                $trail->method('throwable')
+                    ->willReturnCallback(static function (\Throwable $throwable) use ($trail): \Throwable {
+                        static::assertNotSame(0, $throwable->getCode());
+
+                        $trail->end();
+
+                        return $throwable;
+                    });
+
+                $trail->method('return')
+                    ->willReturnCallback(static function (object $result) use ($trail): object {
+                        $trail->end();
+
+                        return $result;
+                    });
+
+                $trail->method('returnIterable')
+                    ->willReturnCallback(static function (iterable $result) use ($trail): iterable {
+                        try {
+                            yield from $result;
+
+                            $trail->end();
+                        } catch (\Throwable $throwable) {
+                            throw $trail->throwable($throwable);
+                        }
+                    });
+
+                $trail->method('yield')->willReturnArgument(0);
+
                 static::assertNotSame('', $auditContext->getUiIdentifier());
                 static::assertNotSame('', $auditContext->getUserIdentifier());
                 $uiAction::class()->isObjectOfType($uiAction);
