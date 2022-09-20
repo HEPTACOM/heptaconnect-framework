@@ -262,6 +262,34 @@ class Psr11StorageFacadeTest extends TestCase
         }
 
         try {
+            $facade->getUiAuditTrailBeginAction();
+            static::fail();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
+        }
+
+        try {
+            $facade->getUiAuditTrailLogOutputAction();
+            static::fail();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
+        }
+
+        try {
+            $facade->getUiAuditTrailLogErrorAction();
+            static::fail();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
+        }
+
+        try {
+            $facade->getUiAuditTrailEndAction();
+            static::fail();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
+        }
+
+        try {
             $facade->getRouteCapabilityOverviewAction();
             static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
@@ -312,6 +340,10 @@ class Psr11StorageFacadeTest extends TestCase
         $facade->getPortalNodeStorageListAction();
         $facade->getPortalNodeStorageSetAction();
         $facade->getStorageKeyGenerator();
+        $facade->getUiAuditTrailBeginAction();
+        $facade->getUiAuditTrailLogOutputAction();
+        $facade->getUiAuditTrailLogErrorAction();
+        $facade->getUiAuditTrailEndAction();
         $facade->getRouteCapabilityOverviewAction();
 
         static::assertTrue(true, 'We just do not expect an exception');

@@ -48,6 +48,10 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInte
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\RouteCapability\RouteCapabilityOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailBeginActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailEndActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailLogErrorActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailLogOutputActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -140,6 +144,14 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     private ?RouteCapabilityOverviewActionInterface $routeCapabilityOverviewAction = null;
 
     private ?StorageKeyGeneratorContract $storageKeyGenerator = null;
+
+    private ?UiAuditTrailBeginActionInterface $uiAuditTrailBeginAction = null;
+
+    private ?UiAuditTrailLogOutputActionInterface $uiAuditTrailLogOutputAction = null;
+
+    private ?UiAuditTrailLogErrorActionInterface $uiAuditTrailLogErrorAction = null;
+
+    private ?UiAuditTrailEndActionInterface $uiAuditTrailEndAction = null;
 
     private ?WebHttpHandlerConfigurationFindActionInterface $webHttpHandlerConfigurationFindAction = null;
 
@@ -583,6 +595,50 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    public function getUiAuditTrailBeginAction(): UiAuditTrailBeginActionInterface
+    {
+        try {
+            return $this->uiAuditTrailBeginAction ??= $this->createUiAuditTrailBeginAction();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            throw $throwable;
+        } catch (\Throwable $throwable) {
+            throw new StorageFacadeServiceException(UiAuditTrailBeginActionInterface::class, $throwable);
+        }
+    }
+
+    public function getUiAuditTrailLogOutputAction(): UiAuditTrailLogOutputActionInterface
+    {
+        try {
+            return $this->uiAuditTrailLogOutputAction ??= $this->createUiAuditTrailLogOutputAction();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            throw $throwable;
+        } catch (\Throwable $throwable) {
+            throw new StorageFacadeServiceException(UiAuditTrailLogOutputActionInterface::class, $throwable);
+        }
+    }
+
+    public function getUiAuditTrailLogErrorAction(): UiAuditTrailLogErrorActionInterface
+    {
+        try {
+            return $this->uiAuditTrailLogErrorAction ??= $this->createUiAuditTrailLogErrorAction();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            throw $throwable;
+        } catch (\Throwable $throwable) {
+            throw new StorageFacadeServiceException(UiAuditTrailLogErrorActionInterface::class, $throwable);
+        }
+    }
+
+    public function getUiAuditTrailEndAction(): UiAuditTrailEndActionInterface
+    {
+        try {
+            return $this->uiAuditTrailEndAction ??= $this->createUiAuditTrailEndAction();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            throw $throwable;
+        } catch (\Throwable $throwable) {
+            throw new StorageFacadeServiceException(UiAuditTrailEndActionInterface::class, $throwable);
+        }
+    }
+
     public function getWebHttpHandlerConfigurationFindAction(): WebHttpHandlerConfigurationFindActionInterface
     {
         try {
@@ -802,6 +858,26 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
      * @throws \Throwable
      */
     abstract protected function createStorageKeyGenerator(): StorageKeyGeneratorContract;
+
+    /**
+     * @throws \Throwable
+     */
+    abstract protected function createUiAuditTrailBeginAction(): UiAuditTrailBeginActionInterface;
+
+    /**
+     * @throws \Throwable
+     */
+    abstract protected function createUiAuditTrailLogOutputAction(): UiAuditTrailLogOutputActionInterface;
+
+    /**
+     * @throws \Throwable
+     */
+    abstract protected function createUiAuditTrailLogErrorAction(): UiAuditTrailLogErrorActionInterface;
+
+    /**
+     * @throws \Throwable
+     */
+    abstract protected function createUiAuditTrailEndAction(): UiAuditTrailEndActionInterface;
 
     /**
      * @throws \Throwable

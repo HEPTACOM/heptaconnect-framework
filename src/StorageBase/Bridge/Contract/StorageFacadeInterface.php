@@ -45,6 +45,10 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInte
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\RouteCapability\RouteCapabilityOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailBeginActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailEndActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailLogErrorActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailLogOutputActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -326,6 +330,34 @@ interface StorageFacadeInterface
      * @throws StorageFacadeServiceExceptionInterface
      */
     public function getStorageKeyGenerator(): StorageKeyGeneratorContract;
+
+    /**
+     * Provides a service to create an audit trail for UI actions.
+     *
+     * @throws StorageFacadeServiceExceptionInterface
+     */
+    public function getUiAuditTrailBeginAction(): UiAuditTrailBeginActionInterface;
+
+    /**
+     * Provides a service to attach a UI action output to a begun audit trail.
+     *
+     * @throws StorageFacadeServiceExceptionInterface
+     */
+    public function getUiAuditTrailLogOutputAction(): UiAuditTrailLogOutputActionInterface;
+
+    /**
+     * Provides a service to attach an error message to the UI audit trail.
+     *
+     * @throws StorageFacadeServiceExceptionInterface
+     */
+    public function getUiAuditTrailLogErrorAction(): UiAuditTrailLogErrorActionInterface;
+
+    /**
+     * Provides a service to mark an audit trail as finished.
+     *
+     * @throws StorageFacadeServiceExceptionInterface
+     */
+    public function getUiAuditTrailEndAction(): UiAuditTrailEndActionInterface;
 
     /**
      * Provides storage action to get web HTTP handler configuration by portal node and path.

@@ -46,6 +46,10 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInte
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\RouteCapability\RouteCapabilityOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailBeginActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailEndActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailLogErrorActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailLogOutputActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -268,6 +272,26 @@ class Psr11StorageFacade extends AbstractSingletonStorageFacade
     protected function createStorageKeyGenerator(): StorageKeyGeneratorContract
     {
         return $this->getInstanceFromContainer(StorageKeyGeneratorContract::class);
+    }
+
+    protected function createUiAuditTrailBeginAction(): UiAuditTrailBeginActionInterface
+    {
+        return $this->getInstanceFromContainer(UiAuditTrailBeginActionInterface::class);
+    }
+
+    protected function createUiAuditTrailLogOutputAction(): UiAuditTrailLogOutputActionInterface
+    {
+        return $this->getInstanceFromContainer(UiAuditTrailLogOutputActionInterface::class);
+    }
+
+    protected function createUiAuditTrailLogErrorAction(): UiAuditTrailLogErrorActionInterface
+    {
+        return $this->getInstanceFromContainer(UiAuditTrailLogErrorActionInterface::class);
+    }
+
+    protected function createUiAuditTrailEndAction(): UiAuditTrailEndActionInterface
+    {
+        return $this->getInstanceFromContainer(UiAuditTrailEndActionInterface::class);
     }
 
     protected function createWebHttpHandlerConfigurationFindAction(): WebHttpHandlerConfigurationFindActionInterface
