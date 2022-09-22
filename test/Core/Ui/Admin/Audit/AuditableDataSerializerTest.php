@@ -28,7 +28,7 @@ final class AuditableDataSerializerTest extends TestCase
         $logger = $this->createMock(LoggerInterface::class);
         $serializer = new AuditableDataSerializer($logger);
 
-        $aware = new class () implements AttachmentAwareInterface, AuditableDataAwareInterface {
+        $aware = new class() implements AttachmentAwareInterface, AuditableDataAwareInterface {
             use AttachmentAwareTrait;
 
             public function __construct()
@@ -63,7 +63,7 @@ final class AuditableDataSerializerTest extends TestCase
         $logger = $this->createMock(LoggerInterface::class);
         $serializer = new AuditableDataSerializer($logger);
 
-        $aware = new class () implements AuditableDataAwareInterface {
+        $aware = new class() implements AuditableDataAwareInterface {
             public function getAuditableData(): array
             {
                 return [
@@ -92,7 +92,7 @@ final class AuditableDataSerializerTest extends TestCase
         $logger = $this->createMock(LoggerInterface::class);
         $serializer = new AuditableDataSerializer($logger);
 
-        $aware = new class () implements AuditableDataAwareInterface, \JsonSerializable {
+        $aware = new class() implements AuditableDataAwareInterface, \JsonSerializable {
             public function getAuditableData(): array
             {
                 return [

@@ -28,7 +28,7 @@ abstract class UiAuditTrailTestContract extends TestCase
      */
     public function testLifecycle(): void
     {
-        static::expectNotToPerformAssertions();;
+        static::expectNotToPerformAssertions();
 
         $facade = $this->createStorageFacade();
         $beginAction = $facade->getUiAuditTrailBeginAction();
