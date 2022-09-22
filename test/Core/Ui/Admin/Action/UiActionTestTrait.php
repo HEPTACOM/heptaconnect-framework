@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContext;
+use Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContextFactory;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditTrail;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailInterface;
@@ -15,7 +16,9 @@ trait UiActionTestTrait
 {
     private function createUiActionContext(): UiActionContext
     {
-        return new UiActionContext(new UiAuditContext('test', 'phpunit'));
+        $factory = new UiActionContextFactory();
+
+        return $factory->createContext(new UiAuditContext('test', 'phpunit'));
     }
 
     private function createAuditTrailFactory(): AuditTrailFactoryInterface
