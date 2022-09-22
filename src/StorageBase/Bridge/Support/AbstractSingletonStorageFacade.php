@@ -412,22 +412,46 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
 
     public function getPortalNodeAliasGetAction(): PortalNodeAliasGetActionInterface
     {
-        return $this->portalNodeAliasGetAction ??= $this->createPortalNodeAliasGetAction();
+        try {
+            return $this->portalNodeAliasGetAction ??= $this->createPortalNodeAliasGetAction();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            throw $throwable;
+        } catch (\Throwable $throwable) {
+            throw new StorageFacadeServiceException(PortalNodeAliasGetActionInterface::class, $throwable);
+        }
     }
 
     public function getPortalNodeAliasFindAction(): PortalNodeAliasFindActionInterface
     {
-        return $this->portalNodeAliasFindAction ??= $this->createPortalNodeAliasFindAction();
+        try {
+            return $this->portalNodeAliasFindAction ??= $this->createPortalNodeAliasFindAction();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            throw $throwable;
+        } catch (\Throwable $throwable) {
+            throw new StorageFacadeServiceException(PortalNodeAliasFindActionInterface::class, $throwable);
+        }
     }
 
     public function getPortalNodeAliasSetAction(): PortalNodeAliasSetActionInterface
     {
-        return $this->portalNodeAliasSetAction ??= $this->createPortalNodeAliasSetAction();
+        try {
+            return $this->portalNodeAliasSetAction ??= $this->createPortalNodeAliasSetAction();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            throw $throwable;
+        } catch (\Throwable $throwable) {
+            throw new StorageFacadeServiceException(PortalNodeAliasSetActionInterface::class, $throwable);
+        }
     }
 
     public function getPortalNodeAliasOverviewAction(): PortalNodeAliasOverviewActionInterface
     {
-        return $this->portalNodeAliasOverviewAction ??= $this->createPortalNodeAliasOverviewAction();
+        try {
+            return $this->portalNodeAliasOverviewAction ??= $this->createPortalNodeAliasOverviewAction();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            throw $throwable;
+        } catch (\Throwable $throwable) {
+            throw new StorageFacadeServiceException(PortalNodeAliasOverviewActionInterface::class, $throwable);
+        }
     }
 
     public function getPortalNodeConfigurationGetAction(): PortalNodeConfigurationGetActionInterface
@@ -771,12 +795,24 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
      */
     abstract protected function createPortalNodeListAction(): PortalNodeListActionInterface;
 
+    /**
+     * @throws \Throwable
+     */
     abstract protected function createPortalNodeAliasGetAction(): PortalNodeAliasGetActionInterface;
 
+    /**
+     * @throws \Throwable
+     */
     abstract protected function createPortalNodeAliasFindAction(): PortalNodeAliasFindActionInterface;
 
+    /**
+     * @throws \Throwable
+     */
     abstract protected function createPortalNodeAliasSetAction(): PortalNodeAliasSetActionInterface;
 
+    /**
+     * @throws \Throwable
+     */
     abstract protected function createPortalNodeAliasOverviewAction(): PortalNodeAliasOverviewActionInterface;
 
     /**
