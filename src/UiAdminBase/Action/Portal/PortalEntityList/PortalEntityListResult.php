@@ -59,7 +59,7 @@ final class PortalEntityListResult implements AttachmentAwareInterface, Auditabl
     public function getAuditableData(): array
     {
         return [
-            'codeOrigin' => $this->getCodeOrigin(),
+            'codeOrigin' => (string) $this->getCodeOrigin(),
             'supportedEntityType' => $this->getSupportedEntityType(),
             'flowComponentClass' => $this->getFlowComponentClass(),
         ];

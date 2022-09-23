@@ -6,6 +6,7 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Test\Action;
 
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEmitter;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortalExtension;
+use Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditableDataSerializer;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface;
 use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
@@ -34,8 +35,10 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResultColl
 use Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Audit\AuditableDataAwareInterface;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditableDataSerializer
  * @covers \Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
@@ -83,8 +86,13 @@ final class UiActionParameterTest extends TestCase
 
     public function testAuditabilityOfUiActionStructs(): void
     {
+        $serializer = new AuditableDataSerializer($this->createMock(LoggerInterface::class));
+
         foreach ($this->iterateAuditableAwareActionStructs() as $auditableAware) {
-            static::assertNotSame([], $auditableAware->getAuditableData());
+            $data = $auditableAware->getAuditableData();
+            static::assertNotSame([], $data);
+            // validate all objects are non empty json serializables
+            static::assertStringNotContainsString('{}', $serializer->serialize($auditableAware));
         }
     }
 
