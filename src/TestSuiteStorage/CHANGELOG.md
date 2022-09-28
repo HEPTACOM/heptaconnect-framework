@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add test scenario in `\Heptacom\HeptaConnect\TestSuite\Storage\Action\IdentityMappingTestContract::testReflectFromPortalNodeAToBWhereNoMappingsAreInTheStorage` to test the mapping functionality of identity reflection action implementations
+
 ### Changed
 
 ### Deprecated
