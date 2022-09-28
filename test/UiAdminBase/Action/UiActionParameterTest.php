@@ -97,7 +97,6 @@ final class UiActionParameterTest extends TestCase
 
         yield new PortalEntityListCriteria($portalClass::class());
         yield new PortalEntityListResult($codeOrigin, $entityType::class(), FooBarEmitter::class);
-        yield new PortalEntityListResult($codeOrigin, $unsafeClass, FooBarEmitter::class);
         yield new PortalNodeAddPayload($portalClass::class());
         yield new PortalNodeAddResult($portalNodeKey);
         yield new PortalNodeEntityListCriteria($portalNodeKey);

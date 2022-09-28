@@ -10,7 +10,21 @@
         HEPTAconnect rule set.
     </description>
 
-    <rule ref="rulesets/codesize.xml" />
+    <rule ref="rulesets/codesize.xml">
+        <!-- Included with configuration below -->
+        <exclude name="TooManyMethods"/>
+        <exclude name="TooManyPublicMethods"/>
+    </rule>
+    <rule ref="rulesets/codesize.xml/TooManyMethods">
+        <properties>
+            <property name="ignorepattern" value="(^(set|get|add|without|with|create))i"/>
+        </properties>
+    </rule>
+    <rule ref="rulesets/codesize.xml/TooManyPublicMethods">
+        <properties>
+            <property name="ignorepattern" value="(^(set|get|add|without|with|create))i"/>
+        </properties>
+    </rule>
 
     <rule ref="rulesets/naming.xml">
         <exclude name="BooleanGetMethodName" />
@@ -22,12 +36,13 @@
     </rule>
     <rule ref="rulesets/naming.xml/LongClassName">
         <properties>
-            <property name="subtract-suffixes" value="ServiceContract,ServiceInterface,Collection,Contract,Interface"/>
+            <property name="subtract-suffixes" value="Facade,UiActionContract,UiActionInterface,ActionContract,ActionInterface,ServiceContract,ServiceInterface,TestContract,Collection,Contract,Interface,Exception,Throwable,UiAction,Action,CompilerPass,ContainerBuilder,Generator,Resolver"/>
         </properties>
     </rule>
     <rule ref="rulesets/naming.xml/LongVariable">
         <properties>
-            <property name="subtract-suffixes" value="Service,Collection"/>
+            <property name="maximum" value="30"/>
+            <property name="subtract-suffixes" value="Service,Collection,Action,Facade,Factory,Generator,Resolver,Results,Payloads,Result,Payload,ContainerBuilder"/>
         </properties>
     </rule>
     <rule ref="rulesets/naming.xml/ShortVariable">

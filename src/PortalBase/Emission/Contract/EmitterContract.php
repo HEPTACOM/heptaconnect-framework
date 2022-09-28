@@ -11,6 +11,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameExceptio
 use Heptacom\HeptaConnect\Dataset\Base\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityException;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 /**
  * Base class for every emitter implementation with various boilerplate-reducing entrypoints for rapid development.
@@ -158,16 +159,15 @@ abstract class EmitterContract
     {
         /** @var LoggerInterface|null $logger */
         $logger = $context->getContainer()->get(LoggerInterface::class);
+        $logger ??= new NullLogger();
 
         /** @var iterable<string> $externalIds */
         $externalIds = \iterable_filter($externalIds, function (?string $externalId) use ($logger): bool {
             if (!\is_string($externalId)) {
-                if ($logger instanceof LoggerInterface) {
-                    $logger->error(\sprintf(
-                        'Empty primary key was passed to emitter "%s". Skipping.',
-                        static::class
-                    ));
-                }
+                $logger->error(\sprintf(
+                    'Empty primary key was passed to emitter "%s". Skipping.',
+                    static::class
+                ));
 
                 return false;
             }
@@ -177,21 +177,16 @@ abstract class EmitterContract
 
         foreach ($this->batch($externalIds, $context) as $entity) {
             if (!$this->isSupported($entity)) {
-                $this->runDeclaringClass ??= (new \ReflectionMethod($this, 'run'))->getDeclaringClass()->getName();
-                $this->batchDeclaringClass ??= (new \ReflectionMethod($this, 'batch'))->getDeclaringClass()->getName();
-
-                if ($this->runDeclaringClass === self::class && $this->batchDeclaringClass === self::class) {
+                if ($this->isRunImplementationSelf() && $this->isBatchImplementationSelf()) {
                     continue;
                 }
 
-                if ($logger instanceof LoggerInterface) {
-                    $logger->error(\sprintf(
-                        'Emitter "%s" returned object of unsupported type. Expected "%s" but got "%s".',
-                        static::class,
-                        $this->getSupportedEntityType(),
-                        $entity === null ? 'null' : $entity::class()
-                    ));
-                }
+                $logger->error(\sprintf(
+                    'Emitter "%s" returned object of unsupported type. Expected "%s" but got "%s".',
+                    static::class,
+                    $this->getSupportedEntityType(),
+                    $entity === null ? 'null' : $entity::class()
+                ));
             } elseif ($entity instanceof DatasetEntityContract) {
                 yield $entity;
             }
@@ -226,5 +221,19 @@ abstract class EmitterContract
     protected function extend(DatasetEntityContract $entity, EmitContextInterface $context): DatasetEntityContract
     {
         return $entity;
+    }
+
+    private function isBatchImplementationSelf(): bool
+    {
+        $this->batchDeclaringClass ??= (new \ReflectionMethod($this, 'batch'))->getDeclaringClass()->getName();
+
+        return $this->batchDeclaringClass === self::class;
+    }
+
+    private function isRunImplementationSelf(): bool
+    {
+        $this->runDeclaringClass ??= (new \ReflectionMethod($this, 'run'))->getDeclaringClass()->getName();
+
+        return $this->runDeclaringClass === self::class;
     }
 }

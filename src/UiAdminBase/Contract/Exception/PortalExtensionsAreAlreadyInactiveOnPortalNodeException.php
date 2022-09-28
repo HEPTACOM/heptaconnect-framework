@@ -7,6 +7,9 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception;
 use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionTypeCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.LongClassName)
+ */
 final class PortalExtensionsAreAlreadyInactiveOnPortalNodeException extends \InvalidArgumentException implements InvalidArgumentThrowableInterface
 {
     private PortalNodeKeyInterface $portalNodeKey;
