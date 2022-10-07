@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionDeactivate;
 
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
+use Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -16,15 +17,13 @@ final class PortalNodeExtensionDeactivatePayload implements AttachmentAwareInter
 
     private PortalNodeKeyInterface $portalNodeKey;
 
-    /**
-     * @var class-string[]
-     */
-    private array $portalExtensionQueries = [];
+    private ClassStringReferenceCollection $portalExtensionQueries;
 
     public function __construct(PortalNodeKeyInterface $portalNodeKey)
     {
         $this->attachments = new AttachmentCollection();
         $this->portalNodeKey = $portalNodeKey;
+        $this->portalExtensionQueries = new ClassStringReferenceCollection();
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface
@@ -37,18 +36,12 @@ final class PortalNodeExtensionDeactivatePayload implements AttachmentAwareInter
         $this->portalNodeKey = $portalNodeKey;
     }
 
-    /**
-     * @return class-string[]
-     */
-    public function getPortalExtensionQueries(): array
+    public function getPortalExtensionQueries(): ClassStringReferenceCollection
     {
         return $this->portalExtensionQueries;
     }
 
-    /**
-     * @param class-string[] $portalExtensionQueries
-     */
-    public function setPortalExtensionQueries(array $portalExtensionQueries): void
+    public function setPortalExtensionQueries(ClassStringReferenceCollection $portalExtensionQueries): void
     {
         $this->portalExtensionQueries = $portalExtensionQueries;
     }

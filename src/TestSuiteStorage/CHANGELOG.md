@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add test scenario in `\Heptacom\HeptaConnect\TestSuite\Storage\Action\IdentityMappingTestContract::testReflectFromPortalNodeAToBWhereNoMappingsAreInTheStorage` to test the mapping functionality of identity reflection action implementations
 - Add admin UI action fixture class `\Heptacom\HeptaConnect\TestSuite\Storage\Fixture\AdminUiAction\StorageTestUiAction` to provide a basic admin UI action
 - Add `\Heptacom\HeptaConnect\TestSuite\Storage\Action\UiAuditTrailTestContract` to test basic life cycle of logging a UI action
 
