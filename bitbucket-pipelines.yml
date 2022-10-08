@@ -71,64 +71,34 @@ definitions:
                     - make .build
                     - mv vendor .build/vendor-low
                     - echo 'mkdir -p vendor; rm -rf vendor; mv .build/vendor-low vendor' > setup-vendor.sh
-        -   step: &composer-high-install-80
-                <<: *composer-high-install
+        -   step: &test-unit-high-install-80
                 <<: *php80-image
-                name: Install (8.0 + High dependencies)
+                name: Install and Unit test (8.0 + High dependencies)
                 script:
                     - make clean
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
-                    - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
-                    - make .build
-                    - mv vendor .build/vendor-high-80
-                    - echo 'mkdir -p vendor; rm -rf vendor; mv .build/vendor-high-80 vendor' > setup-vendor.sh
-        -   step: &composer-low-install-80
-                <<: *composer-low-install
-                <<: *php80-image
-                name: Install (8.0 + Low dependencies)
-                script:
-                    - make clean
-                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
-                    - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
-                    - make .build
-                    - mv vendor .build/vendor-low-80
-                    - echo 'mkdir -p vendor; rm -rf vendor; mv .build/vendor-low-80 vendor' > setup-vendor.sh
-        -   step: &composer-high-install-81
-                <<: *composer-high-install
-                <<: *php81-image
-                name: Install (8.1 + High dependencies)
-                script:
-                    - make clean
-                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
-                    - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
-                    - make .build
-                    - mv vendor .build/vendor-high-81
-                    - echo 'mkdir -p vendor; rm -rf vendor; mv .build/vendor-high-81 vendor' > setup-vendor.sh
-        -   step: &composer-low-install-81
-                <<: *composer-low-install
-                <<: *php81-image
-                name: Install (8.1 + Low dependencies)
-                script:
-                    - make clean
-                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
-                    - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
-                    - make .build
-                    - mv vendor .build/vendor-low-81
-                    - echo 'mkdir -p vendor; rm -rf vendor; mv .build/vendor-low-81 vendor' > setup-vendor.sh
-        -   step: &test-unit
-                <<: *default-step
-                name: Unit tests
-                script:
-                    - bash setup-vendor.sh
                     - COMPOSER_EXTRA_ARGS=-vvv make -e test
-        -   step: &test-unit-80
-                <<: *test-unit
+        -   step: &test-unit-low-install-80
                 <<: *php80-image
-                name: Unit tests (8.0)
-        -   step: &test-unit-81
-                <<: *test-unit
+                name: Install and Unit test (8.0 + Low dependencies)
+                script:
+                    - make clean
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e test
+        -   step: &test-unit-high-install-81
                 <<: *php81-image
-                name: Unit tests (8.1)
+                name: Install and Unit test (8.1 + High dependencies)
+                script:
+                    - make clean
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e test
+        -   step: &test-unit-low-install-81
+                <<: *php81-image
+                name: Install and Unit test (8.1 + Low dependencies)
+                script:
+                    - make clean
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e test
         -   step: &test-coverage
                 <<: *default-step
                 name: Test coverage
@@ -206,14 +176,11 @@ pipelines:
             -   parallel:
                     -   step: *test-coverage
                     -   step: *test-code-style-composer-unused
-            -   step: *composer-high-install-80
-            -   step: *test-unit-80
-            -   step: *composer-low-install-80
-            -   step: *test-unit-80
-            -   step: *composer-high-install-81
-            -   step: *test-unit-81
-            -   step: *composer-low-install-81
-            -   step: *test-unit-81
+            -   parallel:
+                    -   step: *test-unit-high-install-80
+                    -   step: *test-unit-low-install-80
+                    -   step: *test-unit-high-install-81
+                    -   step: *test-unit-low-install-81
             -   step: *composer-high-install
             -   parallel:
                     -   step: *test-code-style-phpmd
@@ -252,14 +219,11 @@ pipelines:
                 -   step: *test-code-style-composer-unused
                 -   step: *test-code-style-json
                 -   step: *test-code-style-php
-        -   step: *composer-high-install-80
-        -   step: *test-unit-80
-        -   step: *composer-low-install-80
-        -   step: *test-unit-80
-        -   step: *composer-high-install-81
-        -   step: *test-unit-81
-        -   step: *composer-low-install-81
-        -   step: *test-unit-81
+        -   parallel:
+                -   step: *test-unit-high-install-80
+                -   step: *test-unit-low-install-80
+                -   step: *test-unit-high-install-81
+                -   step: *test-unit-low-install-81
         -   step: *composer-high-install
         -   parallel:
                 -   step: *test-code-style-phpmd
