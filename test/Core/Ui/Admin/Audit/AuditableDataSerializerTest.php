@@ -121,4 +121,66 @@ final class AuditableDataSerializerTest extends TestCase
 
         static::assertSame('{"data":{"hello":{"hello":null,"foo":"bar"},"foo":"bar"}}', $serialized);
     }
+
+    public function testExceptionDuringSerialization(): void
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $serializer = new AuditableDataSerializer($logger);
+
+        $aware = new class() implements AuditableDataAwareInterface, \JsonSerializable {
+            public function getAuditableData(): array
+            {
+                return [
+                    'hello' => $this,
+                    'foo' => 'bar',
+                ];
+            }
+
+            public function jsonSerialize()
+            {
+                throw new \RuntimeException();
+            }
+        };
+
+        $logger->expects(static::never())->method('emergency');
+        $logger->expects(static::once())->method('alert');
+        $logger->expects(static::never())->method('critical');
+        $logger->expects(static::never())->method('error');
+        $logger->expects(static::never())->method('warning');
+        $logger->expects(static::never())->method('notice');
+        $logger->expects(static::never())->method('info');
+        $logger->expects(static::never())->method('debug');
+        $logger->expects(static::never())->method('log');
+
+        $serialized = $serializer->serialize($aware);
+
+        static::assertSame('{"$error":"An unrecoverable error happened during serialization"}', $serialized);
+    }
+
+    public function testExceptionDuringFetchingAuditableData(): void
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $serializer = new AuditableDataSerializer($logger);
+
+        $aware = new class() implements AuditableDataAwareInterface {
+            public function getAuditableData(): array
+            {
+                throw new \RuntimeException();
+            }
+        };
+
+        $logger->expects(static::never())->method('emergency');
+        $logger->expects(static::once())->method('alert');
+        $logger->expects(static::never())->method('critical');
+        $logger->expects(static::never())->method('error');
+        $logger->expects(static::never())->method('warning');
+        $logger->expects(static::never())->method('notice');
+        $logger->expects(static::never())->method('info');
+        $logger->expects(static::never())->method('debug');
+        $logger->expects(static::never())->method('log');
+
+        $serialized = $serializer->serialize($aware);
+
+        static::assertSame('{"data":[]}', $serialized);
+    }
 }
