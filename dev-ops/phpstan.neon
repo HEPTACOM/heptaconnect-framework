@@ -6,6 +6,7 @@ rules:
 	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\InterfacesHaveDocumentationRule
 	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\UiActionsPublicMethodMustCallTracerOnReturnRule
 	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\UiActionsPublicMethodMustCallTracerOnThrowRule
+	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\UiActionsPublicMethodMustCallTracerOnYieldFromRule
 	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\UiActionsPublicMethodMustCallTracerOnYieldRule
 parameters:
 	checkMissingIterableValueType: false
