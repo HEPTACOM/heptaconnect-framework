@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditableDataSerializer;
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Audit\AuditableDataAwareInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -26,7 +27,7 @@ final class AuditableDataSerializerTest extends TestCase
     public function testSerializationOfAttachments(): void
     {
         $logger = $this->createMock(LoggerInterface::class);
-        $serializer = new AuditableDataSerializer($logger);
+        $serializer = $this->createAuditableDataSerializer($logger);
 
         $aware = new class() implements AttachmentAwareInterface, AuditableDataAwareInterface {
             use AttachmentAwareTrait;
@@ -61,7 +62,7 @@ final class AuditableDataSerializerTest extends TestCase
     public function testSerialization(): void
     {
         $logger = $this->createMock(LoggerInterface::class);
-        $serializer = new AuditableDataSerializer($logger);
+        $serializer = $this->createAuditableDataSerializer($logger);
 
         $aware = new class() implements AuditableDataAwareInterface {
             public function getAuditableData(): array
@@ -90,7 +91,7 @@ final class AuditableDataSerializerTest extends TestCase
     public function testErrorOnSerialization(): void
     {
         $logger = $this->createMock(LoggerInterface::class);
-        $serializer = new AuditableDataSerializer($logger);
+        $serializer = $this->createAuditableDataSerializer($logger);
 
         $aware = new class() implements AuditableDataAwareInterface, \JsonSerializable {
             public function getAuditableData(): array
@@ -125,7 +126,7 @@ final class AuditableDataSerializerTest extends TestCase
     public function testExceptionDuringSerialization(): void
     {
         $logger = $this->createMock(LoggerInterface::class);
-        $serializer = new AuditableDataSerializer($logger);
+        $serializer = $this->createAuditableDataSerializer($logger);
 
         $aware = new class() implements AuditableDataAwareInterface, \JsonSerializable {
             public function getAuditableData(): array
@@ -136,7 +137,7 @@ final class AuditableDataSerializerTest extends TestCase
                 ];
             }
 
-            public function jsonSerialize()
+            public function jsonSerialize(): void
             {
                 throw new \RuntimeException();
             }
@@ -160,7 +161,7 @@ final class AuditableDataSerializerTest extends TestCase
     public function testExceptionDuringFetchingAuditableData(): void
     {
         $logger = $this->createMock(LoggerInterface::class);
-        $serializer = new AuditableDataSerializer($logger);
+        $serializer = $this->createAuditableDataSerializer($logger);
 
         $aware = new class() implements AuditableDataAwareInterface {
             public function getAuditableData(): array
@@ -182,5 +183,15 @@ final class AuditableDataSerializerTest extends TestCase
         $serialized = $serializer->serialize($aware);
 
         static::assertSame('{"data":[]}', $serialized);
+    }
+
+    private function createAuditableDataSerializer($logger): AuditableDataSerializer
+    {
+        return new AuditableDataSerializer($logger, new class() extends StorageKeyGeneratorContract {
+            public function generateKeys(string $keyClassName, int $count): iterable
+            {
+                return [];
+            }
+        });
     }
 }

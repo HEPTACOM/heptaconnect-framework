@@ -12,6 +12,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface;
 use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\FirstEntity;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\Portal;
@@ -86,7 +87,12 @@ final class UiActionParameterTest extends TestCase
 
     public function testAuditabilityOfUiActionStructs(): void
     {
-        $serializer = new AuditableDataSerializer($this->createMock(LoggerInterface::class));
+        $serializer = new AuditableDataSerializer($this->createMock(LoggerInterface::class), new class() extends StorageKeyGeneratorContract {
+            public function generateKeys(string $keyClassName, int $count): iterable
+            {
+                return [];
+            }
+        });
 
         foreach ($this->iterateAuditableAwareActionStructs() as $auditableAware) {
             $data = $auditableAware->getAuditableData();

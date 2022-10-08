@@ -21,6 +21,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrail
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailEndActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailLogErrorActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailLogOutputActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\UiAuditTrailKeyInterface;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -138,7 +139,15 @@ final class AuditTrailFactoryTest extends TestCase
 
         $factory = new AuditTrailFactory(
             $this->deepObjectIterator,
-            new AuditableDataSerializer($this->createMock(LoggerInterface::class)),
+            new AuditableDataSerializer(
+                $this->createMock(LoggerInterface::class),
+                new class() extends StorageKeyGeneratorContract {
+                    public function generateKeys(string $keyClassName, int $count): iterable
+                    {
+                        return [];
+                    }
+                }
+            ),
             $this->beginAction,
             $this->logOutputAction,
             $this->logErrorAction,
