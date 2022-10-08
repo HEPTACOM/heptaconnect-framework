@@ -1,9 +1,11 @@
-image: heptacom/heptaconnect-pipeline:php74-6.0.2
+image: heptacom/heptaconnect-pipeline:php74-7.0.0
 
 definitions:
     partials:
         -   step: &php80-image
-                image: heptacom/heptaconnect-pipeline:php80-6.0.2
+                image: heptacom/heptaconnect-pipeline:php80-7.0.0
+        -   step: &php81-image
+                image: heptacom/heptaconnect-pipeline:php81-7.0.0
     services:
         mysql:
             image: mysql:5.7
@@ -97,6 +99,28 @@ definitions:
                     - make .build
                     - mv vendor .build/vendor-low-80
                     - echo 'mkdir -p vendor; rm -rf vendor; mv .build/vendor-low-80 vendor' > setup-vendor.sh
+        -   step: &composer-high-install-81
+                <<: *composer-high-install
+                <<: *php81-image
+                name: Install (8.1 + High dependencies)
+                script:
+                    - make clean
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
+                    - make .build
+                    - mv vendor .build/vendor-high-81
+                    - echo 'mkdir -p vendor; rm -rf vendor; mv .build/vendor-high-81 vendor' > setup-vendor.sh
+        -   step: &composer-low-install-81
+                <<: *composer-low-install
+                <<: *php81-image
+                name: Install (8.1 + Low dependencies)
+                script:
+                    - make clean
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
+                    - make .build
+                    - mv vendor .build/vendor-low-81
+                    - echo 'mkdir -p vendor; rm -rf vendor; mv .build/vendor-low-81 vendor' > setup-vendor.sh
         -   step: &composer-install-core
                 <<: *default-step
                 name: Install Core
@@ -137,6 +161,10 @@ definitions:
                 <<: *test-unit
                 <<: *php80-image
                 name: Unit tests (8.0)
+        -   step: &test-unit-81
+                <<: *test-unit
+                <<: *php81-image
+                name: Unit tests (8.1)
         -   step: &test-coverage
                 <<: *default-step
                 name: Test coverage
@@ -230,6 +258,10 @@ pipelines:
             -   step: *test-unit-80
             -   step: *composer-low-install-80
             -   step: *test-unit-80
+            -   step: *composer-high-install-81
+            -   step: *test-unit-81
+            -   step: *composer-low-install-81
+            -   step: *test-unit-81
             -   step: *composer-high-install
             -   parallel:
                     -   step: *test-code-style-phpmd
@@ -290,6 +322,10 @@ pipelines:
         -   step: *test-unit-80
         -   step: *composer-low-install-80
         -   step: *test-unit-80
+        -   step: *composer-high-install-81
+        -   step: *test-unit-81
+        -   step: *composer-low-install-81
+        -   step: *test-unit-81
         -   step: *composer-high-install
         -   parallel:
                 -   step: *test-code-style-phpmd
