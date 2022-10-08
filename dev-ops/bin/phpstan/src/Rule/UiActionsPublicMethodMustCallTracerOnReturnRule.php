@@ -61,11 +61,11 @@ final class UiActionsPublicMethodMustCallTracerOnReturnRule implements Rule
             return [];
         }
 
-        $thrown = $node->expr;
+        $result = $node->expr;
 
-        if ($thrown instanceof MethodCall) {
-            $var = $thrown->var;
-            $varMethod = (string) $thrown->name;
+        if ($result instanceof MethodCall) {
+            $var = $result->var;
+            $varMethod = (string) $result->name;
 
             foreach ($scope->getVariableType((string) $var->name)->getReferencedClasses() as $varType) {
                 if ($varType === AuditTrailInterface::class && \in_array($varMethod, ['return', 'returnIterable'], true)) {
