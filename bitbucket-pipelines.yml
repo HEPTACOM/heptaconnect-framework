@@ -172,7 +172,7 @@ pipelines:
             -   step: *github-keyword-gate-step
             -   step: *github-mirror-branch
             -   step: *composer-high-install
-            -   parallel:
+            -   parallel: &steps-blocking-tests
                     -   step: *test-coverage
                     -   step: *test-code-style-composer-normalize
                     -   step: *test-code-style-composer-unused
@@ -180,28 +180,25 @@ pipelines:
                     -   step: *test-code-style-php
                     -   step: *test-code-style-phpcpd
             -   step: *composer-low-install
-            -   parallel:
+            -   parallel: &steps-blocking-low-tests
                     -   step: *test-coverage
                     -   step: *test-code-style-composer-unused
-            -   parallel:
+            -   parallel: &steps-blocking-non-min-php-version-tests
                     -   step: *test-unit-high-install-80
                     -   step: *test-unit-low-install-80
                     -   step: *test-unit-high-install-81
                     -   step: *test-unit-low-install-81
             -   step: *composer-high-install
-            -   parallel:
+            -   parallel: &steps-non-blocking-tests
                     -   step: *test-code-style-phpmd
                     -   step: *test-code-style-soft-require
                     -   step: *test-code-style-phpstan
                     -   step: *test-code-style-psalm
                     -   step: *test-infection
             -   step: *composer-low-install
-            -   parallel:
-                    -   step: *test-code-style-phpmd
-                    -   step: *test-code-style-soft-require
+            -   parallel: &steps-non-blocking-low-tests
                     -   step: *test-code-style-phpstan
                     -   step: *test-code-style-psalm
-                    -   step: *test-infection
         '*.*.x':
             -   step: *github-keyword-gate-step
             -   step: *github-mirror-branch
@@ -213,36 +210,11 @@ pipelines:
 
     default:
         -   step: *composer-high-install
-        -   parallel:
-                -   step: *test-coverage
-                -   step: *test-code-style-composer-normalize
-                -   step: *test-code-style-composer-unused
-                -   step: *test-code-style-json
-                -   step: *test-code-style-php
-                -   step: *test-code-style-phpcpd
+        -   parallel: *steps-blocking-tests
         -   step: *composer-low-install
-        -   parallel:
-                -   step: *test-coverage
-                -   step: *test-code-style-composer-normalize
-                -   step: *test-code-style-composer-unused
-                -   step: *test-code-style-json
-                -   step: *test-code-style-php
-        -   parallel:
-                -   step: *test-unit-high-install-80
-                -   step: *test-unit-low-install-80
-                -   step: *test-unit-high-install-81
-                -   step: *test-unit-low-install-81
+        -   parallel: *steps-blocking-low-tests
+        -   parallel: *steps-blocking-non-min-php-version-tests
         -   step: *composer-high-install
-        -   parallel:
-                -   step: *test-code-style-phpmd
-                -   step: *test-code-style-soft-require
-                -   step: *test-code-style-phpstan
-                -   step: *test-code-style-psalm
-                -   step: *test-infection
+        -   parallel: *steps-non-blocking-tests
         -   step: *composer-low-install
-        -   parallel:
-                -   step: *test-code-style-phpmd
-                -   step: *test-code-style-soft-require
-                -   step: *test-code-style-phpstan
-                -   step: *test-code-style-psalm
-                -   step: *test-infection
+        -   parallel: *steps-non-blocking-low-tests
