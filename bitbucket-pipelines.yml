@@ -90,6 +90,7 @@ definitions:
                 script:
                     - make clean
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - composer update --prefer-lowest --prefer-stable
                     - COMPOSER_EXTRA_ARGS=-vvv make -e test
         -   step: &test-unit-high-install-81
                 <<: *php81-image
@@ -104,6 +105,7 @@ definitions:
                 script:
                     - make clean
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - composer update --prefer-lowest --prefer-stable
                     - COMPOSER_EXTRA_ARGS=-vvv make -e test
         -   step: &composer-install-core
                 <<: *default-step
