@@ -14,6 +14,8 @@ COMPOSER_REQUIRE_CHECKER_PHAR := https://github.com/maglnet/ComposerRequireCheck
 COMPOSER_REQUIRE_CHECKER_FILE := dev-ops/bin/composer-require-checker
 PHPMD_PHAR := https://github.com/phpmd/phpmd/releases/download/2.11.1/phpmd.phar
 PHPMD_FILE := dev-ops/bin/phpmd
+PHPCPD_PHAR := https://phar.phpunit.de/phpcpd.phar
+PHPCPD_FILE := dev-ops/bin/phpcpd
 PSALM_FILE := dev-ops/bin/psalm/vendor/bin/psalm
 COMPOSER_UNUSED_FILE := dev-ops/bin/composer-unused/vendor/bin/composer-unused
 EASY_CODING_STANDARD_FILE := dev-ops/bin/easy-coding-standard/vendor/bin/ecs
@@ -70,6 +72,11 @@ cs-phpmd: vendor .build $(PHPMD_FILE) ## Run php mess detector for static code a
 	[[ -z "${CI}" ]] || [[ -f .build/phpmd-junit.xslt ]] || $(CURL) https://phpmd.org/junit.xslt -o .build/phpmd-junit.xslt
 	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md.junit.xml
 	$(PHP) $(PHPMD_FILE) src ansi dev-ops/phpmd.xml
+
+.PHONY: cs-phpcpd
+cs-phpcpd: vendor .build $(PHPCPD_FILE) ## Run php copy paste detector for static code analysis
+	[[ -z "${CI}" ]] || $(PHP) $(PHPCPD_FILE) --fuzzy src --log-pmd .build/phpcpd.xml
+	[[ -n "${CI}" ]] || $(PHP) $(PHPCPD_FILE) --fuzzy src
 
 .PHONY: cs-composer-unused
 cs-composer-unused: vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to detect once-required packages that are not used anymore
@@ -130,6 +137,9 @@ $(COMPOSER_REQUIRE_CHECKER_FILE): ## Install composer-require-checker executable
 
 $(PHPMD_FILE): ## Install phpmd executable
 	$(CURL) -L $(PHPMD_PHAR) -o $(PHPMD_FILE)
+
+$(PHPCPD_FILE): ## Install phpcpd executable
+	$(CURL) -L $(PHPCPD_PHAR) -o $(PHPCPD_FILE)
 
 $(PSALM_FILE): ## Install psalm executable
 	$(COMPOSER) install -d dev-ops/bin/psalm
