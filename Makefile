@@ -85,8 +85,12 @@ cs-phpmd: vendor .build $(PHPMD_FILE) ## Run php mess detector for static code a
 
 .PHONY: cs-phpcpd
 cs-phpcpd: vendor .build $(PHPCPD_FILE) ## Run php copy paste detector for static code analysis
-	[[ -z "${CI}" ]] || $(PHP) $(PHPCPD_FILE) --fuzzy src --log-pmd .build/phpcpd.xml
-	[[ -n "${CI}" ]] || $(PHP) $(PHPCPD_FILE) --fuzzy src
+	$(PHP) $(PHPCPD_FILE) --fuzzy src/Core
+	$(PHP) $(PHPCPD_FILE) --fuzzy src/DatasetBase
+	$(PHP) $(PHPCPD_FILE) --fuzzy src/PortalBase
+	$(PHP) $(PHPCPD_FILE) --fuzzy src/StorageBase
+	$(PHP) $(PHPCPD_FILE) --fuzzy src/TestSuiteStorage
+	$(PHP) $(PHPCPD_FILE) --fuzzy src/UiAdminBase
 
 .PHONY: cs-composer-unused
 cs-composer-unused: vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to detect once-required packages that are not used anymore
