@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Extract common fields from `\Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Activate\PortalExtensionActivatePayload` and `\Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Deactivate\PortalExtensionDeactivatePayload` into `\Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Contract\PortalExtensionActiveChangePayloadContract`
+- Extract common fields from `\Heptacom\HeptaConnect\Storage\Base\Action\Job\Fail\JobFailPayload`, `\Heptacom\HeptaConnect\Storage\Base\Action\Job\Finish\JobFinishPayload`, `\Heptacom\HeptaConnect\Storage\Base\Action\Job\Schedule\JobSchedulePayload` and `\Heptacom\HeptaConnect\Storage\Base\Action\Job\Start\JobStartPayload` into `\Heptacom\HeptaConnect\Storage\Base\Action\Job\Contract\JobStateChangePayloadContract`
 - Add class `\Heptacom\HeptaConnect\Storage\Base\Contract\UiAuditTrailKeyInterface` with its collection `\Heptacom\HeptaConnect\Storage\Base\UiAuditTrailKeyCollection` as storage key for UI action audit trails
 - Add storage action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailBeginActionInterface` with `\Heptacom\HeptaConnect\Storage\Base\Action\UiAuditTrail\UiAuditTrailBegin\UiAuditTrailBeginPayload` and `\Heptacom\HeptaConnect\Storage\Base\Action\UiAuditTrail\UiAuditTrailBegin\UiAuditTrailBeginResult` to create an audit trail for UI actions
 - Add storage action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailLogOutputActionInterface` with `\Heptacom\HeptaConnect\Storage\Base\Action\UiAuditTrail\UiAuditTrailLogOutput\UiAuditTrailLogOutputPayload` to attach output to the audit trail

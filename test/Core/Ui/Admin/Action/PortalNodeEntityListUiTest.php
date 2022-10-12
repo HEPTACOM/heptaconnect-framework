@@ -57,6 +57,7 @@ use Psr\Container\ContainerInterface;
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeEntityList\PortalNodeEntityListResult
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\UiActionType
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\EntityListCriteriaContract
  */
 final class PortalNodeEntityListUiTest extends TestCase
 {

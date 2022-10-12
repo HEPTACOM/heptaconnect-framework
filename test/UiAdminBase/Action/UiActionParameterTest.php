@@ -72,6 +72,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResult
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResultCollection
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\EntityListCriteriaContract
  */
 final class UiActionParameterTest extends TestCase
 {
