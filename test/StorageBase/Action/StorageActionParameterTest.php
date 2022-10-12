@@ -144,6 +144,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayloads
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreateResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreateResults
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Contract\JobStateChangePayloadContract
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Delete\JobDeleteCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Fail\JobFailPayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Fail\JobFailResult
