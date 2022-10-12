@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Extract common fields from `\Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Activate\PortalExtensionActivatePayload` and `\Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Deactivate\PortalExtensionDeactivatePayload` into `\Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Contract\PortalExtensionActiveChangePayloadContract`
+
 ### Changed
 
 - Change `$entityType` parameter in `\Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayload::__construct`, `\Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayload::setEntityType`, `\Heptacom\HeptaConnect\Storage\Base\Action\Identity\Mapping::__construct` and `\Heptacom\HeptaConnect\Storage\Base\PrimaryKeySharingMappingStruct::__construct` to be a `\Heptacom\HeptaConnect\Dataset\Base\EntityType` instead of a string for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
