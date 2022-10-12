@@ -6,8 +6,9 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeEntity
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\EntityListCriteriaContract;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Audit\AuditableDataAwareInterface;
 
-final class PortalNodeEntityListCriteria extends EntityListCriteriaContract
+final class PortalNodeEntityListCriteria extends EntityListCriteriaContract implements AuditableDataAwareInterface
 {
     private PortalNodeKeyInterface $portalNodeKey;
 
@@ -25,5 +26,16 @@ final class PortalNodeEntityListCriteria extends EntityListCriteriaContract
     public function setPortalNodeKey(PortalNodeKeyInterface $portalNodeKey): void
     {
         $this->portalNodeKey = $portalNodeKey;
+    }
+
+    public function getAuditableData(): array
+    {
+        return [
+            'portalNode' => $this->getPortalNodeKey(),
+            'filterSupportedEntityType' => $this->getFilterSupportedEntityType(),
+            'showExplorer' => $this->getShowExplorer(),
+            'showEmitter' => $this->getShowEmitter(),
+            'showReceiver' => $this->getShowReceiver(),
+        ];
     }
 }

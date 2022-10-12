@@ -7,6 +7,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Test\Action;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
+use Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedStringCollection;
 use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct;
@@ -97,6 +98,12 @@ use Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview\RouteOverviewCriter
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview\RouteOverviewResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\RouteCapability\Overview\RouteCapabilityOverviewCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\RouteCapability\Overview\RouteCapabilityOverviewResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\UiAuditTrail\UiAuditTrailBegin\UiAuditTrailBeginPayload;
+use Heptacom\HeptaConnect\Storage\Base\Action\UiAuditTrail\UiAuditTrailBegin\UiAuditTrailBeginResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\UiAuditTrail\UiAuditTrailEnd\UiAuditTrailEndPayload;
+use Heptacom\HeptaConnect\Storage\Base\Action\UiAuditTrail\UiAuditTrailLogError\UiAuditTrailLogErrorPayload;
+use Heptacom\HeptaConnect\Storage\Base\Action\UiAuditTrail\UiAuditTrailLogError\UiAuditTrailLogErrorPayloadCollection;
+use Heptacom\HeptaConnect\Storage\Base\Action\UiAuditTrail\UiAuditTrailLogOutput\UiAuditTrailLogOutputPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload;
@@ -104,11 +111,13 @@ use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\We
 use Heptacom\HeptaConnect\Storage\Base\Contract\FileReferenceRequestKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\JobKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\UiAuditTrailKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\FileReferenceRequestKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\FirstEntity;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\Portal;
+use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\StorageUiAction;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -117,9 +126,10 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\AbstractTaggedCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
@@ -210,10 +220,17 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Set\PortalNodeConfigurationSetPayloads
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\RouteCapability\Overview\RouteCapabilityOverviewCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\RouteCapability\Overview\RouteCapabilityOverviewResult
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\UiAuditTrail\UiAuditTrailBegin\UiAuditTrailBeginPayload
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\UiAuditTrail\UiAuditTrailBegin\UiAuditTrailBeginResult
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\UiAuditTrail\UiAuditTrailEnd\UiAuditTrailEndPayload
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\UiAuditTrail\UiAuditTrailLogError\UiAuditTrailLogErrorPayload
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\UiAuditTrail\UiAuditTrailLogError\UiAuditTrailLogErrorPayloadCollection
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\UiAuditTrail\UiAuditTrailLogOutput\UiAuditTrailLogOutputPayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayloads
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\UiActionType
  */
 class StorageActionParameterTest extends TestCase
 {
@@ -249,6 +266,7 @@ class StorageActionParameterTest extends TestCase
         $routeKeys = new RouteKeyCollection();
         $createdAt = \date_create();
         $unsafeClass = new UnsafeClassString($entityType);
+        $uiAuditTrailKey = $this->createMock(UiAuditTrailKeyInterface::class);
 
         yield new FileReferencePersistRequestPayload($portalNodeKey);
         yield new FileReferencePersistRequestResult($portalNodeKey);
@@ -343,6 +361,12 @@ class StorageActionParameterTest extends TestCase
         yield new RouteOverviewResult($routeKey, $unsafeClass, $portalNodeKey, $unsafeClass, $portalNodeKey, $unsafeClass, $createdAt, []);
         yield new RouteCapabilityOverviewCriteria();
         yield new RouteCapabilityOverviewResult('', $createdAt);
+        yield new UiAuditTrailBeginPayload('', '', StorageUiAction::class(), '', new TaggedStringCollection());
+        yield new UiAuditTrailBeginResult($uiAuditTrailKey);
+        yield new UiAuditTrailLogOutputPayload($uiAuditTrailKey, new TaggedStringCollection());
+        yield new UiAuditTrailLogErrorPayload($uiAuditTrailKey, \Throwable::class, 17, '', '');
+        yield new UiAuditTrailLogErrorPayloadCollection();
+        yield new UiAuditTrailEndPayload($uiAuditTrailKey);
         yield new WebHttpHandlerConfigurationFindCriteria($portalNodeKey, '', '');
         yield new WebHttpHandlerConfigurationFindResult(null);
         yield new WebHttpHandlerConfigurationSetPayload($portalNodeKey, '', '');

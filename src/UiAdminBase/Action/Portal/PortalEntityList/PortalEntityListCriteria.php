@@ -6,8 +6,9 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList;
 
 use Heptacom\HeptaConnect\Portal\Base\Portal\PortalType;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\EntityListCriteriaContract;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Audit\AuditableDataAwareInterface;
 
-final class PortalEntityListCriteria extends EntityListCriteriaContract
+final class PortalEntityListCriteria extends EntityListCriteriaContract implements AuditableDataAwareInterface
 {
     private PortalType $portal;
 
@@ -25,5 +26,16 @@ final class PortalEntityListCriteria extends EntityListCriteriaContract
     public function setPortal(PortalType $portal): void
     {
         $this->portal = $portal;
+    }
+
+    public function getAuditableData(): array
+    {
+        return [
+            'portal' => $this->getPortal(),
+            'filterSupportedEntityType' => $this->getFilterSupportedEntityType(),
+            'showExplorer' => $this->getShowExplorer(),
+            'showEmitter' => $this->getShowEmitter(),
+            'showReceiver' => $this->getShowReceiver(),
+        ];
     }
 }

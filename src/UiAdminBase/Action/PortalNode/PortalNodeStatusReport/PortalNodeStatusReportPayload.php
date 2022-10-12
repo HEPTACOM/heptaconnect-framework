@@ -8,8 +8,9 @@ use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Audit\AuditableDataAwareInterface;
 
-final class PortalNodeStatusReportPayload implements AttachmentAwareInterface
+final class PortalNodeStatusReportPayload implements AttachmentAwareInterface, AuditableDataAwareInterface
 {
     use AttachmentAwareTrait;
 
@@ -54,5 +55,13 @@ final class PortalNodeStatusReportPayload implements AttachmentAwareInterface
     public function setTopics(array $topics): void
     {
         $this->topics = $topics;
+    }
+
+    public function getAuditableData(): array
+    {
+        return [
+            'topics' => $this->getTopics(),
+            'portalNode' => $this->getPortalNodeKey(),
+        ];
     }
 }

@@ -18,7 +18,10 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodeAliasIsAlre
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContext
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContextFactory
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeAddUi
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditTrail
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
@@ -35,11 +38,15 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeAdd\PortalNodeAddPayload
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeAdd\PortalNodeAddResult
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\UiActionType
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PersistException
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodeAliasIsAlreadyAssignedException
  */
 final class PortalNodeAddUiTest extends TestCase
 {
+    use UiActionTestTrait;
+
     public function testPayloadIsWritten(): void
     {
         $portalNodeCreateAction = $this->createMock(PortalNodeCreateActionInterface::class);
@@ -51,10 +58,14 @@ final class PortalNodeAddUiTest extends TestCase
         ]));
         $portalNodeAliasFindAction->method('find')->willReturn([]);
 
-        $action = new PortalNodeAddUi($portalNodeCreateAction, $portalNodeAliasFindAction);
+        $action = new PortalNodeAddUi(
+            $this->createAuditTrailFactory(),
+            $portalNodeCreateAction,
+            $portalNodeAliasFindAction
+        );
         $payload = new PortalNodeAddPayload(FooBarPortal::class());
 
-        $result = $action->add($payload);
+        $result = $action->add($payload, $this->createUiActionContext());
 
         static::assertSame($portalNodeKey, $result->getPortalNodeKey());
     }
@@ -67,13 +78,17 @@ final class PortalNodeAddUiTest extends TestCase
         $portalNodeCreateAction->method('create')->willReturn(new PortalNodeCreateResults());
         $portalNodeAliasFindAction->method('find')->willReturn([]);
 
-        $action = new PortalNodeAddUi($portalNodeCreateAction, $portalNodeAliasFindAction);
+        $action = new PortalNodeAddUi(
+            $this->createAuditTrailFactory(),
+            $portalNodeCreateAction,
+            $portalNodeAliasFindAction
+        );
         $payload = new PortalNodeAddPayload(FooBarPortal::class());
 
         self::expectException(PersistException::class);
         self::expectExceptionCode(1650718863);
 
-        $action->add($payload);
+        $action->add($payload, $this->createUiActionContext());
     }
 
     public function testPayloadAliasIsAlreadyTaken(): void
@@ -86,12 +101,16 @@ final class PortalNodeAddUiTest extends TestCase
             new PortalNodeAliasFindResult(new PreviewPortalNodeKey(FooBarPortal::class()), 'foobar'),
         ]);
 
-        $action = new PortalNodeAddUi($portalNodeCreateAction, $portalNodeAliasFindAction);
+        $action = new PortalNodeAddUi(
+            $this->createAuditTrailFactory(),
+            $portalNodeCreateAction,
+            $portalNodeAliasFindAction
+        );
         $payload = new PortalNodeAddPayload(FooBarPortal::class());
         $payload->setPortalNodeAlias('foobar');
 
         self::expectException(PortalNodeAliasIsAlreadyAssignedException::class);
 
-        $action->add($payload);
+        $action->add($payload, $this->createUiActionContext());
     }
 }

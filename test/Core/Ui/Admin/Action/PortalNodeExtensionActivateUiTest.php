@@ -25,7 +25,10 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodesMissingExc
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContext
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContextFactory
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionActivateUi
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditTrail
  * @covers \Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
@@ -50,6 +53,8 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionActivate\PortalNodeExtensionActivatePayload
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBrowse\PortalNodeExtensionBrowseCriteria
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBrowse\PortalNodeExtensionBrowseResult
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\UiActionType
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\BrowseCriteriaContract
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\NoMatchForPackageQueryException
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalExtensionsAreAlreadyActiveOnPortalNodeException
@@ -57,6 +62,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class PortalNodeExtensionActivateUiTest extends TestCase
 {
+    use UiActionTestTrait;
+
     public function testPayloadIsAlreadyActive(): void
     {
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
@@ -80,6 +87,7 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
             ->willReturnArgument(1);
 
         $action = new PortalNodeExtensionActivateUi(
+            $this->createAuditTrailFactory(),
             $portalNodeGetAction,
             $portalNodeExtensionFindAction,
             $portalExtensionActivateAction,
@@ -93,7 +101,7 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
 
         self::expectException(PortalExtensionsAreAlreadyActiveOnPortalNodeException::class);
 
-        $action->activate($payload);
+        $action->activate($payload, $this->createUiActionContext());
     }
 
     public function testPayloadPortalNodeDoesNotExist(): void
@@ -103,7 +111,6 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
         $portalExtensionActivateAction = $this->createMock(PortalExtensionActivateActionInterface::class);
         $portalLoader = $this->createMock(ComposerPortalLoader::class);
         $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
-        $portalExtensionFindResult = new PortalExtensionFindResult();
         $packageQueryMatcher = $this->createMock(PackageQueryMatcherInterface::class);
         $portalExtensionFindResult = new PortalExtensionFindResult();
 
@@ -114,6 +121,7 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
             ->willReturn(new PortalExtensionCollection([new FooBarPortalExtension()]));
 
         $action = new PortalNodeExtensionActivateUi(
+            $this->createAuditTrailFactory(),
             $portalNodeGetAction,
             $portalNodeExtensionFindAction,
             $portalExtensionActivateAction,
@@ -127,7 +135,7 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
 
         self::expectException(PortalNodesMissingException::class);
 
-        $action->activate($payload);
+        $action->activate($payload, $this->createUiActionContext());
     }
 
     public function testPayloadPortalExtensionNotFound(): void
@@ -152,6 +160,7 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
             ->willReturn(new PortalExtensionCollection());
 
         $action = new PortalNodeExtensionActivateUi(
+            $this->createAuditTrailFactory(),
             $portalNodeGetAction,
             $portalNodeExtensionFindAction,
             $portalExtensionActivateAction,
@@ -170,6 +179,6 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
 
         self::expectException(NoMatchForPackageQueryException::class);
 
-        $action->activate($payload);
+        $action->activate($payload, $this->createUiActionContext());
     }
 }
