@@ -29,7 +29,10 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContext
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContextFactory
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeEntityListUi
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditTrail
  * @covers \Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalNodeContainerFacade
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
@@ -52,9 +55,14 @@ use Psr\Container\ContainerInterface;
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListResult
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeEntityList\PortalNodeEntityListCriteria
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeEntityList\PortalNodeEntityListResult
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\UiActionType
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\EntityListCriteriaContract
  */
 final class PortalNodeEntityListUiTest extends TestCase
 {
+    use UiActionTestTrait;
+
     public function testCriteriaFilters(): void
     {
         $portalStackServiceContainerFactory = $this->createMock(PortalStackServiceContainerFactory::class);
@@ -96,6 +104,7 @@ final class PortalNodeEntityListUiTest extends TestCase
         $receiverCodeOriginFinder = $this->createMock(ReceiverCodeOriginFinderInterface::class);
 
         $action = new PortalNodeEntityListUi(
+            $this->createAuditTrailFactory(),
             $portalStackServiceContainerFactory,
             $explorerCodeOriginFinder,
             $emitterCodeOriginFinder,
@@ -107,7 +116,7 @@ final class PortalNodeEntityListUiTest extends TestCase
         $receiverCodeOriginFinder->expects(static::once())->method('findOrigin');
 
         $criteria = new PortalNodeEntityListCriteria(new PreviewPortalNodeKey(FooBarPortal::class()));
-        static::assertCount(3, \iterable_to_array($action->list($criteria)));
+        static::assertCount(3, \iterable_to_array($action->list($criteria, $this->createUiActionContext())));
 
         // reset
 
@@ -116,6 +125,7 @@ final class PortalNodeEntityListUiTest extends TestCase
         $receiverCodeOriginFinder = $this->createMock(ReceiverCodeOriginFinderInterface::class);
 
         $action = new PortalNodeEntityListUi(
+            $this->createAuditTrailFactory(),
             $portalStackServiceContainerFactory,
             $explorerCodeOriginFinder,
             $emitterCodeOriginFinder,
@@ -130,7 +140,7 @@ final class PortalNodeEntityListUiTest extends TestCase
         $criteria->setShowEmitter(false);
         $criteria->setShowExplorer(false);
         $criteria->setShowReceiver(true);
-        static::assertCount(1, \iterable_to_array($action->list($criteria)));
+        static::assertCount(1, \iterable_to_array($action->list($criteria, $this->createUiActionContext())));
 
         // reset
 
@@ -139,6 +149,7 @@ final class PortalNodeEntityListUiTest extends TestCase
         $receiverCodeOriginFinder = $this->createMock(ReceiverCodeOriginFinderInterface::class);
 
         $action = new PortalNodeEntityListUi(
+            $this->createAuditTrailFactory(),
             $portalStackServiceContainerFactory,
             $explorerCodeOriginFinder,
             $emitterCodeOriginFinder,
@@ -153,7 +164,7 @@ final class PortalNodeEntityListUiTest extends TestCase
         $criteria->setShowEmitter(false);
         $criteria->setShowExplorer(true);
         $criteria->setShowReceiver(false);
-        static::assertCount(1, \iterable_to_array($action->list($criteria)));
+        static::assertCount(1, \iterable_to_array($action->list($criteria, $this->createUiActionContext())));
 
         // reset
 
@@ -162,6 +173,7 @@ final class PortalNodeEntityListUiTest extends TestCase
         $receiverCodeOriginFinder = $this->createMock(ReceiverCodeOriginFinderInterface::class);
 
         $action = new PortalNodeEntityListUi(
+            $this->createAuditTrailFactory(),
             $portalStackServiceContainerFactory,
             $explorerCodeOriginFinder,
             $emitterCodeOriginFinder,
@@ -176,7 +188,7 @@ final class PortalNodeEntityListUiTest extends TestCase
         $criteria->setShowEmitter(true);
         $criteria->setShowExplorer(false);
         $criteria->setShowReceiver(false);
-        static::assertCount(1, \iterable_to_array($action->list($criteria)));
+        static::assertCount(1, \iterable_to_array($action->list($criteria, $this->createUiActionContext())));
 
         // reset
 
@@ -185,6 +197,7 @@ final class PortalNodeEntityListUiTest extends TestCase
         $receiverCodeOriginFinder = $this->createMock(ReceiverCodeOriginFinderInterface::class);
 
         $action = new PortalNodeEntityListUi(
+            $this->createAuditTrailFactory(),
             $portalStackServiceContainerFactory,
             $explorerCodeOriginFinder,
             $emitterCodeOriginFinder,
@@ -199,7 +212,7 @@ final class PortalNodeEntityListUiTest extends TestCase
         $criteria->setShowEmitter(true);
         $criteria->setShowExplorer(true);
         $criteria->setShowReceiver(false);
-        static::assertCount(2, \iterable_to_array($action->list($criteria)));
+        static::assertCount(2, \iterable_to_array($action->list($criteria, $this->createUiActionContext())));
 
         // reset
 
@@ -208,6 +221,7 @@ final class PortalNodeEntityListUiTest extends TestCase
         $receiverCodeOriginFinder = $this->createMock(ReceiverCodeOriginFinderInterface::class);
 
         $action = new PortalNodeEntityListUi(
+            $this->createAuditTrailFactory(),
             $portalStackServiceContainerFactory,
             $explorerCodeOriginFinder,
             $emitterCodeOriginFinder,
@@ -220,7 +234,7 @@ final class PortalNodeEntityListUiTest extends TestCase
 
         $criteria = new PortalNodeEntityListCriteria(new PreviewPortalNodeKey(FooBarPortal::class()));
         $criteria->setFilterSupportedEntityType(FooBarEntity::class());
-        static::assertCount(3, \iterable_to_array($action->list($criteria)));
+        static::assertCount(3, \iterable_to_array($action->list($criteria, $this->createUiActionContext())));
 
         // reset
 
@@ -229,6 +243,7 @@ final class PortalNodeEntityListUiTest extends TestCase
         $receiverCodeOriginFinder = $this->createMock(ReceiverCodeOriginFinderInterface::class);
 
         $action = new PortalNodeEntityListUi(
+            $this->createAuditTrailFactory(),
             $portalStackServiceContainerFactory,
             $explorerCodeOriginFinder,
             $emitterCodeOriginFinder,
@@ -241,6 +256,6 @@ final class PortalNodeEntityListUiTest extends TestCase
 
         $criteria = new PortalNodeEntityListCriteria(new PreviewPortalNodeKey(FooBarPortal::class()));
         $criteria->setFilterSupportedEntityType(new UnsafeClassString(DatasetEntityContract::class));
-        static::assertCount(0, \iterable_to_array($action->list($criteria)));
+        static::assertCount(0, \iterable_to_array($action->list($criteria, $this->createUiActionContext())));
     }
 }

@@ -4,51 +4,8 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeEntityList;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
-use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
-use Heptacom\HeptaConnect\Dataset\Base\EntityType;
-use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
-use Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\EntityListResultContract;
 
-final class PortalNodeEntityListResult implements AttachmentAwareInterface
+final class PortalNodeEntityListResult extends EntityListResultContract
 {
-    use AttachmentAwareTrait;
-
-    private CodeOrigin $codeOrigin;
-
-    private EntityType $supportedEntityType;
-
-    /**
-     * @var class-string
-     */
-    private string $flowComponentClass;
-
-    /**
-     * @param class-string $flowComponentClass
-     */
-    public function __construct(CodeOrigin $codeOrigin, EntityType $supportedEntityType, string $flowComponentClass)
-    {
-        $this->attachments = new AttachmentCollection();
-        $this->codeOrigin = $codeOrigin;
-        $this->supportedEntityType = $supportedEntityType;
-        $this->flowComponentClass = $flowComponentClass;
-    }
-
-    public function getCodeOrigin(): CodeOrigin
-    {
-        return $this->codeOrigin;
-    }
-
-    public function getSupportedEntityType(): EntityType
-    {
-        return $this->supportedEntityType;
-    }
-
-    /**
-     * @return class-string
-     */
-    public function getFlowComponentClass(): string
-    {
-        return $this->flowComponentClass;
-    }
 }
