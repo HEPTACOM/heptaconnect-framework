@@ -6,10 +6,13 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Test\Action;
 
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEmitter;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortalExtension;
+use Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditableDataSerializer;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface;
 use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\FirstEntity;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\Portal;
@@ -30,9 +33,13 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddPayload;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddPayloadCollection;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResult;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResultCollection;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Audit\AuditableDataAwareInterface;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditableDataSerializer
  * @covers \Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
@@ -64,10 +71,14 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddPayloadCollection
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResult
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResultCollection
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\EntityListCriteriaContract
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\EntityListCriteriaResult
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNodeExtensionActiveChangePayloadContract
  */
 final class UiActionParameterTest extends TestCase
 {
-    public function testAttachabilityOfStorageActionStructs(): void
+    public function testAttachabilityOfUiActionStructs(): void
     {
         foreach ($this->iterateAttachmentAwareActionStructs() as $attachmentAware) {
             $attachment = new FirstEntity();
@@ -75,6 +86,34 @@ final class UiActionParameterTest extends TestCase
             static::assertTrue($attachmentAware->isAttached($attachment));
             $attachmentAware->detach($attachment);
         }
+    }
+
+    public function testAuditabilityOfUiActionStructs(): void
+    {
+        $serializer = new AuditableDataSerializer($this->createMock(LoggerInterface::class), new class() extends StorageKeyGeneratorContract {
+            public function generateKeys(string $keyClassName, int $count): iterable
+            {
+                return [];
+            }
+        });
+
+        foreach ($this->iterateAuditableAwareActionStructs() as $auditableAware) {
+            $data = $auditableAware->getAuditableData();
+            static::assertNotSame([], $data);
+            // validate all objects are non empty json serializables
+            static::assertStringNotContainsString('{}', $serializer->serialize($auditableAware));
+        }
+    }
+
+    /**
+     * @return iterable<AuditableDataAwareInterface>
+     */
+    private function iterateAuditableAwareActionStructs(): iterable
+    {
+        yield from \iterable_filter(
+            $this->iterateAttachmentAwareActionStructs(),
+            static fn (object $struct): bool => !$struct instanceof CollectionInterface && !$struct instanceof UiAuditContext
+        );
     }
 
     /**
@@ -90,6 +129,7 @@ final class UiActionParameterTest extends TestCase
         $portalExtensionClass = FooBarPortalExtension::class;
         $unsafeClass = new UnsafeClassString($entityType);
 
+        yield new UiAuditContext('', '');
         yield new PortalEntityListCriteria($portalClass::class());
         yield new PortalEntityListResult($codeOrigin, $entityType::class(), FooBarEmitter::class);
         yield new PortalNodeAddPayload($portalClass::class());

@@ -9,8 +9,9 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Audit\AuditableDataAwareInterface;
 
-final class RouteAddPayload implements AttachmentAwareInterface
+final class RouteAddPayload implements AttachmentAwareInterface, AuditableDataAwareInterface
 {
     use AttachmentAwareTrait;
 
@@ -85,5 +86,15 @@ final class RouteAddPayload implements AttachmentAwareInterface
     public function setCapabilities(array $capabilities): void
     {
         $this->capabilities = $capabilities;
+    }
+
+    public function getAuditableData(): array
+    {
+        return [
+            'sourcePortalNode' => $this->getSourcePortalNodeKey(),
+            'targetPortalNode' => $this->getTargetPortalNodeKey(),
+            'entityType' => $this->getEntityType(),
+            'capabilities' => $this->getCapabilities(),
+        ];
     }
 }

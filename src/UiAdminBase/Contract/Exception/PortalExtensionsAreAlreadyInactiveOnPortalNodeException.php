@@ -14,17 +14,17 @@ final class PortalExtensionsAreAlreadyInactiveOnPortalNodeException extends \Inv
 {
     private PortalNodeKeyInterface $portalNodeKey;
 
-    private PortalExtensionTypeCollection $portalExtensionClasses;
+    private PortalExtensionTypeCollection $portalExtensionTypes;
 
     public function __construct(
         PortalNodeKeyInterface $portalNodeKey,
-        PortalExtensionTypeCollection $portalExtensionClasses,
+        PortalExtensionTypeCollection $portalExtensionTypes,
         int $code,
         ?\Throwable $previous = null
     ) {
         parent::__construct('The given portal extensions are already inactive on the portal node key', $code, $previous);
         $this->portalNodeKey = $portalNodeKey;
-        $this->portalExtensionClasses = $portalExtensionClasses;
+        $this->portalExtensionTypes = $portalExtensionTypes;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface
@@ -32,8 +32,8 @@ final class PortalExtensionsAreAlreadyInactiveOnPortalNodeException extends \Inv
         return $this->portalNodeKey;
     }
 
-    public function getPortalExtensionClasses(): PortalExtensionTypeCollection
+    public function getPortalExtensionTypes(): PortalExtensionTypeCollection
     {
-        return $this->portalExtensionClasses;
+        return $this->portalExtensionTypes;
     }
 }

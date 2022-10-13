@@ -18,6 +18,9 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add composer dependency `heptacom/heptaconnect-dataset-base: self.version`
 - Add composer dependency `heptacom/heptaconnect-portal-base: self.version`
 - Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\BrowseCriteriaContract` to identify and pre-structure any browse criteria
+- Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\EntityListCriteriaContract` to identify and pre-structure any entity support listing criteria
+- Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\EntityListResultContract` to identify and pre-structure any entity support listing result
+- Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNodeExtensionActiveChangePayloadContract` to identify and pre-structure payloads to change the active state for an extension on a portal node
 - Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PersistException` to allow as fallback exception when any write operation fails
 - Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\ReadException` to allow as fallback exception when any read operation fails
 - Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalExtensionIsAlreadyInactiveOnPortalNodeException` to identify portal extension state change to inactive is not possible as it is already deactivated
@@ -32,6 +35,12 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\StorageKeyNotSupportedException` to identify issues when a storage key fails to get converted into a string
 - Add supporting service interface `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Support\PortalNodeAliasResolverInterface` to resolve portal node aliases
 - Add supporting service interface `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Support\StorageKeyAccessorInterface` to convert storage keys and check their existence
+- Add UI admin action interface `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionInterface` to ensure UI action related methods, that all UI actions share
+- Add UI admin action type `\Heptacom\HeptaConnect\Ui\Admin\Base\Action\UiActionType` with `\Heptacom\HeptaConnect\Ui\Admin\Base\Action\UiActionTypeCollection` as a type safe subtype class reference to `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionInterface` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Add UI admin action payload interface `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Audit\AuditableDataAwareInterface` to allow structs to control, which data needs to be audited
+- Add UI admin action context described in `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionContextInterface` to pass multiple call related properties, that all UI actions share
+- Add UI admin action context factory described in `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionContextFactoryInterface` to create a UI admin action context
+- Add UI admin audit context described in `\Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext` to pass multiple auditing related properties, that all UI actions share
 - Add UI admin action `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Portal\PortalEntityListUiActionInterface` with `\Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListCriteria` and `\Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListResult` to list supported entity types in a fresh portal node stack of the given criteria
 - Add UI admin action `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Job\JobRunUiActionInterface` with `\Heptacom\HeptaConnect\Ui\Admin\Base\Action\Job\JobRun\JobRunPayload` to run jobs
 - Add UI admin action `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeExtensionBrowseUiActionInterface` with `\Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBrowse\PortalNodeExtensionBrowseCriteria` and `\Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBrowse\PortalNodeExtensionBrowseResult` to list portal extension on a portal node and their active state
