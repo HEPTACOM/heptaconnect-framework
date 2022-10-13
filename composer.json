@@ -57,7 +57,7 @@
         "infection/infection": ">=0.21",
         "league/flysystem": "^1.1",
         "nyholm/psr7": ">=1",
-        "php-http/curl-client": ">=1",
+        "php-http/curl-client": ">=2",
         "symfony/cache": ">=3.2"
     },
     "replace": {

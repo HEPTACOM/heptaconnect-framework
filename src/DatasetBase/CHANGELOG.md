@@ -9,14 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::withoutItems` to create safely new instances of the same type but without content
-- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::chunk` to iterate over the items prepared in a buffer of a certain size
-- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::asArray` to access the items of the collection as fixed size array
-- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::reverse` to reverse the order of the collection items
-- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::isEmpty` to check whether the collection is empty without counting
-- Add aggregation methods `\Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\FloatCollection::sum`, `\Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\FloatCollection::max` and `\Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\FloatCollection::min` to reduce boilerplate code when aggregating a float collection
-- Add aggregation methods `\Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\IntegerCollection::sum`, `\Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\IntegerCollection::max` and `\Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\IntegerCollection::min` to reduce boilerplate code when aggregating an integer collection
-
 ### Changed
 
 ### Deprecated
@@ -26,6 +18,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ### Security
+
+## [0.9.1.1] - 2022-09-28
+
+### Added
+
+- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::withoutItems` to create safely new instances of the same type but without content
+- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::chunk` to iterate over the items prepared in a buffer of a certain size
+- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::asArray` to access the items of the collection as fixed size array
+- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::reverse` to reverse the order of the collection items
+- Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::isEmpty` to check whether the collection is empty without counting
+- Add aggregation methods `\Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\FloatCollection::sum`, `\Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\FloatCollection::max` and `\Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\FloatCollection::min` to reduce boilerplate code when aggregating a float collection
+- Add aggregation methods `\Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\IntegerCollection::sum`, `\Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\IntegerCollection::max` and `\Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\IntegerCollection::min` to reduce boilerplate code when aggregating an integer collection
 
 ## [0.9.1.0] - 2022-08-15
 
