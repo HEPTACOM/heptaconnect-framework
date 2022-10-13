@@ -12,10 +12,14 @@ use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListCriteria;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeEntityList\PortalNodeEntityListCriteria;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeEntityListUiActionInterface;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\ReadException;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContext
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContextFactory
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalEntityListUi
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditTrail
  * @covers \Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
@@ -37,9 +41,15 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListCriteria
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListResult
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeEntityList\PortalNodeEntityListCriteria
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\UiActionType
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\EntityListCriteriaContract
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\ReadException
  */
 final class PortalEntityListUiTest extends TestCase
 {
+    use UiActionTestTrait;
+
     /**
      * @dataProvider provideGoodFilters
      */
@@ -55,9 +65,9 @@ final class PortalEntityListUiTest extends TestCase
             return [];
         });
 
-        $action = new PortalEntityListUi($portalNodeEntityListUiAction);
+        $action = new PortalEntityListUi($this->createAuditTrailFactory(), $portalNodeEntityListUiAction);
 
-        \iterable_to_array($action->list($criteria));
+        \iterable_to_array($action->list($criteria, $this->createUiActionContext()));
 
         static::assertSame($criteria->getShowExplorer(), $passedCriteria->getShowExplorer());
         static::assertSame($criteria->getShowEmitter(), $passedCriteria->getShowEmitter());
@@ -65,16 +75,36 @@ final class PortalEntityListUiTest extends TestCase
         static::assertSame($criteria->getFilterSupportedEntityType(), $passedCriteria->getFilterSupportedEntityType());
     }
 
-    public function testDeleteFakePortalAlsoOnError(): void
+    public function testDeleteFakePortalAlsoOnErrorBeforeIteration(): void
     {
         $portalNodeEntityListUiAction = $this->createMock(PortalNodeEntityListUiActionInterface::class);
-        $portalNodeEntityListUiAction->method('list')->willThrowException(new \LogicException('My exception'));
+        $portalNodeEntityListUiAction->method('list')
+            ->willThrowException(new \LogicException('My exception', 123));
 
-        $action = new PortalEntityListUi($portalNodeEntityListUiAction);
+        $action = new PortalEntityListUi($this->createAuditTrailFactory(), $portalNodeEntityListUiAction);
 
-        self::expectException(\LogicException::class);
+        self::expectException(ReadException::class);
+        self::expectExceptionCode(1663051795);
 
-        \iterable_to_array($action->list(new PortalEntityListCriteria(FooBarPortal::class())));
+        \iterable_to_array($action->list(new PortalEntityListCriteria(FooBarPortal::class()), $this->createUiActionContext()));
+    }
+
+    public function testDeleteFakePortalAlsoOnErrorDuringIteration(): void
+    {
+        $portalNodeEntityListUiAction = $this->createMock(PortalNodeEntityListUiActionInterface::class);
+        $portalNodeEntityListUiAction->method('list')
+            ->willReturnCallback(static function (): iterable {
+                yield from [];
+
+                throw new \LogicException('My exception', 123);
+            });
+
+        $action = new PortalEntityListUi($this->createAuditTrailFactory(), $portalNodeEntityListUiAction);
+
+        self::expectException(ReadException::class);
+        self::expectExceptionCode(1663051795);
+
+        \iterable_to_array($action->list(new PortalEntityListCriteria(FooBarPortal::class()), $this->createUiActionContext()));
     }
 
     public function provideGoodFilters(): iterable

@@ -48,6 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Move `\Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack` out of this package into the `heptaconnect/core` as `\Heptacom\HeptaConnect\Core\Emission\EmitterStack`
 - Move `\Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack` out of this package into the `heptaconnect/core` as `\Heptacom\HeptaConnect\Core\Exploration\ExplorerStack`
 - Move `\Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack` out of this package into the `heptaconnect/core` as `\Heptacom\HeptaConnect\Core\Reception\ReceiverStack`
+- Remove `\Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection::groupByPortalNode` as usage of `\spl_object_hash` is discouraged and grouping can be solved in storage implementations more efficiently
 
 ### Fixed
 

@@ -172,11 +172,11 @@ abstract class PortalNodeStorageTestContract extends TestCase
 
         static::assertCount(1, $getResults);
 
-        $getValues = $this->transformGetResultsToMap($getValues);
+        $getResults = $this->transformGetResultsToMap($getResults);
 
         static::assertSame([
             'foo' => 'bar',
-        ], $getValues);
+        ], $getResults);
 
         $delete->delete(new PortalNodeStorageDeleteCriteria($portalNodeKey, new StringCollection([
             'bar',

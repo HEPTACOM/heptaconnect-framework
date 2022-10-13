@@ -5,9 +5,9 @@ PHPUNIT_EXTRA_ARGS := --config=test/phpunit.xml
 PHPUNIT := $(PHP) vendor/bin/phpunit $(PHPUNIT_EXTRA_ARGS)
 CURL := $(shell which curl)
 JQ := $(shell which jq)
+XSLTPROC := $(shell which xsltproc)
 JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*' -not -path './.build/*' -not -path './dev-ops/bin/*/vendor/*' -not -path './src/Core/vendor/*' -not -path './src/DatasetBase/vendor/*' -not -path './src/PortalBase/vendor/*' -not -path './src/StorageBase/vendor/*' -not -path './src/TestSuiteStorage/vendor/*' -not -path './src/UiAdminBase/vendor/*' -not -path './test/Core/Fixture/_files/portal-node-configuration-invalid.json')
 GIT := $(shell which git)
-XSLTPROC := $(shell which xsltproc)
 PHPSTAN_FILE := dev-ops/bin/phpstan/vendor/bin/phpstan
 COMPOSER_NORMALIZE_PHAR := https://github.com/ergebnis/composer-normalize/releases/download/2.22.0/composer-normalize.phar
 COMPOSER_NORMALIZE_FILE := dev-ops/bin/composer-normalize
@@ -15,6 +15,8 @@ COMPOSER_REQUIRE_CHECKER_PHAR := https://github.com/maglnet/ComposerRequireCheck
 COMPOSER_REQUIRE_CHECKER_FILE := dev-ops/bin/composer-require-checker
 PHPMD_PHAR := https://github.com/phpmd/phpmd/releases/download/2.11.1/phpmd.phar
 PHPMD_FILE := dev-ops/bin/phpmd
+PHPCPD_PHAR := https://phar.phpunit.de/phpcpd.phar
+PHPCPD_FILE := dev-ops/bin/phpcpd
 PSALM_FILE := dev-ops/bin/psalm/vendor/bin/psalm
 COMPOSER_UNUSED_FILE := dev-ops/bin/composer-unused/vendor/bin/composer-unused
 EASY_CODING_STANDARD_FILE := dev-ops/bin/easy-coding-standard/vendor/bin/ecs
@@ -39,6 +41,7 @@ clean: ## Cleans up all ignored files and directories
 	[[ ! -d dev-ops/bin/composer-unused/vendor ]] || rm -rf dev-ops/bin/composer-unused/vendor
 	[[ ! -d dev-ops/bin/easy-coding-standard/vendor ]] || rm -rf dev-ops/bin/easy-coding-standard/vendor
 	[[ ! -f dev-ops/bin/phpmd ]] || rm -f dev-ops/bin/phpmd
+	[[ ! -f dev-ops/bin/phpcpd ]] || rm -f dev-ops/bin/phpcpd
 	[[ ! -d dev-ops/bin/phpstan/vendor ]] || rm -rf dev-ops/bin/phpstan/vendor
 	[[ ! -d dev-ops/bin/psalm/vendor ]] || rm -rf dev-ops/bin/psalm/vendor
 	[[ ! -d dev-ops/bin/php-churn/vendor ]] || rm -rf dev-ops/bin/php-churn/vendor
@@ -79,6 +82,15 @@ cs-phpmd: vendor .build $(PHPMD_FILE) ## Run php mess detector for static code a
 	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/TestSuiteStorage xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-test-suite-storage.junit.xml
 	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/UiAdminBase xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-ui-admin-base.junit.xml
 	$(PHP) $(PHPMD_FILE) src ansi dev-ops/phpmd.xml
+
+.PHONY: cs-phpcpd
+cs-phpcpd: vendor .build $(PHPCPD_FILE) ## Run php copy paste detector for static code analysis
+	$(PHP) $(PHPCPD_FILE) --fuzzy src/Core
+	$(PHP) $(PHPCPD_FILE) --fuzzy src/DatasetBase
+	$(PHP) $(PHPCPD_FILE) --fuzzy src/PortalBase
+	$(PHP) $(PHPCPD_FILE) --fuzzy src/StorageBase
+	$(PHP) $(PHPCPD_FILE) --fuzzy src/TestSuiteStorage
+	$(PHP) $(PHPCPD_FILE) --fuzzy src/UiAdminBase
 
 .PHONY: cs-composer-unused
 cs-composer-unused: vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to detect once-required packages that are not used anymore
@@ -160,6 +172,9 @@ $(COMPOSER_REQUIRE_CHECKER_FILE): ## Install composer-require-checker executable
 
 $(PHPMD_FILE): ## Install phpmd executable
 	$(CURL) -L $(PHPMD_PHAR) -o $(PHPMD_FILE)
+
+$(PHPCPD_FILE): ## Install phpcpd executable
+	$(CURL) -L $(PHPCPD_PHAR) -o $(PHPCPD_FILE)
 
 $(PSALM_FILE): ## Install psalm executable
 	$(COMPOSER) install -d dev-ops/bin/psalm
