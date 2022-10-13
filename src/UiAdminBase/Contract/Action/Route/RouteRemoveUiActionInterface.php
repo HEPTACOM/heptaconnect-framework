@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionContextInterface
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionInterface;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\InvalidArgumentThrowableInterface;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PersistException;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\ReadException;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\RoutesMissingException;
 
 interface RouteRemoveUiActionInterface extends UiActionInterface
@@ -17,6 +18,7 @@ interface RouteRemoveUiActionInterface extends UiActionInterface
      * Remove routes by their keys.
      *
      * @throws InvalidArgumentThrowableInterface
+     * @throws ReadException
      * @throws PersistException
      * @throws RoutesMissingException
      */
