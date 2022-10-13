@@ -28,7 +28,10 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\RouteAlreadyExistsExc
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContext
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContextFactory
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUi
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditTrail
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
@@ -56,6 +59,8 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddPayloadCollection
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResult
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResultCollection
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\UiActionType
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PersistException
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodeAliasIsAlreadyAssignedException
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodesMissingException
@@ -64,6 +69,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class RouteAddUiTest extends TestCase
 {
+    use UiActionTestTrait;
+
     public function testPayloadIsWritten(): void
     {
         $routeCreateAction = $this->createMock(RouteCreateActionInterface::class);
@@ -88,6 +95,7 @@ final class RouteAddUiTest extends TestCase
         $routeDeleteAction->expects(static::never())->method('delete');
 
         $action = new RouteAddUi(
+            $this->createAuditTrailFactory(),
             $routeCreateAction,
             $routeFindAction,
             $routeGetAction,
@@ -95,9 +103,12 @@ final class RouteAddUiTest extends TestCase
             $portalNodeGetAction
         );
 
-        $result = $action->add(new RouteAddPayloadCollection([
-            new RouteAddPayload($portalNodeKey, $portalNodeKey, FooBarEntity::class()),
-        ]));
+        $result = $action->add(
+            new RouteAddPayloadCollection([
+                new RouteAddPayload($portalNodeKey, $portalNodeKey, FooBarEntity::class()),
+            ]),
+            $this->createUiActionContext()
+        );
 
         static::assertSame($routeKey, $result->first()->getRouteKey());
     }
@@ -130,6 +141,7 @@ final class RouteAddUiTest extends TestCase
             ->willReturnCallback(static fn (RouteKeyInterface $key): bool => $key === $routeKey);
 
         $action = new RouteAddUi(
+            $this->createAuditTrailFactory(),
             $routeCreateAction,
             $routeFindAction,
             $routeGetAction,
@@ -140,10 +152,13 @@ final class RouteAddUiTest extends TestCase
         self::expectException(RouteAddFailedException::class);
         self::expectExceptionCode(1654573097);
 
-        $action->add(new RouteAddPayloadCollection([
-            new RouteAddPayload($portalNodeKeyA, $portalNodeKeyB, FooBarEntity::class()),
-            new RouteAddPayload($portalNodeKeyB, $portalNodeKeyA, FooBarEntity::class()),
-        ]));
+        $action->add(
+            new RouteAddPayloadCollection([
+                new RouteAddPayload($portalNodeKeyA, $portalNodeKeyB, FooBarEntity::class()),
+                new RouteAddPayload($portalNodeKeyB, $portalNodeKeyA, FooBarEntity::class()),
+            ]),
+            $this->createUiActionContext()
+        );
     }
 
     public function testPortalNodeMissingCheck(): void
@@ -161,6 +176,7 @@ final class RouteAddUiTest extends TestCase
         $routeDeleteAction->expects(static::never())->method('delete');
 
         $action = new RouteAddUi(
+            $this->createAuditTrailFactory(),
             $routeCreateAction,
             $routeFindAction,
             $routeGetAction,
@@ -170,9 +186,12 @@ final class RouteAddUiTest extends TestCase
 
         self::expectException(PortalNodesMissingException::class);
 
-        $action->add(new RouteAddPayloadCollection([
-            new RouteAddPayload($portalNodeKey, $portalNodeKey, FooBarEntity::class()),
-        ]));
+        $action->add(
+            new RouteAddPayloadCollection([
+                new RouteAddPayload($portalNodeKey, $portalNodeKey, FooBarEntity::class()),
+            ]),
+            $this->createUiActionContext()
+        );
     }
 
     public function testRouteAlreadyExists(): void
@@ -194,6 +213,7 @@ final class RouteAddUiTest extends TestCase
         $routeDeleteAction->expects(static::never())->method('delete');
 
         $action = new RouteAddUi(
+            $this->createAuditTrailFactory(),
             $routeCreateAction,
             $routeFindAction,
             $routeGetAction,
@@ -203,8 +223,11 @@ final class RouteAddUiTest extends TestCase
 
         self::expectException(RouteAlreadyExistsException::class);
 
-        $action->add(new RouteAddPayloadCollection([
-            new RouteAddPayload($portalNodeKey, $portalNodeKey, FooBarEntity::class()),
-        ]));
+        $action->add(
+            new RouteAddPayloadCollection([
+                new RouteAddPayload($portalNodeKey, $portalNodeKey, FooBarEntity::class()),
+            ]),
+            $this->createUiActionContext()
+        );
     }
 }

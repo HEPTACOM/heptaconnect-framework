@@ -4,24 +4,22 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 
-use Heptacom\HeptaConnect\Core\Portal\Contract\PortalNodeContainerFacadeContract;
-use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
-use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
-use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEmitter;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
-use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarExplorer;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
-use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarReceiver;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalEntityListUi;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
-use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface;
-use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerCodeOriginFinderInterface;
-use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverCodeOriginFinderInterface;
+use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListCriteria;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeEntityList\PortalNodeEntityListCriteria;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeEntityListUiActionInterface;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\ReadException;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContext
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContextFactory
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalEntityListUi
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditTrail
  * @covers \Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
@@ -42,193 +40,115 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListCriteria
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListResult
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeEntityList\PortalNodeEntityListCriteria
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\UiActionType
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\EntityListCriteriaContract
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\ReadException
  */
 final class PortalEntityListUiTest extends TestCase
 {
-    public function testCriteriaFilters(): void
+    use UiActionTestTrait;
+
+    /**
+     * @dataProvider provideGoodFilters
+     */
+    public function testCriteriaFilters(PortalEntityListCriteria $criteria): void
     {
-        $portalStackServiceContainerFactory = $this->createMock(PortalStackServiceContainerFactory::class);
-        $containerFacade = $this->createMock(PortalNodeContainerFacadeContract::class);
+        $portalNodeEntityListUiAction = $this->createMock(PortalNodeEntityListUiActionInterface::class);
 
-        $flowComponentRegistry = new FlowComponentRegistry(
-            [
-                FooBarPortal::class => [
-                    new FooBarExplorer(5),
-                ],
-            ],
-            [
-                FooBarPortal::class => [
-                    new FooBarEmitter(5),
-                ],
-            ],
-            [
-                FooBarPortal::class => [
-                    new FooBarReceiver(),
-                ],
-            ],
-            [
-                FooBarPortal::class => [],
-            ],
-            [
-                FooBarPortal::class => [],
-            ],
-            []
-        );
+        /** @var PortalNodeEntityListCriteria $passedCriteria */
+        $passedCriteria = null;
+        $portalNodeEntityListUiAction->method('list')->willReturnCallback(static function ($c) use (&$passedCriteria) {
+            $passedCriteria = $c;
 
-        $containerFacade->method('getFlowComponentRegistry')->willReturn($flowComponentRegistry);
-        $portalStackServiceContainerFactory->method('create')->willReturn($containerFacade);
+            return [];
+        });
 
-        $explorerCodeOriginFinder = $this->createMock(ExplorerCodeOriginFinderInterface::class);
-        $emitterCodeOriginFinder = $this->createMock(EmitterCodeOriginFinderInterface::class);
-        $receiverCodeOriginFinder = $this->createMock(ReceiverCodeOriginFinderInterface::class);
+        $action = new PortalEntityListUi($this->createAuditTrailFactory(), $portalNodeEntityListUiAction);
 
-        $action = new PortalEntityListUi(
-            $portalStackServiceContainerFactory,
-            $explorerCodeOriginFinder,
-            $emitterCodeOriginFinder,
-            $receiverCodeOriginFinder
-        );
+        \iterable_to_array($action->list($criteria, $this->createUiActionContext()));
 
-        $emitterCodeOriginFinder->expects(static::once())->method('findOrigin');
-        $explorerCodeOriginFinder->expects(static::once())->method('findOrigin');
-        $receiverCodeOriginFinder->expects(static::once())->method('findOrigin');
+        static::assertSame($criteria->getShowExplorer(), $passedCriteria->getShowExplorer());
+        static::assertSame($criteria->getShowEmitter(), $passedCriteria->getShowEmitter());
+        static::assertSame($criteria->getShowReceiver(), $passedCriteria->getShowReceiver());
+        static::assertSame($criteria->getFilterSupportedEntityType(), $passedCriteria->getFilterSupportedEntityType());
+    }
 
+    public function testDeleteFakePortalAlsoOnErrorBeforeIteration(): void
+    {
+        $portalNodeEntityListUiAction = $this->createMock(PortalNodeEntityListUiActionInterface::class);
+        $portalNodeEntityListUiAction->method('list')
+            ->willThrowException(new \LogicException('My exception', 123));
+
+        $action = new PortalEntityListUi($this->createAuditTrailFactory(), $portalNodeEntityListUiAction);
+
+        self::expectException(ReadException::class);
+        self::expectExceptionCode(1663051795);
+
+        \iterable_to_array($action->list(new PortalEntityListCriteria(FooBarPortal::class()), $this->createUiActionContext()));
+    }
+
+    public function testDeleteFakePortalAlsoOnErrorDuringIteration(): void
+    {
+        $portalNodeEntityListUiAction = $this->createMock(PortalNodeEntityListUiActionInterface::class);
+        $portalNodeEntityListUiAction->method('list')
+            ->willReturnCallback(static function (): iterable {
+                yield from [];
+
+                throw new \LogicException('My exception', 123);
+            });
+
+        $action = new PortalEntityListUi($this->createAuditTrailFactory(), $portalNodeEntityListUiAction);
+
+        self::expectException(ReadException::class);
+        self::expectExceptionCode(1663051795);
+
+        \iterable_to_array($action->list(new PortalEntityListCriteria(FooBarPortal::class()), $this->createUiActionContext()));
+    }
+
+    public function provideGoodFilters(): iterable
+    {
         $criteria = new PortalEntityListCriteria(FooBarPortal::class());
-        static::assertCount(3, \iterable_to_array($action->list($criteria)));
 
-        // reset
-
-        $explorerCodeOriginFinder = $this->createMock(ExplorerCodeOriginFinderInterface::class);
-        $emitterCodeOriginFinder = $this->createMock(EmitterCodeOriginFinderInterface::class);
-        $receiverCodeOriginFinder = $this->createMock(ReceiverCodeOriginFinderInterface::class);
-
-        $action = new PortalEntityListUi(
-            $portalStackServiceContainerFactory,
-            $explorerCodeOriginFinder,
-            $emitterCodeOriginFinder,
-            $receiverCodeOriginFinder
-        );
-
-        $emitterCodeOriginFinder->expects(static::never())->method('findOrigin');
-        $explorerCodeOriginFinder->expects(static::never())->method('findOrigin');
-        $receiverCodeOriginFinder->expects(static::once())->method('findOrigin');
+        yield [$criteria];
 
         $criteria = new PortalEntityListCriteria(FooBarPortal::class());
         $criteria->setShowEmitter(false);
         $criteria->setShowExplorer(false);
         $criteria->setShowReceiver(true);
-        static::assertCount(1, \iterable_to_array($action->list($criteria)));
 
-        // reset
-
-        $explorerCodeOriginFinder = $this->createMock(ExplorerCodeOriginFinderInterface::class);
-        $emitterCodeOriginFinder = $this->createMock(EmitterCodeOriginFinderInterface::class);
-        $receiverCodeOriginFinder = $this->createMock(ReceiverCodeOriginFinderInterface::class);
-
-        $action = new PortalEntityListUi(
-            $portalStackServiceContainerFactory,
-            $explorerCodeOriginFinder,
-            $emitterCodeOriginFinder,
-            $receiverCodeOriginFinder
-        );
-
-        $emitterCodeOriginFinder->expects(static::never())->method('findOrigin');
-        $explorerCodeOriginFinder->expects(static::once())->method('findOrigin');
-        $receiverCodeOriginFinder->expects(static::never())->method('findOrigin');
+        yield [$criteria];
 
         $criteria = new PortalEntityListCriteria(FooBarPortal::class());
         $criteria->setShowEmitter(false);
         $criteria->setShowExplorer(true);
         $criteria->setShowReceiver(false);
-        static::assertCount(1, \iterable_to_array($action->list($criteria)));
 
-        // reset
-
-        $explorerCodeOriginFinder = $this->createMock(ExplorerCodeOriginFinderInterface::class);
-        $emitterCodeOriginFinder = $this->createMock(EmitterCodeOriginFinderInterface::class);
-        $receiverCodeOriginFinder = $this->createMock(ReceiverCodeOriginFinderInterface::class);
-
-        $action = new PortalEntityListUi(
-            $portalStackServiceContainerFactory,
-            $explorerCodeOriginFinder,
-            $emitterCodeOriginFinder,
-            $receiverCodeOriginFinder
-        );
-
-        $emitterCodeOriginFinder->expects(static::once())->method('findOrigin');
-        $explorerCodeOriginFinder->expects(static::never())->method('findOrigin');
-        $receiverCodeOriginFinder->expects(static::never())->method('findOrigin');
+        yield [$criteria];
 
         $criteria = new PortalEntityListCriteria(FooBarPortal::class());
         $criteria->setShowEmitter(true);
         $criteria->setShowExplorer(false);
         $criteria->setShowReceiver(false);
-        static::assertCount(1, \iterable_to_array($action->list($criteria)));
 
-        // reset
-
-        $explorerCodeOriginFinder = $this->createMock(ExplorerCodeOriginFinderInterface::class);
-        $emitterCodeOriginFinder = $this->createMock(EmitterCodeOriginFinderInterface::class);
-        $receiverCodeOriginFinder = $this->createMock(ReceiverCodeOriginFinderInterface::class);
-
-        $action = new PortalEntityListUi(
-            $portalStackServiceContainerFactory,
-            $explorerCodeOriginFinder,
-            $emitterCodeOriginFinder,
-            $receiverCodeOriginFinder
-        );
-
-        $emitterCodeOriginFinder->expects(static::once())->method('findOrigin');
-        $explorerCodeOriginFinder->expects(static::once())->method('findOrigin');
-        $receiverCodeOriginFinder->expects(static::never())->method('findOrigin');
+        yield [$criteria];
 
         $criteria = new PortalEntityListCriteria(FooBarPortal::class());
         $criteria->setShowEmitter(true);
         $criteria->setShowExplorer(true);
         $criteria->setShowReceiver(false);
-        static::assertCount(2, \iterable_to_array($action->list($criteria)));
 
-        // reset
-
-        $explorerCodeOriginFinder = $this->createMock(ExplorerCodeOriginFinderInterface::class);
-        $emitterCodeOriginFinder = $this->createMock(EmitterCodeOriginFinderInterface::class);
-        $receiverCodeOriginFinder = $this->createMock(ReceiverCodeOriginFinderInterface::class);
-
-        $action = new PortalEntityListUi(
-            $portalStackServiceContainerFactory,
-            $explorerCodeOriginFinder,
-            $emitterCodeOriginFinder,
-            $receiverCodeOriginFinder
-        );
-
-        $emitterCodeOriginFinder->expects(static::once())->method('findOrigin');
-        $explorerCodeOriginFinder->expects(static::once())->method('findOrigin');
-        $receiverCodeOriginFinder->expects(static::once())->method('findOrigin');
+        yield [$criteria];
 
         $criteria = new PortalEntityListCriteria(FooBarPortal::class());
         $criteria->setFilterSupportedEntityType(FooBarEntity::class());
-        static::assertCount(3, \iterable_to_array($action->list($criteria)));
 
-        // reset
-
-        $explorerCodeOriginFinder = $this->createMock(ExplorerCodeOriginFinderInterface::class);
-        $emitterCodeOriginFinder = $this->createMock(EmitterCodeOriginFinderInterface::class);
-        $receiverCodeOriginFinder = $this->createMock(ReceiverCodeOriginFinderInterface::class);
-
-        $action = new PortalEntityListUi(
-            $portalStackServiceContainerFactory,
-            $explorerCodeOriginFinder,
-            $emitterCodeOriginFinder,
-            $receiverCodeOriginFinder
-        );
-
-        $emitterCodeOriginFinder->expects(static::never())->method('findOrigin');
-        $explorerCodeOriginFinder->expects(static::never())->method('findOrigin');
-        $receiverCodeOriginFinder->expects(static::never())->method('findOrigin');
+        yield [$criteria];
 
         $criteria = new PortalEntityListCriteria(FooBarPortal::class());
-        $criteria->setFilterSupportedEntityType((new class() extends DatasetEntityContract {
-        })::class());
-        static::assertCount(0, \iterable_to_array($action->list($criteria)));
+        $criteria->setFilterSupportedEntityType(new UnsafeClassString(DatasetEntityContract::class));
+
+        yield [$criteria];
     }
 }

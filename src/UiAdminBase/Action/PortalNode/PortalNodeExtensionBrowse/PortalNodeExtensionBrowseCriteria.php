@@ -9,8 +9,9 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\BrowseCriteriaContract;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Audit\AuditableDataAwareInterface;
 
-final class PortalNodeExtensionBrowseCriteria extends BrowseCriteriaContract implements AttachmentAwareInterface
+final class PortalNodeExtensionBrowseCriteria extends BrowseCriteriaContract implements AttachmentAwareInterface, AuditableDataAwareInterface
 {
     use AttachmentAwareTrait;
 
@@ -54,5 +55,14 @@ final class PortalNodeExtensionBrowseCriteria extends BrowseCriteriaContract imp
     public function setShowInactive(bool $showInactive): void
     {
         $this->showInactive = $showInactive;
+    }
+
+    public function getAuditableData(): array
+    {
+        return [
+            'portalNode' => $this->getPortalNodeKey(),
+            'showActive' => $this->getShowActive(),
+            'showInactive' => $this->getShowInactive(),
+        ];
     }
 }

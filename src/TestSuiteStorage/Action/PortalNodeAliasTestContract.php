@@ -43,9 +43,8 @@ abstract class PortalNodeAliasTestContract extends TestCase
             new PortalNodeCreatePayload(PortalB::class()),
         ]);
         $createResults = $createAction->create($createPayloads);
-        $portalNodeKeys = new PortalNodeKeyCollection(\iterable_map(
-            $createResults,
-            static fn (PortalNodeCreateResult $r): PortalNodeKeyInterface => $r->getPortalNodeKey()
+        $portalNodeKeys = new PortalNodeKeyCollection($createResults->map(
+            static fn (PortalNodeCreateResult $result): PortalNodeKeyInterface => $result->getPortalNodeKey()
         ));
 
         static::assertCount(2, $createResults);

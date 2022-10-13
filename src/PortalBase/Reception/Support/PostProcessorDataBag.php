@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Reception\Support;
 
+/**
+ * @SuppressWarnings(PHPMD.ShortMethodName)
+ */
 class PostProcessorDataBag
 {
     /**
