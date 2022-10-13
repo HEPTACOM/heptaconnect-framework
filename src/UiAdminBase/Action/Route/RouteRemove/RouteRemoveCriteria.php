@@ -8,8 +8,9 @@ use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Audit\AuditableDataAwareInterface;
 
-final class RouteRemoveCriteria implements AttachmentAwareInterface
+final class RouteRemoveCriteria implements AttachmentAwareInterface, AuditableDataAwareInterface
 {
     use AttachmentAwareTrait;
 
@@ -29,5 +30,12 @@ final class RouteRemoveCriteria implements AttachmentAwareInterface
     public function setRouteKeys(RouteKeyCollection $routeKeys): void
     {
         $this->routeKeys = $routeKeys;
+    }
+
+    public function getAuditableData(): array
+    {
+        return [
+            'routeKeys' => $this->getRouteKeys(),
+        ];
     }
 }

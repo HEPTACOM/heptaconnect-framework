@@ -41,6 +41,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class RouteRemoveUiTest extends TestCase
 {
+    use UiActionTestTrait;
+
     public function testSuccess(): void
     {
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
@@ -56,12 +58,12 @@ final class RouteRemoveUiTest extends TestCase
 
         $routeDeleteAction->expects(static::once())->method('delete');
 
-        $action = new RouteRemoveUi($routeGetAction, $routeDeleteAction);
+        $action = new RouteRemoveUi($this->createAuditTrailFactory(), $routeGetAction, $routeDeleteAction);
         $criteria = new RouteRemoveCriteria(new RouteKeyCollection([
             $routeKey,
         ]));
 
-        $action->remove($criteria);
+        $action->remove($criteria, $this->createUiActionContext());
     }
 
     public function testRouteAlreadyDeleted(): void
@@ -75,14 +77,14 @@ final class RouteRemoveUiTest extends TestCase
         $routeGetAction->expects(static::once())->method('get')->willReturn([]);
         $routeDeleteAction->expects(static::never())->method('delete');
 
-        $action = new RouteRemoveUi($routeGetAction, $routeDeleteAction);
+        $action = new RouteRemoveUi($this->createAuditTrailFactory(), $routeGetAction, $routeDeleteAction);
         $criteria = new RouteRemoveCriteria(new RouteKeyCollection([
             $routeKey,
         ]));
 
         self::expectException(RoutesMissingException::class);
 
-        $action->remove($criteria);
+        $action->remove($criteria, $this->createUiActionContext());
     }
 
     public function testRouteFailedDeleting(): void
@@ -100,14 +102,14 @@ final class RouteRemoveUiTest extends TestCase
         ]);
         $routeDeleteAction->expects(static::once())->method('delete')->willThrowException(new \LogicException('Woops'));
 
-        $action = new RouteRemoveUi($routeGetAction, $routeDeleteAction);
+        $action = new RouteRemoveUi($this->createAuditTrailFactory(), $routeGetAction, $routeDeleteAction);
         $criteria = new RouteRemoveCriteria(new RouteKeyCollection([
             $routeKey,
         ]));
 
         self::expectException(PersistException::class);
 
-        $action->remove($criteria);
+        $action->remove($criteria, $this->createUiActionContext());
     }
 
     public function testRouteFailedReading(): void
@@ -121,13 +123,13 @@ final class RouteRemoveUiTest extends TestCase
         $routeGetAction->expects(static::once())->method('get')->willThrowException(new \LogicException('Woops'));
         $routeDeleteAction->expects(static::never())->method('delete');
 
-        $action = new RouteRemoveUi($routeGetAction, $routeDeleteAction);
+        $action = new RouteRemoveUi($this->createAuditTrailFactory(), $routeGetAction, $routeDeleteAction);
         $criteria = new RouteRemoveCriteria(new RouteKeyCollection([
             $routeKey,
         ]));
 
         self::expectException(PersistException::class);
 
-        $action->remove($criteria);
+        $action->remove($criteria, $this->createUiActionContext());
     }
 }
