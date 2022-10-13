@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientMiddlewareInterface`. Every service implementing this interface will automatically be tagged with `heptaconnect.http.middleware`. Middlewares will be executed for every outbound HTTP request via the `\Psr\Http\Client\ClientInterface`.
+
 ### Changed
 
 ### Deprecated
