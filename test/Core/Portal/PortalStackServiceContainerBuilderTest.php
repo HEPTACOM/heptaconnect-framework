@@ -29,7 +29,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 use Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepCloneContract;
 use Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientContract;
-use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpMiddlewareInterface;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientMiddlewareInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerUrlProviderInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use HeptacomFixture\Portal\A\AutomaticService\ExceptionNotInContainer;
@@ -233,14 +233,14 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
         $mockRequest = $this->createMock(RequestInterface::class);
         $mockResponse = $this->createMock(ResponseInterface::class);
 
-        $httpMiddlewareA = $this->createMock(HttpMiddlewareInterface::class);
+        $httpMiddlewareA = $this->createMock(HttpClientMiddlewareInterface::class);
         $httpMiddlewareA->expects(static::once())->method('process')->willReturnCallback(
             function (RequestInterface $request, ClientInterface $handler) {
                 return $handler->sendRequest($request);
             }
         );
 
-        $httpMiddlewareB = $this->createMock(HttpMiddlewareInterface::class);
+        $httpMiddlewareB = $this->createMock(HttpClientMiddlewareInterface::class);
         $httpMiddlewareB->expects(static::once())->method('process')->willReturn($mockResponse);
 
         $this->setSyntheticServices($container, [
