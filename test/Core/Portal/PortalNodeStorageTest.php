@@ -73,8 +73,7 @@ class PortalNodeStorageTest extends TestCase
 
     public function testListWillContinueReturnEntriesEvenIfOneCanNotBeParsed(): void
     {
-        $logger = new class () extends AbstractLogger
-        {
+        $logger = new class() extends AbstractLogger {
             public array $capture = [];
 
             public function log($level, $message, array $context = []): void
