@@ -12,6 +12,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Map\IdentityMapPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Map\IdentityMapResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistCreatePayload;
+use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistDeletePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPayloadCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Reflect\IdentityReflectPayload;
@@ -221,6 +222,52 @@ abstract class IdentityMappingTestContract extends TestCase
     }
 
     /**
+     * Test identification of entities and their creation of missing mappings.
+     * The focus is on the creation of mappings, when unmapped entities are about to be reflected.
+     *
+     * @param class-string<DatasetEntityContract> $entityClass
+     * @dataProvider provideEntityClasses
+     */
+    public function testReflectFromPortalNodeAToBWhereNoMappingsAreInTheStorage(string $entityClass): void
+    {
+        $sourceId = 'e9011418-5535-4180-93e9-94b44cc3e28d';
+
+        $datasetEntity = new $entityClass();
+        $datasetEntity->setPrimaryKey($sourceId);
+
+        // create new mapping node + identity for portal node A
+        $identityMapResult = $this->identifyEntities($this->getPortalNodeA(), new DatasetEntityCollection([$datasetEntity]));
+        $mappedEntities = $identityMapResult->getMappedDatasetEntityCollection();
+
+        static::assertCount(1, $mappedEntities);
+
+        /** @var MappedDatasetEntityStruct $mappedEntity */
+        $mappedEntity = $mappedEntities->first();
+        $identifiedEntity = $mappedEntity->getDatasetEntity();
+        $mappingNodeKey = $mappedEntity->getMapping()->getMappingNodeKey();
+
+        // remove identity for portal node A
+        $this->persistIdentity($this->getPortalNodeA(), new IdentityPersistPayloadCollection([
+            new IdentityPersistDeletePayload($mappingNodeKey),
+        ]));
+
+        // reflect entities (this is what we test here)
+        $this->getIdentityReflect()->reflect(new IdentityReflectPayload($this->getPortalNodeB(), $mappedEntities));
+
+        foreach ($mappedEntities as $reflectedMappedEntity) {
+            $reflectedEntity = $reflectedMappedEntity->getDatasetEntity();
+
+            /** @var PrimaryKeySharingMappingStruct|null $reflectionMapping */
+            $reflectionMapping = $reflectedEntity->getAttachment(PrimaryKeySharingMappingStruct::class);
+
+            static::assertInstanceOf(PrimaryKeySharingMappingStruct::class, $reflectionMapping);
+            static::assertSame($reflectedEntity, $identifiedEntity);
+            static::assertSame($reflectionMapping->getExternalId(), $sourceId);
+            static::assertNull($reflectedEntity->getPrimaryKey());
+        }
+    }
+
+    /**
      * Test identification of entities and transformation of their primary keys through the identity storage of mapping and mappings nodes.
      * The focus is on the transfer of multiple entities at once.
      *
@@ -272,6 +319,7 @@ abstract class IdentityMappingTestContract extends TestCase
                     static::fail('Entity was not identified correctly.');
             }
 
+            static::assertIsString($targetId);
             $identityPersistPayloadCollection->push([
                 new IdentityPersistCreatePayload($mappingNodeKey, $targetId),
             ]);

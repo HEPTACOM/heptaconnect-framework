@@ -8,6 +8,8 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface;
 
 /**
  * @psalm-consistent-constructor
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ * @SuppressWarnings(PHPMD.NPathComplexity)
  */
 trait SetStateTrait
 {

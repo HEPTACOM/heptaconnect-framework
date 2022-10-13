@@ -16,6 +16,9 @@ final class RouteCreatePayloads extends AbstractObjectCollection implements Atta
 {
     use AttachmentAwareTrait;
 
+    /**
+     * @psalm-param iterable<int, RouteCreatePayload> $items
+     */
     public function __construct(iterable $items = [])
     {
         parent::__construct($items);

@@ -34,6 +34,9 @@ use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ */
 class FlowComponent implements LoggerAwareInterface
 {
     use LoggerAwareTrait;

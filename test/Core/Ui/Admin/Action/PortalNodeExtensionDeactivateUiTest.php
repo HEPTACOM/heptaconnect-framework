@@ -27,7 +27,10 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodesMissingExc
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContext
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContextFactory
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionDeactivateUi
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditTrail
  * @covers \Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
@@ -43,6 +46,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\SupportedPortalType
  * @covers \Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Contract\PortalExtensionActiveChangePayloadContract
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Deactivate\PortalExtensionDeactivatePayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Deactivate\PortalExtensionDeactivateResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Find\PortalExtensionFindResult
@@ -52,6 +56,8 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBrowse\PortalNodeExtensionBrowseCriteria
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBrowse\PortalNodeExtensionBrowseResult
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionDeactivate\PortalNodeExtensionDeactivatePayload
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\UiActionType
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\BrowseCriteriaContract
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\NoMatchForPackageQueryException
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalExtensionsAreAlreadyInactiveOnPortalNodeException
@@ -59,6 +65,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class PortalNodeExtensionDeactivateUiTest extends TestCase
 {
+    use UiActionTestTrait;
+
     public function testPayloadIsAlreadyInactive(): void
     {
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
@@ -81,6 +89,7 @@ final class PortalNodeExtensionDeactivateUiTest extends TestCase
             ->willReturnArgument(1);
 
         $action = new PortalNodeExtensionDeactivateUi(
+            $this->createAuditTrailFactory(),
             $portalNodeGetAction,
             $portalNodeExtensionFindAction,
             $portalExtensionDeactivateAction,
@@ -94,7 +103,7 @@ final class PortalNodeExtensionDeactivateUiTest extends TestCase
 
         self::expectException(PortalExtensionsAreAlreadyInactiveOnPortalNodeException::class);
 
-        $action->deactivate($payload);
+        $action->deactivate($payload, $this->createUiActionContext());
     }
 
     public function testPayloadPortalNodeDoesNotExist(): void
@@ -114,6 +123,7 @@ final class PortalNodeExtensionDeactivateUiTest extends TestCase
             ->willReturn(new PortalExtensionCollection([new FooBarPortalExtension()]));
 
         $action = new PortalNodeExtensionDeactivateUi(
+            $this->createAuditTrailFactory(),
             $portalNodeGetAction,
             $portalNodeExtensionFindAction,
             $portalExtensionDeactivateAction,
@@ -127,7 +137,7 @@ final class PortalNodeExtensionDeactivateUiTest extends TestCase
 
         self::expectException(PortalNodesMissingException::class);
 
-        $action->deactivate($payload);
+        $action->deactivate($payload, $this->createUiActionContext());
     }
 
     public function testPayloadPortalExtensionDoesNotExist(): void
@@ -151,6 +161,7 @@ final class PortalNodeExtensionDeactivateUiTest extends TestCase
             ->willReturn(new PortalExtensionCollection());
 
         $action = new PortalNodeExtensionDeactivateUi(
+            $this->createAuditTrailFactory(),
             $portalNodeGetAction,
             $portalNodeExtensionFindAction,
             $portalExtensionDeactivateAction,
@@ -164,7 +175,7 @@ final class PortalNodeExtensionDeactivateUiTest extends TestCase
 
         self::expectException(NoMatchForPackageQueryException::class);
 
-        $action->deactivate($payload);
+        $action->deactivate($payload, $this->createUiActionContext());
     }
 
     public function testPayloadBecomesInActive(): void
@@ -195,6 +206,7 @@ final class PortalNodeExtensionDeactivateUiTest extends TestCase
             ));
 
         $action = new PortalNodeExtensionDeactivateUi(
+            $this->createAuditTrailFactory(),
             $portalNodeGetAction,
             $portalNodeExtensionFindAction,
             $portalExtensionDeactivateAction,
@@ -206,6 +218,6 @@ final class PortalNodeExtensionDeactivateUiTest extends TestCase
             FooBarPortalExtension::class(),
         ]));
 
-        $action->deactivate($payload);
+        $action->deactivate($payload, $this->createUiActionContext());
     }
 }
