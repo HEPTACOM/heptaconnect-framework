@@ -31,6 +31,7 @@
         "php-http/discovery": "^1.0",
         "psr/container": "^1.0",
         "psr/event-dispatcher": "^1.0",
+        "psr/http-client": "^1.0",
         "psr/http-factory": "^1.0",
         "psr/http-message": "^1.0",
         "psr/log": "^1.0",
@@ -56,8 +57,7 @@
     },
     "extra": {
         "unused": [
-            "bentools/iterable-functions",
-            "psr/http-client"
+            "bentools/iterable-functions"
         ]
     },
     "website": "https://heptaconnect.io"
