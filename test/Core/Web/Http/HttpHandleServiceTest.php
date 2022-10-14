@@ -119,7 +119,7 @@ final class HttpHandleServiceTest extends TestCase
         $stackBuilderFactory->method('createHttpHandlerStackBuilder')->willReturn($stackBuilder);
 
         $actor = $this->createMock(HttpHandlingActorInterface::class);
-        $actor->expects(self::once())->method('performHttpHandling')->willReturnArgument(1);
+        $actor->expects(static::once())->method('performHttpHandling')->willReturnArgument(1);
 
         $middleware = $this->createMock(MiddlewareInterface::class);
         $middleware->expects(static::once())->method('process')->willReturnCallback(
