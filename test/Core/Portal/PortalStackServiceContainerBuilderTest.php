@@ -65,6 +65,7 @@ use Symfony\Component\DependencyInjection\Reference;
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AllDefinitionDefaultsCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\BuildDefinitionForFlowComponentRegistryCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\RemoveAutoPrototypedDefinitionsCompilerPass
+ * @covers \Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpMiddlewareClient
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
