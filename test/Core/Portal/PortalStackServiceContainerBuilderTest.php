@@ -11,6 +11,7 @@ use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder;
 use Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory;
 use Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract;
 use Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory;
+use Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector;
 use Heptacom\HeptaConnect\Core\Test\Fixture\HttpClientInterfaceDecorator;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface;
 use Heptacom\HeptaConnect\Portal\Base\File\FileReferenceResolverContract;
@@ -33,6 +34,8 @@ use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientMiddlewareInte
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerUrlProviderInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use HeptacomFixture\Portal\A\AutomaticService\ExceptionNotInContainer;
+use HeptacomFixture\Portal\A\AutomaticService\InboundHttpMiddleware;
+use HeptacomFixture\Portal\A\AutomaticService\OutboundHttpMiddleware;
 use HeptacomFixture\Portal\A\Dto\ShouldNotBeAService;
 use HeptacomFixture\Portal\A\ManualService\ExceptionInContainer;
 use HeptacomFixture\Portal\A\Portal;
@@ -56,10 +59,14 @@ use Symfony\Component\DependencyInjection\Reference;
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalConfiguration
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalLogger
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder
+ * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddHttpMiddlewareClientCompilerPass
+ * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddHttpMiddlewareCollectorCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddPortalConfigurationBindingsCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AllDefinitionDefaultsCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\BuildDefinitionForFlowComponentRegistryCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\RemoveAutoPrototypedDefinitionsCompilerPass
+ * @covers \Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector
+ * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpMiddlewareClient
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Parallelization\Support\ResourceLockFacade
@@ -118,6 +125,13 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
 
         static::assertTrue($container->has(ExceptionInContainer::class));
         static::assertFalse($container->has(ExceptionNotInContainer::class));
+
+        static::assertTrue($container->has(InboundHttpMiddleware::class));
+        static::assertTrue($container->has(OutboundHttpMiddleware::class));
+        static::assertTrue($container->has(HttpMiddlewareCollector::class));
+        /** @var HttpMiddlewareCollector $middlewareCollector */
+        $middlewareCollector = $container->get(HttpMiddlewareCollector::class);
+        static::assertCount(1, $middlewareCollector);
     }
 
     public function testServiceDecoration(): void
