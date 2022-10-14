@@ -14,9 +14,9 @@ final class JobGetResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    protected string $jobType;
+    private string $jobType;
 
-    protected JobKeyInterface $jobKey;
+    private JobKeyInterface $jobKey;
 
     private MappingComponentStruct $mappingComponent;
 

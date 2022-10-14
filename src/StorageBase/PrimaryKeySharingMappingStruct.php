@@ -21,18 +21,18 @@ final class PrimaryKeySharingMappingStruct implements AttachableInterface, Forei
     /**
      * @var class-string<DatasetEntityContract>
      */
-    protected string $entityType;
+    private string $entityType;
 
-    protected ?string $externalId = null;
+    private ?string $externalId = null;
 
-    protected PortalNodeKeyInterface $portalNodeKey;
+    private PortalNodeKeyInterface $portalNodeKey;
 
-    protected MappingNodeKeyInterface $mappingNodeKey;
+    private MappingNodeKeyInterface $mappingNodeKey;
 
     /**
      * @var DatasetEntityContract[]
      */
-    protected $owners = [];
+    private $owners = [];
 
     public function __construct(
         EntityType $entityType,

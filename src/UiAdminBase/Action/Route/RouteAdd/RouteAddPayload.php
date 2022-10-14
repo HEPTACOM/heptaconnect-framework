@@ -15,16 +15,16 @@ final class RouteAddPayload implements AttachmentAwareInterface, AuditableDataAw
 {
     use AttachmentAwareTrait;
 
-    protected PortalNodeKeyInterface $sourcePortalNodeKey;
+    private PortalNodeKeyInterface $sourcePortalNodeKey;
 
-    protected PortalNodeKeyInterface $targetPortalNodeKey;
+    private PortalNodeKeyInterface $targetPortalNodeKey;
 
-    protected EntityType $entityType;
+    private EntityType $entityType;
 
     /**
      * @var string[]
      */
-    protected array $capabilities;
+    private array $capabilities;
 
     /**
      * @param string[] $capabilities

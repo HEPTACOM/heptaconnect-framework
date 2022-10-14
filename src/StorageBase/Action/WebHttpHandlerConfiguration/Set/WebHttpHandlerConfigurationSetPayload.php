@@ -14,13 +14,13 @@ final class WebHttpHandlerConfigurationSetPayload implements CreatePayloadInterf
 {
     use AttachmentAwareTrait;
 
-    protected PortalNodeKeyInterface $portalNodeKey;
+    private PortalNodeKeyInterface $portalNodeKey;
 
-    protected string $path;
+    private string $path;
 
-    protected string $configurationKey;
+    private string $configurationKey;
 
-    protected ?array $configurationValue = null;
+    private ?array $configurationValue = null;
 
     public function __construct(
         PortalNodeKeyInterface $portalNodeKey,

@@ -17,9 +17,9 @@ final class TagItem implements \JsonSerializable
     /**
      * @psalm-var CollectionInterface<T>
      */
-    protected CollectionInterface $collection;
+    private CollectionInterface $collection;
 
-    protected string $tag;
+    private string $tag;
 
     /**
      * @psalm-param CollectionInterface<T> $collection

@@ -12,9 +12,9 @@ final class RouteCapabilityOverviewResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    protected string $name;
+    private string $name;
 
-    protected \DateTimeInterface $createdAt;
+    private \DateTimeInterface $createdAt;
 
     public function __construct(string $name, \DateTimeInterface $createdAt)
     {

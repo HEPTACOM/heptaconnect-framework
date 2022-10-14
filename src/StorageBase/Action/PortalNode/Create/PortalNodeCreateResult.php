@@ -13,7 +13,7 @@ final class PortalNodeCreateResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    protected PortalNodeKeyInterface $portalNodeKey;
+    private PortalNodeKeyInterface $portalNodeKey;
 
     public function __construct(PortalNodeKeyInterface $portalNodeKey)
     {

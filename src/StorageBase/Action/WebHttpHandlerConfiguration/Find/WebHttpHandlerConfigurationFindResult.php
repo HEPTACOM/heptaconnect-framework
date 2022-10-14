@@ -12,7 +12,7 @@ final class WebHttpHandlerConfigurationFindResult implements AttachmentAwareInte
 {
     use AttachmentAwareTrait;
 
-    protected ?array $value;
+    private ?array $value;
 
     public function __construct(?array $value)
     {
