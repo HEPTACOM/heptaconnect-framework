@@ -287,7 +287,7 @@ abstract class PortalNodeStorageTestContract extends TestCase
             )
         );
 
-        static::assertIsArray($getResults);
+        static::assertIsArray($getValues);
 
         \ksort($getValues);
 
