@@ -18,7 +18,7 @@ trait SetStateTrait
      */
     public static function __set_state(array $an_array)
     {
-        return static::createStaticFromArray($an_array);
+        return self::createStaticFromArray($an_array);
     }
 
     /**

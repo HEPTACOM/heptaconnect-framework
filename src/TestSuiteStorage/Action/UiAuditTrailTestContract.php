@@ -45,7 +45,7 @@ abstract class UiAuditTrailTestContract extends TestCase
                 new TagItem(
                     new StringCollection([
                         'Action about portal node',
-                        \json_encode([
+                        (string) \json_encode([
                             'portalNode' => new PreviewPortalNodeKey(PortalA::class()),
                             'code' => 12345,
                         ]),

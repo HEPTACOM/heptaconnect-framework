@@ -34,7 +34,7 @@ abstract class AbstractCollection implements CollectionInterface
 
     public static function __set_state(array $an_array)
     {
-        $result = static::createStaticFromArray($an_array);
+        $result = self::createStaticFromArray($an_array);
         /** @var array|mixed $items */
         $items = $an_array['items'] ?? [];
 
@@ -227,6 +227,9 @@ abstract class AbstractCollection implements CollectionInterface
         return $result;
     }
 
+    /**
+     * @return static
+     */
     public function withoutItems(): self
     {
         $that = clone $this;

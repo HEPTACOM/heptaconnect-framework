@@ -15,7 +15,7 @@ abstract class AbstractTaggedCollection extends AbstractCollection
 {
     /**
      * @psalm-param array-key $offset
-     * @psalm-return TagItem
+     * @psalm-return TagItem<T>
      */
     public function offsetGet($offset)
     {
