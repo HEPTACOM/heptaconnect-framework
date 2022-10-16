@@ -96,7 +96,7 @@ final class ImplementationsMustBeFinalRule implements Rule
             return false;
         }
 
-        if ($class->isAbstract() || \str_starts_with((string) $class->name, 'Contract')) {
+        if ($class->isAbstract() || \str_ends_with((string) $class->name, 'Contract')) {
             return false;
         }
 
