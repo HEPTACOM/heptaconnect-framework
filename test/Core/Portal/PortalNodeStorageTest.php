@@ -98,7 +98,7 @@ class PortalNodeStorageTest extends TestCase
         $setAction = $this->createMock(PortalNodeStorageSetActionInterface::class);
         $listAction = $this->createMock(PortalNodeStorageListActionInterface::class);
         // invalid example key, but this is not important
-        $portalNodeKey = new PreviewPortalNodeKey(Portal::class);
+        $portalNodeKey = new PreviewPortalNodeKey(Portal::class());
 
         $storage = new PortalStorage(
             $normalizationRegistry,
