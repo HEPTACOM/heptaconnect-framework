@@ -24,6 +24,8 @@ use Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestNormalizer;
 use Heptacom\HeptaConnect\Core\Storage\RequestStorage;
 use Heptacom\HeptaConnect\Core\Test\Fixture\DependentPortal;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpClient;
+use Heptacom\HeptaConnect\Core\Web\Http\RequestDeserializer;
+use Heptacom\HeptaConnect\Core\Web\Http\RequestSerializer;
 use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\DenormalizerInterface;
 use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizerInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
@@ -38,6 +40,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\FileReferenceRequestKeyInterface
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Http\Discovery\Psr17FactoryDiscovery;
+use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Client\ClientInterface;
@@ -54,10 +57,10 @@ use Psr\Http\Message\RequestInterface;
  * @covers \Heptacom\HeptaConnect\Core\File\ResolvedReference\ResolvedRequestFileReference
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalNodeContainerFacade
  * @covers \Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry
- * @covers \Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestDenormalizer
- * @covers \Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestNormalizer
  * @covers \Heptacom\HeptaConnect\Core\Storage\RequestStorage
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpClient
+ * @covers \Heptacom\HeptaConnect\Core\Web\Http\RequestDeserializer
+ * @covers \Heptacom\HeptaConnect\Core\Web\Http\RequestSerializer
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
@@ -484,8 +487,11 @@ class IntegrationTest extends TestCase
             });
 
         return new RequestStorage(
-            new Psr7RequestNormalizer(),
-            new Psr7RequestDenormalizer(),
+            new RequestSerializer(),
+            new RequestDeserializer(
+                Psr17FactoryDiscovery::findRequestFactory(),
+                Psr17FactoryDiscovery::findStreamFactory(),
+            ),
             $getRequestAction,
             $persistRequestAction,
             $storageKeyGenerator
