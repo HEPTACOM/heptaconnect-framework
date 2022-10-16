@@ -12,8 +12,10 @@ use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackBuilderInterfac
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlingActorInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpHandleContext;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpHandleService;
+use Heptacom\HeptaConnect\Core\Web\Http\HttpHandlingActor;
+use Heptacom\HeptaConnect\Core\Web\Http\HttpMiddlewareChainHandler;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerStackInterface;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -32,6 +34,8 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Portal\AbstractPortalNodeContext
  * @covers \Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpHandleService
+ * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpHandlingActor
+ * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpMiddlewareChainHandler
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpMiddlewareHandler
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria
@@ -109,7 +113,9 @@ final class HttpHandleServiceTest extends TestCase
         $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
         $storageKeyGenerator->method('serialize')->willReturn('_');
 
-        $stack = $this->createMock(HttpHandlerStackInterface::class);
+        $stack = new HttpHandlerStack([
+            new HttpMiddlewareChainHandler(''),
+        ]);
 
         $stackBuilder = $this->createMock(HttpHandlerStackBuilderInterface::class);
         $stackBuilder->method('pushSource')->willReturnSelf();
@@ -120,8 +126,9 @@ final class HttpHandleServiceTest extends TestCase
         $stackBuilderFactory = $this->createMock(HttpHandlerStackBuilderFactoryInterface::class);
         $stackBuilderFactory->method('createHttpHandlerStackBuilder')->willReturn($stackBuilder);
 
-        $actor = $this->createMock(HttpHandlingActorInterface::class);
-        $actor->expects(static::once())->method('performHttpHandling')->willReturnArgument(1);
+        $logger = $this->createMock(LoggerInterface::class);
+
+        $actor = new HttpHandlingActor($logger);
 
         $middleware = $this->createMock(MiddlewareInterface::class);
         $middleware->expects(static::once())->method('process')->willReturnCallback(
@@ -142,8 +149,6 @@ final class HttpHandleServiceTest extends TestCase
         $context = new HttpHandleContext($container, []);
         $contextFactory = $this->createMock(HttpHandleContextFactoryInterface::class);
         $contextFactory->expects(static::once())->method('createContext')->willReturn($context);
-
-        $logger = $this->createMock(LoggerInterface::class);
 
         $service = new HttpHandleService(
             $actor,
