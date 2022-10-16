@@ -13,6 +13,9 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
  * Its only purpose is to combine their features in a single class.
  *
  * @internal
+ *
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ * @SuppressWarnings(PHPMD.NPathComplexity)
  */
 abstract class PackageContract
 {
