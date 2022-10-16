@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\DevOps\PhpStan\Rule;
 
+use Heptacom\HeptaConnect\DevOps\PhpStan\Support\StructDetector;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
@@ -16,6 +16,13 @@ use PHPStan\Rules\RuleErrorBuilder;
  */
 final class ImplementationsMustBeFinalRule implements Rule
 {
+    private StructDetector $structDetector;
+
+    public function __construct()
+    {
+        $this->structDetector = new StructDetector();
+    }
+
     public function getNodeType(): string
     {
         return Class_::class;
@@ -23,7 +30,7 @@ final class ImplementationsMustBeFinalRule implements Rule
 
     public function processNode(Node $node, Scope $scope): array
     {
-        if ($this->isStructAlike($node)) {
+        if ($this->structDetector->isClassLikeAStruct($node)) {
             if (!$this->canBeFinal($node)) {
                 return [];
             }
@@ -99,97 +106,5 @@ final class ImplementationsMustBeFinalRule implements Rule
         }
 
         return true;
-    }
-
-    private function isStructAlike(Class_ $class): bool
-    {
-        /** @var class-string[] $interfaces */
-        $interfaces = \array_map('strval', $class->implements);
-        // soft limit
-        $interfaces = \array_filter($interfaces, static fn (string $i) => $i !== \JsonSerializable::class);
-        $interfaces = \array_filter($interfaces, static fn (string $i) => !\str_ends_with($i, 'AwareInterface'));
-        $interfaces = \array_filter($interfaces, static fn (string $i) => (new \ReflectionClass($i))->getMethods() !== []);
-
-        if ($interfaces !== []) {
-            return false;
-        }
-
-        if ($class->extends !== null) {
-            return false;
-        }
-
-        /** @var ClassMethod[] $setter */
-        $setter = [];
-        /** @var ClassMethod[] $getter */
-        $getter = [];
-
-        foreach ($class->getMethods() as $method) {
-            if ($method->isMagic()) {
-                continue;
-            }
-
-            if ($method->isPrivate()) {
-                return false;
-            }
-
-            if ($method->isStatic()) {
-                continue;
-            }
-
-            if (((string) $method->name) === 'jsonSerialize') {
-                continue;
-            }
-
-            if (\str_starts_with((string) $method->name, 'with')) {
-                $setter[] = \lcfirst(\mb_substr((string) $method->name, 4));
-
-                continue;
-            }
-
-            if (\str_starts_with((string) $method->name, 'set')) {
-                $setter[] = \lcfirst(\mb_substr((string) $method->name, 3));
-
-                continue;
-            }
-
-            if (\str_starts_with((string) $method->name, 'get')) {
-                $getter[] = \lcfirst(\mb_substr((string) $method->name, 3));
-
-                continue;
-            }
-
-            return false;
-        }
-
-        $constructor = $class->getMethod('__construct');
-
-        if ($constructor instanceof ClassMethod) {
-            /** @var Node\Param $param */
-            foreach ($constructor->getParams() as $param) {
-                $paramVar = $param->var;
-
-                if ($paramVar instanceof Node\Expr\Error) {
-                    throw new \LogicException('Unexpected error type');
-                }
-
-                $paramName = $paramVar->name;
-
-                if (!\is_string($paramName)) {
-                    $setter[] = $paramName;
-                }
-            }
-        }
-
-        if ($getter === [] || $setter === []) {
-            return false;
-        }
-
-        $getter = \array_unique($getter);
-        $setter = \array_unique($setter);
-
-        \sort($getter);
-        \sort($setter);
-
-        return $getter === $setter;
     }
 }
