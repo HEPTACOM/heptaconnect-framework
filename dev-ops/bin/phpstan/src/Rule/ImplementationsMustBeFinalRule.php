@@ -51,8 +51,10 @@ final class ImplementationsMustBeFinalRule implements Rule
             return [];
         }
 
+        $implements = $this->structDetector->getNonStructInterfaces($node);
+
         if ($node->isFinal()) {
-            if ($node->implements === [] && $node->extends === null) {
+            if ($implements === [] && !$this->structDetector->hasStructInterfaces($node) && $node->extends === null) {
                 return [
                     RuleErrorBuilder::message(\sprintf('Class \'%s\' that is final neither looks like a struct, extends a contract nor implements an interface', $node->namespacedName))
                         ->line($node->getStartLine())
@@ -77,7 +79,7 @@ final class ImplementationsMustBeFinalRule implements Rule
             }
         }
 
-        if ($node->implements === []) {
+        if ($implements === []) {
             return [];
         }
 

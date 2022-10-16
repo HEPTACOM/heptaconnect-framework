@@ -29,7 +29,7 @@ class StructDetector
         $interfaces = $this->getNonStructInterfaces($class);
 
         if ($interfaces !== []) {
-            return false;
+            return $this->hasStructInterfaces($class);
         }
 
         if ($class->extends !== null) {
@@ -122,6 +122,14 @@ class StructDetector
         $interfaces = \array_diff($interfaces, self::STRUCT_INTERFACES);
 
         return \array_filter($interfaces, [self::class, 'classOrInterfaceHasNoMethods']);
+    }
+
+    public function hasStructInterfaces(Class_ $class): bool
+    {
+        $interfaces = \array_map('strval', $class->implements);
+        $interfaces = \array_intersect($interfaces, self::STRUCT_INTERFACES);
+
+        return $interfaces !== [];
     }
 
     /**
