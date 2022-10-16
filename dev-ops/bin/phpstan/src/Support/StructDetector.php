@@ -140,4 +140,3 @@ class StructDetector
         return (new \ReflectionClass($classOrInterface))->getMethods() !== [];
     }
 }
-

@@ -83,7 +83,6 @@ abstract class PackageContract
     /**
      * Get the source code root directory of this package.
      */
-
     protected function getPath(): string
     {
         /** @var string $path */

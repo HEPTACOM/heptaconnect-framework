@@ -19,8 +19,6 @@ use Heptacom\HeptaConnect\Core\Portal\PortalNodeContainerFacade;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract;
 use Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry;
-use Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestDenormalizer;
-use Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestNormalizer;
 use Heptacom\HeptaConnect\Core\Storage\RequestStorage;
 use Heptacom\HeptaConnect\Core\Test\Fixture\DependentPortal;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpClient;
@@ -40,7 +38,6 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\FileReferenceRequestKeyInterface
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Http\Discovery\Psr17FactoryDiscovery;
-use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Client\ClientInterface;
