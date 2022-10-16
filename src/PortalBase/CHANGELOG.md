@@ -38,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change return type of `\Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection::bySupport` from `iterable` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
 - Change return type of `\Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterCollection::bySupportedTopic` from `iterable` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
 - Change return type of `\Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection::bySupport` from `iterable` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
+- Make classes final: `\Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent`
 
 ### Deprecated
 
