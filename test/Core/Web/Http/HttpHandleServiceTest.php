@@ -10,10 +10,10 @@ use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleContextFactoryInterfa
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackBuilderFactoryInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackBuilderInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlingActorInterface;
+use Heptacom\HeptaConnect\Core\Web\Http\Handler\HttpMiddlewareChainHandler;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpHandleContext;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpHandleService;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpHandlingActor;
-use Heptacom\HeptaConnect\Core\Web\Http\HttpMiddlewareChainHandler;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult;
@@ -33,9 +33,9 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Component\LogMessage
  * @covers \Heptacom\HeptaConnect\Core\Portal\AbstractPortalNodeContext
  * @covers \Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector
+ * @covers \Heptacom\HeptaConnect\Core\Web\Http\Handler\HttpMiddlewareChainHandler
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpHandleService
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpHandlingActor
- * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpMiddlewareChainHandler
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpMiddlewareHandler
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria
