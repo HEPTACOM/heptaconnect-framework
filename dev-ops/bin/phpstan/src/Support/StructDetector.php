@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\DevOps\PhpStan\Support;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Audit\AuditableDataAwareInterface;
 use PhpParser\Node\Expr\Error;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Class_;
@@ -11,6 +15,14 @@ use PhpParser\Node\Stmt\ClassMethod;
 
 class StructDetector
 {
+    public const STRUCT_INTERFACES = [
+        \JsonSerializable::class,
+        AttachmentAwareInterface::class,
+        AttachableInterface::class,
+        AuditableDataAwareInterface::class,
+        ForeignKeyAwareInterface::class,
+    ];
+
     public function isClassLikeAStruct(Class_ $class): bool
     {
         /** @var class-string[] $interfaces */
@@ -43,6 +55,11 @@ class StructDetector
             }
 
             if (((string) $method->name) === 'jsonSerialize') {
+                continue;
+            }
+
+            /* @see AuditableDataAwareInterface */
+            if (((string) $method->name) === 'getAuditableData') {
                 continue;
             }
 
@@ -102,9 +119,7 @@ class StructDetector
     public function getNonStructInterfaces(Class_ $class): array
     {
         $interfaces = \array_map('strval', $class->implements);
-        // soft limit
-        $interfaces = \array_filter($interfaces, static fn(string $i) => $i !== \JsonSerializable::class);
-        $interfaces = \array_filter($interfaces, static fn(string $i) => !\str_ends_with($i, 'AwareInterface'));
+        $interfaces = \array_diff($interfaces, self::STRUCT_INTERFACES);
 
         return \array_filter($interfaces, [self::class, 'classOrInterfaceHasNoMethods']);
     }
