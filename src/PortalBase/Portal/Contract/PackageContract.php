@@ -7,6 +7,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Portal\Contract;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * This contract must only be extended by @see PortalContract and @see PortalExtensionContract
@@ -33,5 +34,9 @@ abstract class PackageContract
             CollectionInterface::class,
             AttachableInterface::class,
         ];
+    }
+
+    public function buildContainer(ContainerBuilder $containerBuilder): void
+    {
     }
 }
