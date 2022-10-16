@@ -11,6 +11,7 @@ use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder;
 use Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory;
 use Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract;
 use Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory;
+use Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector;
 use Heptacom\HeptaConnect\Core\Test\Fixture\HttpClientInterfaceDecorator;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface;
 use Heptacom\HeptaConnect\Portal\Base\File\FileReferenceResolverContract;
@@ -29,9 +30,12 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 use Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepCloneContract;
 use Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientContract;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientMiddlewareInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerUrlProviderInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use HeptacomFixture\Portal\A\AutomaticService\ExceptionNotInContainer;
+use HeptacomFixture\Portal\A\AutomaticService\InboundHttpMiddleware;
+use HeptacomFixture\Portal\A\AutomaticService\OutboundHttpMiddleware;
 use HeptacomFixture\Portal\A\Dto\ShouldNotBeAService;
 use HeptacomFixture\Portal\A\ManualService\ExceptionInContainer;
 use HeptacomFixture\Portal\A\Portal;
@@ -40,8 +44,11 @@ use League\Flysystem\FilesystemInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
@@ -52,10 +59,14 @@ use Symfony\Component\DependencyInjection\Reference;
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalConfiguration
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalLogger
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder
+ * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddHttpMiddlewareClientCompilerPass
+ * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddHttpMiddlewareCollectorCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddPortalConfigurationBindingsCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AllDefinitionDefaultsCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\BuildDefinitionForFlowComponentRegistryCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\RemoveAutoPrototypedDefinitionsCompilerPass
+ * @covers \Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector
+ * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpMiddlewareClient
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Parallelization\Support\ResourceLockFacade
@@ -86,37 +97,7 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
 
     public function testServiceRetrieval(): void
     {
-        $configurationService = $this->createMock(ConfigurationServiceInterface::class);
-        $configurationService->expects(static::atLeastOnce())
-            ->method('getPortalNodeConfiguration')
-            ->willReturn([]);
-
-        $httpHandlerUrlProvider = $this->createMock(HttpHandlerUrlProviderInterface::class);
-        $httpHandlerUrlProviderFactory = $this->createMock(HttpHandlerUrlProviderFactoryInterface::class);
-        $httpHandlerUrlProviderFactory->method('factory')->willReturn($httpHandlerUrlProvider);
-
-        $builder = new PortalStackServiceContainerBuilder(
-            $this->createMock(LoggerInterface::class),
-            $this->createMock(NormalizationRegistryContract::class),
-            $this->createMock(PortalStorageFactory::class),
-            $this->createMock(ResourceLockingContract::class),
-            $this->createMock(ProfilerFactoryContract::class),
-            $this->createMock(StorageKeyGeneratorContract::class),
-            $this->createMock(FilesystemFactory::class),
-            $configurationService,
-            $this->createMock(PublisherInterface::class),
-            $httpHandlerUrlProviderFactory,
-            $this->createMock(RequestStorageContract::class),
-        );
-        $builder->setDirectEmissionFlow($this->createMock(DirectEmissionFlowContract::class));
-        $builder->setFileReferenceResolver($this->createMock(FileReferenceResolverContract::class));
-        $container = $builder->build(
-            new Portal(),
-            new PortalExtensionCollection([
-                new PortalExtension(),
-            ]),
-            $this->createMock(PortalNodeKeyInterface::class),
-        );
+        $container = $this->getContainerBuilder();
         $container->compile();
 
         static::assertTrue($container->has(ClientInterface::class));
@@ -144,9 +125,92 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
 
         static::assertTrue($container->has(ExceptionInContainer::class));
         static::assertFalse($container->has(ExceptionNotInContainer::class));
+
+        static::assertTrue($container->has(InboundHttpMiddleware::class));
+        static::assertTrue($container->has(OutboundHttpMiddleware::class));
+        static::assertTrue($container->has(HttpMiddlewareCollector::class));
+        /** @var HttpMiddlewareCollector $middlewareCollector */
+        $middlewareCollector = $container->get(HttpMiddlewareCollector::class);
+        static::assertCount(1, $middlewareCollector);
     }
 
     public function testServiceDecoration(): void
+    {
+        $container = $this->getContainerBuilder();
+        $container->setDefinition(
+            HttpClientInterfaceDecorator::class,
+            (new Definition())
+                ->setDecoratedService(ClientInterface::class)
+                ->setArguments([new Reference(HttpClientInterfaceDecorator::class . '.inner')])
+        );
+        $container->compile();
+
+        static::assertTrue($container->has(ClientInterface::class));
+        static::assertTrue($container->has(HttpClientInterfaceDecorator::class));
+        static::assertFalse($container->has(ShouldNotBeAService::class));
+    }
+
+    public function testHttpMiddlewareTaggedServices(): void
+    {
+        $container = $this->getContainerBuilder();
+
+        $mockRequest = $this->createMock(RequestInterface::class);
+        $mockResponse = $this->createMock(ResponseInterface::class);
+
+        $httpMiddlewareA = $this->createMock(HttpClientMiddlewareInterface::class);
+        $httpMiddlewareA->expects(static::once())->method('process')->willReturnCallback(
+            function (RequestInterface $request, ClientInterface $handler) {
+                return $handler->sendRequest($request);
+            }
+        );
+
+        $httpMiddlewareB = $this->createMock(HttpClientMiddlewareInterface::class);
+        $httpMiddlewareB->expects(static::once())->method('process')->willReturn($mockResponse);
+
+        $this->setSyntheticServices($container, [
+            'mock.http_middleware.a' => $httpMiddlewareA,
+            'mock.http_middleware.b' => $httpMiddlewareB,
+        ]);
+
+        $container->compile();
+
+        /** @var ClientInterface $httpClient */
+        $httpClient = $container->get(ClientInterface::class);
+
+        $actualResponse = $httpClient->sendRequest($mockRequest);
+
+        static::assertSame($mockResponse, $actualResponse);
+    }
+
+    public function testHttpMiddlewareTaggedServicesOrder(): void
+    {
+        $container = $this->getContainerBuilder();
+
+        $mockRequest = $this->createMock(RequestInterface::class);
+        $mockResponse = $this->createMock(ResponseInterface::class);
+
+        $httpMiddlewareA = $this->createMock(HttpClientMiddlewareInterface::class);
+        $httpMiddlewareA->expects(static::never())->method('process');
+
+        $httpMiddlewareB = $this->createMock(HttpClientMiddlewareInterface::class);
+        $httpMiddlewareB->expects(static::once())->method('process')->willReturn($mockResponse);
+
+        $this->setSyntheticServices($container, [
+            'mock.http_middleware.b' => $httpMiddlewareB,
+            'mock.http_middleware.a' => $httpMiddlewareA,
+        ]);
+
+        $container->compile();
+
+        /** @var ClientInterface $httpClient */
+        $httpClient = $container->get(ClientInterface::class);
+
+        $actualResponse = $httpClient->sendRequest($mockRequest);
+
+        static::assertSame($mockResponse, $actualResponse);
+    }
+
+    private function getContainerBuilder(): ContainerBuilder
     {
         $configurationService = $this->createMock(ConfigurationServiceInterface::class);
         $configurationService->expects(static::atLeastOnce())
@@ -179,16 +243,22 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
             ]),
             $this->createMock(PortalNodeKeyInterface::class),
         );
-        $container->setDefinition(
-            HttpClientInterfaceDecorator::class,
-            (new Definition())
-                ->setDecoratedService(ClientInterface::class)
-                ->setArguments([new Reference(HttpClientInterfaceDecorator::class . '.inner')])
-        );
-        $container->compile();
 
-        static::assertTrue($container->has(ClientInterface::class));
-        static::assertTrue($container->has(HttpClientInterfaceDecorator::class));
-        static::assertFalse($container->has(ShouldNotBeAService::class));
+        return $container;
+    }
+
+    /**
+     * @param object[] $services
+     */
+    private function setSyntheticServices(ContainerBuilder $containerBuilder, array $services): void
+    {
+        foreach ($services as $id => $service) {
+            $definitionId = (string) $id;
+            $containerBuilder->set($definitionId, $service);
+            $definition = (new Definition())
+                ->setSynthetic(true)
+                ->setClass(\get_class($service));
+            $containerBuilder->setDefinition($definitionId, $definition);
+        }
     }
 }

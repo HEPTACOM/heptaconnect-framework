@@ -6,14 +6,18 @@ namespace Heptacom\HeptaConnect\Core\Test\Web\Http;
 
 use Heptacom\HeptaConnect\Core\Component\LogMessage;
 use Heptacom\HeptaConnect\Core\Portal\Contract\PortalNodeContainerFacadeContract;
+use Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleContextFactoryInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleFlowHttpHandlersFactoryInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackBuilderFactoryInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackBuilderInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackProcessorInterface;
+use Heptacom\HeptaConnect\Core\Web\Http\Handler\HttpMiddlewareChainHandler;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpHandleContext;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpHandleService;
+use Heptacom\HeptaConnect\Core\Web\Http\HttpHandlingActor;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -22,12 +26,18 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
  * @covers \Heptacom\HeptaConnect\Core\Component\LogMessage
  * @covers \Heptacom\HeptaConnect\Core\Portal\AbstractPortalNodeContext
+ * @covers \Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector
+ * @covers \Heptacom\HeptaConnect\Core\Web\Http\Handler\HttpMiddlewareChainHandler
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpHandleService
+ * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpHandlingActor
+ * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpMiddlewareHandler
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult
@@ -75,5 +85,85 @@ final class HttpHandleServiceTest extends TestCase
             $this->createMock(HttpHandleFlowHttpHandlersFactoryInterface::class),
         );
         $service->handle($request, $portalNodeKey);
+    }
+
+    public function testHttpMiddlewares(): void
+    {
+        $uri = $this->createMock(UriInterface::class);
+        $uri->method('getPath')->willReturn('foobar');
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getUri')->willReturn($uri);
+        $request->expects(static::once())
+            ->method('withAttribute')
+            ->with('Foo', 'Bar')
+            ->willReturnSelf();
+
+        $portalNodeKey = $this->createMock(PortalNodeKeyInterface::class);
+        $portalNodeKey->method('withoutAlias')->willReturnSelf();
+
+        $response = $this->createMock(ResponseInterface::class);
+        $response->method('withHeader')->willReturnSelf();
+        $response->expects(static::once())->method('withStatus')->with(200)->willReturnSelf();
+
+        $responseFactory = $this->createMock(ResponseFactoryInterface::class);
+        $responseFactory->method('createResponse')->willReturn($response);
+
+        $findAction = $this->createMock(WebHttpHandlerConfigurationFindActionInterface::class);
+        $findAction->method('find')->willReturn(new WebHttpHandlerConfigurationFindResult([]));
+
+        $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
+        $storageKeyGenerator->method('serialize')->willReturn('_');
+
+        $stack = new HttpHandlerStack([
+            new HttpMiddlewareChainHandler(''),
+        ]);
+
+        $stackBuilder = $this->createMock(HttpHandlerStackBuilderInterface::class);
+        $stackBuilder->method('pushSource')->willReturnSelf();
+        $stackBuilder->method('pushDecorators')->willReturnSelf();
+        $stackBuilder->method('isEmpty')->willReturn(false);
+        $stackBuilder->method('build')->willReturn($stack);
+
+        $stackBuilderFactory = $this->createMock(HttpHandlerStackBuilderFactoryInterface::class);
+        $stackBuilderFactory->method('createHttpHandlerStackBuilder')->willReturn($stackBuilder);
+
+        $logger = $this->createMock(LoggerInterface::class);
+
+        $actor = new HttpHandlingActor($logger);
+
+        $middleware = $this->createMock(MiddlewareInterface::class);
+        $middleware->expects(static::once())->method('process')->willReturnCallback(
+            function (ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
+                $request->withAttribute('Foo', 'Bar');
+
+                $response = $handler->handle($request);
+
+                return $response->withStatus(200);
+            }
+        );
+
+        $container = $this->createMock(ContainerInterface::class);
+        $container->expects(static::once())->method('get')->willReturn(new HttpMiddlewareCollector([
+            $middleware,
+        ]));
+
+        $context = new HttpHandleContext($container, []);
+        $contextFactory = $this->createMock(HttpHandleContextFactoryInterface::class);
+        $contextFactory->expects(static::once())->method('createContext')->willReturn($context);
+
+        $service = new HttpHandleService(
+            $actor,
+            $contextFactory,
+            $logger,
+            $stackBuilderFactory,
+            $storageKeyGenerator,
+            $responseFactory,
+            $findAction,
+        );
+
+        $actualResponse = $service->handle($request, $portalNodeKey);
+
+        static::assertSame($response, $actualResponse);
     }
 }

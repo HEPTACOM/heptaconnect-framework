@@ -194,6 +194,7 @@
         <directory name="../src/StorageBase/" />
         <directory name="../src/UiAdminBase/" />
         <directory name="../src/TestSuiteStorage/" />
+        <!-- TODO Add TestSuitePortal -->
         <ignoreFiles>
             <directory name="../vendor/" />
         </ignoreFiles>

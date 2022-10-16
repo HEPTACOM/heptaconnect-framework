@@ -6,7 +6,7 @@ PHPUNIT := $(PHP) vendor/bin/phpunit $(PHPUNIT_EXTRA_ARGS)
 CURL := $(shell which curl)
 JQ := $(shell which jq)
 XSLTPROC := $(shell which xsltproc)
-JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*' -not -path './.build/*' -not -path './dev-ops/bin/*/vendor/*' -not -path './src/Core/vendor/*' -not -path './src/DatasetBase/vendor/*' -not -path './src/PortalBase/vendor/*' -not -path './src/StorageBase/vendor/*' -not -path './src/TestSuiteStorage/vendor/*' -not -path './src/UiAdminBase/vendor/*' -not -path './test/Core/Fixture/_files/portal-node-configuration-invalid.json')
+JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*' -not -path './.build/*' -not -path './dev-ops/bin/*/vendor/*' -not -path './src/Core/vendor/*' -not -path './src/DatasetBase/vendor/*' -not -path './src/PortalBase/vendor/*' -not -path './src/StorageBase/vendor/*' -not -path './src/TestSuitePortal/vendor/*' -not -path './src/TestSuiteStorage/vendor/*' -not -path './src/UiAdminBase/vendor/*' -not -path './test/Core/Fixture/_files/portal-node-configuration-invalid.json')
 GIT := $(shell which git)
 PHPSTAN_FILE := dev-ops/bin/phpstan/vendor/bin/phpstan
 COMPOSER_NORMALIZE_PHAR := https://github.com/ergebnis/composer-normalize/releases/download/2.22.0/composer-normalize.phar
@@ -79,6 +79,7 @@ cs-phpmd: vendor .build $(PHPMD_FILE) ## Run php mess detector for static code a
 	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/DatasetBase xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-dataset-base.junit.xml
 	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/PortalBase xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-portal-base.junit.xml
 	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/StorageBase xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-storage-base.junit.xml
+	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/TestSuitePortal xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-test-suite-portal.junit.xml
 	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/TestSuiteStorage xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-test-suite-storage.junit.xml
 	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/UiAdminBase xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-ui-admin-base.junit.xml
 	$(PHP) $(PHPMD_FILE) src ansi dev-ops/phpmd.xml
@@ -99,6 +100,7 @@ cs-composer-unused: vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to det
 	cd src/DatasetBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
 	cd src/PortalBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
 	cd src/StorageBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
+	cd src/TestSuitePortal && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
 	cd src/TestSuiteStorage && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
 	cd src/UiAdminBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
 
@@ -113,6 +115,7 @@ cs-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-normali
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/DatasetBase/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/PortalBase/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/StorageBase/composer.json
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/TestSuitePortal/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/TestSuiteStorage/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/UiAdminBase/composer.json
 
@@ -137,6 +140,7 @@ cs-fix-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-nor
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/DatasetBase/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/PortalBase/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/StorageBase/composer.json
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/TestSuitePortal/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/TestSuiteStorage/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/UiAdminBase/composer.json
 
@@ -221,6 +225,7 @@ build-packages:
 	dev-ops/bin/build-subpackage StorageBase
 	dev-ops/bin/build-subpackage TestSuiteStorage
 	dev-ops/bin/build-subpackage UiAdminBase
+	# TODO Add TestSuitePortal
 
 .PHONY: publish-packages
 publish-packages: build-packages
@@ -232,6 +237,7 @@ publish-packages: build-packages
 	dev-ops/bin/publish-subpackage StorageBase storage-base "$(TAG)" "$(BRANCH)"
 	dev-ops/bin/publish-subpackage TestSuiteStorage test-suite-storage "$(TAG)" "$(BRANCH)"
 	dev-ops/bin/publish-subpackage UiAdminBase ui-admin-base "$(TAG)" "$(BRANCH)"
+	# TODO Add TestSuitePortal
 	$(GIT) reset --hard HEAD^1
 
 .PHONY: subtree-merge

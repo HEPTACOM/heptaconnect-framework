@@ -56,6 +56,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+## [0.9.2.0] - 2022-10-16
+
+### Added
+
+- Add `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientMiddlewareInterface`. Every service implementing this interface will automatically be tagged with `heptaconnect.http.client.middleware`. Middlewares will be executed for every outbound HTTP request via the `\Psr\Http\Client\ClientInterface`.
+- Add composer dependency `psr/http-server-handler: ^1.0` and `psr/http-server-middleware: ^1.0` to support PSR-15 middlewares for HTTP handlers. Every service implementing `\Psr\Http\Server\MiddlewareInterface` will automatically be tagged with `heptaconnect.http.handler.middleware`. Middlewares will be executed for every inbound HTTP request via `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract`.
+
+### Fixed
+
+- Add composer dependency on `psr/http-client: ^1.0`
+
+## [0.9.1.1] - 2022-09-28
+
 ## [0.9.1.0] - 2022-08-15
 
 ### Added
