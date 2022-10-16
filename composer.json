@@ -84,6 +84,7 @@
             "Heptacom\\HeptaConnect\\Portal\\Base\\": "src/PortalBase/",
             "Heptacom\\HeptaConnect\\Storage\\Base\\": "src/StorageBase/",
             "Heptacom\\HeptaConnect\\Core\\": "src/Core/",
+            "Heptacom\\HeptaConnect\\TestSuite\\Portal\\": "src/TestSuitePortal/",
             "Heptacom\\HeptaConnect\\TestSuite\\Storage\\": "src/TestSuiteStorage/"
         }
     },
