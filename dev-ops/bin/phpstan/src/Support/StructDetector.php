@@ -106,7 +106,15 @@ class StructDetector
         $interfaces = \array_filter($interfaces, static fn(string $i) => $i !== \JsonSerializable::class);
         $interfaces = \array_filter($interfaces, static fn(string $i) => !\str_ends_with($i, 'AwareInterface'));
 
-        return \array_filter($interfaces, static fn(string $i) => (new \ReflectionClass($i))->getMethods() !== []);
+        return \array_filter($interfaces, [self::class, 'classOrInterfaceHasNoMethods']);
+    }
+
+    /**
+     * @param class-string $classOrInterface
+     */
+    private static function classOrInterfaceHasNoMethods(string $classOrInterface): bool
+    {
+        return (new \ReflectionClass($classOrInterface))->getMethods() !== [];
     }
 }
 
