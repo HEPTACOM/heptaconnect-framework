@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\FlowComponent;
 
-class CodeOrigin implements \Stringable
+final class CodeOrigin implements \Stringable
 {
     public function __construct(
         private string $filepath,

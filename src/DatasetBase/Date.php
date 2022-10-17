@@ -34,45 +34,22 @@ final class Date extends \DateTime
         return new \DateTime('@' . $this->getTimestamp(), $this->getTimezone());
     }
 
-    /**
-     * @param \DateInterval $interval
-     *
-     * @return Date
-     */
-    public function add($interval)
+    public function add(\DateInterval $interval): Date
     {
         return static::createFromDateTime(parent::add($this->removeTimeFromInterval($interval)));
     }
 
-    /**
-     * @param \DateInterval $interval
-     *
-     * @return Date
-     */
-    public function sub($interval)
+    public function sub(\DateInterval $interval): Date
     {
         return static::createFromDateTime(parent::sub($this->removeTimeFromInterval($interval)));
     }
 
-    /**
-     * @param int $hour
-     * @param int $minute
-     * @param int $second
-     * @param int $microseconds
-     *
-     * @phpstan-return static(\DateTime)|false
-     */
-    public function setTime($hour, $minute, $second = 0, $microseconds = 0): false|static
+    public function setTime(int $hour, int $minute, int $second = 0, int $microsecond = 0): Date
     {
         return parent::setTime(0, 0, 0, 0);
     }
 
-    /**
-     * @param int $unixtimestamp
-     *
-     * @return static
-     */
-    public function setTimestamp($unixtimestamp)
+    public function setTimestamp(int $unixtimestamp): Date
     {
         $time = $unixtimestamp % (24 * 60 * 60);
 
