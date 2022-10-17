@@ -128,7 +128,7 @@ final class LockingReceiverTest extends TestCase
         $lock->method('release')->willReturnCallback(static function () use (&$lockState): void {
             $lockState = false;
         });
-        $lock->method('isAcquired')->willReturnCallback(static fn() => $lockState);
+        $lock->method('isAcquired')->willReturnCallback(static fn () => $lockState);
 
         if ($expectedLockTries !== null) {
             $acquire = $lock->expects(static::exactly($expectedLockTries))->method('acquire');

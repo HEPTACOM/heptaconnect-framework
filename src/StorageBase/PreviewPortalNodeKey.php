@@ -10,8 +10,9 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 
 final class PreviewPortalNodeKey implements PortalNodeKeyInterface
 {
-    public function __construct(private PortalType $portalType)
-    {
+    public function __construct(
+        private PortalType $portalType
+    ) {
     }
 
     public function getPortalType(): PortalType

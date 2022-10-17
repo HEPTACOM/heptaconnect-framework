@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface;
 
 /**
  * @template T
+ *
  * @template-implements CollectionInterface<T>
  *
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
@@ -111,6 +112,7 @@ abstract class AbstractCollection implements CollectionInterface
 
     /**
      * @param array-key|null $offset
+     *
      * @psalm-param T   $value
      */
     public function offsetSet($offset, $value): void
@@ -248,6 +250,7 @@ abstract class AbstractCollection implements CollectionInterface
     {
         /**
          * @var int $key
+         *
          * @psalm-var T $item
          */
         foreach ($items as $key => $item) {
@@ -286,7 +289,7 @@ abstract class AbstractCollection implements CollectionInterface
      * Alternative implementation for @see contains to check contains by more detailed object comparision.
      * This is useful, when the collection contains items that can be equal even if they are not identical.
      *
-     * @param T         $value
+     * @param T $value
      * @param Closure(T $a,    T $b): bool $equalsCondition
      */
     final protected function containsByEqualsCheck($value, \Closure $equalsCondition): bool

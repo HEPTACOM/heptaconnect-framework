@@ -12,8 +12,10 @@ class TypedMappingCollection extends MappingCollection
     /**
      * @psalm-param iterable<int, MappingInterface> $items
      */
-    public function __construct(private EntityType $entityType, iterable $items = [])
-    {
+    public function __construct(
+        private EntityType $entityType,
+        iterable $items = []
+    ) {
         parent::__construct($items);
     }
 

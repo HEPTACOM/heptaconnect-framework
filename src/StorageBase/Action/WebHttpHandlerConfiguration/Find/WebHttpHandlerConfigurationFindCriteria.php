@@ -13,8 +13,11 @@ final class WebHttpHandlerConfigurationFindCriteria implements AttachmentAwareIn
 {
     use AttachmentAwareTrait;
 
-    public function __construct(private PortalNodeKeyInterface $portalNodeKey, private string $path, private string $configurationKey)
-    {
+    public function __construct(
+        private PortalNodeKeyInterface $portalNodeKey,
+        private string $path,
+        private string $configurationKey
+    ) {
         $this->attachments = new AttachmentCollection();
     }
 

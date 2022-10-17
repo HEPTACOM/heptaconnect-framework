@@ -19,8 +19,9 @@ final class FileReferencePersistRequestResult implements AttachmentAwareInterfac
      */
     private array $fileReferenceRequestKeys = [];
 
-    public function __construct(private PortalNodeKeyInterface $portalNodeKey)
-    {
+    public function __construct(
+        private PortalNodeKeyInterface $portalNodeKey
+    ) {
         $this->attachments = new AttachmentCollection();
     }
 

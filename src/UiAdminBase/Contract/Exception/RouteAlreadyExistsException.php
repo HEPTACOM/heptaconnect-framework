@@ -8,8 +8,11 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface;
 
 final class RouteAlreadyExistsException extends \RuntimeException implements InvalidArgumentThrowableInterface
 {
-    public function __construct(private RouteKeyInterface $routeKey, int $code, ?\Throwable $previous = null)
-    {
+    public function __construct(
+        private RouteKeyInterface $routeKey,
+        int $code,
+        ?\Throwable $previous = null
+    ) {
         parent::__construct('The route already exists', $code, $previous);
     }
 

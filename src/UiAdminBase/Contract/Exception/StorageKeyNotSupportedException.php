@@ -8,8 +8,11 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 
 class StorageKeyNotSupportedException extends \RuntimeException implements InvalidArgumentThrowableInterface
 {
-    public function __construct(private StorageKeyInterface $storageKey, int $code, ?\Throwable $previous = null)
-    {
+    public function __construct(
+        private StorageKeyInterface $storageKey,
+        int $code,
+        ?\Throwable $previous = null
+    ) {
         $message = \sprintf('The given storage key by type "%s" is not supported', $storageKey::class);
 
         parent::__construct($message, $code, $previous);

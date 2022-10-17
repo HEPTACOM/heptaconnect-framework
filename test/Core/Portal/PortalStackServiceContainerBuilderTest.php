@@ -158,7 +158,7 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
 
         $httpMiddlewareA = $this->createMock(HttpClientMiddlewareInterface::class);
         $httpMiddlewareA->expects(static::once())->method('process')->willReturnCallback(
-            fn(RequestInterface $request, ClientInterface $handler) => $handler->sendRequest($request)
+            fn (RequestInterface $request, ClientInterface $handler) => $handler->sendRequest($request)
         );
 
         $httpMiddlewareB = $this->createMock(HttpClientMiddlewareInterface::class);

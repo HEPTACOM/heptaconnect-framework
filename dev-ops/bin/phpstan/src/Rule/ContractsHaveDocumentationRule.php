@@ -20,8 +20,9 @@ final class ContractsHaveDocumentationRule implements Rule
 {
     private StructDetector $structDetector;
 
-    public function __construct(private ReflectionProvider $reflectionProvider)
-    {
+    public function __construct(
+        private ReflectionProvider $reflectionProvider
+    ) {
         $this->structDetector = new StructDetector();
     }
 

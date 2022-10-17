@@ -19,8 +19,10 @@ final class StatusReporterStack implements StatusReporterStackInterface
     /**
      * @param iterable<array-key, StatusReporterContract> $statusReporters
      */
-    public function __construct(iterable $statusReporters, private LoggerInterface $logger)
-    {
+    public function __construct(
+        iterable $statusReporters,
+        private LoggerInterface $logger
+    ) {
         /** @var StatusReporterContract[] $rewindableStatusReporters */
         $rewindableStatusReporters = \iterable_to_array($statusReporters);
         $this->statusReporters = $rewindableStatusReporters;

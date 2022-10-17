@@ -92,6 +92,7 @@ final class PrimaryKeySharingMappingStruct implements AttachableInterface, Forei
 
     /**
      * @return iterable|DatasetEntityContract[]
+     *
      * @psalm-return iterable<array-key, DatasetEntityContract>
      */
     public function getOwners(): iterable

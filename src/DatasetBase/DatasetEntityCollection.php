@@ -9,7 +9,9 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 
 /**
  * @template T
+ *
  * @template-extends AbstractObjectCollection<DatasetEntityContract&T>
+ *
  * @psalm-consistent-constructor
  */
 class DatasetEntityCollection extends AbstractObjectCollection

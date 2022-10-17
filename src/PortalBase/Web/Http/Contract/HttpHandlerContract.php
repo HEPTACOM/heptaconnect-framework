@@ -111,6 +111,7 @@ abstract class HttpHandlerContract
         HttpHandleContextInterface $context
     ): ResponseInterface {
         $method = \mb_strtolower($request->getMethod());
+
         return match ($method) {
             'options' => $this->options($request, $response, $context),
             'get' => $this->get($request, $response, $context),

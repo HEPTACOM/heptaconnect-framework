@@ -12,7 +12,7 @@ class InvalidPortalNodeKeyException extends \Exception
 
     public function __construct(PortalNodeKeyInterface $portalNodeKey, ?\Throwable $previous = null)
     {
-        parent::__construct(\sprintf('Invalid portal node key: %s', \json_encode($portalNodeKey, JSON_THROW_ON_ERROR)), 0, $previous);
+        parent::__construct(\sprintf('Invalid portal node key: %s', \json_encode($portalNodeKey, \JSON_THROW_ON_ERROR)), 0, $previous);
 
         $this->portalNodeKey = $portalNodeKey;
     }

@@ -111,7 +111,7 @@ abstract class PackageContract
             return null;
         }
 
-        $composerJson = \json_decode($composerJsonContent, true, 512, JSON_THROW_ON_ERROR);
+        $composerJson = \json_decode($composerJsonContent, true, 512, \JSON_THROW_ON_ERROR);
 
         if (!\is_array($composerJson)) {
             return null;

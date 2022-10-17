@@ -12,8 +12,9 @@ final class WebHttpHandlerConfigurationFindResult implements AttachmentAwareInte
 {
     use AttachmentAwareTrait;
 
-    public function __construct(private ?array $value)
-    {
+    public function __construct(
+        private ?array $value
+    ) {
         $this->attachments = new AttachmentCollection();
     }
 

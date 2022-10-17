@@ -9,8 +9,9 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 
 final class AliasAwarePortalNodeStorageKey implements PortalNodeKeyInterface
 {
-    public function __construct(private PortalNodeKeyInterface $portalNodeKey)
-    {
+    public function __construct(
+        private PortalNodeKeyInterface $portalNodeKey
+    ) {
     }
 
     public function withAlias(): PortalNodeKeyInterface

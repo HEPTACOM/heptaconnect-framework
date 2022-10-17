@@ -19,8 +19,9 @@ abstract class IdentityPersistPayloadContract implements CreatePayloadInterface
     /**
      * Set the key for the mapping node to write to.
      */
-    public function __construct(private MappingNodeKeyInterface $mappingNodeKey)
-    {
+    public function __construct(
+        private MappingNodeKeyInterface $mappingNodeKey
+    ) {
     }
 
     /**

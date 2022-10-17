@@ -13,8 +13,9 @@ final class JobDeleteCriteria implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    public function __construct(private JobKeyCollection $jobKeys)
-    {
+    public function __construct(
+        private JobKeyCollection $jobKeys
+    ) {
         $this->attachments = new AttachmentCollection();
     }
 

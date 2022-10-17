@@ -14,8 +14,9 @@ final class PortalNodeAddResult implements AttachmentAwareInterface, AuditableDa
 {
     use AttachmentAwareTrait;
 
-    public function __construct(private PortalNodeKeyInterface $portalNodeKey)
-    {
+    public function __construct(
+        private PortalNodeKeyInterface $portalNodeKey
+    ) {
         $this->attachments = new AttachmentCollection();
     }
 

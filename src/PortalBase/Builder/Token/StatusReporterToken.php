@@ -8,8 +8,9 @@ class StatusReporterToken
 {
     private ?\Closure $run = null;
 
-    public function __construct(private string $topic)
-    {
+    public function __construct(
+        private string $topic
+    ) {
     }
 
     public function getTopic(): string

@@ -61,8 +61,6 @@ final class Date extends \DateTime
      * @param int $microseconds
      *
      * @phpstan-return static(\DateTime)|false
-     *
-     * @return false|static
      */
     public function setTime($hour, $minute, $second = 0, $microseconds = 0): false|static
     {

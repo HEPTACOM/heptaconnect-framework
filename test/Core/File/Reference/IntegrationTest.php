@@ -355,8 +355,9 @@ class IntegrationTest extends TestCase
     {
         $array = new \ArrayObject();
         $normalizer = new class($array) implements NormalizerInterface {
-            public function __construct(private \ArrayObject $array)
-            {
+            public function __construct(
+                private \ArrayObject $array
+            ) {
             }
 
             public function supportsNormalization($data, $format = null)
@@ -378,8 +379,9 @@ class IntegrationTest extends TestCase
             }
         };
         $denormalizer = new class($array) implements DenormalizerInterface {
-            public function __construct(private \ArrayObject $array)
-            {
+            public function __construct(
+                private \ArrayObject $array
+            ) {
             }
 
             public function getType(): string
@@ -410,8 +412,9 @@ class IntegrationTest extends TestCase
     private function getInMemoryContainer(array $services): PortalNodeContainerFacadeContract
     {
         $container = new class($services) implements ContainerInterface {
-            public function __construct(private array $services)
-            {
+            public function __construct(
+                private array $services
+            ) {
             }
 
             public function get($id)
@@ -452,13 +455,14 @@ class IntegrationTest extends TestCase
 
                 foreach ($p->getSerializedRequests() as $key => $serializedRequest) {
                     $result->addFileReferenceRequestKey($key, new class($serializedRequest) implements FileReferenceRequestKeyInterface {
-                        public function __construct(private string $content)
-                        {
+                        public function __construct(
+                            private string $content
+                        ) {
                         }
 
                         public function equals(StorageKeyInterface $other): bool
                         {
-                            return \json_encode($other, JSON_THROW_ON_ERROR) === \json_encode($this, JSON_THROW_ON_ERROR);
+                            return \json_encode($other, \JSON_THROW_ON_ERROR) === \json_encode($this, \JSON_THROW_ON_ERROR);
                         }
 
                         public function jsonSerialize()

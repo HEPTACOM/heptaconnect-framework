@@ -20,8 +20,9 @@ class HttpHandlerToken
 
     private ?\Closure $delete = null;
 
-    public function __construct(private string $path)
-    {
+    public function __construct(
+        private string $path
+    ) {
     }
 
     public function getPath(): string

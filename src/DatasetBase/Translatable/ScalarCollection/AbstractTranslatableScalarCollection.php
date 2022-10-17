@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable;
 
 /**
  * @template T
+ *
  * @extends AbstractTranslatable<T>
  *
  * @property T $fallback

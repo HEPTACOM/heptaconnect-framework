@@ -13,8 +13,9 @@ use Psr\Http\Message\StreamInterface;
  */
 final class SerializableStream implements StreamInterface, \Stringable
 {
-    public function __construct(private StreamInterface $stream)
-    {
+    public function __construct(
+        private StreamInterface $stream
+    ) {
     }
 
     public function __toString(): string

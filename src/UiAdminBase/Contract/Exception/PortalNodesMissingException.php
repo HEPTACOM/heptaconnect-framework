@@ -8,8 +8,11 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 
 final class PortalNodesMissingException extends \InvalidArgumentException implements InvalidArgumentThrowableInterface
 {
-    public function __construct(private PortalNodeKeyCollection $portalNodeKeys, int $code, ?\Throwable $previous = null)
-    {
+    public function __construct(
+        private PortalNodeKeyCollection $portalNodeKeys,
+        int $code,
+        ?\Throwable $previous = null
+    ) {
         parent::__construct('The given portal node keys do not exist', $code, $previous);
     }
 

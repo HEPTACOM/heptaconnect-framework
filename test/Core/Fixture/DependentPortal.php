@@ -9,8 +9,9 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 
 final class DependentPortal extends PortalContract
 {
-    public function __construct(private ExplorerCollection $explorerCollection)
-    {
+    public function __construct(
+        private ExplorerCollection $explorerCollection
+    ) {
     }
 
     public function getExplorers(): ExplorerCollection

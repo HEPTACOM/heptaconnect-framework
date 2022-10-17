@@ -13,8 +13,10 @@ class TypedMappingComponentCollection extends MappingComponentCollection
     /**
      * @psalm-param iterable<int, MappingComponentStructContract> $items
      */
-    public function __construct(private EntityType $entityType, iterable $items = [])
-    {
+    public function __construct(
+        private EntityType $entityType,
+        iterable $items = []
+    ) {
         parent::__construct($items);
     }
 

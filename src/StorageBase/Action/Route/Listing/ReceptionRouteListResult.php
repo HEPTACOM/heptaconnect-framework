@@ -13,8 +13,9 @@ final class ReceptionRouteListResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    public function __construct(private RouteKeyInterface $routeKey)
-    {
+    public function __construct(
+        private RouteKeyInterface $routeKey
+    ) {
         $this->attachments = new AttachmentCollection();
     }
 

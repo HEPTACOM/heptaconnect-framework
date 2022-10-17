@@ -16,8 +16,9 @@ final class PortalNodeAddPayload implements AttachmentAwareInterface, AuditableD
 
     private ?string $portalNodeAlias = null;
 
-    public function __construct(private PortalType $portalClass)
-    {
+    public function __construct(
+        private PortalType $portalClass
+    ) {
         $this->attachments = new AttachmentCollection();
     }
 

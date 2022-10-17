@@ -6,8 +6,11 @@ namespace Heptacom\HeptaConnect\Portal\Base\FlowComponent;
 
 class CodeOrigin implements \Stringable
 {
-    public function __construct(private string $filepath, private int $startLine, private int $endLine)
-    {
+    public function __construct(
+        private string $filepath,
+        private int $startLine,
+        private int $endLine
+    ) {
     }
 
     public function __toString(): string

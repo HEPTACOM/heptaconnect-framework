@@ -56,9 +56,8 @@ final class Explorer extends ExplorerContract
     {
         if ($this->runMethod instanceof SerializableClosure) {
             $run = $this->bindThis($this->runMethod->getClosure());
-            $arguments = $this->resolveArguments($run, $context, fn(int $_propertyIndex, string $propertyName, ?string $propertyType, ContainerInterface $container) => $this->resolveFromContainer($container, $propertyType, $propertyName));
+            $arguments = $this->resolveArguments($run, $context, fn (int $_propertyIndex, string $propertyName, ?string $propertyType, ContainerInterface $container) => $this->resolveFromContainer($container, $propertyType, $propertyName));
 
-            /** @var mixed $result */
             $result = $run(...$arguments);
 
             if (\is_iterable($result)) {
@@ -95,7 +94,6 @@ final class Explorer extends ExplorerContract
                 return $this->resolveFromContainer($container, $propertyType, $propertyName);
             });
 
-            /** @var mixed $result */
             $result = $isAllowed(...$arguments);
 
             if (\is_bool($result)) {

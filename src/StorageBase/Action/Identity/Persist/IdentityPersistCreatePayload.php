@@ -8,8 +8,10 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterfac
 
 final class IdentityPersistCreatePayload extends IdentityPersistPayloadContract
 {
-    public function __construct(MappingNodeKeyInterface $mappingNodeKey, private string $externalId)
-    {
+    public function __construct(
+        MappingNodeKeyInterface $mappingNodeKey,
+        private string $externalId
+    ) {
         parent::__construct($mappingNodeKey);
     }
 

@@ -10,8 +10,9 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
 
 final class FooBarEmitter extends EmitterContract
 {
-    public function __construct(private int $count)
-    {
+    public function __construct(
+        private int $count
+    ) {
     }
 
     public function emit(iterable $externalIds, EmitContextInterface $context, EmitterStackInterface $stack): iterable

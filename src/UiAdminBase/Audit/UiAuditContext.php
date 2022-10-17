@@ -12,8 +12,10 @@ final class UiAuditContext implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    public function __construct(private string $uiIdentifier, private string $userIdentifier)
-    {
+    public function __construct(
+        private string $uiIdentifier,
+        private string $userIdentifier
+    ) {
         $this->attachments = new AttachmentCollection();
     }
 

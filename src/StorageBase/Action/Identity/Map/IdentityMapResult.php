@@ -13,8 +13,9 @@ final class IdentityMapResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    public function __construct(private MappedDatasetEntityCollection $mappedDatasetEntityCollection)
-    {
+    public function __construct(
+        private MappedDatasetEntityCollection $mappedDatasetEntityCollection
+    ) {
         $this->attachments = new AttachmentCollection();
     }
 

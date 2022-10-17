@@ -14,8 +14,12 @@ final class PortalNodeStatusReportResult implements AttachmentAwareInterface, Au
 {
     use AttachmentAwareTrait;
 
-    public function __construct(private PortalNodeKeyInterface $portalNodeKey, private string $topic, private bool $success, private array $payload)
-    {
+    public function __construct(
+        private PortalNodeKeyInterface $portalNodeKey,
+        private string $topic,
+        private bool $success,
+        private array $payload
+    ) {
         $this->attachments = new AttachmentCollection();
     }
 

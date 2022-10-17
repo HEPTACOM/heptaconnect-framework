@@ -10,6 +10,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Exception\UnexpectedLeadingNamespaceSepar
 
 /**
  * @template T
+ *
  * @extends ClassStringContract<T>
  */
 abstract class SubtypeClassStringContract extends ClassStringContract

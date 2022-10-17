@@ -13,8 +13,9 @@ final class RouteDeleteCriteria implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    public function __construct(private RouteKeyCollection $routeKeys)
-    {
+    public function __construct(
+        private RouteKeyCollection $routeKeys
+    ) {
         $this->attachments = new AttachmentCollection();
     }
 

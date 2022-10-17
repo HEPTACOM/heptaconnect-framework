@@ -17,8 +17,9 @@ use PHPStan\Rules\RuleErrorBuilder;
  */
 final class InterfacesHaveDocumentationRule implements Rule
 {
-    public function __construct(private ReflectionProvider $reflectionProvider)
-    {
+    public function __construct(
+        private ReflectionProvider $reflectionProvider
+    ) {
     }
 
     public function getNodeType(): string

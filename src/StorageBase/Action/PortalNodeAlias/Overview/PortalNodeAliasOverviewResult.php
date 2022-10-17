@@ -13,8 +13,10 @@ final class PortalNodeAliasOverviewResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    public function __construct(private PortalNodeKeyInterface $key, private string $alias)
-    {
+    public function __construct(
+        private PortalNodeKeyInterface $key,
+        private string $alias
+    ) {
         $this->attachments = new AttachmentCollection();
     }
 

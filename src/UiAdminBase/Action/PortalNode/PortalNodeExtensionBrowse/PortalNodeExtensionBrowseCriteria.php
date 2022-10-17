@@ -19,8 +19,9 @@ final class PortalNodeExtensionBrowseCriteria extends BrowseCriteriaContract imp
 
     private bool $showInactive = true;
 
-    public function __construct(private PortalNodeKeyInterface $portalNodeKey)
-    {
+    public function __construct(
+        private PortalNodeKeyInterface $portalNodeKey
+    ) {
         $this->attachments = new AttachmentCollection();
     }
 

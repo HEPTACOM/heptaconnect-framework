@@ -8,8 +8,9 @@ use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken;
 
 class ExplorerBuilder
 {
-    public function __construct(private ExplorerToken $token)
-    {
+    public function __construct(
+        private ExplorerToken $token
+    ) {
     }
 
     public function run(\Closure $run): self

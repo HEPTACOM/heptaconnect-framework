@@ -14,8 +14,10 @@ final class IdentityErrorCreatePayload implements CreatePayloadInterface, Attach
 {
     use AttachmentAwareTrait;
 
-    public function __construct(private MappingComponentStructContract $mappingComponent, private \Throwable $throwable)
-    {
+    public function __construct(
+        private MappingComponentStructContract $mappingComponent,
+        private \Throwable $throwable
+    ) {
         $this->attachments = new AttachmentCollection();
     }
 

@@ -12,6 +12,7 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 
 /**
  * @extends ClassStringContract<PortalContract>
+ *
  * @psalm-method class-string<PortalContract> __toString()
  * @psalm-method class-string<PortalContract> jsonSerialize()
  */

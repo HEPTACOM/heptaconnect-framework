@@ -10,8 +10,11 @@ class ResourceIsLockedException extends \RuntimeException
 {
     private string $resourceKey;
 
-    public function __construct(string $resourceKey, private ?\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface $owner, ?\Throwable $previous = null)
-    {
+    public function __construct(
+        string $resourceKey,
+        private ?StorageKeyInterface $owner,
+        ?\Throwable $previous = null
+    ) {
         parent::__construct(\sprintf('The resource "%s" is locked', $resourceKey), 0, $previous);
         $this->resourceKey = $resourceKey;
     }

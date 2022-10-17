@@ -11,8 +11,11 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 
 final class MappingStruct implements MappingInterface
 {
-    public function __construct(private PortalNodeKeyInterface $portalNodeKey, private MappingNodeKeyInterface $mappingNodeKey, private EntityType $entityType)
-    {
+    public function __construct(
+        private PortalNodeKeyInterface $portalNodeKey,
+        private MappingNodeKeyInterface $mappingNodeKey,
+        private EntityType $entityType
+    ) {
     }
 
     public function getExternalId(): string

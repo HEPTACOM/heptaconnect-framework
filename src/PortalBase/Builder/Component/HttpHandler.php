@@ -201,7 +201,6 @@ final class HttpHandler extends HttpHandlerContract
             return $this->resolveFromContainer($container, $propertyType, $propertyName);
         });
 
-        /** @var mixed $result */
         $result = $callable(...$arguments);
 
         if ($result instanceof ResponseInterface) {

@@ -31,8 +31,9 @@ abstract class HttpClientContract implements ClientInterface
     /**
      * Set the underlying use PSR-18 @see ClientInterface
      */
-    public function __construct(private ClientInterface $client)
-    {
+    public function __construct(
+        private ClientInterface $client
+    ) {
         $this->defaultRequestHeaders = new DefaultRequestHeaders();
     }
 

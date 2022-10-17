@@ -10,8 +10,12 @@ final class PortalNodeAliasIsAlreadyAssignedException extends \Exception impleme
 {
     private string $alias;
 
-    public function __construct(string $alias, private PortalNodeKeyInterface $conflicting, int $code, ?\Throwable $previous = null)
-    {
+    public function __construct(
+        string $alias,
+        private PortalNodeKeyInterface $conflicting,
+        int $code,
+        ?\Throwable $previous = null
+    ) {
         parent::__construct('The given alias ' . $alias . ' is already assigned', $code, $previous);
         $this->alias = $alias;
     }

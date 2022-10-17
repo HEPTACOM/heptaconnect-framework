@@ -24,6 +24,7 @@ abstract class StorageKeyGeneratorContract
      * @throws UnsupportedStorageKeyException
      *
      * @return StorageKeyInterface[]
+     *
      * @psalm-return iterable<int, StorageKeyInterface>
      */
     abstract public function generateKeys(string $keyClassName, int $count): iterable;

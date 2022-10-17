@@ -13,8 +13,10 @@ final class PortalNodeConfigurationGetResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    public function __construct(private PortalNodeKeyInterface $portalNodeKey, private array $value)
-    {
+    public function __construct(
+        private PortalNodeKeyInterface $portalNodeKey,
+        private array $value
+    ) {
         $this->attachments = new AttachmentCollection();
     }
 

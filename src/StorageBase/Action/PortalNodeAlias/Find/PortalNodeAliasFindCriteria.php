@@ -15,8 +15,9 @@ final class PortalNodeAliasFindCriteria implements AttachmentAwareInterface
     /**
      * @param string[] $alias
      */
-    public function __construct(private array $alias)
-    {
+    public function __construct(
+        private array $alias
+    ) {
         $this->attachments = new AttachmentCollection();
     }
 

@@ -114,7 +114,7 @@ final class IdentityMappingEmitterTest extends TestCase
 
         $emitter = new IdentityMappingEmitter($entityType, new PrimaryKeyToEntityHydrator(), $identityMapAction, $batchSize);
 
-        $stack->method('next')->willReturnCallback(static function () use ($entities, $batchSize): iterable {
+        $stack->method('next')->willReturnCallback(static function () use ($entities): iterable {
             yield from $entities;
 
             throw new \RuntimeException('Test message');

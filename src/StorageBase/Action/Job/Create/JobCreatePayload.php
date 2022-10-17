@@ -14,8 +14,11 @@ final class JobCreatePayload implements CreatePayloadInterface, AttachmentAwareI
 {
     use AttachmentAwareTrait;
 
-    public function __construct(private string $jobType, private MappingComponentStructContract $mapping, private ?array $jobPayload)
-    {
+    public function __construct(
+        private string $jobType,
+        private MappingComponentStructContract $mapping,
+        private ?array $jobPayload
+    ) {
         $this->attachments = new AttachmentCollection();
     }
 

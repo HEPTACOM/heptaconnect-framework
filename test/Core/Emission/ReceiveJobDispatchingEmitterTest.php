@@ -104,7 +104,7 @@ final class ReceiveJobDispatchingEmitterTest extends TestCase
 
         $emitter = new ReceiveJobDispatchingEmitter($entityType, $jobConverter, $jobDispatcher, $batchSize);
 
-        $stack->method('next')->willReturnCallback(static function () use ($batchSize, $entities): iterable {
+        $stack->method('next')->willReturnCallback(static function () use ($entities): iterable {
             yield from $entities;
 
             throw new \RuntimeException('Test message');

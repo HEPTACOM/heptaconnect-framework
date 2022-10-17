@@ -14,8 +14,10 @@ final class ReceptionRouteListCriteria implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    public function __construct(private PortalNodeKeyInterface $sourcePortalNodeKey, private ClassStringReferenceContract $entityType)
-    {
+    public function __construct(
+        private PortalNodeKeyInterface $sourcePortalNodeKey,
+        private ClassStringReferenceContract $entityType
+    ) {
         $this->attachments = new AttachmentCollection();
     }
 

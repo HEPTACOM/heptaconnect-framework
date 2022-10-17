@@ -14,8 +14,9 @@ final class RouteRemoveCriteria implements AttachmentAwareInterface, AuditableDa
 {
     use AttachmentAwareTrait;
 
-    public function __construct(private RouteKeyCollection $routeKeys)
-    {
+    public function __construct(
+        private RouteKeyCollection $routeKeys
+    ) {
         $this->attachments = new AttachmentCollection();
     }
 

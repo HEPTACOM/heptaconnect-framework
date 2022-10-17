@@ -14,8 +14,9 @@ class EmitterToken
 
     private ?\Closure $extend = null;
 
-    public function __construct(private EntityType $entityType)
-    {
+    public function __construct(
+        private EntityType $entityType
+    ) {
     }
 
     public function getEntityType(): EntityType

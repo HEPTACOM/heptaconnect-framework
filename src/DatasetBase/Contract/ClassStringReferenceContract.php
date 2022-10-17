@@ -6,8 +6,9 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
 
 abstract class ClassStringReferenceContract implements \JsonSerializable, \Stringable
 {
-    public function __construct(private string $classString)
-    {
+    public function __construct(
+        private string $classString
+    ) {
     }
 
     final public function __toString(): string

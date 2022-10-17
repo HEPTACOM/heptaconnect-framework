@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Translatable\Contract\TranslatableInterfa
 
 /**
  * @template T
+ *
  * @implements \ArrayAccess<array-key, T>
  * @implements Contract\TranslatableInterface<T>
  *
@@ -25,6 +26,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
 
     /**
      * @deprecated 1.0.0 Uncomment to allow deserialization
+     *
      * @psalm-var T|null
      * protected $fallback = null;
      */
