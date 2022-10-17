@@ -31,8 +31,11 @@
         "php-http/discovery": "^1.0",
         "psr/container": "^1.0",
         "psr/event-dispatcher": "^1.0",
+        "psr/http-client": "^1.0",
         "psr/http-factory": "^1.0",
         "psr/http-message": "^1.0",
+        "psr/http-server-handler": "^1.0",
+        "psr/http-server-middleware": "^1.0",
         "psr/log": "^1.0",
         "psr/simple-cache": "^1.0",
         "symfony/options-resolver": ">=4",
@@ -57,7 +60,8 @@
     "extra": {
         "unused": [
             "bentools/iterable-functions",
-            "psr/http-client"
+            "psr/http-server-handler",
+            "psr/http-server-middleware"
         ]
     },
     "website": "https://heptaconnect.io"
