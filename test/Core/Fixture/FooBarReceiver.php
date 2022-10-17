@@ -17,6 +17,7 @@ final class FooBarReceiver extends ReceiverContract
         ReceiveContextInterface $context,
         ReceiverStackInterface $stack
     ): iterable {
+        $mappedDatasetEntities = null;
         /** @var DatasetEntityContract $entity */
         foreach ($entities as $entity) {
             $entity->setPrimaryKey('');

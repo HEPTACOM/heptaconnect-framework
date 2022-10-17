@@ -14,14 +14,11 @@ final class PortalNodeAddPayload implements AttachmentAwareInterface, AuditableD
 {
     use AttachmentAwareTrait;
 
-    private PortalType $portalClass;
-
     private ?string $portalNodeAlias = null;
 
-    public function __construct(PortalType $portalClass)
+    public function __construct(private PortalType $portalClass)
     {
         $this->attachments = new AttachmentCollection();
-        $this->portalClass = $portalClass;
     }
 
     public function getPortalClass(): PortalType

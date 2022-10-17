@@ -13,18 +13,9 @@ final class WebHttpHandlerConfigurationFindCriteria implements AttachmentAwareIn
 {
     use AttachmentAwareTrait;
 
-    private PortalNodeKeyInterface $portalNodeKey;
-
-    private string $path;
-
-    private string $configurationKey;
-
-    public function __construct(PortalNodeKeyInterface $portalNodeKey, string $path, string $configurationKey)
+    public function __construct(private PortalNodeKeyInterface $portalNodeKey, private string $path, private string $configurationKey)
     {
         $this->attachments = new AttachmentCollection();
-        $this->portalNodeKey = $portalNodeKey;
-        $this->path = $path;
-        $this->configurationKey = $configurationKey;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

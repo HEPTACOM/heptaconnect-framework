@@ -16,14 +16,11 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Create\CreatePayloadInter
  */
 abstract class IdentityPersistPayloadContract implements CreatePayloadInterface
 {
-    private MappingNodeKeyInterface $mappingNodeKey;
-
     /**
      * Set the key for the mapping node to write to.
      */
-    public function __construct(MappingNodeKeyInterface $mappingNodeKey)
+    public function __construct(private MappingNodeKeyInterface $mappingNodeKey)
     {
-        $this->mappingNodeKey = $mappingNodeKey;
     }
 
     /**

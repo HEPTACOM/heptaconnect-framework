@@ -13,12 +13,9 @@ final class PortalNodeConfigurationGetCriteria implements AttachmentAwareInterfa
 {
     use AttachmentAwareTrait;
 
-    private PortalNodeKeyCollection $portalNodeKeys;
-
-    public function __construct(PortalNodeKeyCollection $portalNodeKeys)
+    public function __construct(private PortalNodeKeyCollection $portalNodeKeys)
     {
         $this->attachments = new AttachmentCollection();
-        $this->portalNodeKeys = $portalNodeKeys;
     }
 
     public function getPortalNodeKeys(): PortalNodeKeyCollection

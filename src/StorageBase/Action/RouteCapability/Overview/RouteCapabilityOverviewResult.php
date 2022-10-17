@@ -12,15 +12,9 @@ final class RouteCapabilityOverviewResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private string $name;
-
-    private \DateTimeInterface $createdAt;
-
-    public function __construct(string $name, \DateTimeInterface $createdAt)
+    public function __construct(private string $name, private \DateTimeInterface $createdAt)
     {
         $this->attachments = new AttachmentCollection();
-        $this->name = $name;
-        $this->createdAt = $createdAt;
     }
 
     public function getName(): string

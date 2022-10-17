@@ -15,13 +15,10 @@ final class UiAuditTrailEndPayload implements AttachmentAwareInterface
 
     private \DateTimeImmutable $at;
 
-    private UiAuditTrailKeyInterface $uiAuditTrailKey;
-
-    public function __construct(UiAuditTrailKeyInterface $uiAuditTrailKey)
+    public function __construct(private UiAuditTrailKeyInterface $uiAuditTrailKey)
     {
         $this->attachments = new AttachmentCollection();
         $this->at = new \DateTimeImmutable();
-        $this->uiAuditTrailKey = $uiAuditTrailKey;
     }
 
     public function getAt(): \DateTimeImmutable

@@ -13,17 +13,11 @@ final class PortalNodeAliasFindCriteria implements AttachmentAwareInterface
     use AttachmentAwareTrait;
 
     /**
-     * @var string[]
-     */
-    private array $alias;
-
-    /**
      * @param string[] $alias
      */
-    public function __construct(array $alias)
+    public function __construct(private array $alias)
     {
         $this->attachments = new AttachmentCollection();
-        $this->alias = $alias;
     }
 
     /**

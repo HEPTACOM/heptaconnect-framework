@@ -16,21 +16,9 @@ abstract class PortalNodeStorageItemContract implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private PortalNodeKeyInterface $portalNodeKey;
-
-    private string $storageKey;
-
-    private string $type;
-
-    private string $value;
-
-    public function __construct(PortalNodeKeyInterface $portalNodeKey, string $storageKey, string $type, string $value)
+    public function __construct(private PortalNodeKeyInterface $portalNodeKey, private string $storageKey, private string $type, private string $value)
     {
         $this->attachments = new AttachmentCollection();
-        $this->portalNodeKey = $portalNodeKey;
-        $this->storageKey = $storageKey;
-        $this->type = $type;
-        $this->value = $value;
     }
 
     /**

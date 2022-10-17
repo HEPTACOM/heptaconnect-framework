@@ -12,8 +12,6 @@ use Psr\Http\Client\ClientInterface;
  */
 abstract class HttpClientContract implements ClientInterface
 {
-    private ClientInterface $client;
-
     private DefaultRequestHeaders $defaultRequestHeaders;
 
     /**
@@ -33,9 +31,8 @@ abstract class HttpClientContract implements ClientInterface
     /**
      * Set the underlying use PSR-18 @see ClientInterface
      */
-    public function __construct(ClientInterface $client)
+    public function __construct(private ClientInterface $client)
     {
-        $this->client = $client;
         $this->defaultRequestHeaders = new DefaultRequestHeaders();
     }
 

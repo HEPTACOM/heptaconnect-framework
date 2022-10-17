@@ -10,11 +10,8 @@ use Psr\Http\Message\ResponseInterface;
 
 final class HttpClientInterfaceDecorator implements ClientInterface
 {
-    private ClientInterface $decorated;
-
-    public function __construct(ClientInterface $decorated)
+    public function __construct(private ClientInterface $decorated)
     {
-        $this->decorated = $decorated;
     }
 
     public function sendRequest(RequestInterface $request): ResponseInterface

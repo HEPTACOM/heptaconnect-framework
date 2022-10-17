@@ -13,15 +13,9 @@ final class JobStartResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private JobKeyCollection $startedJobs;
-
-    private JobKeyCollection $skippedJobs;
-
-    public function __construct(JobKeyCollection $startedJobs, JobKeyCollection $skippedJobs)
+    public function __construct(private JobKeyCollection $startedJobs, private JobKeyCollection $skippedJobs)
     {
         $this->attachments = new AttachmentCollection();
-        $this->startedJobs = $startedJobs;
-        $this->skippedJobs = $skippedJobs;
     }
 
     public function getStartedJobs(): JobKeyCollection

@@ -13,12 +13,9 @@ final class RouteFindResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private RouteKeyInterface $routeKey;
-
-    public function __construct(RouteKeyInterface $routeKey)
+    public function __construct(private RouteKeyInterface $routeKey)
     {
         $this->attachments = new AttachmentCollection();
-        $this->routeKey = $routeKey;
     }
 
     public function getRouteKey(): RouteKeyInterface

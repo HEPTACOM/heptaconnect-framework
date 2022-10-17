@@ -38,12 +38,12 @@ trait SetStateTrait
 
             try {
                 $method = new \ReflectionMethod($result, $setter);
-            } catch (\ReflectionException $exception) {
+            } catch (\ReflectionException) {
                 $getter = 'get' . \ucfirst($key);
 
                 try {
                     $method = new \ReflectionMethod($result, $getter);
-                } catch (\Throwable $ignored) {
+                } catch (\Throwable) {
                     continue;
                 }
 
@@ -57,7 +57,7 @@ trait SetStateTrait
                 if ($initialValue instanceof CollectionInterface && $value instanceof CollectionInterface) {
                     $initialValue->push($value);
                 }
-            } catch (\Throwable $ignored) {
+            } catch (\Throwable) {
                 continue;
             }
 

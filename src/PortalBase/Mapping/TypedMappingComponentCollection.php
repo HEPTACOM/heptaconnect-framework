@@ -10,15 +10,11 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructCon
 
 class TypedMappingComponentCollection extends MappingComponentCollection
 {
-    private EntityType $entityType;
-
     /**
      * @psalm-param iterable<int, MappingComponentStructContract> $items
      */
-    public function __construct(EntityType $entityType, iterable $items = [])
+    public function __construct(private EntityType $entityType, iterable $items = [])
     {
-        $this->entityType = $entityType;
-
         parent::__construct($items);
     }
 

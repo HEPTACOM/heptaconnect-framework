@@ -13,17 +13,11 @@ final class PortalExtensionActivateResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private PortalExtensionTypeCollection $passedActivations;
-
-    private PortalExtensionTypeCollection $failedActivations;
-
     public function __construct(
-        PortalExtensionTypeCollection $passedActivations,
-        PortalExtensionTypeCollection $failedActivations
+        private PortalExtensionTypeCollection $passedActivations,
+        private PortalExtensionTypeCollection $failedActivations
     ) {
         $this->attachments = new AttachmentCollection();
-        $this->passedActivations = $passedActivations;
-        $this->failedActivations = $failedActivations;
     }
 
     public function getPassedActivations(): PortalExtensionTypeCollection

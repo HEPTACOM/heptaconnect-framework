@@ -111,23 +111,15 @@ abstract class HttpHandlerContract
         HttpHandleContextInterface $context
     ): ResponseInterface {
         $method = \mb_strtolower($request->getMethod());
-
-        switch ($method) {
-            case 'options':
-                return $this->options($request, $response, $context);
-            case 'get':
-                return $this->get($request, $response, $context);
-            case 'post':
-                return $this->post($request, $response, $context);
-            case 'put':
-                return $this->put($request, $response, $context);
-            case 'patch':
-                return $this->patch($request, $response, $context);
-            case 'delete':
-                return $this->delete($request, $response, $context);
-        }
-
-        return $response;
+        return match ($method) {
+            'options' => $this->options($request, $response, $context),
+            'get' => $this->get($request, $response, $context),
+            'post' => $this->post($request, $response, $context),
+            'put' => $this->put($request, $response, $context),
+            'patch' => $this->patch($request, $response, $context),
+            'delete' => $this->delete($request, $response, $context),
+            default => $response,
+        };
     }
 
     /**

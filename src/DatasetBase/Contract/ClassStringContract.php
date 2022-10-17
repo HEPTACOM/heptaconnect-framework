@@ -25,7 +25,7 @@ abstract class ClassStringContract extends ClassStringReferenceContract
      */
     public function __construct(string $classString)
     {
-        if (\strncmp($classString, self::NAMESPACE_SEPARATOR, \strlen(self::NAMESPACE_SEPARATOR)) === 0) {
+        if (str_starts_with($classString, self::NAMESPACE_SEPARATOR)) {
             throw new UnexpectedLeadingNamespaceSeparatorInClassNameException($classString, 1655559294);
         }
 
@@ -82,6 +82,6 @@ abstract class ClassStringContract extends ClassStringReferenceContract
             return false;
         }
 
-        return ((string) $this) === \get_class($object);
+        return ((string) $this) === $object::class;
     }
 }

@@ -14,15 +14,9 @@ final class PortalNodeStorageDeleteCriteria implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private PortalNodeKeyInterface $portalNodeKey;
-
-    private StringCollection $storageKeys;
-
-    public function __construct(PortalNodeKeyInterface $portalNodeKey, StringCollection $storageKeys)
+    public function __construct(private PortalNodeKeyInterface $portalNodeKey, private StringCollection $storageKeys)
     {
         $this->attachments = new AttachmentCollection();
-        $this->portalNodeKey = $portalNodeKey;
-        $this->storageKeys = $storageKeys;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

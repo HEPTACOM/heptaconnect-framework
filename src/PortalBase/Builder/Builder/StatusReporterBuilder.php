@@ -8,11 +8,8 @@ use Heptacom\HeptaConnect\Portal\Base\Builder\Token\StatusReporterToken;
 
 class StatusReporterBuilder
 {
-    private StatusReporterToken $token;
-
-    public function __construct(StatusReporterToken $token)
+    public function __construct(private StatusReporterToken $token)
     {
-        $this->token = $token;
     }
 
     public function run(\Closure $run): self

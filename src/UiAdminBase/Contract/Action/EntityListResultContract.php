@@ -18,27 +18,15 @@ abstract class EntityListResultContract implements AttachmentAwareInterface, Aud
 {
     use AttachmentAwareTrait;
 
-    private CodeOrigin $codeOrigin;
-
-    private EntityType $supportedEntityType;
-
-    /**
-     * @var class-string
-     */
-    private string $flowComponentClass;
-
     /**
      * @param class-string $flowComponentClass
      */
     public function __construct(
-        CodeOrigin $codeOrigin,
-        EntityType $supportedEntityType,
-        string $flowComponentClass
+        private CodeOrigin $codeOrigin,
+        private EntityType $supportedEntityType,
+        private string $flowComponentClass
     ) {
         $this->attachments = new AttachmentCollection();
-        $this->codeOrigin = $codeOrigin;
-        $this->supportedEntityType = $supportedEntityType;
-        $this->flowComponentClass = $flowComponentClass;
     }
 
     /**

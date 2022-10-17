@@ -40,11 +40,11 @@ abstract class StorageKeyGeneratorContract
             try {
                 return \json_encode($key, \JSON_THROW_ON_ERROR);
             } catch (\Throwable $throwable) {
-                throw new UnsupportedStorageKeyException(\get_class($key), $throwable);
+                throw new UnsupportedStorageKeyException($key::class, $throwable);
             }
         }
 
-        throw new UnsupportedStorageKeyException(\get_class($key));
+        throw new UnsupportedStorageKeyException($key::class);
     }
 
     /**

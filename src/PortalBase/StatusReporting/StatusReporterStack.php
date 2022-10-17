@@ -16,17 +16,14 @@ final class StatusReporterStack implements StatusReporterStackInterface
      */
     private array $statusReporters;
 
-    private LoggerInterface $logger;
-
     /**
      * @param iterable<array-key, StatusReporterContract> $statusReporters
      */
-    public function __construct(iterable $statusReporters, LoggerInterface $logger)
+    public function __construct(iterable $statusReporters, private LoggerInterface $logger)
     {
         /** @var StatusReporterContract[] $rewindableStatusReporters */
         $rewindableStatusReporters = \iterable_to_array($statusReporters);
         $this->statusReporters = $rewindableStatusReporters;
-        $this->logger = $logger;
     }
 
     public function next(StatusReportingContextInterface $context): array

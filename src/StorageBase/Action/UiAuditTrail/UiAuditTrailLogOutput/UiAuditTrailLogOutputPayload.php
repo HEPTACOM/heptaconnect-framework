@@ -14,15 +14,9 @@ final class UiAuditTrailLogOutputPayload implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private UiAuditTrailKeyInterface $uiAuditTrailKey;
-
-    private TaggedStringCollection $output;
-
-    public function __construct(UiAuditTrailKeyInterface $uiAuditTrailKey, TaggedStringCollection $output)
+    public function __construct(private UiAuditTrailKeyInterface $uiAuditTrailKey, private TaggedStringCollection $output)
     {
         $this->attachments = new AttachmentCollection();
-        $this->uiAuditTrailKey = $uiAuditTrailKey;
-        $this->output = $output;
     }
 
     public function getUiAuditTrailKey(): UiAuditTrailKeyInterface

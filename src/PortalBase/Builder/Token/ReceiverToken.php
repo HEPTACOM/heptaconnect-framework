@@ -8,15 +8,12 @@ use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 
 class ReceiverToken
 {
-    private EntityType $entityType;
-
     private ?\Closure $batch = null;
 
     private ?\Closure $run = null;
 
-    public function __construct(EntityType $entityType)
+    public function __construct(private EntityType $entityType)
     {
-        $this->entityType = $entityType;
     }
 
     public function getEntityType(): EntityType

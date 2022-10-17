@@ -10,12 +10,9 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Audit\AuditableDataAwareInterfa
 
 final class PortalNodeEntityListCriteria extends EntityListCriteriaContract implements AuditableDataAwareInterface
 {
-    private PortalNodeKeyInterface $portalNodeKey;
-
-    public function __construct(PortalNodeKeyInterface $portalNodeKey)
+    public function __construct(private PortalNodeKeyInterface $portalNodeKey)
     {
         parent::__construct();
-        $this->portalNodeKey = $portalNodeKey;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

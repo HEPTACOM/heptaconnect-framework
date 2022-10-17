@@ -41,7 +41,7 @@ final class UnsafeClassStringTest extends TestCase
     {
         $foobarWithLeadingNsSep = new UnsafeClassString('\foo bar');
         static::assertSame('\foo bar', (string) $foobarWithLeadingNsSep);
-        static::assertSame('\foo bar', \json_decode(\json_encode($foobarWithLeadingNsSep)));
+        static::assertSame('\foo bar', \json_decode(\json_encode($foobarWithLeadingNsSep, JSON_THROW_ON_ERROR), null, 512, JSON_THROW_ON_ERROR));
     }
 
     public function testCollection(): void

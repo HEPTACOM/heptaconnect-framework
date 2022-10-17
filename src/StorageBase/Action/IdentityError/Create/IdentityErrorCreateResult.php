@@ -13,12 +13,9 @@ final class IdentityErrorCreateResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private IdentityErrorKeyInterface $identityErrorKey;
-
-    public function __construct(IdentityErrorKeyInterface $identityErrorKey)
+    public function __construct(private IdentityErrorKeyInterface $identityErrorKey)
     {
         $this->attachments = new AttachmentCollection();
-        $this->identityErrorKey = $identityErrorKey;
     }
 
     public function getIdentityErrorKey(): IdentityErrorKeyInterface

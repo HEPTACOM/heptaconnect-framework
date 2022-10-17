@@ -6,8 +6,6 @@ namespace Heptacom\HeptaConnect\Portal\Base\Builder\Token;
 
 class HttpHandlerToken
 {
-    private string $path;
-
     private ?\Closure $run = null;
 
     private ?\Closure $options = null;
@@ -22,9 +20,8 @@ class HttpHandlerToken
 
     private ?\Closure $delete = null;
 
-    public function __construct(string $path)
+    public function __construct(private string $path)
     {
-        $this->path = $path;
     }
 
     public function getPath(): string

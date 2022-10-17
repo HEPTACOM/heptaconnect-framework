@@ -13,12 +13,9 @@ final class JobListFinishedResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private JobKeyInterface $jobKey;
-
-    public function __construct(JobKeyInterface $jobKey)
+    public function __construct(private JobKeyInterface $jobKey)
     {
         $this->attachments = new AttachmentCollection();
-        $this->jobKey = $jobKey;
     }
 
     public function getJobKey(): JobKeyInterface

@@ -6,13 +6,10 @@ namespace Heptacom\HeptaConnect\Portal\Base\Builder\Token;
 
 class StatusReporterToken
 {
-    private string $topic;
-
     private ?\Closure $run = null;
 
-    public function __construct(string $topic)
+    public function __construct(private string $topic)
     {
-        $this->topic = $topic;
     }
 
     public function getTopic(): string

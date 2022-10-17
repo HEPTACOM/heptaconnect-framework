@@ -8,15 +8,12 @@ use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 
 class ExplorerToken
 {
-    private EntityType $entityType;
-
     private ?\Closure $run = null;
 
     private ?\Closure $isAllowed = null;
 
-    public function __construct(EntityType $entityType)
+    public function __construct(private EntityType $entityType)
     {
-        $this->entityType = $entityType;
     }
 
     public function getEntityType(): EntityType

@@ -155,13 +155,9 @@ final class ContractTest extends TestCase
         $logger->expects(static::once())->method('error');
 
         $container = $this->createMock(ContainerInterface::class);
-        $container->method('get')->willReturnCallback(function (string $id) use ($logger) {
-            switch ($id) {
-                case LoggerInterface::class:
-                    return $logger;
-            }
-
-            return null;
+        $container->method('get')->willReturnCallback(fn(string $id) => match ($id) {
+            LoggerInterface::class => $logger,
+            default => null,
         });
 
         $context = $this->createMock(EmitContextInterface::class);

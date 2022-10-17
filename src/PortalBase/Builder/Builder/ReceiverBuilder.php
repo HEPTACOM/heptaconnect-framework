@@ -8,11 +8,8 @@ use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken;
 
 class ReceiverBuilder
 {
-    private ReceiverToken $token;
-
-    public function __construct(ReceiverToken $token)
+    public function __construct(private ReceiverToken $token)
     {
-        $this->token = $token;
     }
 
     public function batch(\Closure $batch): self

@@ -13,15 +13,9 @@ final class JobFinishResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private JobKeyCollection $finishedJobs;
-
-    private JobKeyCollection $skippedJobs;
-
-    public function __construct(JobKeyCollection $finishedJobs, JobKeyCollection $skippedJobs)
+    public function __construct(private JobKeyCollection $finishedJobs, private JobKeyCollection $skippedJobs)
     {
         $this->attachments = new AttachmentCollection();
-        $this->finishedJobs = $finishedJobs;
-        $this->skippedJobs = $skippedJobs;
     }
 
     public function getFinishedJobs(): JobKeyCollection

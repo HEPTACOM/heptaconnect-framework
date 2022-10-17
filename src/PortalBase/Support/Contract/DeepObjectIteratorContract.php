@@ -28,7 +28,7 @@ class DeepObjectIteratorContract
             /** @var mixed $iterable */
             foreach ($toIterate as $iterable) {
                 if (\is_object($iterable)) {
-                    $class = \get_class($iterable);
+                    $class = $iterable::class;
 
                     if (\in_array($iterable, $alreadyChecked[$class] ?? [], true)) {
                         continue;
@@ -57,10 +57,10 @@ class DeepObjectIteratorContract
                     if (\is_object($value) || \is_iterable($value) || (\is_array($value) && $value !== [])) {
                         yield $value;
                     }
-                } catch (\Throwable $_) {
+                } catch (\Throwable) {
                 }
             }
-        } catch (\Throwable $_) {
+        } catch (\Throwable) {
         }
     }
 
@@ -76,7 +76,7 @@ class DeepObjectIteratorContract
      */
     private function getPropertiesAccessor(object $object): array
     {
-        $class = \get_class($object);
+        $class = $object::class;
         $result = $this->reflectionProperties[$class] ?? null;
 
         if (\is_array($result)) {

@@ -229,6 +229,6 @@ final class ConfigTest extends TestCase
 
     public function testGetHelper(): void
     {
-        static::assertSame([], Config::helper()->array([], [])(static fn () => []));
+        static::assertSame([], Config::helper()->array([], [])());
     }
 }

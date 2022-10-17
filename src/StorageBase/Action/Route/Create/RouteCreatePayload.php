@@ -15,31 +15,16 @@ final class RouteCreatePayload implements CreatePayloadInterface, AttachmentAwar
 {
     use AttachmentAwareTrait;
 
-    private PortalNodeKeyInterface $sourcePortalNodeKey;
-
-    private PortalNodeKeyInterface $targetPortalNodeKey;
-
-    private EntityType $entityType;
-
-    /**
-     * @var string[]
-     */
-    private array $capabilities;
-
     /**
      * @param string[] $capabilities
      */
     public function __construct(
-        PortalNodeKeyInterface $sourcePortalNodeKey,
-        PortalNodeKeyInterface $targetPortalNodeKey,
-        EntityType $entityType,
-        array $capabilities = []
+        private PortalNodeKeyInterface $sourcePortalNodeKey,
+        private PortalNodeKeyInterface $targetPortalNodeKey,
+        private EntityType $entityType,
+        private array $capabilities = []
     ) {
         $this->attachments = new AttachmentCollection();
-        $this->sourcePortalNodeKey = $sourcePortalNodeKey;
-        $this->targetPortalNodeKey = $targetPortalNodeKey;
-        $this->entityType = $entityType;
-        $this->capabilities = $capabilities;
     }
 
     public function getSourcePortalNodeKey(): PortalNodeKeyInterface

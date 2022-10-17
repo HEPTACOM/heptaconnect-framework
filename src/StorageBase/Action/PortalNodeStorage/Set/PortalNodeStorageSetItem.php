@@ -13,25 +13,13 @@ final class PortalNodeStorageSetItem implements CreatePayloadInterface, Attachme
 {
     use AttachmentAwareTrait;
 
-    private string $storageKey;
-
-    private string $type;
-
-    private string $value;
-
-    private ?\DateInterval $expiresIn;
-
     public function __construct(
-        string $storageKey,
-        string $value,
-        string $type,
-        ?\DateInterval $expiresIn
+        private string $storageKey,
+        private string $value,
+        private string $type,
+        private ?\DateInterval $expiresIn
     ) {
         $this->attachments = new AttachmentCollection();
-        $this->storageKey = $storageKey;
-        $this->type = $type;
-        $this->value = $value;
-        $this->expiresIn = $expiresIn;
     }
 
     public function getStorageKey(): string

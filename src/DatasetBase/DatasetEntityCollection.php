@@ -24,7 +24,7 @@ class DatasetEntityCollection extends AbstractObjectCollection
 
         /** @var DatasetEntityContract $item */
         foreach ($this->items as $item) {
-            $groups[\get_class($item)][] = $item;
+            $groups[$item::class][] = $item;
         }
 
         /** @var DatasetEntityContract[] $group */

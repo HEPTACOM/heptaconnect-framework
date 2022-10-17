@@ -8,14 +8,11 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Create\CreatePayloadInter
 
 class InvalidCreatePayloadException extends CreateException
 {
-    private CreatePayloadInterface $payload;
-
-    public function __construct(CreatePayloadInterface $payload, int $code, ?\Throwable $throwable = null)
+    public function __construct(private CreatePayloadInterface $payload, int $code, ?\Throwable $throwable = null)
     {
         parent::__construct($code, $throwable);
 
         $this->message = 'Create payload cannot be processed as it contains invalid values';
-        $this->payload = $payload;
     }
 
     public function getPayload(): CreatePayloadInterface

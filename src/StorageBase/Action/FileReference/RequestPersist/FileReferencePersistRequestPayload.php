@@ -14,17 +14,14 @@ final class FileReferencePersistRequestPayload implements CreatePayloadInterface
 {
     use AttachmentAwareTrait;
 
-    private PortalNodeKeyInterface $portalNodeKey;
-
     /**
      * @var array<string, string>
      */
     private array $serializedRequests = [];
 
-    public function __construct(PortalNodeKeyInterface $portalNodeKey)
+    public function __construct(private PortalNodeKeyInterface $portalNodeKey)
     {
         $this->attachments = new AttachmentCollection();
-        $this->portalNodeKey = $portalNodeKey;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

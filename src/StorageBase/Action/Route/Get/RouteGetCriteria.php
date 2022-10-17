@@ -13,12 +13,9 @@ final class RouteGetCriteria implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private RouteKeyCollection $routeKeys;
-
-    public function __construct(RouteKeyCollection $routeKeys)
+    public function __construct(private RouteKeyCollection $routeKeys)
     {
         $this->attachments = new AttachmentCollection();
-        $this->routeKeys = $routeKeys;
     }
 
     public function getRouteKeys(): RouteKeyCollection

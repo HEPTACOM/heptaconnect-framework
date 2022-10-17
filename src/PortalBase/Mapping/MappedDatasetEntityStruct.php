@@ -9,14 +9,8 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 
 class MappedDatasetEntityStruct
 {
-    protected MappingInterface $mapping;
-
-    protected DatasetEntityContract $datasetEntity;
-
-    public function __construct(MappingInterface $mapping, DatasetEntityContract $datasetEntity)
+    public function __construct(protected MappingInterface $mapping, protected DatasetEntityContract $datasetEntity)
     {
-        $this->mapping = $mapping;
-        $this->datasetEntity = $datasetEntity;
     }
 
     public function getMapping(): MappingInterface

@@ -14,21 +14,12 @@ final class FileReferenceGetRequestResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private PortalNodeKeyInterface $portalNodeKey;
-
-    private FileReferenceRequestKeyInterface $requestKey;
-
-    private string $serializedRequest;
-
     public function __construct(
-        PortalNodeKeyInterface $portalNodeKey,
-        FileReferenceRequestKeyInterface $requestKey,
-        string $serializedRequest
+        private PortalNodeKeyInterface $portalNodeKey,
+        private FileReferenceRequestKeyInterface $requestKey,
+        private string $serializedRequest
     ) {
         $this->attachments = new AttachmentCollection();
-        $this->portalNodeKey = $portalNodeKey;
-        $this->requestKey = $requestKey;
-        $this->serializedRequest = $serializedRequest;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

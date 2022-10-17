@@ -9,11 +9,8 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 
 abstract class FileReferenceContract implements AttachableInterface
 {
-    private PortalNodeKeyInterface $portalNodeKey;
-
-    public function __construct(PortalNodeKeyInterface $portalNodeKey)
+    public function __construct(private PortalNodeKeyInterface $portalNodeKey)
     {
-        $this->portalNodeKey = $portalNodeKey;
     }
 
     /**

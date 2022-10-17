@@ -64,7 +64,7 @@ final class Date extends \DateTime
      *
      * @return false|static
      */
-    public function setTime($hour, $minute, $second = 0, $microseconds = 0)
+    public function setTime($hour, $minute, $second = 0, $microseconds = 0): false|static
     {
         return parent::setTime(0, 0, 0, 0);
     }
