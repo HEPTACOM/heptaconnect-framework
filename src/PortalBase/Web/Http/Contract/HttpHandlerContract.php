@@ -6,7 +6,6 @@ namespace Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Log\LoggerInterface;
 
 /**
  * Base class for every HTTP handler implementation with various boilerplate-reducing entrypoints rapid fast development.
