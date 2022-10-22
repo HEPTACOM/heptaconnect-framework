@@ -6,7 +6,6 @@ namespace Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Log\LoggerInterface;
 
 /**
  * Base class for every HTTP handler implementation with various boilerplate-reducing entrypoints rapid fast development.
@@ -53,18 +52,13 @@ abstract class HttpHandlerContract
         try {
             return $stack->next($request, $response, $context);
         } catch (\Throwable $throwable) {
-            /** @var LoggerInterface|null $logger */
-            $logger = $context->getContainer()->get(LoggerInterface::class);
-
-            if ($logger instanceof LoggerInterface) {
-                $logger->error('handleNext failed', [
-                    'code' => 1636735335,
-                    'path' => $this->getPath(),
-                    'request' => $request,
-                    'response' => $response,
-                    'exception' => $throwable,
-                ]);
-            }
+            $context->getLogger()->error('handleNext failed', [
+                'code' => 1636735335,
+                'path' => $this->getPath(),
+                'request' => $request,
+                'response' => $response,
+                'exception' => $throwable,
+            ]);
 
             throw $throwable;
         }
@@ -82,18 +76,13 @@ abstract class HttpHandlerContract
         try {
             return $this->run($request, $response, $context);
         } catch (\Throwable $throwable) {
-            /** @var LoggerInterface|null $logger */
-            $logger = $context->getContainer()->get(LoggerInterface::class);
-
-            if ($logger instanceof LoggerInterface) {
-                $logger->error('handleCurrent failed', [
-                    'code' => 1636735336,
-                    'path' => $this->getPath(),
-                    'request' => $request,
-                    'response' => $response,
-                    'exception' => $throwable,
-                ]);
-            }
+            $context->getLogger()->error('handleCurrent failed', [
+                'code' => 1636735336,
+                'path' => $this->getPath(),
+                'request' => $request,
+                'response' => $response,
+                'exception' => $throwable,
+            ]);
 
             throw $throwable;
         }

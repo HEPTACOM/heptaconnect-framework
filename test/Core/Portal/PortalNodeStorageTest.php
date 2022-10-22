@@ -22,14 +22,20 @@ use Psr\Log\AbstractLogger;
 use Psr\Log\LoggerInterface;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Portal\PortalStorage
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory
  * @covers \Heptacom\HeptaConnect\Core\Portal\PreviewPortalNodeStorage
  * @covers \Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry
+ * @covers \Heptacom\HeptaConnect\Core\Storage\Normalizer\SerializableDenormalizer
+ * @covers \Heptacom\HeptaConnect\Core\Storage\Normalizer\SerializableNormalizer
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Listing\PortalNodeStorageListCriteria
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\PortalNodeStorageItemContract
  * @covers \Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey
  */
 class PortalNodeStorageTest extends TestCase

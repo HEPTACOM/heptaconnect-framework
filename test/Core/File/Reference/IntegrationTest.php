@@ -20,6 +20,7 @@ use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract;
 use Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry;
 use Heptacom\HeptaConnect\Core\Storage\RequestStorage;
+use Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector;
 use Heptacom\HeptaConnect\Core\Test\Fixture\DependentPortal;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpClient;
 use Heptacom\HeptaConnect\Core\Web\Http\RequestDeserializer;
@@ -55,6 +56,7 @@ use Psr\Http\Message\RequestInterface;
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalNodeContainerFacade
  * @covers \Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry
  * @covers \Heptacom\HeptaConnect\Core\Storage\RequestStorage
+ * @covers \Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpClient
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\RequestDeserializer
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\RequestSerializer
@@ -411,22 +413,10 @@ class IntegrationTest extends TestCase
 
     private function getInMemoryContainer(array $services): PortalNodeContainerFacadeContract
     {
-        $container = new class($services) implements ContainerInterface {
-            public function __construct(
-                private array $services
-            ) {
-            }
-
-            public function get($id)
-            {
-                return $this->services[$id] ?? null;
-            }
-
-            public function has($id)
-            {
-                return ($this->services[$id] ?? null) !== null;
-            }
-        };
+        $services[HttpMiddlewareCollector::class] ??= new HttpMiddlewareCollector([]);
+        $container = $this->createMock(ContainerInterface::class);
+        $container->method('get')
+            ->willReturnCallback(fn (string $id) => $services[$id] ?? $this->createMock($id));
 
         return new PortalNodeContainerFacade($container);
     }
