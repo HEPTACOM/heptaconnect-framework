@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\DevOps\PhpStan\Rule;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\DevOps\PhpStan\Support\StructDetector;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
@@ -28,6 +29,9 @@ final class ImplementationsMustBeFinalRule implements Rule
         return Class_::class;
     }
 
+    /**
+     * @param Class_ $node
+     */
     public function processNode(Node $node, Scope $scope): array
     {
         if ($this->structDetector->isClassLikeAStruct($node)) {
@@ -38,6 +42,17 @@ final class ImplementationsMustBeFinalRule implements Rule
             if (!$node->isFinal()) {
                 return [
                     RuleErrorBuilder::message(\sprintf('Class \'%s\' that looks like a struct is expected to be final', $node->namespacedName))
+                        ->line($node->getStartLine())
+                        ->file($scope->getFile())
+                        ->build(),
+                ];
+            }
+
+            $implements = \array_map('strval', $node->implements);
+
+            if (!\in_array(AttachmentAwareInterface::class, $implements, true)) {
+                return [
+                    RuleErrorBuilder::message(\sprintf('Class \'%s\' that looks like a struct is expected to implement %s', $node->namespacedName, AttachmentAwareInterface::class))
                         ->line($node->getStartLine())
                         ->file($scope->getFile())
                         ->build(),
