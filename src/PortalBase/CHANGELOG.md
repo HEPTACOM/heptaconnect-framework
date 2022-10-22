@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract::class` as factory method to create an instance of `\Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionType` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Wrap `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract::supports` in new method `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract::getSupportedPortal` to provide an instance of `\Heptacom\HeptaConnect\Portal\Base\Portal\SupportedPortalType` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Add `\Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerStackInterface::supports` to get the entity type of the explorer stack
+- Add `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeContextInterface::getLogger` so every context can directly access the portal node focused logger
 
 ### Changed
 
