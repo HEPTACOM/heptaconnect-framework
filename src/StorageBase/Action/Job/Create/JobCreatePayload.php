@@ -14,11 +14,11 @@ final class JobCreatePayload implements CreatePayloadInterface, AttachmentAwareI
 {
     use AttachmentAwareTrait;
 
-    protected string $jobType;
+    private string $jobType;
 
-    protected MappingComponentStructContract $mapping;
+    private MappingComponentStructContract $mapping;
 
-    protected ?array $jobPayload;
+    private ?array $jobPayload;
 
     public function __construct(string $jobType, MappingComponentStructContract $mapping, ?array $jobPayload)
     {

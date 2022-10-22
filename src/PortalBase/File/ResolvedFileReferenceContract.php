@@ -6,6 +6,9 @@ namespace Heptacom\HeptaConnect\Portal\Base\File;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
+/**
+ * Describes a file reference, that has be resolved and so its content can be queried using implementations of this.
+ */
 abstract class ResolvedFileReferenceContract
 {
     private PortalNodeKeyInterface $portalNodeKey;
@@ -30,6 +33,9 @@ abstract class ResolvedFileReferenceContract
      */
     abstract public function getContents(): string;
 
+    /**
+     * Returns the key to the origin portal node.
+     */
     protected function getPortalNodeKey(): PortalNodeKeyInterface
     {
         return $this->portalNodeKey;

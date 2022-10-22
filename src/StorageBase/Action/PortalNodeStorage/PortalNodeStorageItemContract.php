@@ -9,6 +9,9 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
+/**
+ * Describes a row in the storage for a portal node storage item.
+ */
 abstract class PortalNodeStorageItemContract implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
@@ -30,21 +33,33 @@ abstract class PortalNodeStorageItemContract implements AttachmentAwareInterface
         $this->value = $value;
     }
 
+    /**
+     * Gets the portal node the storage item is set for.
+     */
     public function getPortalNodeKey(): PortalNodeKeyInterface
     {
         return $this->portalNodeKey;
     }
 
+    /**
+     * Gets the key of the storage item.
+     */
     public function getStorageKey(): string
     {
         return $this->storageKey;
     }
 
+    /**
+     * Get the type of the storage item.
+     */
     public function getType(): string
     {
         return $this->type;
     }
 
+    /**
+     * Get the value of the storage item.
+     */
     public function getValue(): string
     {
         return $this->value;

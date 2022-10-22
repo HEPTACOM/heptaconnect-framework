@@ -13,7 +13,7 @@ final class IdentityErrorCreateResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    protected IdentityErrorKeyInterface $identityErrorKey;
+    private IdentityErrorKeyInterface $identityErrorKey;
 
     public function __construct(IdentityErrorKeyInterface $identityErrorKey)
     {

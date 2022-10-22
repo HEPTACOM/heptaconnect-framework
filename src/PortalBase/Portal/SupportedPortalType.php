@@ -26,6 +26,7 @@ final class SupportedPortalType extends ClassStringContract
     {
         parent::__construct($classString);
 
+        /** @phpstan-var class-string $expectedClass */
         $expectedClass = $this->getExpectedSuperClassName();
 
         /* Quite similar to @see \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract but allows @see PortalContract itself as well */
@@ -36,6 +37,8 @@ final class SupportedPortalType extends ClassStringContract
 
     /**
      * Returns the expected class name that the content needs to extend or implement.
+     *
+     * @returns class-string
      */
     public function getExpectedSuperClassName(): string
     {

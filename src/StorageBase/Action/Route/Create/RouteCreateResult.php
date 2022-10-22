@@ -13,7 +13,7 @@ final class RouteCreateResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    protected RouteKeyInterface $routeKey;
+    private RouteKeyInterface $routeKey;
 
     public function __construct(RouteKeyInterface $routeKey)
     {

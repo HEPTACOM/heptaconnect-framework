@@ -8,6 +8,8 @@ use Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailInterface;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionInterface;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Throw_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
@@ -52,11 +54,18 @@ final class UiActionsPublicMethodMustCallTracerOnThrowRule implements Rule
 
         if ($thrown instanceof MethodCall) {
             $var = $thrown->var;
-            $varMethod = (string) $thrown->name;
+            $thrownName = $thrown->name;
 
-            foreach ($scope->getVariableType((string) $var->name)->getReferencedClasses() as $varType) {
-                if ($varType === AuditTrailInterface::class && $varMethod === 'throwable') {
-                    return [];
+            if ($var instanceof Variable && $thrownName instanceof Identifier) {
+                $varMethod = $thrownName->name;
+                $varName = $var->name;
+
+                if (\is_string($varName)) {
+                    foreach ($scope->getVariableType($varName)->getReferencedClasses() as $varType) {
+                        if ($varType === AuditTrailInterface::class && $varMethod === 'throwable') {
+                            return [];
+                        }
+                    }
                 }
             }
         }

@@ -14,7 +14,7 @@ final class IdentityErrorCreatePayload implements CreatePayloadInterface, Attach
 {
     use AttachmentAwareTrait;
 
-    protected MappingComponentStructContract $mappingComponent;
+    private MappingComponentStructContract $mappingComponent;
 
     private \Throwable $throwable;
 

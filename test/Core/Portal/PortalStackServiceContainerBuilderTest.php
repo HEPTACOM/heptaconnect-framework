@@ -71,7 +71,6 @@ use Symfony\Component\DependencyInjection\Reference;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Parallelization\Support\ResourceLockFacade
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PathMethodsTrait
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection
  */
 final class PortalStackServiceContainerBuilderTest extends TestCase

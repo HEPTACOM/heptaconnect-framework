@@ -16,7 +16,7 @@ final class RouteAddDefault implements AttachmentAwareInterface, AuditableDataAw
     /**
      * @var string[]
      */
-    protected array $capabilities;
+    private array $capabilities;
 
     /**
      * @param string[] $capabilities

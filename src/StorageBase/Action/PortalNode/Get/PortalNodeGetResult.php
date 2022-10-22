@@ -14,9 +14,9 @@ final class PortalNodeGetResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    protected PortalNodeKeyInterface $portalNodeKey;
+    private PortalNodeKeyInterface $portalNodeKey;
 
-    protected ClassStringReferenceContract $portalClass;
+    private ClassStringReferenceContract $portalClass;
 
     public function __construct(PortalNodeKeyInterface $portalNodeKey, ClassStringReferenceContract $portalClass)
     {

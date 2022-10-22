@@ -212,6 +212,9 @@ abstract class RouteTestContract extends TestCase
         ])));
     }
 
+    /**
+     * Validates that deleting portals will also delete routes.
+     */
     public function testRouteLifecycleWithDeletedPortalNodes(): void
     {
         $createPayloads = new RouteCreatePayloads();

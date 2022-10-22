@@ -9,9 +9,6 @@ use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException;
 
-/**
- * @extends DatasetEntityCollection<DatasetEntityContract>
- */
 final class TypedDatasetEntityCollection extends DatasetEntityCollection
 {
     private EntityType $type;

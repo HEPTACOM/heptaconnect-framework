@@ -90,12 +90,21 @@ abstract class IdentityMappingTestContract extends TestCase
     {
         $facade = $this->createStorageFacade();
         $portalNodeDelete = $facade->getPortalNodeDeleteAction();
+        $deleteCriteria = new PortalNodeDeleteCriteria(new PortalNodeKeyCollection());
 
-        $portalNodeDelete->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([
-            $this->portalA,
-            $this->portalB,
-            $this->portalC,
-        ])));
+        if ($this->portalA instanceof PortalNodeKeyInterface) {
+            $deleteCriteria->getPortalNodeKeys()->push([$this->portalA]);
+        }
+
+        if ($this->portalB instanceof PortalNodeKeyInterface) {
+            $deleteCriteria->getPortalNodeKeys()->push([$this->portalB]);
+        }
+
+        if ($this->portalC instanceof PortalNodeKeyInterface) {
+            $deleteCriteria->getPortalNodeKeys()->push([$this->portalC]);
+        }
+
+        $portalNodeDelete->delete($deleteCriteria);
         $this->portalA = null;
         $this->portalB = null;
         $this->portalC = null;
@@ -178,6 +187,9 @@ abstract class IdentityMappingTestContract extends TestCase
     }
 
     /**
+     * Test transformation of entity primary keys through the identity storage of mapping and mappings nodes.
+     * The focus is on finding matches mappings on both portal nodes..
+     *
      * @param class-string<DatasetEntityContract> $entityClass
      * @dataProvider provideEntityClasses
      */
@@ -306,23 +318,22 @@ abstract class IdentityMappingTestContract extends TestCase
 
             switch ($identifiedEntity->getPrimaryKey()) {
                 case $sourceId1:
-                    $targetId = $targetId1;
+                    $identityPersistPayloadCollection->push([
+                        new IdentityPersistCreatePayload($mappingNodeKey, $targetId1),
+                    ]);
                     $switchCases[0] = true;
 
                     break;
                 case $sourceId2:
-                    $targetId = $targetId2;
+                    $identityPersistPayloadCollection->push([
+                        new IdentityPersistCreatePayload($mappingNodeKey, $targetId2),
+                    ]);
                     $switchCases[1] = true;
 
                     break;
                 default:
                     static::fail('Entity was not identified correctly.');
             }
-
-            static::assertIsString($targetId);
-            $identityPersistPayloadCollection->push([
-                new IdentityPersistCreatePayload($mappingNodeKey, $targetId),
-            ]);
         }
 
         static::assertCount(2, $identityPersistPayloadCollection);
@@ -460,9 +471,6 @@ abstract class IdentityMappingTestContract extends TestCase
      */
     abstract protected function createStorageFacade(): StorageFacadeInterface;
 
-    /**
-     * @param DatasetEntityCollection<DatasetEntityContract> $datasetEntityCollection
-     */
     private function identifyEntities(
         PortalNodeKeyInterface $portal,
         DatasetEntityCollection $datasetEntityCollection

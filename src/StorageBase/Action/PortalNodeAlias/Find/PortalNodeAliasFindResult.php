@@ -15,9 +15,9 @@ final class PortalNodeAliasFindResult implements AttachmentAwareInterface
 
     private PortalNodeKeyInterface $portalNodeKey;
 
-    private ?string $alias;
+    private string $alias;
 
-    public function __construct(PortalNodeKeyInterface $portalNodeKey, ?string $alias)
+    public function __construct(PortalNodeKeyInterface $portalNodeKey, string $alias)
     {
         $this->attachments = new AttachmentCollection();
         $this->portalNodeKey = $portalNodeKey;
@@ -29,7 +29,7 @@ final class PortalNodeAliasFindResult implements AttachmentAwareInterface
         return $this->portalNodeKey;
     }
 
-    public function getAlias(): ?string
+    public function getAlias(): string
     {
         return $this->alias;
     }

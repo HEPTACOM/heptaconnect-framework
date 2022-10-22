@@ -96,7 +96,7 @@ final class PackageConfigurationLoader implements Contract\PackageConfigurationL
 
             $localRepository = $composer->getRepositoryManager()->getLocalRepository();
 
-            if (\method_exists($localRepository, 'getDevMode') && $localRepository->getDevMode()) {
+            if ($localRepository->getDevMode() ?? false) {
                 $packageDevLockData = (array) ($locker->getLockData()['packages-dev'] ?? []);
                 $packageDevLockData = \array_filter($packageDevLockData, 'is_array');
 
@@ -123,7 +123,7 @@ final class PackageConfigurationLoader implements Contract\PackageConfigurationL
         CompletePackageInterface $package,
         ?string $workingDir
     ): iterable {
-        $classLoader = $composer->getAutoloadGenerator()->createLoader($package->getAutoload() ?? []);
+        $classLoader = $composer->getAutoloadGenerator()->createLoader($package->getAutoload());
         $installPath = $composer->getInstallationManager()->getInstallPath($package);
 
         foreach ($classLoader->getPrefixesPsr4() as $namespace => $dirs) {
@@ -166,9 +166,13 @@ final class PackageConfigurationLoader implements Contract\PackageConfigurationL
             }
         }
 
+        \assert(\is_string($workingDir));
+
         foreach ($this->iteratePackages($composer) as $packageInstance) {
+            /** @var array|null $keywords */
+            $keywords = $packageInstance->getKeywords();
             $heptaconnectKeywords = \array_filter(
-                $packageInstance->getKeywords() ?? [],
+                $keywords ?? [],
                 static fn (string $keyword): bool => \str_starts_with($keyword, 'heptaconnect-')
             );
 
@@ -194,7 +198,7 @@ final class PackageConfigurationLoader implements Contract\PackageConfigurationL
         $config->setName($packageInstance->getName());
         $config->setTags(new StringCollection($heptaconnectKeywords));
 
-        $extra = $packageInstance->getExtra() ?? [];
+        $extra = $packageInstance->getExtra();
         $heptaconnect = (array) ($extra['heptaconnect'] ?? []);
 
         if ($heptaconnect !== []) {

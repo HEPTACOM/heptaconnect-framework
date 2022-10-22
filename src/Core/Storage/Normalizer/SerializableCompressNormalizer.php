@@ -21,9 +21,18 @@ final class SerializableCompressNormalizer implements NormalizerInterface
         return $this->serializableNormalizer->getType() . '+gzpress';
     }
 
-    public function normalize($object, $format = null, array $context = [])
+    /**
+     * @param string|null $format
+     */
+    public function normalize($object, $format = null, array $context = []): string
     {
-        $result = \gzcompress($this->serializableNormalizer->normalize($object, $format, $context));
+        $normalizedValue = $this->serializableNormalizer->normalize($object, $format, $context);
+
+        if (!\is_string($normalizedValue)) {
+            throw new GzipCompressException(1637432096);
+        }
+
+        $result = \gzcompress($normalizedValue);
 
         if (!\is_string($result)) {
             throw new GzipCompressException(1637432095);
@@ -32,6 +41,9 @@ final class SerializableCompressNormalizer implements NormalizerInterface
         return $result;
     }
 
+    /**
+     * @param string|null $format
+     */
     public function supportsNormalization($data, $format = null)
     {
         return $this->serializableNormalizer->supportsNormalization($data, $format);

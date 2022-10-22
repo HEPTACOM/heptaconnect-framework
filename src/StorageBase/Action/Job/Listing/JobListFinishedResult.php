@@ -13,7 +13,7 @@ final class JobListFinishedResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    protected JobKeyInterface $jobKey;
+    private JobKeyInterface $jobKey;
 
     public function __construct(JobKeyInterface $jobKey)
     {

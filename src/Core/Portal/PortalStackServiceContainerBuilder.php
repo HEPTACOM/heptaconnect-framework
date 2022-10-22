@@ -181,7 +181,9 @@ final class PortalStackServiceContainerBuilder implements PortalStackServiceCont
             $this->tagDefinitionSource($newDefinitions, ReceiverContract::class, self::RECEIVER_SOURCE_TAG, $packageClass);
             $this->tagDefinitionSource($newDefinitions, StatusReporterContract::class, self::STATUS_REPORTER_SOURCE_TAG, $packageClass);
             $this->tagDefinitionSource($newDefinitions, HttpHandlerContract::class, self::WEB_HTTP_HANDLER_SOURCE_TAG, $packageClass);
-            $flowBuilderFiles[$packageClass] = \glob($flowComponentsPath . \DIRECTORY_SEPARATOR . '*.php') ?: [];
+
+            $globMatches = \glob($flowComponentsPath . \DIRECTORY_SEPARATOR . '*.php');
+            $flowBuilderFiles[$packageClass] = $globMatches !== false ? $globMatches : [];
         }
 
         foreach ($containerBuilder->getDefinitions() as $definition) {
@@ -229,13 +231,18 @@ final class PortalStackServiceContainerBuilder implements PortalStackServiceCont
             PublisherInterface::class => $this->publisher,
             HttpHandlerUrlProviderInterface::class => $this->httpHandlerUrlProviderFactory->factory($portalNodeKey),
             FileReferenceFactoryContract::class => $fileReferenceFactory,
-            FileReferenceResolverContract::class => $this->fileReferenceResolver,
         ]);
         $containerBuilder->setAlias(\get_class($portal), PortalContract::class);
 
         if ($this->directEmissionFlow instanceof DirectEmissionFlowContract) {
             $this->setSyntheticServices($containerBuilder, [
                 DirectEmissionFlowContract::class => $this->directEmissionFlow,
+            ]);
+        }
+
+        if ($this->fileReferenceResolver instanceof FileReferenceResolverContract) {
+            $this->setSyntheticServices($containerBuilder, [
+                FileReferenceResolverContract::class => $this->fileReferenceResolver,
             ]);
         }
 
@@ -403,17 +410,16 @@ final class PortalStackServiceContainerBuilder implements PortalStackServiceCont
     }
 
     /**
-     * @param object[] $services
+     * @param array<class-string, object> $services
      */
     private function setSyntheticServices(ContainerBuilder $containerBuilder, array $services): void
     {
         foreach ($services as $id => $service) {
-            $definitionId = (string) $id;
-            $containerBuilder->set($definitionId, $service);
+            $containerBuilder->set($id, $service);
             $definition = (new Definition())
                 ->setSynthetic(true)
                 ->setClass(\get_class($service));
-            $containerBuilder->setDefinition($definitionId, $definition);
+            $containerBuilder->setDefinition($id, $definition);
         }
     }
 }

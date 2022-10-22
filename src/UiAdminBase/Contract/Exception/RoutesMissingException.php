@@ -13,11 +13,11 @@ final class RoutesMissingException extends \InvalidArgumentException implements 
     public function __construct(RouteKeyCollection $routeKeys, int $code, ?\Throwable $previous = null)
     {
         parent::__construct('The given route keys do not exist', $code, $previous);
-        $this->routeKey = $routeKeys;
+        $this->routeKeys = $routeKeys;
     }
 
     public function getRouteKeys(): RouteKeyCollection
     {
-        return $this->routeKey;
+        return $this->routeKeys;
     }
 }

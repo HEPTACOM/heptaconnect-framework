@@ -7,6 +7,7 @@ namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalNodeContainerFacade;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
+use Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEmitter;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarExplorer;
@@ -35,6 +36,7 @@ use Psr\Container\ContainerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditTrail
  * @covers \Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalNodeContainerFacade
+ * @covers \Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
@@ -94,9 +96,10 @@ final class PortalNodeEntityListUiTest extends TestCase
             []
         );
 
-        $container->method('get')->willReturnCallback(static fn (string $id) => [
+        $container->method('get')->willReturnCallback(fn (string $id) => [
             FlowComponentRegistry::class => $flowComponentRegistry,
-        ][$id]);
+            HttpMiddlewareCollector::class => new HttpMiddlewareCollector([]),
+        ][$id] ?? $this->createMock($id));
         $portalStackServiceContainerFactory->method('create')->willReturn(new PortalNodeContainerFacade($container));
 
         $explorerCodeOriginFinder = $this->createMock(ExplorerCodeOriginFinderInterface::class);

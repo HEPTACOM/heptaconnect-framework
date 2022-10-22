@@ -30,21 +30,15 @@ use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract;
 use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class FlowComponent implements LoggerAwareInterface
+final class FlowComponent implements LoggerAwareInterface
 {
-    use LoggerAwareTrait;
-
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
+    private LoggerInterface $logger;
 
     /**
      * @var ExplorerToken[]
@@ -273,6 +267,11 @@ class FlowComponent implements LoggerAwareInterface
         self::$receiverTokens = [];
         self::$statusReporterTokens = [];
         self::$httpHandlerTokens = [];
+    }
+
+    public function setLogger(LoggerInterface $logger): void
+    {
+        $this->logger = $logger;
     }
 
     private function logImplementationConflict(string $builder, string $method, string $dropped): void

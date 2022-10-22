@@ -4,35 +4,39 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base;
 
+use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\EntityType;
+use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Dataset\Base\Support\ForeignKeyTrait;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsharableOwnerException;
 
-final class PrimaryKeySharingMappingStruct implements AttachableInterface, ForeignKeyAwareInterface, MappingInterface
+final class PrimaryKeySharingMappingStruct implements AttachmentAwareInterface, AttachableInterface, ForeignKeyAwareInterface, MappingInterface
 {
+    use AttachmentAwareTrait;
     use ForeignKeyTrait;
 
     /**
      * @var class-string<DatasetEntityContract>
      */
-    protected string $entityType;
+    private string $entityType;
 
-    protected ?string $externalId = null;
+    private ?string $externalId = null;
 
-    protected PortalNodeKeyInterface $portalNodeKey;
+    private PortalNodeKeyInterface $portalNodeKey;
 
-    protected MappingNodeKeyInterface $mappingNodeKey;
+    private MappingNodeKeyInterface $mappingNodeKey;
 
     /**
      * @var DatasetEntityContract[]
      */
-    protected $owners = [];
+    private $owners = [];
 
     public function __construct(
         EntityType $entityType,
@@ -40,6 +44,7 @@ final class PrimaryKeySharingMappingStruct implements AttachableInterface, Forei
         PortalNodeKeyInterface $portalNodeKey,
         MappingNodeKeyInterface $mappingNodeKey
     ) {
+        $this->attachments = new AttachmentCollection();
         $this->entityType = (string) $entityType;
         $this->externalId = $externalId;
         $this->portalNodeKey = $portalNodeKey;

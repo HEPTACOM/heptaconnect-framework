@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract::class` as factory method to create an instance of `\Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionType` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Wrap `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract::supports` in new method `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract::getSupportedPortal` to provide an instance of `\Heptacom\HeptaConnect\Portal\Base\Portal\SupportedPortalType` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Add `\Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerStackInterface::supports` to get the entity type of the explorer stack
+- Add `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeContextInterface::getLogger` so every context can directly access the portal node focused logger
 
 ### Changed
 
@@ -38,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change return type of `\Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection::bySupport` from `iterable` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
 - Change return type of `\Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterCollection::bySupportedTopic` from `iterable` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
 - Change return type of `\Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection::bySupport` from `iterable` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
+- Make class final: `\Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent`
 
 ### Deprecated
 
@@ -49,6 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Move `\Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack` out of this package into the `heptaconnect/core` as `\Heptacom\HeptaConnect\Core\Exploration\ExplorerStack`
 - Move `\Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack` out of this package into the `heptaconnect/core` as `\Heptacom\HeptaConnect\Core\Reception\ReceiverStack`
 - Remove `\Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection::groupByPortalNode` as usage of `\spl_object_hash` is discouraged and grouping can be solved in storage implementations more efficiently
+- Move deprecated `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PathMethodsTrait` contents into `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract`
 
 ### Fixed
 

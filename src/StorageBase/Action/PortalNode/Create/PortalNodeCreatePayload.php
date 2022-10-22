@@ -14,9 +14,9 @@ final class PortalNodeCreatePayload implements CreatePayloadInterface, Attachmen
 {
     use AttachmentAwareTrait;
 
-    protected PortalType $portalClass;
+    private PortalType $portalClass;
 
-    protected ?string $alias;
+    private ?string $alias;
 
     public function __construct(PortalType $portalClass, ?string $alias = null)
     {

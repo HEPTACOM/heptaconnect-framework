@@ -53,7 +53,7 @@ final class FinalClassesMustNotHaveProtectedFieldsAndMethodsRule implements Rule
                 $parentMethods[$name] = $name;
             }
 
-            foreach (\array_keys($interfaceRefl->getConstants()) as $constant) {
+            foreach (\array_keys($interfaceRefl->getReflectionConstants()) as $constant) {
                 $parentConsts[$constant] = $constant;
             }
 
@@ -71,7 +71,7 @@ final class FinalClassesMustNotHaveProtectedFieldsAndMethodsRule implements Rule
                 $parentMethods[$name] = $name;
             }
 
-            foreach (\array_keys($classRefl->getConstants()) as $constant) {
+            foreach (\array_keys($classRefl->getReflectionConstants()) as $constant) {
                 $parentConsts[$constant] = $constant;
             }
 

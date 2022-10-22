@@ -15,19 +15,19 @@ final class RouteOverviewResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    protected RouteKeyInterface $routeKey;
+    private RouteKeyInterface $routeKey;
 
-    protected ClassStringReferenceContract $entityType;
+    private ClassStringReferenceContract $entityType;
 
-    protected PortalNodeKeyInterface $sourcePortalNodeKey;
+    private PortalNodeKeyInterface $sourcePortalNodeKey;
 
-    protected ClassStringReferenceContract $sourcePortalClass;
+    private ClassStringReferenceContract $sourcePortalClass;
 
-    protected PortalNodeKeyInterface $targetPortalNodeKey;
+    private PortalNodeKeyInterface $targetPortalNodeKey;
 
-    protected ClassStringReferenceContract $targetPortalClass;
+    private ClassStringReferenceContract $targetPortalClass;
 
-    protected \DateTimeInterface $createdAt;
+    private \DateTimeInterface $createdAt;
 
     /**
      * @var string[]

@@ -14,11 +14,11 @@ final class PortalNodeOverviewResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    protected PortalNodeKeyInterface $portalNodeKey;
+    private PortalNodeKeyInterface $portalNodeKey;
 
-    protected ClassStringReferenceContract $portalClass;
+    private ClassStringReferenceContract $portalClass;
 
-    protected \DateTimeInterface $createdAt;
+    private \DateTimeInterface $createdAt;
 
     public function __construct(
         PortalNodeKeyInterface $portalNodeKey,

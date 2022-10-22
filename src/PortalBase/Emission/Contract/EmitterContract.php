@@ -10,8 +10,6 @@ use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityException;
-use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 
 /**
  * Base class for every emitter implementation with various boilerplate-reducing entrypoints for rapid development.
@@ -107,15 +105,10 @@ abstract class EmitterContract
             $primaryKey = $entity->getPrimaryKey();
 
             if ($primaryKey === null) {
-                /** @var LoggerInterface|null $logger */
-                $logger = $context->getContainer()->get(LoggerInterface::class);
-
-                if ($logger instanceof LoggerInterface) {
-                    $logger->error(\sprintf(
-                        'Emitter "%s" returned an entity with empty primary key. Skipping.',
-                        static::class
-                    ));
-                }
+                $context->getLogger()->error(\sprintf(
+                    'Emitter "%s" returned an entity with empty primary key. Skipping.',
+                    static::class
+                ));
 
                 continue;
             }
@@ -157,9 +150,7 @@ abstract class EmitterContract
      */
     final protected function emitCurrent(iterable $externalIds, EmitContextInterface $context): iterable
     {
-        /** @var LoggerInterface|null $logger */
-        $logger = $context->getContainer()->get(LoggerInterface::class);
-        $logger ??= new NullLogger();
+        $logger = $context->getLogger();
 
         /** @var iterable<string> $externalIds */
         $externalIds = \iterable_filter($externalIds, function (?string $externalId) use ($logger): bool {

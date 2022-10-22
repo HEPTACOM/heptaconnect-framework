@@ -15,18 +15,18 @@ final class RouteGetResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    protected RouteKeyInterface $routeKey;
+    private RouteKeyInterface $routeKey;
 
-    protected PortalNodeKeyInterface $sourcePortalNodeKey;
+    private PortalNodeKeyInterface $sourcePortalNodeKey;
 
-    protected PortalNodeKeyInterface $targetPortalNodeKey;
+    private PortalNodeKeyInterface $targetPortalNodeKey;
 
-    protected ClassStringReferenceContract $entityType;
+    private ClassStringReferenceContract $entityType;
 
     /**
      * @var string[]
      */
-    protected array $capabilities;
+    private array $capabilities;
 
     /**
      * @param string[] $capabilities

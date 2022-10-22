@@ -13,18 +13,14 @@ use Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityError
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreatePayloads;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityError\IdentityErrorCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\PrimaryKeySharingMappingStruct;
-use Psr\Log\LoggerInterface;
 
 final class MarkAsFailedPostProcessor extends PostProcessorContract
 {
     private IdentityErrorCreateActionInterface $identityErrorCreateAction;
 
-    private LoggerInterface $logger;
-
-    public function __construct(IdentityErrorCreateActionInterface $identityErrorCreateAction, LoggerInterface $logger)
+    public function __construct(IdentityErrorCreateActionInterface $identityErrorCreateAction)
     {
         $this->identityErrorCreateAction = $identityErrorCreateAction;
-        $this->logger = $logger;
     }
 
     public function handle(PostReceptionEvent $event): void
@@ -39,23 +35,27 @@ final class MarkAsFailedPostProcessor extends PostProcessorContract
             $mapping = $data->getEntity()->getAttachment(PrimaryKeySharingMappingStruct::class);
 
             if ($mapping instanceof MappingInterface) {
-                $mappingComponent = new MappingComponentStruct(
-                    $mapping->getPortalNodeKey(),
-                    $mapping->getEntityType(),
-                    $mapping->getExternalId()
-                );
-                $payload = new IdentityErrorCreatePayload($mappingComponent, $data->getThrowable());
+                $externalId = $mapping->getExternalId();
 
-                $this->identityErrorCreateAction->create(new IdentityErrorCreatePayloads([$payload]));
-            } else {
-                $logger = $event->getContext()->getContainer()->get(LoggerInterface::class) ?? $this->logger;
+                if ($externalId !== null) {
+                    $mappingComponent = new MappingComponentStruct(
+                        $mapping->getPortalNodeKey(),
+                        $mapping->getEntityType(),
+                        $externalId
+                    );
+                    $payload = new IdentityErrorCreatePayload($mappingComponent, $data->getThrowable());
 
-                $logger->error(LogMessage::MARK_AS_FAILED_ENTITY_IS_UNMAPPED(), [
-                    'throwable' => $data->getThrowable(),
-                    'data' => $data,
-                    'code' => 1637456198,
-                ]);
+                    $this->identityErrorCreateAction->create(new IdentityErrorCreatePayloads([$payload]));
+
+                    continue;
+                }
             }
+
+            $event->getContext()->getLogger()->error(LogMessage::MARK_AS_FAILED_ENTITY_IS_UNMAPPED(), [
+                'throwable' => $data->getThrowable(),
+                'data' => $data,
+                'code' => 1637456198,
+            ]);
         }
     }
 }
