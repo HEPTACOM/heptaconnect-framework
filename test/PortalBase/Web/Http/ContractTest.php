@@ -114,12 +114,7 @@ final class ContractTest extends TestCase
 
         $logger = $this->createMock(LoggerInterface::class);
         $context = $this->createMock(HttpHandleContextInterface::class);
-        $container = $this->createMock(ContainerInterface::class);
-        $context->method('getContainer')->willReturn($container);
-
-        $container->method('get')->willReturnCallback(static fn (string $id) => [
-            LoggerInterface::class => $logger,
-        ][$id] ?? null);
+        $context->method('getLogger')->willReturn($logger);
 
         $logger->expects(static::once())->method('error');
         static::assertSame('foobar', $handler->getPath());

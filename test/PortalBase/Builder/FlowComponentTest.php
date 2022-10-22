@@ -413,11 +413,9 @@ final class FlowComponentTest extends TestCase
         $logger = $this->createMock(LoggerInterface::class);
         $container = $this->createMock(ContainerInterface::class);
         $container->method('get')->willReturnCallback(static fn (string $id) => [
-            LoggerInterface::class => $logger,
             ConfigurationContract::class => new PortalConfiguration([]),
         ][$id] ?? null);
         $container->method('has')->willReturnCallback(static fn (string $id) => \in_array($id, [
-            LoggerInterface::class,
             ConfigurationContract::class,
         ], true));
 
@@ -428,10 +426,15 @@ final class FlowComponentTest extends TestCase
         $httpHandleContext = $this->createMock(HttpHandleContextInterface::class);
 
         $exploreContext->method('getContainer')->willReturn($container);
+        $exploreContext->method('getLogger')->willReturn($logger);
         $emitContext->method('getContainer')->willReturn($container);
+        $emitContext->method('getLogger')->willReturn($logger);
         $receiveContext->method('getContainer')->willReturn($container);
+        $receiveContext->method('getLogger')->willReturn($logger);
         $statusReportingContext->method('getContainer')->willReturn($container);
+        $statusReportingContext->method('getLogger')->willReturn($logger);
         $httpHandleContext->method('getContainer')->willReturn($container);
+        $httpHandleContext->method('getLogger')->willReturn($logger);
 
         $thisClasses = [];
         $supports = [];

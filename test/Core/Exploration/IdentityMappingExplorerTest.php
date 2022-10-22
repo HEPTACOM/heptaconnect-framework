@@ -66,16 +66,12 @@ final class IdentityMappingExplorerTest extends TestCase
     {
         $entityType = FooBarEntity::class();
         $identityMapAction = $this->createMock(IdentityMapActionInterface::class);
-        $container = $this->createMock(ContainerInterface::class);
         $stack = $this->createMock(ExplorerStackInterface::class);
         $context = $this->createMock(ExploreContextInterface::class);
         $batchSize = 3;
         $pks = $this->generatePrimaryKeys($batchSize * 5 + 2);
 
-        $container->method('get')->willReturnCallback(fn (string $id) => [
-            LoggerInterface::class => $this->createMock(LoggerInterface::class),
-        ][$id] ?? null);
-        $context->method('getContainer')->willReturn($container);
+        $context->method('getLogger')->willReturn($this->createMock(LoggerInterface::class));
         $identityMapAction
             ->expects(static::exactly(6))
             ->method('map')
@@ -93,7 +89,6 @@ final class IdentityMappingExplorerTest extends TestCase
     public function testConvertsPksToJobsAndDispatchesThemUntilAnExceptionIsThrown(): void
     {
         $entityType = FooBarEntity::class();
-        $container = $this->createMock(ContainerInterface::class);
         $portalNodeLogger = $this->createMock(LoggerInterface::class);
         $identityMapAction = $this->createMock(IdentityMapActionInterface::class);
         $stack = $this->createMock(ExplorerStackInterface::class);
@@ -101,10 +96,7 @@ final class IdentityMappingExplorerTest extends TestCase
         $batchSize = 3;
         $pks = $this->generatePrimaryKeys($batchSize + 2);
 
-        $container->method('get')->willReturnCallback(fn (string $id) => [
-            LoggerInterface::class => $portalNodeLogger,
-        ][$id] ?? null);
-        $context->method('getContainer')->willReturn($container);
+        $context->method('getLogger')->willReturn($portalNodeLogger);
         $identityMapAction
             ->expects(static::exactly(2))
             ->method('map')

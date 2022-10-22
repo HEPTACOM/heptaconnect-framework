@@ -102,9 +102,7 @@ abstract class ExplorerContract
                 }
             }
         } catch (\Throwable $exception) {
-            /** @var LoggerInterface $logger */
-            $logger = $context->getContainer()->get(LoggerInterface::class);
-            $logger->critical(\sprintf(
+            $context->getLogger()->critical(\sprintf(
                 'FlowComponent explorer encountered exception in exploreNext(): %s',
                 $exception->getMessage()
             ));
@@ -128,9 +126,7 @@ abstract class ExplorerContract
                 }
             }
         } catch (\Throwable $exception) {
-            /** @var LoggerInterface $logger */
-            $logger = $context->getContainer()->get(LoggerInterface::class);
-            $logger->critical(\sprintf(
+            $context->getLogger()->critical(\sprintf(
                 'FlowComponent explorer encountered exception in exploreCurrent(): %s',
                 $exception->getMessage()
             ));

@@ -10,7 +10,6 @@ use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandleContextInterfa
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack;
 use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
@@ -50,12 +49,8 @@ final class HttpHandlerStackProcessorTest extends TestCase
         $response = $this->createMock(ResponseInterface::class);
         $response->method('withStatus')->willReturnSelf();
         $actor = new HttpHandlerStackProcessor($logger);
-        $container = $this->createMock(ContainerInterface::class);
-        $container->method('get')->willReturnCallback(static fn (string $id) => [
-            LoggerInterface::class => $logger,
-        ][$id] ?? null);
         $context = $this->createMock(HttpHandleContextInterface::class);
-        $context->method('getContainer')->willReturn($container);
+        $context->method('getLogger')->willReturn($logger);
 
         $actor->processStack($request, $response, $stack, $context);
     }
