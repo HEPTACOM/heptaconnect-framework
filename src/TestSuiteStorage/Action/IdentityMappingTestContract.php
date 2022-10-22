@@ -471,9 +471,6 @@ abstract class IdentityMappingTestContract extends TestCase
      */
     abstract protected function createStorageFacade(): StorageFacadeInterface;
 
-    /**
-     * @param DatasetEntityCollection<DatasetEntityContract> $datasetEntityCollection
-     */
     private function identifyEntities(
         PortalNodeKeyInterface $portal,
         DatasetEntityCollection $datasetEntityCollection

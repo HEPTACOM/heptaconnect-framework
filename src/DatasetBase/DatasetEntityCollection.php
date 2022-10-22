@@ -8,8 +8,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 
 /**
- * @template T
- * @template-extends AbstractObjectCollection<DatasetEntityContract&T>
+ * @extends AbstractObjectCollection<DatasetEntityContract>
  */
 class DatasetEntityCollection extends AbstractObjectCollection
 {
