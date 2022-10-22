@@ -56,6 +56,7 @@ use Psr\Http\Message\RequestInterface;
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalNodeContainerFacade
  * @covers \Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry
  * @covers \Heptacom\HeptaConnect\Core\Storage\RequestStorage
+ * @covers \Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpClient
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\RequestDeserializer
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\RequestSerializer
