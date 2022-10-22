@@ -148,9 +148,14 @@ final class HttpHandleServiceTest extends TestCase
         );
 
         $container = $this->createMock(ContainerInterface::class);
-        $container->expects(static::once())->method('get')->willReturn(new HttpMiddlewareCollector([
-            $middleware,
-        ]));
+        $container->method('get')
+            ->willReturnCallback(function (string $id) use ($middleware) {
+                if ($id === HttpMiddlewareCollector::class) {
+                    return new HttpMiddlewareCollector([$middleware]);
+                }
+
+                return $this->createMock($id);
+            });
 
         $context = new HttpHandleContext(new PortalNodeContainerFacade($container), []);
         $contextFactory = $this->createMock(HttpHandleContextFactoryInterface::class);
