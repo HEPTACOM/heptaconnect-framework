@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Core\Bridge\File\PortalNodeFilesystemStreamWrapperFact
 use Heptacom\HeptaConnect\Core\File\Filesystem\StreamUriSchemePathConverter;
 use Heptacom\HeptaConnect\Core\Portal\File\Filesystem\FilesystemFactory;
 use Heptacom\HeptaConnect\Core\Portal\File\Filesystem\PathToUriConvertingStreamWrapper;
+use Heptacom\HeptaConnect\Core\Storage\Filesystem\PrefixFilesystem;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FlysystemStreamWrapper;
 use Heptacom\HeptaConnect\Core\Test\Fixture\TwistorFlysystemStreamWrapper;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -25,6 +26,9 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Core\Portal\File\Filesystem\FilesystemFactory
  * @covers \Heptacom\HeptaConnect\Core\Portal\File\Filesystem\PathToUriConvertingStreamWrapper
  * @covers \Heptacom\HeptaConnect\Core\Portal\File\Filesystem\UriToPathConvertingStreamWrapper
+ * @covers \Heptacom\HeptaConnect\Core\Storage\Filesystem\AbstractFilesystem
+ * @covers \Heptacom\HeptaConnect\Core\Storage\Filesystem\PrefixAdapter
+ * @covers \Heptacom\HeptaConnect\Core\Storage\Filesystem\PrefixFilesystem
  */
 final class FilesystemFactoryTest extends TestCase
 {
@@ -51,7 +55,9 @@ final class FilesystemFactoryTest extends TestCase
         $uriFactory = Psr17FactoryDiscovery::findUriFactory();
 
         $flysystem = new FlysystemFilesystem(new Local($fixtureFolder));
+        $flysystem = new PrefixFilesystem($flysystem, 'prefix');
         $flyProtocol = TwistorFlysystemStreamWrapper::registerFilesystem($flysystem);
+        $fixtureFolder .= '/prefix';
 
         $flysystemStreamWrapper = new TwistorFlysystemStreamWrapper();
         $flysystemStreamWrapper->setFilesystem($flysystem);
