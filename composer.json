@@ -60,7 +60,8 @@
         "league/flysystem": "^1.1",
         "nyholm/psr7": ">=1",
         "php-http/curl-client": ">=2",
-        "symfony/cache": ">=3.2"
+        "symfony/cache": ">=3.2",
+        "twistor/flysystem-stream-wrapper": "^1"
     },
     "replace": {
         "heptacom/heptaconnect-core": "*",
