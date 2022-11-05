@@ -1,0 +1,44 @@
+{
+    "name": "heptacom-fixture/heptaconnect-test-suite-portal-test-portal",
+    "description": "Fixture",
+    "type": "library",
+    "keywords": [
+        "heptaconnect-portal",
+        "testing"
+    ],
+    "require": {
+        "php": ">=7.4",
+        "heptacom/heptaconnect-portal-base": "@dev"
+    },
+    "require-dev": {
+        "heptacom/heptaconnect-framework": "@dev",
+        "heptacom/heptaconnect-test-suite-storage": "@dev",
+        "phpunit/phpunit": ">=9.3 <10",
+        "symfony/cache": "^5",
+        "php-http/discovery": "^1.11",
+        "nyholm/psr7": "^1"
+    },
+    "repositories": {
+        "heptaconnect-sources": {
+            "type": "path",
+            "url": ".."
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "HeptacomFixture\\TestSuitePortal\\TestPortal\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "HeptacomFixture\\TestSuitePortal\\TestPortal\\Test\\": "test/"
+        }
+    },
+    "extra": {
+        "heptaconnect": {
+            "portals": [
+                "HeptacomFixture\\TestSuitePortal\\TestPortal\\TestPortal"
+            ]
+        }
+    }
+}

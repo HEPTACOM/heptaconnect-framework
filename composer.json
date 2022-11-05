@@ -68,6 +68,7 @@
         "heptacom/heptaconnect-dataset-base": "*",
         "heptacom/heptaconnect-portal-base": "*",
         "heptacom/heptaconnect-storage-base": "*",
+        "heptacom/heptaconnect-test-suite-portal": "*",
         "heptacom/heptaconnect-test-suite-storage": "*"
     },
     "conflict": {
