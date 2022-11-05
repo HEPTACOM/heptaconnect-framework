@@ -8,8 +8,8 @@ use League\Flysystem\AdapterInterface;
 use Twistor\Flysystem\Plugin\Stat;
 
 /**
- * @link https://github.com/kor3k/flysystem-stream-wrapper/blob/master/src/Flysystem/Plugin/Stat.php
- * @link https://github.com/kor3k/flysystem-stream-wrapper/commit/d02293ad90c219474c0fae10249a642b645c3b8e
+ * @see https://github.com/kor3k/flysystem-stream-wrapper/blob/master/src/Flysystem/Plugin/Stat.php
+ * @see https://github.com/kor3k/flysystem-stream-wrapper/commit/d02293ad90c219474c0fae10249a642b645c3b8e
  */
 final class TwistorFlysystemPluginStat extends Stat
 {
@@ -48,7 +48,7 @@ final class TwistorFlysystemPluginStat extends Stat
         $ret['mode'] = $metadata['type'] === 'dir' ? 040000 : 0100000;
         $visibility = $metadata['visibility'];
 
-        if ($visibility != AdapterInterface::VISIBILITY_PUBLIC && $visibility != AdapterInterface::VISIBILITY_PRIVATE) {
+        if ($visibility !== AdapterInterface::VISIBILITY_PUBLIC && $visibility !== AdapterInterface::VISIBILITY_PRIVATE) {
             $visibility = $this->normalizePermissions($visibility) & 0044 ? AdapterInterface::VISIBILITY_PUBLIC : AdapterInterface::VISIBILITY_PRIVATE;
         }
 

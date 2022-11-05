@@ -197,7 +197,7 @@ abstract class AbstractTestCase extends TestCase
     protected function createRandomTemporaryDirectory(): string
     {
         $tempDir = \rtrim(\sys_get_temp_dir(), '/\\');
-        $result = $tempDir . DIRECTORY_SEPARATOR . 'heptaconnect-test-suite-portal' . DIRECTORY_SEPARATOR . \bin2hex(\random_bytes(32));
+        $result = $tempDir . \DIRECTORY_SEPARATOR . 'heptaconnect-test-suite-portal' . \DIRECTORY_SEPARATOR . \bin2hex(\random_bytes(32));
 
         \mkdir($result, 0777, true);
 
