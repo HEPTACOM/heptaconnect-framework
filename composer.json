@@ -27,6 +27,7 @@
         "ext-mbstring": "*",
         "ext-zlib": "*",
         "bentools/iterable-functions": ">=1.4 <2",
+        "brzuchal/filesystem-stream-wrapper": "^0.9",
         "composer/composer": ">=1.9",
         "league/flysystem": "^1",
         "myclabs/deep-copy": ">=1.10 <2",

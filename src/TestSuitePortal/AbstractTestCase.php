@@ -9,9 +9,15 @@ use Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader;
 use Heptacom\HeptaConnect\Core\Configuration\ConfigurationService;
 use Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface;
 use Heptacom\HeptaConnect\Core\Configuration\Contract\PortalNodeConfigurationProcessorInterface;
+use Heptacom\HeptaConnect\Core\File\Filesystem\StreamUriSchemePathConverter;
+use Heptacom\HeptaConnect\Core\File\Filesystem\StreamWrapperRegistry;
 use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
 use Heptacom\HeptaConnect\Core\Portal\Contract\PortalRegistryInterface;
 use Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface;
+use Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Contract\FilesystemFactoryInterface;
+use Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Filesystem;
+use Heptacom\HeptaConnect\Core\Portal\File\Filesystem\PathToUriConvertingStreamWrapper;
+use Heptacom\HeptaConnect\Core\Portal\File\Filesystem\UriToPathConvertingStreamWrapper;
 use Heptacom\HeptaConnect\Core\Portal\PortalFactory;
 use Heptacom\HeptaConnect\Core\Portal\PortalRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder;
@@ -35,6 +41,8 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\P
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
+use Heptacom\HeptaConnect\TestSuite\Portal\Filesystem\BrzuchalStreamWrapper;
+use Http\Discovery\Psr17FactoryDiscovery;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Symfony\Component\Cache\Adapter\NullAdapter;
@@ -121,6 +129,7 @@ abstract class AbstractTestCase extends TestCase
             $services[PublisherInterface::class] ?? $this->createMock(PublisherInterface::class),
             $services[HttpHandlerUrlProviderFactoryInterface::class] ?? $httpHandlerUrlProviderFactory,
             $services[RequestStorageContract::class] ?? $this->createMock(RequestStorageContract::class),
+            $services[FilesystemFactoryInterface::class] ?? $this->createFilesystemFactoryForDirectory($this->createRandomTemporaryDirectory()),
         );
 
         $builder->setDirectEmissionFlow(
@@ -155,5 +164,43 @@ abstract class AbstractTestCase extends TestCase
     protected function getProfilerFactory(): ProfilerFactoryContract
     {
         return $this->createMock(ProfilerFactoryContract::class);
+    }
+
+    protected function createFilesystemFactoryForDirectory(string $rootDirectory): FilesystemFactoryInterface
+    {
+        $result = $this->createMock(FilesystemFactoryInterface::class);
+        $result->method('create')->willReturnCallback(static function () use ($rootDirectory) {
+            StreamWrapperRegistry::deregister('portal-node');
+            \FilesystemStreamWrapper::register('portal-test-local', $rootDirectory);
+            \stream_wrapper_unregister('portal-test-local');
+
+            $uriFactory = Psr17FactoryDiscovery::findUriFactory();
+            $localstream = new BrzuchalStreamWrapper();
+            $localstream->setDecorated(new \FilesystemStreamWrapper());
+
+            $pathToUri = new PathToUriConvertingStreamWrapper();
+            $pathToUri->setConverter(new StreamUriSchemePathConverter($uriFactory, 'portal-test-local'));
+            $pathToUri->setDecorated($localstream);
+
+            $uriToPath = new UriToPathConvertingStreamWrapper();
+            $uriToPath->setConverter(new StreamUriSchemePathConverter($uriFactory, 'portal-node'));
+            $uriToPath->setDecorated($pathToUri);
+
+            StreamWrapperRegistry::register('portal-node', $uriToPath);
+
+            return new Filesystem(new StreamUriSchemePathConverter($uriFactory, 'portal-node'));
+        });
+
+        return $result;
+    }
+
+    protected function createRandomTemporaryDirectory(): string
+    {
+        $tempDir = \rtrim(\sys_get_temp_dir(), '/\\');
+        $result = $tempDir . DIRECTORY_SEPARATOR . 'heptaconnect-test-suite-portal' . DIRECTORY_SEPARATOR . \bin2hex(\random_bytes(32));
+
+        \mkdir($result, 0777, true);
+
+        return $result;
     }
 }

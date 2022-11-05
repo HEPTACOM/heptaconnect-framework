@@ -6,6 +6,7 @@ namespace Heptacom\HeptaConnect\Core\Test\Portal;
 
 use Composer\Autoload\ClassLoader;
 use Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface;
+use Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Contract\FilesystemFactoryInterface;
 use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder;
 use Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory;
@@ -15,6 +16,7 @@ use Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector;
 use Heptacom\HeptaConnect\Core\Test\Fixture\HttpClientInterfaceDecorator;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface;
 use Heptacom\HeptaConnect\Portal\Base\File\FileReferenceResolverContract;
+use Heptacom\HeptaConnect\Portal\Base\File\Filesystem\Contract\FilesystemInterface;
 use Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract;
 use Heptacom\HeptaConnect\Portal\Base\Parallelization\Contract\ResourceLockingContract;
 use Heptacom\HeptaConnect\Portal\Base\Parallelization\Support\ResourceLockFacade;
@@ -40,7 +42,7 @@ use HeptacomFixture\Portal\A\Dto\ShouldNotBeAService;
 use HeptacomFixture\Portal\A\ManualService\ExceptionInContainer;
 use HeptacomFixture\Portal\A\Portal;
 use HeptacomFixture\Portal\Extension\PortalExtension;
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemInterface as FlysystemFilesystemInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -106,6 +108,7 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
         static::assertTrue($container->has(DeepObjectIteratorContract::class));
         static::assertTrue($container->has(DirectEmissionFlowContract::class));
         static::assertTrue($container->has(FilesystemInterface::class));
+        static::assertTrue($container->has(FlysystemFilesystemInterface::class));
         static::assertTrue($container->has(LoggerInterface::class));
         static::assertTrue($container->has(NormalizationRegistryContract::class));
         static::assertTrue($container->has(PortalContract::class));
@@ -233,6 +236,7 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
             $this->createMock(PublisherInterface::class),
             $httpHandlerUrlProviderFactory,
             $this->createMock(RequestStorageContract::class),
+            $this->createMock(FilesystemFactoryInterface::class),
         );
         $builder->setDirectEmissionFlow($this->createMock(DirectEmissionFlowContract::class));
         $builder->setFileReferenceResolver($this->createMock(FileReferenceResolverContract::class));
