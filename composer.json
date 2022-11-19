@@ -29,7 +29,7 @@
         "bentools/iterable-functions": ">=1.4 <2",
         "brzuchal/filesystem-stream-wrapper": "^0.9",
         "composer/composer": ">=1.9",
-        "league/flysystem": "^1",
+        "league/flysystem": "^1.1",
         "myclabs/deep-copy": ">=1.10 <2",
         "opis/closure": "^3.6",
         "php-http/discovery": "^1.11",
@@ -58,11 +58,10 @@
     },
     "require-dev": {
         "infection/infection": ">=0.21",
-        "league/flysystem": "^1.1",
+        "kor3k/flysystem-stream-wrapper": "^1.0.11",
         "nyholm/psr7": ">=1",
         "php-http/curl-client": ">=2",
-        "symfony/cache": ">=3.2",
-        "twistor/flysystem-stream-wrapper": "^1.0.8"
+        "symfony/cache": ">=3.2"
     },
     "replace": {
         "heptacom/heptaconnect-core": "*",
