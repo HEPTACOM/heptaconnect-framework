@@ -42,10 +42,5 @@
             "infection/extension-installer": true
         }
     },
-    "extra": {
-        "unused": [
-            "bentools/iterable-functions"
-        ]
-    },
     "website": "https://heptaconnect.io"
 }

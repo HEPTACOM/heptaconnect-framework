@@ -57,12 +57,5 @@
             "infection/extension-installer": true
         }
     },
-    "extra": {
-        "unused": [
-            "bentools/iterable-functions",
-            "psr/http-server-handler",
-            "psr/http-server-middleware"
-        ]
-    },
     "website": "https://heptaconnect.io"
 }

@@ -95,12 +95,12 @@ cs-phpcpd: vendor .build $(PHPCPD_FILE) ## Run php copy paste detector for stati
 
 .PHONY: cs-composer-unused
 cs-composer-unused: vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to detect once-required packages that are not used anymore
-	$(PHP) $(COMPOSER_UNUSED_FILE) --no-progress
-	cd src/Core && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
+	$(PHP) $(COMPOSER_UNUSED_FILE) --configuration=dev-ops/composer-unused.php --no-progress
+	cd src/Core && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --configuration=../../dev-ops/composer-unused.php --no-progress
 	cd src/DatasetBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
-	cd src/PortalBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
+	cd src/PortalBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --configuration=../../dev-ops/composer-unused-portal-base.php --no-progress
 	cd src/StorageBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
-	cd src/TestSuitePortal && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
+# TODO add portal test suite
 	cd src/TestSuiteStorage && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
 	cd src/UiAdminBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
 
@@ -195,6 +195,13 @@ $(PHPCHURN_FILE): ## Install php-churn executable
 .PHONY: composer-update
 composer-update:
 	[[ -f vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) update
+	[[ -f src/Core/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) install -d src/Core
+	[[ -f src/DatasetBase/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) install -d src/DatasetBase
+	[[ -f src/PortalBase/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) install -d src/PortalBase
+	[[ -f src/StorageBase/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) install -d src/StorageBase
+# TODO add portal test suite
+	[[ -f src/TestSuiteStorage/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) install -d src/TestSuiteStorage
+	[[ -f src/UiAdminBase/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) install -d src/UiAdminBase
 
 vendor: composer-update
 
