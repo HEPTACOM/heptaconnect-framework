@@ -86,6 +86,14 @@ cs-phpmd: vendor .build $(PHPMD_FILE) ## Run php mess detector for static code a
 
 .PHONY: cs-phpcpd
 cs-phpcpd: vendor .build $(PHPCPD_FILE) ## Run php copy paste detector for static code analysis
+	# clean up because phpcpd --exclude is not working atm https://github.com/sebastianbergmann/phpcpd/issues/202
+	[[ ! -d src/Core/vendor ]] || rm -rf src/Core/vendor
+	[[ ! -d src/DatasetBase/vendor ]] || rm -rf src/DatasetBase/vendor
+	[[ ! -d src/PortalBase/vendor ]] || rm -rf src/PortalBase/vendor
+	[[ ! -d src/StorageBase/vendor ]] || rm -rf src/StorageBase/vendor
+    # TODO add portal test suite
+	[[ ! -d src/TestSuiteStorage/vendor ]] || rm -rf src/TestSuiteStorage/vendor
+	[[ ! -d src/UiAdminBase/vendor ]] || rm -rf src/UiAdminBase/vendor
 	$(PHP) $(PHPCPD_FILE) --fuzzy src/Core
 	$(PHP) $(PHPCPD_FILE) --fuzzy src/DatasetBase
 	$(PHP) $(PHPCPD_FILE) --fuzzy src/PortalBase
@@ -94,7 +102,7 @@ cs-phpcpd: vendor .build $(PHPCPD_FILE) ## Run php copy paste detector for stati
 	$(PHP) $(PHPCPD_FILE) --fuzzy src/UiAdminBase
 
 .PHONY: cs-composer-unused
-cs-composer-unused: vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to detect once-required packages that are not used anymore
+cs-composer-unused: vendor src/Core/vendor src/DatasetBase/vendor src/PortalBase/vendor src/StorageBase/vendor src/TestSuiteStorage/vendor src/UiAdminBase/vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to detect once-required packages that are not used anymore
 	$(PHP) $(COMPOSER_UNUSED_FILE) --configuration=dev-ops/composer-unused.php --no-progress
 	cd src/Core && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --configuration=../../dev-ops/composer-unused.php --no-progress
 	cd src/DatasetBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
@@ -195,13 +203,25 @@ $(PHPCHURN_FILE): ## Install php-churn executable
 .PHONY: composer-update
 composer-update:
 	[[ -f vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) update
-	[[ -f src/Core/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) install -d src/Core
-	[[ -f src/DatasetBase/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) install -d src/DatasetBase
-	[[ -f src/PortalBase/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) install -d src/PortalBase
-	[[ -f src/StorageBase/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) install -d src/StorageBase
+
+src/Core/vendor:
+	[[ -f src/Core/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) update -d src/Core
+
+src/DatasetBase/vendor:
+	[[ -f src/DatasetBase/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) update -d src/DatasetBase
+
+src/PortalBase/vendor:
+	[[ -f src/PortalBase/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) update -d src/PortalBase
+
+src/StorageBase/vendor:
+	[[ -f src/StorageBase/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) update -d src/StorageBase
 # TODO add portal test suite
-	[[ -f src/TestSuiteStorage/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) install -d src/TestSuiteStorage
-	[[ -f src/UiAdminBase/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) install -d src/UiAdminBase
+
+src/TestSuiteStorage/vendor:
+	[[ -f src/TestSuiteStorage/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) update -d src/TestSuiteStorage
+
+src/UiAdminBase/vendor:
+	[[ -f src/UiAdminBase/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) update -d src/UiAdminBase
 
 vendor: composer-update
 
