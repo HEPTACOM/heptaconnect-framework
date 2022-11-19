@@ -9,15 +9,13 @@ use Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader;
 use Heptacom\HeptaConnect\Core\Configuration\ConfigurationService;
 use Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface;
 use Heptacom\HeptaConnect\Core\Configuration\Contract\PortalNodeConfigurationProcessorInterface;
+use Heptacom\HeptaConnect\Core\File\Filesystem\RewritePathStreamWrapper;
 use Heptacom\HeptaConnect\Core\File\Filesystem\StreamUriSchemePathConverter;
-use Heptacom\HeptaConnect\Core\File\Filesystem\StreamWrapperRegistry;
 use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
 use Heptacom\HeptaConnect\Core\Portal\Contract\PortalRegistryInterface;
 use Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface;
 use Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Contract\FilesystemFactoryInterface;
 use Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Filesystem;
-use Heptacom\HeptaConnect\Core\Portal\File\Filesystem\PathToUriConvertingStreamWrapper;
-use Heptacom\HeptaConnect\Core\Portal\File\Filesystem\UriToPathConvertingStreamWrapper;
 use Heptacom\HeptaConnect\Core\Portal\PortalFactory;
 use Heptacom\HeptaConnect\Core\Portal\PortalRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder;
@@ -41,7 +39,6 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\P
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
-use Heptacom\HeptaConnect\TestSuite\Portal\Filesystem\BrzuchalStreamWrapper;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -170,25 +167,26 @@ abstract class AbstractTestCase extends TestCase
     {
         $result = $this->createMock(FilesystemFactoryInterface::class);
         $result->method('create')->willReturnCallback(static function () use ($rootDirectory) {
-            StreamWrapperRegistry::deregister('portal-node');
+            if (\in_array('portal-node', \stream_get_wrappers(), true)) {
+                \stream_wrapper_unregister('portal-node');
+            }
+
+            if (\in_array('portal-test-local', \stream_get_wrappers(), true)) {
+                \stream_wrapper_unregister('portal-test-local');
+            }
+
             \FilesystemStreamWrapper::register('portal-test-local', $rootDirectory);
-            \stream_wrapper_unregister('portal-test-local');
 
-            $uriFactory = Psr17FactoryDiscovery::findUriFactory();
-            $localstream = new BrzuchalStreamWrapper();
-            $localstream->setDecorated(new \FilesystemStreamWrapper());
+            \stream_wrapper_register('portal-node', RewritePathStreamWrapper::class);
+            \stream_context_set_default([
+                'portal-node' => [
+                    'protocol' => [
+                        'set' => 'portal-test-local',
+                    ],
+                ],
+            ]);
 
-            $pathToUri = new PathToUriConvertingStreamWrapper();
-            $pathToUri->setConverter(new StreamUriSchemePathConverter($uriFactory, 'portal-test-local'));
-            $pathToUri->setDecorated($localstream);
-
-            $uriToPath = new UriToPathConvertingStreamWrapper();
-            $uriToPath->setConverter(new StreamUriSchemePathConverter($uriFactory, 'portal-node'));
-            $uriToPath->setDecorated($pathToUri);
-
-            StreamWrapperRegistry::register('portal-node', $uriToPath);
-
-            return new Filesystem(new StreamUriSchemePathConverter($uriFactory, 'portal-node'));
+            return new Filesystem(new StreamUriSchemePathConverter(Psr17FactoryDiscovery::findUriFactory(), 'portal-node'));
         });
 
         return $result;

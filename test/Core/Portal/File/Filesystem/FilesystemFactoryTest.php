@@ -4,13 +4,9 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Portal\File\Filesystem;
 
-use Heptacom\HeptaConnect\Core\Bridge\File\PortalNodeFilesystemStreamWrapperFactoryInterface;
-use Heptacom\HeptaConnect\Core\File\Filesystem\StreamUriSchemePathConverter;
+use Heptacom\HeptaConnect\Core\Bridge\File\PortalNodeFilesystemStreamProtocolProviderInterface;
 use Heptacom\HeptaConnect\Core\Portal\File\Filesystem\FilesystemFactory;
-use Heptacom\HeptaConnect\Core\Portal\File\Filesystem\PathToUriConvertingStreamWrapper;
 use Heptacom\HeptaConnect\Core\Storage\Filesystem\PrefixFilesystem;
-use Heptacom\HeptaConnect\Core\Test\Fixture\FlysystemStreamWrapper;
-use Heptacom\HeptaConnect\Core\Test\Fixture\TwistorFlysystemStreamWrapper;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -24,8 +20,6 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Core\File\Filesystem\StreamWrapperRegistry
  * @covers \Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Filesystem
  * @covers \Heptacom\HeptaConnect\Core\Portal\File\Filesystem\FilesystemFactory
- * @covers \Heptacom\HeptaConnect\Core\Portal\File\Filesystem\PathToUriConvertingStreamWrapper
- * @covers \Heptacom\HeptaConnect\Core\Portal\File\Filesystem\UriToPathConvertingStreamWrapper
  * @covers \Heptacom\HeptaConnect\Core\Storage\Filesystem\AbstractFilesystem
  * @covers \Heptacom\HeptaConnect\Core\Storage\Filesystem\PrefixAdapter
  * @covers \Heptacom\HeptaConnect\Core\Storage\Filesystem\PrefixFilesystem
@@ -56,24 +50,15 @@ final class FilesystemFactoryTest extends TestCase
 
         $flysystem = new FlysystemFilesystem(new Local($fixtureFolder));
         $flysystem = new PrefixFilesystem($flysystem, 'prefix');
-        $flyProtocol = TwistorFlysystemStreamWrapper::registerFilesystem($flysystem);
         $fixtureFolder .= '/prefix';
 
-        $flysystemStreamWrapper = new TwistorFlysystemStreamWrapper();
-        $flysystemStreamWrapper->setFilesystem($flysystem);
-        $flysystemStreamWrapper->setProtocol($flyProtocol);
+        \Twistor\FlysystemStreamWrapper::register('test-stream', $flysystem);
 
-        $streamWrapper = new FlysystemStreamWrapper();
-        $streamWrapper->setDecorated($flysystemStreamWrapper);
+        $streamProtocolProvider = $this->createMock(PortalNodeFilesystemStreamProtocolProviderInterface::class);
+        // TODO register test-stream
+        $streamProtocolProvider->method('provide')->willReturn('test-stream');
 
-        $flysystemProtocol = new PathToUriConvertingStreamWrapper();
-        $flysystemProtocol->setConverter(new StreamUriSchemePathConverter($uriFactory, $flyProtocol));
-        $flysystemProtocol->setDecorated($streamWrapper);
-
-        $streamWrapperFactory = $this->createMock(PortalNodeFilesystemStreamWrapperFactoryInterface::class);
-        $streamWrapperFactory->method('create')->willReturn($flysystemProtocol);
-
-        $filesystemFactory = new FilesystemFactory($streamWrapperFactory, $uriFactory, $storageKeyGenerator);
+        $filesystemFactory = new FilesystemFactory($streamProtocolProvider, $uriFactory, $storageKeyGenerator);
         $filesystem = $filesystemFactory->create($portalNodeKey);
 
         $filePath = $filesystem->toStoragePath('foobar.txt');
@@ -129,38 +114,37 @@ final class FilesystemFactoryTest extends TestCase
         $iterator = new \RecursiveIteratorIterator($dir_iterator, \RecursiveIteratorIterator::SELF_FIRST);
         $files = \array_values(\iterable_to_array(\iterable_map(
             $iterator,
-            static fn (\SplFileInfo $file): string => $filesystem->fromStoragePath($file->getFilename())
+            static fn (\SplFileInfo $file): string => $file->getFilename()
         )));
 
         \sort($files);
         static::assertSame([
             'directory.d',
             'foobar.txt',
-            // TODO find out why it is not recursive
-            // 'foobaz.txt',
+            'foobaz.txt',
         ], $files);
 
-        \file_put_contents($filePath, 'foobar');
+        static::assertSame(6, \file_put_contents($filePath, 'foobar'));
         static::assertStringEqualsFile($filePath, 'foobar');
 
         $subfileStream = \fopen($subfilePath, 'w+b');
-        \fwrite($subfileStream, \str_repeat('a', 1024));
-        \fflush($subfileStream);
+        static::assertSame(1024, \fwrite($subfileStream, \str_repeat('a', 1024)));
+        static::assertTrue(\fflush($subfileStream));
 
         static::assertSame(1024, \ftell($subfileStream));
-        \rewind($subfileStream);
+        static::assertTrue(\rewind($subfileStream));
         static::assertSame(0, \ftell($subfileStream));
-        \ftruncate($subfileStream, 512);
-        \fseek($subfileStream, 0, \SEEK_END);
+        static::assertTrue(\ftruncate($subfileStream, 512));
+        static::assertSame(0, \fseek($subfileStream, 0, \SEEK_END));
         static::assertSame(512, \ftell($subfileStream));
 
-        \flock($subfileStream, \LOCK_EX);
+        static::assertTrue(\flock($subfileStream, \LOCK_EX));
 
-        \fclose($subfileStream);
+        static::assertTrue(\fclose($subfileStream));
 
-        \unlink($subfilePath);
-        \unlink($filePath);
-        \rmdir($directoryPath);
+        static::assertTrue(\unlink($subfilePath));
+        static::assertTrue(\unlink($filePath));
+        static::assertTrue(\rmdir($directoryPath));
         static::assertFileDoesNotExist($filePath);
         static::assertFileDoesNotExist($fixtureFolder . '/foobar.txt');
     }

@@ -10,7 +10,6 @@ use Heptacom\HeptaConnect\TestSuite\Portal\AbstractTestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\TestSuite\Portal\AbstractTestCase
- * @covers \Heptacom\HeptaConnect\TestSuite\Portal\Filesystem\BrzuchalStreamWrapper
  */
 final class StorageAccessorTest extends AbstractTestCase
 {
