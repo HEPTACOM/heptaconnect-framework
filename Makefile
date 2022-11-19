@@ -32,7 +32,7 @@ help: ## List useful make targets
 all: clean it coverage infection ## Cleans up and runs typical tests and style analysis
 
 .PHONY: clean
-clean: ## Cleans up all ignored files and directories
+clean: clean-package-vendor ## Cleans up all ignored files and directories
 	[[ ! -f composer.lock ]] || rm composer.lock
 	[[ ! -d vendor ]] || rm -rf vendor
 	[[ ! -d .build ]] || rm -rf .build
@@ -46,11 +46,21 @@ clean: ## Cleans up all ignored files and directories
 	[[ ! -d dev-ops/bin/psalm/vendor ]] || rm -rf dev-ops/bin/psalm/vendor
 	[[ ! -d dev-ops/bin/php-churn/vendor ]] || rm -rf dev-ops/bin/php-churn/vendor
 
+.PHONY: clean-package-vendor
+clean-package-vendor:
+	[[ ! -d src/Core/vendor ]] || rm -rf src/Core/vendor
+	[[ ! -d src/DatasetBase/vendor ]] || rm -rf src/DatasetBase/vendor
+	[[ ! -d src/PortalBase/vendor ]] || rm -rf src/PortalBase/vendor
+	[[ ! -d src/StorageBase/vendor ]] || rm -rf src/StorageBase/vendor
+    # TODO add portal test suite
+	[[ ! -d src/TestSuiteStorage/vendor ]] || rm -rf src/TestSuiteStorage/vendor
+	[[ ! -d src/UiAdminBase/vendor ]] || rm -rf src/UiAdminBase/vendor
+
 .PHONY: it
 it: cs-fix cs test ## Fix code style and run unit tests
 
 .PHONY: coverage
-coverage: vendor .build test-setup-fixture run-phpunit-coverage test-clean-fixture ## Run phpunit coverage tests
+coverage: vendor .build test-setup-fixture clean-package-vendor run-phpunit-coverage test-clean-fixture ## Run phpunit coverage tests
 
 .PHONY: run-phpunit-coverage
 run-phpunit-coverage:
@@ -85,15 +95,8 @@ cs-phpmd: vendor .build $(PHPMD_FILE) ## Run php mess detector for static code a
 	$(PHP) $(PHPMD_FILE) src ansi dev-ops/phpmd.xml
 
 .PHONY: cs-phpcpd
-cs-phpcpd: vendor .build $(PHPCPD_FILE) ## Run php copy paste detector for static code analysis
+cs-phpcpd: vendor clean-package-vendor .build $(PHPCPD_FILE) ## Run php copy paste detector for static code analysis
 	# clean up because phpcpd --exclude is not working atm https://github.com/sebastianbergmann/phpcpd/issues/202
-	[[ ! -d src/Core/vendor ]] || rm -rf src/Core/vendor
-	[[ ! -d src/DatasetBase/vendor ]] || rm -rf src/DatasetBase/vendor
-	[[ ! -d src/PortalBase/vendor ]] || rm -rf src/PortalBase/vendor
-	[[ ! -d src/StorageBase/vendor ]] || rm -rf src/StorageBase/vendor
-    # TODO add portal test suite
-	[[ ! -d src/TestSuiteStorage/vendor ]] || rm -rf src/TestSuiteStorage/vendor
-	[[ ! -d src/UiAdminBase/vendor ]] || rm -rf src/UiAdminBase/vendor
 	$(PHP) $(PHPCPD_FILE) --fuzzy src/Core
 	$(PHP) $(PHPCPD_FILE) --fuzzy src/DatasetBase
 	$(PHP) $(PHPCPD_FILE) --fuzzy src/PortalBase
@@ -164,7 +167,7 @@ infection: vendor .build ## Run infection tests
 	$(PHP) vendor/bin/infection --min-covered-msi=80 --min-msi=80 --configuration=dev-ops/infection.json --coverage=../.build/.phpunit-coverage --show-mutations --no-interaction
 
 .PHONY: test
-test: test-setup-fixture run-phpunit test-clean-fixture ## Run phpunit for unit tests
+test: test-setup-fixture clean-package-vendor run-phpunit test-clean-fixture ## Run phpunit for unit tests
 
 .PHONY: run-phpunit
 run-phpunit: vendor .build
