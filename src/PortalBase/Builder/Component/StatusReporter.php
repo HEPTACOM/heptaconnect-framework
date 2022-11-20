@@ -44,7 +44,12 @@ final class StatusReporter extends StatusReporterContract
     {
         if ($this->runMethod instanceof SerializableClosure) {
             $run = $this->bindThis($this->runMethod->getClosure());
-            $arguments = $this->resolveArguments($run, $context, fn (int $_propertyIndex, string $propertyName, ?string $propertyType, ContainerInterface $container) => $this->resolveFromContainer($container, $propertyType, $propertyName));
+            $arguments = $this->resolveArguments($run, $context, fn (
+                int $_propertyIndex,
+                string $propertyName,
+                ?string $propertyType,
+                ContainerInterface $container
+            ) => $this->resolveFromContainer($container, $propertyType, $propertyName));
 
             try {
                 $result = $run(...$arguments);
