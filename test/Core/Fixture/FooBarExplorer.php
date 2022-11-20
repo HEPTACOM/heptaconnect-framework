@@ -17,12 +17,11 @@ final class FooBarExplorer extends ExplorerContract
 
     public function explore(ExploreContextInterface $context, ExplorerStackInterface $stack): iterable
     {
-        $externalIds = null;
         for ($c = 0; $c < $this->count; ++$c) {
             yield (string) $c;
         }
 
-        yield from $stack->next($externalIds, $context);
+        yield from $this->exploreNext($context, $stack);
     }
 
     public function supports(): string
