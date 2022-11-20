@@ -81,7 +81,7 @@ cs-phpcpd: vendor .build $(PHPCPD_FILE) ## Run php copy paste detector for stati
 
 .PHONY: cs-composer-unused
 cs-composer-unused: vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to detect once-required packages that are not used anymore
-	$(PHP) $(COMPOSER_UNUSED_FILE) --no-progress
+	$(PHP) $(COMPOSER_UNUSED_FILE) --configuration=dev-ops/composer-unused.php --no-progress
 
 .PHONY: cs-soft-require
 cs-soft-require: vendor .build $(COMPOSER_REQUIRE_CHECKER_FILE) ## Run composer-require-checker to detect library usage without requirement entry in composer.json

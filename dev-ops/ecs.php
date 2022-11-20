@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff;
 use PhpCsFixer\Fixer\CastNotation\ModernizeTypesCastingFixer;
 use PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer;
 use PhpCsFixer\Fixer\ClassNotation\SelfAccessorFixer;
@@ -14,6 +15,7 @@ use PhpCsFixer\Fixer\FunctionNotation\SingleLineThrowFixer;
 use PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer;
 use PhpCsFixer\Fixer\LanguageConstruct\ExplicitIndirectVariableFixer;
 use PhpCsFixer\Fixer\Operator\ConcatSpaceFixer;
+use PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer;
 use PhpCsFixer\Fixer\Operator\OperatorLinebreakFixer;
 use PhpCsFixer\Fixer\Phpdoc\GeneralPhpdocAnnotationRemoveFixer;
 use PhpCsFixer\Fixer\Phpdoc\NoSuperfluousPhpdocTagsFixer;
@@ -31,6 +33,8 @@ use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
 use PhpCsFixer\Fixer\StringNotation\ExplicitStringVariableFixer;
 use PhpCsFixer\Fixer\Whitespace\BlankLineBeforeStatementFixer;
 use PhpCsFixer\Fixer\Whitespace\CompactNullableTypehintFixer;
+use PhpCsFixer\FixerFactory;
+use PhpCsFixer\RuleSet\RuleSet;
 use PhpCsFixerCustomFixers\Fixer\NoImportFromGlobalNamespaceFixer;
 use PhpCsFixerCustomFixers\Fixer\NoSuperfluousConcatenationFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUselessCommentFixer;
@@ -38,22 +42,43 @@ use PhpCsFixerCustomFixers\Fixer\NoUselessParenthesisFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUselessStrlenFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocNoIncorrectVarAnnotationFixer;
 use PhpCsFixerCustomFixers\Fixer\SingleSpaceAfterStatementFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\ArrayNotation\ArrayListItemNewlineFixer;
 use Symplify\CodingStandard\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixer;
 use Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
+return static function (ECSConfig $config): void {
+    $config->parallel();
 
-    $containerConfigurator->import(SetList::SYMFONY);
-    $containerConfigurator->import(SetList::SYMFONY_RISKY);
-    $containerConfigurator->import(SetList::ARRAY);
-    $containerConfigurator->import(SetList::CONTROL_STRUCTURES);
-    $containerConfigurator->import(SetList::STRICT);
-    $containerConfigurator->import(SetList::PSR_12);
+    $services = $config->services();
+
+    /* Use @Symfony and @Symfony:risky https://github.com/symplify/symplify/pull/4070#issuecomment-1135896943 */
+    $fixerFactory = new FixerFactory();
+    $fixerFactory->registerBuiltInFixers();
+    $ruleSet = new RuleSet([
+        '@Symfony' => true,
+        '@Symfony:risky' => true,
+    ]);
+    $fixerFactory->useRuleSet($ruleSet);
+    foreach ($fixerFactory->getFixers() as $fixer) {
+        $configurator = $services->set($fixer::class);
+
+        if ($ruleConfiguration = $ruleSet->getRuleConfiguration($fixer->getName())) {
+            $configurator->call('configure', [$ruleConfiguration]);
+        }
+    }
+    /* End custom @Symfony and @Symfony:risky */
+
+    $config->import(SetList::ARRAY);
+    $config->import(SetList::CONTROL_STRUCTURES);
+    $config->import(SetList::STRICT);
+    $config->import(SetList::PSR_12);
+    $config->import(SetList::SPACES);
+    $config->import(SetList::NAMESPACES);
+    $config->import(SetList::COMMENTS);
+    $config->import(SetList::DOCBLOCK);
 
     $services->set(ModernizeTypesCastingFixer::class);
     $services->set(ClassAttributesSeparationFixer::class)
@@ -98,7 +123,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(NoUselessParenthesisFixer::class);
     $services->set(NoUselessStrlenFixer::class);
 
-    $parameters = $containerConfigurator->parameters();
+    $parameters = $config->parameters();
     $parameters->set(Option::PATHS, [
         __DIR__ . '/bin/phpstan/src',
         __DIR__ . '/../src',
@@ -113,5 +138,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         PhpdocSummaryFixer::class => null,
         ExplicitStringVariableFixer::class => null,
         StandaloneLineInMultilineArrayFixer::class => null,
+        NotOperatorWithSuccessorSpaceFixer::class => null,
+        AssignmentInConditionSniff::class => null,
     ]);
 };
