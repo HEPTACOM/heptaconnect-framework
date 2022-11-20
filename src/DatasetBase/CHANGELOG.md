@@ -31,6 +31,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Change return type of `\Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface::getForeignEntityType` from `class-string` to `\Heptacom\HeptaConnect\Dataset\Base\EntityType` to improve type safety for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Change return type of `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::filter` from `Generator` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
+- Replace type hints to real union types in `\Heptacom\HeptaConnect\Dataset\Base\Date::add`, `\Heptacom\HeptaConnect\Dataset\Base\Date::sub`, `\Heptacom\HeptaConnect\Dataset\Base\Date::setTime` and `\Heptacom\HeptaConnect\Dataset\Base\Date::setTimestamp`
+- Add implementation reference to `\Stringable` when `__toString` is already implemented in `\Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract`
 
 ### Deprecated
 
@@ -38,6 +40,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Deprecate `$type` parameter in `\Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection::__construct` to be a string. Prefer an instance of `\Heptacom\HeptaConnect\Dataset\Base\EntityType` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 
 ### Removed
+
+- Remove support for `php: 7.4` as it will not receive any updates anymore, it is unlikely to be used. By raising the minimum PHP version we also make use of features introduced by PHP 8.0, which mainly have no effect on public API
 
 ### Fixed
 
