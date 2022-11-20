@@ -9,11 +9,9 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResultColl
 
 final class RouteAddFailedException extends \InvalidArgumentException implements InvalidArgumentThrowableInterface
 {
-    private RouteAddResultCollection $failedToRevert;
-
     public function __construct(
         private RouteAddPayloadCollection $failedToCreate,
-        RouteAddResultCollection $failedToRevert,
+        private RouteAddResultCollection $failedToRevert,
         private RouteAddResultCollection $createdAndReverted,
         int $code,
         ?\Throwable $previous = null
@@ -21,8 +19,7 @@ final class RouteAddFailedException extends \InvalidArgumentException implements
         $allRevertedMessage = 'Some route scenarios could not be created. All just created scenarios were deleted';
         $notAllRevertedMessage = 'Some route scenarios could not be created. Some just created scenarios could not be deleted';
 
-        parent::__construct($failedToRevert->isEmpty() ? $allRevertedMessage : $notAllRevertedMessage, $code, $previous);
-        $this->failedToRevert = $failedToRevert;
+        parent::__construct($this->failedToRevert->isEmpty() ? $allRevertedMessage : $notAllRevertedMessage, $code, $previous);
     }
 
     public function getFailedToCreate(): RouteAddPayloadCollection
