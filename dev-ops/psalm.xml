@@ -8,6 +8,7 @@
 >
     <issueHandlers>
         <LessSpecificReturnType errorLevel="info" />
+        <ImplicitToStringCast errorLevel="info" />
     </issueHandlers>
 
     <plugins>
