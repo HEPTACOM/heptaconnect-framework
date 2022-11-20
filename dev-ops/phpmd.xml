@@ -10,7 +10,21 @@
         HEPTAconnect rule set.
     </description>
 
-    <rule ref="rulesets/codesize.xml" />
+    <rule ref="rulesets/codesize.xml">
+        <!-- Included with configuration below -->
+        <exclude name="TooManyMethods"/>
+        <exclude name="TooManyPublicMethods"/>
+    </rule>
+    <rule ref="rulesets/codesize.xml/TooManyMethods">
+        <properties>
+            <property name="ignorepattern" value="(^(set|get|add|without|with|create))i"/>
+        </properties>
+    </rule>
+    <rule ref="rulesets/codesize.xml/TooManyPublicMethods">
+        <properties>
+            <property name="ignorepattern" value="(^(set|get|add|without|with|create))i"/>
+        </properties>
+    </rule>
 
     <rule ref="rulesets/naming.xml">
         <exclude name="BooleanGetMethodName" />
