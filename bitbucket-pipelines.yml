@@ -1,9 +1,7 @@
-image: heptacom/heptaconnect-pipeline:php74-7.0.0
+image: heptacom/heptaconnect-pipeline:php80-7.0.0
 
 definitions:
     partials:
-        -   step: &php80-image
-                image: heptacom/heptaconnect-pipeline:php80-7.0.0
         -   step: &php81-image
                 image: heptacom/heptaconnect-pipeline:php81-7.0.0
     services:
@@ -77,21 +75,6 @@ definitions:
                     - make .build
                     - mv vendor .build/vendor-low
                     - echo 'mkdir -p vendor; rm -rf vendor; mv .build/vendor-low vendor' > setup-vendor.sh
-        -   step: &test-unit-high-install-80
-                <<: *php80-image
-                name: Install and Unit test (8.0 + High dependencies)
-                script:
-                    - make clean
-                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
-                    - COMPOSER_EXTRA_ARGS=-vvv make -e test
-        -   step: &test-unit-low-install-80
-                <<: *php80-image
-                name: Install and Unit test (8.0 + Low dependencies)
-                script:
-                    - make clean
-                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
-                    - composer update --prefer-lowest --prefer-stable
-                    - COMPOSER_EXTRA_ARGS=-vvv make -e test
         -   step: &test-unit-high-install-81
                 <<: *php81-image
                 name: Install and Unit test (8.1 + High dependencies)
@@ -236,8 +219,6 @@ pipelines:
                     -   step: *test-coverage
                     -   step: *test-code-style-composer-unused
             -   parallel: &steps-blocking-non-min-php-version-tests
-                    -   step: *test-unit-high-install-80
-                    -   step: *test-unit-low-install-80
                     -   step: *test-unit-high-install-81
                     -   step: *test-unit-low-install-81
             -   step: *composer-high-install

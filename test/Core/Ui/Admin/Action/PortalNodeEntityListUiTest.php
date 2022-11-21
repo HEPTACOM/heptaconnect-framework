@@ -20,6 +20,7 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderI
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerCodeOriginFinderInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
+use Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverCodeOriginFinderInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterCollection;
@@ -48,6 +49,7 @@ use Psr\Container\ContainerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
  * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract
@@ -114,9 +116,10 @@ final class PortalNodeEntityListUiTest extends TestCase
             $receiverCodeOriginFinder
         );
 
-        $emitterCodeOriginFinder->expects(static::once())->method('findOrigin');
-        $explorerCodeOriginFinder->expects(static::once())->method('findOrigin');
-        $receiverCodeOriginFinder->expects(static::once())->method('findOrigin');
+        $codeOrigin = new CodeOrigin(__FILE__, __LINE__, __LINE__);
+        $emitterCodeOriginFinder->expects(static::once())->method('findOrigin')->willReturn($codeOrigin);
+        $explorerCodeOriginFinder->expects(static::once())->method('findOrigin')->willReturn($codeOrigin);
+        $receiverCodeOriginFinder->expects(static::once())->method('findOrigin')->willReturn($codeOrigin);
 
         $criteria = new PortalNodeEntityListCriteria(new PreviewPortalNodeKey(FooBarPortal::class()));
         static::assertCount(3, \iterable_to_array($action->list($criteria, $this->createUiActionContext())));
@@ -135,9 +138,9 @@ final class PortalNodeEntityListUiTest extends TestCase
             $receiverCodeOriginFinder
         );
 
-        $emitterCodeOriginFinder->expects(static::never())->method('findOrigin');
-        $explorerCodeOriginFinder->expects(static::never())->method('findOrigin');
-        $receiverCodeOriginFinder->expects(static::once())->method('findOrigin');
+        $emitterCodeOriginFinder->expects(static::never())->method('findOrigin')->willReturn($codeOrigin);
+        $explorerCodeOriginFinder->expects(static::never())->method('findOrigin')->willReturn($codeOrigin);
+        $receiverCodeOriginFinder->expects(static::once())->method('findOrigin')->willReturn($codeOrigin);
 
         $criteria = new PortalNodeEntityListCriteria(new PreviewPortalNodeKey(FooBarPortal::class()));
         $criteria->setShowEmitter(false);
@@ -159,9 +162,9 @@ final class PortalNodeEntityListUiTest extends TestCase
             $receiverCodeOriginFinder
         );
 
-        $emitterCodeOriginFinder->expects(static::never())->method('findOrigin');
-        $explorerCodeOriginFinder->expects(static::once())->method('findOrigin');
-        $receiverCodeOriginFinder->expects(static::never())->method('findOrigin');
+        $emitterCodeOriginFinder->expects(static::never())->method('findOrigin')->willReturn($codeOrigin);
+        $explorerCodeOriginFinder->expects(static::once())->method('findOrigin')->willReturn($codeOrigin);
+        $receiverCodeOriginFinder->expects(static::never())->method('findOrigin')->willReturn($codeOrigin);
 
         $criteria = new PortalNodeEntityListCriteria(new PreviewPortalNodeKey(FooBarPortal::class()));
         $criteria->setShowEmitter(false);
@@ -183,9 +186,9 @@ final class PortalNodeEntityListUiTest extends TestCase
             $receiverCodeOriginFinder
         );
 
-        $emitterCodeOriginFinder->expects(static::once())->method('findOrigin');
-        $explorerCodeOriginFinder->expects(static::never())->method('findOrigin');
-        $receiverCodeOriginFinder->expects(static::never())->method('findOrigin');
+        $emitterCodeOriginFinder->expects(static::once())->method('findOrigin')->willReturn($codeOrigin);
+        $explorerCodeOriginFinder->expects(static::never())->method('findOrigin')->willReturn($codeOrigin);
+        $receiverCodeOriginFinder->expects(static::never())->method('findOrigin')->willReturn($codeOrigin);
 
         $criteria = new PortalNodeEntityListCriteria(new PreviewPortalNodeKey(FooBarPortal::class()));
         $criteria->setShowEmitter(true);
@@ -207,9 +210,9 @@ final class PortalNodeEntityListUiTest extends TestCase
             $receiverCodeOriginFinder
         );
 
-        $emitterCodeOriginFinder->expects(static::once())->method('findOrigin');
-        $explorerCodeOriginFinder->expects(static::once())->method('findOrigin');
-        $receiverCodeOriginFinder->expects(static::never())->method('findOrigin');
+        $emitterCodeOriginFinder->expects(static::once())->method('findOrigin')->willReturn($codeOrigin);
+        $explorerCodeOriginFinder->expects(static::once())->method('findOrigin')->willReturn($codeOrigin);
+        $receiverCodeOriginFinder->expects(static::never())->method('findOrigin')->willReturn($codeOrigin);
 
         $criteria = new PortalNodeEntityListCriteria(new PreviewPortalNodeKey(FooBarPortal::class()));
         $criteria->setShowEmitter(true);
@@ -231,9 +234,9 @@ final class PortalNodeEntityListUiTest extends TestCase
             $receiverCodeOriginFinder
         );
 
-        $emitterCodeOriginFinder->expects(static::once())->method('findOrigin');
-        $explorerCodeOriginFinder->expects(static::once())->method('findOrigin');
-        $receiverCodeOriginFinder->expects(static::once())->method('findOrigin');
+        $emitterCodeOriginFinder->expects(static::once())->method('findOrigin')->willReturn($codeOrigin);
+        $explorerCodeOriginFinder->expects(static::once())->method('findOrigin')->willReturn($codeOrigin);
+        $receiverCodeOriginFinder->expects(static::once())->method('findOrigin')->willReturn($codeOrigin);
 
         $criteria = new PortalNodeEntityListCriteria(new PreviewPortalNodeKey(FooBarPortal::class()));
         $criteria->setFilterSupportedEntityType(FooBarEntity::class());
@@ -253,9 +256,9 @@ final class PortalNodeEntityListUiTest extends TestCase
             $receiverCodeOriginFinder
         );
 
-        $emitterCodeOriginFinder->expects(static::never())->method('findOrigin');
-        $explorerCodeOriginFinder->expects(static::never())->method('findOrigin');
-        $receiverCodeOriginFinder->expects(static::never())->method('findOrigin');
+        $emitterCodeOriginFinder->expects(static::never())->method('findOrigin')->willReturn($codeOrigin);
+        $explorerCodeOriginFinder->expects(static::never())->method('findOrigin')->willReturn($codeOrigin);
+        $receiverCodeOriginFinder->expects(static::never())->method('findOrigin')->willReturn($codeOrigin);
 
         $criteria = new PortalNodeEntityListCriteria(new PreviewPortalNodeKey(FooBarPortal::class()));
         $criteria->setFilterSupportedEntityType(new UnsafeClassString(DatasetEntityContract::class));

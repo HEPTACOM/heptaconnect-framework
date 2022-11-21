@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface;
 
 /**
  * @template T
+ *
  * @template-extends AbstractCollection<T>
  */
 abstract class AbstractObjectCollection extends AbstractCollection implements AttachableInterface

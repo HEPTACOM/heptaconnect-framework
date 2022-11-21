@@ -17,14 +17,10 @@ use Psr\Cache\CacheItemPoolInterface;
 
 final class PackageConfigurationLoader implements Contract\PackageConfigurationLoaderInterface
 {
-    private ?string $composerJson;
-
-    private CacheItemPoolInterface $cache;
-
-    public function __construct(?string $composerJson, CacheItemPoolInterface $cache)
-    {
-        $this->composerJson = $composerJson;
-        $this->cache = $cache;
+    public function __construct(
+        private ?string $composerJson,
+        private CacheItemPoolInterface $cache
+    ) {
     }
 
     public function getPackageConfigurations(): PackageConfigurationCollection

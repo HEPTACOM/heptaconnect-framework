@@ -14,17 +14,11 @@ final class FileReferenceGetRequestCriteria implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private PortalNodeKeyInterface $portalNodeKey;
-
-    private FileReferenceRequestKeyCollection $fileReferenceRequestKeys;
-
     public function __construct(
-        PortalNodeKeyInterface $portalNodeKey,
-        FileReferenceRequestKeyCollection $fileReferenceRequestKeys
+        private PortalNodeKeyInterface $portalNodeKey,
+        private FileReferenceRequestKeyCollection $fileReferenceRequestKeys
     ) {
         $this->attachments = new AttachmentCollection();
-        $this->portalNodeKey = $portalNodeKey;
-        $this->fileReferenceRequestKeys = $fileReferenceRequestKeys;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

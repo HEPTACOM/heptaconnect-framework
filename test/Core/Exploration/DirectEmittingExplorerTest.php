@@ -140,7 +140,7 @@ final class DirectEmittingExplorerTest extends TestCase
         $explorerStack
             ->expects(static::once())
             ->method('next')
-            ->willReturnCallback(static function () use ($batchSize, $entities): iterable {
+            ->willReturnCallback(static function () use ($entities): iterable {
                 yield from $entities;
 
                 throw new \RuntimeException('Test message');

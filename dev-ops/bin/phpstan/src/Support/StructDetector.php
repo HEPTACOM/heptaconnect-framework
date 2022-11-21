@@ -16,6 +16,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 class StructDetector
 {
     public const STRUCT_INTERFACES = [
+        \Stringable::class,
         \JsonSerializable::class,
         AttachmentAwareInterface::class,
         AttachableInterface::class,

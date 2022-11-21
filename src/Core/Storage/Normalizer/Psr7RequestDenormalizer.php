@@ -10,11 +10,9 @@ use Psr\Http\Message\RequestInterface;
 
 final class Psr7RequestDenormalizer implements DenormalizerInterface
 {
-    private RequestDeserializerInterface $deserializer;
-
-    public function __construct(RequestDeserializerInterface $deserializer)
-    {
-        $this->deserializer = $deserializer;
+    public function __construct(
+        private RequestDeserializerInterface $deserializer
+    ) {
     }
 
     public function getType(): string
@@ -45,7 +43,7 @@ final class Psr7RequestDenormalizer implements DenormalizerInterface
             $this->denormalize($data, $type, $format);
 
             return true;
-        } catch (\Throwable $exception) {
+        } catch (\Throwable) {
             return false;
         }
     }

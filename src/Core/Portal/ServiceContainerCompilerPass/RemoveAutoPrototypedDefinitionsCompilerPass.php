@@ -13,20 +13,13 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 final class RemoveAutoPrototypedDefinitionsCompilerPass implements CompilerPassInterface
 {
-    private array $prototypedIds;
-
-    /**
-     * @var class-string[]
-     */
-    private array $excludedClasses;
-
     /**
      * @param class-string[] $excludedClasses
      */
-    public function __construct(array $prototypedIds, array $excludedClasses)
-    {
-        $this->prototypedIds = $prototypedIds;
-        $this->excludedClasses = $excludedClasses;
+    public function __construct(
+        private array $prototypedIds,
+        private array $excludedClasses
+    ) {
     }
 
     public function process(ContainerBuilder $container): void

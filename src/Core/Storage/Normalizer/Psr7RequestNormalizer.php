@@ -11,11 +11,9 @@ use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 
 final class Psr7RequestNormalizer implements NormalizerInterface
 {
-    private RequestSerializerInterface $serializer;
-
-    public function __construct(RequestSerializerInterface $serializer)
-    {
-        $this->serializer = $serializer;
+    public function __construct(
+        private RequestSerializerInterface $serializer
+    ) {
     }
 
     /**
@@ -40,7 +38,7 @@ final class Psr7RequestNormalizer implements NormalizerInterface
     {
         if (!$object instanceof RequestInterface) {
             throw new InvalidArgumentException(
-                'Psr7RequestNormalizer can only normalize request objects. Got: ' . \get_class($object),
+                'Psr7RequestNormalizer can only normalize request objects. Got: ' . $object::class,
                 1647789809
             );
         }

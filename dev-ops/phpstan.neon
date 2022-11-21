@@ -133,3 +133,8 @@ parameters:
 			paths:
 				- ../src/Core/Portal/PortalStorage.php
 				- ../src/DatasetBase/ScalarCollection/IntegerCollection.php
+		-
+			# It looks like a struct, but as a utility class, that is not passed as an argument to a public API method, it does not need that interface
+			message: "#Class 'Heptacom\\\\HeptaConnect\\\\Portal\\\\Base\\\\Serialization\\\\Contract\\\\SerializableStream' that looks like a struct is expected to implement Heptacom\\\\HeptaConnect\\\\Dataset\\\\Base\\\\Contract\\\\AttachmentAwareInterface#"
+			paths:
+				- ../src/PortalBase/Serialization/Contract/SerializableStream.php

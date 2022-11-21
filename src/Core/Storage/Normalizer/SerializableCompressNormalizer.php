@@ -9,11 +9,9 @@ use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizerInterface
 
 final class SerializableCompressNormalizer implements NormalizerInterface
 {
-    private NormalizerInterface $serializableNormalizer;
-
-    public function __construct(NormalizerInterface $serializableNormalizer)
-    {
-        $this->serializableNormalizer = $serializableNormalizer;
+    public function __construct(
+        private NormalizerInterface $serializableNormalizer
+    ) {
     }
 
     public function getType(): string

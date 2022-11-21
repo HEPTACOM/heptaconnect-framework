@@ -8,6 +8,7 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
  * Describes collection resembling classes.
  *
  * @template T
+ *
  * @extends \ArrayAccess<int, T>
  * @extends \IteratorAggregate<int, T>
  */
@@ -98,6 +99,7 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
      * Group items in maximum $size big chunks. The last chunk can be less than $size items.
      *
      * @psalm-param positive-int $size
+     *
      * @psalm-return iterable<self&non-empty-list<T>>
      */
     public function chunk(int $size): iterable;

@@ -13,17 +13,11 @@ final class PortalExtensionDeactivateResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private PortalExtensionTypeCollection $passedDeactivations;
-
-    private PortalExtensionTypeCollection $failedDeactivations;
-
     public function __construct(
-        PortalExtensionTypeCollection $passedDeactivations,
-        PortalExtensionTypeCollection $failedDeactivations
+        private PortalExtensionTypeCollection $passedDeactivations,
+        private PortalExtensionTypeCollection $failedDeactivations
     ) {
         $this->attachments = new AttachmentCollection();
-        $this->passedDeactivations = $passedDeactivations;
-        $this->failedDeactivations = $failedDeactivations;
     }
 
     public function getPassedDeactivations(): PortalExtensionTypeCollection

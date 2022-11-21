@@ -30,6 +30,7 @@ final class StructTest extends TestCase
 
     /**
      * @depends testSerializationAccessors
+     *
      * @dataProvider provideStructs
      */
     public function testSerializationTypes(DatasetEntityContract $struct): void

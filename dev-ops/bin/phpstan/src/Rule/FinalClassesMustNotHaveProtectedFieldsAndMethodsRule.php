@@ -19,11 +19,9 @@ use PHPStan\Rules\RuleErrorBuilder;
  */
 final class FinalClassesMustNotHaveProtectedFieldsAndMethodsRule implements Rule
 {
-    private ReflectionProvider $reflectionProvider;
-
-    public function __construct(ReflectionProvider $reflectionProvider)
-    {
-        $this->reflectionProvider = $reflectionProvider;
+    public function __construct(
+        private ReflectionProvider $reflectionProvider
+    ) {
     }
 
     public function getNodeType(): string

@@ -14,17 +14,12 @@ final class RouteAddDefault implements AttachmentAwareInterface, AuditableDataAw
     use AttachmentAwareTrait;
 
     /**
-     * @var string[]
-     */
-    private array $capabilities;
-
-    /**
      * @param string[] $capabilities
      */
-    public function __construct(array $capabilities = [])
-    {
+    public function __construct(
+        private array $capabilities = []
+    ) {
         $this->attachments = new AttachmentCollection();
-        $this->capabilities = $capabilities;
     }
 
     /**

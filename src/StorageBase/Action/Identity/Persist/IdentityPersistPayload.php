@@ -13,17 +13,11 @@ final class IdentityPersistPayload implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private PortalNodeKeyInterface $portalNodeKey;
-
-    private IdentityPersistPayloadCollection $identityPersistPayloads;
-
     public function __construct(
-        PortalNodeKeyInterface $portalNodeKey,
-        IdentityPersistPayloadCollection $identityPersistPayloads
+        private PortalNodeKeyInterface $portalNodeKey,
+        private IdentityPersistPayloadCollection $identityPersistPayloads
     ) {
         $this->attachments = new AttachmentCollection();
-        $this->portalNodeKey = $portalNodeKey;
-        $this->identityPersistPayloads = $identityPersistPayloads;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

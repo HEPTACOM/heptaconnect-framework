@@ -27,28 +27,19 @@ final class PrimaryKeySharingMappingStruct implements AttachmentAwareInterface, 
      */
     private string $entityType;
 
-    private ?string $externalId = null;
-
-    private PortalNodeKeyInterface $portalNodeKey;
-
-    private MappingNodeKeyInterface $mappingNodeKey;
-
     /**
      * @var DatasetEntityContract[]
      */
-    private $owners = [];
+    private array $owners = [];
 
     public function __construct(
         EntityType $entityType,
-        ?string $externalId,
-        PortalNodeKeyInterface $portalNodeKey,
-        MappingNodeKeyInterface $mappingNodeKey
+        private ?string $externalId,
+        private PortalNodeKeyInterface $portalNodeKey,
+        private MappingNodeKeyInterface $mappingNodeKey
     ) {
         $this->attachments = new AttachmentCollection();
         $this->entityType = (string) $entityType;
-        $this->externalId = $externalId;
-        $this->portalNodeKey = $portalNodeKey;
-        $this->mappingNodeKey = $mappingNodeKey;
     }
 
     public function __wakeup(): void
@@ -106,6 +97,7 @@ final class PrimaryKeySharingMappingStruct implements AttachmentAwareInterface, 
 
     /**
      * @return iterable|DatasetEntityContract[]
+     *
      * @psalm-return iterable<array-key, DatasetEntityContract>
      */
     public function getOwners(): iterable

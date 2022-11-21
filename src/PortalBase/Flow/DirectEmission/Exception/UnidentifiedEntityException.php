@@ -14,7 +14,7 @@ class UnidentifiedEntityException extends \Exception
     {
         parent::__construct(\sprintf(
             'DirectEmissionFlow: Direct emission was attempted for an unidentified entity of type %s. It is missing its primary key.',
-            \get_class($entity)
+            $entity::class
         ));
 
         $this->entity = $entity;

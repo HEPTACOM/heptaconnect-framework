@@ -32,7 +32,7 @@ help: ## List useful make targets
 all: clean it coverage infection ## Cleans up and runs typical tests and style analysis
 
 .PHONY: clean
-clean: ## Cleans up all ignored files and directories
+clean: clean-package-vendor ## Cleans up all ignored files and directories
 	[[ ! -f composer.lock ]] || rm composer.lock
 	[[ ! -d vendor ]] || rm -rf vendor
 	[[ ! -d .build ]] || rm -rf .build
@@ -46,11 +46,27 @@ clean: ## Cleans up all ignored files and directories
 	[[ ! -d dev-ops/bin/psalm/vendor ]] || rm -rf dev-ops/bin/psalm/vendor
 	[[ ! -d dev-ops/bin/php-churn/vendor ]] || rm -rf dev-ops/bin/php-churn/vendor
 
+.PHONY: clean-package-vendor
+clean-package-vendor:
+	[[ ! -d src/Core/vendor ]] || rm -rf src/Core/vendor
+	[[ ! -f src/Core/composer.lock ]] || rm -f src/Core/composer.lock
+	[[ ! -d src/DatasetBase/vendor ]] || rm -rf src/DatasetBase/vendor
+	[[ ! -f src/DatasetBase/composer.lock ]] || rm -f src/DatasetBase/composer.lock
+	[[ ! -d src/PortalBase/vendor ]] || rm -rf src/PortalBase/vendor
+	[[ ! -f src/PortalBase/composer.lock ]] || rm -f src/PortalBase/composer.lock
+	[[ ! -d src/StorageBase/vendor ]] || rm -rf src/StorageBase/vendor
+	[[ ! -f src/StorageBase/composer.lock ]] || rm -f src/StorageBase/composer.lock
+    # TODO add portal test suite
+	[[ ! -d src/TestSuiteStorage/vendor ]] || rm -rf src/TestSuiteStorage/vendor
+	[[ ! -f src/TestSuiteStorage/composer.lock ]] || rm -f src/TestSuiteStorage/composer.lock
+	[[ ! -d src/UiAdminBase/vendor ]] || rm -rf src/UiAdminBase/vendor
+	[[ ! -f src/UiAdminBase/composer.lock ]] || rm -f src/UiAdminBase/composer.lock
+
 .PHONY: it
 it: cs-fix cs test ## Fix code style and run unit tests
 
 .PHONY: coverage
-coverage: vendor .build test-setup-fixture run-phpunit-coverage test-clean-fixture ## Run phpunit coverage tests
+coverage: vendor .build test-setup-fixture clean-package-vendor run-phpunit-coverage test-clean-fixture ## Run phpunit coverage tests
 
 .PHONY: run-phpunit-coverage
 run-phpunit-coverage:
@@ -85,7 +101,8 @@ cs-phpmd: vendor .build $(PHPMD_FILE) ## Run php mess detector for static code a
 	$(PHP) $(PHPMD_FILE) src ansi dev-ops/phpmd.xml
 
 .PHONY: cs-phpcpd
-cs-phpcpd: vendor .build $(PHPCPD_FILE) ## Run php copy paste detector for static code analysis
+cs-phpcpd: vendor clean-package-vendor .build $(PHPCPD_FILE) ## Run php copy paste detector for static code analysis
+	# clean up because phpcpd --exclude is not working atm https://github.com/sebastianbergmann/phpcpd/issues/202
 	$(PHP) $(PHPCPD_FILE) --fuzzy src/Core
 	$(PHP) $(PHPCPD_FILE) --fuzzy src/DatasetBase
 	$(PHP) $(PHPCPD_FILE) --fuzzy src/PortalBase
@@ -94,13 +111,13 @@ cs-phpcpd: vendor .build $(PHPCPD_FILE) ## Run php copy paste detector for stati
 	$(PHP) $(PHPCPD_FILE) --fuzzy src/UiAdminBase
 
 .PHONY: cs-composer-unused
-cs-composer-unused: vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to detect once-required packages that are not used anymore
-	$(PHP) $(COMPOSER_UNUSED_FILE) --no-progress
-	cd src/Core && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
+cs-composer-unused: vendor src/Core/vendor src/DatasetBase/vendor src/PortalBase/vendor src/StorageBase/vendor src/TestSuiteStorage/vendor src/UiAdminBase/vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to detect once-required packages that are not used anymore
+	$(PHP) $(COMPOSER_UNUSED_FILE) --configuration=dev-ops/composer-unused.php --no-progress
+	cd src/Core && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --configuration=../../dev-ops/composer-unused.php --no-progress
 	cd src/DatasetBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
-	cd src/PortalBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
+	cd src/PortalBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --configuration=../../dev-ops/composer-unused-portal-base.php --no-progress
 	cd src/StorageBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
-	cd src/TestSuitePortal && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
+# TODO add portal test suite
 	cd src/TestSuiteStorage && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
 	cd src/UiAdminBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
 
@@ -156,7 +173,7 @@ infection: vendor .build ## Run infection tests
 	$(PHP) vendor/bin/infection --min-covered-msi=80 --min-msi=80 --configuration=dev-ops/infection.json --coverage=../.build/.phpunit-coverage --show-mutations --no-interaction
 
 .PHONY: test
-test: test-setup-fixture run-phpunit test-clean-fixture ## Run phpunit for unit tests
+test: test-setup-fixture clean-package-vendor run-phpunit test-clean-fixture ## Run phpunit for unit tests
 
 .PHONY: run-phpunit
 run-phpunit: vendor .build
@@ -195,6 +212,25 @@ $(PHPCHURN_FILE): ## Install php-churn executable
 .PHONY: composer-update
 composer-update:
 	[[ -f vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) update
+
+src/Core/vendor:
+	[[ -f src/Core/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) update -d src/Core
+
+src/DatasetBase/vendor:
+	[[ -f src/DatasetBase/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) update -d src/DatasetBase
+
+src/PortalBase/vendor:
+	[[ -f src/PortalBase/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) update -d src/PortalBase
+
+src/StorageBase/vendor:
+	[[ -f src/StorageBase/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) update -d src/StorageBase
+# TODO add portal test suite
+
+src/TestSuiteStorage/vendor:
+	[[ -f src/TestSuiteStorage/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) update -d src/TestSuiteStorage
+
+src/UiAdminBase/vendor:
+	[[ -f src/UiAdminBase/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) update -d src/UiAdminBase
 
 vendor: composer-update
 

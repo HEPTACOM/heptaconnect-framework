@@ -11,11 +11,9 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
  */
 abstract class ResolvedFileReferenceContract
 {
-    private PortalNodeKeyInterface $portalNodeKey;
-
-    public function __construct(PortalNodeKeyInterface $portalNodeKey)
-    {
-        $this->portalNodeKey = $portalNodeKey;
+    public function __construct(
+        private PortalNodeKeyInterface $portalNodeKey
+    ) {
     }
 
     /**

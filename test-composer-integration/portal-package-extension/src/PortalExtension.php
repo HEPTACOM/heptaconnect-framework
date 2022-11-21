@@ -10,6 +10,6 @@ class PortalExtension extends PortalExtensionContract
 {
     protected function supports(): string
     {
-        return 'HeptacomFixture\Portal\A\Portal';
+        return \HeptacomFixture\Portal\A\Portal::class;
     }
 }

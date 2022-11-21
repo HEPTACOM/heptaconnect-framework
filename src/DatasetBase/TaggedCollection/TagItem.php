@@ -15,19 +15,15 @@ final class TagItem implements \JsonSerializable
     use JsonSerializeObjectVarsTrait;
 
     /**
-     * @psalm-var CollectionInterface<T>
-     */
-    private CollectionInterface $collection;
-
-    private string $tag;
-
-    /**
      * @psalm-param CollectionInterface<T> $collection
      */
-    public function __construct(CollectionInterface $collection, string $tag)
-    {
-        $this->collection = $collection;
-        $this->tag = $tag;
+    public function __construct(
+        /**
+         * @psalm-var CollectionInterface<T>
+         */
+        private CollectionInterface $collection,
+        private string $tag
+    ) {
     }
 
     /**
@@ -40,6 +36,7 @@ final class TagItem implements \JsonSerializable
 
     /**
      * @psalm-param CollectionInterface<T> $collection
+     *
      * @psalm-return TagItem<T>
      */
     public function setCollection(CollectionInterface $collection): self

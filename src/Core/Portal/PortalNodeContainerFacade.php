@@ -17,15 +17,12 @@ use Psr\Log\LoggerInterface;
 
 final class PortalNodeContainerFacade extends PortalNodeContainerFacadeContract
 {
-    private ContainerInterface $container;
-
     /**
      * @throws ServiceNotFoundException
      */
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-
+    public function __construct(
+        private ContainerInterface $container
+    ) {
         foreach ((new \ReflectionClass($this))->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
             if ($method->getName() === 'get' || !\str_starts_with($method->getName(), 'get')) {
                 continue;

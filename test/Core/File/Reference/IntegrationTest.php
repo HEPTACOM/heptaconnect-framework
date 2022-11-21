@@ -357,11 +357,9 @@ class IntegrationTest extends TestCase
     {
         $array = new \ArrayObject();
         $normalizer = new class($array) implements NormalizerInterface {
-            private \ArrayObject $array;
-
-            public function __construct(\ArrayObject $array)
-            {
-                $this->array = $array;
+            public function __construct(
+                private \ArrayObject $array
+            ) {
             }
 
             public function supportsNormalization($data, $format = null)
@@ -383,11 +381,9 @@ class IntegrationTest extends TestCase
             }
         };
         $denormalizer = new class($array) implements DenormalizerInterface {
-            private \ArrayObject $array;
-
-            public function __construct(\ArrayObject $array)
-            {
-                $this->array = $array;
+            public function __construct(
+                private \ArrayObject $array
+            ) {
             }
 
             public function getType(): string
@@ -449,16 +445,14 @@ class IntegrationTest extends TestCase
 
                 foreach ($p->getSerializedRequests() as $key => $serializedRequest) {
                     $result->addFileReferenceRequestKey($key, new class($serializedRequest) implements FileReferenceRequestKeyInterface {
-                        private string $content;
-
-                        public function __construct(string $content)
-                        {
-                            $this->content = $content;
+                        public function __construct(
+                            private string $content
+                        ) {
                         }
 
                         public function equals(StorageKeyInterface $other): bool
                         {
-                            return \json_encode($other) === \json_encode($this);
+                            return \json_encode($other, \JSON_THROW_ON_ERROR) === \json_encode($this, \JSON_THROW_ON_ERROR);
                         }
 
                         public function jsonSerialize()

@@ -13,11 +13,9 @@ use League\Flysystem\PluginInterface;
  */
 abstract class AbstractFilesystem implements FilesystemInterface
 {
-    protected FilesystemInterface $filesystem;
-
-    public function __construct(FilesystemInterface $filesystem)
-    {
-        $this->filesystem = $filesystem;
+    public function __construct(
+        protected FilesystemInterface $filesystem
+    ) {
     }
 
     public function has($path): bool

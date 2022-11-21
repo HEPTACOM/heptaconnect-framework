@@ -16,11 +16,9 @@ use Heptacom\HeptaConnect\Storage\Base\PrimaryKeySharingMappingStruct;
 
 final class MarkAsFailedPostProcessor extends PostProcessorContract
 {
-    private IdentityErrorCreateActionInterface $identityErrorCreateAction;
-
-    public function __construct(IdentityErrorCreateActionInterface $identityErrorCreateAction)
-    {
-        $this->identityErrorCreateAction = $identityErrorCreateAction;
+    public function __construct(
+        private IdentityErrorCreateActionInterface $identityErrorCreateAction
+    ) {
     }
 
     public function handle(PostReceptionEvent $event): void

@@ -11,16 +11,14 @@ use Psr\Http\Message\StreamInterface;
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-final class SerializableStream implements StreamInterface
+final class SerializableStream implements StreamInterface, \Stringable
 {
-    private StreamInterface $stream;
-
-    public function __construct(StreamInterface $stream)
-    {
-        $this->stream = $stream;
+    public function __construct(
+        private StreamInterface $stream
+    ) {
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->stream->__toString();
     }

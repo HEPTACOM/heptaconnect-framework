@@ -22,13 +22,12 @@ final class HttpClient extends HttpClientContract implements LoggerAwareInterfac
 {
     private LoggerInterface $logger;
 
-    private UriFactoryInterface $uriFactory;
-
-    public function __construct(ClientInterface $client, UriFactoryInterface $uriFactory)
-    {
+    public function __construct(
+        ClientInterface $client,
+        private UriFactoryInterface $uriFactory
+    ) {
         parent::__construct($client);
         $this->logger = new NullLogger();
-        $this->uriFactory = $uriFactory;
     }
 
     public function setLogger(LoggerInterface $logger): void
@@ -47,7 +46,7 @@ final class HttpClient extends HttpClientContract implements LoggerAwareInterfac
         $remainingRetries = $this->getMaxRetry();
         $remainingRedirect = $this->getMaxRedirect();
 
-        do {
+        while (true) {
             $response = $this->getClient()->sendRequest($request);
             $now = new \DateTime();
             $code = $response->getStatusCode();
@@ -105,7 +104,7 @@ final class HttpClient extends HttpClientContract implements LoggerAwareInterfac
             }
 
             break;
-        } while (true);
+        }
 
         if (\in_array($code, $this->getExceptionTriggers(), true)) {
             throw new HttpException($request, $response);

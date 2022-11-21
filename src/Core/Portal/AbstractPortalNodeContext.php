@@ -15,14 +15,10 @@ use Psr\Log\LoggerInterface;
 
 abstract class AbstractPortalNodeContext implements PortalNodeContextInterface
 {
-    private PortalNodeContainerFacadeContract $containerFacade;
-
-    private ?array $configuration;
-
-    public function __construct(PortalNodeContainerFacadeContract $container, ?array $configuration)
-    {
-        $this->containerFacade = $container;
-        $this->configuration = $configuration;
+    public function __construct(
+        private PortalNodeContainerFacadeContract $containerFacade,
+        private ?array $configuration
+    ) {
     }
 
     public function getConfig(): ?array

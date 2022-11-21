@@ -14,15 +14,11 @@ final class IdentityMapPayload implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private PortalNodeKeyInterface $portalNodeKey;
-
-    private DatasetEntityCollection $entityCollection;
-
-    public function __construct(PortalNodeKeyInterface $portalNodeKey, DatasetEntityCollection $entityCollection)
-    {
+    public function __construct(
+        private PortalNodeKeyInterface $portalNodeKey,
+        private DatasetEntityCollection $entityCollection
+    ) {
         $this->attachments = new AttachmentCollection();
-        $this->portalNodeKey = $portalNodeKey;
-        $this->entityCollection = $entityCollection;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

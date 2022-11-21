@@ -21,7 +21,7 @@
         "rss": "https://heptaconnect.io/news/rss2.xml"
     },
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.0",
         "ext-hash": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
@@ -52,7 +52,6 @@
         "symfony/lock": "^4.0 || ^5.0",
         "symfony/messenger": "^4.0 || ^5.0",
         "symfony/options-resolver": ">=4",
-        "symfony/polyfill-php80": ">=1.16",
         "symfony/serializer": ">=4",
         "symfony/yaml": "^4.4 || ^5.0"
     },
@@ -104,12 +103,6 @@
             "infection/extension-installer": true,
             "ocramius/package-versions": true
         }
-    },
-    "extra": {
-        "unused": [
-            "bentools/iterable-functions",
-            "symfony/polyfill-php80"
-        ]
     },
     "website": "https://heptaconnect.io"
 }

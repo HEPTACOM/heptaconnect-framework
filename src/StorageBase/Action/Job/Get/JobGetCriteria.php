@@ -13,12 +13,10 @@ final class JobGetCriteria implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private JobKeyCollection $jobKeys;
-
-    public function __construct(JobKeyCollection $jobKeys)
-    {
+    public function __construct(
+        private JobKeyCollection $jobKeys
+    ) {
         $this->attachments = new AttachmentCollection();
-        $this->jobKeys = $jobKeys;
     }
 
     public function getJobKeys(): JobKeyCollection
