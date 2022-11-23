@@ -20,9 +20,13 @@ class FilesystemTest extends TestCase
     {
         $filesystem = $this->createFilesystem();
         static::assertEquals('heptaconnect-portal-node+123://this-is-a-file.csv', $filesystem->toStoragePath('this-is-a-file.csv'));
+        static::assertEquals('heptaconnect-portal-node+123://this-is-a-file.csv', $filesystem->toStoragePath('/this-is-a-file.csv'));
         static::assertEquals('heptaconnect-portal-node+123://nested/path/this-is-a-file.csv', $filesystem->toStoragePath('nested/path/this-is-a-file.csv'));
+        static::assertEquals('heptaconnect-portal-node+123://nested/path/this-is-a-file.csv', $filesystem->toStoragePath('/nested/path/this-is-a-file.csv'));
         static::assertEquals('heptaconnect-portal-node+123://foobar.d/this-is-a-file.csv', $filesystem->toStoragePath('foobar.d/this-is-a-file.csv'));
+        static::assertEquals('heptaconnect-portal-node+123://foobar.d/this-is-a-file.csv', $filesystem->toStoragePath('/foobar.d/this-is-a-file.csv'));
         static::assertEquals('heptaconnect-portal-node+123://', $filesystem->toStoragePath(''));
+        static::assertEquals('heptaconnect-portal-node+123://', $filesystem->toStoragePath('/'));
     }
 
     public function testToStoragePathFailsWithSchemaInUri(): void
