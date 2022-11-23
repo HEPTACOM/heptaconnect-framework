@@ -55,7 +55,6 @@ final class FilesystemFactoryTest extends TestCase
         \Twistor\FlysystemStreamWrapper::register('test-stream', $flysystem);
 
         $streamProtocolProvider = $this->createMock(PortalNodeFilesystemStreamProtocolProviderInterface::class);
-        // TODO register test-stream
         $streamProtocolProvider->method('provide')->willReturn('test-stream');
 
         $filesystemFactory = new FilesystemFactory($streamProtocolProvider, $uriFactory, $storageKeyGenerator);
