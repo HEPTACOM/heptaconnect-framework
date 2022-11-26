@@ -6,7 +6,7 @@ PHPUNIT := $(PHP) vendor/bin/phpunit $(PHPUNIT_EXTRA_ARGS)
 CURL := $(shell which curl)
 JQ := $(shell which jq)
 XSLTPROC := $(shell which xsltproc)
-JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*' -not -path './.build/*' -not -path './dev-ops/bin/*/vendor/*' -not -path './src/Core/vendor/*' -not -path './src/DatasetBase/vendor/*' -not -path './src/PortalBase/vendor/*' -not -path './src/StorageBase/vendor/*' -not -path './src/TestSuitePortal/vendor/*' -not -path './src/TestSuiteStorage/vendor/*' -not -path './src/UiAdminBase/vendor/*' -not -path './test/Core/Fixture/_files/portal-node-configuration-invalid.json')
+JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*' -not -path './.build/*' -not -path './dev-ops/bin/*/vendor/*' -not -path './src/Core/vendor/*' -not -path './src/DatasetBase/vendor/*' -not -path './src/PortalBase/vendor/*' -not -path './src/StorageBase/vendor/*' -not -path './src/TestSuitePortal/vendor/*' -not -path './src/TestSuiteStorage/vendor/*' -not -path './src/UiAdminBase/vendor/*' -not -path './test/Core/Fixture/_files/portal-node-configuration-invalid.json' -not -path './test-suite-portal-test-portal/vendor/*')
 GIT := $(shell which git)
 PHPSTAN_FILE := dev-ops/bin/phpstan/vendor/bin/phpstan
 COMPOSER_NORMALIZE_PHAR := https://github.com/ergebnis/composer-normalize/releases/download/2.22.0/composer-normalize.phar
@@ -45,6 +45,7 @@ clean: clean-package-vendor ## Cleans up all ignored files and directories
 	[[ ! -d dev-ops/bin/phpstan/vendor ]] || rm -rf dev-ops/bin/phpstan/vendor
 	[[ ! -d dev-ops/bin/psalm/vendor ]] || rm -rf dev-ops/bin/psalm/vendor
 	[[ ! -d dev-ops/bin/php-churn/vendor ]] || rm -rf dev-ops/bin/php-churn/vendor
+	make -C test-suite-portal-test-portal clean
 
 .PHONY: clean-package-vendor
 clean-package-vendor:
@@ -71,6 +72,7 @@ coverage: vendor .build test-setup-fixture clean-package-vendor run-phpunit-cove
 .PHONY: run-phpunit-coverage
 run-phpunit-coverage:
 	$(PHPUNIT) --coverage-text
+	make -C test-suite-portal-test-portal coverage
 
 .PHONY: cs
 cs: cs-php cs-phpstan cs-psalm cs-phpmd cs-soft-require cs-composer-unused cs-composer-normalize cs-json cs-phpchurn ## Run every code style check target
@@ -178,6 +180,7 @@ test: test-setup-fixture clean-package-vendor run-phpunit test-clean-fixture ## 
 .PHONY: run-phpunit
 run-phpunit: vendor .build
 	$(PHPUNIT) --log-junit=.build/.phpunit-coverage/phpunit.junit.xml
+	make -C test-suite-portal-test-portal test
 
 test/%Test.php: vendor
 	$(PHPUNIT) "$@"
@@ -248,10 +251,13 @@ test-setup-fixture: vendor
 	[[ ! -d test-composer-integration/vendor ]] || rm -rf test-composer-integration/vendor
 	[[ ! -f test-composer-integration/composer.lock ]] || rm test-composer-integration/composer.lock
 	composer install -d test-composer-integration/
+	make -C test-suite-portal-test-portal clean
+	make -C test-suite-portal-test-portal vendor
 
 .PHONY: test-clean-fixture
 test-clean-fixture:
 	[[ ! -d test-composer-integration/vendor ]] || rm -rf test-composer-integration/vendor
+	make -C test-suite-portal-test-portal clean
 
 .PHONY: build-packages
 build-packages:

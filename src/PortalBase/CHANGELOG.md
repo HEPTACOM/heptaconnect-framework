@@ -61,6 +61,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+## [0.9.3.0] - 2022-11-26
+
+### Added
+
+- Add service of `\Heptacom\HeptaConnect\Portal\Base\File\Filesystem\Contract\FilesystemInterface` to the portal node container to interact with filesystem abstraction
+- Add exception `\Heptacom\HeptaConnect\Portal\Base\File\Filesystem\Exception\UnexpectedFormatOfUriException` to indicate usage unexpected parameters with `\Heptacom\HeptaConnect\Portal\Base\File\Filesystem\Contract\FilesystemInterface`
+
+### Deprecated
+
+- Deprecate service `League\Flysystem\FilesystemInterface` in the portal node container. Use `\Heptacom\HeptaConnect\Portal\Base\File\Filesystem\Contract\FilesystemInterface` in combination with native stream functions like `fopen`, `fread`, `fwrite`, `fclose`, `file_get_contents` and `file_put_contents` instead
+
 ## [0.9.2.0] - 2022-10-16
 
 ### Added
