@@ -95,7 +95,7 @@ final class JobRunUiTest extends TestCase
         $jobB->method('equals')->willReturnCallback(static fn ($key): bool => $key === $jobB);
         $jobC->method('equals')->willReturnCallback(static fn ($key): bool => $key === $jobC);
 
-        $jobGetAction->method('get')->willReturnCallback(static function () use ($jobC, $jobB, $jobA, $portalNodeKey) {
+        $jobGetAction->method('get')->willReturnCallback(static function () use ($jobC, $jobA, $portalNodeKey) {
             $mappingComponent = new MappingComponentStruct($portalNodeKey, FooBarEntity::class(), 'ABC');
 
             return [
