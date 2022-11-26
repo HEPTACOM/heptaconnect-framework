@@ -14,7 +14,6 @@ use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Map\IdentityMapPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Map\IdentityMapResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface;
 use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -67,17 +66,13 @@ final class IdentityMappingEmitterTest extends TestCase
     {
         $entityType = FooBarEntity::class();
         $identityMapAction = $this->createMock(IdentityMapActionInterface::class);
-        $container = $this->createMock(ContainerInterface::class);
         $stack = $this->createMock(EmitterStackInterface::class);
         $context = $this->createMock(EmitContextInterface::class);
         $batchSize = 3;
         $pks = $this->generatePrimaryKeys($batchSize * 5 + 2);
         $entities = $this->generateEntities($pks);
 
-        $container->method('get')->willReturnCallback(fn (string $id) => [
-            LoggerInterface::class => $this->createMock(LoggerInterface::class),
-        ][$id] ?? null);
-        $context->method('getContainer')->willReturn($container);
+        $context->method('getLogger')->willReturn($this->createMock(LoggerInterface::class));
         $identityMapAction
             ->expects(static::exactly(6))
             ->method('map')
@@ -95,7 +90,6 @@ final class IdentityMappingEmitterTest extends TestCase
     public function testConvertsPksToJobsAndDispatchesThemUntilAnExceptionIsThrown(): void
     {
         $entityType = FooBarEntity::class();
-        $container = $this->createMock(ContainerInterface::class);
         $identityMapAction = $this->createMock(IdentityMapActionInterface::class);
         $stack = $this->createMock(EmitterStackInterface::class);
         $context = $this->createMock(EmitContextInterface::class);
@@ -103,10 +97,7 @@ final class IdentityMappingEmitterTest extends TestCase
         $pks = $this->generatePrimaryKeys($batchSize + 2);
         $entities = $this->generateEntities($pks);
 
-        $container->method('get')->willReturnCallback(fn (string $id) => [
-            LoggerInterface::class => $this->createMock(LoggerInterface::class),
-        ][$id] ?? null);
-        $context->method('getContainer')->willReturn($container);
+        $context->method('getLogger')->willReturn($this->createMock(LoggerInterface::class));
         $identityMapAction
             ->expects(static::exactly(2))
             ->method('map')
@@ -114,7 +105,7 @@ final class IdentityMappingEmitterTest extends TestCase
 
         $emitter = new IdentityMappingEmitter($entityType, new PrimaryKeyToEntityHydrator(), $identityMapAction, $batchSize);
 
-        $stack->method('next')->willReturnCallback(static function () use ($entities, $batchSize): iterable {
+        $stack->method('next')->willReturnCallback(static function () use ($entities): iterable {
             yield from $entities;
 
             throw new \RuntimeException('Test message');

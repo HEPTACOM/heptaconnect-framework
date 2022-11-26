@@ -14,21 +14,12 @@ final class RouteFindCriteria implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private PortalNodeKeyInterface $source;
-
-    private PortalNodeKeyInterface $target;
-
-    private ClassStringReferenceContract $entityType;
-
     public function __construct(
-        PortalNodeKeyInterface $source,
-        PortalNodeKeyInterface $target,
-        ClassStringReferenceContract $entityType
+        private PortalNodeKeyInterface $source,
+        private PortalNodeKeyInterface $target,
+        private ClassStringReferenceContract $entityType
     ) {
         $this->attachments = new AttachmentCollection();
-        $this->source = $source;
-        $this->target = $target;
-        $this->entityType = $entityType;
     }
 
     public function getSource(): PortalNodeKeyInterface

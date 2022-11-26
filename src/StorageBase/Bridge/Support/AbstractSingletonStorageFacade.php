@@ -142,6 +142,8 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
 
     private ?PortalNodeStorageListActionInterface $portalNodeStorageListAction = null;
 
+    private ?PortalNodeStorageSetActionInterface $portalNodeStorageSetAction = null;
+
     private ?RouteCapabilityOverviewActionInterface $routeCapabilityOverviewAction = null;
 
     private ?StorageKeyGeneratorContract $storageKeyGenerator = null;

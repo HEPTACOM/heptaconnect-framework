@@ -36,16 +36,16 @@ final class IdentityOverviewCriteria extends OverviewCriteriaContract implements
     /**
      * @var ClassStringReferenceContract[]
      */
-    protected array $entityTypeFilter = [];
+    private array $entityTypeFilter = [];
 
     /**
      * @var string[]
      */
-    protected array $externalIdFilter = [];
+    private array $externalIdFilter = [];
 
-    protected PortalNodeKeyCollection $portalNodeKeyFilter;
+    private PortalNodeKeyCollection $portalNodeKeyFilter;
 
-    protected MappingNodeKeyCollection $mappingNodeKeyFilter;
+    private MappingNodeKeyCollection $mappingNodeKeyFilter;
 
     public function __construct()
     {

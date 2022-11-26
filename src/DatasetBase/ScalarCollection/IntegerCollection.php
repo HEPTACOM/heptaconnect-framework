@@ -38,9 +38,6 @@ final class IntegerCollection extends AbstractCollection
         return (int) \array_sum($this->items);
     }
 
-    /**
-     * @return static
-     */
     public function asUnique(): self
     {
         $result = $this->withoutItems();

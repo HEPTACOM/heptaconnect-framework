@@ -25,7 +25,7 @@ final class PortalNodeOverviewCriteria extends OverviewCriteriaContract implemen
         self::FIELD_CREATED => self::SORT_ASC,
     ];
 
-    protected ClassStringReferenceCollection $classNameFilter;
+    private ClassStringReferenceCollection $classNameFilter;
 
     public function __construct()
     {

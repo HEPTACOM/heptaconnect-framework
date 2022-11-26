@@ -21,13 +21,13 @@
         "rss": "https://heptaconnect.io/news/rss2.xml"
     },
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.0",
         "ext-hash": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-zlib": "*",
         "bentools/iterable-functions": ">=1.4 <2",
-        "composer/composer": ">=1.9",
+        "composer/composer": "^2.2.6",
         "league/flysystem": "^1",
         "myclabs/deep-copy": ">=1.10 <2",
         "opis/closure": "^3.6",
@@ -39,9 +39,12 @@
         "psr/http-client": "^1.0",
         "psr/http-factory": "^1.0",
         "psr/http-message": "^1.0",
+        "psr/http-server-handler": "^1.0",
+        "psr/http-server-middleware": "^1.0",
         "psr/log": "^1.0",
         "psr/simple-cache": "^1.0",
         "ramsey/uuid": "^3.5 || ^4",
+        "symfony/cache": "^4.4 || ^5.0",
         "symfony/config": "^4.4 || ^5.0",
         "symfony/dependency-injection": "^4.4 || ^5.0",
         "symfony/event-dispatcher": "^4.0 || ^5.0",
@@ -49,7 +52,6 @@
         "symfony/lock": "^4.0 || ^5.0",
         "symfony/messenger": "^4.0 || ^5.0",
         "symfony/options-resolver": ">=4",
-        "symfony/polyfill-php80": ">=1.16",
         "symfony/serializer": ">=4",
         "symfony/yaml": "^4.4 || ^5.0"
     },
@@ -57,8 +59,7 @@
         "infection/infection": ">=0.21",
         "league/flysystem": "^1.1",
         "nyholm/psr7": ">=1",
-        "php-http/curl-client": ">=1",
-        "symfony/cache": ">=3.2"
+        "php-http/curl-client": ">=2"
     },
     "replace": {
         "heptacom/heptaconnect-core": "*",
@@ -83,6 +84,7 @@
             "Heptacom\\HeptaConnect\\Portal\\Base\\": "src/PortalBase/",
             "Heptacom\\HeptaConnect\\Storage\\Base\\": "src/StorageBase/",
             "Heptacom\\HeptaConnect\\Core\\": "src/Core/",
+            "Heptacom\\HeptaConnect\\TestSuite\\Portal\\": "src/TestSuitePortal/",
             "Heptacom\\HeptaConnect\\TestSuite\\Storage\\": "src/TestSuiteStorage/",
             "Heptacom\\HeptaConnect\\Ui\\Admin\\Base\\": "src/UiAdminBase/"
         }
@@ -101,12 +103,6 @@
             "infection/extension-installer": true,
             "ocramius/package-versions": true
         }
-    },
-    "extra": {
-        "unused": [
-            "bentools/iterable-functions",
-            "symfony/polyfill-php80"
-        ]
     },
     "website": "https://heptaconnect.io"
 }

@@ -12,19 +12,13 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
  */
 final class PortalExtensionsAreAlreadyInactiveOnPortalNodeException extends \InvalidArgumentException implements InvalidArgumentThrowableInterface
 {
-    private PortalNodeKeyInterface $portalNodeKey;
-
-    private PortalExtensionTypeCollection $portalExtensionTypes;
-
     public function __construct(
-        PortalNodeKeyInterface $portalNodeKey,
-        PortalExtensionTypeCollection $portalExtensionTypes,
+        private PortalNodeKeyInterface $portalNodeKey,
+        private PortalExtensionTypeCollection $portalExtensionTypes,
         int $code,
         ?\Throwable $previous = null
     ) {
         parent::__construct('The given portal extensions are already inactive on the portal node key', $code, $previous);
-        $this->portalNodeKey = $portalNodeKey;
-        $this->portalExtensionTypes = $portalExtensionTypes;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

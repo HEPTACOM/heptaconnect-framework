@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 
 /**
  * @template T
+ *
  * @template-extends AbstractObjectCollection<T>
  */
 abstract class AbstractClassStringReferenceCollection extends AbstractObjectCollection

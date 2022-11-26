@@ -60,11 +60,9 @@ use Psr\Container\ContainerInterface;
  */
 class Psr11StorageFacade extends AbstractSingletonStorageFacade
 {
-    private ContainerInterface $container;
-
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
+    public function __construct(
+        private ContainerInterface $container
+    ) {
     }
 
     protected function createFileReferenceGetRequestAction(): FileReferenceGetRequestActionInterface

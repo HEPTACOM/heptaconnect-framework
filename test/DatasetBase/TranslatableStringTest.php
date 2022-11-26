@@ -16,8 +16,8 @@ use PHPUnit\Framework\TestCase;
 final class TranslatableStringTest extends TestCase
 {
     use ProvidesInvalidTestsData;
-    use ProvidesStringTestsData;
     use ProvidesJsonSerializer;
+    use ProvidesStringTestsData;
 
     /**
      * @dataProvider provideValidStringTestCases

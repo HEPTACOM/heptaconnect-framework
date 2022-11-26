@@ -15,29 +15,14 @@ final class IdentityOverviewResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private PortalNodeKeyInterface $portalNodeKey;
-
-    private MappingNodeKeyInterface $mappingNodeKey;
-
-    private string $externalId;
-
-    private ClassStringReferenceContract $entityType;
-
-    private \DateTimeInterface $createdAt;
-
     public function __construct(
-        PortalNodeKeyInterface $portalNodeKey,
-        MappingNodeKeyInterface $mappingNodeKey,
-        string $externalId,
-        ClassStringReferenceContract $entityType,
-        \DateTimeInterface $createdAt
+        private PortalNodeKeyInterface $portalNodeKey,
+        private MappingNodeKeyInterface $mappingNodeKey,
+        private string $externalId,
+        private ClassStringReferenceContract $entityType,
+        private \DateTimeInterface $createdAt
     ) {
         $this->attachments = new AttachmentCollection();
-        $this->portalNodeKey = $portalNodeKey;
-        $this->mappingNodeKey = $mappingNodeKey;
-        $this->externalId = $externalId;
-        $this->entityType = $entityType;
-        $this->createdAt = $createdAt;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

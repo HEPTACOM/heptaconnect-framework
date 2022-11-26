@@ -19,11 +19,9 @@ use PHPStan\Rules\RuleErrorBuilder;
  */
 final class FinalClassesMustNotHaveProtectedFieldsAndMethodsRule implements Rule
 {
-    private ReflectionProvider $reflectionProvider;
-
-    public function __construct(ReflectionProvider $reflectionProvider)
-    {
-        $this->reflectionProvider = $reflectionProvider;
+    public function __construct(
+        private ReflectionProvider $reflectionProvider
+    ) {
     }
 
     public function getNodeType(): string
@@ -53,7 +51,7 @@ final class FinalClassesMustNotHaveProtectedFieldsAndMethodsRule implements Rule
                 $parentMethods[$name] = $name;
             }
 
-            foreach (\array_keys($interfaceRefl->getConstants()) as $constant) {
+            foreach (\array_keys($interfaceRefl->getReflectionConstants()) as $constant) {
                 $parentConsts[$constant] = $constant;
             }
 
@@ -71,7 +69,7 @@ final class FinalClassesMustNotHaveProtectedFieldsAndMethodsRule implements Rule
                 $parentMethods[$name] = $name;
             }
 
-            foreach (\array_keys($classRefl->getConstants()) as $constant) {
+            foreach (\array_keys($classRefl->getReflectionConstants()) as $constant) {
                 $parentConsts[$constant] = $constant;
             }
 

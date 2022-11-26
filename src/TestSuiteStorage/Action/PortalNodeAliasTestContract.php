@@ -42,14 +42,21 @@ abstract class PortalNodeAliasTestContract extends TestCase
             new PortalNodeCreatePayload(PortalA::class()),
             new PortalNodeCreatePayload(PortalB::class()),
         ]);
-        $createResults = $createAction->create($createPayloads);
-        $portalNodeKeys = new PortalNodeKeyCollection($createResults->map(
+        $portalNodeCreateResults = $createAction->create($createPayloads);
+        $portalNodeKeys = new PortalNodeKeyCollection($portalNodeCreateResults->map(
             static fn (PortalNodeCreateResult $result): PortalNodeKeyInterface => $result->getPortalNodeKey()
         ));
 
-        static::assertCount(2, $createResults);
-        $portalA = $createResults[0]->getPortalNodeKey();
-        $portalB = $createResults[1]->getPortalNodeKey();
+        static::assertCount(2, $portalNodeCreateResults);
+
+        $portalNodeCreateResult1 = $portalNodeCreateResults[0] ?? null;
+        $portalNodeCreateResult2 = $portalNodeCreateResults[1] ?? null;
+
+        static::assertInstanceOf(PortalNodeCreateResult::class, $portalNodeCreateResult1);
+        static::assertInstanceOf(PortalNodeCreateResult::class, $portalNodeCreateResult2);
+
+        $portalA = $portalNodeCreateResult1->getPortalNodeKey();
+        $portalB = $portalNodeCreateResult2->getPortalNodeKey();
 
         $setAlias->set(new PortalNodeAliasSetPayloads([
             new PortalNodeAliasSetPayload($portalA, 'portal-a'),

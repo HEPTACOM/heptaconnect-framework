@@ -37,10 +37,14 @@ abstract class PortalNodeStorageTestContract extends TestCase
         $facade = $this->createStorageFacade();
         $portalNodeCreateAction = $facade->getPortalNodeCreateAction();
         $portalNodeDeleteAction = $facade->getPortalNodeDeleteAction();
-        $portalNodeCreateResult = $portalNodeCreateAction->create(new PortalNodeCreatePayloads([
+        $portalNodeCreateResults = $portalNodeCreateAction->create(new PortalNodeCreatePayloads([
             new PortalNodeCreatePayload(PortalA::class()),
         ]));
-        $portalNodeKey = $portalNodeCreateResult[0]->getPortalNodeKey();
+        $portalNodeCreateResult = $portalNodeCreateResults[0] ?? null;
+
+        static::assertInstanceOf(PortalNodeCreateResult::class, $portalNodeCreateResult);
+
+        $portalNodeKey = $portalNodeCreateResult->getPortalNodeKey();
         $set = $facade->getPortalNodeStorageSetAction();
 
         $set->set(new PortalNodeStorageSetPayload($portalNodeKey, new PortalNodeStorageSetItems([
@@ -82,10 +86,14 @@ abstract class PortalNodeStorageTestContract extends TestCase
         $facade = $this->createStorageFacade();
         $portalNodeCreateAction = $facade->getPortalNodeCreateAction();
         $portalNodeDeleteAction = $facade->getPortalNodeDeleteAction();
-        $portalNodeCreateResult = $portalNodeCreateAction->create(new PortalNodeCreatePayloads([
+        $portalNodeCreateResults = $portalNodeCreateAction->create(new PortalNodeCreatePayloads([
             new PortalNodeCreatePayload(PortalA::class()),
         ]));
-        $portalNodeKey = $portalNodeCreateResult[0]->getPortalNodeKey();
+        $portalNodeCreateResult = $portalNodeCreateResults[0] ?? null;
+
+        static::assertInstanceOf(PortalNodeCreateResult::class, $portalNodeCreateResult);
+
+        $portalNodeKey = $portalNodeCreateResult->getPortalNodeKey();
         $set = $facade->getPortalNodeStorageSetAction();
 
         $set->set(new PortalNodeStorageSetPayload($portalNodeKey, new PortalNodeStorageSetItems([
@@ -278,8 +286,6 @@ abstract class PortalNodeStorageTestContract extends TestCase
                 $getResults
             )
         );
-
-        static::assertIsArray($getResults);
 
         \ksort($getValues);
 

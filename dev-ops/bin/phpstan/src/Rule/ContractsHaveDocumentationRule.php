@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\DevOps\PhpStan\Rule;
 
+use Heptacom\HeptaConnect\DevOps\PhpStan\Support\StructDetector;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -17,11 +18,12 @@ use PHPStan\Rules\RuleErrorBuilder;
  */
 final class ContractsHaveDocumentationRule implements Rule
 {
-    private ReflectionProvider $reflectionProvider;
+    private StructDetector $structDetector;
 
-    public function __construct(ReflectionProvider $reflectionProvider)
-    {
-        $this->reflectionProvider = $reflectionProvider;
+    public function __construct(
+        private ReflectionProvider $reflectionProvider
+    ) {
+        $this->structDetector = new StructDetector();
     }
 
     public function getNodeType(): string
@@ -33,6 +35,10 @@ final class ContractsHaveDocumentationRule implements Rule
     {
         /* @see https://github.com/nikic/PHP-Parser/issues/821 */
         if ($node->isAnonymous() || \str_starts_with((string) $node->name, 'AnonymousClass')) {
+            return [];
+        }
+
+        if ($this->structDetector->isClassLikeAStruct($node)) {
             return [];
         }
 

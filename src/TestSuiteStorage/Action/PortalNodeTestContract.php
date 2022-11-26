@@ -94,7 +94,7 @@ abstract class PortalNodeTestContract extends TestCase
 
         try {
             $deleteAction->delete($deleteCriteria);
-        } catch (NotFoundException $notFoundException) {
+        } catch (NotFoundException) {
             return;
         }
 

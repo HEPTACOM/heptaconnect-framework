@@ -15,7 +15,6 @@ use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterfa
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerStackInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -60,7 +59,6 @@ final class EmissionJobDispatchingExplorerTest extends TestCase
     public function testConvertsRemainingPksIfPkCountIsNotDividablePerfectlyByBatchSize(): void
     {
         $entityType = FooBarEntity::class();
-        $container = $this->createMock(ContainerInterface::class);
         $jobConverter = $this->createMock(ExploredPrimaryKeysToJobsConverterInterface::class);
         $jobDispatcher = $this->createMock(JobDispatcherContract::class);
         $stack = $this->createMock(ExplorerStackInterface::class);
@@ -69,10 +67,7 @@ final class EmissionJobDispatchingExplorerTest extends TestCase
         $batchSize = 3;
         $pks = $this->generatePrimaryKeys($batchSize * 5 + 2);
 
-        $container->method('get')->willReturnCallback(fn (string $id) => [
-            LoggerInterface::class => $this->createMock(LoggerInterface::class),
-        ][$id] ?? null);
-        $context->method('getContainer')->willReturn($container);
+        $context->method('getLogger')->willReturn($this->createMock(LoggerInterface::class));
         $jobConverter
             ->expects(static::exactly(6))
             ->method('convert')
@@ -90,7 +85,6 @@ final class EmissionJobDispatchingExplorerTest extends TestCase
     public function testConvertsPksToJobsAndDispatchesThemUntilAnExceptionIsThrown(): void
     {
         $entityType = FooBarEntity::class();
-        $container = $this->createMock(ContainerInterface::class);
         $portalNodeLogger = $this->createMock(LoggerInterface::class);
         $jobConverter = $this->createMock(ExploredPrimaryKeysToJobsConverterInterface::class);
         $jobDispatcher = $this->createMock(JobDispatcherContract::class);
@@ -100,10 +94,7 @@ final class EmissionJobDispatchingExplorerTest extends TestCase
         $batchSize = 3;
         $pks = $this->generatePrimaryKeys($batchSize + 2);
 
-        $container->method('get')->willReturnCallback(fn (string $id) => [
-            LoggerInterface::class => $portalNodeLogger,
-        ][$id] ?? null);
-        $context->method('getContainer')->willReturn($container);
+        $context->method('getLogger')->willReturn($portalNodeLogger);
         $jobConverter
             ->expects(static::exactly(2))
             ->method('convert')
