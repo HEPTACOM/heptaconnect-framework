@@ -23,6 +23,7 @@
     },
     "require": {
         "php": ">=7.4",
+        "brzuchal/filesystem-stream-wrapper": "^0.9",
         "heptacom/heptaconnect-core": "self.version",
         "heptacom/heptaconnect-dataset-base": "self.version",
         "heptacom/heptaconnect-portal-base": "self.version",
