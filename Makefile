@@ -5,7 +5,7 @@ PHPUNIT_EXTRA_ARGS := --config=test/phpunit.xml
 PHPUNIT := $(PHP) vendor/bin/phpunit $(PHPUNIT_EXTRA_ARGS)
 CURL := $(shell which curl)
 JQ := $(shell which jq)
-JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*' -not -path './.build/*' -not -path './src/Core/vendor/*' -not -path './src/DatasetBase/vendor/*' -not -path './src/PortalBase/vendor/*' -not -path './src/StorageBase/vendor/*' -not -path './src/TestSuiteStorage/vendor/*' -not -path './test/Core/Fixture/_files/portal-node-configuration-invalid.json')
+JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*' -not -path './.build/*' -not -path './src/Core/vendor/*' -not -path './src/DatasetBase/vendor/*' -not -path './src/PortalBase/vendor/*' -not -path './src/StorageBase/vendor/*' -not -path './src/TestSuitePortal/vendor/*' -not -path './src/TestSuiteStorage/vendor/*' -not -path './test/Core/Fixture/_files/portal-node-configuration-invalid.json' -not -path './test-suite-portal-test-portal/vendor/*')
 GIT := $(shell which git)
 PHPSTAN_FILE := dev-ops/bin/phpstan/vendor/bin/phpstan
 COMPOSER_NORMALIZE_PHAR := https://github.com/ergebnis/composer-normalize/releases/download/2.22.0/composer-normalize.phar
@@ -39,6 +39,7 @@ clean: ## Cleans up all ignored files and directories
 	[[ ! -f dev-ops/bin/phpmd ]] || rm -f dev-ops/bin/phpmd
 	[[ ! -d dev-ops/bin/phpstan/vendor ]] || rm -rf dev-ops/bin/phpstan/vendor
 	[[ ! -d dev-ops/bin/psalm/vendor ]] || rm -rf dev-ops/bin/psalm/vendor
+	make -C test-suite-portal-test-portal clean
 
 .PHONY: it
 it: cs-fix cs test ## Fix code style and run unit tests
@@ -49,6 +50,7 @@ coverage: vendor .build test-setup-fixture run-phpunit-coverage test-clean-fixtu
 .PHONY: run-phpunit-coverage
 run-phpunit-coverage:
 	$(PHPUNIT) --coverage-text
+	make -C test-suite-portal-test-portal coverage
 
 .PHONY: cs
 cs: cs-php cs-phpstan cs-psalm cs-phpmd cs-soft-require cs-composer-unused cs-composer-normalize cs-json ## Run every code style check target
@@ -77,6 +79,7 @@ cs-phpmd: vendor .build $(PHPMD_FILE) ## Run php mess detector for static code a
 	$(PHP) $(PHPMD_FILE) src/PortalBase xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-portal-base.junit.xml
 	$(PHP) $(PHPMD_FILE) src/StorageBase xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-storage-base.junit.xml
 	$(PHP) $(PHPMD_FILE) src/TestSuiteStorage xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-test-suite-storage.junit.xml
+	# TODO Add TestSuitePortal
 
 .PHONY: cs-composer-unused
 cs-composer-unused: vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to detect once-required packages that are not used anymore
@@ -85,6 +88,7 @@ cs-composer-unused: vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to det
 	cd src/DatasetBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
 	cd src/PortalBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
 	cd src/StorageBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
+	cd src/TestSuitePortal && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
 	cd src/TestSuiteStorage && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
 
 .PHONY: cs-soft-require
@@ -98,6 +102,7 @@ cs-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-normali
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/DatasetBase/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/PortalBase/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/StorageBase/composer.json
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/TestSuitePortal/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/TestSuiteStorage/composer.json
 
 .PHONY: cs-json
@@ -117,6 +122,7 @@ cs-fix-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-nor
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/DatasetBase/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/PortalBase/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/StorageBase/composer.json
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/TestSuitePortal/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/TestSuiteStorage/composer.json
 
 .PHONY: cs-fix-php
@@ -136,6 +142,7 @@ test: test-setup-fixture run-phpunit test-clean-fixture ## Run phpunit for unit 
 .PHONY: run-phpunit
 run-phpunit: vendor .build
 	$(PHPUNIT) --log-junit=.build/.phpunit-coverage/phpunit.junit.xml
+	make -C test-suite-portal-test-portal test
 
 test/%Test.php: vendor
 	$(PHPUNIT) "$@"
@@ -181,10 +188,13 @@ test-setup-fixture: vendor
 	[[ ! -d test-composer-integration/vendor ]] || rm -rf test-composer-integration/vendor
 	[[ ! -f test-composer-integration/composer.lock ]] || rm test-composer-integration/composer.lock
 	composer install -d test-composer-integration/
+	make -C test-suite-portal-test-portal clean
+	make -C test-suite-portal-test-portal vendor
 
 .PHONY: test-clean-fixture
 test-clean-fixture:
 	[[ ! -d test-composer-integration/vendor ]] || rm -rf test-composer-integration/vendor
+	make -C test-suite-portal-test-portal clean
 
 .PHONY: build-packages
 build-packages:
@@ -193,6 +203,7 @@ build-packages:
 	dev-ops/bin/build-subpackage PortalBase
 	dev-ops/bin/build-subpackage StorageBase
 	dev-ops/bin/build-subpackage TestSuiteStorage
+	# TODO Add TestSuitePortal
 
 .PHONY: publish-packages
 publish-packages: build-packages
@@ -203,6 +214,7 @@ publish-packages: build-packages
 	dev-ops/bin/publish-subpackage PortalBase portal-base "$(TAG)" "$(BRANCH)"
 	dev-ops/bin/publish-subpackage StorageBase storage-base "$(TAG)" "$(BRANCH)"
 	dev-ops/bin/publish-subpackage TestSuiteStorage test-suite-storage "$(TAG)" "$(BRANCH)"
+	# TODO Add TestSuitePortal
 	$(GIT) reset --hard HEAD^1
 
 .PHONY: subtree-merge

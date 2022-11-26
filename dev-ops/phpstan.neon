@@ -13,6 +13,7 @@ parameters:
 		- ../src/PortalBase/
 		- ../src/StorageBase/
 		- ../src/TestSuiteStorage/
+        # TODO Add TestSuitePortal
 	tmpDir: ../.build/phpstan/
 	scanDirectories:
 		- ../vendor/
