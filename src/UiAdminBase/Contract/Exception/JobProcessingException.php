@@ -8,25 +8,16 @@ use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
 
 final class JobProcessingException extends \RuntimeException
 {
-    private JobKeyCollection $processedJobs;
-
-    private JobKeyCollection $failedJobs;
-
-    private JobKeyCollection $notProcessedJobs;
-
     public function __construct(
-        JobKeyCollection $processedJobs,
-        JobKeyCollection $failedJobs,
-        JobKeyCollection $notProcessedJobs,
+        private JobKeyCollection $processedJobs,
+        private JobKeyCollection $failedJobs,
+        private JobKeyCollection $notProcessedJobs,
         int $code,
         ?\Throwable $previous = null
     ) {
-        $this->processedJobs = $processedJobs;
-        $this->failedJobs = $failedJobs;
-        $this->notProcessedJobs = $notProcessedJobs;
         $message = 'Some jobs failed to be processed. %d were processed, %d failed in processing, %d were not tried to process';
 
-        parent::__construct(\sprintf($message, $processedJobs->count(), $failedJobs->count(), $notProcessedJobs->count()), $code, $previous);
+        parent::__construct(\sprintf($message, $this->processedJobs->count(), $this->failedJobs->count(), $this->notProcessedJobs->count()), $code, $previous);
     }
 
     public function getProcessedJobs(): JobKeyCollection
