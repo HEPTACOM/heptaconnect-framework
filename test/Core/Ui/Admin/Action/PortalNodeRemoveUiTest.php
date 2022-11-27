@@ -36,6 +36,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class PortalNodeRemoveUiTest extends TestCase
 {
+    use UiActionTestTrait;
+
     public function testSuccess(): void
     {
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
@@ -47,12 +49,12 @@ final class PortalNodeRemoveUiTest extends TestCase
         ]);
         $portalNodeDeleteAction->expects(static::once())->method('delete');
 
-        $action = new PortalNodeRemoveUi($portalNodeGetAction, $portalNodeDeleteAction);
+        $action = new PortalNodeRemoveUi($this->createAuditTrailFactory(), $portalNodeGetAction, $portalNodeDeleteAction);
         $criteria = new PortalNodeRemoveCriteria(new PortalNodeKeyCollection([
             $portalNodeKey,
         ]));
 
-        $action->remove($criteria);
+        $action->remove($criteria, $this->createUiActionContext());
     }
 
     public function testPortalNodeAlreadyDeleted(): void
@@ -64,14 +66,14 @@ final class PortalNodeRemoveUiTest extends TestCase
         $portalNodeGetAction->expects(static::once())->method('get')->willReturn([]);
         $portalNodeDeleteAction->expects(static::never())->method('delete');
 
-        $action = new PortalNodeRemoveUi($portalNodeGetAction, $portalNodeDeleteAction);
+        $action = new PortalNodeRemoveUi($this->createAuditTrailFactory(), $portalNodeGetAction, $portalNodeDeleteAction);
         $criteria = new PortalNodeRemoveCriteria(new PortalNodeKeyCollection([
             $portalNodeKey,
         ]));
 
         self::expectException(PortalNodesMissingException::class);
 
-        $action->remove($criteria);
+        $action->remove($criteria, $this->createUiActionContext());
     }
 
     public function testPortalNodeFailedDeleting(): void
@@ -85,14 +87,14 @@ final class PortalNodeRemoveUiTest extends TestCase
         ]);
         $portalNodeDeleteAction->expects(static::once())->method('delete')->willThrowException(new \LogicException('Woops'));
 
-        $action = new PortalNodeRemoveUi($portalNodeGetAction, $portalNodeDeleteAction);
+        $action = new PortalNodeRemoveUi($this->createAuditTrailFactory(), $portalNodeGetAction, $portalNodeDeleteAction);
         $criteria = new PortalNodeRemoveCriteria(new PortalNodeKeyCollection([
             $portalNodeKey,
         ]));
 
         self::expectException(PersistException::class);
 
-        $action->remove($criteria);
+        $action->remove($criteria, $this->createUiActionContext());
     }
 
     public function testPortalNodeFailedReading(): void
@@ -104,13 +106,13 @@ final class PortalNodeRemoveUiTest extends TestCase
         $portalNodeGetAction->expects(static::once())->method('get')->willThrowException(new \LogicException('Woops'));
         $portalNodeDeleteAction->expects(static::never())->method('delete');
 
-        $action = new PortalNodeRemoveUi($portalNodeGetAction, $portalNodeDeleteAction);
+        $action = new PortalNodeRemoveUi($this->createAuditTrailFactory(), $portalNodeGetAction, $portalNodeDeleteAction);
         $criteria = new PortalNodeRemoveCriteria(new PortalNodeKeyCollection([
             $portalNodeKey,
         ]));
 
         self::expectException(PersistException::class);
 
-        $action->remove($criteria);
+        $action->remove($criteria, $this->createUiActionContext());
     }
 }
