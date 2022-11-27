@@ -42,6 +42,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class JobRunUiTest extends TestCase
 {
+    use UiActionTestTrait;
+
     public function testJobsOfAllTypesAreRun(): void
     {
         $jobActor = $this->createMock(DelegatingJobActorContract::class);
@@ -75,11 +77,11 @@ final class JobRunUiTest extends TestCase
                 Exploration::class, new Count(1),
             ]);
 
-        $action = new JobRunUi($jobActor, $jobGetAction);
+        $action = new JobRunUi($this->createAuditTrailFactory(), $jobActor, $jobGetAction);
         $payload = new JobRunPayload();
         $payload->getJobKeys()->push([$jobA, $jobB, $jobC]);
 
-        $action->run($payload);
+        $action->run($payload, $this->createUiActionContext());
     }
 
     public function testMissingJobsAreReportedBeforeOthersAreRun(): void
@@ -106,14 +108,14 @@ final class JobRunUiTest extends TestCase
 
         $jobActor->expects(static::never())->method('performJobs');
 
-        $action = new JobRunUi($jobActor, $jobGetAction);
+        $action = new JobRunUi($this->createAuditTrailFactory(), $jobActor, $jobGetAction);
         $payload = new JobRunPayload();
         $payload->getJobKeys()->push([$jobA, $jobB, $jobC]);
 
         static::expectExceptionCode(1659721163);
         static::expectException(JobMissingException::class);
 
-        $action->run($payload);
+        $action->run($payload, $this->createUiActionContext());
     }
 
     public function testFailingJobExceptionCanReportProgress(): void
@@ -149,12 +151,12 @@ final class JobRunUiTest extends TestCase
                 }
             });
 
-        $action = new JobRunUi($jobActor, $jobGetAction);
+        $action = new JobRunUi($this->createAuditTrailFactory(), $jobActor, $jobGetAction);
         $payload = new JobRunPayload();
         $payload->getJobKeys()->push([$jobA, $jobB, $jobC]);
 
         try {
-            $action->run($payload);
+            $action->run($payload, $this->createUiActionContext());
             static::fail();
         } catch (JobProcessingException $exception) {
             static::assertSame(1659721164, $exception->getCode());
