@@ -17,6 +17,7 @@ use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionDeactivateUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeStatusReportUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUiDefault;
+use Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteBrowseUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerCodeOriginFinderInterface;
@@ -31,6 +32,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionIn
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewActionInterface;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeEntityListUiActionInterface;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionInterface;
 use PHPUnit\Framework\TestCase;
@@ -80,9 +82,10 @@ final class UiActionInterfaceTest extends TestCase
         $portalLoader = $this->createMock(ComposerPortalLoader::class);
         $statusReportingService = $this->createMock(StatusReportingServiceInterface::class);
         $routeCreateAction = $this->createMock(RouteCreateActionInterface::class);
+        $routeDeleteAction = $this->createMock(RouteDeleteActionInterface::class);
         $routeFindAction = $this->createMock(RouteFindActionInterface::class);
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
-        $routeDeleteAction = $this->createMock(RouteDeleteActionInterface::class);
+        $routeOverviewAction = $this->createMock(RouteOverviewActionInterface::class);
 
         yield new PortalEntityListUi($auditTrailFactory, $portalNodeEntityListUiAction);
         yield new PortalNodeAddUi($auditTrailFactory, $portalNodeCreateAction, $portalNodeAliasFindAction);
@@ -93,5 +96,6 @@ final class UiActionInterfaceTest extends TestCase
         yield new PortalNodeStatusReportUi($auditTrailFactory, $statusReportingService);
         yield new RouteAddUiDefault($auditTrailFactory);
         yield new RouteAddUi($auditTrailFactory, $routeCreateAction, $routeFindAction, $routeGetAction, $routeDeleteAction, $portalNodeGetAction);
+        yield new RouteBrowseUi($auditTrailFactory, $routeOverviewAction);
     }
 }

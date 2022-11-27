@@ -6,13 +6,15 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Route;
 
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteBrowse\RouteBrowseCriteria;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteBrowse\RouteBrowseResult;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionContextInterface;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionInterface;
 
-interface RouteBrowseUiActionInterface
+interface RouteBrowseUiActionInterface extends UiActionInterface
 {
     /**
      * Lists all routes by the given criteria.
      *
      * @return iterable<RouteBrowseResult>
      */
-    public function browse(RouteBrowseCriteria $criteria): iterable;
+    public function browse(RouteBrowseCriteria $criteria, UiActionContextInterface $context): iterable;
 }

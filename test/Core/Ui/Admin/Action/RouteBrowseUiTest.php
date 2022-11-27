@@ -38,6 +38,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class RouteBrowseUiTest extends TestCase
 {
+    use UiActionTestTrait;
+
     public function testCriteriaFilters(): void
     {
         /** @var RouteOverviewCriteria|null $storageCriteria */
@@ -52,10 +54,10 @@ final class RouteBrowseUiTest extends TestCase
             });
 
         $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
-        $action = new RouteBrowseUi($routeOverviewAction);
+        $action = new RouteBrowseUi($this->createAuditTrailFactory(), $routeOverviewAction);
         $criteria = new RouteBrowseCriteria();
 
-        \iterable_to_array($action->browse($criteria));
+        \iterable_to_array($action->browse($criteria, $this->createUiActionContext()));
 
         static::assertNotNull($storageCriteria);
         static::assertNull($storageCriteria->getTargetPortalNodeKeyFilter());
@@ -75,7 +77,7 @@ final class RouteBrowseUiTest extends TestCase
         $criteria->setSourcePortalNodeKeyFilter(new PortalNodeKeyCollection([$portalNodeKey]));
         $criteria->setEntityTypeFilter(new ClassStringReferenceCollection([FooBarEntity::class()]));
 
-        \iterable_to_array($action->browse($criteria));
+        \iterable_to_array($action->browse($criteria, $this->createUiActionContext()));
 
         static::assertNotNull($storageCriteria);
         static::assertCount(1, $storageCriteria->getTargetPortalNodeKeyFilter());
