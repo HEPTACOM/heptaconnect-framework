@@ -10,13 +10,13 @@ class ResourceIsLockedException extends \RuntimeException
 {
     private string $resourceKey;
 
-    private ?StorageKeyInterface $owner;
-
-    public function __construct(string $resourceKey, ?StorageKeyInterface $owner, ?\Throwable $previous = null)
-    {
+    public function __construct(
+        string $resourceKey,
+        private ?StorageKeyInterface $owner,
+        ?\Throwable $previous = null
+    ) {
         parent::__construct(\sprintf('The resource "%s" is locked', $resourceKey), 0, $previous);
         $this->resourceKey = $resourceKey;
-        $this->owner = $owner;
     }
 
     public function getResourceKey(): string

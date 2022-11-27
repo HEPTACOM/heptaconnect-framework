@@ -10,7 +10,6 @@ use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityException;
-use Psr\Log\LoggerInterface;
 
 /**
  * Base class for every explorer implementation with various boilerplate-reducing entrypoints for rapid development.
@@ -102,9 +101,7 @@ abstract class ExplorerContract
                 }
             }
         } catch (\Throwable $exception) {
-            /** @var LoggerInterface $logger */
-            $logger = $context->getContainer()->get(LoggerInterface::class);
-            $logger->critical(\sprintf(
+            $context->getLogger()->critical(\sprintf(
                 'FlowComponent explorer encountered exception in exploreNext(): %s',
                 $exception->getMessage()
             ));
@@ -128,9 +125,7 @@ abstract class ExplorerContract
                 }
             }
         } catch (\Throwable $exception) {
-            /** @var LoggerInterface $logger */
-            $logger = $context->getContainer()->get(LoggerInterface::class);
-            $logger->critical(\sprintf(
+            $context->getLogger()->critical(\sprintf(
                 'FlowComponent explorer encountered exception in exploreCurrent(): %s',
                 $exception->getMessage()
             ));

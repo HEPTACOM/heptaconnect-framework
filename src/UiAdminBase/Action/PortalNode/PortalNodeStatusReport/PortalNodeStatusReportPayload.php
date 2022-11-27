@@ -14,21 +14,14 @@ final class PortalNodeStatusReportPayload implements AttachmentAwareInterface, A
 {
     use AttachmentAwareTrait;
 
-    private PortalNodeKeyInterface $portalNodeKey;
-
-    /**
-     * @var string[]
-     */
-    private array $topics;
-
     /**
      * @param string[] $topics
      */
-    public function __construct(PortalNodeKeyInterface $portalNodeKey, array $topics)
-    {
+    public function __construct(
+        private PortalNodeKeyInterface $portalNodeKey,
+        private array $topics
+    ) {
         $this->attachments = new AttachmentCollection();
-        $this->portalNodeKey = $portalNodeKey;
-        $this->topics = $topics;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

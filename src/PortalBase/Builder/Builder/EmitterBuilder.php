@@ -8,11 +8,9 @@ use Heptacom\HeptaConnect\Portal\Base\Builder\Token\EmitterToken;
 
 class EmitterBuilder
 {
-    private EmitterToken $token;
-
-    public function __construct(EmitterToken $token)
-    {
-        $this->token = $token;
+    public function __construct(
+        private EmitterToken $token
+    ) {
     }
 
     public function batch(\Closure $batch): self

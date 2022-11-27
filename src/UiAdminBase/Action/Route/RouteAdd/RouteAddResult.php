@@ -16,35 +16,17 @@ final class RouteAddResult implements AttachmentAwareInterface, AuditableDataAwa
 {
     use AttachmentAwareTrait;
 
-    private RouteKeyInterface $routeKey;
-
-    private PortalNodeKeyInterface $sourcePortalNodeKey;
-
-    private PortalNodeKeyInterface $targetPortalNodeKey;
-
-    private ClassStringReferenceContract $entityType;
-
-    /**
-     * @var string[]
-     */
-    private array $capabilities;
-
     /**
      * @param string[] $capabilities
      */
     public function __construct(
-        RouteKeyInterface $routeKey,
-        PortalNodeKeyInterface $sourcePortalNodeKey,
-        PortalNodeKeyInterface $targetPortalNodeKey,
-        ClassStringReferenceContract $entityType,
-        array $capabilities
+        private RouteKeyInterface $routeKey,
+        private PortalNodeKeyInterface $sourcePortalNodeKey,
+        private PortalNodeKeyInterface $targetPortalNodeKey,
+        private ClassStringReferenceContract $entityType,
+        private array $capabilities
     ) {
         $this->attachments = new AttachmentCollection();
-        $this->routeKey = $routeKey;
-        $this->sourcePortalNodeKey = $sourcePortalNodeKey;
-        $this->targetPortalNodeKey = $targetPortalNodeKey;
-        $this->entityType = $entityType;
-        $this->capabilities = $capabilities;
     }
 
     public function getRouteKey(): RouteKeyInterface

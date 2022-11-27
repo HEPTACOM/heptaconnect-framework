@@ -8,11 +8,9 @@ use Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken;
 
 class HttpHandlerBuilder
 {
-    private HttpHandlerToken $token;
-
-    public function __construct(HttpHandlerToken $token)
-    {
-        $this->token = $token;
+    public function __construct(
+        private HttpHandlerToken $token
+    ) {
     }
 
     public function run(\Closure $run): self

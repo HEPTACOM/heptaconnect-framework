@@ -13,7 +13,7 @@ use Psr\SimpleCache\CacheInterface;
 interface PortalStorageInterface extends CacheInterface
 {
     /**
-     * List all known keys in the storage.
+     * List all known entries in the storage as associative key value list.
      */
     public function list(): iterable;
 }

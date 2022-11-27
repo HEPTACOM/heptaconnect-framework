@@ -14,6 +14,7 @@ use Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
+use Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\FirstEntity;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\Portal;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListCriteria;
@@ -35,6 +36,7 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResult;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResultCollection;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteBrowse\RouteBrowseCriteria;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteBrowse\RouteBrowseResult;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteRemove\RouteRemoveCriteria;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Audit\AuditableDataAwareInterface;
 use PHPUnit\Framework\TestCase;
@@ -55,6 +57,8 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionType
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException
  * @covers \Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListCriteria
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListResult
@@ -75,9 +79,10 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddResultCollection
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteBrowse\RouteBrowseCriteria
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteBrowse\RouteBrowseResult
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteRemove\RouteRemoveCriteria
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Audit\UiAuditContext
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\EntityListCriteriaContract
- * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\EntityListCriteriaResult
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\EntityListResultContract
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNodeExtensionActiveChangePayloadContract
  */
 final class UiActionParameterTest extends TestCase
@@ -132,6 +137,7 @@ final class UiActionParameterTest extends TestCase
         $routeKey = $this->createMock(RouteKeyInterface::class);
         $portalExtensionClass = FooBarPortalExtension::class;
         $unsafeClass = new UnsafeClassString($entityType);
+        $routeKeys = new RouteKeyCollection();
 
         yield new UiAuditContext('', '');
         yield new PortalEntityListCriteria($portalClass::class());
@@ -155,5 +161,6 @@ final class UiActionParameterTest extends TestCase
         yield new RouteBrowseCriteria();
         yield new RouteBrowseResult($routeKey, $portalNodeKey, $portalNodeKey, $entityType::class(), []);
         yield new RouteBrowseResult($routeKey, $portalNodeKey, $portalNodeKey, $unsafeClass, []);
+        yield new RouteRemoveCriteria($routeKeys);
     }
 }

@@ -13,15 +13,11 @@ final class JobFailResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private JobKeyCollection $failedJobs;
-
-    private JobKeyCollection $skippedJobs;
-
-    public function __construct(JobKeyCollection $failedJobs, JobKeyCollection $skippedJobs)
-    {
+    public function __construct(
+        private JobKeyCollection $failedJobs,
+        private JobKeyCollection $skippedJobs
+    ) {
         $this->attachments = new AttachmentCollection();
-        $this->failedJobs = $failedJobs;
-        $this->skippedJobs = $skippedJobs;
     }
 
     public function getFailedJobs(): JobKeyCollection

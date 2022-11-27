@@ -329,7 +329,7 @@ class StorageActionParameterTest extends TestCase
         yield new PortalNodeStorageSetItem('', '', '', null);
         yield new PortalNodeStorageSetItems();
         yield new PortalNodeAliasFindCriteria([]);
-        yield new PortalNodeAliasFindResult($portalNodeKey, null);
+        yield new PortalNodeAliasFindResult($portalNodeKey, '');
         yield new PortalNodeAliasGetCriteria($portalNodeKeys);
         yield new PortalNodeAliasGetResult($portalNodeKey, '');
         yield new PortalNodeAliasOverviewCriteria();

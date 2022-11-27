@@ -14,7 +14,6 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerStackInterface;
 use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -90,16 +89,12 @@ final class DirectEmittingExplorerTest extends TestCase
         $emitContext = $this->createMock(EmitContextInterface::class);
         $logger = $this->createMock(LoggerInterface::class);
         $portalNodeLogger = $this->createMock(LoggerInterface::class);
-        $container = $this->createMock(ContainerInterface::class);
         $batchSize = 3;
         $pks = $this->generatePrimaryKeys($batchSize * 5 + 2);
         $entities = $this->generateEntities($pks);
 
-        $container->method('get')->willReturnCallback(static fn (string $id) => [
-            LoggerInterface::class => $portalNodeLogger,
-        ][$id] ?? null);
-        $emitContext->method('getContainer')->willReturn($container);
-        $exploreContext->method('getContainer')->willReturn($container);
+        $emitContext->method('getLogger')->willReturn($portalNodeLogger);
+        $exploreContext->method('getLogger')->willReturn($portalNodeLogger);
         $explorerStack
             ->expects(static::once())
             ->method('next')
@@ -135,21 +130,17 @@ final class DirectEmittingExplorerTest extends TestCase
         $emitterStackProcessor = $this->createMock(EmitterStackProcessorInterface::class);
         $emitContext = $this->createMock(EmitContextInterface::class);
         $portalNodeLogger = $this->createMock(LoggerInterface::class);
-        $container = $this->createMock(ContainerInterface::class);
         $logger = $this->createMock(LoggerInterface::class);
         $batchSize = 3;
         $pks = $this->generatePrimaryKeys($batchSize + 2);
         $entities = $this->generateEntities($pks);
 
-        $container->method('get')->willReturnCallback(static fn (string $id) => [
-            LoggerInterface::class => $portalNodeLogger,
-        ][$id] ?? null);
-        $emitContext->method('getContainer')->willReturn($container);
-        $exploreContext->method('getContainer')->willReturn($container);
+        $emitContext->method('getLogger')->willReturn($portalNodeLogger);
+        $exploreContext->method('getLogger')->willReturn($portalNodeLogger);
         $explorerStack
             ->expects(static::once())
             ->method('next')
-            ->willReturnCallback(static function () use ($batchSize, $entities): iterable {
+            ->willReturnCallback(static function () use ($entities): iterable {
                 yield from $entities;
 
                 throw new \RuntimeException('Test message');

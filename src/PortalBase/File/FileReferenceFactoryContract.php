@@ -7,6 +7,9 @@ namespace Heptacom\HeptaConnect\Portal\Base\File;
 use Heptacom\HeptaConnect\Dataset\Base\File\FileReferenceContract;
 use Psr\Http\Message\RequestInterface;
 
+/**
+ * Service to create file references from various sources.
+ */
 abstract class FileReferenceFactoryContract
 {
     /**

@@ -13,15 +13,11 @@ final class PortalNodeStorageSetPayload implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private PortalNodeKeyInterface $portalNodeKey;
-
-    private PortalNodeStorageSetItems $sets;
-
-    public function __construct(PortalNodeKeyInterface $portalNodeKey, PortalNodeStorageSetItems $sets)
-    {
+    public function __construct(
+        private PortalNodeKeyInterface $portalNodeKey,
+        private PortalNodeStorageSetItems $sets
+    ) {
         $this->attachments = new AttachmentCollection();
-        $this->portalNodeKey = $portalNodeKey;
-        $this->sets = $sets;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

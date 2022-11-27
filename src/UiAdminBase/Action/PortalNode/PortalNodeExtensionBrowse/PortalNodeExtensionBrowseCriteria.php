@@ -15,16 +15,14 @@ final class PortalNodeExtensionBrowseCriteria extends BrowseCriteriaContract imp
 {
     use AttachmentAwareTrait;
 
-    private PortalNodeKeyInterface $portalNodeKey;
-
     private bool $showActive = true;
 
     private bool $showInactive = true;
 
-    public function __construct(PortalNodeKeyInterface $portalNodeKey)
-    {
+    public function __construct(
+        private PortalNodeKeyInterface $portalNodeKey
+    ) {
         $this->attachments = new AttachmentCollection();
-        $this->portalNodeKey = $portalNodeKey;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

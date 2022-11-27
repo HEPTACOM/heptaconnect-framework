@@ -8,17 +8,15 @@ use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 
 class EmitterToken
 {
-    private EntityType $entityType;
-
     private ?\Closure $batch = null;
 
     private ?\Closure $run = null;
 
     private ?\Closure $extend = null;
 
-    public function __construct(EntityType $entityType)
-    {
-        $this->entityType = $entityType;
+    public function __construct(
+        private EntityType $entityType
+    ) {
     }
 
     public function getEntityType(): EntityType

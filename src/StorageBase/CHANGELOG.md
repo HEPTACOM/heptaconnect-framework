@@ -40,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change string parameter in `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload::__construct`, `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload::setPortalClass` and `\Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey::__construct` to be a `\Heptacom\HeptaConnect\Portal\Base\Portal\PortalType` instead of a string for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Change string parameter in `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult::__construct`, `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Overview\PortalNodeOverviewResult::__construct`, `\Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Find\PortalExtensionFindResult::add` and `\Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview\RouteOverviewResult::__construct` to be a `\Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract` instead of a string for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Change array of string parameter in `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Overview\PortalNodeOverviewCriteria::setClassNameFilter` to be a `\Heptacom\HeptaConnect\Dataset\Base\Support\ClassStringReferenceCollection` instead of a string for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Implement `\Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface` in `\Heptacom\HeptaConnect\Storage\Base\PrimaryKeySharingMappingStruct`
 
 ### Deprecated
 
@@ -47,11 +48,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- Remove support for `php: 7.4` as it will not receive any updates anymore, it is unlikely to be used. By raising the minimum PHP version we also make use of features introduced by PHP 8.0, which mainly have no effect on public API
 - Remove deprecated `Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::unattach`
 
 ### Fixed
 
 ### Security
+
+## [0.9.3.0] - 2022-11-26
+
+## [0.9.2.0] - 2022-10-16
+
+## [0.9.1.1] - 2022-09-28
 
 ## [0.9.1.0] - 2022-08-15
 

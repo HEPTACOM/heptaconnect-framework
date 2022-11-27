@@ -10,11 +10,9 @@ use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerStackInterfac
 
 final class FooBarExplorer extends ExplorerContract
 {
-    private int $count;
-
-    public function __construct(int $count)
-    {
-        $this->count = $count;
+    public function __construct(
+        private int $count
+    ) {
     }
 
     public function explore(ExploreContextInterface $context, ExplorerStackInterface $stack): iterable
@@ -23,7 +21,7 @@ final class FooBarExplorer extends ExplorerContract
             yield (string) $c;
         }
 
-        yield from $stack->next($externalIds, $context);
+        yield from $this->exploreNext($context, $stack);
     }
 
     public function supports(): string

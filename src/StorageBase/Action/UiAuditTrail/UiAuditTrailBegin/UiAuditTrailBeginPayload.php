@@ -16,30 +16,15 @@ final class UiAuditTrailBeginPayload implements AttachmentAwareInterface
 
     private \DateTimeImmutable $at;
 
-    private string $uiType;
-
-    private string $uiIdentifier;
-
-    private UiActionType $uiActionType;
-
-    private string $userIdentifier;
-
-    private TaggedStringCollection $arguments;
-
     public function __construct(
-        string $uiType,
-        string $uiIdentifier,
-        UiActionType $uiActionType,
-        string $userIdentifier,
-        TaggedStringCollection $arguments
+        private string $uiType,
+        private string $uiIdentifier,
+        private UiActionType $uiActionType,
+        private string $userIdentifier,
+        private TaggedStringCollection $arguments
     ) {
         $this->attachments = new AttachmentCollection();
         $this->at = new \DateTimeImmutable();
-        $this->uiType = $uiType;
-        $this->uiIdentifier = $uiIdentifier;
-        $this->uiActionType = $uiActionType;
-        $this->userIdentifier = $userIdentifier;
-        $this->arguments = $arguments;
     }
 
     public function getAt(): \DateTimeImmutable

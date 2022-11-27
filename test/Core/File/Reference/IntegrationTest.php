@@ -19,11 +19,12 @@ use Heptacom\HeptaConnect\Core\Portal\PortalNodeContainerFacade;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract;
 use Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry;
-use Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestDenormalizer;
-use Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestNormalizer;
 use Heptacom\HeptaConnect\Core\Storage\RequestStorage;
+use Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector;
 use Heptacom\HeptaConnect\Core\Test\Fixture\DependentPortal;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpClient;
+use Heptacom\HeptaConnect\Core\Web\Http\RequestDeserializer;
+use Heptacom\HeptaConnect\Core\Web\Http\RequestSerializer;
 use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\DenormalizerInterface;
 use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizerInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
@@ -54,10 +55,11 @@ use Psr\Http\Message\RequestInterface;
  * @covers \Heptacom\HeptaConnect\Core\File\ResolvedReference\ResolvedRequestFileReference
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalNodeContainerFacade
  * @covers \Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry
- * @covers \Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestDenormalizer
- * @covers \Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestNormalizer
  * @covers \Heptacom\HeptaConnect\Core\Storage\RequestStorage
+ * @covers \Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpClient
+ * @covers \Heptacom\HeptaConnect\Core\Web\Http\RequestDeserializer
+ * @covers \Heptacom\HeptaConnect\Core\Web\Http\RequestSerializer
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
@@ -355,11 +357,9 @@ class IntegrationTest extends TestCase
     {
         $array = new \ArrayObject();
         $normalizer = new class($array) implements NormalizerInterface {
-            private \ArrayObject $array;
-
-            public function __construct(\ArrayObject $array)
-            {
-                $this->array = $array;
+            public function __construct(
+                private \ArrayObject $array
+            ) {
             }
 
             public function supportsNormalization($data, $format = null)
@@ -381,11 +381,9 @@ class IntegrationTest extends TestCase
             }
         };
         $denormalizer = new class($array) implements DenormalizerInterface {
-            private \ArrayObject $array;
-
-            public function __construct(\ArrayObject $array)
-            {
-                $this->array = $array;
+            public function __construct(
+                private \ArrayObject $array
+            ) {
             }
 
             public function getType(): string
@@ -415,24 +413,10 @@ class IntegrationTest extends TestCase
 
     private function getInMemoryContainer(array $services): PortalNodeContainerFacadeContract
     {
-        $container = new class($services) implements ContainerInterface {
-            private array $services;
-
-            public function __construct(array $services)
-            {
-                $this->services = $services;
-            }
-
-            public function get($id)
-            {
-                return $this->services[$id] ?? null;
-            }
-
-            public function has($id)
-            {
-                return ($this->services[$id] ?? null) !== null;
-            }
-        };
+        $services[HttpMiddlewareCollector::class] ??= new HttpMiddlewareCollector([]);
+        $container = $this->createMock(ContainerInterface::class);
+        $container->method('get')
+            ->willReturnCallback(fn (string $id) => $services[$id] ?? $this->createMock($id));
 
         return new PortalNodeContainerFacade($container);
     }
@@ -461,16 +445,14 @@ class IntegrationTest extends TestCase
 
                 foreach ($p->getSerializedRequests() as $key => $serializedRequest) {
                     $result->addFileReferenceRequestKey($key, new class($serializedRequest) implements FileReferenceRequestKeyInterface {
-                        private string $content;
-
-                        public function __construct(string $content)
-                        {
-                            $this->content = $content;
+                        public function __construct(
+                            private string $content
+                        ) {
                         }
 
                         public function equals(StorageKeyInterface $other): bool
                         {
-                            return \json_encode($other) === \json_encode($this);
+                            return \json_encode($other, \JSON_THROW_ON_ERROR) === \json_encode($this, \JSON_THROW_ON_ERROR);
                         }
 
                         public function jsonSerialize()
@@ -484,8 +466,11 @@ class IntegrationTest extends TestCase
             });
 
         return new RequestStorage(
-            new Psr7RequestNormalizer(),
-            new Psr7RequestDenormalizer(),
+            new RequestSerializer(),
+            new RequestDeserializer(
+                Psr17FactoryDiscovery::findRequestFactory(),
+                Psr17FactoryDiscovery::findStreamFactory(),
+            ),
             $getRequestAction,
             $persistRequestAction,
             $storageKeyGenerator

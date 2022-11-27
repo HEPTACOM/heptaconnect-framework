@@ -14,25 +14,13 @@ final class JobGetResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    protected string $jobType;
-
-    protected JobKeyInterface $jobKey;
-
-    private MappingComponentStruct $mappingComponent;
-
-    private ?array $payload;
-
     public function __construct(
-        string $jobType,
-        JobKeyInterface $jobKey,
-        MappingComponentStruct $mappingComponent,
-        ?array $payload
+        private string $jobType,
+        private JobKeyInterface $jobKey,
+        private MappingComponentStruct $mappingComponent,
+        private ?array $payload
     ) {
         $this->attachments = new AttachmentCollection();
-        $this->jobType = $jobType;
-        $this->jobKey = $jobKey;
-        $this->mappingComponent = $mappingComponent;
-        $this->payload = $payload;
     }
 
     public function getJobType(): string

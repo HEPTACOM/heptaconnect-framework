@@ -12,6 +12,8 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 interface IdentityErrorCreateActionInterface
 {
     /**
+     * Create identity errors with their payloads.
+     *
      * @throws CreateException
      * @throws UnsupportedStorageKeyException
      */

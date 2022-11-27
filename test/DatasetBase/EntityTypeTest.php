@@ -58,8 +58,8 @@ final class EntityTypeTest extends TestCase
     public function testObjectTypeCheck(): void
     {
         $entity = new SerializationDatasetEntity();
-        $subEntityClass = \get_class(new class() extends SerializationDatasetEntity {
-        });
+        $subEntityClass = (new class() extends SerializationDatasetEntity {
+        })::class;
 
         static::assertTrue(SerializationDatasetEntity::class()->isClassStringOfType(SerializationDatasetEntity::class()));
         static::assertTrue(SerializationDatasetEntity::class()->isTypeOfClassString(SerializationDatasetEntity::class()));

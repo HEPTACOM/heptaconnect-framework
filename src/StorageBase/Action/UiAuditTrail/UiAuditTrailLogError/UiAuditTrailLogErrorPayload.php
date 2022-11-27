@@ -15,36 +15,18 @@ final class UiAuditTrailLogErrorPayload implements AttachmentAwareInterface
 
     private \DateTimeImmutable $at;
 
-    private UiAuditTrailKeyInterface $uiAuditTrailKey;
-
-    /**
-     * @var class-string<\Throwable>
-     */
-    private string $exceptionClass;
-
-    private int $depth;
-
-    private string $message;
-
-    private string $code;
-
     /**
      * @param class-string<\Throwable> $exceptionClass
      */
     public function __construct(
-        UiAuditTrailKeyInterface $uiAuditTrailKey,
-        string $exceptionClass,
-        int $depth,
-        string $message,
-        string $code
+        private UiAuditTrailKeyInterface $uiAuditTrailKey,
+        private string $exceptionClass,
+        private int $depth,
+        private string $message,
+        private string $code
     ) {
         $this->attachments = new AttachmentCollection();
         $this->at = new \DateTimeImmutable();
-        $this->uiAuditTrailKey = $uiAuditTrailKey;
-        $this->exceptionClass = $exceptionClass;
-        $this->depth = $depth;
-        $this->message = $message;
-        $this->code = $code;
     }
 
     public function getAt(): \DateTimeImmutable

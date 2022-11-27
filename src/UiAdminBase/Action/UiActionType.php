@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionInterface;
 
 /**
  * @extends SubtypeClassStringContract<UiActionInterface>
+ *
  * @psalm-method class-string<UiActionInterface> __toString()
  * @psalm-method class-string<UiActionInterface> jsonSerialize()
  */

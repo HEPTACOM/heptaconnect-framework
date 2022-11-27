@@ -201,7 +201,7 @@ abstract class RouteTestContract extends TestCase
             try {
                 $this->routeDeleteAction->delete(new RouteDeleteCriteria($routeGetCriteria->getRouteKeys()));
                 static::fail('This should have been throwing a not found exception');
-            } catch (NotFoundException $exception) {
+            } catch (NotFoundException) {
             }
         }
 
@@ -251,6 +251,9 @@ abstract class RouteTestContract extends TestCase
         $this->routeDeleteAction->delete(new RouteDeleteCriteria($routeKeys));
     }
 
+    /**
+     * Validates that deleting portals will also delete routes.
+     */
     public function testRouteLifecycleWithDeletedPortalNodes(): void
     {
         $createPayloads = new RouteCreatePayloads();

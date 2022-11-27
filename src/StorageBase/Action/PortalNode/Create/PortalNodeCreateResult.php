@@ -13,12 +13,10 @@ final class PortalNodeCreateResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    protected PortalNodeKeyInterface $portalNodeKey;
-
-    public function __construct(PortalNodeKeyInterface $portalNodeKey)
-    {
+    public function __construct(
+        private PortalNodeKeyInterface $portalNodeKey
+    ) {
         $this->attachments = new AttachmentCollection();
-        $this->portalNodeKey = $portalNodeKey;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

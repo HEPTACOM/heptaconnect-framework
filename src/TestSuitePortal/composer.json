@@ -1,0 +1,60 @@
+{
+    "name": "heptacom/heptaconnect-test-suite-portal",
+    "description": "HEPTAconnect test suite to challenge portals against real life scenarios",
+    "license": [
+        "AGPL-3.0-or-later",
+        "proprietary"
+    ],
+    "type": "library",
+    "keywords": [
+        "heptaconnect-portal",
+        "testing"
+    ],
+    "authors": [
+        {
+            "name": "HEPTACOM GmbH"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/HEPTACOM/heptaconnect-framework/issues",
+        "source": "https://github.com/HEPTACOM/heptaconnect-framework",
+        "docs": "https://heptaconnect.io/",
+        "rss": "https://heptaconnect.io/news/rss2.xml"
+    },
+    "require": {
+        "php": ">=8.0",
+        "brzuchal/filesystem-stream-wrapper": "^0.9",
+        "heptacom/heptaconnect-core": "self.version",
+        "heptacom/heptaconnect-dataset-base": "self.version",
+        "heptacom/heptaconnect-portal-base": "self.version",
+        "heptacom/heptaconnect-storage-base": "self.version",
+        "nyholm/psr7": "^1",
+        "php-http/curl-client": "^2",
+        "psr/log": "^1",
+        "symfony/cache": "^5",
+        "symfony/dependency-injection": "^5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": ">=9"
+    },
+    "suggest": {
+        "phpunit/phpunit": ">=9"
+    },
+    "repositories": {
+        "heptaconnect-sources": {
+            "type": "path",
+            "url": "../**"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Heptacom\\HeptaConnect\\TestSuite\\Portal\\": ""
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "infection/extension-installer": true
+        }
+    },
+    "website": "https://heptaconnect.io"
+}

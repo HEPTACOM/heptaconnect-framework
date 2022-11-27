@@ -13,21 +13,12 @@ abstract class JobStateChangePayloadContract implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private JobKeyCollection $jobKeys;
-
-    private \DateTimeInterface $createdAt;
-
-    private ?string $message;
-
     public function __construct(
-        JobKeyCollection $jobKeys,
-        \DateTimeInterface $createdAt,
-        ?string $message
+        private JobKeyCollection $jobKeys,
+        private \DateTimeInterface $createdAt,
+        private ?string $message
     ) {
         $this->attachments = new AttachmentCollection();
-        $this->jobKeys = $jobKeys;
-        $this->createdAt = $createdAt;
-        $this->message = $message;
     }
 
     public function getJobKeys(): JobKeyCollection

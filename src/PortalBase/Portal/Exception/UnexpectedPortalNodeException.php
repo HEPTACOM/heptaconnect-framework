@@ -13,7 +13,7 @@ class UnexpectedPortalNodeException extends \RuntimeException
     public function __construct(?PortalContract $node, int $code = 0, ?\Throwable $previous = null)
     {
         if ($node !== null) {
-            $this->type = \get_class($node);
+            $this->type = $node::class;
         }
 
         parent::__construct('Unexpected portal node of type ' . $this->type, $code, $previous);

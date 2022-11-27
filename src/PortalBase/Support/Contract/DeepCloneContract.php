@@ -10,7 +10,9 @@ class DeepCloneContract
 {
     /**
      * @psalm-template T
+     *
      * @psalm-param T $any
+     *
      * @psalm-return T
      */
     public function deepClone($any)
