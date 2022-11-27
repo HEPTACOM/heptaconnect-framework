@@ -9,15 +9,13 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 
 class TypedMappingCollection extends MappingCollection
 {
-    private EntityType $entityType;
-
     /**
      * @psalm-param iterable<int, MappingInterface> $items
      */
-    public function __construct(EntityType $entityType, iterable $items = [])
-    {
-        $this->entityType = $entityType;
-
+    public function __construct(
+        private EntityType $entityType,
+        iterable $items = []
+    ) {
         parent::__construct($items);
     }
 

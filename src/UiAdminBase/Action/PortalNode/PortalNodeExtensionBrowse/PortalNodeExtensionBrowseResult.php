@@ -15,21 +15,12 @@ final class PortalNodeExtensionBrowseResult implements AttachmentAwareInterface,
 {
     use AttachmentAwareTrait;
 
-    private PortalNodeKeyInterface $portalNodeKey;
-
-    private bool $active;
-
-    private ClassStringReferenceContract $portalExtensionType;
-
     public function __construct(
-        PortalNodeKeyInterface $portalNodeKey,
-        bool $active,
-        ClassStringReferenceContract $portalExtensionType
+        private PortalNodeKeyInterface $portalNodeKey,
+        private bool $active,
+        private ClassStringReferenceContract $portalExtensionType
     ) {
         $this->attachments = new AttachmentCollection();
-        $this->portalNodeKey = $portalNodeKey;
-        $this->active = $active;
-        $this->portalExtensionType = $portalExtensionType;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

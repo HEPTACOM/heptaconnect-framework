@@ -14,21 +14,12 @@ final class PortalNodeOverviewResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    protected PortalNodeKeyInterface $portalNodeKey;
-
-    protected ClassStringReferenceContract $portalClass;
-
-    protected \DateTimeInterface $createdAt;
-
     public function __construct(
-        PortalNodeKeyInterface $portalNodeKey,
-        ClassStringReferenceContract $portalClass,
-        \DateTimeInterface $createdAt
+        private PortalNodeKeyInterface $portalNodeKey,
+        private ClassStringReferenceContract $portalClass,
+        private \DateTimeInterface $createdAt
     ) {
         $this->attachments = new AttachmentCollection();
-        $this->portalNodeKey = $portalNodeKey;
-        $this->portalClass = $portalClass;
-        $this->createdAt = $createdAt;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

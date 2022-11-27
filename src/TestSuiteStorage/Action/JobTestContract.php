@@ -128,7 +128,7 @@ abstract class JobTestContract extends TestCase
         try {
             $jobDelete->delete(new JobDeleteCriteria($jobKeys));
             static::fail('These jobs are already deleted');
-        } catch (\Throwable $throwable) {
+        } catch (\Throwable) {
         }
 
         $portalNodeDelete->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([$portalNodeKey])));

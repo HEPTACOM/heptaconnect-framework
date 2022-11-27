@@ -14,17 +14,11 @@ final class IdentityReflectPayload implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private PortalNodeKeyInterface $portalNodeKey;
-
-    private MappedDatasetEntityCollection $mappedDatasetEntities;
-
     public function __construct(
-        PortalNodeKeyInterface $portalNodeKey,
-        MappedDatasetEntityCollection $mappedDatasetEntities
+        private PortalNodeKeyInterface $portalNodeKey,
+        private MappedDatasetEntityCollection $mappedDatasetEntities
     ) {
         $this->attachments = new AttachmentCollection();
-        $this->portalNodeKey = $portalNodeKey;
-        $this->mappedDatasetEntities = $mappedDatasetEntities;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

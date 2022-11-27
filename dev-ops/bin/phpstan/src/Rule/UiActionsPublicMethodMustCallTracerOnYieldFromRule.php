@@ -8,7 +8,9 @@ use Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailInterface;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionInterface;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Expr\YieldFrom;
+use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
@@ -58,11 +60,18 @@ final class UiActionsPublicMethodMustCallTracerOnYieldFromRule implements Rule
 
         if ($result instanceof MethodCall) {
             $var = $result->var;
-            $varMethod = (string) $result->name;
+            $yieldedName = $result->name;
 
-            foreach ($scope->getVariableType((string) $var->name)->getReferencedClasses() as $varType) {
-                if ($varType === AuditTrailInterface::class && $varMethod === 'returnIterable') {
-                    return [];
+            if ($var instanceof Variable && $yieldedName instanceof Identifier) {
+                $varMethod = $yieldedName->name;
+                $varName = $var->name;
+
+                if (\is_string($varName)) {
+                    foreach ($scope->getVariableType($varName)->getReferencedClasses() as $varType) {
+                        if ($varType === AuditTrailInterface::class && $varMethod === 'returnIterable') {
+                            return [];
+                        }
+                    }
                 }
             }
         }

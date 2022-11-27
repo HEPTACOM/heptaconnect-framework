@@ -81,6 +81,8 @@ interface StorageFacadeInterface
     public function getIdentityErrorCreateAction(): IdentityErrorCreateActionInterface;
 
     /**
+     * Provides storage action to match entities to their identities.
+     *
      * @throws StorageFacadeServiceExceptionInterface
      */
     public function getIdentityMapAction(): IdentityMapActionInterface;

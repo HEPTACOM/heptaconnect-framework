@@ -19,9 +19,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- Remove support for `php: 7.4` as it will not receive any updates anymore, it is unlikely to be used. By raising the minimum PHP version we also make use of features introduced by PHP 8.0, which mainly have no effect on public API
+
 ### Fixed
 
 ### Security
+
+## [0.9.3.0] - 2022-11-26
+
+## [0.9.2.0] - 2022-10-16
+
+## [0.9.1.1] - 2022-09-28
 
 ## [0.9.1.0] - 2022-08-15
 

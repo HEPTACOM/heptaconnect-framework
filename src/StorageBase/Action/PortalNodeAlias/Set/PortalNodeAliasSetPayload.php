@@ -14,15 +14,11 @@ final class PortalNodeAliasSetPayload implements AttachmentAwareInterface, Creat
 {
     use AttachmentAwareTrait;
 
-    private PortalNodeKeyInterface $portalNodeKey;
-
-    private ?string $alias;
-
-    public function __construct(PortalNodeKeyInterface $portalNodeKey, ?string $alias)
-    {
+    public function __construct(
+        private PortalNodeKeyInterface $portalNodeKey,
+        private ?string $alias
+    ) {
         $this->attachments = new AttachmentCollection();
-        $this->portalNodeKey = $portalNodeKey;
-        $this->alias = $alias;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

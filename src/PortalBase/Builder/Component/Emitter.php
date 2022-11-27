@@ -78,7 +78,6 @@ final class Emitter extends EmitterContract
                 return $this->resolveFromContainer($container, $propertyType, $propertyName);
             });
 
-            /** @var mixed $result */
             $result = $batch(...$arguments);
 
             if (\is_iterable($result)) {
@@ -110,7 +109,6 @@ final class Emitter extends EmitterContract
                 return $this->resolveFromContainer($container, $propertyType, $propertyName);
             });
 
-            /** @var mixed $result */
             $result = $run(...$arguments);
 
             if ($result === null || $result instanceof DatasetEntityContract) {
@@ -142,7 +140,6 @@ final class Emitter extends EmitterContract
                 return $this->resolveFromContainer($container, $propertyType, $propertyName);
             });
 
-            /** @var mixed $result */
             $result = $extend(...$arguments);
 
             if ($result instanceof DatasetEntityContract) {

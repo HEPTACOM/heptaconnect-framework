@@ -18,9 +18,9 @@ trait AttachmentAwareTrait
 
     public function attach(AttachableInterface $attachment): void
     {
-        $className = \get_class($attachment);
+        $className = $attachment::class;
         $attachments = $this->attachments->filter(
-            fn (AttachableInterface $attachment): bool => \get_class($attachment) !== $className
+            fn (AttachableInterface $attachment): bool => $attachment::class !== $className
         );
         $attachments->push([$attachment]);
 
@@ -50,7 +50,7 @@ trait AttachmentAwareTrait
         }
 
         $attachments = $this->attachments->filter(
-            fn (AttachableInterface $attachment): bool => \get_class($attachment) === $class
+            fn (AttachableInterface $attachment): bool => $attachment::class === $class
         );
 
         if (!$attachments->isEmpty() && ($attachment = $attachments->first()) instanceof $class) {

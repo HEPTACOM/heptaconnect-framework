@@ -8,11 +8,9 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 
 final class DependentPortalExtension extends PortalExtensionContract
 {
-    public int $number;
-
-    public function __construct(int $number)
-    {
-        $this->number = $number;
+    public function __construct(
+        public int $number
+    ) {
     }
 
     protected function supports(): string

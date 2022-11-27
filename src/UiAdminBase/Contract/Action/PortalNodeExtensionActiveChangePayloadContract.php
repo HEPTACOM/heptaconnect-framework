@@ -15,14 +15,12 @@ abstract class PortalNodeExtensionActiveChangePayloadContract implements Attachm
 {
     use AttachmentAwareTrait;
 
-    private PortalNodeKeyInterface $portalNodeKey;
-
     private ClassStringReferenceCollection $portalExtensionQueries;
 
-    public function __construct(PortalNodeKeyInterface $portalNodeKey)
-    {
+    public function __construct(
+        private PortalNodeKeyInterface $portalNodeKey
+    ) {
         $this->attachments = new AttachmentCollection();
-        $this->portalNodeKey = $portalNodeKey;
         $this->portalExtensionQueries = new ClassStringReferenceCollection();
     }
 

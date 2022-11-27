@@ -14,15 +14,11 @@ final class PortalNodeCreatePayload implements CreatePayloadInterface, Attachmen
 {
     use AttachmentAwareTrait;
 
-    protected PortalType $portalClass;
-
-    protected ?string $alias;
-
-    public function __construct(PortalType $portalClass, ?string $alias = null)
-    {
+    public function __construct(
+        private PortalType $portalClass,
+        private ?string $alias = null
+    ) {
         $this->attachments = new AttachmentCollection();
-        $this->portalClass = $portalClass;
-        $this->alias = $alias;
     }
 
     public function getPortalClass(): PortalType

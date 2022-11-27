@@ -13,15 +13,11 @@ final class JobScheduleResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private JobKeyCollection $scheduledJobs;
-
-    private JobKeyCollection $skippedJobs;
-
-    public function __construct(JobKeyCollection $scheduledJobs, JobKeyCollection $skippedJobs)
-    {
+    public function __construct(
+        private JobKeyCollection $scheduledJobs,
+        private JobKeyCollection $skippedJobs
+    ) {
         $this->attachments = new AttachmentCollection();
-        $this->scheduledJobs = $scheduledJobs;
-        $this->skippedJobs = $skippedJobs;
     }
 
     public function getScheduledJobs(): JobKeyCollection

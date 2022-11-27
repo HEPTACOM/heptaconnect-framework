@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract::class` as factory method to create an instance of `\Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionType` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Wrap `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract::supports` in new method `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract::getSupportedPortal` to provide an instance of `\Heptacom\HeptaConnect\Portal\Base\Portal\SupportedPortalType` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Add `\Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerStackInterface::supports` to get the entity type of the explorer stack
+- Add `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeContextInterface::getLogger` so every context can directly access the portal node focused logger
 
 ### Changed
 
@@ -38,6 +39,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change return type of `\Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection::bySupport` from `iterable` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
 - Change return type of `\Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterCollection::bySupportedTopic` from `iterable` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
 - Change return type of `\Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection::bySupport` from `iterable` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
+- Make class final: `\Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent`
+- Add implementation reference to `\Stringable` when `__toString` is already implemented in `\Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin` and `\Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\SerializableStream`
 
 ### Deprecated
 
@@ -45,16 +48,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- Remove support for `php: 7.4` as it will not receive any updates anymore, it is unlikely to be used. By raising the minimum PHP version we also make use of features introduced by PHP 8.0, which mainly have no effect on public API
 - Move `\Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack` out of this package into the `heptaconnect/core` as `\Heptacom\HeptaConnect\Core\Emission\EmitterStack`
 - Move `\Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack` out of this package into the `heptaconnect/core` as `\Heptacom\HeptaConnect\Core\Exploration\ExplorerStack`
 - Move `\Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack` out of this package into the `heptaconnect/core` as `\Heptacom\HeptaConnect\Core\Reception\ReceiverStack`
 - Remove `\Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection::groupByPortalNode` as usage of `\spl_object_hash` is discouraged and grouping can be solved in storage implementations more efficiently
+- Move deprecated `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PathMethodsTrait` contents into `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract`
 
 ### Fixed
 
 - Flow components allowed class string, that not necessarily have to reference an entity class, as supported entity type. Therefore `\Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface::markAsFailed`, `\Heptacom\HeptaConnect\Core\Emission\EmitContext::markAsFailed`, `\Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent::explorer`, `\Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent::emitter`, `\Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent::receiver` and the new `\Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract::getSupportedEntityType`, `\Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract::getSupportedEntityType`, `\Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract::getSupportedEntityType` throw exception `\Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException` or `\Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException` on invalid input
 
 ### Security
+
+## [0.9.3.0] - 2022-11-26
+
+### Added
+
+- Add service of `\Heptacom\HeptaConnect\Portal\Base\File\Filesystem\Contract\FilesystemInterface` to the portal node container to interact with filesystem abstraction
+- Add exception `\Heptacom\HeptaConnect\Portal\Base\File\Filesystem\Exception\UnexpectedFormatOfUriException` to indicate usage unexpected parameters with `\Heptacom\HeptaConnect\Portal\Base\File\Filesystem\Contract\FilesystemInterface`
+
+### Deprecated
+
+- Deprecate service `League\Flysystem\FilesystemInterface` in the portal node container. Use `\Heptacom\HeptaConnect\Portal\Base\File\Filesystem\Contract\FilesystemInterface` in combination with native stream functions like `fopen`, `fread`, `fwrite`, `fclose`, `file_get_contents` and `file_put_contents` instead
+
+## [0.9.2.0] - 2022-10-16
+
+### Added
+
+- Add `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientMiddlewareInterface`. Every service implementing this interface will automatically be tagged with `heptaconnect.http.client.middleware`. Middlewares will be executed for every outbound HTTP request via the `\Psr\Http\Client\ClientInterface`.
+- Add composer dependency `psr/http-server-handler: ^1.0` and `psr/http-server-middleware: ^1.0` to support PSR-15 middlewares for HTTP handlers. Every service implementing `\Psr\Http\Server\MiddlewareInterface` will automatically be tagged with `heptaconnect.http.handler.middleware`. Middlewares will be executed for every inbound HTTP request via `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract`.
+
+### Fixed
+
+- Add composer dependency on `psr/http-client: ^1.0`
+
+## [0.9.1.1] - 2022-09-28
 
 ## [0.9.1.0] - 2022-08-15
 

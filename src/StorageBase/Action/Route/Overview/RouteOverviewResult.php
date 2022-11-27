@@ -15,47 +15,20 @@ final class RouteOverviewResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    protected RouteKeyInterface $routeKey;
-
-    protected ClassStringReferenceContract $entityType;
-
-    protected PortalNodeKeyInterface $sourcePortalNodeKey;
-
-    protected ClassStringReferenceContract $sourcePortalClass;
-
-    protected PortalNodeKeyInterface $targetPortalNodeKey;
-
-    protected ClassStringReferenceContract $targetPortalClass;
-
-    protected \DateTimeInterface $createdAt;
-
-    /**
-     * @var string[]
-     */
-    private array $capabilities;
-
     /**
      * @param string[] $capabilities
      */
     public function __construct(
-        RouteKeyInterface $routeKey,
-        ClassStringReferenceContract $entityType,
-        PortalNodeKeyInterface $sourcePortalNodeKey,
-        ClassStringReferenceContract $sourcePortalClass,
-        PortalNodeKeyInterface $targetPortalNodeKey,
-        ClassStringReferenceContract $targetPortalClass,
-        \DateTimeInterface $createdAt,
-        array $capabilities
+        private RouteKeyInterface $routeKey,
+        private ClassStringReferenceContract $entityType,
+        private PortalNodeKeyInterface $sourcePortalNodeKey,
+        private ClassStringReferenceContract $sourcePortalClass,
+        private PortalNodeKeyInterface $targetPortalNodeKey,
+        private ClassStringReferenceContract $targetPortalClass,
+        private \DateTimeInterface $createdAt,
+        private array $capabilities
     ) {
         $this->attachments = new AttachmentCollection();
-        $this->routeKey = $routeKey;
-        $this->entityType = $entityType;
-        $this->sourcePortalNodeKey = $sourcePortalNodeKey;
-        $this->sourcePortalClass = $sourcePortalClass;
-        $this->targetPortalNodeKey = $targetPortalNodeKey;
-        $this->targetPortalClass = $targetPortalClass;
-        $this->createdAt = $createdAt;
-        $this->capabilities = $capabilities;
     }
 
     public function getRouteKey(): RouteKeyInterface
