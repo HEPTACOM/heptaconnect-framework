@@ -16,8 +16,8 @@ use League\Flysystem\Filesystem as FlysystemFilesystem;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\File\Filesystem\RewritePathStreamWrapper
  * @covers \Heptacom\HeptaConnect\Core\File\Filesystem\StreamUriSchemePathConverter
- * @covers \Heptacom\HeptaConnect\Core\File\Filesystem\StreamWrapperRegistry
  * @covers \Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Filesystem
  * @covers \Heptacom\HeptaConnect\Core\Portal\File\Filesystem\FilesystemFactory
  * @covers \Heptacom\HeptaConnect\Core\Storage\Filesystem\AbstractFilesystem
