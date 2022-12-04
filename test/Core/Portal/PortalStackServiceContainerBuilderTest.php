@@ -74,6 +74,8 @@ use Symfony\Component\DependencyInjection\Reference;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Parallelization\Support\ResourceLockFacade
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection
  */
 final class PortalStackServiceContainerBuilderTest extends TestCase
@@ -213,10 +215,13 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
 
     private function getContainerBuilder(): ContainerBuilder
     {
+        $portal = new Portal();
+        $portalExtension = new PortalExtension();
+
         $configurationService = $this->createMock(ConfigurationServiceInterface::class);
         $configurationService->expects(static::atLeastOnce())
             ->method('getPortalNodeConfiguration')
-            ->willReturn([]);
+            ->willReturn($portalExtension->extendConfiguration($portal->getConfigurationTemplate())->resolve());
 
         $httpHandlerUrlProvider = $this->createMock(HttpHandlerUrlProviderInterface::class);
         $httpHandlerUrlProviderFactory = $this->createMock(HttpHandlerUrlProviderFactoryInterface::class);
@@ -239,9 +244,9 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
         $builder->setDirectEmissionFlow($this->createMock(DirectEmissionFlowContract::class));
         $builder->setFileReferenceResolver($this->createMock(FileReferenceResolverContract::class));
         $container = $builder->build(
-            new Portal(),
+            $portal,
             new PortalExtensionCollection([
-                new PortalExtension(),
+                $portalExtension,
             ]),
             $this->createMock(PortalNodeKeyInterface::class),
         );
