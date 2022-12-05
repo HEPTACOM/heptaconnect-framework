@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Core\Test\Configuration;
 
 use Heptacom\HeptaConnect\Core\Configuration\ConfigurationService;
+use Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationProcessorService;
 use Heptacom\HeptaConnect\Core\Portal\Contract\PortalRegistryInterface;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
@@ -18,6 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * @covers \Heptacom\HeptaConnect\Core\Configuration\ConfigurationService
+ * @covers \Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationProcessorService
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
@@ -48,7 +50,12 @@ final class ConfigurationServiceTest extends TestCase
             new PortalNodeConfigurationGetResult($portalNodeKey, []),
         ]);
 
-        $configService = new ConfigurationService($registry, $portalNodeConfigGet, $portalNodeConfigSet, []);
+        $configService = new ConfigurationService(
+            $registry,
+            $portalNodeConfigGet,
+            $portalNodeConfigSet,
+            new PortalNodeConfigurationProcessorService([])
+        );
         $config = $configService->getPortalNodeConfiguration($portalNodeKey);
 
         static::assertArrayHasKey('limit', $config);
@@ -90,7 +97,12 @@ final class ConfigurationServiceTest extends TestCase
             new PortalNodeConfigurationGetResult($portalNodeKey, []),
         ]);
 
-        $configService = new ConfigurationService($registry, $portalNodeConfigGet, $portalNodeConfigSet, []);
+        $configService = new ConfigurationService(
+            $registry,
+            $portalNodeConfigGet,
+            $portalNodeConfigSet,
+            new PortalNodeConfigurationProcessorService([])
+        );
         $config = $configService->getPortalNodeConfiguration($portalNodeKey);
         static::assertArrayHasKey('limit', $config);
         static::assertEquals(200, $config['limit']);
