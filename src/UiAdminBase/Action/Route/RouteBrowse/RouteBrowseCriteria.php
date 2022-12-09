@@ -11,12 +11,13 @@ use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\BrowseCriteriaContract;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Audit\AuditableDataAwareInterface;
 
 /**
  * @phpstan-type TDirection RouteBrowseCriteria::SORT_ASC|RouteBrowseCriteria::SORT_DESC
  * @phpstan-type TField RouteBrowseCriteria::FIELD_CREATED|RouteBrowseCriteria::FIELD_ENTITY_TYPE|RouteBrowseCriteria::FIELD_SOURCE|RouteBrowseCriteria::FIELD_TARGET
  */
-final class RouteBrowseCriteria extends BrowseCriteriaContract implements AttachmentAwareInterface
+final class RouteBrowseCriteria extends BrowseCriteriaContract implements AttachmentAwareInterface, AuditableDataAwareInterface
 {
     use AttachmentAwareTrait;
 
@@ -105,5 +106,16 @@ final class RouteBrowseCriteria extends BrowseCriteriaContract implements Attach
     public function setCapabilityFilter(?StringCollection $capabilityFilter): void
     {
         $this->capabilityFilter = $capabilityFilter;
+    }
+
+    public function getAuditableData(): array
+    {
+        return [
+            'capabilityFilter' => $this->getCapabilityFilter(),
+            'entityTypeFilter' => $this->getEntityTypeFilter(),
+            'sort' => $this->getSort(),
+            'sourcePortalNodeKeyFilter' => $this->getSourcePortalNodeKeyFilter(),
+            'targetPortalNodeKeyFilter' => $this->getTargetPortalNodeKeyFilter(),
+        ];
     }
 }

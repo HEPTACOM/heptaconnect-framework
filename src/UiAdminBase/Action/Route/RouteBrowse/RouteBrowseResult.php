@@ -11,8 +11,9 @@ use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Audit\AuditableDataAwareInterface;
 
-final class RouteBrowseResult implements AttachmentAwareInterface
+final class RouteBrowseResult implements AttachmentAwareInterface, AuditableDataAwareInterface
 {
     use AttachmentAwareTrait;
 
@@ -49,5 +50,16 @@ final class RouteBrowseResult implements AttachmentAwareInterface
     public function getCapabilities(): StringCollection
     {
         return $this->capabilities;
+    }
+
+    public function getAuditableData(): array
+    {
+        return [
+            'capabilities' => $this->getCapabilities(),
+            'entityType' => $this->getEntityType(),
+            'routeKey' => $this->getRouteKey(),
+            'sourcePortalNodeKey' => $this->getSourcePortalNodeKey(),
+            'targetPortalNodeKey' => $this->getTargetPortalNodeKey(),
+        ];
     }
 }
