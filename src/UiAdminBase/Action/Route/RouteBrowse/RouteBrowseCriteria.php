@@ -35,7 +35,7 @@ final class RouteBrowseCriteria extends BrowseCriteriaContract implements Attach
      * @phpstan-var array<TField, TDirection>
      */
     private array $sort = [
-        self::FIELD_CREATED => self::SORT_ASC,
+        self::FIELD_CREATED => self::SORT_DESC,
     ];
 
     private ?ClassStringReferenceCollection $entityTypeFilter = null;
