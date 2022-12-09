@@ -79,7 +79,7 @@ abstract class AbstractTestCase extends TestCase
         $composerPortalLoader = $this->getPortalLoader();
         $portal = $composerPortalLoader->getPortals()->first();
 
-        return new PreviewPortalNodeKey($portal::class);
+        return new PreviewPortalNodeKey($portal::class());
     }
 
     protected function getPortalLoader(): ComposerPortalLoader
