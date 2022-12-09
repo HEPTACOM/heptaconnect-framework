@@ -163,12 +163,12 @@ abstract class RouteTestContract extends TestCase
                 static fn (RouteOverviewResult $r): bool => $r->getRouteKey()->equals($findResult->getRouteKey())
             )));
 
-            $overviewAllResult = $this->routeOverviewAction->overview(new RouteOverviewCriteria());
-
-            static::assertCount(1, \iterable_to_array(\iterable_filter(
+            $overviewAllResult = \iterable_to_array($this->routeOverviewAction->overview(new RouteOverviewCriteria()));
+            static::assertCount(1,$overviewAllResult);
+            static::assertCount(1, \array_filter(
                 $overviewAllResult,
                 static fn (RouteOverviewResult $r): bool => $r->getRouteKey()->equals($findResult->getRouteKey())
-            )));
+            ));
 
             $routeGetCriteria = new RouteGetCriteria(new RouteKeyCollection([$findResult->getRouteKey()]));
             /** @var RouteGetResult[] $getResults */
