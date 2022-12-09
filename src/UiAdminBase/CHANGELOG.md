@@ -32,6 +32,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\RoutesMissingException` to identify issues when routes are not found
 - Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\StorageKeyDataNotSupportedException` to identify issues when a string fails to be get into a storage key
 - Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\StorageKeyNotSupportedException` to identify issues when a storage key fails to get converted into a string
+- Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\UnsupportedSortingException` to identify issues when a sorting is given, but the UI action does not support it
 - Add supporting service interface `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Support\PortalNodeAliasResolverInterface` to resolve portal node aliases
 - Add supporting service interface `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Support\StorageKeyAccessorInterface` to convert storage keys and check their existence
 - Add UI admin action interface `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionInterface` to ensure UI action related methods, that all UI actions share

@@ -12,9 +12,29 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\BrowseCriteriaContract;
 
+/**
+ * @phpstan-type TDirection RouteBrowseCriteria::SORT_ASC|RouteBrowseCriteria::SORT_DESC
+ * @phpstan-type TField RouteBrowseCriteria::FIELD_CREATED|RouteBrowseCriteria::FIELD_ENTITY_TYPE|RouteBrowseCriteria::FIELD_SOURCE|RouteBrowseCriteria::FIELD_TARGET
+ */
 final class RouteBrowseCriteria extends BrowseCriteriaContract implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
+
+    public const FIELD_CREATED = 'created';
+
+    public const FIELD_ENTITY_TYPE = 'entityType';
+
+    public const FIELD_SOURCE = 'source';
+
+    public const FIELD_TARGET = 'target';
+
+    /**
+     * @var array<string, string>
+     * @phpstan-var array<TField, TDirection>
+     */
+    private array $sort = [
+        self::FIELD_CREATED => self::SORT_ASC,
+    ];
 
     private ?ClassStringReferenceCollection $entityTypeFilter = null;
 
@@ -27,6 +47,24 @@ final class RouteBrowseCriteria extends BrowseCriteriaContract implements Attach
     public function __construct()
     {
         $this->attachments = new AttachmentCollection();
+    }
+
+    /**
+     * @return array<string, string>
+     * @phpstan-return array<TField, TDirection>
+     */
+    public function getSort(): array
+    {
+        return $this->sort;
+    }
+
+    /**
+     * @param array<string, string> $sort
+     * @phpstan-param array<TField, TDirection> $sort
+     */
+    public function setSort(array $sort): void
+    {
+        $this->sort = $sort;
     }
 
     public function getEntityTypeFilter(): ?ClassStringReferenceCollection

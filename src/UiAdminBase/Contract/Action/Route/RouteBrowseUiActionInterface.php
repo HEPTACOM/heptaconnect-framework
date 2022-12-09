@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteBrowse\RouteBrowseCrit
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteBrowse\RouteBrowseResult;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionContextInterface;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionInterface;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\UnsupportedSortingException;
 
 interface RouteBrowseUiActionInterface extends UiActionInterface
 {
@@ -15,6 +16,8 @@ interface RouteBrowseUiActionInterface extends UiActionInterface
      * Lists all routes by the given criteria.
      *
      * @return iterable<RouteBrowseResult>
+     *
+     * @throws UnsupportedSortingException
      */
     public function browse(RouteBrowseCriteria $criteria, UiActionContextInterface $context): iterable;
 }

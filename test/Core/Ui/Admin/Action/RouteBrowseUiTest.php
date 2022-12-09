@@ -15,6 +15,8 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewAction
 use Heptacom\HeptaConnect\Storage\Base\Enum\RouteCapability;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteBrowse\RouteBrowseCriteria;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\BrowseCriteriaContract;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\UnsupportedSortingException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -67,6 +69,9 @@ final class RouteBrowseUiTest extends TestCase
         static::assertNull($storageCriteria->getCapabilityFilter());
         static::assertSame(0, $storageCriteria->getPage());
         static::assertSame(10, $storageCriteria->getPageSize());
+        static::assertSame([
+            RouteOverviewCriteria::FIELD_CREATED => RouteOverviewCriteria::SORT_DESC,
+        ], $storageCriteria->getSort());
 
         $storageCriteria = null;
 
@@ -77,6 +82,10 @@ final class RouteBrowseUiTest extends TestCase
         $criteria->setTargetPortalNodeKeyFilter(new PortalNodeKeyCollection([$portalNodeKey]));
         $criteria->setSourcePortalNodeKeyFilter(new PortalNodeKeyCollection([$portalNodeKey]));
         $criteria->setEntityTypeFilter(new ClassStringReferenceCollection([FooBarEntity::class()]));
+        $criteria->setSort([
+            RouteBrowseCriteria::FIELD_ENTITY_TYPE => RouteBrowseCriteria::SORT_ASC,
+            RouteBrowseCriteria::FIELD_SOURCE => RouteBrowseCriteria::SORT_DESC,
+        ]);
 
         \iterable_to_array($action->browse($criteria, $this->createUiActionContext()));
 
@@ -87,5 +96,49 @@ final class RouteBrowseUiTest extends TestCase
         static::assertSame([RouteCapability::RECEPTION], $storageCriteria->getCapabilityFilter());
         static::assertSame(1, $storageCriteria->getPage());
         static::assertSame(52, $storageCriteria->getPageSize());
+        static::assertSame([
+            RouteOverviewCriteria::FIELD_ENTITY_TYPE => RouteOverviewCriteria::SORT_ASC,
+            RouteOverviewCriteria::FIELD_SOURCE => RouteOverviewCriteria::SORT_DESC,
+        ], $storageCriteria->getSort());
+
+        $storageCriteria = null;
+
+        $criteria = new RouteBrowseCriteria();
+        $criteria->setSort([
+            RouteBrowseCriteria::FIELD_ENTITY_TYPE => 'random',
+        ]);
+
+        try {
+            \iterable_to_array($action->browse($criteria, $this->createUiActionContext()));
+            throw new \Exception('No exception thrown');
+        } catch (UnsupportedSortingException $throwable) {
+            static::assertSame(1670625000, $throwable->getCode());
+            static::assertSame($throwable->getValue(), 'random');
+            static::assertTrue($throwable->getAvailableValues()->contains(BrowseCriteriaContract::SORT_DESC));
+            static::assertTrue($throwable->getAvailableValues()->contains(BrowseCriteriaContract::SORT_ASC));
+            static::assertCount(2, $throwable->getAvailableValues());
+        }
+
+        $storageCriteria = null;
+
+        $criteria = new RouteBrowseCriteria();
+        $criteria->setSort([
+            'unknown column' => RouteOverviewCriteria::SORT_ASC,
+        ]);
+
+        try {
+            \iterable_to_array($action->browse($criteria, $this->createUiActionContext()));
+            throw new \Exception('No exception thrown');
+        } catch (UnsupportedSortingException $throwable) {
+            static::assertSame(1670625001, $throwable->getCode());
+            static::assertSame($throwable->getValue(), 'unknown column');
+            static::assertTrue($throwable->getAvailableValues()->contains(RouteBrowseCriteria::FIELD_CREATED));
+            static::assertTrue($throwable->getAvailableValues()->contains(RouteBrowseCriteria::FIELD_ENTITY_TYPE));
+            static::assertTrue($throwable->getAvailableValues()->contains(RouteBrowseCriteria::FIELD_SOURCE));
+            static::assertTrue($throwable->getAvailableValues()->contains(RouteBrowseCriteria::FIELD_TARGET));
+            static::assertCount(4, $throwable->getAvailableValues());
+        }
+
+        static::assertNull($storageCriteria);
     }
 }
