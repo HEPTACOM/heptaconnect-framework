@@ -72,7 +72,7 @@ final class RouteBrowseUiTest extends TestCase
 
         $criteria = new RouteBrowseCriteria();
         $criteria->setPage(1);
-        $criteria->setPageSize(10);
+        $criteria->setPageSize(52);
         $criteria->setCapabilityFilter(new StringCollection([RouteCapability::RECEPTION]));
         $criteria->setTargetPortalNodeKeyFilter(new PortalNodeKeyCollection([$portalNodeKey]));
         $criteria->setSourcePortalNodeKeyFilter(new PortalNodeKeyCollection([$portalNodeKey]));
@@ -86,6 +86,6 @@ final class RouteBrowseUiTest extends TestCase
         static::assertCount(1, $storageCriteria->getEntityTypeFilter());
         static::assertSame([RouteCapability::RECEPTION], $storageCriteria->getCapabilityFilter());
         static::assertSame(1, $storageCriteria->getPage());
-        static::assertSame(10, $storageCriteria->getPageSize());
+        static::assertSame(52, $storageCriteria->getPageSize());
     }
 }
