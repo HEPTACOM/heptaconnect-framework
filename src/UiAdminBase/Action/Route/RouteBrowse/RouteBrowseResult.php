@@ -7,6 +7,7 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteBrowse;
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
+use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface;
@@ -15,15 +16,12 @@ final class RouteBrowseResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    /**
-     * @param string[] $capabilities
-     */
     public function __construct(
         private RouteKeyInterface $routeKey,
         private PortalNodeKeyInterface $sourcePortalNodeKey,
         private PortalNodeKeyInterface $targetPortalNodeKey,
         private ClassStringReferenceContract $entityType,
-        private array $capabilities
+        private StringCollection $capabilities
     ) {
         $this->attachments = new AttachmentCollection();
     }
@@ -48,10 +46,7 @@ final class RouteBrowseResult implements AttachmentAwareInterface
         return $this->entityType;
     }
 
-    /**
-     * @return string[]
-     */
-    public function getCapabilities(): array
+    public function getCapabilities(): StringCollection
     {
         return $this->capabilities;
     }

@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteBrowseUi;
 use Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection;
+use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview\RouteOverviewCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewActionInterface;
@@ -72,7 +73,7 @@ final class RouteBrowseUiTest extends TestCase
         $criteria = new RouteBrowseCriteria();
         $criteria->setPage(1);
         $criteria->setPageSize(10);
-        $criteria->setCapabilityFilter([RouteCapability::RECEPTION]);
+        $criteria->setCapabilityFilter(new StringCollection([RouteCapability::RECEPTION]));
         $criteria->setTargetPortalNodeKeyFilter(new PortalNodeKeyCollection([$portalNodeKey]));
         $criteria->setSourcePortalNodeKeyFilter(new PortalNodeKeyCollection([$portalNodeKey]));
         $criteria->setEntityTypeFilter(new ClassStringReferenceCollection([FooBarEntity::class()]));

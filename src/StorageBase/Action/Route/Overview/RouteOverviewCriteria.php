@@ -7,6 +7,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview;
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Overview\OverviewCriteriaContract;
@@ -36,10 +37,7 @@ final class RouteOverviewCriteria extends OverviewCriteriaContract implements At
 
     private ?PortalNodeKeyCollection $targetPortalNodeKeyFilter = null;
 
-    /**
-     * @var string[]|null
-     */
-    private ?array $capabilityFilter = null;
+    private ?StringCollection $capabilityFilter = null;
 
     public function __construct()
     {
@@ -76,18 +74,12 @@ final class RouteOverviewCriteria extends OverviewCriteriaContract implements At
         $this->targetPortalNodeKeyFilter = $targetPortalNodeKeyFilter;
     }
 
-    /**
-     * @return string[]|null
-     */
-    public function getCapabilityFilter(): ?array
+    public function getCapabilityFilter(): ?StringCollection
     {
         return $this->capabilityFilter;
     }
 
-    /**
-     * @param string[]|null $capabilityFilter
-     */
-    public function setCapabilityFilter(?array $capabilityFilter): void
+    public function setCapabilityFilter(?StringCollection $capabilityFilter): void
     {
         $this->capabilityFilter = $capabilityFilter;
     }

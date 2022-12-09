@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortalExtension;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditableDataSerializer;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface;
+use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
 use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface;
@@ -159,8 +160,8 @@ final class UiActionParameterTest extends TestCase
         yield new RouteAddResult($routeKey, $portalNodeKey, $portalNodeKey, $entityType::class(), []);
         yield new RouteAddResultCollection();
         yield new RouteBrowseCriteria();
-        yield new RouteBrowseResult($routeKey, $portalNodeKey, $portalNodeKey, $entityType::class(), []);
-        yield new RouteBrowseResult($routeKey, $portalNodeKey, $portalNodeKey, $unsafeClass, []);
+        yield new RouteBrowseResult($routeKey, $portalNodeKey, $portalNodeKey, $entityType::class(), new StringCollection());
+        yield new RouteBrowseResult($routeKey, $portalNodeKey, $portalNodeKey, $unsafeClass, new StringCollection());
         yield new RouteRemoveCriteria($routeKeys);
     }
 }
