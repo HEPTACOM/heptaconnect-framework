@@ -46,6 +46,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionDeactivateUi
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeStatusReportUi
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUi
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteBrowseUi
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUiDefault
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
