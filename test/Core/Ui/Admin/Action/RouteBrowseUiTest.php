@@ -97,7 +97,7 @@ final class RouteBrowseUiTest extends TestCase
         static::assertCount(1, $storageCriteria->getTargetPortalNodeKeyFilter());
         static::assertCount(1, $storageCriteria->getSourcePortalNodeKeyFilter());
         static::assertCount(1, $storageCriteria->getEntityTypeFilter());
-        static::assertSame([RouteCapability::RECEPTION], $storageCriteria->getCapabilityFilter());
+        static::assertSame([RouteCapability::RECEPTION], $storageCriteria->getCapabilityFilter()->asArray());
         static::assertSame(1, $storageCriteria->getPage());
         static::assertSame(52, $storageCriteria->getPageSize());
         static::assertSame([
