@@ -31,6 +31,7 @@ final class RouteBrowseCriteria extends BrowseCriteriaContract implements Attach
 
     /**
      * @var array<string, string>
+     *
      * @phpstan-var array<TField, TDirection>
      */
     private array $sort = [
@@ -52,6 +53,7 @@ final class RouteBrowseCriteria extends BrowseCriteriaContract implements Attach
 
     /**
      * @return array<string, string>
+     *
      * @phpstan-return array<TField, TDirection>
      */
     public function getSort(): array
@@ -61,6 +63,7 @@ final class RouteBrowseCriteria extends BrowseCriteriaContract implements Attach
 
     /**
      * @param array<string, string> $sort
+     *
      * @phpstan-param array<TField, TDirection> $sort
      */
     public function setSort(array $sort): void

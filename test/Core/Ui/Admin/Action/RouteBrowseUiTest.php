@@ -114,6 +114,7 @@ final class RouteBrowseUiTest extends TestCase
 
         try {
             \iterable_to_array($action->browse($criteria, $this->createUiActionContext()));
+
             throw new \Exception('No exception thrown');
         } catch (UnsupportedSortingException $throwable) {
             static::assertSame(1670625000, $throwable->getCode());
@@ -132,6 +133,7 @@ final class RouteBrowseUiTest extends TestCase
 
         try {
             \iterable_to_array($action->browse($criteria, $this->createUiActionContext()));
+
             throw new \Exception('No exception thrown');
         } catch (UnsupportedSortingException $throwable) {
             static::assertSame(1670625001, $throwable->getCode());

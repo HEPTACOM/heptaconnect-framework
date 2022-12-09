@@ -15,9 +15,9 @@ interface RouteBrowseUiActionInterface extends UiActionInterface
     /**
      * Lists all routes by the given criteria.
      *
-     * @return iterable<RouteBrowseResult>
-     *
      * @throws UnsupportedSortingException
+     *
+     * @return iterable<RouteBrowseResult>
      */
     public function browse(RouteBrowseCriteria $criteria, UiActionContextInterface $context): iterable;
 }
