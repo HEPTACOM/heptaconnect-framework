@@ -15,7 +15,7 @@ final class UnsupportedSortingException extends \UnexpectedValueException implem
         ?\Throwable $previous = null
     ) {
         $message = \sprintf(
-            'Value "%s" is not supported. Expected on value of "%s"',
+            'Value "%s" is not supported. Expected one value of "%s"',
             $this->value,
             $this->availableValues->join('", "')
         );
