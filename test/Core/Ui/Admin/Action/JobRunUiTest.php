@@ -112,10 +112,13 @@ final class JobRunUiTest extends TestCase
         $payload = new JobRunPayload();
         $payload->getJobKeys()->push([$jobA, $jobB, $jobC]);
 
-        static::expectExceptionCode(1659721163);
-        static::expectException(JobMissingException::class);
-
-        $action->run($payload, $this->createUiActionContext());
+        try {
+            $action->run($payload, $this->createUiActionContext());
+            static::fail('JobMissingException expected');
+        } catch (JobMissingException $exception) {
+            static::assertSame(1659721163, $exception->getCode());
+            static::assertTrue($exception->getJob()->equals($jobB));
+        }
     }
 
     public function testFailingJobExceptionCanReportProgress(): void
@@ -161,8 +164,11 @@ final class JobRunUiTest extends TestCase
         } catch (JobProcessingException $exception) {
             static::assertSame(1659721164, $exception->getCode());
             static::assertCount(1, $exception->getFailedJobs());
+            static::assertTrue($exception->getFailedJobs()->contains($jobA));
             static::assertCount(1, $exception->getProcessedJobs());
+            static::assertTrue($exception->getProcessedJobs()->contains($jobB));
             static::assertCount(1, $exception->getNotProcessedJobs());
+            static::assertTrue($exception->getNotProcessedJobs()->contains($jobC));
         }
     }
 }
