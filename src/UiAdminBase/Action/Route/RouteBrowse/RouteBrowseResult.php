@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview;
+namespace Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteBrowse;
 
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
@@ -11,19 +11,17 @@ use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Audit\AuditableDataAwareInterface;
 
-final class RouteOverviewResult implements AttachmentAwareInterface
+final class RouteBrowseResult implements AttachmentAwareInterface, AuditableDataAwareInterface
 {
     use AttachmentAwareTrait;
 
     public function __construct(
         private RouteKeyInterface $routeKey,
-        private ClassStringReferenceContract $entityType,
         private PortalNodeKeyInterface $sourcePortalNodeKey,
-        private ClassStringReferenceContract $sourcePortalClass,
         private PortalNodeKeyInterface $targetPortalNodeKey,
-        private ClassStringReferenceContract $targetPortalClass,
-        private \DateTimeInterface $createdAt,
+        private ClassStringReferenceContract $entityType,
         private StringCollection $capabilities
     ) {
         $this->attachments = new AttachmentCollection();
@@ -34,19 +32,9 @@ final class RouteOverviewResult implements AttachmentAwareInterface
         return $this->routeKey;
     }
 
-    public function getEntityType(): ClassStringReferenceContract
-    {
-        return $this->entityType;
-    }
-
     public function getSourcePortalNodeKey(): PortalNodeKeyInterface
     {
         return $this->sourcePortalNodeKey;
-    }
-
-    public function getSourcePortalClass(): ClassStringReferenceContract
-    {
-        return $this->sourcePortalClass;
     }
 
     public function getTargetPortalNodeKey(): PortalNodeKeyInterface
@@ -54,18 +42,24 @@ final class RouteOverviewResult implements AttachmentAwareInterface
         return $this->targetPortalNodeKey;
     }
 
-    public function getTargetPortalClass(): ClassStringReferenceContract
+    public function getEntityType(): ClassStringReferenceContract
     {
-        return $this->targetPortalClass;
-    }
-
-    public function getCreatedAt(): \DateTimeInterface
-    {
-        return $this->createdAt;
+        return $this->entityType;
     }
 
     public function getCapabilities(): StringCollection
     {
         return $this->capabilities;
+    }
+
+    public function getAuditableData(): array
+    {
+        return [
+            'capabilities' => $this->getCapabilities(),
+            'entityType' => $this->getEntityType(),
+            'routeKey' => $this->getRouteKey(),
+            'sourcePortalNodeKey' => $this->getSourcePortalNodeKey(),
+            'targetPortalNodeKey' => $this->getTargetPortalNodeKey(),
+        ];
     }
 }
