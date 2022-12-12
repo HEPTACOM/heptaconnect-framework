@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeConfigurationGetUi;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Get\PortalNodeConfigurationGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
@@ -69,7 +70,10 @@ final class PortalNodeConfigurationGetUiTest extends TestCase
             $configurationGetAction
         );
 
-        $result = $action->get(new PortalNodeConfigurationGetCriteria($portalNodeKey), $this->createUiActionContext());
+        $result = \iterable_to_array($action->get(
+            new PortalNodeConfigurationGetCriteria(new PortalNodeKeyCollection([$portalNodeKey])),
+            $this->createUiActionContext()
+        ))[0];
 
         static::assertSame([
             'foobar' => 42,
@@ -97,7 +101,10 @@ final class PortalNodeConfigurationGetUiTest extends TestCase
             $configurationGetAction
         );
 
-        $result = $action->get(new PortalNodeConfigurationGetCriteria($portalNodeKey), $this->createUiActionContext());
+        $result = \iterable_to_array($action->get(
+            new PortalNodeConfigurationGetCriteria(new PortalNodeKeyCollection([$portalNodeKey])),
+            $this->createUiActionContext()
+        ))[0];
 
         static::assertSame([], $result->getConfiguration());
         static::assertTrue($portalNodeKey->equals($result->getPortalNodeKey()));
@@ -123,7 +130,10 @@ final class PortalNodeConfigurationGetUiTest extends TestCase
         static::expectException(PortalNodesMissingException::class);
         static::expectExceptionCode(1670832601);
 
-        $action->get(new PortalNodeConfigurationGetCriteria($portalNodeKey), $this->createUiActionContext());
+        \iterable_to_array($action->get(
+            new PortalNodeConfigurationGetCriteria(new PortalNodeKeyCollection([$portalNodeKey])),
+            $this->createUiActionContext()
+        ));
     }
 
     public function testReadingConfigurationFailsFromStorage(): void
@@ -148,6 +158,9 @@ final class PortalNodeConfigurationGetUiTest extends TestCase
         static::expectException(ReadException::class);
         static::expectExceptionCode(1670832602);
 
-        $action->get(new PortalNodeConfigurationGetCriteria($portalNodeKey), $this->createUiActionContext());
+        \iterable_to_array($action->get(
+            new PortalNodeConfigurationGetCriteria(new PortalNodeKeyCollection([$portalNodeKey])),
+            $this->createUiActionContext()
+        ));
     }
 }

@@ -18,9 +18,8 @@ interface PortalNodeConfigurationGetUiActionInterface extends UiActionInterface
      *
      * @throws PortalNodesMissingException
      * @throws ReadException
+     *
+     * @return iterable<PortalNodeConfigurationGetResult>
      */
-    public function get(
-        PortalNodeConfigurationGetCriteria $criteria,
-        UiActionContextInterface $context
-    ): PortalNodeConfigurationGetResult;
+    public function get(PortalNodeConfigurationGetCriteria $criteria, UiActionContextInterface $context): iterable;
 }

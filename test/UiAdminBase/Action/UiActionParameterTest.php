@@ -12,6 +12,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface;
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
 use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
@@ -149,7 +150,7 @@ final class UiActionParameterTest extends TestCase
         yield new PortalEntityListResult($codeOrigin, $entityType::class(), FooBarEmitter::class);
         yield new PortalNodeAddPayload($portalClass::class());
         yield new PortalNodeAddResult($portalNodeKey);
-        yield new PortalNodeConfigurationGetCriteria($portalNodeKey);
+        yield new PortalNodeConfigurationGetCriteria(new PortalNodeKeyCollection());
         yield new PortalNodeConfigurationGetResult($portalNodeKey, []);
         yield new PortalNodeEntityListCriteria($portalNodeKey);
         yield new PortalNodeEntityListResult($codeOrigin, $entityType::class(), FooBarEmitter::class);

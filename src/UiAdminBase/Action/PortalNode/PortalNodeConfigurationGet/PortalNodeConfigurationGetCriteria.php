@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeConfig
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Audit\AuditableDataAwareInterface;
 
 final class PortalNodeConfigurationGetCriteria implements AttachmentAwareInterface, AuditableDataAwareInterface
@@ -15,25 +15,25 @@ final class PortalNodeConfigurationGetCriteria implements AttachmentAwareInterfa
     use AttachmentAwareTrait;
 
     public function __construct(
-        private PortalNodeKeyInterface $portalNodeKey
+        private PortalNodeKeyCollection $portalNodeKeys
     ) {
         $this->attachments = new AttachmentCollection();
     }
 
-    public function getPortalNodeKey(): PortalNodeKeyInterface
+    public function getPortalNodeKeys(): PortalNodeKeyCollection
     {
-        return $this->portalNodeKey;
+        return $this->portalNodeKeys;
     }
 
-    public function setPortalNodeKey(PortalNodeKeyInterface $portalNodeKey): void
+    public function setPortalNodeKeys(PortalNodeKeyCollection $portalNodeKeys): void
     {
-        $this->portalNodeKey = $portalNodeKey;
+        $this->portalNodeKeys = $portalNodeKeys;
     }
 
     public function getAuditableData(): array
     {
         return [
-            'portalNodeKey' => $this->getPortalNodeKey(),
+            'portalNodeKeys' => $this->getPortalNodeKeys(),
         ];
     }
 }
