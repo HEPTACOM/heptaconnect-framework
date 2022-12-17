@@ -16,7 +16,7 @@ use Heptacom\HeptaConnect\Storage\Base\Action\Job\Get\JobGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\JobKeyInterface;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Job\JobRun\JobRunPayload;
-use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\JobMissingException;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\JobsMissingException;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\JobProcessingException;
 use PHPUnit\Framework\Constraint\Count;
 use PHPUnit\Framework\TestCase;
@@ -37,7 +37,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Get\JobGetResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\JobKeyCollection
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Job\JobRun\JobRunPayload
- * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\JobMissingException
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\JobsMissingException
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\JobProcessingException
  */
 final class JobRunUiTest extends TestCase
@@ -115,9 +115,9 @@ final class JobRunUiTest extends TestCase
         try {
             $action->run($payload, $this->createUiActionContext());
             static::fail('JobMissingException expected');
-        } catch (JobMissingException $exception) {
+        } catch (JobsMissingException $exception) {
             static::assertSame(1659721163, $exception->getCode());
-            static::assertTrue($exception->getJob()->equals($jobB));
+            static::assertTrue($exception->getJobs()->contains($jobB));
         }
     }
 
@@ -163,10 +163,10 @@ final class JobRunUiTest extends TestCase
             static::fail();
         } catch (JobProcessingException $exception) {
             static::assertSame(1659721164, $exception->getCode());
-            static::assertCount(1, $exception->getFailedJobs());
-            static::assertTrue($exception->getFailedJobs()->contains($jobA));
             static::assertCount(1, $exception->getProcessedJobs());
-            static::assertTrue($exception->getProcessedJobs()->contains($jobB));
+            static::assertTrue($exception->getProcessedJobs()->contains($jobA));
+            static::assertCount(1, $exception->getFailedJobs());
+            static::assertTrue($exception->getFailedJobs()->contains($jobB));
             static::assertCount(1, $exception->getNotProcessedJobs());
             static::assertTrue($exception->getNotProcessedJobs()->contains($jobC));
         }

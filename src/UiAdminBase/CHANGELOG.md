@@ -27,7 +27,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodesMissingException` to identify issues when portal nodes are referenced but don't exist
 - Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodeAliasIsAlreadyAssignedException` to identify exceptions when writing portal node aliases are not unique
 - Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodeAliasNotFoundException` to identify issues when a portal node alias can not be resolved to a portal node
-- Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\JobMissingException` to identify issues when a referenced job is not available for this action
+- Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\JobsMissingException` to identify issues when referenced jobs are not available for this action
 - Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\JobProcessingException` to identify issues when referenced jobs can not be processed. This is not limited to running a job
 - Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\RouteAlreadyExistsException` to identify issues when a route already exists
 - Add `\Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\RouteAddFailedException` to identify issues when route creation failed logically
