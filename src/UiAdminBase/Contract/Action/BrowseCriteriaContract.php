@@ -10,6 +10,10 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action;
  */
 abstract class BrowseCriteriaContract
 {
+    public const SORT_ASC = 'asc';
+
+    public const SORT_DESC = 'desc';
+
     private ?int $page = null;
 
     private int $pageSize = 10;

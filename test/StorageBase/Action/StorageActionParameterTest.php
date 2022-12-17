@@ -267,6 +267,7 @@ class StorageActionParameterTest extends TestCase
         $createdAt = \date_create();
         $unsafeClass = new UnsafeClassString($entityType);
         $uiAuditTrailKey = $this->createMock(UiAuditTrailKeyInterface::class);
+        $stringCollection = new StringCollection();
 
         yield new FileReferencePersistRequestPayload($portalNodeKey);
         yield new FileReferencePersistRequestResult($portalNodeKey);
@@ -320,9 +321,9 @@ class StorageActionParameterTest extends TestCase
         yield new PortalNodeConfigurationSetPayload($portalNodeKey, []);
         yield new PortalNodeConfigurationSetPayloads();
         yield new PortalNodeStorageClearCriteria($portalNodeKey);
-        yield new PortalNodeStorageDeleteCriteria($portalNodeKey, new StringCollection());
+        yield new PortalNodeStorageDeleteCriteria($portalNodeKey, $stringCollection);
         yield new PortalNodeStorageGetResult($portalNodeKey, '', '', '');
-        yield new PortalNodeStorageGetCriteria($portalNodeKey, new StringCollection());
+        yield new PortalNodeStorageGetCriteria($portalNodeKey, $stringCollection);
         yield new PortalNodeStorageListCriteria($portalNodeKey);
         yield new PortalNodeStorageListResult($portalNodeKey, '', '', '');
         yield new PortalNodeStorageSetPayload($portalNodeKey, new PortalNodeStorageSetItems());
@@ -351,14 +352,14 @@ class StorageActionParameterTest extends TestCase
         yield new ReceptionRouteListCriteria($portalNodeKey, $unsafeClass);
         yield new ReceptionRouteListResult($routeKey);
         yield new RouteOverviewCriteria();
-        yield new RouteOverviewResult($routeKey, $entityType::class(), $portalNodeKey, $portalClass::class(), $portalNodeKey, $portalClass::class(), $createdAt, []);
-        yield new RouteOverviewResult($routeKey, $entityType::class(), $portalNodeKey, $portalClass::class(), $portalNodeKey, $unsafeClass, $createdAt, []);
-        yield new RouteOverviewResult($routeKey, $entityType::class(), $portalNodeKey, $unsafeClass, $portalNodeKey, $portalClass::class(), $createdAt, []);
-        yield new RouteOverviewResult($routeKey, $entityType::class(), $portalNodeKey, $unsafeClass, $portalNodeKey, $unsafeClass, $createdAt, []);
-        yield new RouteOverviewResult($routeKey, $unsafeClass, $portalNodeKey, $portalClass::class(), $portalNodeKey, $portalClass::class(), $createdAt, []);
-        yield new RouteOverviewResult($routeKey, $unsafeClass, $portalNodeKey, $portalClass::class(), $portalNodeKey, $unsafeClass, $createdAt, []);
-        yield new RouteOverviewResult($routeKey, $unsafeClass, $portalNodeKey, $unsafeClass, $portalNodeKey, $portalClass::class(), $createdAt, []);
-        yield new RouteOverviewResult($routeKey, $unsafeClass, $portalNodeKey, $unsafeClass, $portalNodeKey, $unsafeClass, $createdAt, []);
+        yield new RouteOverviewResult($routeKey, $entityType::class(), $portalNodeKey, $portalClass::class(), $portalNodeKey, $portalClass::class(), $createdAt, $stringCollection);
+        yield new RouteOverviewResult($routeKey, $entityType::class(), $portalNodeKey, $portalClass::class(), $portalNodeKey, $unsafeClass, $createdAt, $stringCollection);
+        yield new RouteOverviewResult($routeKey, $entityType::class(), $portalNodeKey, $unsafeClass, $portalNodeKey, $portalClass::class(), $createdAt, $stringCollection);
+        yield new RouteOverviewResult($routeKey, $entityType::class(), $portalNodeKey, $unsafeClass, $portalNodeKey, $unsafeClass, $createdAt, $stringCollection);
+        yield new RouteOverviewResult($routeKey, $unsafeClass, $portalNodeKey, $portalClass::class(), $portalNodeKey, $portalClass::class(), $createdAt, $stringCollection);
+        yield new RouteOverviewResult($routeKey, $unsafeClass, $portalNodeKey, $portalClass::class(), $portalNodeKey, $unsafeClass, $createdAt, $stringCollection);
+        yield new RouteOverviewResult($routeKey, $unsafeClass, $portalNodeKey, $unsafeClass, $portalNodeKey, $portalClass::class(), $createdAt, $stringCollection);
+        yield new RouteOverviewResult($routeKey, $unsafeClass, $portalNodeKey, $unsafeClass, $portalNodeKey, $unsafeClass, $createdAt, $stringCollection);
         yield new RouteCapabilityOverviewCriteria();
         yield new RouteCapabilityOverviewResult('', $createdAt);
         yield new UiAuditTrailBeginPayload('', '', StorageUiAction::class(), '', new TaggedStringCollection());

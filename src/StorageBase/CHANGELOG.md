@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add method `\Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface::getUiAuditTrailLogOutputAction` and `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade::createUiAuditTrailLogOutputAction` to get an instance of `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailLogOutputActionInterface`
 - Add method `\Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface::getUiAuditTrailLogErrorAction` and `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade::createUiAuditTrailLogErrorAction` to get an instance of `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailLogErrorActionInterface`
 - Add method `\Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface::getUiAuditTrailEndAction` and `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade::createUiAuditTrailEndAction` to get an instance of `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailEndActionInterface`
+- Add filter for source portal node, target portal node, entity type and capability to `\Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview\RouteOverviewCriteria` to limit the overview to certain results
 
 ### Changed
 
@@ -40,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change string parameter in `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult::__construct`, `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Overview\PortalNodeOverviewResult::__construct`, `\Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Find\PortalExtensionFindResult::add` and `\Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview\RouteOverviewResult::__construct` to be a `\Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract` instead of a string for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Change array of string parameter in `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Overview\PortalNodeOverviewCriteria::setClassNameFilter` to be a `\Heptacom\HeptaConnect\Dataset\Base\Support\ClassStringReferenceCollection` instead of a string for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Implement `\Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface` in `\Heptacom\HeptaConnect\Storage\Base\PrimaryKeySharingMappingStruct`
+- Change type of capabilities on `\Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview\RouteOverviewResult` from untyped array to `\Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection`
 
 ### Deprecated
 
@@ -53,6 +55,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ### Security
+
+## [0.9.3.0] - 2022-11-26
 
 ## [0.9.2.0] - 2022-10-16
 
