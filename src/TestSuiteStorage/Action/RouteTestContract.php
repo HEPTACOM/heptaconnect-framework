@@ -297,6 +297,9 @@ abstract class RouteTestContract extends TestCase
         }
     }
 
+    /**
+     * Test, that the overview does not contain the deleted route.
+     */
     public function testDeletedAt(): void
     {
         $routeKeys = $this->setUpOverview();
@@ -305,6 +308,9 @@ abstract class RouteTestContract extends TestCase
         $this->tearDownOverview($routeKeys);
     }
 
+    /**
+     * Test pagination has a result for each page by page size of 1.
+     */
     public function testPagination(): void
     {
         $routeKeys = $this->setUpOverview();
@@ -338,6 +344,9 @@ abstract class RouteTestContract extends TestCase
         $this->tearDownOverview($routeKeys);
     }
 
+    /**
+     * Test sorting the routes by creation date ascending.
+     */
     public function testSortByDateAsc(): void
     {
         $routeKeys = $this->setUpOverview();
@@ -355,6 +364,9 @@ abstract class RouteTestContract extends TestCase
         }
     }
 
+    /**
+     * Test sorting the routes by creation date descending.
+     */
     public function testSortByDateDesc(): void
     {
         $routeKeys = $this->setUpOverview();
@@ -372,6 +384,9 @@ abstract class RouteTestContract extends TestCase
         }
     }
 
+    /**
+     * Test sorting the routes by name of the entity type in ascending order.
+     */
     public function testSortByEntityTypeAsc(): void
     {
         $routeKeys = $this->setUpOverview();
@@ -399,6 +414,9 @@ abstract class RouteTestContract extends TestCase
         static::assertGreaterThan($indexA, $indexB);
     }
 
+    /**
+     * Test sorting the routes by name of the entity type in descending order.
+     */
     public function testSortByEntityTypeDesc(): void
     {
         $routeKeys = $this->setUpOverview();
