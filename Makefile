@@ -3,6 +3,7 @@ PHP := $(shell which php) $(PHP_EXTRA_ARGS)
 COMPOSER := $(PHP) $(shell which composer) $(COMPOSER_EXTRA_ARGS)
 PHPUNIT_EXTRA_ARGS := --config=test/phpunit.xml
 PHPUNIT := $(PHP) vendor/bin/phpunit $(PHPUNIT_EXTRA_ARGS)
+INFECTION := $(PHP) vendor/bin/infection $(INFECTION_EXTRA_ARGS)
 CURL := $(shell which curl)
 JQ := $(shell which jq)
 XSLTPROC := $(shell which xsltproc)
@@ -45,6 +46,7 @@ clean: clean-package-vendor ## Cleans up all ignored files and directories
 	[[ ! -d dev-ops/bin/phpstan/vendor ]] || rm -rf dev-ops/bin/phpstan/vendor
 	[[ ! -d dev-ops/bin/psalm/vendor ]] || rm -rf dev-ops/bin/psalm/vendor
 	[[ ! -d dev-ops/bin/php-churn/vendor ]] || rm -rf dev-ops/bin/php-churn/vendor
+	[[ ! -d test/Core/Fixture/_files/portal_filesystem ]] || rm -rf test/Core/Fixture/_files/portal_filesystem
 	make -C test-suite-portal-test-portal clean
 
 .PHONY: clean-package-vendor
@@ -168,11 +170,11 @@ cs-fix-php: vendor .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standa
 	$(PHP) $(EASY_CODING_STANDARD_FILE) check --config=dev-ops/ecs.php --fix
 
 .PHONY: infection
-infection: vendor .build ## Run infection tests
+infection: clean test-setup-fixture vendor .build ## Run infection tests
 	# Can be simplified when infection/infection#1283 is resolved
 	[[ -d .build/phpunit-logs ]] || mkdir -p .build/.phpunit-coverage
 	$(PHPUNIT) --coverage-xml=.build/.phpunit-coverage/index.xml --log-junit=.build/.phpunit-coverage/infection.junit.xml
-	$(PHP) vendor/bin/infection --min-covered-msi=80 --min-msi=80 --configuration=dev-ops/infection.json --coverage=../.build/.phpunit-coverage --show-mutations --no-interaction
+	$(INFECTION) --only-covered --only-covering-test-cases --threads=max --configuration=dev-ops/infection.json --coverage=../.build/.phpunit-coverage --show-mutations --no-interaction
 
 .PHONY: test
 test: test-setup-fixture clean-package-vendor run-phpunit test-clean-fixture ## Run phpunit for unit tests

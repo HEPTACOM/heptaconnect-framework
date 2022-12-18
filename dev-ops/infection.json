@@ -1,11 +1,14 @@
 {
-    "timeout": 30,
+    "timeout": 5,
     "source": {
         "directories": [
             "src/Core",
             "src/DatasetBase",
             "src/PortalBase",
-            "src/StorageBase"
+            "src/StorageBase",
+            "src/TestSuitePortal",
+            "src/TestSuiteStorage",
+            "src/UiAdminBase"
         ]
     },
     "mutators": {
