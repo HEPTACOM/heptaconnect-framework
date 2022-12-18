@@ -143,3 +143,9 @@ parameters:
 			message: "#Offset .+ on .+ on left side of \\?\\? always exists and is not nullable.#"
 			paths:
 				- ../src/Core/Ui/Admin/Action/RouteBrowseUi.php
+		-
+			# This has been checked in the constructor already
+			message: "#Call to an undefined method League\\\\Flysystem\\\\FilesystemInterface::(getAdapter|getConfig)#"
+			paths:
+				- ../src/Core/Storage/Filesystem/AbstractFilesystem.php
+				- ../src/Core/Storage/Filesystem/PrefixFilesystem.php
