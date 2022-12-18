@@ -138,3 +138,8 @@ parameters:
 			message: "#Class 'Heptacom\\\\HeptaConnect\\\\Portal\\\\Base\\\\Serialization\\\\Contract\\\\SerializableStream' that looks like a struct is expected to implement Heptacom\\\\HeptaConnect\\\\Dataset\\\\Base\\\\Contract\\\\AttachmentAwareInterface#"
 			paths:
 				- ../src/PortalBase/Serialization/Contract/SerializableStream.php
+		-
+			# We have hints what the right string values are and phpstan naively expects these are the only strings, that are used as arguments and therefore look ups will never fail
+			message: "#Offset .+ on .+ on left side of \\?\\? always exists and is not nullable.#"
+			paths:
+				- ../src/Core/Ui/Admin/Action/RouteBrowseUi.php
