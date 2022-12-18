@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 
+use Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract;
 use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
 use Heptacom\HeptaConnect\Core\Portal\Contract\PackageQueryMatcherInterface;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingServiceInterface;
+use Heptacom\HeptaConnect\Core\Ui\Admin\Action\JobRunUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalEntityListUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeAddUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeEntityListUi;
@@ -22,6 +24,7 @@ use Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterfac
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerCodeOriginFinderInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverCodeOriginFinderInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionActivateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionDeactivateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface;
@@ -68,6 +71,8 @@ final class UiActionInterfaceTest extends TestCase
     private function iterateUiActions(): iterable
     {
         $auditTrailFactory = $this->createMock(AuditTrailFactoryInterface::class);
+        $jobActor = $this->createMock(DelegatingJobActorContract::class);
+        $jobGetAction = $this->createMock(JobGetActionInterface::class);
         $portalNodeEntityListUiAction = $this->createMock(PortalNodeEntityListUiActionInterface::class);
         $portalNodeCreateAction = $this->createMock(PortalNodeCreateActionInterface::class);
         $portalNodeAliasFindAction = $this->createMock(PortalNodeAliasFindActionInterface::class);
@@ -88,6 +93,7 @@ final class UiActionInterfaceTest extends TestCase
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
         $routeOverviewAction = $this->createMock(RouteOverviewActionInterface::class);
 
+        yield new JobRunUi($auditTrailFactory, $jobActor, $jobGetAction);
         yield new PortalEntityListUi($auditTrailFactory, $portalNodeEntityListUiAction);
         yield new PortalNodeAddUi($auditTrailFactory, $portalNodeCreateAction, $portalNodeAliasFindAction);
         yield new PortalNodeEntityListUi($auditTrailFactory, $portalStackServiceContainerFactory, $explorerCodeOriginFinder, $emitterCodeOriginFinder, $receiverCodeOriginFinder);
