@@ -304,7 +304,14 @@ abstract class RouteTestContract extends TestCase
     {
         $routeKeys = $this->setUpOverview();
         $criteria = new RouteOverviewCriteria();
-        static::assertCount(4, \iterable_to_array($this->routeOverviewAction->overview($criteria)));
+        $routes = \iterable_to_array($this->routeOverviewAction->overview($criteria));
+        static::assertCount(4, $routes);
+
+        /** @var RouteOverviewResult $route */
+        foreach ($routes as $route) {
+            static::assertFalse($route->getRouteKey()->equals($routeKeys['routeDeleted']));
+        }
+
         $this->tearDownOverview($routeKeys);
     }
 
@@ -460,29 +467,49 @@ abstract class RouteTestContract extends TestCase
      */
     private function setUpOverview(): array
     {
-        $routeDeleted = $this->routeCreateAction->create(new RouteCreatePayloads([
+        $routeCreateResult = $this->routeCreateAction->create(new RouteCreatePayloads([
             new RouteCreatePayload($this->portalA, $this->portalB, EntityA::class()),
-        ]))->first()->getRouteKey();
+        ]))->first();
+
+        static::assertInstanceOf(RouteCreateResult::class, $routeCreateResult);
+
+        $routeDeleted = $routeCreateResult->getRouteKey();
         $this->routeDeleteAction->delete(new RouteDeleteCriteria(new RouteKeyCollection([$routeDeleted])));
 
-        $routeFirst = $this->routeCreateAction->create(new RouteCreatePayloads([
+        $routeCreateResult = $this->routeCreateAction->create(new RouteCreatePayloads([
             new RouteCreatePayload($this->portalA, $this->portalB, EntityA::class()),
-        ]))->first()->getRouteKey();
+        ]))->first();
+
+        static::assertInstanceOf(RouteCreateResult::class, $routeCreateResult);
+
+        $routeFirst = $routeCreateResult->getRouteKey();
 
         \sleep(1);
 
-        $routeTypeA = $this->routeCreateAction->create(new RouteCreatePayloads([
+        $routeCreateResult = $this->routeCreateAction->create(new RouteCreatePayloads([
             new RouteCreatePayload($this->portalA, $this->portalB, EntityA::class()),
-        ]))->first()->getRouteKey();
-        $routeTypeB = $this->routeCreateAction->create(new RouteCreatePayloads([
+        ]))->first();
+
+        static::assertInstanceOf(RouteCreateResult::class, $routeCreateResult);
+
+        $routeTypeA = $routeCreateResult->getRouteKey();
+        $routeCreateResult = $this->routeCreateAction->create(new RouteCreatePayloads([
             new RouteCreatePayload($this->portalA, $this->portalB, EntityB::class()),
-        ]))->first()->getRouteKey();
+        ]))->first();
+
+        static::assertInstanceOf(RouteCreateResult::class, $routeCreateResult);
+
+        $routeTypeB = $routeCreateResult->getRouteKey();
 
         \sleep(1);
 
-        $routeLast = $this->routeCreateAction->create(new RouteCreatePayloads([
+        $routeCreateResult = $this->routeCreateAction->create(new RouteCreatePayloads([
             new RouteCreatePayload($this->portalA, $this->portalB, EntityA::class()),
-        ]))->first()->getRouteKey();
+        ]))->first();
+
+        static::assertInstanceOf(RouteCreateResult::class, $routeCreateResult);
+
+        $routeLast = $routeCreateResult->getRouteKey();
 
         return [
             'routeDeleted' => $routeDeleted,
