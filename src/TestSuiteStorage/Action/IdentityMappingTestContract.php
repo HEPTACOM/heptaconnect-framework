@@ -20,6 +20,7 @@ use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreate
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayloads;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Delete\PortalNodeDeleteCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface;
@@ -67,7 +68,9 @@ abstract class IdentityMappingTestContract extends TestCase
             new PortalNodeCreatePayload(PortalC::class()),
         ]);
         $createResults = $portalNodeCreate->create($createPayloads);
-        $getCriteria = new PortalNodeGetCriteria(new PortalNodeKeyCollection($createResults->column('getPortalNodeKey')));
+        $getCriteria = new PortalNodeGetCriteria(new PortalNodeKeyCollection($createResults->map(
+            static fn (PortalNodeGetResult $getResult): PortalNodeKeyInterface => $getResult->getPortalNodeKey()
+        )));
 
         foreach ($portalNodeGet->get($getCriteria) as $portalNode) {
             if ($portalNode->getPortalClass()->equals(PortalA::class())) {
