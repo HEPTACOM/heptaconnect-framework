@@ -50,7 +50,7 @@ abstract class AbstractTranslatableScalarCollection extends AbstractTranslatable
         return $this->fallback ??= $this->getInitialValue();
     }
 
-    protected function isValidValue($value): bool
+    protected function isValidValue(mixed $value): bool
     {
         return $value instanceof $this->fallback;
     }

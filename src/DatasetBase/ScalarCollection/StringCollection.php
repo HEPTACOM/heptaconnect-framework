@@ -25,7 +25,7 @@ final class StringCollection extends AbstractCollection
         return $result;
     }
 
-    protected function isValidItem($item): bool
+    protected function isValidItem(mixed $item): bool
     {
         /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */
         return \is_string($item);

@@ -35,10 +35,7 @@ class TypedMappingComponentCollection extends MappingComponentCollection
         return (string) $this->entityType;
     }
 
-    /**
-     * @param MappingComponentStructContract $item
-     */
-    protected function isValidItem($item): bool
+    protected function isValidItem(mixed $item): bool
     {
         return parent::isValidItem($item) && $item->getEntityType()->equals($this->entityType);
     }

@@ -242,9 +242,9 @@ abstract class AbstractCollection implements CollectionInterface
     }
 
     /**
-     * @psalm-param T $item
+     * @psalm-assert-if-true $item T
      */
-    abstract protected function isValidItem($item): bool;
+    abstract protected function isValidItem(mixed $item): bool;
 
     protected function filterValid(iterable $items): \Generator
     {

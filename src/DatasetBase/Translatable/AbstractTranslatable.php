@@ -210,9 +210,9 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
     }
 
     /**
-     * @psalm-param T $value
+     * @psalm-assert-if-true T $value
      */
-    abstract protected function isValidValue($value): bool;
+    abstract protected function isValidValue(mixed $value): bool;
 
     private function deleteTranslation(string $offset): void
     {

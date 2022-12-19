@@ -43,10 +43,7 @@ final class TypedDatasetEntityCollection extends DatasetEntityCollection
         return $this->type;
     }
 
-    /**
-     * @param DatasetEntityContract $item
-     */
-    protected function isValidItem($item): bool
+    protected function isValidItem(mixed $item): bool
     {
         return parent::isValidItem($item) && $this->type->isObjectOfType($item);
     }
