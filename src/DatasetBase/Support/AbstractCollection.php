@@ -280,7 +280,7 @@ abstract class AbstractCollection implements CollectionInterface
         }
     }
 
-    protected function executeAccessor(mixed $item, ?string $accessor, mixed $fallback)
+    protected function executeAccessor(mixed $item, ?string $accessor, mixed $fallback): mixed
     {
         if (!\is_string($accessor)) {
             return $fallback;
