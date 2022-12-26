@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\UiAuditTrail\UiAuditTrailLogError;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Storage\Base\Contract\UiAuditTrailKeyInterface;
@@ -25,7 +24,6 @@ final class UiAuditTrailLogErrorPayload implements AttachmentAwareInterface
         private string $message,
         private string $code
     ) {
-        $this->attachments = new AttachmentCollection();
         $this->at = new \DateTimeImmutable();
     }
 

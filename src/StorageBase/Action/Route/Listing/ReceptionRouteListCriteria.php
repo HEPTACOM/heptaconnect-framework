@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Listing;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
@@ -18,7 +17,6 @@ final class ReceptionRouteListCriteria implements AttachmentAwareInterface
         private PortalNodeKeyInterface $sourcePortalNodeKey,
         private ClassStringReferenceContract $entityType
     ) {
-        $this->attachments = new AttachmentCollection();
     }
 
     public function getSourcePortalNodeKey(): PortalNodeKeyInterface

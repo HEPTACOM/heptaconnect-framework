@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\Job\Get;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct;
@@ -20,7 +19,6 @@ final class JobGetResult implements AttachmentAwareInterface
         private MappingComponentStruct $mappingComponent,
         private ?array $payload
     ) {
-        $this->attachments = new AttachmentCollection();
     }
 
     public function getJobType(): string

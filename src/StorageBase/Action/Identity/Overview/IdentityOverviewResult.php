@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\Identity\Overview;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
@@ -22,7 +21,6 @@ final class IdentityOverviewResult implements AttachmentAwareInterface
         private ClassStringReferenceContract $entityType,
         private \DateTimeInterface $createdAt
     ) {
-        $this->attachments = new AttachmentCollection();
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

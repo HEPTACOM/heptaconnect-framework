@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionBrowse;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
@@ -20,7 +19,6 @@ final class PortalNodeExtensionBrowseResult implements AttachmentAwareInterface,
         private bool $active,
         private ClassStringReferenceContract $portalExtensionType
     ) {
-        $this->attachments = new AttachmentCollection();
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

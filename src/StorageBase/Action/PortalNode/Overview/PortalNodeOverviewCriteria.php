@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Overview;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
@@ -29,7 +28,6 @@ final class PortalNodeOverviewCriteria extends OverviewCriteriaContract implemen
 
     public function __construct()
     {
-        $this->attachments = new AttachmentCollection();
         $this->classNameFilter = new ClassStringReferenceCollection();
     }
 

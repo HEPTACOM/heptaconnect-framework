@@ -32,11 +32,6 @@ final class AuditableDataSerializerTest extends TestCase
         $aware = new class() implements AttachmentAwareInterface, AuditableDataAwareInterface {
             use AttachmentAwareTrait;
 
-            public function __construct()
-            {
-                $this->attachments = new AttachmentCollection();
-            }
-
             public function getAuditableData(): array
             {
                 return [];

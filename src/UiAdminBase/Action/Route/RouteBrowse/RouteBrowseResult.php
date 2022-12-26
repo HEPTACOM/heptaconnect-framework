@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteBrowse;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
@@ -24,7 +23,6 @@ final class RouteBrowseResult implements AttachmentAwareInterface, AuditableData
         private ClassStringReferenceContract $entityType,
         private StringCollection $capabilities
     ) {
-        $this->attachments = new AttachmentCollection();
     }
 
     public function getRouteKey(): RouteKeyInterface
