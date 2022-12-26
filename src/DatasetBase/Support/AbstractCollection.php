@@ -26,7 +26,7 @@ abstract class AbstractCollection implements CollectionInterface
     protected array $items = [];
 
     /**
-     * @psalm-param iterable<int, T> $items
+     * @param iterable<int, T> $items
      */
     public function __construct(iterable $items = [])
     {

@@ -16,6 +16,9 @@ final class RouteAddResultCollection extends AbstractObjectCollection implements
 {
     use AttachmentAwareTrait;
 
+    /**
+     * @param iterable<int, RouteAddResult> $items
+     */
     public function __construct(iterable $items = [])
     {
         parent::__construct($items);

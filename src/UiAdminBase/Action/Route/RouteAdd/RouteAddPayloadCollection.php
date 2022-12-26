@@ -16,6 +16,9 @@ final class RouteAddPayloadCollection extends AbstractObjectCollection implement
 {
     use AttachmentAwareTrait;
 
+    /**
+     * @param iterable<int, RouteAddPayload> $items
+     */
     public function __construct(iterable $items = [])
     {
         parent::__construct($items);

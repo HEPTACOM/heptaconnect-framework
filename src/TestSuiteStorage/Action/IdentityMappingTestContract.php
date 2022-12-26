@@ -468,6 +468,8 @@ abstract class IdentityMappingTestContract extends TestCase
 
     /**
      * Provide a list of FQCNs of entity classes.
+     *
+     * @return iterable<int, class-string<DatasetEntityContract>[]>
      */
     public function provideEntityClasses(): iterable
     {
