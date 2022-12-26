@@ -280,7 +280,7 @@ abstract class AbstractCollection implements CollectionInterface
         }
     }
 
-    protected function executeAccessor($item, ?string $accessor, $fallback)
+    protected function executeAccessor(mixed $item, ?string $accessor, mixed $fallback)
     {
         if (!\is_string($accessor)) {
             return $fallback;
@@ -312,7 +312,7 @@ abstract class AbstractCollection implements CollectionInterface
      * @param T $value
      * @param Closure(T $a,    T $b): bool $equalsCondition
      */
-    final protected function containsByEqualsCheck($value, \Closure $equalsCondition): bool
+    final protected function containsByEqualsCheck(mixed $value, \Closure $equalsCondition): bool
     {
         if (!$this->isValidItem($value)) {
             return false;

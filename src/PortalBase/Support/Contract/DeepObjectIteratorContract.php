@@ -12,11 +12,9 @@ class DeepObjectIteratorContract
     private array $reflectionProperties = [];
 
     /**
-     * @param object|iterable $object
-     *
      * @return iterable<int, object>
      */
-    public function iterate($object): iterable
+    public function iterate(object|iterable $object): iterable
     {
         $toIterate = [$object];
         $alreadyChecked = [];
