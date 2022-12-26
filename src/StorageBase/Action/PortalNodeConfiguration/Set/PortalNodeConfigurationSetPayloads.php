@@ -17,7 +17,7 @@ final class PortalNodeConfigurationSetPayloads extends AbstractObjectCollection 
     use AttachmentAwareTrait;
 
     /**
-     * @psalm-param iterable<int, PortalNodeConfigurationSetPayload> $items
+     * @param iterable<PortalNodeConfigurationSetPayload> $items
      */
     public function __construct(iterable $items = [])
     {

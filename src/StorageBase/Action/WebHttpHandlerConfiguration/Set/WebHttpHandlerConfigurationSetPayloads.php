@@ -17,7 +17,7 @@ final class WebHttpHandlerConfigurationSetPayloads extends AbstractObjectCollect
     use AttachmentAwareTrait;
 
     /**
-     * @psalm-param iterable<int, WebHttpHandlerConfigurationSetPayload> $items
+     * @param iterable<WebHttpHandlerConfigurationSetPayload> $items
      */
     public function __construct(iterable $items = [])
     {

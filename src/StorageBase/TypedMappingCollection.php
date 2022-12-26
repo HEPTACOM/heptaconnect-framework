@@ -10,7 +10,7 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 class TypedMappingCollection extends MappingCollection
 {
     /**
-     * @psalm-param iterable<int, MappingInterface> $items
+     * @param iterable<MappingInterface> $items
      */
     public function __construct(
         private EntityType $entityType,

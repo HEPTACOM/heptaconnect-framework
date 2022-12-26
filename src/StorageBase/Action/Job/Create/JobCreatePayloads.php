@@ -17,7 +17,7 @@ final class JobCreatePayloads extends AbstractObjectCollection implements Attach
     use AttachmentAwareTrait;
 
     /**
-     * @psalm-param iterable<int, JobCreatePayload> $items
+     * @param iterable<JobCreatePayload> $items
      */
     public function __construct(iterable $items = [])
     {

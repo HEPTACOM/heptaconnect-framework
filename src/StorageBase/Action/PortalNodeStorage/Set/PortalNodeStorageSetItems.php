@@ -17,7 +17,7 @@ final class PortalNodeStorageSetItems extends AbstractObjectCollection implement
     use AttachmentAwareTrait;
 
     /**
-     * @psalm-param iterable<int, PortalNodeStorageSetItem> $items
+     * @param iterable<PortalNodeStorageSetItem> $items
      */
     public function __construct(iterable $items = [])
     {

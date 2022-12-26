@@ -17,7 +17,7 @@ final class IdentityErrorCreatePayloads extends AbstractObjectCollection impleme
     use AttachmentAwareTrait;
 
     /**
-     * @psalm-param iterable<int, IdentityErrorCreatePayload> $items
+     * @param iterable<IdentityErrorCreatePayload> $items
      */
     public function __construct(iterable $items = [])
     {

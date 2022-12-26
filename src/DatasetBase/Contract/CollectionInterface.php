@@ -17,7 +17,9 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
     /**
      * Add new items to the collection.
      *
-     * @psalm-param iterable<int, T> $items
+     * @throws \InvalidArgumentException
+     *
+     * @param iterable<T> $items
      */
     public function push(iterable $items): void;
 

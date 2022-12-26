@@ -17,7 +17,7 @@ final class UiAuditTrailLogErrorPayloadCollection extends AbstractObjectCollecti
     use AttachmentAwareTrait;
 
     /**
-     * @psalm-param iterable<int, UiAuditTrailLogErrorPayload> $items
+     * @param iterable<UiAuditTrailLogErrorPayload> $items
      */
     public function __construct(iterable $items = [])
     {

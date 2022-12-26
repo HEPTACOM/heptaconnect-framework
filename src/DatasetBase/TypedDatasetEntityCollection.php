@@ -15,7 +15,7 @@ final class TypedDatasetEntityCollection extends DatasetEntityCollection
 
     /**
      * @psalm-param class-string<DatasetEntityContract>|EntityType $type
-     * @psalm-param iterable<int, DatasetEntityContract> $items
+     * @param iterable<DatasetEntityContract> $items
      *
      * @throws InvalidClassNameException
      * @throws InvalidSubtypeClassNameException

@@ -21,12 +21,14 @@ abstract class AbstractCollection implements CollectionInterface
     use SetStateTrait;
 
     /**
-     * @var array<array-key, T>
+     * @var array<int, T>
      */
     protected array $items = [];
 
     /**
-     * @param iterable<int, T> $items
+     * @param iterable<T> $items
+     *
+     * @throws \InvalidArgumentException
      */
     public function __construct(iterable $items = [])
     {
@@ -40,7 +42,7 @@ abstract class AbstractCollection implements CollectionInterface
         $items = $an_array['items'] ?? [];
 
         if (\is_array($items) && $items !== []) {
-            $result->push($items);
+            $result->items = $items;
         }
 
         return $result;
@@ -48,13 +50,17 @@ abstract class AbstractCollection implements CollectionInterface
 
     public function push(iterable $items): void
     {
-        $items = \iterable_to_array($this->filterValid($items));
+        $newItems = [];
 
-        if (\count($items) === 0) {
+        foreach ($this->validateItems($items) as $item) {
+            $newItems[] = $item;
+        }
+
+        if (\count($newItems) === 0) {
             return;
         }
 
-        \array_push($this->items, ...$items);
+        \array_push($this->items, ...$newItems);
     }
 
     public function pop()
@@ -157,7 +163,7 @@ abstract class AbstractCollection implements CollectionInterface
     {
         $result = $this->withoutItems();
 
-        $result->push(\array_filter($this->items, $filterFn));
+        $result->items = \array_values(\array_filter($this->items, $filterFn));
 
         return $result;
     }
@@ -185,7 +191,7 @@ abstract class AbstractCollection implements CollectionInterface
 
             if (($chunkIndex % $size) === 0) {
                 $result = $this->withoutItems();
-                $result->push($buffer);
+                $result->items = $buffer;
                 yield $result;
                 $buffer = [];
             }
@@ -193,7 +199,7 @@ abstract class AbstractCollection implements CollectionInterface
 
         if ($buffer !== []) {
             $result = $this->withoutItems();
-            $result->push($buffer);
+            $result->items = $buffer;
             yield $result;
         }
     }
@@ -242,7 +248,7 @@ abstract class AbstractCollection implements CollectionInterface
     }
 
     /**
-     * @psalm-assert-if-true $item T
+     * @psalm-assert-if-true T $item
      */
     abstract protected function isValidItem(mixed $item): bool;
 
@@ -257,6 +263,20 @@ abstract class AbstractCollection implements CollectionInterface
             if ($this->isValidItem($item)) {
                 yield $key => $item;
             }
+        }
+    }
+
+    /**
+     * @return iterable<T>
+     */
+    protected function validateItems(iterable $items): iterable
+    {
+        foreach ($items as $item) {
+            if (!$this->isValidItem($item)) {
+                throw new \InvalidArgumentException();
+            }
+
+            yield $item;
         }
     }
 
