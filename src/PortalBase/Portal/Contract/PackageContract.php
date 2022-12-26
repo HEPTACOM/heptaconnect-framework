@@ -95,7 +95,7 @@ abstract class PackageContract
     }
 
     /**
-     * @return string[]|null
+     * @return array<string, string>|null
      */
     private function getComposerPsr4(string $path): ?array
     {
@@ -152,6 +152,7 @@ abstract class PackageContract
             return null;
         }
 
+        /** @var array<string, string>|null $psr4 */
         $psr4 = $composerJson['autoload']['psr-4'] ?? null;
 
         if (!\is_array($psr4)) {
