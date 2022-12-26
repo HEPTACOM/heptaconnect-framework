@@ -10,9 +10,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable;
 /**
  * @template T
  *
- * @extends AbstractTranslatable<T>
- *
- * @property T $fallback
+ * @extends AbstractTranslatable<T&CollectionInterface>
  */
 abstract class AbstractTranslatableScalarCollection extends AbstractTranslatable
 {
@@ -56,7 +54,7 @@ abstract class AbstractTranslatableScalarCollection extends AbstractTranslatable
     }
 
     /**
-     * @psalm-return T&CollectionInterface
+     * @return T&CollectionInterface
      */
     abstract protected function getInitialValue(): CollectionInterface;
 }
