@@ -88,6 +88,12 @@
         <MixedReturnStatement>
             <errorLevel type="info">
                 <file name="../src/DatasetBase/Translatable/AbstractTranslatable.php"/>
+                <!-- Won't fix -->
+                <file name="../src/Core/Portal/PortalNodeContainerFacade.php"/>
+                <!-- Won't fix, existence checked in constructor, return type though is expected to be right -->
+                <file name="../src/Core/Storage/Filesystem/AbstractFilesystem.php"/>
+                <!-- It is properly annotated, your issue to not see that -->
+                <file name="../src/Core/StatusReporting/StatusReportingService.php"/>
             </errorLevel>
         </MixedReturnStatement>
         <!-- @deprecated 1.0.0 -->
