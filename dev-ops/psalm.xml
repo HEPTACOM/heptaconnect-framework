@@ -130,6 +130,19 @@
         </TypeDoesNotContainType>
         <MixedArgument>
             <errorLevel type="info">
+                <!-- It is properly annotated, your issue to not see that -->
+                <file name="../src/Core/Emission/AbstractBufferedResultProcessingEmitter.php"/>
+                <file name="../src/Core/Exploration/AbstractBufferedResultProcessingExplorer.php"/>
+                <file name="../src/Core/Portal/PackageQueryMatcher.php"/>
+                <file name="../src/Core/Portal/ServiceContainerCompilerPass/AddPortalConfigurationBindingsCompilerPass.php"/>
+                <file name="../src/Core/Portal/ServiceContainerCompilerPass/RemoveAutoPrototypedDefinitionsCompilerPass.php"/>
+                <file name="../src/Core/Ui/Admin/Action/PortalNodeStatusReportUi.php"/>
+                <file name="../src/Core/Web/Http/RequestDeserializer.php"/>
+                <file name="../src/DatasetBase/TypedDatasetEntityCollection.php"/>
+
+                <!-- It is already checked in the constructor -->
+                <file name="../src/Core/Storage/Filesystem/PrefixFilesystem.php"/>
+
                 <!-- php 8 support for a min php 7 resource (on $type->getTypes() in array_map) -->
                 <file name="../src/PortalBase/Builder/ResolveArgumentsTrait.php"/>
             </errorLevel>

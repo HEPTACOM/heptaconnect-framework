@@ -89,6 +89,7 @@ abstract class PortalNodeConfigurationTestContract extends TestCase
             $readConfiguration = $getResults[0]->getValue();
 
             static::assertArrayHasKey('object', $readConfiguration);
+            static::assertIsArray($readConfiguration['object']);
 
             \ksort($readConfiguration['object']);
             static::assertSame($testPayload, $readConfiguration);
