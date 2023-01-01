@@ -149,6 +149,15 @@
                 <file name="../src/PortalBase/Builder/ResolveArgumentsTrait.php"/>
             </errorLevel>
         </MixedArgument>
+        <MixedArgumentTypeCoercion>
+            <errorLevel type="info">
+                <!-- Can be removed when bentools/iterable-functions supports psalm -->
+                <file name="../src/Core/Emission/EmitterStackProcessor.php"/>
+                <file name="../src/Core/Exploration/DirectEmitter.php"/>
+                <file name="../src/Core/Exploration/DirectEmittingExplorer.php"/>
+                <file name="../src/Core/Exploration/EmissionJobDispatchingExplorer.php"/>
+            </errorLevel>
+        </MixedArgumentTypeCoercion>
 
         <!-- never trust user input -->
         <RedundantCondition>

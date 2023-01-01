@@ -157,6 +157,7 @@ abstract class AbstractCollection implements CollectionInterface
     }
 
     /**
+     * @param callable(mixed):bool $filterFn
      * @return static
      */
     public function filter(callable $filterFn): self
