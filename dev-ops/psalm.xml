@@ -9,6 +9,8 @@
     <issueHandlers>
         <LessSpecificReturnType errorLevel="info" />
         <ImplicitToStringCast errorLevel="info" />
+        <!-- We don't care for mixed assignment yet -->
+        <MixedAssignment errorLevel="info"/>
 
         <!-- DatasetBase -->
         <LessSpecificImplementedReturnType>
@@ -147,13 +149,6 @@
                 <file name="../src/PortalBase/Builder/ResolveArgumentsTrait.php"/>
             </errorLevel>
         </MixedArgument>
-
-        <MixedAssignment>
-            <errorLevel type="info">
-                <!-- there is a lot of unclear content handling. You basically just know mixed -->
-                <file name="../src/PortalBase/Builder/ResolveArgumentsTrait.php"/>
-            </errorLevel>
-        </MixedAssignment>
 
         <!-- never trust user input -->
         <RedundantCondition>
