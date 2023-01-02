@@ -128,6 +128,12 @@
                 <referencedProperty name="Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack::$receivers"/>
             </errorLevel>
         </MixedPropertyTypeCoercion>
+        <MoreSpecificReturnType>
+            <errorLevel type="info">
+                <!-- Can be removed when bentools/iterable-functions supports psalm -->
+                <file name="../src/Core/Ui/Admin/Action/PortalEntityListUi.php"/>
+            </errorLevel>
+        </MoreSpecificReturnType>
 
         <!-- PortalBase -->
         <UndefinedClass>

@@ -74,10 +74,8 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
      * Returns an iterable list of items, that are checked by the given callable.
      *
      * @param callable(mixed):bool $filterFn
-     *
-     * @return static
      */
-    public function filter(callable $filterFn): self;
+    public function filter(callable $filterFn): static;
 
     /**
      * Returns an iterable list of anything, that is returned for each item by the given callable.
@@ -97,10 +95,8 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
 
     /**
      * Create a new collection of the same type, but without any content.
-     *
-     * @return static
      */
-    public function withoutItems(): self;
+    public function withoutItems(): static;
 
     /**
      * Group items in maximum $size big chunks. The last chunk can be less than $size items.
@@ -132,8 +128,6 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
 
     /**
      * Returns a copy of this collection only containing items a single time.
-     *
-     * @return static
      */
-    public function asUnique(): self;
+    public function asUnique(): static;
 }

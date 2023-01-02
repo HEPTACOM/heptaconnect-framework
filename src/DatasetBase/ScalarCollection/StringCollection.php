@@ -16,7 +16,7 @@ final class StringCollection extends AbstractCollection
         return \implode($glue, $this->items);
     }
 
-    public function asUnique(): self
+    public function asUnique(): static
     {
         $result = $this->withoutItems();
 

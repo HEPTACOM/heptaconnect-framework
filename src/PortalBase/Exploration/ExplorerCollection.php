@@ -13,10 +13,7 @@ use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
  */
 class ExplorerCollection extends AbstractObjectCollection
 {
-    /**
-     * @return static
-     */
-    public function bySupport(EntityType $entityType): self
+    public function bySupport(EntityType $entityType): static
     {
         return $this->filter(
             static fn (ExplorerContract $explorer): bool => $entityType->equals($explorer->getSupportedEntityType())

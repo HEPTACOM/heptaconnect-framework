@@ -27,10 +27,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
      */
      protected mixed $fallback = null;
 
-    /**
-     * @return static
-     */
-    public static function __set_state(array $an_array)
+    public static function __set_state(array $an_array): static
     {
         $result = self::createStaticFromArray($an_array);
         /** @var array|mixed $items */

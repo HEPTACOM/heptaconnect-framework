@@ -35,7 +35,7 @@ abstract class AbstractCollection implements CollectionInterface
         $this->push($items);
     }
 
-    public static function __set_state(array $an_array)
+    public static function __set_state(array $an_array): static
     {
         $result = self::createStaticFromArray($an_array);
         /** @var array|mixed $items */
@@ -161,11 +161,7 @@ abstract class AbstractCollection implements CollectionInterface
         return $end === false ? null : $end;
     }
 
-    /**
-     * @param callable(mixed):bool $filterFn
-     * @return static
-     */
-    public function filter(callable $filterFn): self
+    public function filter(callable $filterFn): static
     {
         $result = $this->withoutItems();
 
@@ -225,10 +221,7 @@ abstract class AbstractCollection implements CollectionInterface
         return \in_array($value, $this->items, true);
     }
 
-    /**
-     * @return static
-     */
-    public function asUnique(): self
+    public function asUnique(): static
     {
         $result = $this->withoutItems();
 
@@ -241,10 +234,7 @@ abstract class AbstractCollection implements CollectionInterface
         return $result;
     }
 
-    /**
-     * @return static
-     */
-    public function withoutItems(): self
+    public function withoutItems(): static
     {
         $that = clone $this;
 

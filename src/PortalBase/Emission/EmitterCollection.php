@@ -13,10 +13,7 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
  */
 class EmitterCollection extends AbstractObjectCollection
 {
-    /**
-     * @return static
-     */
-    public function bySupport(EntityType $entityType): self
+    public function bySupport(EntityType $entityType): static
     {
         return $this->filter(
             static fn (EmitterContract $emitter): bool => $entityType->equals($emitter->getSupportedEntityType())

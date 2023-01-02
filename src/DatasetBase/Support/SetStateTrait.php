@@ -14,18 +14,12 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface;
  */
 trait SetStateTrait
 {
-    /**
-     * @return static
-     */
-    public static function __set_state(array $an_array)
+    public static function __set_state(array $an_array): static
     {
         return self::createStaticFromArray($an_array);
     }
 
-    /**
-     * @return static
-     */
-    private static function createStaticFromArray(array $an_array)
+    private static function createStaticFromArray(array $an_array): static
     {
         $result = new static();
 
