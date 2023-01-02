@@ -11,6 +11,9 @@
         <ImplicitToStringCast errorLevel="info" />
         <!-- We don't care for mixed assignment yet -->
         <MixedAssignment errorLevel="info"/>
+        <!-- Not unnecessary for all (IDEs, other toolings) -->
+        <UnnecessaryVarAnnotation errorLevel="info"/>
+        <RedundantCastGivenDocblockType errorLevel="info" />
 
         <!-- DatasetBase -->
         <LessSpecificImplementedReturnType>
@@ -119,17 +122,6 @@
             </errorLevel>
         </MixedPropertyTypeCoercion>
 
-        <!-- Not unnecessary for all (IDEs, other toolings) -->
-        <UnnecessaryVarAnnotation>
-            <errorLevel type="info">
-                <file name="../src/PortalBase/Mapping/MappedDatasetEntityCollection.php"/>
-                <file name="../src/PortalBase/Mapping/MappingComponentCollection.php"/>
-                <file name="../src/PortalBase/Portal/PortalCollection.php"/>
-                <file name="../src/PortalBase/Portal/PortalExtensionCollection.php"/>
-                <file name="../src/PortalBase/Reception/Contract/ReceiverContract.php"/>
-            </errorLevel>
-        </UnnecessaryVarAnnotation>
-
         <UndefinedClass>
             <errorLevel type="info">
                 <!-- php 8 support for a min php 7 resource -->
@@ -208,13 +200,6 @@
                 <file name="../src/StorageBase/TypedMappingCollection.php"/>
             </errorLevel>
         </DocblockTypeContradiction>
-
-        <!-- Not unnecessary for all (IDEs, other toolings) -->
-        <UnnecessaryVarAnnotation>
-            <errorLevel type="info">
-                <file name="../src/StorageBase/MappingCollection.php"/>
-            </errorLevel>
-        </UnnecessaryVarAnnotation>
     </issueHandlers>
 
     <plugins>
