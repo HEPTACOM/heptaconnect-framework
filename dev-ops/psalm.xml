@@ -144,6 +144,11 @@
                 <referencedClass name="League\Flysystem\Handler"/>
             </errorLevel>
         </DeprecatedClass>
+        <DeprecatedMethod>
+            <errorLevel type="info">
+                <referencedMethod name="League\Flysystem\FilesystemInterface::get"/>
+            </errorLevel>
+        </DeprecatedMethod>
 
         <!-- PortalBase -->
         <UndefinedClass>
