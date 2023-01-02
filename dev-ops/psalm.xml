@@ -134,6 +134,16 @@
                 <file name="../src/Core/Ui/Admin/Action/PortalEntityListUi.php"/>
             </errorLevel>
         </MoreSpecificReturnType>
+        <DeprecatedClass>
+            <errorLevel type="info">
+                <!-- Since Composer 2.4.0 use the composer/class-map-generator package instead -->
+                <referencedClass name="Composer\Autoload\ClassMapGenerator"/>
+                <!-- internal -->
+                <referencedClass name="Heptacom\HeptaConnect\Core\Storage\PrimaryKeyToEntityHydrator"/>
+                <!-- will soon be removed -->
+                <referencedClass name="League\Flysystem\Handler"/>
+            </errorLevel>
+        </DeprecatedClass>
 
         <!-- PortalBase -->
         <UndefinedClass>
