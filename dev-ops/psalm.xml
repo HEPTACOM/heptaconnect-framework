@@ -182,6 +182,7 @@
         <RedundantConditionGivenDocblockType>
             <errorLevel type="info">
                 <file name="../src/PortalBase/Emission/Contract/EmitterContract.php"/>
+                <file name="../src/Core/Storage/Normalizer/ScalarDenormalizer.php"/>
             </errorLevel>
         </RedundantConditionGivenDocblockType>
         <!-- never trust user input -->
