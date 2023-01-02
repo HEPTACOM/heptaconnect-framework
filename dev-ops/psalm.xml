@@ -96,6 +96,12 @@
                 <file name="../src/Core/StatusReporting/StatusReportingService.php"/>
             </errorLevel>
         </MixedReturnStatement>
+        <MixedArrayOffset>
+            <errorLevel type="info">
+                <!-- It is just an array key being used as an array key, your issue to not see that -->
+                <file name="../src/Core/Web/Http/RequestDeserializer.php"/>
+            </errorLevel>
+        </MixedArrayOffset>
         <!-- @deprecated 1.0.0 -->
         <MixedInferredReturnType>
             <errorLevel type="info">
