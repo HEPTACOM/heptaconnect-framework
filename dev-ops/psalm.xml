@@ -112,16 +112,24 @@
             </errorLevel>
         </MixedInferredReturnType>
 
-        <!-- PortalBase -->
         <MixedPropertyTypeCoercion>
             <errorLevel type="info">
                 <!-- Can be removed when bentools/iterable-functions supports psalm -->
+                <referencedProperty name="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService::$configurationProcessors"/>
+                <referencedProperty name="Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationInstructionProcessor::$instructionLoaders"/>
+                <referencedProperty name="Heptacom\HeptaConnect\Core\Reception\ReceiveContextFactory::$postProcessors"/>
+                <referencedProperty name="Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry::$denormalizer"/>
+                <referencedProperty name="Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry::$normalizer"/>
+                <referencedProperty name="Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector::$middlewares"/>
+                <referencedProperty name="Heptacom\HeptaConnect\Core\Web\Http\HttpMiddlewareClient::$middlewares"/>
+                <referencedProperty name="Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::$items"/>
                 <referencedProperty name="Heptacom\HeptaConnect\Portal\Base\EmitterStack::$emitters"/>
                 <referencedProperty name="Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack::$explorers"/>
                 <referencedProperty name="Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack::$receivers"/>
             </errorLevel>
         </MixedPropertyTypeCoercion>
 
+        <!-- PortalBase -->
         <UndefinedClass>
             <errorLevel type="info">
                 <!-- php 8 support for a min php 7 resource -->
