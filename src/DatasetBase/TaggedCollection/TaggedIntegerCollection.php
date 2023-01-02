@@ -11,9 +11,6 @@ use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\IntegerCollection;
  */
 final class TaggedIntegerCollection extends AbstractTaggedCollection
 {
-    /**
-     * @psalm-return IntegerCollection::class
-     */
     protected function getCollectionType(): string
     {
         return IntegerCollection::class;
