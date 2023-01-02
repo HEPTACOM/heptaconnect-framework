@@ -63,6 +63,11 @@ abstract class AbstractCollection implements CollectionInterface
         \array_push($this->items, ...$newItems);
     }
 
+    public function pushIgnoreInvalidItems(iterable $items): void
+    {
+        $this->push($this->filterValid($items));
+    }
+
     public function pop()
     {
         return \array_pop($this->items);

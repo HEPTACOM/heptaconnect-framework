@@ -170,6 +170,15 @@
                 <file name="../src/Core/Exploration/EmissionJobDispatchingExplorer.php"/>
             </errorLevel>
         </MixedArgumentTypeCoercion>
+        <ArgumentTypeCoercion>
+            <errorLevel type="info">
+                <!-- Should be working with psalm 5 as the only validator is not annoyed by it -->
+                <file name="../src/Core/Reception/LockingReceiver.php"/>
+                <!-- Is checked, unfortunately psalm assert statement has too much effect on other parts to support this -->
+                <file name="../src/DatasetBase/ScalarCollection/FloatCollection.php"/>
+                <file name="../src/DatasetBase/ScalarCollection/IntegerCollection.php"/>
+            </errorLevel>
+        </ArgumentTypeCoercion>
 
         <!-- never trust user input -->
         <RedundantCondition>

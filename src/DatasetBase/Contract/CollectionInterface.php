@@ -24,6 +24,11 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
     public function push(iterable $items): void;
 
     /**
+     * Add new items to the collection but skip items, that do not meet the collection's validation criteria.
+     */
+    public function pushIgnoreInvalidItems(iterable $items): void;
+
+    /**
      * Removes and returns the last element of the collection.
      * When the collection is empty, null is returned.
      *
