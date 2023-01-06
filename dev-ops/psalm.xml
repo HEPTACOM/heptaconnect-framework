@@ -108,6 +108,11 @@
                 <file name="../src/Core/Storage/PrimaryKeyToEntityHydrator.php"/>
             </errorLevel>
         </InaccessibleProperty>
+        <PossiblyInvalidPropertyAssignmentValue>
+            <errorLevel type="info">
+                <file name="../src/DatasetBase/Translatable/ScalarCollection/AbstractTranslatableScalarCollection.php"/>
+            </errorLevel>
+        </PossiblyInvalidPropertyAssignmentValue>
 
         <MixedPropertyTypeCoercion>
             <errorLevel type="info">
