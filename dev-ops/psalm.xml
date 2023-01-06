@@ -20,6 +20,14 @@
                 <directory name="../src/Core/Storage/Normalizer/"/>
             </errorLevel>
         </MissingParamType>
+        <PossiblyInvalidArgument>
+            <errorLevel type="info">
+                <file name="../src/Core/Job/Handler/ExplorationHandler.php"/>
+                <file name="../src/Core/Ui/Admin/Action/PortalEntityListUi.php"/>
+                <file name="../src/Core/Ui/Admin/Action/RouteAddUi.php"/>
+            </errorLevel>
+        </PossiblyInvalidArgument>
+
         <!-- DatasetBase -->
         <LessSpecificImplementedReturnType>
             <errorLevel type="info">
