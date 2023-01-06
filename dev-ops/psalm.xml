@@ -50,16 +50,6 @@
                 <file name="../src/DatasetBase/TaggedCollection/TaggedStringCollection.php"/>
             </errorLevel>
         </InvalidReturnType>
-        <InvalidReturnStatement>
-            <errorLevel type="info">
-                <file name="../src/DatasetBase/TaggedCollection/TaggedBooleanCollection.php"/>
-                <file name="../src/DatasetBase/TaggedCollection/TaggedDateCollection.php"/>
-                <file name="../src/DatasetBase/TaggedCollection/TaggedDateTimeCollection.php"/>
-                <file name="../src/DatasetBase/TaggedCollection/TaggedFloatCollection.php"/>
-                <file name="../src/DatasetBase/TaggedCollection/TaggedIntegerCollection.php"/>
-                <file name="../src/DatasetBase/TaggedCollection/TaggedStringCollection.php"/>
-            </errorLevel>
-        </InvalidReturnStatement>
         <MixedReturnTypeCoercion>
             <errorLevel type="info">
                 <file name="../src/DatasetBase/TaggedCollection/TaggedBooleanCollection.php"/>
@@ -163,6 +153,18 @@
                 <referencedMethod name="League\Flysystem\FilesystemInterface::get"/>
             </errorLevel>
         </DeprecatedMethod>
+        <InvalidReturnStatement>
+            <errorLevel type="info">
+                <file name="../src/Core/Exploration/DirectEmitter.php"/>
+                <file name="../src/DatasetBase/TaggedCollection/TaggedBooleanCollection.php"/>
+                <file name="../src/DatasetBase/TaggedCollection/TaggedDateCollection.php"/>
+                <file name="../src/DatasetBase/TaggedCollection/TaggedDateTimeCollection.php"/>
+                <file name="../src/DatasetBase/TaggedCollection/TaggedFloatCollection.php"/>
+                <file name="../src/DatasetBase/TaggedCollection/TaggedIntegerCollection.php"/>
+                <file name="../src/DatasetBase/TaggedCollection/TaggedStringCollection.php"/>
+                <file name="../src/DatasetBase/Translatable/ScalarCollection/AbstractTranslatableScalarCollection.php"/>
+            </errorLevel>
+        </InvalidReturnStatement>
 
         <!-- PortalBase -->
         <UndefinedClass>
