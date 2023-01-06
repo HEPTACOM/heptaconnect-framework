@@ -41,7 +41,8 @@ final class CollectionTest extends TestCase
      */
     public function testPassingInInvalidItemsAndKeepAll(array $items): void
     {
-        $collection = new UsageStructCollection($items);
+        $collection = new UsageStructCollection();
+        $collection->pushIgnoreInvalidItems($items);
         static::assertEquals(0, $collection->count());
 
         foreach ($items as $key => $item) {
