@@ -248,13 +248,11 @@ abstract class AbstractCollection implements CollectionInterface
      */
     abstract protected function isValidItem(mixed $item): bool;
 
+    /**
+     * @return \Generator<array-key, T>
+     */
     protected function filterValid(iterable $items): \Generator
     {
-        /**
-         * @var int $key
-         *
-         * @psalm-var T $item
-         */
         foreach ($items as $key => $item) {
             if ($this->isValidItem($item)) {
                 yield $key => $item;

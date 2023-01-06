@@ -114,6 +114,12 @@
                 <file name="../src/DatasetBase/Translatable/AbstractTranslatable.php"/>
             </errorLevel>
         </MixedInferredReturnType>
+        <InvalidArgument>
+            <errorLevel type="info">
+                <file name="../src/PortalBase/Builder/BindThisTrait.php"/>
+                <file name="../src/TestSuiteStorage/Action/UiAuditTrailTestContract.php"/>
+            </errorLevel>
+        </InvalidArgument>
 
         <MixedPropertyTypeCoercion>
             <errorLevel type="info">
