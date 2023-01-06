@@ -206,6 +206,9 @@ abstract class AbstractCollection implements CollectionInterface
         }
     }
 
+    /**
+     * @return array<T>
+     */
     public function asArray(): array
     {
         return $this->items;

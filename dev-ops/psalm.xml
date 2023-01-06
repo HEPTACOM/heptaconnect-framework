@@ -203,6 +203,9 @@
 
                 <!-- php 8 support for a min php 7 resource (on $type->getTypes() in array_map) -->
                 <file name="../src/PortalBase/Builder/ResolveArgumentsTrait.php"/>
+
+                <!-- impossible to hint -->
+                <file name="../src/Core/Bridge/PortalNode/Configuration/Config.php"/>
             </errorLevel>
         </MixedArgument>
         <MixedArgumentTypeCoercion>
