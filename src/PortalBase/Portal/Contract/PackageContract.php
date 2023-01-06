@@ -16,9 +16,14 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
  *
  * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  * @SuppressWarnings(PHPMD.NPathComplexity)
+ * @psalm-consistent-constructor
  */
 abstract class PackageContract
 {
+    public function __construct()
+    {
+    }
+
     /**
      * Get a PSR4 definition to automatically build portal node dependency injection container.
      * Can be implemented as empty to disable automatic service creation.
