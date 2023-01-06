@@ -105,7 +105,7 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
      *
      * @psalm-param positive-int $size
      *
-     * @psalm-return iterable<self<T>>
+     * @psalm-return iterable<static&self<T>>
      */
     public function chunk(int $size): iterable;
 
