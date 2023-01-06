@@ -201,7 +201,7 @@ abstract class AbstractCollection implements CollectionInterface
 
             if (($chunkIndex % $size) === 0) {
                 $result = $this->withoutItems();
-                $result->items = $buffer;
+                $result->items = \array_values($buffer);
                 yield $result;
                 $buffer = [];
             }
@@ -209,7 +209,7 @@ abstract class AbstractCollection implements CollectionInterface
 
         if ($buffer !== []) {
             $result = $this->withoutItems();
-            $result->items = $buffer;
+            $result->items = \array_values($buffer);
             yield $result;
         }
     }
