@@ -108,6 +108,9 @@
         <!-- @deprecated 1.0.0 -->
         <MixedInferredReturnType>
             <errorLevel type="info">
+                <file name="../src/Core/Portal/PortalNodeContainerFacade.php"/>
+                <!-- Checked in constructor -->
+                <file name="../src/Core/Storage/Filesystem/AbstractFilesystem.php"/>
                 <file name="../src/DatasetBase/Translatable/AbstractTranslatable.php"/>
             </errorLevel>
         </MixedInferredReturnType>
