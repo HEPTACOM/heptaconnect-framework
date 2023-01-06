@@ -236,6 +236,12 @@
                 <file name="../src/Core/Storage/PrimaryKeyToEntityHydrator.php"/>
             </errorLevel>
         </PossiblyInvalidFunctionCall>
+        <UnusedFunctionCall>
+            <errorLevel type="info">
+                <file name="../src/Core/Portal/File/Filesystem/FilesystemFactory.php"/>
+                <file name="../src/Core/Storage/Normalizer/SerializableNormalizer.php"/>
+            </errorLevel>
+        </UnusedFunctionCall>
 
         <!-- never trust user input -->
         <RedundantCondition>
