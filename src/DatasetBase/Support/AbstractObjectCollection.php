@@ -15,6 +15,9 @@ abstract class AbstractObjectCollection extends AbstractCollection implements At
 {
     abstract protected function getT(): string;
 
+    /**
+     * @psalm-assert-if-true T $item
+     */
     protected function isValidItem(mixed $item): bool
     {
         $expected = $this->getT();
