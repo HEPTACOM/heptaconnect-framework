@@ -53,7 +53,9 @@ abstract class AbstractTranslatableScalarCollection extends AbstractTranslatable
 
     protected function isValidValue(mixed $value): bool
     {
-        return $value instanceof $this->fallback;
+        $collection = $this->getInitialValue();
+
+        return \is_a($value, $collection::class, false);
     }
 
     /**
