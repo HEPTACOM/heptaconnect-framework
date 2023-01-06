@@ -252,14 +252,13 @@ abstract class AbstractCollection implements CollectionInterface
     abstract protected function isValidItem(mixed $item): bool;
 
     /**
-     * @param iterable<array-key, mixed> $items
-     * @return iterable<array-key, T>
+     * @psalm-return iterable<T>
      */
     protected function filterValid(iterable $items): iterable
     {
-        foreach ($items as $key => $item) {
+        foreach ($items as $item) {
             if ($this->isValidItem($item)) {
-                yield $key => $item;
+                yield $item;
             }
         }
     }

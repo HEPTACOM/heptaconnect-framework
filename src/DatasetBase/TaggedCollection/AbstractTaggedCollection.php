@@ -41,8 +41,7 @@ abstract class AbstractTaggedCollection extends AbstractCollection
 
     public function push(iterable $items): void
     {
-        /** @psalm-var TagItem<T> $item */
-        foreach (\iterator_to_array($this->filterValid($items)) as $item) {
+        foreach (\iterable_to_array($this->filterValid($items)) as $item) {
             $this->offsetSet($item->getTag(), $item);
         }
     }
