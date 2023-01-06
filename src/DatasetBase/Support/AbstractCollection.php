@@ -132,8 +132,12 @@ abstract class AbstractCollection implements CollectionInterface
      */
     public function offsetSet($offset, $value): void
     {
-        if ($offset !== null && $this->isValidItem($value)) {
-            $this->items[$offset] = $value;
+        if (\is_numeric($offset) && $this->isValidItem($value)) {
+            $this->items[(int) $offset] = $value;
+        }
+
+        if ($offset === null) {
+            $this->push([$value]);
         }
     }
 
