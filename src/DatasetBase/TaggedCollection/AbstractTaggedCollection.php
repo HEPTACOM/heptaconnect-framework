@@ -15,6 +15,11 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
 abstract class AbstractTaggedCollection extends AbstractCollection
 {
     /**
+     * @var array<string, TagItem<T>>
+     */
+    protected array $items = [];
+
+    /**
      * @psalm-param array-key $offset
      *
      * @psalm-return TagItem<T>
@@ -22,14 +27,14 @@ abstract class AbstractTaggedCollection extends AbstractCollection
     public function offsetGet($offset)
     {
         $offset = (string) $offset;
-        $tag = parent::offsetGet($offset);
+        $tag = $this->items[$offset] ?? null;
 
         if ($tag !== null) {
             return $tag;
         }
 
         $tag = new TagItem($this->createEmptyCollection(), $offset);
-        $this->offsetSet($offset, $tag);
+        $this->items[$offset] = $tag;
 
         return $tag;
     }
@@ -40,13 +45,13 @@ abstract class AbstractTaggedCollection extends AbstractCollection
             throw new \InvalidArgumentException();
         }
 
-        parent::offsetSet($value->getTag(), $value);
+        $this->items[$value->getTag()] = $value;
     }
 
     public function push(iterable $items): void
     {
         /** @var TagItem<T> $item */
-        foreach (\iterable_to_array($this->filterValid($items)) as $item) {
+        foreach (\iterable_to_array($this->validateItems($items)) as $item) {
             $this->offsetSet($item->getTag(), $item);
         }
     }

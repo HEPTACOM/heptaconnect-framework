@@ -188,6 +188,12 @@
                 <file name="../src/DatasetBase/TaggedCollection/TaggedStringCollection.php"/>
             </errorLevel>
         </MixedReturnTypeCoercion>
+        <NonInvariantDocblockPropertyType>
+            <errorLevel type="info">
+                <!-- we have a collection concept without string keys, but we sometimes store strings in there. not good yet -->
+                <file name="../src/DatasetBase/TaggedCollection/AbstractTaggedCollection.php"/>
+            </errorLevel>
+        </NonInvariantDocblockPropertyType>
 
         <!-- PortalBase -->
         <UndefinedClass>
