@@ -248,6 +248,11 @@
                 <file name="../src/Core/Portal/FlowComponentRegistry.php"/>
             </errorLevel>
         </UnresolvableInclude>
+        <PossiblyUndefinedArrayOffset>
+            <errorLevel type="info">
+                <file name="../src/Core/Job/Handler/ReceptionHandler.php"/>
+            </errorLevel>
+        </PossiblyUndefinedArrayOffset>
 
         <!-- never trust user input -->
         <RedundantCondition>
