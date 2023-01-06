@@ -120,6 +120,11 @@
                 <file name="../src/TestSuiteStorage/Action/UiAuditTrailTestContract.php"/>
             </errorLevel>
         </InvalidArgument>
+        <InaccessibleProperty>
+            <errorLevel type="info">
+                <file name="../src/Core/Storage/PrimaryKeyToEntityHydrator.php"/>
+            </errorLevel>
+        </InaccessibleProperty>
 
         <MixedPropertyTypeCoercion>
             <errorLevel type="info">
