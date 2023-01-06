@@ -40,16 +40,6 @@
                 <file name="../src/DatasetBase/TaggedCollection/AbstractTaggedCollection.php"/>
             </errorLevel>
         </RedundantConditionGivenDocblockType>
-        <InvalidReturnType>
-            <errorLevel type="info">
-                <file name="../src/DatasetBase/TaggedCollection/TaggedBooleanCollection.php"/>
-                <file name="../src/DatasetBase/TaggedCollection/TaggedDateCollection.php"/>
-                <file name="../src/DatasetBase/TaggedCollection/TaggedDateTimeCollection.php"/>
-                <file name="../src/DatasetBase/TaggedCollection/TaggedFloatCollection.php"/>
-                <file name="../src/DatasetBase/TaggedCollection/TaggedIntegerCollection.php"/>
-                <file name="../src/DatasetBase/TaggedCollection/TaggedStringCollection.php"/>
-            </errorLevel>
-        </InvalidReturnType>
         <MixedReturnTypeCoercion>
             <errorLevel type="info">
                 <file name="../src/DatasetBase/TaggedCollection/TaggedBooleanCollection.php"/>
@@ -219,6 +209,17 @@
                 <file name="../src/Core/File/Filesystem/RewritePathStreamWrapper.php"/>
             </errorLevel>
         </MixedArgumentTypeCoercion>
+        <InvalidReturnType>
+            <errorLevel type="info">
+                <file name="../src/DatasetBase/TaggedCollection/TaggedBooleanCollection.php"/>
+                <file name="../src/DatasetBase/TaggedCollection/TaggedDateCollection.php"/>
+                <file name="../src/DatasetBase/TaggedCollection/TaggedDateTimeCollection.php"/>
+                <file name="../src/DatasetBase/TaggedCollection/TaggedFloatCollection.php"/>
+                <file name="../src/DatasetBase/TaggedCollection/TaggedIntegerCollection.php"/>
+                <file name="../src/DatasetBase/TaggedCollection/TaggedStringCollection.php"/>
+                <file name="../src/Core/Exploration/DirectEmitter.php"/>
+            </errorLevel>
+        </InvalidReturnType>
         <ArgumentTypeCoercion>
             <errorLevel type="info">
                 <!-- Should be working with psalm 5 as the only validator is not annoyed by it -->

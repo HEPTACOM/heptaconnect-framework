@@ -8,9 +8,9 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable;
 
 /**
- * @template T
+ * @template T of CollectionInterface
  *
- * @extends AbstractTranslatable<T&CollectionInterface>
+ * @extends AbstractTranslatable<T>
  */
 abstract class AbstractTranslatableScalarCollection extends AbstractTranslatable
 {
@@ -41,11 +41,14 @@ abstract class AbstractTranslatableScalarCollection extends AbstractTranslatable
     }
 
     /**
-     * @psalm-return T
+     * @return T
      */
-    public function getFallback()
+    public function getFallback(): CollectionInterface
     {
-        return $this->fallback ??= $this->getInitialValue();
+        $result = $this->fallback ?? $this->getInitialValue();
+        $this->fallback = $result;
+
+        return $result;
     }
 
     protected function isValidValue(mixed $value): bool
@@ -54,7 +57,7 @@ abstract class AbstractTranslatableScalarCollection extends AbstractTranslatable
     }
 
     /**
-     * @return T&CollectionInterface
+     * @return T
      */
     abstract protected function getInitialValue(): CollectionInterface;
 }
