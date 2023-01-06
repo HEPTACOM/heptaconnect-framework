@@ -242,6 +242,12 @@
                 <file name="../src/Core/Storage/Normalizer/SerializableNormalizer.php"/>
             </errorLevel>
         </UnusedFunctionCall>
+        <UnresolvableInclude>
+            <errorLevel type="info">
+                <file name="../src/Core/Bridge/PortalNode/Configuration/InstructionFileLoader.php"/>
+                <file name="../src/Core/Portal/FlowComponentRegistry.php"/>
+            </errorLevel>
+        </UnresolvableInclude>
 
         <!-- never trust user input -->
         <RedundantCondition>
