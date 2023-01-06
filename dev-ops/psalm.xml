@@ -15,6 +15,11 @@
         <UnnecessaryVarAnnotation errorLevel="info"/>
         <RedundantCastGivenDocblockType errorLevel="info" />
 
+        <MissingParamType>
+            <errorLevel type="info">
+                <directory name="../src/Core/Storage/Normalizer/"/>
+            </errorLevel>
+        </MissingParamType>
         <!-- DatasetBase -->
         <LessSpecificImplementedReturnType>
             <errorLevel type="info">
