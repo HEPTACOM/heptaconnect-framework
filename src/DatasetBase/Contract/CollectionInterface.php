@@ -17,16 +17,16 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
     /**
      * Add new items to the collection.
      *
-     * @throws \InvalidArgumentException
-     *
      * @param iterable<T> $items
+     *
+     * @throws \InvalidArgumentException
      */
     public function push(iterable $items): void;
 
     /**
      * Add new items to the collection but skip items, that do not meet the collection's validation criteria.
      *
-     * @param iterable<T|null|mixed> $items
+     * @param iterable<T|mixed|null> $items
      */
     public function pushIgnoreInvalidItems(iterable $items): void;
 

@@ -6,7 +6,6 @@ namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Audit;
 
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditableDataSerializer;
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;

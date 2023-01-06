@@ -25,7 +25,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
     /**
      * @var T|null
      */
-     protected mixed $fallback = null;
+    protected mixed $fallback = null;
 
     public static function __set_state(array $an_array): static
     {

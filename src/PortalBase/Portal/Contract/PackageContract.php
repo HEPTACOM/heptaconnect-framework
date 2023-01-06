@@ -16,6 +16,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
  *
  * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  * @SuppressWarnings(PHPMD.NPathComplexity)
+ *
  * @psalm-consistent-constructor
  */
 abstract class PackageContract
