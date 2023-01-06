@@ -41,7 +41,6 @@ class TypedMappingComponentCollection extends MappingComponentCollection
             return false;
         }
 
-        /* @var MappingComponentStructContract $item */
         return $item->getEntityType()->equals($this->entityType);
     }
 }

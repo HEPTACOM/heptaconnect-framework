@@ -80,6 +80,7 @@
                 <file name="../src/Core/Storage/Filesystem/AbstractFilesystem.php"/>
                 <!-- It is properly annotated, your issue to not see that -->
                 <file name="../src/Core/StatusReporting/StatusReportingService.php"/>
+                <file name="../src/PortalBase/Mapping/TypedMappingComponentCollection.php"/>
             </errorLevel>
         </MixedReturnStatement>
         <MixedArrayOffset>
@@ -88,6 +89,11 @@
                 <file name="../src/Core/Web/Http/RequestDeserializer.php"/>
             </errorLevel>
         </MixedArrayOffset>
+        <MixedMethodCall>
+            <errorLevel type="info">
+                <file name="../src/PortalBase/Mapping/TypedMappingComponentCollection.php"/>
+            </errorLevel>
+        </MixedMethodCall>
         <!-- @deprecated 1.0.0 -->
         <MixedInferredReturnType>
             <errorLevel type="info">
@@ -95,6 +101,7 @@
                 <!-- Checked in constructor -->
                 <file name="../src/Core/Storage/Filesystem/AbstractFilesystem.php"/>
                 <file name="../src/DatasetBase/Translatable/AbstractTranslatable.php"/>
+                <file name="../src/PortalBase/Mapping/TypedMappingComponentCollection.php"/>
             </errorLevel>
         </MixedInferredReturnType>
         <InvalidArgument>
@@ -187,6 +194,7 @@
             <errorLevel type="info">
                 <!-- php 8 support for a min php 7 resource -->
                 <file name="../src/PortalBase/Builder/ResolveArgumentsTrait.php"/>
+                <file name="../src/PortalBase/Mapping/TypedMappingComponentCollection.php"/>
             </errorLevel>
         </UndefinedClass>
         <TypeDoesNotContainType>
