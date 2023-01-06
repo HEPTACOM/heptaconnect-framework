@@ -254,14 +254,8 @@
         <!-- never trust user input -->
         <DocblockTypeContradiction>
             <errorLevel type="info">
+                <file name="../src/DatasetBase/TaggedCollection/AbstractTaggedCollection.php"/>
                 <file name="../src/PortalBase/Emission/Contract/EmitterContract.php"/>
-            </errorLevel>
-        </DocblockTypeContradiction>
-
-        <!-- StorageBase -->
-        <!-- never trust user input -->
-        <DocblockTypeContradiction>
-            <errorLevel type="info">
                 <file name="../src/StorageBase/TypedMappingCollection.php"/>
             </errorLevel>
         </DocblockTypeContradiction>
