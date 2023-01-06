@@ -254,11 +254,14 @@
             </errorLevel>
         </PossiblyUndefinedArrayOffset>
 
-        <!-- never trust user input -->
         <RedundantCondition>
             <errorLevel type="info">
+                <!-- never trust user input -->
                 <file name="../src/PortalBase/Emission/Contract/EmitterContract.php"/>
                 <file name="../src/PortalBase/Exploration/Contract/ExplorerContract.php"/>
+
+                <!-- Fixed with raising minimum composer requirement -->
+                <file name="../src/Core/Component/Composer/PackageConfigurationLoader.php"/>
             </errorLevel>
         </RedundantCondition>
         <!-- never trust user input -->
