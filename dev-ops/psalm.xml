@@ -231,6 +231,11 @@
                 <file name="../src/DatasetBase/ScalarCollection/IntegerCollection.php"/>
             </errorLevel>
         </ArgumentTypeCoercion>
+        <PossiblyInvalidFunctionCall>
+            <errorLevel type="info">
+                <file name="../src/Core/Storage/PrimaryKeyToEntityHydrator.php"/>
+            </errorLevel>
+        </PossiblyInvalidFunctionCall>
 
         <!-- never trust user input -->
         <RedundantCondition>
