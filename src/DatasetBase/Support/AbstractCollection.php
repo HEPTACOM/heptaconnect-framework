@@ -118,7 +118,11 @@ abstract class AbstractCollection implements CollectionInterface
      */
     public function offsetGet($offset)
     {
-        return $this->items[$offset] ?? null;
+        if (!\is_numeric($offset)) {
+            throw new \InvalidArgumentException();
+        }
+
+        return $this->items[(int) $offset] ?? null;
     }
 
     /**
