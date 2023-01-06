@@ -11,7 +11,6 @@ final class TranslatableFloat extends AbstractTranslatable
 {
     protected function isValidValue(mixed $value): bool
     {
-        /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */
         return \is_float($value);
     }
 }

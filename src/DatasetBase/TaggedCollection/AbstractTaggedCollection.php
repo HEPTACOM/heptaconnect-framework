@@ -56,7 +56,6 @@ abstract class AbstractTaggedCollection extends AbstractCollection
      */
     protected function isValidItem(mixed $item): bool
     {
-        /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */
         return \is_object($item) && $item instanceof TagItem && \is_a($item->getCollection(), $this->getCollectionType(), false);
     }
 

@@ -34,9 +34,6 @@ parameters:
 			message: '#^Variable (method call|property access) on object\.$#'
 			path: ../src/DatasetBase/Support/AbstractCollection.php
 		-
-			message: '#PHPDoc tag @var#'
-			path: ../src/DatasetBase/Translatable/AbstractTranslatable.php
-		-
 			message: '#must have a documentation#'
 			paths:
 				- ../src/DatasetBase/Contract/DeferralAwareInterface.php
@@ -44,9 +41,6 @@ parameters:
 		-
 			message: '#Call to deprecated .* of class Heptacom#'
 			path: ../src/DatasetBase/Translatable/AbstractTranslatable.php
-		-
-			message: '#^Method Heptacom\\HeptaConnect\\Dataset\\Base\\Translatable\\ScalarCollection\\AbstractTranslatableScalarCollection::getInitialValue\(\) return type with generic interface Heptacom\\HeptaConnect\\Dataset\\Base\\Contract\\CollectionInterface does not specify its types: T$#'
-			path: ../src/DatasetBase/Translatable/ScalarCollection/AbstractTranslatableScalarCollection.php
 		-
 			message: '#Parameter \#1 \$callback of function set_error_handler expects#'
 			path: ../src/PortalBase/Builder/BindThisTrait.php
@@ -59,24 +53,8 @@ parameters:
 			message: '#Instanceof between Heptacom\\HeptaConnect\\Dataset\\Base\\Contract\\DatasetEntityContract and Heptacom\\HeptaConnect\\Dataset\\Base\\Contract\\DatasetEntityContract will always evaluate to true.#'
 			path: ../src/PortalBase/Exploration/Contract/ExplorerContract.php
 		-
-			# never trust user input
-			message: '#Instanceof between Heptacom\\HeptaConnect\\Portal\\Base\\Mapping\\Contract\\MappingInterface and Heptacom\\HeptaConnect\\Portal\\Base\\Mapping\\Contract\\MappingInterface will always evaluate to true.#'
-			path: ../src/StorageBase/TypedMappingCollection.php
-		-
-			message: '#Unexpected token "\("#'
-			paths:
-				- ../src/Core/Bridge/PortalNode/Configuration/ClosureInstructionToken.php
-				- ../src/Core/Bridge/PortalNode/Configuration/Config.php
-				- ../src/Core/Bridge/PortalNode/Configuration/PortalNodeConfigurationHelper.php
-		-
 			message: '#PHPDoc tag @param for parameter .* contains unresolvable type#'
 			paths:
-				- ../src/DatasetBase/Support/AbstractCollection.php
-		-
-			message: '#has.*no.*type specified#'
-			paths:
-				- ../src/Core/Bridge/PortalNode/Configuration/Config.php
-				- ../src/Core/Portal/PortalStorage.php
 				- ../src/DatasetBase/Support/AbstractCollection.php
 		-
 			# will not fail anymore, when we require composer 2.3 https://github.com/composer/composer/commit/84f0f191122af73039555a3a9381a1a408131422
@@ -84,22 +62,10 @@ parameters:
 			paths:
 				- ../src/Core/Component/Composer/PackageConfigurationLoader.php
 		-
-			# will not fail anymore, when we have php 8 min version
-			message: '#Instanceof between Closure and Closure will always evaluate to true#'
-			paths:
-				- ../src/Core/Bridge/PortalNode/Configuration/Config.php
-		-
 			# It can, when jsonSerialize throws an exception
 			message: '#Dead catch - Throwable is never thrown in the try block#'
 			paths:
 				- ../src/Core/Ui/Admin/Audit/AuditableDataSerializer.php
-		-
-			# No need to worry, non class-string is okay-ish
-			message: '#Parameter \#\d \$query of method Heptacom\\HeptaConnect\\Core\\Portal\\Contract\\PackageQueryMatcherInterface::matchPortalExtensions\(\) expects class-string, string given#'
-			paths:
-				- ../src/Core/Configuration/PortalNodeConfigurationInstructionProcessor.php
-				- ../src/Core/Ui/Admin/Action/PortalNodeExtensionActivateUi.php
-				- ../src/Core/Ui/Admin/Action/PortalNodeExtensionDeactivateUi.php
 		-
 			message: '#has typehint with deprecated class Heptacom\\HeptaConnect\\Core\\Storage\\PrimaryKeyToEntityHydrator#'
 			paths:
@@ -122,11 +88,6 @@ parameters:
 			message: '#Generator expects value type .*, object given#'
 			paths:
 				- ../src/Core/Ui/Admin/Action/PortalEntityListUi.php
-		-
-			# Should be solveable after we update bentools/iterable-functions
-			message: '#Parameter \#1 \$mapFn of method#'
-			paths:
-				- ../src/Core/Mapping/Publisher.php
 		-
 			# I know we can disable it but this hitting too much of the code base
 			message: "#Casting to .* something that's already .*#"
