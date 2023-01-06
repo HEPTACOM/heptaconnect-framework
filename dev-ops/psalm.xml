@@ -165,6 +165,13 @@
                 <file name="../src/DatasetBase/Translatable/ScalarCollection/AbstractTranslatableScalarCollection.php"/>
             </errorLevel>
         </InvalidReturnStatement>
+        <UndefinedInterfaceMethod>
+            <errorLevel type="info">
+                <!-- It is already checked in the constructor -->
+                <file name="../src/Core/Storage/Filesystem/AbstractFilesystem.php"/>
+                <file name="../src/Core/Storage/Filesystem/PrefixFilesystem.php"/>
+            </errorLevel>
+        </UndefinedInterfaceMethod>
 
         <!-- PortalBase -->
         <UndefinedClass>
