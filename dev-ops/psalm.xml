@@ -253,6 +253,12 @@
                 <file name="../src/Core/Job/Handler/ReceptionHandler.php"/>
             </errorLevel>
         </PossiblyUndefinedArrayOffset>
+        <MissingReturnType>
+            <errorLevel type="info">
+                <!-- Fixed in newer psalm release -->
+                <file name="../src/Core/File/Filesystem/Contract/StreamWrapperInterface.php"/>
+            </errorLevel>
+        </MissingReturnType>
 
         <RedundantCondition>
             <errorLevel type="info">
