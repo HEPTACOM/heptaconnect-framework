@@ -40,16 +40,6 @@
                 <file name="../src/DatasetBase/TaggedCollection/AbstractTaggedCollection.php"/>
             </errorLevel>
         </RedundantConditionGivenDocblockType>
-        <MixedReturnTypeCoercion>
-            <errorLevel type="info">
-                <file name="../src/DatasetBase/TaggedCollection/TaggedBooleanCollection.php"/>
-                <file name="../src/DatasetBase/TaggedCollection/TaggedDateCollection.php"/>
-                <file name="../src/DatasetBase/TaggedCollection/TaggedDateTimeCollection.php"/>
-                <file name="../src/DatasetBase/TaggedCollection/TaggedFloatCollection.php"/>
-                <file name="../src/DatasetBase/TaggedCollection/TaggedIntegerCollection.php"/>
-                <file name="../src/DatasetBase/TaggedCollection/TaggedStringCollection.php"/>
-            </errorLevel>
-        </MixedReturnTypeCoercion>
         <UnsafeInstantiation>
             <errorLevel type="info">
                 <file name="../src/DatasetBase/Support/SetStateTrait.php"/>
@@ -162,6 +152,17 @@
                 <file name="../src/Core/Storage/Filesystem/PrefixFilesystem.php"/>
             </errorLevel>
         </UndefinedInterfaceMethod>
+        <MixedReturnTypeCoercion>
+            <errorLevel type="info">
+                <file name="../src/Core/File/Filesystem/RewritePathStreamWrapper.php"/>
+                <file name="../src/DatasetBase/TaggedCollection/TaggedBooleanCollection.php"/>
+                <file name="../src/DatasetBase/TaggedCollection/TaggedDateCollection.php"/>
+                <file name="../src/DatasetBase/TaggedCollection/TaggedDateTimeCollection.php"/>
+                <file name="../src/DatasetBase/TaggedCollection/TaggedFloatCollection.php"/>
+                <file name="../src/DatasetBase/TaggedCollection/TaggedIntegerCollection.php"/>
+                <file name="../src/DatasetBase/TaggedCollection/TaggedStringCollection.php"/>
+            </errorLevel>
+        </MixedReturnTypeCoercion>
 
         <!-- PortalBase -->
         <UndefinedClass>
