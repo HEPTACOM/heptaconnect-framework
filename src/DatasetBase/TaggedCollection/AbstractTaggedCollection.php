@@ -36,16 +36,24 @@ abstract class AbstractTaggedCollection extends AbstractCollection
 
     public function offsetSet($offset, $value): void
     {
+        if (!$this->isValidItem($value)) {
+            throw new \InvalidArgumentException();
+        }
+
         parent::offsetSet($value->getTag(), $value);
     }
 
     public function push(iterable $items): void
     {
+        /** @var TagItem<T> $item */
         foreach (\iterable_to_array($this->filterValid($items)) as $item) {
             $this->offsetSet($item->getTag(), $item);
         }
     }
 
+    /**
+     * @psalm-assert-if-true TagItem<T> $item
+     */
     protected function isValidItem(mixed $item): bool
     {
         /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */
