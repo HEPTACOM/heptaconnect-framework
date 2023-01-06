@@ -192,7 +192,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
         return \array_values($stringKeys);
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->translations;
     }
