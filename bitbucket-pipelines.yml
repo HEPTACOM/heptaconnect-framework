@@ -187,12 +187,19 @@ definitions:
                 script:
                     - bash setup-vendor.sh
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-json
-        -   step: &test-infection
+        -   step: &test-infection-full
                 <<: *default-step
-                name: Test infection
+                name: Test infection (all)
                 script:
                     - bash setup-vendor.sh
-                    - COMPOSER_EXTRA_ARGS=-vvv make -e infection
+                    - INFECTION_EXTRA_ARGS="--min-covered-msi=50 --min-msi=50" XDEBUG_MODE=coverage COMPOSER_EXTRA_ARGS=-vvv make -e infection
+        -   step: &test-infection-diff
+                <<: *default-step
+                name: Test infection (diff)
+                script:
+                    - bash setup-vendor.sh
+                    - git fetch origin "${BITBUCKET_PR_DESTINATION_BRANCH}"
+                    - INFECTION_EXTRA_ARGS="--min-covered-msi=100 --min-msi=100 --git-diff-filter=AM --git-diff-base=origin/${BITBUCKET_PR_DESTINATION_BRANCH}" XDEBUG_MODE=coverage COMPOSER_EXTRA_ARGS=-vvv make -e infection
 
 pipelines:
     branches:
@@ -227,7 +234,7 @@ pipelines:
                     -   step: *test-code-style-soft-require
                     -   step: *test-code-style-phpstan
                     -   step: *test-code-style-psalm
-                    -   step: *test-infection
+            -   step: *test-infection-full
             -   step: *composer-low-install
             -   parallel: &steps-non-blocking-low-tests
                     -   step: *test-code-style-phpstan
@@ -250,6 +257,26 @@ pipelines:
             -   step: *github-keyword-gate-step
             -   step: *github-mirror-tag
 
+    pull-requests:
+        '*':
+            -   parallel:
+                    -   step: *composer-install-core
+                    -   step: *composer-install-dataset-base
+                    -   step: *composer-install-portal-base
+                    -   step: *composer-install-storage-base
+                    -   step: *composer-install-test-suite-storage
+                    -   step: *composer-install-ui-admin-base
+            -   step: *composer-high-install
+            -   parallel: *steps-blocking-tests
+            -   step: *composer-low-install
+            -   parallel: *steps-blocking-low-tests
+            -   parallel: *steps-blocking-non-min-php-version-tests
+            -   step: *composer-high-install
+            -   parallel: *steps-non-blocking-tests
+            -   step: *test-infection-diff
+            -   step: *composer-low-install
+            -   parallel: *steps-non-blocking-low-tests
+
     default:
         -   parallel:
                 -   step: *composer-install-core
@@ -265,5 +292,6 @@ pipelines:
         -   parallel: *steps-blocking-non-min-php-version-tests
         -   step: *composer-high-install
         -   parallel: *steps-non-blocking-tests
+        -   step: *test-infection-full
         -   step: *composer-low-install
         -   parallel: *steps-non-blocking-low-tests
