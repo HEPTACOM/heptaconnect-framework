@@ -15,6 +15,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetA
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeConfigurationGet\PortalNodeConfigurationGetCriteria;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeConfigurationGet\PortalNodeConfigurationGetResult as UiPortalNodeConfigurationGetResult;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PortalNodesMissingException;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\ReadException;
 use PHPUnit\Framework\TestCase;
@@ -75,8 +76,7 @@ final class PortalNodeConfigurationGetUiTest extends TestCase
             $this->createUiActionContext()
         )));
 
-        static::assertInstanceOf(PortalNodeConfigurationGetResult::class, $result);
-
+        static::assertInstanceOf(UiPortalNodeConfigurationGetResult::class, $result);
         static::assertSame([
             'foobar' => 42,
         ], $result->getConfiguration());
@@ -108,7 +108,7 @@ final class PortalNodeConfigurationGetUiTest extends TestCase
             $this->createUiActionContext()
         )));
 
-        static::assertInstanceOf(PortalNodeConfigurationGetResult::class, $result);
+        static::assertInstanceOf(UiPortalNodeConfigurationGetResult::class, $result);
         static::assertSame([], $result->getConfiguration());
         static::assertTrue($portalNodeKey->equals($result->getPortalNodeKey()));
     }
