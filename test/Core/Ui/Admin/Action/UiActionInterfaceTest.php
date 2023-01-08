@@ -17,6 +17,7 @@ use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeEntityListUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionActivateUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionBrowseUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionDeactivateUi;
+use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeRemoveUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeStatusReportUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeStorageGetUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUi;
@@ -31,6 +32,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExt
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionDeactivateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeCreateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface;
@@ -43,6 +45,7 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\JobRunUi
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalEntityListUi
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeAddUi
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeEntityListUi
@@ -84,6 +87,7 @@ final class UiActionInterfaceTest extends TestCase
         $emitterCodeOriginFinder = $this->createMock(EmitterCodeOriginFinderInterface::class);
         $receiverCodeOriginFinder = $this->createMock(ReceiverCodeOriginFinderInterface::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
+        $portalNodeDeleteAction = $this->createMock(PortalNodeDeleteActionInterface::class);
         $portalExtensionFindAction = $this->createMock(PortalExtensionFindActionInterface::class);
         $portalExtensionActivateAction = $this->createMock(PortalExtensionActivateActionInterface::class);
         $portalExtensionDeactivateAction = $this->createMock(PortalExtensionDeactivateActionInterface::class);
@@ -105,6 +109,7 @@ final class UiActionInterfaceTest extends TestCase
         yield new PortalNodeExtensionBrowseUi($auditTrailFactory, $portalNodeGetAction, $portalExtensionFindAction, $portalLoader);
         yield new PortalNodeExtensionDeactivateUi($auditTrailFactory, $portalNodeGetAction, $portalExtensionFindAction, $portalExtensionDeactivateAction, $packageQueryMatcher, $portalLoader);
         yield new PortalNodeStatusReportUi($auditTrailFactory, $statusReportingService);
+        yield new PortalNodeRemoveUi($auditTrailFactory, $portalNodeGetAction, $portalNodeDeleteAction);
         yield new PortalNodeStorageGetUi($auditTrailFactory, $portalNodeGetAction, $portalStorageFactory);
         yield new RouteAddUiDefault($auditTrailFactory);
         yield new RouteAddUi($auditTrailFactory, $routeCreateAction, $routeFindAction, $routeGetAction, $routeDeleteAction, $portalNodeGetAction);
