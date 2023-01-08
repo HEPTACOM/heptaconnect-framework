@@ -40,8 +40,8 @@ use Psr\Container\ContainerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
@@ -102,7 +102,8 @@ final class PortalNodeEntityListUiTest extends TestCase
             FlowComponentRegistry::class => $flowComponentRegistry,
             HttpMiddlewareCollector::class => new HttpMiddlewareCollector([]),
         ][$id] ?? $this->createMock($id));
-        $portalStackServiceContainerFactory->method('create')->willReturn(new PortalNodeContainerFacade($container));
+        $portalStackServiceContainerFactory->method('create')
+            ->willReturn(new PortalNodeContainerFacade($container));
 
         $explorerCodeOriginFinder = $this->createMock(ExplorerCodeOriginFinderInterface::class);
         $emitterCodeOriginFinder = $this->createMock(EmitterCodeOriginFinderInterface::class);

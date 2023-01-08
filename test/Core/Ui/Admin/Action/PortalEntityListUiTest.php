@@ -73,7 +73,12 @@ final class PortalEntityListUiTest extends TestCase
         static::assertSame($criteria->getShowExplorer(), $passedCriteria->getShowExplorer());
         static::assertSame($criteria->getShowEmitter(), $passedCriteria->getShowEmitter());
         static::assertSame($criteria->getShowReceiver(), $passedCriteria->getShowReceiver());
-        static::assertSame($criteria->getFilterSupportedEntityType(), $passedCriteria->getFilterSupportedEntityType());
+
+        if ($criteria->getFilterSupportedEntityType() === null) {
+            static::assertNull($passedCriteria->getFilterSupportedEntityType());
+        } else {
+            static::assertTrue($criteria->getFilterSupportedEntityType()->equals($passedCriteria->getFilterSupportedEntityType()));
+        }
     }
 
     public function testDeleteFakePortalAlsoOnErrorBeforeIteration(): void
