@@ -36,6 +36,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractClassStringReferenceCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection

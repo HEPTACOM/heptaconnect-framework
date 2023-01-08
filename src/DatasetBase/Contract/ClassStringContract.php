@@ -58,7 +58,10 @@ abstract class ClassStringContract extends ClassStringReferenceContract
      */
     final public function isTypeOfClassString(ClassStringReferenceContract $classString): bool
     {
-        return \is_a((string) $this, (string) $classString, true);
+        /** @var class-string $class */
+        $class = (string) $classString;
+
+        return \is_a((string) $this, $class, true);
     }
 
     /**

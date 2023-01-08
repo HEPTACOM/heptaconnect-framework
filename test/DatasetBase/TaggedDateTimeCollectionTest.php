@@ -82,7 +82,17 @@ final class TaggedDateTimeCollectionTest extends TestCase
     public function testInsertOtherTypeInTypeCollection($item): void
     {
         $collection = new TaggedDateTimeCollection();
-        $collection->push([$item]);
+        $collection->pushIgnoreInvalidItems([$item]);
         static::assertCount(0, $collection);
+    }
+
+    /**
+     * @dataProvider provideInvalidTestCases
+     */
+    public function testFailInsertOtherTypeInTypeCollection($item): void
+    {
+        static::expectException(\InvalidArgumentException::class);
+        $collection = new TaggedDateTimeCollection();
+        $collection->push([$item]);
     }
 }

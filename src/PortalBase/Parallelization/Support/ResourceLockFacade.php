@@ -23,6 +23,7 @@ class ResourceLockFacade
     ): bool {
         $countIterations = $iterations > 0;
         $isLocked = false;
+        $secondToWaits = \max(0, $secondToWaits);
 
         while (
             ($isLocked = $this->resourceLocking->isLocked($resourceKey, $owner))

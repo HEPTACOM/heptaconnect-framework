@@ -11,7 +11,7 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructCon
 class TypedMappingComponentCollection extends MappingComponentCollection
 {
     /**
-     * @psalm-param iterable<int, MappingComponentStructContract> $items
+     * @param iterable<MappingComponentStructContract> $items
      */
     public function __construct(
         private EntityType $entityType,
@@ -35,11 +35,12 @@ class TypedMappingComponentCollection extends MappingComponentCollection
         return (string) $this->entityType;
     }
 
-    /**
-     * @param MappingComponentStructContract $item
-     */
-    protected function isValidItem($item): bool
+    protected function isValidItem(mixed $item): bool
     {
-        return parent::isValidItem($item) && $item->getEntityType()->equals($this->entityType);
+        if (!parent::isValidItem($item)) {
+            return false;
+        }
+
+        return $item->getEntityType()->equals($this->entityType);
     }
 }

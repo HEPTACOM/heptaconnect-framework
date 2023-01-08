@@ -10,7 +10,7 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 class TypedMappingCollection extends MappingCollection
 {
     /**
-     * @psalm-param iterable<int, MappingInterface> $items
+     * @param iterable<MappingInterface> $items
      */
     public function __construct(
         private EntityType $entityType,
@@ -32,7 +32,7 @@ class TypedMappingCollection extends MappingCollection
         return (string) $this->entityType;
     }
 
-    protected function isValidItem($item): bool
+    protected function isValidItem(mixed $item): bool
     {
         if (!parent::isValidItem($item)) {
             return false;

@@ -13,7 +13,6 @@ final class PortalNodeEntityListCriteria extends EntityListCriteriaContract impl
     public function __construct(
         private PortalNodeKeyInterface $portalNodeKey
     ) {
-        parent::__construct();
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

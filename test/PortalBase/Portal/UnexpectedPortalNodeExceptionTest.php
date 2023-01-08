@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\Portal;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnexpectedPortalNodeException
  */
 final class UnexpectedPortalNodeExceptionTest extends TestCase

@@ -36,9 +36,19 @@ final class StringCollectionTest extends TestCase
     {
         $collection = new StringCollection();
         static::assertFalse($collection->contains($item));
-        $collection->push([$item]);
+        $collection->pushIgnoreInvalidItems([$item]);
         static::assertCount(0, $collection);
         static::assertFalse($collection->contains($item));
+    }
+
+    /**
+     * @dataProvider provideInvalidTestCases
+     */
+    public function testFailInsertOtherTypeInTypeCollection($item): void
+    {
+        static::expectException(\InvalidArgumentException::class);
+        $collection = new StringCollection();
+        $collection->push([$item]);
     }
 
     public function testJoin(): void

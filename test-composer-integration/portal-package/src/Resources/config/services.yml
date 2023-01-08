@@ -2,3 +2,11 @@ services:
     HeptacomFixture\Portal\A\ManualService\ExceptionInContainer:
         arguments:
             - 'Why is this a service?'
+
+    HeptacomFixture\Portal\A\ManualService\UntypedTimeIntervalConfiguration:
+        arguments:
+            - '%portal_config.timeInterval%'
+
+    HeptacomFixture\Portal\A\ManualService\SetterInjectedTimeIntervalConfiguration:
+        calls:
+            - [ 'setTimeInterval' ]

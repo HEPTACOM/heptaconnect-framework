@@ -15,7 +15,8 @@ final class TypedDatasetEntityCollection extends DatasetEntityCollection
 
     /**
      * @psalm-param class-string<DatasetEntityContract>|EntityType $type
-     * @psalm-param iterable<int, DatasetEntityContract> $items
+     *
+     * @param iterable<DatasetEntityContract> $items
      *
      * @throws InvalidClassNameException
      * @throws InvalidSubtypeClassNameException
@@ -43,10 +44,7 @@ final class TypedDatasetEntityCollection extends DatasetEntityCollection
         return $this->type;
     }
 
-    /**
-     * @param DatasetEntityContract $item
-     */
-    protected function isValidItem($item): bool
+    protected function isValidItem(mixed $item): bool
     {
         return parent::isValidItem($item) && $this->type->isObjectOfType($item);
     }

@@ -29,7 +29,7 @@ final class AliasAwarePortalNodeStorageKey implements PortalNodeKeyInterface
         return $this->portalNodeKey->equals($other);
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->portalNodeKey->jsonSerialize();
     }

@@ -17,9 +17,18 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
     /**
      * Add new items to the collection.
      *
-     * @psalm-param iterable<int, T> $items
+     * @param iterable<T> $items
+     *
+     * @throws \InvalidArgumentException
      */
     public function push(iterable $items): void;
+
+    /**
+     * Add new items to the collection but skip items, that do not meet the collection's validation criteria.
+     *
+     * @param iterable<T|mixed|null> $items
+     */
+    public function pushIgnoreInvalidItems(iterable $items): void;
 
     /**
      * Removes and returns the last element of the collection.
@@ -67,10 +76,8 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
      * Returns an iterable list of items, that are checked by the given callable.
      *
      * @param callable(mixed):bool $filterFn
-     *
-     * @return static
      */
-    public function filter(callable $filterFn): self;
+    public function filter(callable $filterFn): static;
 
     /**
      * Returns an iterable list of anything, that is returned for each item by the given callable.
@@ -90,17 +97,15 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
 
     /**
      * Create a new collection of the same type, but without any content.
-     *
-     * @return static
      */
-    public function withoutItems(): self;
+    public function withoutItems(): static;
 
     /**
      * Group items in maximum $size big chunks. The last chunk can be less than $size items.
      *
      * @psalm-param positive-int $size
      *
-     * @psalm-return iterable<self&non-empty-list<T>>
+     * @psalm-return iterable<static&self<T>>
      */
     public function chunk(int $size): iterable;
 
@@ -125,8 +130,6 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
 
     /**
      * Returns a copy of this collection only containing items a single time.
-     *
-     * @return static
      */
-    public function asUnique(): self;
+    public function asUnique(): static;
 }

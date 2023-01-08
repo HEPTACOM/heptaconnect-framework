@@ -41,7 +41,8 @@ final class CollectionTest extends TestCase
      */
     public function testPassingInInvalidItemsAndKeepAll(array $items): void
     {
-        $collection = new UsageStructCollection($items);
+        $collection = new UsageStructCollection();
+        $collection->pushIgnoreInvalidItems($items);
         static::assertEquals(0, $collection->count());
 
         foreach ($items as $key => $item) {
@@ -136,8 +137,8 @@ final class CollectionTest extends TestCase
                 'publicInt' => 42,
                 'publicFloat' => 13.37,
                 'protectedString' => 'protected',
-                'attachments' => [],
-                'dependencies' => [],
+                'attachments' => null,
+                'dependencies' => null,
                 'primaryKey' => null,
                 'deferrals' => [],
             ],
@@ -147,8 +148,8 @@ final class CollectionTest extends TestCase
                 'publicInt' => 42,
                 'publicFloat' => 13.37,
                 'protectedString' => 'protected',
-                'attachments' => [],
-                'dependencies' => [],
+                'attachments' => null,
+                'dependencies' => null,
                 'primaryKey' => null,
                 'deferrals' => [],
             ],
@@ -158,8 +159,8 @@ final class CollectionTest extends TestCase
                 'publicInt' => 42,
                 'publicFloat' => 13.37,
                 'protectedString' => 'protected',
-                'attachments' => [],
-                'dependencies' => [],
+                'attachments' => null,
+                'dependencies' => null,
                 'primaryKey' => null,
                 'deferrals' => [],
             ],

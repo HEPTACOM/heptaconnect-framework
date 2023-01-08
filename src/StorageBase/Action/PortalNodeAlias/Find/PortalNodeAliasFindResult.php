@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Find;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -17,7 +16,6 @@ final class PortalNodeAliasFindResult implements AttachmentAwareInterface
         private PortalNodeKeyInterface $portalNodeKey,
         private string $alias
     ) {
-        $this->attachments = new AttachmentCollection();
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

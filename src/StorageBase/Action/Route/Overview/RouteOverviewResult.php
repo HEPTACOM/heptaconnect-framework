@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
@@ -26,7 +25,6 @@ final class RouteOverviewResult implements AttachmentAwareInterface
         private \DateTimeInterface $createdAt,
         private StringCollection $capabilities
     ) {
-        $this->attachments = new AttachmentCollection();
     }
 
     public function getRouteKey(): RouteKeyInterface

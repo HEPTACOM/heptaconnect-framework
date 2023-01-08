@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\UiAuditTrail\UiAuditTrailLogOutput;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedStringCollection;
@@ -18,7 +17,6 @@ final class UiAuditTrailLogOutputPayload implements AttachmentAwareInterface
         private UiAuditTrailKeyInterface $uiAuditTrailKey,
         private TaggedStringCollection $output
     ) {
-        $this->attachments = new AttachmentCollection();
     }
 
     public function getUiAuditTrailKey(): UiAuditTrailKeyInterface

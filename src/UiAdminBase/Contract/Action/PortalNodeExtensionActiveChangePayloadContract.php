@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
@@ -20,7 +19,6 @@ abstract class PortalNodeExtensionActiveChangePayloadContract implements Attachm
     public function __construct(
         private PortalNodeKeyInterface $portalNodeKey
     ) {
-        $this->attachments = new AttachmentCollection();
         $this->portalExtensionQueries = new ClassStringReferenceCollection();
     }
 

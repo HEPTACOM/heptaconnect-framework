@@ -6,7 +6,6 @@ namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Audit;
 
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditableDataSerializer;
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -31,11 +30,6 @@ final class AuditableDataSerializerTest extends TestCase
 
         $aware = new class() implements AttachmentAwareInterface, AuditableDataAwareInterface {
             use AttachmentAwareTrait;
-
-            public function __construct()
-            {
-                $this->attachments = new AttachmentCollection();
-            }
 
             public function getAuditableData(): array
             {

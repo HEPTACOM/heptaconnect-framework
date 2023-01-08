@@ -82,7 +82,17 @@ final class TaggedStringCollectionTest extends TestCase
     public function testInsertOtherTypeInTypeCollection($item): void
     {
         $collection = new TaggedStringCollection();
-        $collection->push([$item]);
+        $collection->pushIgnoreInvalidItems([$item]);
         static::assertCount(0, $collection);
+    }
+
+    /**
+     * @dataProvider provideInvalidTestCases
+     */
+    public function testFailInsertOtherTypeInTypeCollection($item): void
+    {
+        static::expectException(\InvalidArgumentException::class);
+        $collection = new TaggedStringCollection();
+        $collection->push([$item]);
     }
 }

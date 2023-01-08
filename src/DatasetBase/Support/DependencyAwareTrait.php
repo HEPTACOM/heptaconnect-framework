@@ -8,10 +8,10 @@ use Heptacom\HeptaConnect\Dataset\Base\DependencyCollection;
 
 trait DependencyAwareTrait
 {
-    protected DependencyCollection $dependencies;
+    protected ?DependencyCollection $dependencies = null;
 
     public function getDependencies(): DependencyCollection
     {
-        return $this->dependencies;
+        return $this->dependencies ??= new DependencyCollection();
     }
 }

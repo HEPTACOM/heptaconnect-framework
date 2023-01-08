@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -21,7 +20,6 @@ final class PortalNodeStatusReportPayload implements AttachmentAwareInterface, A
         private PortalNodeKeyInterface $portalNodeKey,
         private array $topics
     ) {
-        $this->attachments = new AttachmentCollection();
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

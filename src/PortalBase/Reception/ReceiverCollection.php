@@ -13,10 +13,7 @@ use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
  */
 class ReceiverCollection extends AbstractObjectCollection
 {
-    /**
-     * @return static
-     */
-    public function bySupport(EntityType $entityType): self
+    public function bySupport(EntityType $entityType): static
     {
         return $this->filter(
             static fn (ReceiverContract $receiver): bool => $entityType->equals($receiver->getSupportedEntityType())

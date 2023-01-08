@@ -12,10 +12,7 @@ use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract;
  */
 class HttpHandlerCollection extends AbstractObjectCollection
 {
-    /**
-     * @return static
-     */
-    public function bySupport(string $path): self
+    public function bySupport(string $path): static
     {
         return $this->filter(fn (HttpHandlerContract $httpHandler) => $path === $httpHandler->getPath());
     }

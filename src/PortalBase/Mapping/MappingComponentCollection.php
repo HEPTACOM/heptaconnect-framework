@@ -35,14 +35,18 @@ class MappingComponentCollection extends AbstractObjectCollection
      */
     public function getEntityTypes(): array
     {
-        $entityTypes = (new EntityTypeCollection($this->column('getEntityType')))->asUnique()->asArray();
+        $entityTypes = (new EntityTypeCollection($this->map(
+            static fn (MappingComponentStructContract $mapping): EntityType => $mapping->getEntityType()
+        )))->asUnique()->asArray();
 
         return \array_map(static fn (EntityType $type): string => (string) $type, $entityTypes);
     }
 
     public function getPortalNodeKeys(): PortalNodeKeyCollection
     {
-        return (new PortalNodeKeyCollection($this->column('getPortalNodeKey')))->asUnique();
+        return (new PortalNodeKeyCollection($this->map(
+            static fn (MappingComponentStructContract $mapping): PortalNodeKeyInterface => $mapping->getPortalNodeKey()
+        )))->asUnique();
     }
 
     /**
@@ -50,23 +54,19 @@ class MappingComponentCollection extends AbstractObjectCollection
      */
     public function getExternalIds(): array
     {
-        return (new StringCollection($this->column('getExternalId')))->asUnique()->asArray();
+        return (new StringCollection($this->map(
+            static fn (MappingComponentStructContract $mapping): string => $mapping->getExternalId()
+        )))->asUnique()->asArray();
     }
 
-    /**
-     * @return static
-     */
-    public function filterByEntityType(EntityType $entityType): self
+    public function filterByEntityType(EntityType $entityType): static
     {
         return $this->filter(
             static fn (MappingComponentStructContract $mc): bool => $mc->getEntityType()->equals($entityType)
         );
     }
 
-    /**
-     * @return static
-     */
-    public function filterByPortalNodeKey(PortalNodeKeyInterface $portalNodeKey): self
+    public function filterByPortalNodeKey(PortalNodeKeyInterface $portalNodeKey): static
     {
         return $this->filter(
             static fn (MappingComponentStructContract $mc): bool => $mc->getPortalNodeKey()->equals($portalNodeKey)

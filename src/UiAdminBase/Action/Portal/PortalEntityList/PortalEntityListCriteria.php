@@ -13,7 +13,6 @@ final class PortalEntityListCriteria extends EntityListCriteriaContract implemen
     public function __construct(
         private PortalType $portal
     ) {
-        parent::__construct();
     }
 
     public function getPortal(): PortalType

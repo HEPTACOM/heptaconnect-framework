@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteBrowse;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
@@ -45,11 +44,6 @@ final class RouteBrowseCriteria extends BrowseCriteriaContract implements Attach
     private ?PortalNodeKeyCollection $targetPortalNodeKeyFilter = null;
 
     private ?StringCollection $capabilityFilter = null;
-
-    public function __construct()
-    {
-        $this->attachments = new AttachmentCollection();
-    }
 
     /**
      * @return array<string, string>

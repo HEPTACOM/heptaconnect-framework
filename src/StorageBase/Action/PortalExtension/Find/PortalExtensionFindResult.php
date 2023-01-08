@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Find;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
@@ -18,11 +17,6 @@ final class PortalExtensionFindResult implements AttachmentAwareInterface
      * @var array<string, bool>
      */
     private array $extensions = [];
-
-    public function __construct()
-    {
-        $this->attachments = new AttachmentCollection();
-    }
 
     public function add(ClassStringReferenceContract $portalExtensionType, bool $active): void
     {

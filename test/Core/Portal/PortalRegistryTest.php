@@ -25,6 +25,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection

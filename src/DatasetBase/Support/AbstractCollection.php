@@ -21,26 +21,28 @@ abstract class AbstractCollection implements CollectionInterface
     use SetStateTrait;
 
     /**
-     * @var array<array-key, T>
+     * @var array<int, T>
      */
     protected array $items = [];
 
     /**
-     * @psalm-param iterable<int, T> $items
+     * @param iterable<T> $items
+     *
+     * @throws \InvalidArgumentException
      */
     public function __construct(iterable $items = [])
     {
         $this->push($items);
     }
 
-    public static function __set_state(array $an_array)
+    public static function __set_state(array $an_array): static
     {
         $result = self::createStaticFromArray($an_array);
         /** @var array|mixed $items */
         $items = $an_array['items'] ?? [];
 
         if (\is_array($items) && $items !== []) {
-            $result->push($items);
+            $result->items = $items;
         }
 
         return $result;
@@ -48,13 +50,22 @@ abstract class AbstractCollection implements CollectionInterface
 
     public function push(iterable $items): void
     {
-        $items = \iterable_to_array($this->filterValid($items));
+        $newItems = [];
 
-        if (\count($items) === 0) {
+        foreach ($this->validateItems($items) as $item) {
+            $newItems[] = $item;
+        }
+
+        if (\count($newItems) === 0) {
             return;
         }
 
-        \array_push($this->items, ...$items);
+        \array_push($this->items, ...$newItems);
+    }
+
+    public function pushIgnoreInvalidItems(iterable $items): void
+    {
+        $this->push($this->filterValid($items));
     }
 
     public function pop()
@@ -107,7 +118,11 @@ abstract class AbstractCollection implements CollectionInterface
      */
     public function offsetGet($offset)
     {
-        return $this->items[$offset] ?? null;
+        if (!\is_numeric($offset)) {
+            throw new \InvalidArgumentException();
+        }
+
+        return $this->items[(int) $offset] ?? null;
     }
 
     /**
@@ -117,8 +132,12 @@ abstract class AbstractCollection implements CollectionInterface
      */
     public function offsetSet($offset, $value): void
     {
-        if ($offset !== null && $this->isValidItem($value)) {
-            $this->items[$offset] = $value;
+        if (\is_numeric($offset) && $this->isValidItem($value)) {
+            $this->items[(int) $offset] = $value;
+        }
+
+        if ($offset === null) {
+            $this->push([$value]);
         }
     }
 
@@ -150,14 +169,11 @@ abstract class AbstractCollection implements CollectionInterface
         return $end === false ? null : $end;
     }
 
-    /**
-     * @return static
-     */
-    public function filter(callable $filterFn): self
+    public function filter(callable $filterFn): static
     {
         $result = $this->withoutItems();
 
-        $result->push(\array_filter($this->items, $filterFn));
+        $result->items = \array_values(\array_filter($this->items, $filterFn));
 
         return $result;
     }
@@ -185,7 +201,7 @@ abstract class AbstractCollection implements CollectionInterface
 
             if (($chunkIndex % $size) === 0) {
                 $result = $this->withoutItems();
-                $result->push($buffer);
+                $result->items = \array_values($buffer);
                 yield $result;
                 $buffer = [];
             }
@@ -193,11 +209,14 @@ abstract class AbstractCollection implements CollectionInterface
 
         if ($buffer !== []) {
             $result = $this->withoutItems();
-            $result->push($buffer);
+            $result->items = \array_values($buffer);
             yield $result;
         }
     }
 
+    /**
+     * @return array<T>
+     */
     public function asArray(): array
     {
         return $this->items;
@@ -213,10 +232,7 @@ abstract class AbstractCollection implements CollectionInterface
         return \in_array($value, $this->items, true);
     }
 
-    /**
-     * @return static
-     */
-    public function asUnique(): self
+    public function asUnique(): static
     {
         $result = $this->withoutItems();
 
@@ -229,10 +245,7 @@ abstract class AbstractCollection implements CollectionInterface
         return $result;
     }
 
-    /**
-     * @return static
-     */
-    public function withoutItems(): self
+    public function withoutItems(): static
     {
         $that = clone $this;
 
@@ -242,25 +255,39 @@ abstract class AbstractCollection implements CollectionInterface
     }
 
     /**
-     * @psalm-param T $item
+     * @psalm-assert-if-true T $item
      */
-    abstract protected function isValidItem($item): bool;
+    abstract protected function isValidItem(mixed $item): bool;
 
-    protected function filterValid(iterable $items): \Generator
+    /**
+     * @psalm-return iterable<T>
+     */
+    protected function filterValid(iterable $items): iterable
     {
-        /**
-         * @var int $key
-         *
-         * @psalm-var T $item
-         */
-        foreach ($items as $key => $item) {
+        foreach ($items as $item) {
             if ($this->isValidItem($item)) {
-                yield $key => $item;
+                yield $item;
             }
         }
     }
 
-    protected function executeAccessor($item, ?string $accessor, $fallback)
+    /**
+     * @throws \InvalidArgumentException
+     *
+     * @return iterable<T>
+     */
+    protected function validateItems(iterable $items): iterable
+    {
+        foreach ($items as $item) {
+            if (!$this->isValidItem($item)) {
+                throw new \InvalidArgumentException();
+            }
+
+            yield $item;
+        }
+    }
+
+    protected function executeAccessor(mixed $item, ?string $accessor, mixed $fallback): mixed
     {
         if (!\is_string($accessor)) {
             return $fallback;
@@ -292,7 +319,7 @@ abstract class AbstractCollection implements CollectionInterface
      * @param T $value
      * @param Closure(T $a,    T $b): bool $equalsCondition
      */
-    final protected function containsByEqualsCheck($value, \Closure $equalsCondition): bool
+    final protected function containsByEqualsCheck(mixed $value, \Closure $equalsCondition): bool
     {
         if (!$this->isValidItem($value)) {
             return false;
