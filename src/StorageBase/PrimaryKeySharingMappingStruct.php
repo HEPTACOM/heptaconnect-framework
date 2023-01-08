@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
@@ -38,7 +37,6 @@ final class PrimaryKeySharingMappingStruct implements AttachmentAwareInterface, 
         private PortalNodeKeyInterface $portalNodeKey,
         private MappingNodeKeyInterface $mappingNodeKey
     ) {
-        $this->attachments = new AttachmentCollection();
         $this->entityType = (string) $entityType;
     }
 

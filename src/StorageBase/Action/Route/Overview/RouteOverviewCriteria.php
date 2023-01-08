@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
@@ -38,11 +37,6 @@ final class RouteOverviewCriteria extends OverviewCriteriaContract implements At
     private ?PortalNodeKeyCollection $targetPortalNodeKeyFilter = null;
 
     private ?StringCollection $capabilityFilter = null;
-
-    public function __construct()
-    {
-        $this->attachments = new AttachmentCollection();
-    }
 
     public function getEntityTypeFilter(): ?ClassStringReferenceCollection
     {

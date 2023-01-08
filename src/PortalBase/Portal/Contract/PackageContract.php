@@ -16,9 +16,15 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
  *
  * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  * @SuppressWarnings(PHPMD.NPathComplexity)
+ *
+ * @psalm-consistent-constructor
  */
 abstract class PackageContract
 {
+    public function __construct()
+    {
+    }
+
     /**
      * Get a PSR4 definition to automatically build portal node dependency injection container.
      * Can be implemented as empty to disable automatic service creation.
@@ -95,7 +101,7 @@ abstract class PackageContract
     }
 
     /**
-     * @return string[]|null
+     * @return array<string, string>|null
      */
     private function getComposerPsr4(string $path): ?array
     {
@@ -152,6 +158,7 @@ abstract class PackageContract
             return null;
         }
 
+        /** @var array<string, string>|null $psr4 */
         $psr4 = $composerJson['autoload']['psr-4'] ?? null;
 
         if (!\is_array($psr4)) {

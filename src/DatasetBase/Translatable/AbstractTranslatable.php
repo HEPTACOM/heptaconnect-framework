@@ -12,8 +12,6 @@ use Heptacom\HeptaConnect\Dataset\Base\Translatable\Contract\TranslatableInterfa
  *
  * @implements \ArrayAccess<array-key, T>
  * @implements Contract\TranslatableInterface<T>
- *
- * @property T|null $fallback
  */
 abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, Contract\TranslatableInterface
 {
@@ -25,16 +23,11 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
     protected array $translations = [];
 
     /**
-     * @deprecated 1.0.0 Uncomment to allow deserialization
-     *
-     * @psalm-var T|null
-     * protected $fallback = null;
+     * @var T|null
      */
+    protected mixed $fallback = null;
 
-    /**
-     * @return static
-     */
-    public static function __set_state(array $an_array)
+    public static function __set_state(array $an_array): static
     {
         $result = self::createStaticFromArray($an_array);
         /** @var array|mixed $items */
@@ -162,13 +155,8 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
     /**
      * @psalm-return T|null
      */
-    public function getFallback()
+    public function getFallback(): mixed
     {
-        /* @deprecated 1.0.0 */
-        if (!isset($this->fallback)) {
-            $this->fallback = null;
-        }
-
         return $this->fallback;
     }
 
@@ -204,15 +192,15 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
         return \array_values($stringKeys);
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->translations;
     }
 
     /**
-     * @psalm-param T $value
+     * @psalm-assert-if-true T $value
      */
-    abstract protected function isValidValue($value): bool;
+    abstract protected function isValidValue(mixed $value): bool;
 
     private function deleteTranslation(string $offset): void
     {

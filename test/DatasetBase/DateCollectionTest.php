@@ -37,8 +37,18 @@ final class DateCollectionTest extends TestCase
     {
         $collection = new DateCollection();
         static::assertFalse($collection->contains($item));
-        $collection->push([$item]);
+        $collection->pushIgnoreInvalidItems([$item]);
         static::assertCount(0, $collection);
         static::assertFalse($collection->contains($item));
+    }
+
+    /**
+     * @dataProvider provideInvalidTestCases
+     */
+    public function testFailInsertOtherTypeInTypeCollection($item): void
+    {
+        static::expectException(\InvalidArgumentException::class);
+        $collection = new DateCollection();
+        $collection->push([$item]);
     }
 }

@@ -15,12 +15,9 @@ final class TagItem implements \JsonSerializable
     use JsonSerializeObjectVarsTrait;
 
     /**
-     * @psalm-param CollectionInterface<T> $collection
+     * @param CollectionInterface<T> $collection
      */
     public function __construct(
-        /**
-         * @psalm-var CollectionInterface<T>
-         */
         private CollectionInterface $collection,
         private string $tag
     ) {

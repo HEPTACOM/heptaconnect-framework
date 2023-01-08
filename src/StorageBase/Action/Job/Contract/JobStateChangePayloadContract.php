@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\Job\Contract;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
@@ -18,7 +17,6 @@ abstract class JobStateChangePayloadContract implements AttachmentAwareInterface
         private \DateTimeInterface $createdAt,
         private ?string $message
     ) {
-        $this->attachments = new AttachmentCollection();
     }
 
     public function getJobKeys(): JobKeyCollection

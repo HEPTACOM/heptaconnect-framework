@@ -9,9 +9,8 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Translatable;
  */
 final class TranslatableString extends AbstractTranslatable
 {
-    protected function isValidValue($value): bool
+    protected function isValidValue(mixed $value): bool
     {
-        /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */
         return \is_string($value);
     }
 }

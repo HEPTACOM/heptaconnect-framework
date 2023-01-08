@@ -6,6 +6,9 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
 
 interface DeferralAwareInterface
 {
+    /**
+     * @param callable(): mixed $fn
+     */
     public function defer(callable $fn): void;
 
     public function copyDeferrals(DeferralAwareInterface $target): void;

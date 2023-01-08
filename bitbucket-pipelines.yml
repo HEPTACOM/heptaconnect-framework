@@ -235,10 +235,6 @@ pipelines:
                     -   step: *test-code-style-phpstan
                     -   step: *test-code-style-psalm
             -   step: *test-infection-full
-            -   step: *composer-low-install
-            -   parallel: &steps-non-blocking-low-tests
-                    -   step: *test-code-style-phpstan
-                    -   step: *test-code-style-psalm
         '*.*.x':
             -   step: *github-keyword-gate-step
             -   step: *github-mirror-branch
@@ -274,8 +270,6 @@ pipelines:
             -   step: *composer-high-install
             -   parallel: *steps-non-blocking-tests
             -   step: *test-infection-diff
-            -   step: *composer-low-install
-            -   parallel: *steps-non-blocking-low-tests
 
     default:
         -   parallel:
@@ -293,5 +287,3 @@ pipelines:
         -   step: *composer-high-install
         -   parallel: *steps-non-blocking-tests
         -   step: *test-infection-full
-        -   step: *composer-low-install
-        -   parallel: *steps-non-blocking-low-tests

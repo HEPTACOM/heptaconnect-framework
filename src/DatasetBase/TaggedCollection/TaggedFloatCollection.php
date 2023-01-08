@@ -11,9 +11,6 @@ use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\FloatCollection;
  */
 final class TaggedFloatCollection extends AbstractTaggedCollection
 {
-    /**
-     * @psalm-return FloatCollection::class
-     */
     protected function getCollectionType(): string
     {
         return FloatCollection::class;

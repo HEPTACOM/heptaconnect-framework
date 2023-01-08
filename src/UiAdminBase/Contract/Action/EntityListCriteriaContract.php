@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
@@ -20,11 +19,6 @@ abstract class EntityListCriteriaContract implements AttachmentAwareInterface
     private bool $showEmitter = true;
 
     private bool $showReceiver = true;
-
-    public function __construct()
-    {
-        $this->attachments = new AttachmentCollection();
-    }
 
     public function getFilterSupportedEntityType(): ?ClassStringReferenceContract
     {

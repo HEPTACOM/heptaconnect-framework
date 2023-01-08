@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
-use Heptacom\HeptaConnect\Dataset\Base\DependencyCollection;
 use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Dataset\Base\Support\DeferralAwareTrait;
@@ -14,6 +12,9 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\JsonSerializeObjectVarsTrait;
 use Heptacom\HeptaConnect\Dataset\Base\Support\PrimaryKeyTrait;
 use Heptacom\HeptaConnect\Dataset\Base\Support\SetStateTrait;
 
+/**
+ * @psalm-consistent-constructor
+ */
 abstract class DatasetEntityContract implements AttachableInterface, AttachmentAwareInterface, DeferralAwareInterface, PrimaryKeyAwareInterface, \JsonSerializable
 {
     use AttachmentAwareTrait;
@@ -25,8 +26,6 @@ abstract class DatasetEntityContract implements AttachableInterface, AttachmentA
 
     public function __construct()
     {
-        $this->attachments = new AttachmentCollection();
-        $this->dependencies = new DependencyCollection();
     }
 
     public function setPrimaryKey(?string $primaryKey): void

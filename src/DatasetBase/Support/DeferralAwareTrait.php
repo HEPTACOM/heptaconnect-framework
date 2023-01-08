@@ -16,7 +16,7 @@ trait DeferralAwareTrait
 
     public function defer(callable $fn): void
     {
-        $this->deferrals[] = new SerializableClosure(static fn () => $fn());
+        $this->deferrals[] = new SerializableClosure(static fn (): mixed => $fn());
     }
 
     public function copyDeferrals(DeferralAwareInterface $target): void

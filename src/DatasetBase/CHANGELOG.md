@@ -26,13 +26,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::contains` to check whether the given item is in the collection
 - Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::containsByEqualsCheck` for any extending class to build alternative contains implementations based upon comparison
 - Add method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::asUnique` to build a collection with items that are not identical to the other items in the collection
+- Add `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::pushIgnoreInvalidItems` as alternative to `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::push` to push items into collections, without exceptions on invalid items
+- Add `\InvalidArgumentException` to `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection` using the new method `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::validateItems` when items are added, that are not compliant with the collection's validation
+- Add `\InvalidArgumentException` to `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::offsetGet` and `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::offsetSet` when items are accessed with keys, that are not numeric
 
 ### Changed
 
 - Change return type of `\Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface::getForeignEntityType` from `class-string` to `\Heptacom\HeptaConnect\Dataset\Base\EntityType` to improve type safety for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Change return type of `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::filter` from `Generator` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
+- Change return type of `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::filterValid` from `Generator` to `iterable`
 - Replace type hints to real union types in `\Heptacom\HeptaConnect\Dataset\Base\Date::add`, `\Heptacom\HeptaConnect\Dataset\Base\Date::sub`, `\Heptacom\HeptaConnect\Dataset\Base\Date::setTime` and `\Heptacom\HeptaConnect\Dataset\Base\Date::setTimestamp`
 - Add implementation reference to `\Stringable` when `__toString` is already implemented in `\Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract`
+- Change default value from `\Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::$attachments` a new instance to `null`
+- Change default value from `\Heptacom\HeptaConnect\Dataset\Base\Support\DependencyAwareTrait::$dependencies` a new instance to `null`
+- Add possible exception `\InvalidArgumentException` to be thrown from `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::push` and `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::__construct` when validating items, that are added to the collection items
 
 ### Deprecated
 

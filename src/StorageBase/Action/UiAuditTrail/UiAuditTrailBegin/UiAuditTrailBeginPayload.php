@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\UiAuditTrail\UiAuditTrailBegin;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedStringCollection;
@@ -23,7 +22,6 @@ final class UiAuditTrailBeginPayload implements AttachmentAwareInterface
         private string $userIdentifier,
         private TaggedStringCollection $arguments
     ) {
-        $this->attachments = new AttachmentCollection();
         $this->at = new \DateTimeImmutable();
     }
 

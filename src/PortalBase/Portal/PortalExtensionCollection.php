@@ -13,19 +13,15 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
  */
 class PortalExtensionCollection extends AbstractCollection
 {
-    /**
-     * @return static
-     */
-    public function bySupport(ClassStringReferenceContract $portalClass): self
+    public function bySupport(ClassStringReferenceContract $portalClass): static
     {
         return $this->filter(
             fn (PortalExtensionContract $extension) => $extension->getSupportedPortal()->isTypeOfClassString($portalClass)
         );
     }
 
-    protected function isValidItem($item): bool
+    protected function isValidItem(mixed $item): bool
     {
-        /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */
         return $item instanceof PortalExtensionContract;
     }
 }

@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Support;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 
 /**
- * @template T
+ * @template T of ClassStringReferenceContract
  *
  * @template-extends AbstractObjectCollection<T>
  */

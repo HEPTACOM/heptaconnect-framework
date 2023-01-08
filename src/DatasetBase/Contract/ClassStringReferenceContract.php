@@ -25,7 +25,7 @@ abstract class ClassStringReferenceContract implements \JsonSerializable, \Strin
         return (string) $other === (string) $this;
     }
 
-    final public function jsonSerialize()
+    final public function jsonSerialize(): string
     {
         return $this->classString;
     }
