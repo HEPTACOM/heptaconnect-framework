@@ -70,10 +70,12 @@ final class PortalNodeConfigurationGetUiTest extends TestCase
             $configurationGetAction
         );
 
-        $result = \iterable_to_array($action->get(
+        $result = \current(\iterable_to_array($action->get(
             new PortalNodeConfigurationGetCriteria(new PortalNodeKeyCollection([$portalNodeKey])),
             $this->createUiActionContext()
-        ))[0];
+        )));
+
+        static::assertInstanceOf(PortalNodeConfigurationGetResult::class, $result);
 
         static::assertSame([
             'foobar' => 42,
@@ -101,11 +103,12 @@ final class PortalNodeConfigurationGetUiTest extends TestCase
             $configurationGetAction
         );
 
-        $result = \iterable_to_array($action->get(
+        $result = \current(\iterable_to_array($action->get(
             new PortalNodeConfigurationGetCriteria(new PortalNodeKeyCollection([$portalNodeKey])),
             $this->createUiActionContext()
-        ))[0];
+        )));
 
+        static::assertInstanceOf(PortalNodeConfigurationGetResult::class, $result);
         static::assertSame([], $result->getConfiguration());
         static::assertTrue($portalNodeKey->equals($result->getPortalNodeKey()));
     }
