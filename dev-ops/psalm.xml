@@ -25,6 +25,9 @@
                 <file name="../src/Core/Job/Handler/ExplorationHandler.php"/>
                 <file name="../src/Core/Ui/Admin/Action/PortalEntityListUi.php"/>
                 <file name="../src/Core/Ui/Admin/Action/RouteAddUi.php"/>
+
+                <!-- Can be removed when bentools/iterable-functions supports psalm -->
+                <file name="../src/Core/Ui/Admin/Action/PortalNodeConfigurationGetUi.php"/>
             </errorLevel>
         </PossiblyInvalidArgument>
 
@@ -124,7 +127,7 @@
         <MixedPropertyTypeCoercion>
             <errorLevel type="info">
                 <!-- Can be removed when bentools/iterable-functions supports psalm -->
-                <referencedProperty name="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService::$configurationProcessors"/>
+                <referencedProperty name="Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationProcessorService::$configurationProcessors"/>
                 <referencedProperty name="Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationInstructionProcessor::$instructionLoaders"/>
                 <referencedProperty name="Heptacom\HeptaConnect\Core\Reception\ReceiveContextFactory::$postProcessors"/>
                 <referencedProperty name="Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry::$denormalizer"/>
@@ -215,7 +218,6 @@
                 <file name="../src/Core/Emission/AbstractBufferedResultProcessingEmitter.php"/>
                 <file name="../src/Core/Exploration/AbstractBufferedResultProcessingExplorer.php"/>
                 <file name="../src/Core/Portal/PackageQueryMatcher.php"/>
-                <file name="../src/Core/Portal/ServiceContainerCompilerPass/AddPortalConfigurationBindingsCompilerPass.php"/>
                 <file name="../src/Core/Portal/ServiceContainerCompilerPass/RemoveAutoPrototypedDefinitionsCompilerPass.php"/>
                 <file name="../src/Core/Ui/Admin/Action/PortalNodeStatusReportUi.php"/>
                 <file name="../src/Core/Web/Http/RequestDeserializer.php"/>
