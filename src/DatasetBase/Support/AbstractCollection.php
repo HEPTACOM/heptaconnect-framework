@@ -272,6 +272,8 @@ abstract class AbstractCollection implements CollectionInterface
     }
 
     /**
+     * @throws \InvalidArgumentException
+     *
      * @return iterable<T>
      */
     protected function validateItems(iterable $items): iterable
