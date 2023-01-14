@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add `\Heptacom\HeptaConnect\TestSuite\Storage\Action\IdentityMappingTestContract::testReflectTwoEntitiesOfSameTypeFromPortalNodeAToBWithDirectionalMappings` to test identities using directional identities
+- Add `\Heptacom\HeptaConnect\TestSuite\Storage\Action\IdentityMappingTestContract::testReflectTwoEntitiesOfSameTypeFromPortalNodeAToBWithPortalAssignedAndDirectionalMappings` to test identities using directional identities and portal assigned identities
+
 ### Changed
 
 ### Deprecated
