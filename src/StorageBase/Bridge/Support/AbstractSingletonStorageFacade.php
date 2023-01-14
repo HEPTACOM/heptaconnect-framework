@@ -178,7 +178,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             throw $throwable;
         } catch (\Throwable $throwable) {
-            throw new StorageFacadeServiceException(IdentityDirectionDeleteActionInterface::class, $throwable);
+            throw new StorageFacadeServiceException(IdentityDirectionCreateActionInterface::class, $throwable);
         }
     }
 
