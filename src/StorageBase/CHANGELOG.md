@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add storage key interface `\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\IdentityDirectionKeyInterface` with `\Heptacom\HeptaConnect\Storage\Base\IdentityDirectionKeyCollection`
+- Add identity direction delete action `\\Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionDeleteActionInterface` with `\Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Delete\IdentityDirectionDeleteCriteria`
+- Add methods `\Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface::getIdentityDirectionDeleteAction`, `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade::getIdentityDirectionDeleteAction`, `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade::createIdentityDirectionDeleteActionInterface` and `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\Psr11StorageFacade::createIdentityDirectionDeleteActionInterface` to access the storage implementation for `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionDeleteActionInterface`
 
 ### Changed
 
