@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add storage key interface `\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\IdentityDirectionKeyInterface` with `\Heptacom\HeptaConnect\Storage\Base\IdentityDirectionKeyCollection`
+
 ### Changed
 
 ### Deprecated
