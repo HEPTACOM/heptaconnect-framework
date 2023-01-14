@@ -45,6 +45,13 @@ class Psr11StorageFacadeTest extends TestCase
         }
 
         try {
+            $facade->getIdentityDirectionOverviewAction();
+            static::fail();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
+        }
+
+        try {
             $facade->getIdentityOverviewAction();
             static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
@@ -294,6 +301,7 @@ class Psr11StorageFacadeTest extends TestCase
 
         $facade->getIdentityDirectionCreateAction();
         $facade->getIdentityDirectionDeleteAction();
+        $facade->getIdentityDirectionOverviewAction();
         $facade->getIdentityMapAction();
         $facade->getIdentityOverviewAction();
         $facade->getIdentityPersistAction();

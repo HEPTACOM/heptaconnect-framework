@@ -12,6 +12,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistA
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityReflectActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionDeleteActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityError\IdentityErrorCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
@@ -84,6 +85,13 @@ interface StorageFacadeInterface
      * @throws StorageFacadeServiceExceptionInterface
      */
     public function getIdentityDirectionDeleteAction(): IdentityDirectionDeleteActionInterface;
+
+    /**
+     * Provides storage action to paginate over all directional identities.
+     *
+     * @throws StorageFacadeServiceExceptionInterface
+     */
+    public function getIdentityDirectionOverviewAction(): IdentityDirectionOverviewActionInterface;
 
     /**
      * Provides storage action to map entities to their identities.

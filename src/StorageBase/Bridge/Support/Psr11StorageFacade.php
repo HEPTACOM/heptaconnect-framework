@@ -13,6 +13,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistA
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityReflectActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionDeleteActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityError\IdentityErrorCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
@@ -80,6 +81,11 @@ class Psr11StorageFacade extends AbstractSingletonStorageFacade
     protected function createIdentityDirectionDeleteActionInterface(): IdentityDirectionDeleteActionInterface
     {
         return $this->getInstanceFromContainer(IdentityDirectionDeleteActionInterface::class);
+    }
+
+    protected function createIdentityDirectionOverviewActionInterface(): IdentityDirectionOverviewActionInterface
+    {
+        return $this->getInstanceFromContainer(IdentityDirectionOverviewActionInterface::class);
     }
 
     protected function createIdentityErrorCreateAction(): IdentityErrorCreateActionInterface

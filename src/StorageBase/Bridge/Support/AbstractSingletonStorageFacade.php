@@ -15,6 +15,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistA
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityReflectActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionDeleteActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityError\IdentityErrorCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
@@ -63,6 +64,8 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     private ?IdentityDirectionCreateActionInterface $identityDirectionCreateAction = null;
 
     private ?IdentityDirectionDeleteActionInterface $identityDirectionDeleteAction = null;
+
+    private ?IdentityDirectionOverviewActionInterface $identityDirectionOverviewAction = null;
 
     private ?IdentityErrorCreateActionInterface $identityErrorCreateAction = null;
 
@@ -187,6 +190,17 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
             throw $throwable;
         } catch (\Throwable $throwable) {
             throw new StorageFacadeServiceException(IdentityDirectionDeleteActionInterface::class, $throwable);
+        }
+    }
+
+    public function getIdentityDirectionOverviewAction(): IdentityDirectionOverviewActionInterface
+    {
+        try {
+            return $this->identityDirectionOverviewAction ??= $this->createIdentityDirectionDeleteActionInterface();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            throw $throwable;
+        } catch (\Throwable $throwable) {
+            throw new StorageFacadeServiceException(IdentityDirectionOverviewActionInterface::class, $throwable);
         }
     }
 
@@ -647,6 +661,11 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
      * @throws \Throwable
      */
     abstract protected function createIdentityDirectionDeleteActionInterface(): IdentityDirectionDeleteActionInterface;
+
+    /**
+     * @throws \Throwable
+     */
+    abstract protected function createIdentityDirectionOverviewActionInterface(): IdentityDirectionOverviewActionInterface;
 
     /**
      * @throws \Throwable
