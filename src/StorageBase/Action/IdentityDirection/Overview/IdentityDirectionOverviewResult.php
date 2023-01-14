@@ -9,10 +9,13 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\IdentityDirectionKeyInterface;
 
 final class IdentityDirectionOverviewResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
+
+    private IdentityDirectionKeyInterface $identityDirectionKey;
 
     private PortalNodeKeyInterface $sourcePortalNodeKey;
 
@@ -33,6 +36,7 @@ final class IdentityDirectionOverviewResult implements AttachmentAwareInterface
      * @param class-string<DatasetEntityContract> $entityType
      */
     public function __construct(
+        IdentityDirectionKeyInterface $identityDirectionKey,
         PortalNodeKeyInterface $sourcePortalNodeKey,
         string $sourceExternalId,
         PortalNodeKeyInterface $targetPortalNodeKey,
@@ -41,12 +45,18 @@ final class IdentityDirectionOverviewResult implements AttachmentAwareInterface
         \DateTimeInterface $createdAt
     ) {
         $this->attachments = new AttachmentCollection();
+        $this->identityDirectionKey = $identityDirectionKey;
         $this->sourcePortalNodeKey = $sourcePortalNodeKey;
         $this->sourceExternalId = $sourceExternalId;
         $this->targetPortalNodeKey = $targetPortalNodeKey;
         $this->targetExternalId = $targetExternalId;
         $this->entityType = $entityType;
         $this->createdAt = $createdAt;
+    }
+
+    public function getIdentityDirectionKey(): IdentityDirectionKeyInterface
+    {
+        return $this->identityDirectionKey;
     }
 
     public function getSourcePortalNodeKey(): PortalNodeKeyInterface

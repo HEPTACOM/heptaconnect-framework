@@ -262,7 +262,7 @@ class StorageActionParameterTest extends TestCase
             $identityDirectionKey,
         ]));
         yield new IdentityDirectionOverviewCriteria();
-        yield new IdentityDirectionOverviewResult($portalNodeKey, '', $portalNodeKey, '', $entityType, $createdAt);
+        yield new IdentityDirectionOverviewResult($identityDirectionKey, $portalNodeKey, '', $portalNodeKey, '', $entityType, $createdAt);
         yield new IdentityMapPayload($portalNodeKey, $entityCollection);
         yield new IdentityMapResult($mappedDatasetEntityCollection);
         yield new IdentityOverviewCriteria();
