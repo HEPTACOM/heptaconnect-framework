@@ -24,6 +24,10 @@ use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Overview\IdentityOverview
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPayloadCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Reflect\IdentityReflectPayload;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Create\IdentityDirectionCreatePayload;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Create\IdentityDirectionCreatePayloadCollection;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Create\IdentityDirectionCreateResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Create\IdentityDirectionCreateResultCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Delete\IdentityDirectionDeleteCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreatePayloads;
@@ -242,6 +246,10 @@ class StorageActionParameterTest extends TestCase
         yield new FileReferencePersistRequestResult($portalNodeKey);
         yield new FileReferenceGetRequestCriteria($portalNodeKey, new FileReferenceRequestKeyCollection());
         yield new FileReferenceGetRequestResult($portalNodeKey, $fileReferenceRequestKey, '');
+        yield new IdentityDirectionCreatePayload($portalNodeKey, '', $portalNodeKey, '', $entityType);
+        yield new IdentityDirectionCreatePayloadCollection();
+        yield new IdentityDirectionCreateResult($identityDirectionKey);
+        yield new IdentityDirectionCreateResultCollection();
         yield new IdentityDirectionDeleteCriteria(new IdentityDirectionKeyCollection([
             $identityDirectionKey,
         ]));

@@ -31,6 +31,13 @@ class Psr11StorageFacadeTest extends TestCase
         }
 
         try {
+            $facade->getIdentityDirectionCreateAction();
+            static::fail();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
+        }
+
+        try {
             $facade->getIdentityDirectionDeleteAction();
             static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
@@ -285,6 +292,7 @@ class Psr11StorageFacadeTest extends TestCase
         $container->method('get')->willReturnCallback(fn (string $className) => $this->createMock($className));
         $facade = new Psr11StorageFacade($container);
 
+        $facade->getIdentityDirectionCreateAction();
         $facade->getIdentityDirectionDeleteAction();
         $facade->getIdentityMapAction();
         $facade->getIdentityOverviewAction();
