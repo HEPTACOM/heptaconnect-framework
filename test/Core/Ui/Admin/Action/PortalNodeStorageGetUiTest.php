@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 
 use Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory;
-use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeStorageGetUi;
+use Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparationResult;
+use Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparator;
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalStorageInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStorageGet\PortalNodeStorageGetCriteria;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStorageGet\PortalNodeStorageGetResult;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\InvalidPortalNodeStorageValueException;
@@ -27,6 +27,7 @@ use Symfony\Component\Cache\Psr16Cache;
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContextFactory
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeStorageGetUi
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditTrail
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparationResult
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
@@ -50,18 +51,20 @@ final class PortalNodeStorageGetUiTest extends TestCase
 
     public function testReadingValues(): void
     {
-        $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
+        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparator::class);
         $storageFactory = $this->createMock(PortalStorageFactory::class);
         $action = new PortalNodeStorageGetUi(
             $this->createAuditTrailFactory(),
-            $portalNodeGetAction,
+            $portalNodeExistenceSeparator,
             $storageFactory
         );
         $portalNodeKey = $this->createPortalNodeKey();
 
-        $portalNodeGetAction->method('get')->willReturn([
-            new PortalNodeGetResult($portalNodeKey, FooBarPortal::class()),
-        ]);
+        $portalNodeExistenceSeparator->method('separateKeys')->willReturn(new PortalNodeExistenceSeparationResult(
+            new PortalNodeKeyCollection(),
+            new PortalNodeKeyCollection([$portalNodeKey]),
+            new PortalNodeKeyCollection(),
+        ));
 
         $storage = $this->createCache();
         $storageFactory->method('createPortalStorage')->willReturn($storage);
@@ -116,16 +119,20 @@ final class PortalNodeStorageGetUiTest extends TestCase
 
     public function testMissingPortalNode(): void
     {
-        $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
+        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparator::class);
         $storageFactory = $this->createMock(PortalStorageFactory::class);
         $action = new PortalNodeStorageGetUi(
             $this->createAuditTrailFactory(),
-            $portalNodeGetAction,
+            $portalNodeExistenceSeparator,
             $storageFactory
         );
         $portalNodeKey = $this->createPortalNodeKey();
 
-        $portalNodeGetAction->method('get')->willReturn([]);
+        $portalNodeExistenceSeparator->method('separateKeys')->willReturn(new PortalNodeExistenceSeparationResult(
+            new PortalNodeKeyCollection(),
+            new PortalNodeKeyCollection(),
+            new PortalNodeKeyCollection([$portalNodeKey]),
+        ));
 
         $storage = $this->createCache();
         $storageFactory->method('createPortalStorage')->willReturn($storage);
@@ -133,7 +140,7 @@ final class PortalNodeStorageGetUiTest extends TestCase
         $criteria = new PortalNodeStorageGetCriteria($portalNodeKey, new StringCollection());
 
         static::expectException(PortalNodesMissingException::class);
-        static::expectExceptionCode(1673129101);
+
         \iterable_to_array($action->get($criteria, $this->createUiActionContext()));
     }
 

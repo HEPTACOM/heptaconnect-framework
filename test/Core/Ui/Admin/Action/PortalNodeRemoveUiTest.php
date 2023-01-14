@@ -7,10 +7,10 @@ namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
 use Heptacom\HeptaConnect\Core\Test\Fixture\UninstantiablePortal;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeRemoveUi;
+use Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparationResult;
+use Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparator;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
-use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDeleteActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeRemove\PortalNodeRemoveCriteria;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\PersistException;
@@ -23,6 +23,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContextFactory
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeRemoveUi
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditTrail
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparationResult
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
@@ -48,18 +49,27 @@ final class PortalNodeRemoveUiTest extends TestCase
 
     public function testSuccess(): void
     {
-        $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
+        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparator::class);
         $portalNodeDeleteAction = $this->createMock(PortalNodeDeleteActionInterface::class);
         $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
         $portalNodeKey2 = new PreviewPortalNodeKey(UninstantiablePortal::class());
 
-        $portalNodeGetAction->expects(static::once())->method('get')->willReturn([
-            new PortalNodeGetResult($portalNodeKey, $portalNodeKey->getPortalType()),
-            new PortalNodeGetResult($portalNodeKey2, $portalNodeKey2->getPortalType()),
-        ]);
+        $portalNodeExistenceSeparator->method('separateKeys')
+            ->willReturn(new PortalNodeExistenceSeparationResult(
+                new PortalNodeKeyCollection(),
+                new PortalNodeKeyCollection([
+                    $portalNodeKey,
+                    $portalNodeKey2,
+                ]),
+                new PortalNodeKeyCollection(),
+            ));
         $portalNodeDeleteAction->expects(static::once())->method('delete');
 
-        $action = new PortalNodeRemoveUi($this->createAuditTrailFactory(), $portalNodeGetAction, $portalNodeDeleteAction);
+        $action = new PortalNodeRemoveUi(
+            $this->createAuditTrailFactory(),
+            $portalNodeExistenceSeparator,
+            $portalNodeDeleteAction
+        );
         $criteria = new PortalNodeRemoveCriteria(new PortalNodeKeyCollection([
             $portalNodeKey,
         ]));
@@ -69,17 +79,20 @@ final class PortalNodeRemoveUiTest extends TestCase
 
     public function testPortalNodeAlreadyDeleted(): void
     {
-        $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
+        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparator::class);
         $portalNodeDeleteAction = $this->createMock(PortalNodeDeleteActionInterface::class);
         $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
         $portalNodeKey2 = new PreviewPortalNodeKey(UninstantiablePortal::class());
 
-        $portalNodeGetAction->expects(static::once())->method('get')->willReturn([
-            new PortalNodeGetResult($portalNodeKey2, $portalNodeKey2->getPortalType()),
-        ]);
+        $portalNodeExistenceSeparator->method('separateKeys')
+            ->willReturn(new PortalNodeExistenceSeparationResult(
+                new PortalNodeKeyCollection(),
+                new PortalNodeKeyCollection([$portalNodeKey2]),
+                new PortalNodeKeyCollection([$portalNodeKey]),
+            ));
         $portalNodeDeleteAction->expects(static::never())->method('delete');
 
-        $action = new PortalNodeRemoveUi($this->createAuditTrailFactory(), $portalNodeGetAction, $portalNodeDeleteAction);
+        $action = new PortalNodeRemoveUi($this->createAuditTrailFactory(), $portalNodeExistenceSeparator, $portalNodeDeleteAction);
         $criteria = new PortalNodeRemoveCriteria(new PortalNodeKeyCollection([$portalNodeKey,
             $portalNodeKey,
         ]));
@@ -91,18 +104,23 @@ final class PortalNodeRemoveUiTest extends TestCase
 
     public function testPortalNodeFailedDeleting(): void
     {
-        $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
+        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparator::class);
         $portalNodeDeleteAction = $this->createMock(PortalNodeDeleteActionInterface::class);
         $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
         $portalNodeKey2 = new PreviewPortalNodeKey(UninstantiablePortal::class());
 
-        $portalNodeGetAction->expects(static::once())->method('get')->willReturn([
-            new PortalNodeGetResult($portalNodeKey, $portalNodeKey->getPortalType()),
-            new PortalNodeGetResult($portalNodeKey2, $portalNodeKey2->getPortalType()),
-        ]);
+        $portalNodeExistenceSeparator->method('separateKeys')
+            ->willReturn(new PortalNodeExistenceSeparationResult(
+                new PortalNodeKeyCollection(),
+                new PortalNodeKeyCollection([
+                    $portalNodeKey,
+                    $portalNodeKey2,
+                ]),
+                new PortalNodeKeyCollection(),
+            ));
         $portalNodeDeleteAction->expects(static::once())->method('delete')->willThrowException(new \LogicException('Woops'));
 
-        $action = new PortalNodeRemoveUi($this->createAuditTrailFactory(), $portalNodeGetAction, $portalNodeDeleteAction);
+        $action = new PortalNodeRemoveUi($this->createAuditTrailFactory(), $portalNodeExistenceSeparator, $portalNodeDeleteAction);
         $criteria = new PortalNodeRemoveCriteria(new PortalNodeKeyCollection([
             $portalNodeKey,
         ]));
@@ -114,15 +132,15 @@ final class PortalNodeRemoveUiTest extends TestCase
 
     public function testPortalNodeFailedReading(): void
     {
-        $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
+        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparator::class);
         $portalNodeDeleteAction = $this->createMock(PortalNodeDeleteActionInterface::class);
         $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
         $portalNodeKey2 = new PreviewPortalNodeKey(UninstantiablePortal::class());
 
-        $portalNodeGetAction->expects(static::once())->method('get')->willThrowException(new \LogicException('Woops'));
+        $portalNodeExistenceSeparator->expects(static::once())->method('separateKeys')->willThrowException(new \LogicException('Woops'));
         $portalNodeDeleteAction->expects(static::never())->method('delete');
 
-        $action = new PortalNodeRemoveUi($this->createAuditTrailFactory(), $portalNodeGetAction, $portalNodeDeleteAction);
+        $action = new PortalNodeRemoveUi($this->createAuditTrailFactory(), $portalNodeExistenceSeparator, $portalNodeDeleteAction);
         $criteria = new PortalNodeRemoveCriteria(new PortalNodeKeyCollection([
             $portalNodeKey,
             $portalNodeKey2,
