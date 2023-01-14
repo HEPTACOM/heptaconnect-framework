@@ -6,6 +6,8 @@ namespace Heptacom\HeptaConnect\Core\Test\Portal;
 
 use Heptacom\HeptaConnect\Core\Portal\PortalStorage;
 use Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory;
+use Heptacom\HeptaConnect\Core\Portal\Storage\PortalNodeStorageItemPacker;
+use Heptacom\HeptaConnect\Core\Portal\Storage\PortalNodeStorageItemUnpacker;
 use Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry;
 use Heptacom\HeptaConnect\Core\Storage\Normalizer\SerializableDenormalizer;
 use Heptacom\HeptaConnect\Core\Storage\Normalizer\SerializableNormalizer;
@@ -25,6 +27,8 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalStorage
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory
  * @covers \Heptacom\HeptaConnect\Core\Portal\PreviewPortalNodeStorage
+ * @covers \Heptacom\HeptaConnect\Core\Portal\Storage\PortalNodeStorageItemPacker
+ * @covers \Heptacom\HeptaConnect\Core\Portal\Storage\PortalNodeStorageItemUnpacker
  * @covers \Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry
  * @covers \Heptacom\HeptaConnect\Core\Storage\Normalizer\SerializableDenormalizer
  * @covers \Heptacom\HeptaConnect\Core\Storage\Normalizer\SerializableNormalizer
@@ -55,7 +59,8 @@ class PortalNodeStorageTest extends TestCase
         $listAction = $this->createMock(PortalNodeStorageListActionInterface::class);
 
         $factory = new PortalStorageFactory(
-            $normalizationRegistry,
+            new PortalNodeStorageItemPacker($normalizationRegistry, $logger),
+            new PortalNodeStorageItemUnpacker($normalizationRegistry, $logger),
             $clearAction,
             $deleteAction,
             $getAction,
@@ -107,7 +112,8 @@ class PortalNodeStorageTest extends TestCase
         $portalNodeKey = new PreviewPortalNodeKey(Portal::class());
 
         $storage = new PortalStorage(
-            $normalizationRegistry,
+            new PortalNodeStorageItemPacker($normalizationRegistry, $logger),
+            new PortalNodeStorageItemUnpacker($normalizationRegistry, $logger),
             $clearAction,
             $deleteAction,
             $getAction,
