@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Overview;
+namespace Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview;
 
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\IdentityDirectionKeyInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\IdentityRedirectKeyInterface;
 
-final class IdentityDirectionOverviewResult implements AttachmentAwareInterface
+final class IdentityRedirectOverviewResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private IdentityDirectionKeyInterface $identityDirectionKey;
+    private IdentityRedirectKeyInterface $identityRedirectKey;
 
     private PortalNodeKeyInterface $sourcePortalNodeKey;
 
@@ -36,7 +36,7 @@ final class IdentityDirectionOverviewResult implements AttachmentAwareInterface
      * @param class-string<DatasetEntityContract> $entityType
      */
     public function __construct(
-        IdentityDirectionKeyInterface $identityDirectionKey,
+        IdentityRedirectKeyInterface $identityRedirectKey,
         PortalNodeKeyInterface $sourcePortalNodeKey,
         string $sourceExternalId,
         PortalNodeKeyInterface $targetPortalNodeKey,
@@ -45,7 +45,7 @@ final class IdentityDirectionOverviewResult implements AttachmentAwareInterface
         \DateTimeInterface $createdAt
     ) {
         $this->attachments = new AttachmentCollection();
-        $this->identityDirectionKey = $identityDirectionKey;
+        $this->identityRedirectKey = $identityRedirectKey;
         $this->sourcePortalNodeKey = $sourcePortalNodeKey;
         $this->sourceExternalId = $sourceExternalId;
         $this->targetPortalNodeKey = $targetPortalNodeKey;
@@ -54,9 +54,9 @@ final class IdentityDirectionOverviewResult implements AttachmentAwareInterface
         $this->createdAt = $createdAt;
     }
 
-    public function getIdentityDirectionKey(): IdentityDirectionKeyInterface
+    public function getIdentityRedirectKey(): IdentityRedirectKeyInterface
     {
-        return $this->identityDirectionKey;
+        return $this->identityRedirectKey;
     }
 
     public function getSourcePortalNodeKey(): PortalNodeKeyInterface

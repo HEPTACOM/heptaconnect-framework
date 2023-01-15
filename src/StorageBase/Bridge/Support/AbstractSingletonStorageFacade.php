@@ -13,10 +13,10 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActio
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityReflectActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionCreateActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionDeleteActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityError\IdentityErrorCreateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectCreateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectDeleteActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface;
@@ -61,11 +61,11 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
 
     private ?FileReferencePersistRequestActionInterface $fileReferencePersistRequestAction = null;
 
-    private ?IdentityDirectionCreateActionInterface $identityDirectionCreateAction = null;
+    private ?IdentityRedirectCreateActionInterface $identityRedirectCreateAction = null;
 
-    private ?IdentityDirectionDeleteActionInterface $identityDirectionDeleteAction = null;
+    private ?IdentityRedirectDeleteActionInterface $identityRedirectDeleteAction = null;
 
-    private ?IdentityDirectionOverviewActionInterface $identityDirectionOverviewAction = null;
+    private ?IdentityRedirectOverviewActionInterface $identityRedirectOverviewAction = null;
 
     private ?IdentityErrorCreateActionInterface $identityErrorCreateAction = null;
 
@@ -171,36 +171,36 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
-    public function getIdentityDirectionCreateAction(): IdentityDirectionCreateActionInterface
+    public function getIdentityRedirectCreateAction(): IdentityRedirectCreateActionInterface
     {
         try {
-            return $this->identityDirectionCreateAction ??= $this->createIdentityDirectionCreateActionInterface();
+            return $this->identityRedirectCreateAction ??= $this->createIdentityRedirectCreateActionInterface();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             throw $throwable;
         } catch (\Throwable $throwable) {
-            throw new StorageFacadeServiceException(IdentityDirectionCreateActionInterface::class, $throwable);
+            throw new StorageFacadeServiceException(IdentityRedirectCreateActionInterface::class, $throwable);
         }
     }
 
-    public function getIdentityDirectionDeleteAction(): IdentityDirectionDeleteActionInterface
+    public function getIdentityRedirectDeleteAction(): IdentityRedirectDeleteActionInterface
     {
         try {
-            return $this->identityDirectionDeleteAction ??= $this->createIdentityDirectionDeleteActionInterface();
+            return $this->identityRedirectDeleteAction ??= $this->createIdentityRedirectDeleteActionInterface();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             throw $throwable;
         } catch (\Throwable $throwable) {
-            throw new StorageFacadeServiceException(IdentityDirectionDeleteActionInterface::class, $throwable);
+            throw new StorageFacadeServiceException(IdentityRedirectDeleteActionInterface::class, $throwable);
         }
     }
 
-    public function getIdentityDirectionOverviewAction(): IdentityDirectionOverviewActionInterface
+    public function getIdentityRedirectOverviewAction(): IdentityRedirectOverviewActionInterface
     {
         try {
-            return $this->identityDirectionOverviewAction ??= $this->createIdentityDirectionDeleteActionInterface();
+            return $this->identityRedirectOverviewAction ??= $this->createIdentityRedirectOverviewActionInterface();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             throw $throwable;
         } catch (\Throwable $throwable) {
-            throw new StorageFacadeServiceException(IdentityDirectionOverviewActionInterface::class, $throwable);
+            throw new StorageFacadeServiceException(IdentityRedirectOverviewActionInterface::class, $throwable);
         }
     }
 
@@ -655,17 +655,17 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     /**
      * @throws \Throwable
      */
-    abstract protected function createIdentityDirectionCreateActionInterface(): IdentityDirectionCreateActionInterface;
+    abstract protected function createIdentityRedirectCreateActionInterface(): IdentityRedirectCreateActionInterface;
 
     /**
      * @throws \Throwable
      */
-    abstract protected function createIdentityDirectionDeleteActionInterface(): IdentityDirectionDeleteActionInterface;
+    abstract protected function createIdentityRedirectDeleteActionInterface(): IdentityRedirectDeleteActionInterface;
 
     /**
      * @throws \Throwable
      */
-    abstract protected function createIdentityDirectionOverviewActionInterface(): IdentityDirectionOverviewActionInterface;
+    abstract protected function createIdentityRedirectOverviewActionInterface(): IdentityRedirectOverviewActionInterface;
 
     /**
      * @throws \Throwable

@@ -15,10 +15,10 @@ use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistCr
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPayloadCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Reflect\IdentityReflectPayload;
-use Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Create\IdentityDirectionCreatePayload;
-use Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Create\IdentityDirectionCreatePayloadCollection;
-use Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Create\IdentityDirectionCreateResult;
-use Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Delete\IdentityDirectionDeleteCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreatePayload;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreatePayloadCollection;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreateResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Delete\IdentityRedirectDeleteCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayloads;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Delete\PortalNodeDeleteCriteria;
@@ -27,10 +27,10 @@ use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityReflectActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionCreateActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionDeleteActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\IdentityDirectionKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\IdentityDirectionKeyCollection;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectCreateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectDeleteActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\IdentityRedirectKeyInterface;
+use Heptacom\HeptaConnect\Storage\Base\IdentityRedirectKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\PrimaryKeySharingMappingStruct;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Dataset\EntityA;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Dataset\EntityB;
@@ -57,9 +57,9 @@ abstract class IdentityMappingTestContract extends TestCase
 
     private ?IdentityPersistActionInterface $identityPersist = null;
 
-    private IdentityDirectionCreateActionInterface $identityDirectionCreate;
+    private IdentityRedirectCreateActionInterface $identityRedirectCreate;
 
-    private IdentityDirectionDeleteActionInterface $identityDirectionDelete;
+    private IdentityRedirectDeleteActionInterface $identityRedirectDelete;
 
     protected function setUp(): void
     {
@@ -71,8 +71,8 @@ abstract class IdentityMappingTestContract extends TestCase
         $this->identityMap = $facade->getIdentityMapAction();
         $this->identityReflect = $facade->getIdentityReflectAction();
         $this->identityPersist = $facade->getIdentityPersistAction();
-        $this->identityDirectionCreate = $facade->getIdentityDirectionCreateAction();
-        $this->identityDirectionDelete = $facade->getIdentityDirectionDeleteAction();
+        $this->identityRedirectCreate = $facade->getIdentityRedirectCreateAction();
+        $this->identityRedirectDelete = $facade->getIdentityRedirectDeleteAction();
 
         $createPayloads = new PortalNodeCreatePayloads([
             new PortalNodeCreatePayload(PortalA::class),
@@ -413,9 +413,9 @@ abstract class IdentityMappingTestContract extends TestCase
 
     /**
      * Test identification of entities and transformation of their primary keys through the identity storage of mapping and mappings nodes.
-     * The focus is on the usage of directional mappings where two source keys get translated to the same target key.
+     * The focus is on the usage of identity redirects where two source keys get translated to the same target key.
      */
-    public function testReflectTwoEntitiesOfSameTypeFromPortalNodeAToBWithDirectionalMappings(): void
+    public function testReflectTwoEntitiesOfSameTypeFromPortalNodeAToBWithIdentityRedirects(): void
     {
         $sourceId1 = 'f9d98198-5988-4a49-b573-d44a97c4c752';
         $sourceId2 = 'a8ea1a26-a53c-429b-af8c-5ed5ae6d8302';
@@ -437,23 +437,23 @@ abstract class IdentityMappingTestContract extends TestCase
 
         static::assertCount(2, $mappedEntities);
 
-        $identityDirCreateResult = $this->identityDirectionCreate
-            ->create(new IdentityDirectionCreatePayloadCollection([
-                new IdentityDirectionCreatePayload($this->getPortalNodeA(), $sourceId1, $this->getPortalNodeB(), $targetId, EntityA::class),
-                new IdentityDirectionCreatePayload($this->getPortalNodeA(), $sourceId2, $this->getPortalNodeB(), $targetId, EntityA::class),
+        $identityDirCreateResult = $this->identityRedirectCreate
+            ->create(new IdentityRedirectCreatePayloadCollection([
+                new IdentityRedirectCreatePayload($this->getPortalNodeA(), $sourceId1, $this->getPortalNodeB(), $targetId, EntityA::class),
+                new IdentityRedirectCreatePayload($this->getPortalNodeA(), $sourceId2, $this->getPortalNodeB(), $targetId, EntityA::class),
 
                 // this is some possible distraction, that shall not be picked
-                new IdentityDirectionCreatePayload($this->getPortalNodeA(), '984b818f-f067-4a01-9a00-0ec75516715e', $this->getPortalNodeB(), $targetId, EntityA::class),
-                new IdentityDirectionCreatePayload($this->getPortalNodeB(), 'fb9db174-7a0f-4851-9b51-83758512e095', $this->getPortalNodeB(), $targetId, EntityA::class),
-                new IdentityDirectionCreatePayload($this->getPortalNodeC(), 'fb9db174-7a0f-4851-9b51-83758512e095', $this->getPortalNodeB(), $targetId, EntityA::class),
-                new IdentityDirectionCreatePayload($this->getPortalNodeB(), $sourceId1, $this->getPortalNodeC(), $sourceId2, EntityA::class),
-                new IdentityDirectionCreatePayload($this->getPortalNodeC(), $sourceId1, $this->getPortalNodeC(), $sourceId2, EntityA::class),
-                new IdentityDirectionCreatePayload($this->getPortalNodeB(), $sourceId2, $this->getPortalNodeC(), $sourceId2, EntityA::class),
-                new IdentityDirectionCreatePayload($this->getPortalNodeC(), $sourceId2, $this->getPortalNodeC(), $sourceId2, EntityA::class),
-                new IdentityDirectionCreatePayload($this->getPortalNodeB(), $sourceId1, $this->getPortalNodeC(), 'invalid-value', EntityB::class),
-                new IdentityDirectionCreatePayload($this->getPortalNodeC(), $sourceId1, $this->getPortalNodeC(), 'invalid-value', EntityB::class),
-                new IdentityDirectionCreatePayload($this->getPortalNodeB(), $sourceId2, $this->getPortalNodeC(), 'invalid-value', EntityB::class),
-                new IdentityDirectionCreatePayload($this->getPortalNodeC(), $sourceId2, $this->getPortalNodeC(), 'invalid-value', EntityB::class),
+                new IdentityRedirectCreatePayload($this->getPortalNodeA(), '984b818f-f067-4a01-9a00-0ec75516715e', $this->getPortalNodeB(), $targetId, EntityA::class),
+                new IdentityRedirectCreatePayload($this->getPortalNodeB(), 'fb9db174-7a0f-4851-9b51-83758512e095', $this->getPortalNodeB(), $targetId, EntityA::class),
+                new IdentityRedirectCreatePayload($this->getPortalNodeC(), 'fb9db174-7a0f-4851-9b51-83758512e095', $this->getPortalNodeB(), $targetId, EntityA::class),
+                new IdentityRedirectCreatePayload($this->getPortalNodeB(), $sourceId1, $this->getPortalNodeC(), $sourceId2, EntityA::class),
+                new IdentityRedirectCreatePayload($this->getPortalNodeC(), $sourceId1, $this->getPortalNodeC(), $sourceId2, EntityA::class),
+                new IdentityRedirectCreatePayload($this->getPortalNodeB(), $sourceId2, $this->getPortalNodeC(), $sourceId2, EntityA::class),
+                new IdentityRedirectCreatePayload($this->getPortalNodeC(), $sourceId2, $this->getPortalNodeC(), $sourceId2, EntityA::class),
+                new IdentityRedirectCreatePayload($this->getPortalNodeB(), $sourceId1, $this->getPortalNodeC(), 'invalid-value', EntityB::class),
+                new IdentityRedirectCreatePayload($this->getPortalNodeC(), $sourceId1, $this->getPortalNodeC(), 'invalid-value', EntityB::class),
+                new IdentityRedirectCreatePayload($this->getPortalNodeB(), $sourceId2, $this->getPortalNodeC(), 'invalid-value', EntityB::class),
+                new IdentityRedirectCreatePayload($this->getPortalNodeC(), $sourceId2, $this->getPortalNodeC(), 'invalid-value', EntityB::class),
             ]));
 
         // this is what we test here
@@ -465,18 +465,18 @@ abstract class IdentityMappingTestContract extends TestCase
             static::assertSame($targetId, $identifiedEntity->getPrimaryKey());
         }
 
-        $this->identityDirectionDelete->delete(new IdentityDirectionDeleteCriteria(new IdentityDirectionKeyCollection(
+        $this->identityRedirectDelete->delete(new IdentityRedirectDeleteCriteria(new IdentityRedirectKeyCollection(
             $identityDirCreateResult->map(
-                static fn (IdentityDirectionCreateResult $createResult): IdentityDirectionKeyInterface => $createResult->getIdentityDirectionKey()
+                static fn (IdentityRedirectCreateResult $createResult): IdentityRedirectKeyInterface => $createResult->getIdentityRedirectKey()
             )
         )));
     }
 
     /**
      * Test identification of entities and transformation of their primary keys through the identity storage of mapping and mappings nodes.
-     * The focus is on the usage of directional mappings over portal assigned mappings.
+     * The focus is on the usage of identity redirects over portal assigned mappings.
      */
-    public function testReflectTwoEntitiesOfSameTypeFromPortalNodeAToBWithPortalAssignedAndDirectionalMappings(): void
+    public function testReflectTwoEntitiesOfSameTypeFromPortalNodeAToBWithPortalAssignedAndIdentityRedirects(): void
     {
         $sourceId1 = 'f48a7ebe-4352-43e8-962d-6e69e7161e49';
         $sourceId2 = '0069baf6-557f-40a2-82a3-7e09719f87d0';
@@ -532,10 +532,10 @@ abstract class IdentityMappingTestContract extends TestCase
 
         $this->persistIdentity($this->getPortalNodeB(), $identityPersistPayloadCollection);
 
-        $identityDirCreateResult = $this->identityDirectionCreate
-            ->create(new IdentityDirectionCreatePayloadCollection([
-                new IdentityDirectionCreatePayload($this->getPortalNodeA(), $sourceId1, $this->getPortalNodeB(), $targetId, EntityA::class),
-                new IdentityDirectionCreatePayload($this->getPortalNodeA(), $sourceId2, $this->getPortalNodeB(), $targetId, EntityA::class),
+        $identityDirCreateResult = $this->identityRedirectCreate
+            ->create(new IdentityRedirectCreatePayloadCollection([
+                new IdentityRedirectCreatePayload($this->getPortalNodeA(), $sourceId1, $this->getPortalNodeB(), $targetId, EntityA::class),
+                new IdentityRedirectCreatePayload($this->getPortalNodeA(), $sourceId2, $this->getPortalNodeB(), $targetId, EntityA::class),
             ]));
 
         // this is what we test here
@@ -547,9 +547,9 @@ abstract class IdentityMappingTestContract extends TestCase
             static::assertSame($targetId, $identifiedEntity->getPrimaryKey());
         }
 
-        $this->identityDirectionDelete->delete(new IdentityDirectionDeleteCriteria(new IdentityDirectionKeyCollection(
+        $this->identityRedirectDelete->delete(new IdentityRedirectDeleteCriteria(new IdentityRedirectKeyCollection(
             $identityDirCreateResult->map(
-                static fn (IdentityDirectionCreateResult $createResult): IdentityDirectionKeyInterface => $createResult->getIdentityDirectionKey()
+                static fn (IdentityRedirectCreateResult $createResult): IdentityRedirectKeyInterface => $createResult->getIdentityRedirectKey()
             )
         )));
     }

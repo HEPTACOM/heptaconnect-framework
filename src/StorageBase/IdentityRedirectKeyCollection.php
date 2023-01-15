@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Storage\Base;
 
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
-use Heptacom\HeptaConnect\Storage\Base\Contract\IdentityDirectionKeyInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\IdentityRedirectKeyInterface;
 
 /**
- * @extends AbstractCollection<IdentityDirectionKeyInterface>
+ * @extends AbstractCollection<IdentityRedirectKeyInterface>
  */
-class IdentityDirectionKeyCollection extends AbstractCollection
+class IdentityRedirectKeyCollection extends AbstractCollection
 {
     protected function isValidItem($item): bool
     {
         /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */
-        return $item instanceof IdentityDirectionKeyInterface;
+        return $item instanceof IdentityRedirectKeyInterface;
     }
 }

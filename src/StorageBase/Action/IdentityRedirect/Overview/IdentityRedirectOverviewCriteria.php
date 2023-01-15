@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Overview;
+namespace Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview;
 
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
@@ -10,9 +10,9 @@ use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Overview\OverviewCriteriaContract;
-use Heptacom\HeptaConnect\Storage\Base\IdentityDirectionKeyCollection;
+use Heptacom\HeptaConnect\Storage\Base\IdentityRedirectKeyCollection;
 
-final class IdentityDirectionOverviewCriteria extends OverviewCriteriaContract implements AttachmentAwareInterface
+final class IdentityRedirectOverviewCriteria extends OverviewCriteriaContract implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
@@ -45,7 +45,7 @@ final class IdentityDirectionOverviewCriteria extends OverviewCriteriaContract i
 
     protected ?StringCollection $targetExternalIdFilter = null;
 
-    protected ?IdentityDirectionKeyCollection $identityDirectionKeyFilter = null;
+    protected ?IdentityRedirectKeyCollection $identityRedirectKeyFilter = null;
 
     public function __construct()
     {
@@ -112,13 +112,13 @@ final class IdentityDirectionOverviewCriteria extends OverviewCriteriaContract i
         $this->targetExternalIdFilter = $targetExternalIdFilter;
     }
 
-    public function getIdentityDirectionKeyFilter(): ?IdentityDirectionKeyCollection
+    public function getIdentityRedirectKeyFilter(): ?IdentityRedirectKeyCollection
     {
-        return $this->identityDirectionKeyFilter;
+        return $this->identityRedirectKeyFilter;
     }
 
-    public function setIdentityDirectionKeyFilter(?IdentityDirectionKeyCollection $identityDirectionKeyFilter): void
+    public function setIdentityRedirectKeyFilter(?IdentityRedirectKeyCollection $identityRedirectKeyFilter): void
     {
-        $this->identityDirectionKeyFilter = $identityDirectionKeyFilter;
+        $this->identityRedirectKeyFilter = $identityRedirectKeyFilter;
     }
 }

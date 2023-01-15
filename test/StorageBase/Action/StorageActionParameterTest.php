@@ -24,17 +24,17 @@ use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Overview\IdentityOverview
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPayloadCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Reflect\IdentityReflectPayload;
-use Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Create\IdentityDirectionCreatePayload;
-use Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Create\IdentityDirectionCreatePayloadCollection;
-use Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Create\IdentityDirectionCreateResult;
-use Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Create\IdentityDirectionCreateResultCollection;
-use Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Delete\IdentityDirectionDeleteCriteria;
-use Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Overview\IdentityDirectionOverviewCriteria;
-use Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Overview\IdentityDirectionOverviewResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreatePayloads;
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResults;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreatePayload;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreatePayloadCollection;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreateResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreateResultCollection;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Delete\IdentityRedirectDeleteCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview\IdentityRedirectOverviewCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview\IdentityRedirectOverviewResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Delete\JobDeleteCriteria;
@@ -105,11 +105,11 @@ use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\W
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayloads;
 use Heptacom\HeptaConnect\Storage\Base\Contract\FileReferenceRequestKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\IdentityDirectionKeyInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\IdentityRedirectKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\JobKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\FileReferenceRequestKeyCollection;
-use Heptacom\HeptaConnect\Storage\Base\IdentityDirectionKeyCollection;
+use Heptacom\HeptaConnect\Storage\Base\IdentityRedirectKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\FirstEntity;
@@ -126,13 +126,13 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestPersist\FileReferencePersistRequestPayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestPersist\FileReferencePersistRequestResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Create\IdentityDirectionCreatePayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Create\IdentityDirectionCreatePayloadCollection
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Create\IdentityDirectionCreateResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Create\IdentityDirectionCreateResultCollection
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Delete\IdentityDirectionDeleteCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Overview\IdentityDirectionOverviewCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Overview\IdentityDirectionOverviewResult
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreatePayload
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreatePayloadCollection
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreateResult
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreateResultCollection
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Delete\IdentityRedirectDeleteCriteria
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview\IdentityRedirectOverviewCriteria
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview\IdentityRedirectOverviewResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Map\IdentityMapPayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Map\IdentityMapResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Overview\IdentityOverviewCriteria
@@ -235,7 +235,7 @@ class StorageActionParameterTest extends TestCase
         $portalNodeKey = $this->createMock(PortalNodeKeyInterface::class);
         $mappingNodeKey = $this->createMock(MappingNodeKeyInterface::class);
         $fileReferenceRequestKey = $this->createMock(FileReferenceRequestKeyInterface::class);
-        $identityDirectionKey = $this->createMock(IdentityDirectionKeyInterface::class);
+        $identityRedirectKey = $this->createMock(IdentityRedirectKeyInterface::class);
         $jobKey = $this->createMock(JobKeyInterface::class);
         $routeKey = $this->createMock(RouteKeyInterface::class);
         $identityErrorKey = $this->createMock(IdentityErrorKeyInterface::class);
@@ -254,15 +254,15 @@ class StorageActionParameterTest extends TestCase
         yield new FileReferencePersistRequestResult($portalNodeKey);
         yield new FileReferenceGetRequestCriteria($portalNodeKey, new FileReferenceRequestKeyCollection());
         yield new FileReferenceGetRequestResult($portalNodeKey, $fileReferenceRequestKey, '');
-        yield new IdentityDirectionCreatePayload($portalNodeKey, '', $portalNodeKey, '', $entityType);
-        yield new IdentityDirectionCreatePayloadCollection();
-        yield new IdentityDirectionCreateResult($identityDirectionKey);
-        yield new IdentityDirectionCreateResultCollection();
-        yield new IdentityDirectionDeleteCriteria(new IdentityDirectionKeyCollection([
-            $identityDirectionKey,
+        yield new IdentityRedirectCreatePayload($portalNodeKey, '', $portalNodeKey, '', $entityType);
+        yield new IdentityRedirectCreatePayloadCollection();
+        yield new IdentityRedirectCreateResult($identityRedirectKey);
+        yield new IdentityRedirectCreateResultCollection();
+        yield new IdentityRedirectDeleteCriteria(new IdentityRedirectKeyCollection([
+            $identityRedirectKey,
         ]));
-        yield new IdentityDirectionOverviewCriteria();
-        yield new IdentityDirectionOverviewResult($identityDirectionKey, $portalNodeKey, '', $portalNodeKey, '', $entityType, $createdAt);
+        yield new IdentityRedirectOverviewCriteria();
+        yield new IdentityRedirectOverviewResult($identityRedirectKey, $portalNodeKey, '', $portalNodeKey, '', $entityType, $createdAt);
         yield new IdentityMapPayload($portalNodeKey, $entityCollection);
         yield new IdentityMapResult($mappedDatasetEntityCollection);
         yield new IdentityOverviewCriteria();

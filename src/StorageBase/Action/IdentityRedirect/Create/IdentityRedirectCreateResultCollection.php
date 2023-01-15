@@ -2,17 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Create;
+namespace Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create;
 
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreateResult;
 
 /**
- * @extends AbstractObjectCollection<IdentityDirectionCreatePayload>
+ * @extends AbstractObjectCollection<IdentityRedirectCreateResult>
  */
-final class IdentityDirectionCreatePayloadCollection extends AbstractObjectCollection implements AttachmentAwareInterface
+final class IdentityRedirectCreateResultCollection extends AbstractObjectCollection implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
@@ -22,8 +23,11 @@ final class IdentityDirectionCreatePayloadCollection extends AbstractObjectColle
         $this->attachments = new AttachmentCollection();
     }
 
+    /**
+     * @psalm-return IdentityRedirectCreateResult::class
+     */
     protected function getT(): string
     {
-        return IdentityDirectionCreatePayload::class;
+        return IdentityRedirectCreateResult::class;
     }
 }

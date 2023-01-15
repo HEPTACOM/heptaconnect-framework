@@ -7,8 +7,8 @@ namespace Heptacom\HeptaConnect\Storage\Base\Contract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 
 /**
- * Identifies a directional identity.
+ * Identifies an identity redirect.
  */
-interface IdentityDirectionKeyInterface extends StorageKeyInterface
+interface IdentityRedirectKeyInterface extends StorageKeyInterface
 {
 }
