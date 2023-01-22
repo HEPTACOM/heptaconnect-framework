@@ -43,13 +43,17 @@ abstract class AbstractCollection implements CollectionInterface
 
     public function push(iterable $items): void
     {
-        $items = \iterable_to_array($this->filterValid($items));
+        $newItems = [];
 
-        if (\count($items) === 0) {
+        foreach ($this->filterValid($items) as $item) {
+            $newItems[] = $item;
+        }
+
+        if (\count($newItems) === 0) {
             return;
         }
 
-        \array_push($this->items, ...$items);
+        \array_push($this->items, ...$newItems);
     }
 
     public function pop()
