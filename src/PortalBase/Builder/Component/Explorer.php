@@ -13,7 +13,6 @@ use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
-use Opis\Closure\SerializableClosure;
 use Psr\Container\ContainerInterface;
 
 final class Explorer extends ExplorerContract
@@ -23,28 +22,25 @@ final class Explorer extends ExplorerContract
 
     private EntityType $entityType;
 
-    private ?SerializableClosure $runMethod;
+    private ?\Closure $runMethod;
 
-    private ?SerializableClosure $isAllowedMethod;
+    private ?\Closure $isAllowedMethod;
 
     public function __construct(ExplorerToken $token)
     {
-        $run = $token->getRun();
-        $isAllowed = $token->getIsAllowed();
-
         $this->entityType = $token->getEntityType();
-        $this->runMethod = $run instanceof \Closure ? new SerializableClosure($run) : null;
-        $this->isAllowedMethod = $isAllowed instanceof \Closure ? new SerializableClosure($isAllowed) : null;
+        $this->runMethod = $token->getRun();
+        $this->isAllowedMethod = $token->getIsAllowed();
     }
 
     public function getRunMethod(): ?\Closure
     {
-        return $this->runMethod instanceof SerializableClosure ? $this->runMethod->getClosure() : null;
+        return $this->runMethod;
     }
 
     public function getIsAllowedMethod(): ?\Closure
     {
-        return $this->isAllowedMethod instanceof SerializableClosure ? $this->isAllowedMethod->getClosure() : null;
+        return $this->isAllowedMethod;
     }
 
     protected function supports(): string
@@ -54,8 +50,10 @@ final class Explorer extends ExplorerContract
 
     protected function run(ExploreContextInterface $context): iterable
     {
-        if ($this->runMethod instanceof SerializableClosure) {
-            $run = $this->bindThis($this->runMethod->getClosure());
+        $run = $this->runMethod;
+
+        if ($run instanceof \Closure) {
+            $run = $this->bindThis($run);
             $arguments = $this->resolveArguments($run, $context, fn (
                 int $_propertyIndex,
                 string $propertyName,
@@ -80,8 +78,10 @@ final class Explorer extends ExplorerContract
         ?DatasetEntityContract $entity,
         ExploreContextInterface $context
     ): bool {
-        if ($this->isAllowedMethod instanceof SerializableClosure) {
-            $isAllowed = $this->bindThis($this->isAllowedMethod->getClosure());
+        $isAllowedMethod = $this->isAllowedMethod;
+
+        if ($isAllowedMethod instanceof \Closure) {
+            $isAllowed = $this->bindThis($isAllowedMethod);
             $arguments = $this->resolveArguments($isAllowed, $context, function (
                 int $_propertyIndex,
                 string $propertyName,

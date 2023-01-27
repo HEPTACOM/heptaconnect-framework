@@ -23,8 +23,7 @@
     "require": {
         "php": ">=8.0",
         "ext-json": "*",
-        "bentools/iterable-functions": ">=1.4 <2",
-        "opis/closure": "^3.6"
+        "bentools/iterable-functions": ">=1.4 <2"
     },
     "repositories": {
         "heptaconnect-sources": {

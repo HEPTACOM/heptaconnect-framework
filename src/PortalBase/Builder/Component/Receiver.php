@@ -13,7 +13,6 @@ use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiveContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
-use Opis\Closure\SerializableClosure;
 use Psr\Container\ContainerInterface;
 
 final class Receiver extends ReceiverContract
@@ -23,28 +22,25 @@ final class Receiver extends ReceiverContract
 
     private EntityType $entityType;
 
-    private ?SerializableClosure $batchMethod;
+    private ?\Closure $batchMethod;
 
-    private ?SerializableClosure $runMethod;
+    private ?\Closure $runMethod;
 
     public function __construct(ReceiverToken $token)
     {
-        $batch = $token->getBatch();
-        $run = $token->getRun();
-
         $this->entityType = $token->getEntityType();
-        $this->batchMethod = $batch instanceof \Closure ? new SerializableClosure($batch) : null;
-        $this->runMethod = $run instanceof \Closure ? new SerializableClosure($run) : null;
+        $this->batchMethod = $token->getBatch();
+        $this->runMethod = $token->getRun();
     }
 
     public function getRunMethod(): ?\Closure
     {
-        return $this->runMethod instanceof SerializableClosure ? $this->runMethod->getClosure() : null;
+        return $this->runMethod;
     }
 
     public function getBatchMethod(): ?\Closure
     {
-        return $this->batchMethod instanceof SerializableClosure ? $this->batchMethod->getClosure() : null;
+        return $this->batchMethod;
     }
 
     protected function supports(): string
@@ -56,8 +52,10 @@ final class Receiver extends ReceiverContract
         TypedDatasetEntityCollection $entities,
         ReceiveContextInterface $context
     ): void {
-        if ($this->batchMethod instanceof SerializableClosure) {
-            $batch = $this->bindThis($this->batchMethod->getClosure());
+        $batch = $this->batchMethod;
+
+        if ($batch instanceof \Closure) {
+            $batch = $this->bindThis($batch);
             $arguments = $this->resolveArguments($batch, $context, function (
                 int $_propertyIndex,
                 string $propertyName,
@@ -83,8 +81,10 @@ final class Receiver extends ReceiverContract
         DatasetEntityContract $entity,
         ReceiveContextInterface $context
     ): void {
-        if ($this->runMethod instanceof SerializableClosure) {
-            $run = $this->bindThis($this->runMethod->getClosure());
+        $run = $this->runMethod;
+
+        if ($run instanceof \Closure) {
+            $run = $this->bindThis($run);
             $arguments = $this->resolveArguments($run, $context, function (
                 int $_propertyIndex,
                 string $propertyName,
