@@ -13,7 +13,8 @@ class AdditionalPackage extends PackageContract
     public function buildContainer(ContainerBuilder $containerBuilder): void
     {
         $this->setSyntheticServices($containerBuilder, [
-            'manual-service-by-additional-package' => new class () {},
+            'manual-service-by-additional-package' => new class() {
+            },
         ]);
     }
 

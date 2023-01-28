@@ -24,7 +24,8 @@ class Portal extends PortalContract
         parent::buildContainer($containerBuilder);
 
         $this->setSyntheticServices($containerBuilder, [
-            'manual-service-by-portal' => new class () {},
+            'manual-service-by-portal' => new class() {
+            },
         ]);
     }
 
