@@ -51,6 +51,10 @@ abstract class PackageContract
     }
 
     /**
+     * This method is executed during the building of a portal container.
+     * It can be extended to influence the build steps on a fine grain level.
+     * If applicable, use @see ContainerBuilder::addCompilerPass() to apply changes after all build steps are completed.
+     *
      * @throws DelegatingLoaderLoadException
      */
     public function buildContainer(ContainerBuilder $containerBuilder): void
@@ -59,6 +63,11 @@ abstract class PackageContract
     }
 
     /**
+     * Returns instances of packages that will be loaded additionally after this package.
+     * Those packages can contain extra features that are shared across portals or portal extensions.
+     * Packages are deduplicated in the build process, so only the first instance of each package class is used.
+     * The instances returned here SHOULD NOT contain any stateful information.
+     *
      * @return iterable<PackageContract>
      */
     public function getAdditionalPackages(): iterable
@@ -67,6 +76,9 @@ abstract class PackageContract
     }
 
     /**
+     * Scans the path returned in @see getContainerConfigurationPath for files that match `services.{yml,yaml,xml,php}`
+     * The found files are loaded as service definitions for the @see ContainerBuilder
+     *
      * @throws DelegatingLoaderLoadException
      */
     final protected function registerContainerFile(ContainerBuilder $containerBuilder): void
