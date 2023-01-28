@@ -96,7 +96,11 @@ abstract class PackageContract
             try {
                 $delegatingLoader->load($serviceDefinitionPath);
             } catch (\Throwable $throwable) {
-                throw new DelegatingLoaderLoadException($serviceDefinitionPath, $throwable);
+                throw new DelegatingLoaderLoadException(
+                    $serviceDefinitionPath,
+                    1674923696,
+                    $throwable
+                );
             }
         }
     }
