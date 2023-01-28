@@ -86,6 +86,7 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
 
         $this->classLoader = new ClassLoader();
         $this->classLoader->addPsr4('HeptacomFixture\\Portal\\A\\', __DIR__ . '/../../../test-composer-integration/portal-package/src/');
+        $this->classLoader->addPsr4('HeptacomFixture\\Portal\\AdditionalPackage\\', __DIR__ . '/../../../test-composer-integration/portal-package/src-additional/');
         $this->classLoader->addPsr4('HeptacomFixture\\Portal\\Extension\\', __DIR__ . '/../../../test-composer-integration/portal-package-extension/src/');
         $this->classLoader->register();
     }
@@ -128,6 +129,9 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
 
         static::assertTrue($container->has(ExceptionInContainer::class));
         static::assertFalse($container->has(ExceptionNotInContainer::class));
+
+        static::assertTrue($container->has('manual-service-by-portal'));
+        static::assertTrue($container->has('manual-service-by-additional-package'));
 
         static::assertTrue($container->has(InboundHttpMiddleware::class));
         static::assertTrue($container->has(OutboundHttpMiddleware::class));
