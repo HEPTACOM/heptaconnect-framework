@@ -54,6 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Move `\Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack` out of this package into the `heptaconnect/core` as `\Heptacom\HeptaConnect\Core\Reception\ReceiverStack`
 - Remove `\Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection::groupByPortalNode` as usage of `\spl_object_hash` is discouraged and grouping can be solved in storage implementations more efficiently
 - Move deprecated `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PathMethodsTrait` contents into `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract`
+- Remove composer dependency `opis/closure` as it is no longer needed with the removal of closure deferrals as it has not been a practical solution to defer closure execution in a different process
 
 ### Fixed
 

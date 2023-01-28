@@ -36,7 +36,6 @@ parameters:
 		-
 			message: '#must have a documentation#'
 			paths:
-				- ../src/DatasetBase/Contract/DeferralAwareInterface.php
 				- ../src/DatasetBase/Contract/DependencyInterface.php
 		-
 			message: '#Call to deprecated .* of class Heptacom#'

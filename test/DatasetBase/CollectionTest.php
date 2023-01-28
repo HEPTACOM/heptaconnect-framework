@@ -140,7 +140,6 @@ final class CollectionTest extends TestCase
                 'attachments' => null,
                 'dependencies' => null,
                 'primaryKey' => null,
-                'deferrals' => [],
             ],
             [
                 'publicString' => 'public',
@@ -151,7 +150,6 @@ final class CollectionTest extends TestCase
                 'attachments' => null,
                 'dependencies' => null,
                 'primaryKey' => null,
-                'deferrals' => [],
             ],
             [
                 'publicString' => 'public',
@@ -162,7 +160,6 @@ final class CollectionTest extends TestCase
                 'attachments' => null,
                 'dependencies' => null,
                 'primaryKey' => null,
-                'deferrals' => [],
             ],
         ], $coded);
 

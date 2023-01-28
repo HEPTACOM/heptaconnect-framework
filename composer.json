@@ -31,7 +31,6 @@
         "composer/composer": "^2.2.6",
         "league/flysystem": "^1.1",
         "myclabs/deep-copy": ">=1.10 <2",
-        "opis/closure": "^3.6",
         "php-http/discovery": "^1.11",
         "phpunit/phpunit": ">=9.3 <10",
         "psr/cache": "^1.0",

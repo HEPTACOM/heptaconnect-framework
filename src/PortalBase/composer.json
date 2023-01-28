@@ -27,7 +27,6 @@
         "bentools/iterable-functions": ">=1.4 <2",
         "heptacom/heptaconnect-dataset-base": "self.version",
         "myclabs/deep-copy": ">=1.10 <2",
-        "opis/closure": "^3.6",
         "php-http/discovery": "^1.0",
         "psr/container": "^1.0",
         "psr/event-dispatcher": "^1.0",
