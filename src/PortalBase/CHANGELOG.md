@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract::registerContainerFile` allowing packages to automatically register their service definition files (e. g. `Resources/config/services.xml`)
 - Add `\Heptacom\HeptaConnect\Portal\Base\Portal\Exception\DelegatingLoaderLoadException` for when a service definition file cannot be loaded
 - Add exception code `1674923696` for when a service definition file cannot be loaded
+- Add service of `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageCurlShellFormatterContract` implementing `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageFormatterContract` to format HTTP messages described in PSR-7 into cURL shell commands
+- Add service of `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageRawHttpFormatterContract` implementing `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageFormatterContract` to format HTTP messages described in PSR-7 into raw HTTP traffic, that can be used with TCP networking tools
 
 ### Changed
 
