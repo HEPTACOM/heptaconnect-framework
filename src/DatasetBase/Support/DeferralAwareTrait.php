@@ -7,6 +7,9 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Support;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DeferralAwareInterface;
 use Opis\Closure\SerializableClosure;
 
+/**
+ * @deprecated and will be removed in 0.10 as it has not been a practical solution to defer closure execution in a different process
+ */
 trait DeferralAwareTrait
 {
     /**
