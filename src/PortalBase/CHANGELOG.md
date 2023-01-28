@@ -9,11 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add composer dependency `symfony/config: ^4.4 || ^5.0` and `symfony/dependency-injection: ^4.4 || ^5.0`
+- Add `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract` as base class for additional packages, other than portals and portal extensions
+- Add `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract::buildContainer` allowing packages to influence the build-process of the portal-container
+- Add `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract::getAdditionalPackages` allowing packages to provide additional packages. These packages may also influence the build-process of the portal-container.
+- Add `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract::registerContainerFile` allowing packages to automatically register their service definition files (e. g. `Resources/config/services.xml`)
+- Add `\Heptacom\HeptaConnect\Portal\Base\Portal\Exception\DelegatingLoaderLoadException` with code `1674923696` for when a service definition file cannot be loaded
+
 ### Changed
 
 ### Deprecated
 
 - Deprecate and discourage usage of `\Heptacom\HeptaConnect\Dataset\Base\Contract\DeferralAwareInterface` as it has not been a practical solution to defer closure execution in a different process
+- Deprecate `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract::__construct` as this method will become final in version 0.10
 
 ### Removed
 
