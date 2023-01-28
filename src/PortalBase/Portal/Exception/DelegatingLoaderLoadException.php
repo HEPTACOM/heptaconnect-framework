@@ -14,7 +14,7 @@ final class DelegatingLoaderLoadException extends \Exception
 
         parent::__construct(
             \sprintf('Exception when loading container service file from path %s', $path),
-            0,
+            1674923696,
             $previous
         );
     }
