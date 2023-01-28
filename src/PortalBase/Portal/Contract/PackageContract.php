@@ -56,6 +56,14 @@ abstract class PackageContract
     }
 
     /**
+     * @return iterable<PackageContract>
+     */
+    public function getAdditionalPackages(): iterable
+    {
+        return [];
+    }
+
+    /**
      * @throws DelegatingLoaderLoadException
      */
     final protected function registerContainerFile(ContainerBuilder $containerBuilder): void
