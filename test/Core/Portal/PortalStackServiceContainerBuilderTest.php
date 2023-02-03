@@ -34,6 +34,7 @@ use Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContrac
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientMiddlewareInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageCurlShellFormatterContract;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageFormatterContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageRawHttpFormatterContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerUrlProviderInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -139,8 +140,11 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
         static::assertTrue($container->has(OutboundHttpMiddleware::class));
         static::assertTrue($container->has(HttpMiddlewareCollector::class));
 
+        static::assertTrue($container->has(Psr7MessageFormatterContract::class));
         static::assertTrue($container->has(Psr7MessageCurlShellFormatterContract::class));
         static::assertTrue($container->has(Psr7MessageRawHttpFormatterContract::class));
+
+        static::assertInstanceOf(Psr7MessageRawHttpFormatterContract::class, $container->get(Psr7MessageFormatterContract::class));
         /** @var HttpMiddlewareCollector $middlewareCollector */
         $middlewareCollector = $container->get(HttpMiddlewareCollector::class);
         static::assertCount(1, $middlewareCollector);
