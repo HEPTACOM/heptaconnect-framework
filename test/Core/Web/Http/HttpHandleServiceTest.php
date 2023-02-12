@@ -4,28 +4,25 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Web\Http;
 
-use Heptacom\HeptaConnect\Core\Bridge\File\HttpHandlerDumpDirectoryPathProviderInterface;
 use Heptacom\HeptaConnect\Core\Component\LogMessage;
 use Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleContextFactoryInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackBuilderFactoryInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackBuilderInterface;
-use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleServiceInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlingActorInterface;
+use Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\RequestResponsePairDumperInterface;
+use Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\ServerRequestDumpCheckerInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Handler\HttpMiddlewareChainHandler;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpHandleContext;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpHandleService;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpHandlingActor;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageFormatterContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\MessageInterface;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -45,31 +42,12 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult
  */
 final class HttpHandleServiceTest extends TestCase
 {
-    private const LOG_DIR = __DIR__ . '/../../Fixture/_files/http_handle_log_dir';
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        foreach ($this->getLoggedFiles() as $file) {
-            \unlink(static::LOG_DIR . '/' . $file);
-        }
-    }
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-
-        foreach ($this->getLoggedFiles() as $file) {
-            \unlink(static::LOG_DIR . '/' . $file);
-        }
-    }
-
     public function testActingFails(): void
     {
         $logger = $this->createMock(LoggerInterface::class);
@@ -104,12 +82,11 @@ final class HttpHandleServiceTest extends TestCase
         $findAction = $this->createMock(WebHttpHandlerConfigurationFindActionInterface::class);
         $findAction->method('find')->willReturn(new WebHttpHandlerConfigurationFindResult([]));
 
-        $psr7MessageFormatter = $this->createMock(Psr7MessageFormatterContract::class);
-        $psr7MessageFormatter->expects(static::never())->method('formatMessage');
-        $psr7MessageFormatter->expects(static::never())->method('getFileExtension');
+        $dumpChecker = $this->createMock(ServerRequestDumpCheckerInterface::class);
+        $dumpChecker->method('shallDump')->willReturn(false);
 
-        $httpHandlerLogDirectoryPathProvider = $this->createMock(HttpHandlerDumpDirectoryPathProviderInterface::class);
-        $httpHandlerLogDirectoryPathProvider->expects(static::never())->method('provide');
+        $dumper = $this->createMock(RequestResponsePairDumperInterface::class);
+        $dumper->expects(static::never())->method('dump');
 
         $service = new HttpHandleService(
             $this->createMock(HttpHandlingActorInterface::class),
@@ -119,8 +96,8 @@ final class HttpHandleServiceTest extends TestCase
             $this->createMock(StorageKeyGeneratorContract::class),
             $responseFactory,
             $findAction,
-            $psr7MessageFormatter,
-            $httpHandlerLogDirectoryPathProvider,
+            $dumpChecker,
+            $dumper,
         );
         $service->handle($request, $portalNodeKey);
     }
@@ -192,12 +169,11 @@ final class HttpHandleServiceTest extends TestCase
         $contextFactory = $this->createMock(HttpHandleContextFactoryInterface::class);
         $contextFactory->expects(static::once())->method('createContext')->willReturn($context);
 
-        $psr7MessageFormatter = $this->createMock(Psr7MessageFormatterContract::class);
-        $psr7MessageFormatter->expects(static::never())->method('formatMessage');
-        $psr7MessageFormatter->expects(static::never())->method('getFileExtension');
+        $dumpChecker = $this->createMock(ServerRequestDumpCheckerInterface::class);
+        $dumpChecker->method('shallDump')->willReturn(false);
 
-        $httpHandlerLogDirectoryPathProvider = $this->createMock(HttpHandlerDumpDirectoryPathProviderInterface::class);
-        $httpHandlerLogDirectoryPathProvider->expects(static::never())->method('provide');
+        $dumper = $this->createMock(RequestResponsePairDumperInterface::class);
+        $dumper->expects(static::never())->method('dump');
 
         $service = new HttpHandleService(
             $actor,
@@ -207,8 +183,8 @@ final class HttpHandleServiceTest extends TestCase
             $storageKeyGenerator,
             $responseFactory,
             $findAction,
-            $psr7MessageFormatter,
-            $httpHandlerLogDirectoryPathProvider,
+            $dumpChecker,
+            $dumper,
         );
 
         $actualResponse = $service->handle($request, $portalNodeKey);
@@ -216,7 +192,7 @@ final class HttpHandleServiceTest extends TestCase
         static::assertSame($response, $actualResponse);
     }
 
-    public function testBridgeRequestAttributeTriggersLoggingOfRequestAndResponse(): void
+    public function testDumpingOfRequestAndResponse(): void
     {
         $uri = $this->createMock(UriInterface::class);
         $uri->method('getPath')->willReturn('foobar');
@@ -227,18 +203,7 @@ final class HttpHandleServiceTest extends TestCase
             ->method('withAttribute')
             ->with('Foo', 'Bar')
             ->willReturnSelf();
-        $request->method('getAttribute')
-            ->willReturnCallback(static function (string $name, $default = null) use ($request) {
-                if ($name === HttpHandleServiceInterface::REQUEST_ATTRIBUTE_ORIGINAL_REQUEST) {
-                    return $request;
-                }
 
-                if ($name === HttpHandleServiceInterface::REQUEST_ATTRIBUTE_DUMPS_EXPECTED) {
-                    return true;
-                }
-
-                return $default;
-            });
         $request->method('getAttributes')->willReturn([]);
         $request->method('withoutAttribute')->willReturnSelf();
 
@@ -297,36 +262,11 @@ final class HttpHandleServiceTest extends TestCase
         $contextFactory = $this->createMock(HttpHandleContextFactoryInterface::class);
         $contextFactory->expects(static::once())->method('createContext')->willReturn($context);
 
-        $psr7MessageFormatter = $this->createMock(Psr7MessageFormatterContract::class);
-        $psr7MessageFormatter->expects(static::exactly(2))->method('formatMessage')->willReturnCallback(
-            static function (MessageInterface $message): string {
-                if ($message instanceof RequestInterface) {
-                    return (string) $message->getUri();
-                }
+        $dumpChecker = $this->createMock(ServerRequestDumpCheckerInterface::class);
+        $dumpChecker->method('shallDump')->willReturn(true);
 
-                if ($message instanceof ResponseInterface) {
-                    return $message->getStatusCode() . ' ' . $message->getReasonPhrase();
-                }
-
-                return '';
-            }
-        );
-        $psr7MessageFormatter->expects(static::exactly(2))->method('getFileExtension')->willReturnCallback(
-            static function (MessageInterface $message): string {
-                if ($message instanceof RequestInterface) {
-                    return 'request.txt';
-                }
-
-                if ($message instanceof ResponseInterface) {
-                    return 'response.txt';
-                }
-
-                return '';
-            }
-        );
-
-        $httpHandlerLogDirectoryPathProvider = $this->createMock(HttpHandlerDumpDirectoryPathProviderInterface::class);
-        $httpHandlerLogDirectoryPathProvider->expects(static::once())->method('provide')->willReturn(static::LOG_DIR . '/');
+        $dumper = $this->createMock(RequestResponsePairDumperInterface::class);
+        $dumper->expects(static::once())->method('dump');
 
         $service = new HttpHandleService(
             $actor,
@@ -336,22 +276,10 @@ final class HttpHandleServiceTest extends TestCase
             $storageKeyGenerator,
             $responseFactory,
             $findAction,
-            $psr7MessageFormatter,
-            $httpHandlerLogDirectoryPathProvider,
+            $dumpChecker,
+            $dumper,
         );
 
-        $actualResponse = $service->handle($request, $portalNodeKey);
-
-        static::assertSame($response, $actualResponse);
-        static::assertCount(2, $this->getLoggedFiles());
-    }
-
-    private function getLoggedFiles(): array
-    {
-        $files = \scandir(static::LOG_DIR);
-
-        static::assertNotFalse($files);
-
-        return \array_values(\array_filter($files, static fn (string $path): bool => !\str_starts_with($path, '.')));
+        $service->handle($request, $portalNodeKey);
     }
 }
