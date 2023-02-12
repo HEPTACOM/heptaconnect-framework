@@ -84,8 +84,7 @@ final class RequestResponsePairDumperTest extends TestCase
                 ->withAttribute(
                     HttpHandleServiceInterface::REQUEST_ATTRIBUTE_ORIGINAL_REQUEST,
                     $requestFactory->createServerRequest('GET', 'http://foo-bar.test/complex-path')
-                )
-            ,
+                ),
             $responseFactory->createResponse(404)
         );
 
