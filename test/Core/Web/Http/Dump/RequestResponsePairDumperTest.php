@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Web\Http\Dump;
 
-use Heptacom\HeptaConnect\Core\Bridge\File\HttpHandlerDumpDirectoryPathProviderInterface;
+use Heptacom\HeptaConnect\Core\Bridge\File\HttpHandlerDumpPathProviderInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleServiceInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Dump\RequestResponsePairDumper;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -166,9 +166,9 @@ final class RequestResponsePairDumperTest extends TestCase
         return $formatter;
     }
 
-    private function createPathProvider(): HttpHandlerDumpDirectoryPathProviderInterface
+    private function createPathProvider(): HttpHandlerDumpPathProviderInterface
     {
-        $pathProvider = $this->createMock(HttpHandlerDumpDirectoryPathProviderInterface::class);
+        $pathProvider = $this->createMock(HttpHandlerDumpPathProviderInterface::class);
         $pathProvider->expects(static::once())->method('provide')->willReturn(static::DUMP_DIR . '/');
 
         return $pathProvider;
