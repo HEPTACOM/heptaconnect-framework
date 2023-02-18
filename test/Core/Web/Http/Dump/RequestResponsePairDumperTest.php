@@ -145,7 +145,7 @@ final class RequestResponsePairDumperTest extends TestCase
                     return $message->getStatusCode() . ' ' . $message->getReasonPhrase();
                 }
 
-                return '';
+                static::fail('Invalid argument');
             }
         );
         $formatter->expects(static::exactly(2))->method('getFileExtension')->willReturnCallback(
@@ -158,7 +158,7 @@ final class RequestResponsePairDumperTest extends TestCase
                     return 'response.txt';
                 }
 
-                return '';
+                static::fail('Invalid argument');
             }
         );
 
