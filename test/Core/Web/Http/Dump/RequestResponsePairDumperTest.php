@@ -127,7 +127,11 @@ final class RequestResponsePairDumperTest extends TestCase
 
         static::assertNotFalse($files);
 
-        return \array_values(\array_filter($files, static fn (string $path): bool => !\str_starts_with($path, '.')));
+        return \array_values(\array_diff($files, [
+            '.',
+            '..',
+            '.gitignore',
+        ]));
     }
 
     private function createMessageFormatter(): Psr7MessageFormatterContract
