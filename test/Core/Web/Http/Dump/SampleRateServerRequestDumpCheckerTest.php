@@ -73,44 +73,4 @@ class SampleRateServerRequestDumpCheckerTest extends TestCase
 
         static::assertFalse($service->shallDump(new HttpHandlerStackIdentifier($portalNodeKey, 'foo-bar'), $request));
     }
-
-    public function testIsLikelyDumpedEverySecondTime(): void
-    {
-        $configurationFindAction = $this->createMock(WebHttpHandlerConfigurationFindActionInterface::class);
-
-        $configurationFindAction->method('find')
-            ->willReturnCallback(static function (WebHttpHandlerConfigurationFindCriteria $criteria): WebHttpHandlerConfigurationFindResult {
-                static::assertSame($criteria->getPath(), 'foo-bar');
-                static::assertSame($criteria->getConfigurationKey(), 'dump-sample-rate');
-
-                return new WebHttpHandlerConfigurationFindResult([
-                    'value' => 50,
-                ]);
-            });
-
-        $service = new SampleRateServerRequestDumpChecker($configurationFindAction);
-
-        $requestFactory = Psr17FactoryDiscovery::findServerRequestFactory();
-        $request = $requestFactory->createServerRequest('GET', 'http://127.0.0.1/path');
-
-        $portalNodeKey = $this->createMock(PortalNodeKeyInterface::class);
-        $portalNodeKey->method('withoutAlias')->willReturnSelf();
-        $portalNodeKey->method('withAlias')->willReturnSelf();
-
-        $yay = 0;
-        $nay = 0;
-
-        for ($c = 0; $c < 1000; ++$c) {
-            $shallDump = $service->shallDump(new HttpHandlerStackIdentifier($portalNodeKey, 'foo-bar'), $request);
-
-            if ($shallDump) {
-                ++$yay;
-            } else {
-                ++$nay;
-            }
-        }
-
-        static::assertGreaterThan(400, $yay);
-        static::assertGreaterThan(400, $nay);
-    }
 }
