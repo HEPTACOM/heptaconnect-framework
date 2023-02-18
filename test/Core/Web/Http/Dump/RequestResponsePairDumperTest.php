@@ -89,7 +89,7 @@ final class RequestResponsePairDumperTest extends TestCase
         );
 
         static::assertCount(2, $this->getDumpedFiles());
-        static::assertStringContainsString('http://foo-bar.test/complex-path', \file_get_contents(static::DUMP_DIR . '/-.request.txt'));
+        static::assertStringContainsString('http://foo-bar.test/complex-path', \file_get_contents(static::DUMP_DIR . '/.request.txt'));
     }
 
     public function testMessagesGetDumpedWithCorrelationId(): void
@@ -154,12 +154,8 @@ final class RequestResponsePairDumperTest extends TestCase
         );
         $formatter->expects(static::exactly(2))->method('getFileExtension')->willReturnCallback(
             static function (MessageInterface $message): string {
-                if ($message instanceof RequestInterface) {
-                    return 'request.txt';
-                }
-
-                if ($message instanceof ResponseInterface) {
-                    return 'response.txt';
+                if ($message instanceof RequestInterface || $message instanceof ResponseInterface) {
+                    return 'txt';
                 }
 
                 static::fail('Invalid argument');
