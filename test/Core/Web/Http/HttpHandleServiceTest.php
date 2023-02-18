@@ -10,8 +10,8 @@ use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleContextFactoryInterfa
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackBuilderFactoryInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackBuilderInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlingActorInterface;
-use Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\RequestResponsePairDumperInterface;
-use Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\ServerRequestDumpCheckerInterface;
+use Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\ServerRequestCycleDumpCheckerInterface;
+use Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\ServerRequestCycleDumperInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Handler\HttpMiddlewareChainHandler;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpHandleContext;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpHandleService;
@@ -43,6 +43,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\ServerRequestCycle
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult
  */
@@ -82,10 +83,10 @@ final class HttpHandleServiceTest extends TestCase
         $findAction = $this->createMock(WebHttpHandlerConfigurationFindActionInterface::class);
         $findAction->method('find')->willReturn(new WebHttpHandlerConfigurationFindResult([]));
 
-        $dumpChecker = $this->createMock(ServerRequestDumpCheckerInterface::class);
+        $dumpChecker = $this->createMock(ServerRequestCycleDumpCheckerInterface::class);
         $dumpChecker->method('shallDump')->willReturn(false);
 
-        $dumper = $this->createMock(RequestResponsePairDumperInterface::class);
+        $dumper = $this->createMock(ServerRequestCycleDumperInterface::class);
         $dumper->expects(static::never())->method('dump');
 
         $service = new HttpHandleService(
@@ -169,10 +170,10 @@ final class HttpHandleServiceTest extends TestCase
         $contextFactory = $this->createMock(HttpHandleContextFactoryInterface::class);
         $contextFactory->expects(static::once())->method('createContext')->willReturn($context);
 
-        $dumpChecker = $this->createMock(ServerRequestDumpCheckerInterface::class);
+        $dumpChecker = $this->createMock(ServerRequestCycleDumpCheckerInterface::class);
         $dumpChecker->method('shallDump')->willReturn(false);
 
-        $dumper = $this->createMock(RequestResponsePairDumperInterface::class);
+        $dumper = $this->createMock(ServerRequestCycleDumperInterface::class);
         $dumper->expects(static::never())->method('dump');
 
         $service = new HttpHandleService(
@@ -262,10 +263,10 @@ final class HttpHandleServiceTest extends TestCase
         $contextFactory = $this->createMock(HttpHandleContextFactoryInterface::class);
         $contextFactory->expects(static::once())->method('createContext')->willReturn($context);
 
-        $dumpChecker = $this->createMock(ServerRequestDumpCheckerInterface::class);
+        $dumpChecker = $this->createMock(ServerRequestCycleDumpCheckerInterface::class);
         $dumpChecker->method('shallDump')->willReturn(true);
 
-        $dumper = $this->createMock(RequestResponsePairDumperInterface::class);
+        $dumper = $this->createMock(ServerRequestCycleDumperInterface::class);
         $dumper->expects(static::once())->method('dump');
 
         $service = new HttpHandleService(

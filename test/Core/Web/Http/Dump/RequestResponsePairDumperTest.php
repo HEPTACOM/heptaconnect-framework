@@ -6,10 +6,11 @@ namespace Heptacom\HeptaConnect\Core\Test\Web\Http\Dump;
 
 use Heptacom\HeptaConnect\Core\Bridge\File\HttpHandlerDumpPathProviderInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleServiceInterface;
-use Heptacom\HeptaConnect\Core\Web\Http\Dump\RequestResponsePairDumper;
+use Heptacom\HeptaConnect\Core\Web\Http\Dump\ServerRequestCycleDumper;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageFormatterContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\ServerRequestCycle;
 use Http\Discovery\Psr17FactoryDiscovery;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\MessageInterface;
@@ -17,8 +18,9 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * @covers \Heptacom\HeptaConnect\Core\Web\Http\Dump\RequestResponsePairDumper
+ * @covers \Heptacom\HeptaConnect\Core\Web\Http\Dump\ServerRequestCycleDumper
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\ServerRequestCycle
  */
 final class RequestResponsePairDumperTest extends TestCase
 {
@@ -54,11 +56,13 @@ final class RequestResponsePairDumperTest extends TestCase
         $requestFactory = Psr17FactoryDiscovery::findServerRequestFactory();
         $responseFactory = Psr17FactoryDiscovery::findResponseFactory();
 
-        $dumper = new RequestResponsePairDumper($pathProvider, $formatter);
+        $dumper = new ServerRequestCycleDumper($pathProvider, $formatter);
         $dumper->dump(
             new HttpHandlerStackIdentifier($portalNodeKey, 'foo-bar'),
-            $requestFactory->createServerRequest('GET', 'http://127.0.0.1/folder/foo-bar'),
-            $responseFactory->createResponse(404)
+            new ServerRequestCycle(
+                $requestFactory->createServerRequest('GET', 'http://127.0.0.1/folder/foo-bar'),
+                $responseFactory->createResponse(404)
+            )
         );
 
         static::assertCount(2, $this->getDumpedFiles());
@@ -76,16 +80,18 @@ final class RequestResponsePairDumperTest extends TestCase
         $requestFactory = Psr17FactoryDiscovery::findServerRequestFactory();
         $responseFactory = Psr17FactoryDiscovery::findResponseFactory();
 
-        $dumper = new RequestResponsePairDumper($pathProvider, $formatter);
+        $dumper = new ServerRequestCycleDumper($pathProvider, $formatter);
         $dumper->dump(
             new HttpHandlerStackIdentifier($portalNodeKey, 'foo-bar'),
-            $requestFactory
-                ->createServerRequest('GET', 'http://127.0.0.1/folder/foo-bar')
-                ->withAttribute(
-                    HttpHandleServiceInterface::REQUEST_ATTRIBUTE_ORIGINAL_REQUEST,
-                    $requestFactory->createServerRequest('GET', 'http://foo-bar.test/complex-path')
-                ),
-            $responseFactory->createResponse(404)
+            new ServerRequestCycle(
+                $requestFactory
+                    ->createServerRequest('GET', 'http://127.0.0.1/folder/foo-bar')
+                    ->withAttribute(
+                        HttpHandleServiceInterface::REQUEST_ATTRIBUTE_ORIGINAL_REQUEST,
+                        $requestFactory->createServerRequest('GET', 'http://foo-bar.test/complex-path')
+                    ),
+                $responseFactory->createResponse(404)
+            )
         );
 
         static::assertCount(2, $this->getDumpedFiles());
@@ -107,11 +113,13 @@ final class RequestResponsePairDumperTest extends TestCase
         $correlationId = 'correlation-809e698b-eb90-4cf0-9076-9dbaa57ba99c';
         $response = $responseFactory->createResponse(404)->withHeader('X-HeptaConnect-Correlation-Id', $correlationId);
 
-        $dumper = new RequestResponsePairDumper($pathProvider, $formatter);
+        $dumper = new ServerRequestCycleDumper($pathProvider, $formatter);
         $dumper->dump(
             new HttpHandlerStackIdentifier($portalNodeKey, 'foo-bar'),
-            $requestFactory->createServerRequest('GET', 'http://127.0.0.1/folder/foo-bar'),
-            $response
+            new ServerRequestCycle(
+                $requestFactory->createServerRequest('GET', 'http://127.0.0.1/folder/foo-bar'),
+                $response
+            )
         );
 
         static::assertCount(2, $this->getDumpedFiles());

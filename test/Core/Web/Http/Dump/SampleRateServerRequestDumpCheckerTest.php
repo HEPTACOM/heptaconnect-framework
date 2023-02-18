@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Web\Http\Dump;
 
-use Heptacom\HeptaConnect\Core\Web\Http\Dump\SampleRateServerRequestDumpChecker;
+use Heptacom\HeptaConnect\Core\Web\Http\Dump\SampleRateServerRequestCycleDumpChecker;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\ServerRequestCycle;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
@@ -14,9 +15,10 @@ use Http\Discovery\Psr17FactoryDiscovery;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Core\Web\Http\Dump\SampleRateServerRequestDumpChecker
+ * @covers \Heptacom\HeptaConnect\Core\Web\Http\Dump\SampleRateServerRequestCycleDumpChecker
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\ServerRequestCycle
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult
  */
@@ -36,7 +38,7 @@ class SampleRateServerRequestDumpCheckerTest extends TestCase
                 ]);
             });
 
-        $service = new SampleRateServerRequestDumpChecker($configurationFindAction);
+        $service = new SampleRateServerRequestCycleDumpChecker($configurationFindAction);
 
         $requestFactory = Psr17FactoryDiscovery::findServerRequestFactory();
         $request = $requestFactory->createServerRequest('GET', 'http://127.0.0.1/path');
@@ -45,7 +47,10 @@ class SampleRateServerRequestDumpCheckerTest extends TestCase
         $portalNodeKey->method('withoutAlias')->willReturnSelf();
         $portalNodeKey->method('withAlias')->willReturnSelf();
 
-        static::assertTrue($service->shallDump(new HttpHandlerStackIdentifier($portalNodeKey, 'foo-bar'), $request));
+        static::assertTrue($service->shallDump(
+            new HttpHandlerStackIdentifier($portalNodeKey, 'foo-bar'),
+            new ServerRequestCycle($request, Psr17FactoryDiscovery::findResponseFactory()->createResponse())
+        ));
     }
 
     public function testRequestShallNotBeDumped(): void
@@ -62,7 +67,7 @@ class SampleRateServerRequestDumpCheckerTest extends TestCase
                 ]);
             });
 
-        $service = new SampleRateServerRequestDumpChecker($configurationFindAction);
+        $service = new SampleRateServerRequestCycleDumpChecker($configurationFindAction);
 
         $requestFactory = Psr17FactoryDiscovery::findServerRequestFactory();
         $request = $requestFactory->createServerRequest('GET', 'http://127.0.0.1/path');
@@ -71,6 +76,9 @@ class SampleRateServerRequestDumpCheckerTest extends TestCase
         $portalNodeKey->method('withoutAlias')->willReturnSelf();
         $portalNodeKey->method('withAlias')->willReturnSelf();
 
-        static::assertFalse($service->shallDump(new HttpHandlerStackIdentifier($portalNodeKey, 'foo-bar'), $request));
+        static::assertFalse($service->shallDump(
+            new HttpHandlerStackIdentifier($portalNodeKey, 'foo-bar'),
+            new ServerRequestCycle($request, Psr17FactoryDiscovery::findResponseFactory()->createResponse())
+        ));
     }
 }
