@@ -23,8 +23,7 @@
     "require": {
         "php": ">=8.0",
         "ext-json": "*",
-        "bentools/iterable-functions": ">=1.4 <2",
-        "opis/closure": "^3.6"
+        "bentools/iterable-functions": ">=1.4 <2"
     },
     "repositories": {
         "heptaconnect-sources": {
@@ -39,7 +38,8 @@
     },
     "config": {
         "allow-plugins": {
-            "infection/extension-installer": true
+            "infection/extension-installer": true,
+            "php-http/discovery": true
         }
     },
     "website": "https://heptaconnect.io"

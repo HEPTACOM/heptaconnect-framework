@@ -47,11 +47,12 @@ final class ContractTest extends TestCase
             }
         };
         static::assertTrue(FirstEntity::class()->equals($emitter->getSupportedEntityType()));
-        static::assertCount(0, $emitter->emit(
+        $emitResult = \iterable_to_array($emitter->emit(
             [],
             $this->createMock(EmitContextInterface::class),
             $this->createMock(EmitterStackInterface::class)
         ));
+        static::assertCount(0, $emitResult);
     }
 
     public function testExtendingEmitterContractLikeIn0Dot9(): void
@@ -68,11 +69,12 @@ final class ContractTest extends TestCase
             }
         };
         static::assertTrue(FirstEntity::class()->equals($emitter->getSupportedEntityType()));
-        static::assertCount(0, $emitter->emit(
+        $emitResult = \iterable_to_array($emitter->emit(
             [],
             $this->createMock(EmitContextInterface::class),
             $this->createMock(EmitterStackInterface::class)
         ));
+        static::assertCount(0, $emitResult);
     }
 
     public function testAttachingEmitterContract(): void

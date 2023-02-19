@@ -113,11 +113,11 @@ final class CollectionTest extends TestCase
     {
         $collection = new UsageStructCollection();
         $collection->push([new SerializationDatasetEntity()]);
-        static::assertCount(1, $collection->getIterator());
+        static::assertCount(1, \iterable_to_array($collection->getIterator()));
         static::assertFalse($collection->isEmpty());
 
         $collection->clear();
-        static::assertCount(0, $collection->getIterator());
+        static::assertCount(0, \iterable_to_array($collection->getIterator()));
         static::assertTrue($collection->isEmpty());
     }
 
@@ -140,7 +140,6 @@ final class CollectionTest extends TestCase
                 'attachments' => null,
                 'dependencies' => null,
                 'primaryKey' => null,
-                'deferrals' => [],
             ],
             [
                 'publicString' => 'public',
@@ -151,7 +150,6 @@ final class CollectionTest extends TestCase
                 'attachments' => null,
                 'dependencies' => null,
                 'primaryKey' => null,
-                'deferrals' => [],
             ],
             [
                 'publicString' => 'public',
@@ -162,7 +160,6 @@ final class CollectionTest extends TestCase
                 'attachments' => null,
                 'dependencies' => null,
                 'primaryKey' => null,
-                'deferrals' => [],
             ],
         ], $coded);
 

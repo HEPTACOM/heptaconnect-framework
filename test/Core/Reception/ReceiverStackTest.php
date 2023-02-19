@@ -71,6 +71,7 @@ final class ReceiverStackTest extends TestCase
             });
 
         $stack = new ReceiverStack([$receiver1, $receiver2, $receiver3], $this->createMock(LoggerInterface::class));
-        static::assertCount(3, $stack->next(new TypedDatasetEntityCollection(FooBarEntity::class()), $this->createMock(ReceiveContextInterface::class)));
+        $stackResult = \iterable_to_array($stack->next(new TypedDatasetEntityCollection(FooBarEntity::class()), $this->createMock(ReceiveContextInterface::class)));
+        static::assertCount(3, $stackResult);
     }
 }

@@ -244,8 +244,6 @@
                 <file name="../src/Core/Ui/Admin/Support/PortalNodeExistenceSeparator.php"/>
 
                 <file name="../src/Core/File/Filesystem/RewritePathStreamWrapper.php"/>
-
-                <file name="../src/DatasetBase/Support/DeferralAwareTrait.php"/>
             </errorLevel>
         </MixedArgumentTypeCoercion>
         <InvalidReturnType>
