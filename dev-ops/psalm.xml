@@ -241,6 +241,7 @@
                 <file name="../src/Core/Exploration/DirectEmitter.php"/>
                 <file name="../src/Core/Exploration/DirectEmittingExplorer.php"/>
                 <file name="../src/Core/Exploration/EmissionJobDispatchingExplorer.php"/>
+                <file name="../src/Core/Ui/Admin/Support/PortalNodeExistenceSeparator.php"/>
 
                 <file name="../src/Core/File/Filesystem/RewritePathStreamWrapper.php"/>
 
