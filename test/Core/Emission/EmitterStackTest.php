@@ -69,6 +69,7 @@ final class EmitterStackTest extends TestCase
             });
 
         $stack = new EmitterStack([$emitter1, $emitter2, $emitter3], FirstEntity::class(), $this->createMock(LoggerInterface::class));
-        static::assertCount(3, $stack->next([], $this->createMock(EmitContextInterface::class)));
+        $stackResult = \iterable_to_array($stack->next([], $this->createMock(EmitContextInterface::class)));
+        static::assertCount(3, $stackResult);
     }
 }

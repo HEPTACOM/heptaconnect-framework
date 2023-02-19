@@ -67,6 +67,7 @@ final class ExplorerStackTest extends TestCase
             FooBarEntity::class(),
             $this->createMock(LoggerInterface::class)
         );
-        static::assertCount(3, $stack->next($this->createMock(ExploreContextInterface::class)));
+        $stackResult = \iterable_to_array($stack->next($this->createMock(ExploreContextInterface::class)));
+        static::assertCount(3, $stackResult);
     }
 }
