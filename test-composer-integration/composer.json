@@ -21,5 +21,10 @@
         "php": ">=7.4",
         "heptacom-fixture/heptaconnect-portal-a": "@dev",
         "heptacom-fixture/heptaconnect-portal-extension-a": "@dev"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     }
 }

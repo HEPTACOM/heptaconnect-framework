@@ -102,7 +102,8 @@
     "config": {
         "allow-plugins": {
             "infection/extension-installer": true,
-            "ocramius/package-versions": true
+            "ocramius/package-versions": true,
+            "php-http/discovery": true
         }
     },
     "website": "https://heptaconnect.io"
