@@ -6,12 +6,12 @@ namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeConfigurationGetUi;
+use Heptacom\HeptaConnect\Core\Ui\Admin\Support\Contract\PortalNodeExistenceSeparatorInterface;
+use Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparationResult;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
-use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Get\PortalNodeConfigurationGetResult;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeConfigurationGet\PortalNodeConfigurationGetCriteria;
@@ -29,6 +29,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContextFactory
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeConfigurationGetUi
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditTrail
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparationResult
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
  * @covers \Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection
@@ -60,14 +61,16 @@ final class PortalNodeConfigurationGetUiTest extends TestCase
             ]),
         ]);
 
-        $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
-        $portalNodeGetAction->method('get')->willReturn([
-            new PortalNodeGetResult($portalNodeKey, FooBarPortal::class()),
-        ]);
+        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparatorInterface::class);
+        $portalNodeExistenceSeparator->method('separateKeys')->willReturn(new PortalNodeExistenceSeparationResult(
+            new PortalNodeKeyCollection(),
+            new PortalNodeKeyCollection([$portalNodeKey]),
+            new PortalNodeKeyCollection(),
+        ));
 
         $action = new PortalNodeConfigurationGetUi(
             $this->createAuditTrailFactory(),
-            $portalNodeGetAction,
+            $portalNodeExistenceSeparator,
             $configurationGetAction
         );
 
@@ -94,12 +97,16 @@ final class PortalNodeConfigurationGetUiTest extends TestCase
             ]),
         ]);
 
-        $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
-        $portalNodeGetAction->expects(static::never())->method('get');
+        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparatorInterface::class);
+        $portalNodeExistenceSeparator->method('separateKeys')->willReturn(new PortalNodeExistenceSeparationResult(
+            new PortalNodeKeyCollection([$portalNodeKey]),
+            new PortalNodeKeyCollection(),
+            new PortalNodeKeyCollection(),
+        ));
 
         $action = new PortalNodeConfigurationGetUi(
             $this->createAuditTrailFactory(),
-            $portalNodeGetAction,
+            $portalNodeExistenceSeparator,
             $configurationGetAction
         );
 
@@ -121,17 +128,20 @@ final class PortalNodeConfigurationGetUiTest extends TestCase
         $configurationGetAction = $this->createMock(PortalNodeConfigurationGetActionInterface::class);
         $configurationGetAction->expects(static::never())->method('get');
 
-        $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
-        $portalNodeGetAction->method('get')->willReturn([]);
+        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparatorInterface::class);
+        $portalNodeExistenceSeparator->method('separateKeys')->willReturn(new PortalNodeExistenceSeparationResult(
+            new PortalNodeKeyCollection(),
+            new PortalNodeKeyCollection(),
+            new PortalNodeKeyCollection([$portalNodeKey]),
+        ));
 
         $action = new PortalNodeConfigurationGetUi(
             $this->createAuditTrailFactory(),
-            $portalNodeGetAction,
+            $portalNodeExistenceSeparator,
             $configurationGetAction
         );
 
         static::expectException(PortalNodesMissingException::class);
-        static::expectExceptionCode(1670832601);
 
         \iterable_to_array($action->get(
             new PortalNodeConfigurationGetCriteria(new PortalNodeKeyCollection([$portalNodeKey])),
@@ -147,14 +157,16 @@ final class PortalNodeConfigurationGetUiTest extends TestCase
         $configurationGetAction = $this->createMock(PortalNodeConfigurationGetActionInterface::class);
         $configurationGetAction->method('get')->willThrowException(new \RuntimeException('Reading fails'));
 
-        $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
-        $portalNodeGetAction->method('get')->willReturn([
-            new PortalNodeGetResult($portalNodeKey, FooBarPortal::class()),
-        ]);
+        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparatorInterface::class);
+        $portalNodeExistenceSeparator->method('separateKeys')->willReturn(new PortalNodeExistenceSeparationResult(
+            new PortalNodeKeyCollection(),
+            new PortalNodeKeyCollection([$portalNodeKey]),
+            new PortalNodeKeyCollection(),
+        ));
 
         $action = new PortalNodeConfigurationGetUi(
             $this->createAuditTrailFactory(),
-            $portalNodeGetAction,
+            $portalNodeExistenceSeparator,
             $configurationGetAction
         );
 
