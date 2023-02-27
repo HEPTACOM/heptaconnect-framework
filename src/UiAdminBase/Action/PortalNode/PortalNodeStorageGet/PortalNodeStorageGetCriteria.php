@@ -19,7 +19,6 @@ final class PortalNodeStorageGetCriteria implements AttachmentAwareInterface, Au
         private PortalNodeKeyInterface $portalNodeKey,
         private StringCollection $storageKeys
     ) {
-        $this->attachments = new AttachmentCollection();
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface
