@@ -19,7 +19,6 @@ final class PortalNodeStorageGetResult implements AttachmentAwareInterface, Audi
         private string $storageKey,
         private string|int|float|bool|null $value
     ) {
-        $this->attachments = new AttachmentCollection();
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface
