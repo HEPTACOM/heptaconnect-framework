@@ -101,10 +101,12 @@ final class JobScheduleUiTest extends TestCase
         $criteria = new JobScheduleCriteria();
         $criteria->getJobKeys()->push([$jobA, $jobB, $jobC]);
 
-        $action->schedule($criteria, $this->createUiActionContext());
+        $result = $action->schedule($criteria, $this->createUiActionContext());
+        static::assertCount(0, $result->getSkippedJobKeys());
+        static::assertCount(3, $result->getScheduledJobKeys());
     }
 
-    public function testMissingJobsAreReportedBeforeOthersAreScheduled(): void
+    public function testMissingJobsAreReportedAndOthersAreNotScheduled(): void
     {
         $bus = $this->createMock(MessageBusInterface::class);
         $jobGetAction = $this->createMock(JobGetActionInterface::class);
@@ -184,5 +186,56 @@ final class JobScheduleUiTest extends TestCase
         $result = $action->schedule($criteria, $this->createUiActionContext());
         static::assertCount(3, $result->getSkippedJobKeys());
         static::assertCount(0, $result->getScheduledJobKeys());
+    }
+
+    public function testSkippedJobsWillNotBePartOfTheMessage(): void
+    {
+        $bus = $this->createMock(MessageBusInterface::class);
+        $jobGetAction = $this->createMock(JobGetActionInterface::class);
+        $jobScheduleAction = $this->createMock(JobScheduleActionInterface::class);
+        $jobA = $this->createMock(JobKeyInterface::class);
+        $jobB = $this->createMock(JobKeyInterface::class);
+        $jobC = $this->createMock(JobKeyInterface::class);
+        $portalNodeKey = $this->createMock(PortalNodeKeyInterface::class);
+
+        $jobA->method('equals')->willReturnCallback(static fn ($key): bool => $key === $jobA);
+        $jobB->method('equals')->willReturnCallback(static fn ($key): bool => $key === $jobB);
+        $jobC->method('equals')->willReturnCallback(static fn ($key): bool => $key === $jobC);
+
+        $jobGetAction->method('get')->willReturnCallback(static function () use ($jobC, $jobB, $jobA, $portalNodeKey) {
+            $mappingComponent = new MappingComponentStruct($portalNodeKey, FooBarEntity::class(), 'ABC');
+
+            return [
+                new JobGetResult(Emission::class, $jobA, $mappingComponent, null),
+                new JobGetResult(Reception::class, $jobB, $mappingComponent, null),
+                new JobGetResult(Exploration::class, $jobC, $mappingComponent, null),
+            ];
+        });
+        $jobScheduleAction
+            ->expects(static::once())
+            ->method('schedule')
+            ->willReturnCallback(static function (JobSchedulePayload $payload): JobScheduleResult {
+                static::assertCount(3, $payload->getJobKeys());
+                static::assertNotEmpty($payload->getMessage());
+                $jobs = $payload->getJobKeys();
+                $jobKey = $jobs->pop();
+
+                return new JobScheduleResult(new JobKeyCollection([$jobKey]), $jobs);
+            });
+        $bus->expects(static::once())
+            ->method('dispatch')
+            ->willReturnCallback(static function (JobMessage $message): Envelope {
+                static::assertCount(1, $message->getJobKeys()->asArray());
+
+                return new Envelope($message);
+            });
+
+        $action = new JobScheduleUi($this->createAuditTrailFactory(), $bus, $jobGetAction, $jobScheduleAction);
+        $criteria = new JobScheduleCriteria();
+        $criteria->getJobKeys()->push([$jobA, $jobB, $jobC]);
+
+        $result = $action->schedule($criteria, $this->createUiActionContext());
+        static::assertCount(2, $result->getSkippedJobKeys());
+        static::assertCount(1, $result->getScheduledJobKeys());
     }
 }
