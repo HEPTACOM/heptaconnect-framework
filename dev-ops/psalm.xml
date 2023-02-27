@@ -28,6 +28,7 @@
 
                 <!-- Can be removed when bentools/iterable-functions supports psalm -->
                 <file name="../src/Core/Ui/Admin/Action/PortalNodeConfigurationGetUi.php"/>
+                <file name="../src/Core/Ui/Admin/Action/PortalNodeStorageGetUi.php"/>
             </errorLevel>
         </PossiblyInvalidArgument>
 
@@ -292,6 +293,12 @@
                 <file name="../src/Core/File/Filesystem/Contract/StreamWrapperInterface.php"/>
             </errorLevel>
         </MissingReturnType>
+        <InvalidCatch>
+            <errorLevel type="info">
+                <!-- Does not implement Throwable, solved in psr/simple-cache >= 2 -->
+                <referencedClass name="Psr\SimpleCache\InvalidArgumentException"/>
+            </errorLevel>
+        </InvalidCatch>
 
         <RedundantCondition>
             <errorLevel type="info">
