@@ -6,8 +6,8 @@ namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 
 use Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeStorageGetUi;
+use Heptacom\HeptaConnect\Core\Ui\Admin\Support\Contract\PortalNodeExistenceSeparatorInterface;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparationResult;
-use Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparator;
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalStorageInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -51,7 +51,7 @@ final class PortalNodeStorageGetUiTest extends TestCase
 
     public function testReadingValues(): void
     {
-        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparator::class);
+        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparatorInterface::class);
         $storageFactory = $this->createMock(PortalStorageFactory::class);
         $action = new PortalNodeStorageGetUi(
             $this->createAuditTrailFactory(),
@@ -119,7 +119,7 @@ final class PortalNodeStorageGetUiTest extends TestCase
 
     public function testMissingPortalNode(): void
     {
-        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparator::class);
+        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparatorInterface::class);
         $storageFactory = $this->createMock(PortalStorageFactory::class);
         $action = new PortalNodeStorageGetUi(
             $this->createAuditTrailFactory(),

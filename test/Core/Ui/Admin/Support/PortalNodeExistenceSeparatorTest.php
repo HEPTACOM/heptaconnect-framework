@@ -69,6 +69,7 @@ final class PortalNodeExistenceSeparatorTest extends TestCase
         $result->throwWhenPreviewKeysAreGiven(new NullAuditTrail());
 
         static::expectException(PortalNodesMissingException::class);
+        static::expectExceptionCode(1650732001);
 
         $result->throwWhenKeysAreMissing(new NullAuditTrail());
     }
@@ -88,6 +89,7 @@ final class PortalNodeExistenceSeparatorTest extends TestCase
         $result->throwWhenKeysAreMissing(new NullAuditTrail());
 
         static::expectException(PortalNodesMissingException::class);
+        static::expectExceptionCode(1650732002);
 
         $result->throwWhenPreviewKeysAreGiven(new NullAuditTrail());
     }

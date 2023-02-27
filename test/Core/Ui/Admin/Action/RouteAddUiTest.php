@@ -8,8 +8,8 @@ use Heptacom\HeptaConnect\Core\Test\Fixture\DependentPortal;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUi;
+use Heptacom\HeptaConnect\Core\Ui\Admin\Support\Contract\PortalNodeExistenceSeparatorInterface;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparationResult;
-use Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparator;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResults;
@@ -79,7 +79,7 @@ final class RouteAddUiTest extends TestCase
         $routeFindAction = $this->createMock(RouteFindActionInterface::class);
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
         $routeDeleteAction = $this->createMock(RouteDeleteActionInterface::class);
-        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparator::class);
+        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparatorInterface::class);
         $routeKey = $this->createMock(RouteKeyInterface::class);
         $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
 
@@ -122,7 +122,7 @@ final class RouteAddUiTest extends TestCase
         $routeFindAction = $this->createMock(RouteFindActionInterface::class);
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
         $routeDeleteAction = $this->createMock(RouteDeleteActionInterface::class);
-        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparator::class);
+        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparatorInterface::class);
         $routeKey = $this->createMock(RouteKeyInterface::class);
         $portalNodeKeyA = new PreviewPortalNodeKey(FooBarPortal::class());
         $portalNodeKeyB = new PreviewPortalNodeKey(DependentPortal::class());
@@ -174,7 +174,7 @@ final class RouteAddUiTest extends TestCase
         $routeFindAction = $this->createMock(RouteFindActionInterface::class);
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
         $routeDeleteAction = $this->createMock(RouteDeleteActionInterface::class);
-        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparator::class);
+        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparatorInterface::class);
         $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
 
         $routeCreateAction->method('create')->willReturn(new RouteCreateResults());
@@ -212,7 +212,7 @@ final class RouteAddUiTest extends TestCase
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
         $routeDeleteAction = $this->createMock(RouteDeleteActionInterface::class);
         $routeKey = $this->createMock(RouteKeyInterface::class);
-        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparator::class);
+        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparatorInterface::class);
         $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
 
         $routeCreateAction->method('create')->willReturn(new RouteCreateResults());

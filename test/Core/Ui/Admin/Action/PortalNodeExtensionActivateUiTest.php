@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Core\Portal\Contract\PackageQueryMatcherInterface;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortalExtension;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionActivateUi;
+use Heptacom\HeptaConnect\Core\Ui\Admin\Support\Contract\PortalNodeExistenceSeparatorInterface;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparationResult;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparator;
 use Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection;
@@ -116,7 +117,7 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
 
     public function testPayloadPortalNodeDoesNotExist(): void
     {
-        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparator::class);
+        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparatorInterface::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $portalNodeExtensionFindAction = $this->createMock(PortalExtensionFindActionInterface::class);
         $portalExtensionActivateAction = $this->createMock(PortalExtensionActivateActionInterface::class);

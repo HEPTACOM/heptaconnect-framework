@@ -7,8 +7,8 @@ namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
 use Heptacom\HeptaConnect\Core\Test\Fixture\UninstantiablePortal;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeRemoveUi;
+use Heptacom\HeptaConnect\Core\Ui\Admin\Support\Contract\PortalNodeExistenceSeparatorInterface;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparationResult;
-use Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparator;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
@@ -49,7 +49,7 @@ final class PortalNodeRemoveUiTest extends TestCase
 
     public function testSuccess(): void
     {
-        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparator::class);
+        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparatorInterface::class);
         $portalNodeDeleteAction = $this->createMock(PortalNodeDeleteActionInterface::class);
         $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
         $portalNodeKey2 = new PreviewPortalNodeKey(UninstantiablePortal::class());
@@ -79,7 +79,7 @@ final class PortalNodeRemoveUiTest extends TestCase
 
     public function testPortalNodeAlreadyDeleted(): void
     {
-        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparator::class);
+        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparatorInterface::class);
         $portalNodeDeleteAction = $this->createMock(PortalNodeDeleteActionInterface::class);
         $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
         $portalNodeKey2 = new PreviewPortalNodeKey(UninstantiablePortal::class());
@@ -104,7 +104,7 @@ final class PortalNodeRemoveUiTest extends TestCase
 
     public function testPortalNodeFailedDeleting(): void
     {
-        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparator::class);
+        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparatorInterface::class);
         $portalNodeDeleteAction = $this->createMock(PortalNodeDeleteActionInterface::class);
         $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
         $portalNodeKey2 = new PreviewPortalNodeKey(UninstantiablePortal::class());
@@ -132,7 +132,7 @@ final class PortalNodeRemoveUiTest extends TestCase
 
     public function testPortalNodeFailedReading(): void
     {
-        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparator::class);
+        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparatorInterface::class);
         $portalNodeDeleteAction = $this->createMock(PortalNodeDeleteActionInterface::class);
         $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
         $portalNodeKey2 = new PreviewPortalNodeKey(UninstantiablePortal::class());
