@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract;
 use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
 use Heptacom\HeptaConnect\Core\Portal\Contract\PackageQueryMatcherInterface;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
+use Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory;
 use Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingServiceInterface;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\JobRunUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalEntityListUi;
@@ -21,10 +22,12 @@ use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionBrowseUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionDeactivateUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeRemoveUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeStatusReportUi;
+use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeStorageGetUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUiDefault;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteBrowseUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface;
+use Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparator;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerCodeOriginFinderInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverCodeOriginFinderInterface;
@@ -58,9 +61,11 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionDeactivateUi
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeRemoveUi
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeStatusReportUi
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeStorageGetUi
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUi
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteBrowseUi
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUiDefault
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparator
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
@@ -104,21 +109,24 @@ final class UiActionInterfaceTest extends TestCase
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
         $routeOverviewAction = $this->createMock(RouteOverviewActionInterface::class);
         $configurationGetAction = $this->createMock(PortalNodeConfigurationGetActionInterface::class);
+        $portalStorageFactory = $this->createMock(PortalStorageFactory::class);
+        $portalNodeExistenceSeparator = new PortalNodeExistenceSeparator($portalNodeGetAction);
         $configurationProcessorService = $this->createMock(PortalNodeConfigurationProcessorServiceInterface::class);
 
         yield new JobRunUi($auditTrailFactory, $jobActor, $jobGetAction);
         yield new PortalEntityListUi($auditTrailFactory, $portalNodeEntityListUiAction);
         yield new PortalNodeAddUi($auditTrailFactory, $portalNodeCreateAction, $portalNodeAliasFindAction);
         yield new PortalNodeEntityListUi($auditTrailFactory, $portalStackServiceContainerFactory, $explorerCodeOriginFinder, $emitterCodeOriginFinder, $receiverCodeOriginFinder);
-        yield new PortalNodeExtensionActivateUi($auditTrailFactory, $portalNodeGetAction, $portalExtensionFindAction, $portalExtensionActivateAction, $packageQueryMatcher, $portalLoader);
+        yield new PortalNodeExtensionActivateUi($auditTrailFactory, $portalNodeExistenceSeparator, $portalNodeGetAction, $portalExtensionFindAction, $portalExtensionActivateAction, $packageQueryMatcher, $portalLoader);
         yield new PortalNodeExtensionBrowseUi($auditTrailFactory, $portalNodeGetAction, $portalExtensionFindAction, $portalLoader);
-        yield new PortalNodeExtensionDeactivateUi($auditTrailFactory, $portalNodeGetAction, $portalExtensionFindAction, $portalExtensionDeactivateAction, $packageQueryMatcher, $portalLoader);
+        yield new PortalNodeExtensionDeactivateUi($auditTrailFactory, $portalNodeExistenceSeparator, $portalNodeGetAction, $portalExtensionFindAction, $portalExtensionDeactivateAction, $packageQueryMatcher, $portalLoader);
         yield new PortalNodeStatusReportUi($auditTrailFactory, $statusReportingService);
-        yield new PortalNodeRemoveUi($auditTrailFactory, $portalNodeGetAction, $portalNodeDeleteAction);
-        yield new PortalNodeConfigurationGetUi($auditTrailFactory, $portalNodeGetAction, $configurationGetAction);
+        yield new PortalNodeRemoveUi($auditTrailFactory, $portalNodeExistenceSeparator, $portalNodeDeleteAction);
+        yield new PortalNodeConfigurationGetUi($auditTrailFactory, $portalNodeExistenceSeparator, $configurationGetAction);
         yield new PortalNodeConfigurationRenderUi($auditTrailFactory, new PortalNodeConfigurationGetUi($auditTrailFactory, $portalNodeGetAction, $configurationGetAction), $configurationProcessorService);
+        yield new PortalNodeStorageGetUi($auditTrailFactory, $portalNodeExistenceSeparator, $portalStorageFactory);
         yield new RouteAddUiDefault($auditTrailFactory);
-        yield new RouteAddUi($auditTrailFactory, $routeCreateAction, $routeFindAction, $routeGetAction, $routeDeleteAction, $portalNodeGetAction);
+        yield new RouteAddUi($auditTrailFactory, $routeCreateAction, $routeFindAction, $routeGetAction, $routeDeleteAction, $portalNodeExistenceSeparator);
         yield new RouteBrowseUi($auditTrailFactory, $routeOverviewAction);
     }
 }

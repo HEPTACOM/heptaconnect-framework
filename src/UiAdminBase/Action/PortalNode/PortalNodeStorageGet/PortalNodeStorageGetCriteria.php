@@ -2,20 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeConfigurationGet;
+namespace Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStorageGet;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Audit\AuditableDataAwareInterface;
 
-final class PortalNodeConfigurationGetResult implements AttachmentAwareInterface, AuditableDataAwareInterface
+final class PortalNodeStorageGetCriteria implements AttachmentAwareInterface, AuditableDataAwareInterface
 {
     use AttachmentAwareTrait;
 
     public function __construct(
         private PortalNodeKeyInterface $portalNodeKey,
-        private array $configuration
+        private StringCollection $storageKeys
     ) {
     }
 
@@ -29,21 +30,21 @@ final class PortalNodeConfigurationGetResult implements AttachmentAwareInterface
         $this->portalNodeKey = $portalNodeKey;
     }
 
-    public function getConfiguration(): array
+    public function getStorageKeys(): StringCollection
     {
-        return $this->configuration;
+        return $this->storageKeys;
     }
 
-    public function setConfiguration(array $configuration): void
+    public function setStorageKeys(StringCollection $storageKeys): void
     {
-        $this->configuration = $configuration;
+        $this->storageKeys = $storageKeys;
     }
 
     public function getAuditableData(): array
     {
         return [
             'portalNodeKey' => $this->getPortalNodeKey(),
-            'configuration' => $this->getConfiguration(),
+            'storageKeys' => $this->getStorageKeys(),
         ];
     }
 }

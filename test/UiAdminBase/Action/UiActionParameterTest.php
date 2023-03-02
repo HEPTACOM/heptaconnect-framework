@@ -15,10 +15,13 @@ use Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\FirstEntity;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\Portal;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Job\JobSchedule\JobScheduleCriteria;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Job\JobSchedule\JobScheduleResult;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListCriteria;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListResult;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeAdd\PortalNodeAddPayload;
@@ -36,6 +39,8 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeExtensionDea
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeRemove\PortalNodeRemoveCriteria;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport\PortalNodeStatusReportPayload;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport\PortalNodeStatusReportResult;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStorageGet\PortalNodeStorageGetCriteria;
+use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStorageGet\PortalNodeStorageGetResult;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddDefault;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddPayload;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddPayloadCollection;
@@ -68,6 +73,8 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract
  * @covers \Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException
  * @covers \Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Job\JobSchedule\JobScheduleCriteria
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Job\JobSchedule\JobScheduleResult
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListCriteria
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Portal\PortalEntityList\PortalEntityListResult
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeAdd\PortalNodeAddPayload
@@ -85,6 +92,8 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeRemove\PortalNodeRemoveCriteria
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport\PortalNodeStatusReportPayload
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStatusReport\PortalNodeStatusReportResult
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStorageGet\PortalNodeStorageGetCriteria
+ * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStorageGet\PortalNodeStorageGetResult
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddDefault
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddPayload
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\Route\RouteAdd\RouteAddPayloadCollection
@@ -152,8 +161,11 @@ final class UiActionParameterTest extends TestCase
         $portalExtensionClass = FooBarPortalExtension::class;
         $unsafeClass = new UnsafeClassString($entityType);
         $routeKeys = new RouteKeyCollection();
+        $jobKeys = new JobKeyCollection();
 
         yield new UiAuditContext('', '');
+        yield new JobScheduleCriteria();
+        yield new JobScheduleResult($jobKeys, $jobKeys);
         yield new PortalEntityListCriteria($portalClass::class());
         yield new PortalEntityListResult($codeOrigin, $entityType::class(), FooBarEmitter::class);
         yield new PortalNodeAddPayload($portalClass::class());
@@ -170,6 +182,8 @@ final class UiActionParameterTest extends TestCase
         yield new PortalNodeExtensionBrowseResult($portalNodeKey, true, $unsafeClass);
         yield new PortalNodeExtensionDeactivatePayload($portalNodeKey);
         yield new PortalNodeRemoveCriteria($portalNodeKeys);
+        yield new PortalNodeStorageGetCriteria($portalNodeKey, new StringCollection());
+        yield new PortalNodeStorageGetResult($portalNodeKey, '', null);
         yield new PortalNodeStatusReportPayload($portalNodeKey, []);
         yield new PortalNodeStatusReportResult($portalNodeKey, '', true, []);
         yield new RouteAddDefault([]);
