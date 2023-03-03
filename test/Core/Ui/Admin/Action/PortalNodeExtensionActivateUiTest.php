@@ -9,15 +9,12 @@ use Heptacom\HeptaConnect\Core\Portal\Contract\PackageQueryMatcherInterface;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortalExtension;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionActivateUi;
-use Heptacom\HeptaConnect\Core\Ui\Admin\Support\Contract\PortalNodeExistenceSeparatorInterface;
-use Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparationResult;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparator;
 use Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Find\PortalExtensionFindResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionActivateActionInterface;
@@ -117,7 +114,6 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
 
     public function testPayloadPortalNodeDoesNotExist(): void
     {
-        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparatorInterface::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $portalNodeExtensionFindAction = $this->createMock(PortalExtensionFindActionInterface::class);
         $portalExtensionActivateAction = $this->createMock(PortalExtensionActivateActionInterface::class);
@@ -131,16 +127,10 @@ final class PortalNodeExtensionActivateUiTest extends TestCase
         $portalNodeExtensionFindAction->method('find')->willReturn($portalExtensionFindResult);
         $portalLoader->method('getPortalExtensions')
             ->willReturn(new PortalExtensionCollection([new FooBarPortalExtension()]));
-        $portalNodeExistenceSeparator->method('separateKeys')
-            ->willReturn(new PortalNodeExistenceSeparationResult(
-                new PortalNodeKeyCollection(),
-                new PortalNodeKeyCollection(),
-                new PortalNodeKeyCollection([$portalNodeKey]),
-            ));
 
         $action = new PortalNodeExtensionActivateUi(
             $this->createAuditTrailFactory(),
-            $portalNodeExistenceSeparator,
+            $this->createPortalNodeSeparatorNoneExists(),
             $portalNodeGetAction,
             $portalNodeExtensionFindAction,
             $portalExtensionActivateAction,

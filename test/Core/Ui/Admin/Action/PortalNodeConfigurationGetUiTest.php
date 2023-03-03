@@ -61,16 +61,9 @@ final class PortalNodeConfigurationGetUiTest extends TestCase
             ]),
         ]);
 
-        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparatorInterface::class);
-        $portalNodeExistenceSeparator->method('separateKeys')->willReturn(new PortalNodeExistenceSeparationResult(
-            new PortalNodeKeyCollection(),
-            new PortalNodeKeyCollection([$portalNodeKey]),
-            new PortalNodeKeyCollection(),
-        ));
-
         $action = new PortalNodeConfigurationGetUi(
             $this->createAuditTrailFactory(),
-            $portalNodeExistenceSeparator,
+            $this->createPortalNodeSeparatorAllExists(),
             $configurationGetAction
         );
 
@@ -128,16 +121,9 @@ final class PortalNodeConfigurationGetUiTest extends TestCase
         $configurationGetAction = $this->createMock(PortalNodeConfigurationGetActionInterface::class);
         $configurationGetAction->expects(static::never())->method('get');
 
-        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparatorInterface::class);
-        $portalNodeExistenceSeparator->method('separateKeys')->willReturn(new PortalNodeExistenceSeparationResult(
-            new PortalNodeKeyCollection(),
-            new PortalNodeKeyCollection(),
-            new PortalNodeKeyCollection([$portalNodeKey]),
-        ));
-
         $action = new PortalNodeConfigurationGetUi(
             $this->createAuditTrailFactory(),
-            $portalNodeExistenceSeparator,
+            $this->createPortalNodeSeparatorNoneExists(),
             $configurationGetAction
         );
 
@@ -157,16 +143,9 @@ final class PortalNodeConfigurationGetUiTest extends TestCase
         $configurationGetAction = $this->createMock(PortalNodeConfigurationGetActionInterface::class);
         $configurationGetAction->method('get')->willThrowException(new \RuntimeException('Reading fails'));
 
-        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparatorInterface::class);
-        $portalNodeExistenceSeparator->method('separateKeys')->willReturn(new PortalNodeExistenceSeparationResult(
-            new PortalNodeKeyCollection(),
-            new PortalNodeKeyCollection([$portalNodeKey]),
-            new PortalNodeKeyCollection(),
-        ));
-
         $action = new PortalNodeConfigurationGetUi(
             $this->createAuditTrailFactory(),
-            $portalNodeExistenceSeparator,
+            $this->createPortalNodeSeparatorAllExists(),
             $configurationGetAction
         );
 
