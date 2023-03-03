@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 
-use Heptacom\HeptaConnect\Core\Configuration\Contract\PortalNodeConfigurationProcessorServiceInterface;
+use Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface;
 use Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract;
 use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
 use Heptacom\HeptaConnect\Core\Portal\Contract\PackageQueryMatcherInterface;
@@ -111,7 +111,7 @@ final class UiActionInterfaceTest extends TestCase
         $configurationGetAction = $this->createMock(PortalNodeConfigurationGetActionInterface::class);
         $portalStorageFactory = $this->createMock(PortalStorageFactory::class);
         $portalNodeExistenceSeparator = new PortalNodeExistenceSeparator($portalNodeGetAction);
-        $configurationProcessorService = $this->createMock(PortalNodeConfigurationProcessorServiceInterface::class);
+        $configurationService = $this->createMock(ConfigurationServiceInterface::class);
 
         yield new JobRunUi($auditTrailFactory, $jobActor, $jobGetAction);
         yield new PortalEntityListUi($auditTrailFactory, $portalNodeEntityListUiAction);
@@ -123,7 +123,7 @@ final class UiActionInterfaceTest extends TestCase
         yield new PortalNodeStatusReportUi($auditTrailFactory, $statusReportingService);
         yield new PortalNodeRemoveUi($auditTrailFactory, $portalNodeExistenceSeparator, $portalNodeDeleteAction);
         yield new PortalNodeConfigurationGetUi($auditTrailFactory, $portalNodeExistenceSeparator, $configurationGetAction);
-        yield new PortalNodeConfigurationRenderUi($auditTrailFactory, new PortalNodeConfigurationGetUi($auditTrailFactory, $portalNodeGetAction, $configurationGetAction), $configurationProcessorService);
+        yield new PortalNodeConfigurationRenderUi($auditTrailFactory, $portalNodeExistenceSeparator, $configurationService);
         yield new PortalNodeStorageGetUi($auditTrailFactory, $portalNodeExistenceSeparator, $portalStorageFactory);
         yield new RouteAddUiDefault($auditTrailFactory);
         yield new RouteAddUi($auditTrailFactory, $routeCreateAction, $routeFindAction, $routeGetAction, $routeDeleteAction, $portalNodeExistenceSeparator);
