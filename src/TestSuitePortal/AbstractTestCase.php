@@ -24,6 +24,9 @@ use Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory;
 use Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract;
 use Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface;
+use Heptacom\HeptaConnect\Core\Web\Http\Formatter\Psr7MessageCurlShellFormatter;
+use Heptacom\HeptaConnect\Core\Web\Http\Formatter\Psr7MessageRawHttpFormatter;
+use Heptacom\HeptaConnect\Core\Web\Http\Formatter\Support\HeaderUtility;
 use Heptacom\HeptaConnect\Portal\Base\File\FileReferenceResolverContract;
 use Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract;
 use Heptacom\HeptaConnect\Portal\Base\Parallelization\Contract\ResourceLockingContract;
@@ -33,6 +36,8 @@ use Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerFactoryContract;
 use Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface;
 use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegistryContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageCurlShellFormatterContract;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageRawHttpFormatterContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerUrlProviderInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
@@ -128,6 +133,8 @@ abstract class AbstractTestCase extends TestCase
             $services[HttpHandlerUrlProviderFactoryInterface::class] ?? $httpHandlerUrlProviderFactory,
             $services[RequestStorageContract::class] ?? $this->createMock(RequestStorageContract::class),
             $services[FilesystemFactoryInterface::class] ?? $this->createFilesystemFactoryForDirectory($this->createRandomTemporaryDirectory()),
+            $services[Psr7MessageCurlShellFormatterContract::class] ?? $this->createPsr7MessageCurlShellFormatter(),
+            $services[Psr7MessageRawHttpFormatterContract::class] ?? $this->createPsr7MessageRawHttpFormatter(),
         );
 
         $builder->setDirectEmissionFlow(
@@ -201,5 +208,23 @@ abstract class AbstractTestCase extends TestCase
         \mkdir($result, 0777, true);
 
         return $result;
+    }
+
+    protected function createPsr7MessageCurlShellFormatter(): Psr7MessageCurlShellFormatterContract
+    {
+        $headerUtility = new HeaderUtility();
+
+        return new Psr7MessageCurlShellFormatter(
+            $headerUtility,
+            $this->createPsr7MessageRawHttpFormatter(),
+            'curl'
+        );
+    }
+
+    protected function createPsr7MessageRawHttpFormatter(): Psr7MessageRawHttpFormatterContract
+    {
+        $headerUtility = new HeaderUtility();
+
+        return new Psr7MessageRawHttpFormatter($headerUtility);
     }
 }

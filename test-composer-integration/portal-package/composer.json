@@ -12,7 +12,8 @@
     },
     "autoload": {
         "psr-4": {
-            "HeptacomFixture\\Portal\\A\\": "src/"
+            "HeptacomFixture\\Portal\\A\\": "src/",
+            "HeptacomFixture\\Portal\\AdditionalPackage\\": "src-additional/"
         }
     },
     "extra": {

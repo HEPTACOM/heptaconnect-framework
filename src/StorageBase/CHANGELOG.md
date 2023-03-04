@@ -56,6 +56,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+## [0.9.4.0] - 2023-03-04
+
+### Added
+
+- Add storage key interface `\Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\IdentityRedirectKeyInterface` with `\Heptacom\HeptaConnect\Storage\Base\IdentityRedirectKeyCollection`
+- Add identity redirect create action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectCreateActionInterface` with `\Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreatePayload`, `\Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreatePayloadCollection`, `\Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreateResult` and `\Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreateResultCollection`
+- Add methods `\Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface::getIdentityRedirectCreateAction`, `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade::getIdentityRedirectCreateAction`, `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade::createIdentityRedirectCreateAction` and `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\Psr11StorageFacade::createIdentityRedirectCreateAction` to access the storage implementation for `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectCreateActionInterface`
+- Add identity redirect delete action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectDeleteActionInterface` with `\Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Delete\IdentityRedirectDeleteCriteria`
+- Add methods `\Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface::getIdentityRedirectDeleteAction`, `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade::getIdentityRedirectDeleteAction`, `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade::createIdentityRedirectDeleteActionInterface` and `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\Psr11StorageFacade::createIdentityRedirectDeleteActionInterface` to access the storage implementation for `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectDeleteActionInterface`
+- Add identity redirect overview action `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectOverviewActionInterface` with `\Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview\IdentityRedirectOverviewCriteria` and `\Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview\IdentityRedirectOverviewResult`
+- Add methods `\Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface::getIdentityRedirectOverviewAction`, `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade::getIdentityRedirectOverviewAction`, `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade::createIdentityRedirectOverviewActionInterface` and `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\Psr11StorageFacade::createIdentityRedirectOverviewActionInterface` to access the storage implementation for `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectOverviewActionInterface`
+
 ## [0.9.3.0] - 2022-11-26
 
 ## [0.9.2.0] - 2022-10-16

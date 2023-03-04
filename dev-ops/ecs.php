@@ -129,6 +129,7 @@ return static function (ECSConfig $config): void {
         __DIR__ . '/../src',
         __DIR__ . '/../test',
         __DIR__ . '/../test-composer-integration/portal-package/src',
+        __DIR__ . '/../test-composer-integration/portal-package/src-additional',
         __DIR__ . '/../test-composer-integration/portal-package-extension/src',
     ]);
     $parameters->set(Option::SKIP, [

@@ -7,21 +7,27 @@ namespace Heptacom\HeptaConnect\Portal\Base\Portal\Contract;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\DelegatingLoaderLoadException;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Loader\DelegatingLoader;
+use Symfony\Component\Config\Loader\LoaderResolver;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /**
- * This contract must only be extended by @see PortalContract and @see PortalExtensionContract
- * Its only purpose is to combine their features in a single class.
- *
- * @internal
+ * This is the contract for all packages in a portal container, and it must be extended by:
+ *   - any portal @see PortalContract
+ *   - any portal extension @see PortalExtensionContract
+ *   - any additional packages returned by @see PackageContract::getAdditionalPackages()
  *
  * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  * @SuppressWarnings(PHPMD.NPathComplexity)
- *
- * @psalm-consistent-constructor
  */
 abstract class PackageContract
 {
-    public function __construct()
+    public final function __construct()
     {
     }
 
@@ -87,6 +93,73 @@ abstract class PackageContract
             CollectionInterface::class,
             AttachableInterface::class,
         ];
+    }
+
+    /**
+     * This method is executed during the building of a portal container.
+     * It can be extended to influence the build steps on a fine grain level.
+     * If applicable, use @see ContainerBuilder::addCompilerPass() to apply changes after all build steps are completed.
+     *
+     * @throws DelegatingLoaderLoadException
+     */
+    public function buildContainer(ContainerBuilder $containerBuilder): void
+    {
+        $this->registerContainerFile($containerBuilder);
+    }
+
+    /**
+     * Returns instances of packages that will be loaded additionally after this package.
+     * Those packages can contain extra features that are shared across portals or portal extensions.
+     * Packages are deduplicated in the build process, so only the first instance of each package class is used.
+     * The instances returned here SHOULD NOT contain any stateful information.
+     *
+     * @return iterable<PackageContract>
+     */
+    public function getAdditionalPackages(): iterable
+    {
+        return [];
+    }
+
+    /**
+     * Scans the path returned in @see getContainerConfigurationPath for files that match `services.{yml,yaml,xml,php}`
+     * The found files are loaded as service definitions for the @see ContainerBuilder
+     *
+     * @throws DelegatingLoaderLoadException
+     */
+    final protected function registerContainerFile(ContainerBuilder $containerBuilder): void
+    {
+        $containerConfigurationPath = $this->getContainerConfigurationPath();
+
+        $fileLocator = new FileLocator($containerConfigurationPath);
+        $loaderResolver = new LoaderResolver([
+            new XmlFileLoader($containerBuilder, $fileLocator),
+            new YamlFileLoader($containerBuilder, $fileLocator),
+            new PhpFileLoader($containerBuilder, $fileLocator),
+        ]);
+        $delegatingLoader = new DelegatingLoader($loaderResolver);
+        $directory = $containerConfigurationPath . \DIRECTORY_SEPARATOR . 'services.';
+        $files = [
+            $directory . 'yml',
+            $directory . 'yaml',
+            $directory . 'xml',
+            $directory . 'php',
+        ];
+
+        foreach ($files as $serviceDefinitionPath) {
+            if (!\is_file($serviceDefinitionPath)) {
+                continue;
+            }
+
+            try {
+                $delegatingLoader->load($serviceDefinitionPath);
+            } catch (\Throwable $throwable) {
+                throw new DelegatingLoaderLoadException(
+                    $serviceDefinitionPath,
+                    1674923696,
+                    $throwable
+                );
+            }
+        }
     }
 
     /**

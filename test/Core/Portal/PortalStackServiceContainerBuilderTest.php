@@ -33,6 +33,9 @@ use Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepCloneContract;
 use Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientMiddlewareInterface;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageCurlShellFormatterContract;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageFormatterContract;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageRawHttpFormatterContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerUrlProviderInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use HeptacomFixture\Portal\A\AutomaticService\ExceptionNotInContainer;
@@ -88,6 +91,7 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
 
         $this->classLoader = new ClassLoader();
         $this->classLoader->addPsr4('HeptacomFixture\\Portal\\A\\', __DIR__ . '/../../../test-composer-integration/portal-package/src/');
+        $this->classLoader->addPsr4('HeptacomFixture\\Portal\\AdditionalPackage\\', __DIR__ . '/../../../test-composer-integration/portal-package/src-additional/');
         $this->classLoader->addPsr4('HeptacomFixture\\Portal\\Extension\\', __DIR__ . '/../../../test-composer-integration/portal-package-extension/src/');
         $this->classLoader->register();
     }
@@ -131,9 +135,18 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
         static::assertTrue($container->has(ExceptionInContainer::class));
         static::assertFalse($container->has(ExceptionNotInContainer::class));
 
+        static::assertTrue($container->has('manual-service-by-portal'));
+        static::assertTrue($container->has('manual-service-by-additional-package'));
+
         static::assertTrue($container->has(InboundHttpMiddleware::class));
         static::assertTrue($container->has(OutboundHttpMiddleware::class));
         static::assertTrue($container->has(HttpMiddlewareCollector::class));
+
+        static::assertTrue($container->has(Psr7MessageFormatterContract::class));
+        static::assertTrue($container->has(Psr7MessageCurlShellFormatterContract::class));
+        static::assertTrue($container->has(Psr7MessageRawHttpFormatterContract::class));
+
+        static::assertInstanceOf(Psr7MessageRawHttpFormatterContract::class, $container->get(Psr7MessageFormatterContract::class));
         /** @var HttpMiddlewareCollector $middlewareCollector */
         $middlewareCollector = $container->get(HttpMiddlewareCollector::class);
         static::assertCount(1, $middlewareCollector);
@@ -240,6 +253,8 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
             $httpHandlerUrlProviderFactory,
             $this->createMock(RequestStorageContract::class),
             $this->createMock(FilesystemFactoryInterface::class),
+            $this->createMock(Psr7MessageCurlShellFormatterContract::class),
+            $this->createMock(Psr7MessageRawHttpFormatterContract::class),
         );
         $builder->setDirectEmissionFlow($this->createMock(DirectEmissionFlowContract::class));
         $builder->setFileReferenceResolver($this->createMock(FileReferenceResolverContract::class));

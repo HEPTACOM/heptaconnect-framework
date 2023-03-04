@@ -11,6 +11,7 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayloads;
+use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Delete\JobDeleteCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Fail\JobFailPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Finish\JobFinishPayload;
@@ -25,6 +26,7 @@ use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayloads;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\JobKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Dataset\EntityA;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalA\PortalA;
@@ -131,6 +133,59 @@ abstract class JobTestContract extends TestCase
         } catch (\Throwable) {
         }
 
+        $portalNodeDelete->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([$portalNodeKey])));
+    }
+
+    /**
+     * Runs the storage into a situation, where a job is started and together started with others without running issues.
+     */
+    public function testStartJobThatIsAlreadyStarted(): void
+    {
+        $facade = $this->createStorageFacade();
+        $portalNodeCreate = $facade->getPortalNodeCreateAction();
+        $portalNodeDelete = $facade->getPortalNodeDeleteAction();
+        $jobCreate = $facade->getJobCreateAction();
+        $jobDelete = $facade->getJobDeleteAction();
+        $jobStart = $facade->getJobStartAction();
+
+        $firstPortalNode = $portalNodeCreate->create(new PortalNodeCreatePayloads([
+            new PortalNodeCreatePayload(PortalA::class),
+        ]))->first();
+
+        static::assertInstanceOf(PortalNodeCreateResult::class, $firstPortalNode);
+
+        $portalNodeKey = $firstPortalNode->getPortalNodeKey();
+        $primaryKey = 'f6e26caedd8a4f01850ece9f32715196';
+        $mapping = new MappingComponentStruct($portalNodeKey, EntityA::class, $primaryKey);
+
+        $firstJobs = $jobCreate->create(new JobCreatePayloads([
+            new JobCreatePayload(Exploration::class, $mapping, []),
+        ]));
+        $secondJobs = $jobCreate->create(new JobCreatePayloads([
+            new JobCreatePayload(Exploration::class, $mapping, []),
+        ]));
+        $firstJobKeys = new JobKeyCollection($firstJobs->map(
+            static fn (JobCreateResult $createResult): JobKeyInterface => $createResult->getJobKey()
+        ));
+        $secondJobKeys = new JobKeyCollection($secondJobs->map(
+            static fn (JobCreateResult $createResult): JobKeyInterface => $createResult->getJobKey()
+        ));
+
+        $allJobKeys = new JobKeyCollection();
+        $allJobKeys->push($firstJobKeys);
+        $allJobKeys->push($secondJobKeys);
+
+        $firstStartResult = $jobStart->start(new JobStartPayload($firstJobKeys, new \DateTimeImmutable(), self::MESSAGE));
+
+        static::assertCount(1, $firstStartResult->getStartedJobs());
+        static::assertCount(0, $firstStartResult->getSkippedJobs());
+
+        $allStartResult = $jobStart->start(new JobStartPayload($allJobKeys, new \DateTimeImmutable(), self::MESSAGE));
+
+        static::assertCount(1, $allStartResult->getStartedJobs());
+        static::assertCount(1, $allStartResult->getSkippedJobs());
+
+        $jobDelete->delete(new JobDeleteCriteria($allJobKeys));
         $portalNodeDelete->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([$portalNodeKey])));
     }
 
