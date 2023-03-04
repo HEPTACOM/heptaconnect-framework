@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace HeptacomFixture\Portal\A;
 
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
+use HeptacomFixture\Portal\A\AutomaticService\ShouldNotBeAnAlias;
 use HeptacomFixture\Portal\A\Dto\ShouldNotBeAService;
 use HeptacomFixture\Portal\AdditionalPackage\AdditionalPackage;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -16,6 +17,7 @@ class Portal extends PortalContract
     {
         return \array_merge(parent::getContainerExcludedClasses(), [
             ShouldNotBeAService::class,
+            ShouldNotBeAnAlias::class,
         ]);
     }
 
