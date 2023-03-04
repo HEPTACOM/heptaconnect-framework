@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Add `\Heptacom\HeptaConnect\TestSuite\Storage\Action\JobTestContract::testStartJobThatIsAlreadyStarted` to test situations, where a job is already started and this is not causing issues starting it again
+- Add `\Heptacom\HeptaConnect\TestSuite\Storage\Action\WebHttpHandlerConfigurationTestContract` to test basic life cycle of web HTTP handler configuration
 
 ### Deprecated
 
