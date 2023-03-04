@@ -13,7 +13,6 @@ use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleFlowHttpHandlersFacto
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackBuilderFactoryInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackBuilderInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackProcessorInterface;
-use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlingActorInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\ServerRequestCycleDumpCheckerInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\ServerRequestCycleDumperInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Handler\HttpMiddlewareChainHandler;
@@ -255,8 +254,6 @@ final class HttpHandleServiceTest extends TestCase
 
         $logger = $this->createMock(LoggerInterface::class);
 
-        $actor = new HttpHandlingActor($logger);
-
         $middleware = $this->createMock(MiddlewareInterface::class);
         $middleware->expects(static::once())->method('process')->willReturnCallback(
             function (ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
@@ -269,13 +266,21 @@ final class HttpHandleServiceTest extends TestCase
         );
 
         $container = $this->createMock(ContainerInterface::class);
-        $container->expects(static::once())->method('get')->willReturn(new HttpMiddlewareCollector([
-            $middleware,
-        ]));
+        $container->method('get')
+            ->willReturnCallback(function (string $id) use ($middleware) {
+                if ($id === HttpMiddlewareCollector::class) {
+                    return new HttpMiddlewareCollector([$middleware]);
+                }
 
-        $context = new HttpHandleContext($container, []);
+                return $this->createMock($id);
+            });
+
+        $context = new HttpHandleContext(new PortalNodeContainerFacade($container), []);
         $contextFactory = $this->createMock(HttpHandleContextFactoryInterface::class);
         $contextFactory->expects(static::once())->method('createContext')->willReturn($context);
+
+        $httpHandleFlowHttpHandlersFactory = $this->createMock(HttpHandleFlowHttpHandlersFactoryInterface::class);
+        $httpHandleFlowHttpHandlersFactory->method('createHttpHandlers')->willReturn(new HttpHandlerCollection());
 
         $dumpChecker = $this->createMock(ServerRequestCycleDumpCheckerInterface::class);
         $dumpChecker->method('shallDump')->willReturn(true);
@@ -284,13 +289,14 @@ final class HttpHandleServiceTest extends TestCase
         $dumper->expects(static::once())->method('dump');
 
         $service = new HttpHandleService(
-            $actor,
+            new HttpHandlerStackProcessor($logger),
             $contextFactory,
             $logger,
             $stackBuilderFactory,
             $storageKeyGenerator,
             $responseFactory,
             $findAction,
+            $httpHandleFlowHttpHandlersFactory,
             $dumpChecker,
             $dumper,
         );

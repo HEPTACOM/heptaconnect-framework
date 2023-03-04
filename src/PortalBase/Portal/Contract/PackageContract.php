@@ -27,7 +27,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  */
 abstract class PackageContract
 {
-    public final function __construct()
+    final public function __construct()
     {
     }
 
