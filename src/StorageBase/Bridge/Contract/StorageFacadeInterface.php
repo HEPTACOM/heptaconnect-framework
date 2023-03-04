@@ -87,7 +87,7 @@ interface StorageFacadeInterface
     public function getIdentityRedirectDeleteAction(): IdentityRedirectDeleteActionInterface;
 
     /**
-     * Provides storage action to paginate over all identity redirects.
+     * Provides storage action to paginate over identity redirects.
      *
      * @throws StorageFacadeServiceExceptionInterface
      */
