@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [0.9.4.0] - 2023-03-04
+
+### Added
+
 - Add composer dependency `symfony/config: ^4.4 || ^5.0` and `symfony/dependency-injection: ^4.4 || ^5.0`
 - Add `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract` as base class for additional packages, other than portals and portal extensions
 - Add `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract::buildContainer` allowing packages to influence the build-process of the portal-container
@@ -22,18 +36,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add service of `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageCurlShellFormatterContract` implementing `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageFormatterContract` to format HTTP messages described in PSR-7 into cURL shell commands
 - Add service of `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageRawHttpFormatterContract` implementing `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageFormatterContract` as default provider to format HTTP messages described in PSR-7 into raw HTTP traffic, that can be used with TCP networking tools
 
-### Changed
-
 ### Deprecated
 
 - Deprecate and discourage usage of `\Heptacom\HeptaConnect\Dataset\Base\Contract\DeferralAwareInterface` as it has not been a practical solution to defer closure execution in a different process
 - Deprecate extending method `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract::__construct` as this method will become final in version 0.10
-
-### Removed
-
-### Fixed
-
-### Security
 
 ## [0.9.3.0] - 2022-11-26
 
