@@ -40,5 +40,10 @@
                 "HeptacomFixture\\TestSuitePortal\\TestPortal\\TestPortal"
             ]
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     }
 }
