@@ -14,6 +14,9 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverview
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityReflectActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityError\IdentityErrorCreateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectCreateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectDeleteActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface;
@@ -57,6 +60,12 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     private ?FileReferenceGetRequestActionInterface $fileReferenceGetRequestAction = null;
 
     private ?FileReferencePersistRequestActionInterface $fileReferencePersistRequestAction = null;
+
+    private ?IdentityRedirectCreateActionInterface $identityRedirectCreateAction = null;
+
+    private ?IdentityRedirectDeleteActionInterface $identityRedirectDeleteAction = null;
+
+    private ?IdentityRedirectOverviewActionInterface $identityRedirectOverviewAction = null;
 
     private ?IdentityErrorCreateActionInterface $identityErrorCreateAction = null;
 
@@ -159,6 +168,39 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
             throw $throwable;
         } catch (\Throwable $throwable) {
             throw new StorageFacadeServiceException(FileReferencePersistRequestActionInterface::class, $throwable);
+        }
+    }
+
+    public function getIdentityRedirectCreateAction(): IdentityRedirectCreateActionInterface
+    {
+        try {
+            return $this->identityRedirectCreateAction ??= $this->createIdentityRedirectCreateActionInterface();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            throw $throwable;
+        } catch (\Throwable $throwable) {
+            throw new StorageFacadeServiceException(IdentityRedirectCreateActionInterface::class, $throwable);
+        }
+    }
+
+    public function getIdentityRedirectDeleteAction(): IdentityRedirectDeleteActionInterface
+    {
+        try {
+            return $this->identityRedirectDeleteAction ??= $this->createIdentityRedirectDeleteActionInterface();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            throw $throwable;
+        } catch (\Throwable $throwable) {
+            throw new StorageFacadeServiceException(IdentityRedirectDeleteActionInterface::class, $throwable);
+        }
+    }
+
+    public function getIdentityRedirectOverviewAction(): IdentityRedirectOverviewActionInterface
+    {
+        try {
+            return $this->identityRedirectOverviewAction ??= $this->createIdentityRedirectOverviewActionInterface();
+        } catch (StorageFacadeServiceExceptionInterface $throwable) {
+            throw $throwable;
+        } catch (\Throwable $throwable) {
+            throw new StorageFacadeServiceException(IdentityRedirectOverviewActionInterface::class, $throwable);
         }
     }
 
@@ -609,6 +651,21 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
      * @throws \Throwable
      */
     abstract protected function createFileReferencePersistRequestAction(): FileReferencePersistRequestActionInterface;
+
+    /**
+     * @throws \Throwable
+     */
+    abstract protected function createIdentityRedirectCreateActionInterface(): IdentityRedirectCreateActionInterface;
+
+    /**
+     * @throws \Throwable
+     */
+    abstract protected function createIdentityRedirectDeleteActionInterface(): IdentityRedirectDeleteActionInterface;
+
+    /**
+     * @throws \Throwable
+     */
+    abstract protected function createIdentityRedirectOverviewActionInterface(): IdentityRedirectOverviewActionInterface;
 
     /**
      * @throws \Throwable
