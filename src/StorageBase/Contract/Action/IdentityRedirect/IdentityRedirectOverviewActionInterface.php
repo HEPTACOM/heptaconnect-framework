@@ -11,7 +11,7 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\InvalidOverviewCriteriaExceptio
 interface IdentityRedirectOverviewActionInterface
 {
     /**
-     * Paginate over all identity redirects.
+     * Paginate over identity redirects.
      * Expected to be used for a human request listing.
      *
      *@throws InvalidOverviewCriteriaException
