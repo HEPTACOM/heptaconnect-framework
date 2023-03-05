@@ -14,7 +14,6 @@ class IdentityRedirectKeyCollection extends AbstractCollection
 {
     protected function isValidItem($item): bool
     {
-        /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */
         return $item instanceof IdentityRedirectKeyInterface;
     }
 }
