@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
@@ -46,11 +45,6 @@ final class IdentityRedirectOverviewCriteria extends OverviewCriteriaContract im
     protected ?StringCollection $targetExternalIdFilter = null;
 
     protected ?IdentityRedirectKeyCollection $identityRedirectKeyFilter = null;
-
-    public function __construct()
-    {
-        $this->attachments = new AttachmentCollection();
-    }
 
     public function getSort(): array
     {

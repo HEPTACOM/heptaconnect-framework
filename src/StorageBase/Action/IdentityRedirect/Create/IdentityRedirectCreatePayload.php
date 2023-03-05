@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
@@ -22,7 +21,6 @@ final class IdentityRedirectCreatePayload implements CreatePayloadInterface, Att
         private string $targetExternalId,
         private string $entityType,
     ) {
-        $this->attachments = new AttachmentCollection();
     }
 
     public function getSourcePortalNodeKey(): PortalNodeKeyInterface
