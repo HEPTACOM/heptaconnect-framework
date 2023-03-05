@@ -290,7 +290,7 @@ class StorageActionParameterTest extends TestCase
         yield new FileReferencePersistRequestResult($portalNodeKey);
         yield new FileReferenceGetRequestCriteria($portalNodeKey, new FileReferenceRequestKeyCollection());
         yield new FileReferenceGetRequestResult($portalNodeKey, $fileReferenceRequestKey, '');
-        yield new IdentityRedirectCreatePayload($portalNodeKey, '', $portalNodeKey, '', $entityType);
+        yield new IdentityRedirectCreatePayload($portalNodeKey, '', $portalNodeKey, '', $entityType::class());
         yield new IdentityRedirectCreatePayloadCollection();
         yield new IdentityRedirectCreateResult($identityRedirectKey);
         yield new IdentityRedirectCreateResultCollection();
@@ -298,7 +298,8 @@ class StorageActionParameterTest extends TestCase
             $identityRedirectKey,
         ]));
         yield new IdentityRedirectOverviewCriteria();
-        yield new IdentityRedirectOverviewResult($identityRedirectKey, $portalNodeKey, '', $portalNodeKey, '', $entityType, $createdAt);
+        yield new IdentityRedirectOverviewResult($identityRedirectKey, $portalNodeKey, '', $portalNodeKey, '', $entityType::class(), $createdAt);
+        yield new IdentityRedirectOverviewResult($identityRedirectKey, $portalNodeKey, '', $portalNodeKey, '', $unsafeClass, $createdAt);
         yield new IdentityMapPayload($portalNodeKey, $entityCollection);
         yield new IdentityMapResult($mappedDatasetEntityCollection);
         yield new IdentityOverviewCriteria();

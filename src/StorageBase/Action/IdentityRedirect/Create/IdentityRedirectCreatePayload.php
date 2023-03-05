@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Create\CreatePayloadInterface;
@@ -19,7 +19,7 @@ final class IdentityRedirectCreatePayload implements CreatePayloadInterface, Att
         private string $sourceExternalId,
         private PortalNodeKeyInterface $targetPortalNodeKey,
         private string $targetExternalId,
-        private string $entityType,
+        private EntityType $entityType,
     ) {
     }
 
@@ -43,18 +43,12 @@ final class IdentityRedirectCreatePayload implements CreatePayloadInterface, Att
         $this->targetPortalNodeKey = $targetPortalNodeKey;
     }
 
-    /**
-     * @return class-string<DatasetEntityContract>
-     */
-    public function getEntityType(): string
+    public function getEntityType(): EntityType
     {
         return $this->entityType;
     }
 
-    /**
-     * @param class-string<DatasetEntityContract> $entityType
-     */
-    public function setEntityType(string $entityType): void
+    public function setEntityType(EntityType $entityType): void
     {
         $this->entityType = $entityType;
     }

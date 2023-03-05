@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\IdentityRedirectKeyInterface;
@@ -14,16 +14,13 @@ final class IdentityRedirectOverviewResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    /**
-     * @param class-string<DatasetEntityContract> $entityType
-     */
     public function __construct(
         private IdentityRedirectKeyInterface $identityRedirectKey,
         private PortalNodeKeyInterface $sourcePortalNodeKey,
         private string $sourceExternalId,
         private PortalNodeKeyInterface $targetPortalNodeKey,
         private string $targetExternalId,
-        private string $entityType,
+        private ClassStringReferenceContract $entityType,
         private \DateTimeInterface $createdAt
     ) {
     }
@@ -53,10 +50,7 @@ final class IdentityRedirectOverviewResult implements AttachmentAwareInterface
         return $this->targetExternalId;
     }
 
-    /**
-     * @return class-string<DatasetEntityContract>
-     */
-    public function getEntityType(): string
+    public function getEntityType(): ClassStringReferenceContract
     {
         return $this->entityType;
     }

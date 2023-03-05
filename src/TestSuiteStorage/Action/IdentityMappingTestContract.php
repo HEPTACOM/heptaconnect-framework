@@ -508,21 +508,21 @@ abstract class IdentityMappingTestContract extends TestCase
 
         $identityDirCreateResult = $this->identityRedirectCreate
             ->create(new IdentityRedirectCreatePayloadCollection([
-                new IdentityRedirectCreatePayload($this->getPortalNodeA(), $sourceId1, $this->getPortalNodeB(), $targetId, EntityA::class),
-                new IdentityRedirectCreatePayload($this->getPortalNodeA(), $sourceId2, $this->getPortalNodeB(), $targetId, EntityA::class),
+                new IdentityRedirectCreatePayload($this->getPortalNodeA(), $sourceId1, $this->getPortalNodeB(), $targetId, EntityA::class()),
+                new IdentityRedirectCreatePayload($this->getPortalNodeA(), $sourceId2, $this->getPortalNodeB(), $targetId, EntityA::class()),
 
                 // this is some possible distraction, that shall not be picked
-                new IdentityRedirectCreatePayload($this->getPortalNodeA(), '984b818f-f067-4a01-9a00-0ec75516715e', $this->getPortalNodeB(), $targetId, EntityA::class),
-                new IdentityRedirectCreatePayload($this->getPortalNodeB(), 'fb9db174-7a0f-4851-9b51-83758512e095', $this->getPortalNodeB(), $targetId, EntityA::class),
-                new IdentityRedirectCreatePayload($this->getPortalNodeC(), 'fb9db174-7a0f-4851-9b51-83758512e095', $this->getPortalNodeB(), $targetId, EntityA::class),
-                new IdentityRedirectCreatePayload($this->getPortalNodeB(), $sourceId1, $this->getPortalNodeC(), $sourceId2, EntityA::class),
-                new IdentityRedirectCreatePayload($this->getPortalNodeC(), $sourceId1, $this->getPortalNodeC(), $sourceId2, EntityA::class),
-                new IdentityRedirectCreatePayload($this->getPortalNodeB(), $sourceId2, $this->getPortalNodeC(), $sourceId2, EntityA::class),
-                new IdentityRedirectCreatePayload($this->getPortalNodeC(), $sourceId2, $this->getPortalNodeC(), $sourceId2, EntityA::class),
-                new IdentityRedirectCreatePayload($this->getPortalNodeB(), $sourceId1, $this->getPortalNodeC(), 'invalid-value', EntityB::class),
-                new IdentityRedirectCreatePayload($this->getPortalNodeC(), $sourceId1, $this->getPortalNodeC(), 'invalid-value', EntityB::class),
-                new IdentityRedirectCreatePayload($this->getPortalNodeB(), $sourceId2, $this->getPortalNodeC(), 'invalid-value', EntityB::class),
-                new IdentityRedirectCreatePayload($this->getPortalNodeC(), $sourceId2, $this->getPortalNodeC(), 'invalid-value', EntityB::class),
+                new IdentityRedirectCreatePayload($this->getPortalNodeA(), '984b818f-f067-4a01-9a00-0ec75516715e', $this->getPortalNodeB(), $targetId, EntityA::class()),
+                new IdentityRedirectCreatePayload($this->getPortalNodeB(), 'fb9db174-7a0f-4851-9b51-83758512e095', $this->getPortalNodeB(), $targetId, EntityA::class()),
+                new IdentityRedirectCreatePayload($this->getPortalNodeC(), 'fb9db174-7a0f-4851-9b51-83758512e095', $this->getPortalNodeB(), $targetId, EntityA::class()),
+                new IdentityRedirectCreatePayload($this->getPortalNodeB(), $sourceId1, $this->getPortalNodeC(), $sourceId2, EntityA::class()),
+                new IdentityRedirectCreatePayload($this->getPortalNodeC(), $sourceId1, $this->getPortalNodeC(), $sourceId2, EntityA::class()),
+                new IdentityRedirectCreatePayload($this->getPortalNodeB(), $sourceId2, $this->getPortalNodeC(), $sourceId2, EntityA::class()),
+                new IdentityRedirectCreatePayload($this->getPortalNodeC(), $sourceId2, $this->getPortalNodeC(), $sourceId2, EntityA::class()),
+                new IdentityRedirectCreatePayload($this->getPortalNodeB(), $sourceId1, $this->getPortalNodeC(), 'invalid-value', EntityB::class()),
+                new IdentityRedirectCreatePayload($this->getPortalNodeC(), $sourceId1, $this->getPortalNodeC(), 'invalid-value', EntityB::class()),
+                new IdentityRedirectCreatePayload($this->getPortalNodeB(), $sourceId2, $this->getPortalNodeC(), 'invalid-value', EntityB::class()),
+                new IdentityRedirectCreatePayload($this->getPortalNodeC(), $sourceId2, $this->getPortalNodeC(), 'invalid-value', EntityB::class()),
             ]));
 
         // this is what we test here
@@ -603,8 +603,8 @@ abstract class IdentityMappingTestContract extends TestCase
 
         $identityDirCreateResult = $this->identityRedirectCreate
             ->create(new IdentityRedirectCreatePayloadCollection([
-                new IdentityRedirectCreatePayload($this->getPortalNodeA(), $sourceId1, $this->getPortalNodeB(), $targetId, EntityA::class),
-                new IdentityRedirectCreatePayload($this->getPortalNodeA(), $sourceId2, $this->getPortalNodeB(), $targetId, EntityA::class),
+                new IdentityRedirectCreatePayload($this->getPortalNodeA(), $sourceId1, $this->getPortalNodeB(), $targetId, EntityA::class()),
+                new IdentityRedirectCreatePayload($this->getPortalNodeA(), $sourceId2, $this->getPortalNodeB(), $targetId, EntityA::class()),
             ]));
 
         // this is what we test here
