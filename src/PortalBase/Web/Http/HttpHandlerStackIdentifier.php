@@ -9,14 +9,10 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 
 final class HttpHandlerStackIdentifier implements FlowComponentStackIdentifierInterface
 {
-    private PortalNodeKeyInterface $portalNodeKey;
-
-    private string $path;
-
-    public function __construct(PortalNodeKeyInterface $portalNodeKey, string $path)
-    {
-        $this->portalNodeKey = $portalNodeKey;
-        $this->path = $path;
+    public function __construct(
+        private PortalNodeKeyInterface $portalNodeKey,
+        private string $path
+    ) {
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

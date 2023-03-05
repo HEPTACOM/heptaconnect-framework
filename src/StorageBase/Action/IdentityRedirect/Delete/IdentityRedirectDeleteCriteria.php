@@ -13,12 +13,10 @@ final class IdentityRedirectDeleteCriteria implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private IdentityRedirectKeyCollection $identityRedirectKeys;
-
-    public function __construct(IdentityRedirectKeyCollection $identityRedirectKeys)
-    {
+    public function __construct(
+        private IdentityRedirectKeyCollection $identityRedirectKeys
+    ) {
         $this->attachments = new AttachmentCollection();
-        $this->identityRedirectKeys = $identityRedirectKeys;
     }
 
     public function getIdentityRedirectKeys(): IdentityRedirectKeyCollection

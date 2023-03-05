@@ -13,12 +13,10 @@ final class IdentityRedirectCreateResult implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    protected IdentityRedirectKeyInterface $identityRedirectKey;
-
-    public function __construct(IdentityRedirectKeyInterface $identityRedirectKey)
-    {
+    public function __construct(
+        private IdentityRedirectKeyInterface $identityRedirectKey
+    ) {
         $this->attachments = new AttachmentCollection();
-        $this->identityRedirectKey = $identityRedirectKey;
     }
 
     public function getIdentityRedirectKey(): IdentityRedirectKeyInterface

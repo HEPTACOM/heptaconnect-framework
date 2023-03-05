@@ -15,35 +15,14 @@ final class IdentityRedirectCreatePayload implements CreatePayloadInterface, Att
 {
     use AttachmentAwareTrait;
 
-    protected PortalNodeKeyInterface $sourcePortalNodeKey;
-
-    protected string $sourceExternalId;
-
-    protected PortalNodeKeyInterface $targetPortalNodeKey;
-
-    protected string $targetExternalId;
-
-    /**
-     * @var class-string<DatasetEntityContract>
-     */
-    protected string $entityType;
-
-    /**
-     * @param class-string<DatasetEntityContract> $entityType
-     */
     public function __construct(
-        PortalNodeKeyInterface $sourcePortalNodeKey,
-        string $sourceExternalId,
-        PortalNodeKeyInterface $targetPortalNodeKey,
-        string $targetExternalId,
-        string $entityType,
+        private PortalNodeKeyInterface $sourcePortalNodeKey,
+        private string $sourceExternalId,
+        private PortalNodeKeyInterface $targetPortalNodeKey,
+        private string $targetExternalId,
+        private string $entityType,
     ) {
         $this->attachments = new AttachmentCollection();
-        $this->sourcePortalNodeKey = $sourcePortalNodeKey;
-        $this->sourceExternalId = $sourceExternalId;
-        $this->targetPortalNodeKey = $targetPortalNodeKey;
-        $this->targetExternalId = $targetExternalId;
-        $this->entityType = $entityType;
     }
 
     public function getSourcePortalNodeKey(): PortalNodeKeyInterface
