@@ -149,14 +149,14 @@ abstract class JobTestContract extends TestCase
         $jobStart = $facade->getJobStartAction();
 
         $firstPortalNode = $portalNodeCreate->create(new PortalNodeCreatePayloads([
-            new PortalNodeCreatePayload(PortalA::class),
+            new PortalNodeCreatePayload(PortalA::class()),
         ]))->first();
 
         static::assertInstanceOf(PortalNodeCreateResult::class, $firstPortalNode);
 
         $portalNodeKey = $firstPortalNode->getPortalNodeKey();
         $primaryKey = 'f6e26caedd8a4f01850ece9f32715196';
-        $mapping = new MappingComponentStruct($portalNodeKey, EntityA::class, $primaryKey);
+        $mapping = new MappingComponentStruct($portalNodeKey, EntityA::class(), $primaryKey);
 
         $firstJobs = $jobCreate->create(new JobCreatePayloads([
             new JobCreatePayload(Exploration::class, $mapping, []),
