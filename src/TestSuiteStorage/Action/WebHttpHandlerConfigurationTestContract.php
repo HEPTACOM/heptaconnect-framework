@@ -40,7 +40,7 @@ abstract class WebHttpHandlerConfigurationTestContract extends TestCase
         $createResults = $createAction->create($createPayloads);
         $portalNodeKeys = new PortalNodeKeyCollection(\iterable_map(
             $createResults,
-            static fn (PortalNodeCreateResult $r): PortalNodeKeyInterface => $r->getPortalNodeKey()
+            static fn (PortalNodeCreateResult $result): PortalNodeKeyInterface => $result->getPortalNodeKey()
         ));
 
         $createResult = $createResults->first();
