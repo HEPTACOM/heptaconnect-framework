@@ -21,7 +21,7 @@ abstract class OverviewCriteriaContract
     /**
      * @var array<string, string>
      */
-    private array $sort = [];
+    protected array $sort = [];
 
     /**
      * Get the page to query.

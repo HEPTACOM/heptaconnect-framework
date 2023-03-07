@@ -104,6 +104,7 @@ use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\W
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayloads;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Overview\OverviewCriteriaContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\FileReferenceRequestKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\IdentityRedirectKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\JobKeyInterface;
@@ -224,6 +225,17 @@ class StorageActionParameterTest extends TestCase
             $attachmentAware->attach($attachment);
             static::assertTrue($attachmentAware->isAttached($attachment));
             $attachmentAware->detach($attachment);
+        }
+    }
+
+    public function testOverviewCriteriasHaveCustomizedDefaultSorting(): void
+    {
+        foreach ($this->iterateAttachmentAwareActionStructs() as $struct) {
+            if (!$struct instanceof OverviewCriteriaContract) {
+                continue;
+            }
+
+            static::assertNotSame([], $struct->getSort());
         }
     }
 
