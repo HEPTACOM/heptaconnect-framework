@@ -16,6 +16,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\IdentityErrorKeyInterf
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier;
 use Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestPersist\FileReferencePersistRequestPayload;
@@ -144,6 +145,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionType
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestPersist\FileReferencePersistRequestPayload
@@ -246,6 +248,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayloads
+ * @covers \Heptacom\HeptaConnect\Storage\Base\IdentityRedirectKeyCollection
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\UiActionType
  */
 class StorageActionParameterTest extends TestCase
@@ -285,6 +288,7 @@ class StorageActionParameterTest extends TestCase
         $unsafeClass = new UnsafeClassString($entityType);
         $uiAuditTrailKey = $this->createMock(UiAuditTrailKeyInterface::class);
         $stringCollection = new StringCollection();
+        $httpStackIdentifier = new HttpHandlerStackIdentifier($portalNodeKey, '');
 
         yield new FileReferencePersistRequestPayload($portalNodeKey);
         yield new FileReferencePersistRequestResult($portalNodeKey);
@@ -395,9 +399,9 @@ class StorageActionParameterTest extends TestCase
         yield new UiAuditTrailLogErrorPayload($uiAuditTrailKey, \Throwable::class, 17, '', '');
         yield new UiAuditTrailLogErrorPayloadCollection();
         yield new UiAuditTrailEndPayload($uiAuditTrailKey);
-        yield new WebHttpHandlerConfigurationFindCriteria($portalNodeKey, '', '');
+        yield new WebHttpHandlerConfigurationFindCriteria($httpStackIdentifier, '');
         yield new WebHttpHandlerConfigurationFindResult(null);
-        yield new WebHttpHandlerConfigurationSetPayload($portalNodeKey, '', '');
+        yield new WebHttpHandlerConfigurationSetPayload($httpStackIdentifier, '');
         yield new WebHttpHandlerConfigurationSetPayloads();
     }
 }
