@@ -68,7 +68,7 @@ final class Psr7MessageCurlShellFormatterTest extends TestCase
         $request = $request->withProtocolVersion('1.1');
         $command = $formatter->formatMessage($request);
 
-        static::assertSame(7, \preg_match_all('/^\s+-/m', $command, $matches, \PREG_OFFSET_CAPTURE));
+        static::assertSame(8, \preg_match_all('/^\s+-/m', $command, $matches, \PREG_OFFSET_CAPTURE));
     }
 
     public function testHttpProtocolVersionIsRepresentedByCorrectCurlParameter(): void
