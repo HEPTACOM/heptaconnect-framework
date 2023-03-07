@@ -569,7 +569,6 @@ abstract class IdentityMappingTestContract extends TestCase
         $identityPersistPayloadCollection = new IdentityPersistPayloadCollection();
 
         static::assertCount(2, $mappedEntities);
-        $switchCases = [];
 
         /** @var MappedDatasetEntityStruct $mappedEntity */
         foreach ($mappedEntities as $mappedEntity) {
@@ -578,26 +577,23 @@ abstract class IdentityMappingTestContract extends TestCase
 
             switch ($identifiedEntity->getPrimaryKey()) {
                 case $sourceId1:
-                    $unwantedTargetId = $unwantedTargetId1;
-                    $switchCases[0] = true;
+                    $identityPersistPayloadCollection->push([
+                        new IdentityPersistCreatePayload($mappingNodeKey, $unwantedTargetId1),
+                    ]);
 
                     break;
                 case $sourceId2:
-                    $unwantedTargetId = $unwantedTargetId2;
-                    $switchCases[1] = true;
+                    $identityPersistPayloadCollection->push([
+                        new IdentityPersistCreatePayload($mappingNodeKey, $unwantedTargetId2),
+                    ]);
 
                     break;
                 default:
                     static::fail('Entity was not identified correctly.');
             }
-
-            $identityPersistPayloadCollection->push([
-                new IdentityPersistCreatePayload($mappingNodeKey, $unwantedTargetId),
-            ]);
         }
 
         static::assertCount(2, $identityPersistPayloadCollection);
-        static::assertCount(2, $switchCases);
 
         $this->persistIdentity($this->getPortalNodeB(), $identityPersistPayloadCollection);
 

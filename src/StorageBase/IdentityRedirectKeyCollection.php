@@ -12,7 +12,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\IdentityRedirectKeyInterface;
  */
 class IdentityRedirectKeyCollection extends AbstractCollection
 {
-    protected function isValidItem($item): bool
+    protected function isValidItem(mixed $item): bool
     {
         return $item instanceof IdentityRedirectKeyInterface;
     }

@@ -35,17 +35,17 @@ final class IdentityRedirectOverviewCriteria extends OverviewCriteriaContract im
         self::FIELD_CREATED => self::SORT_ASC,
     ];
 
-    protected ?ClassStringReferenceCollection $entityTypeFilter = null;
+    private ?ClassStringReferenceCollection $entityTypeFilter = null;
 
-    protected ?PortalNodeKeyCollection $sourcePortalNodeKeyFilter = null;
+    private ?PortalNodeKeyCollection $sourcePortalNodeKeyFilter = null;
 
-    protected ?PortalNodeKeyCollection $targetPortalNodeKeyFilter = null;
+    private ?PortalNodeKeyCollection $targetPortalNodeKeyFilter = null;
 
-    protected ?StringCollection $sourceExternalIdFilter = null;
+    private ?StringCollection $sourceExternalIdFilter = null;
 
-    protected ?StringCollection $targetExternalIdFilter = null;
+    private ?StringCollection $targetExternalIdFilter = null;
 
-    protected ?IdentityRedirectKeyCollection $identityRedirectKeyFilter = null;
+    private ?IdentityRedirectKeyCollection $identityRedirectKeyFilter = null;
 
     public function getSort(): array
     {

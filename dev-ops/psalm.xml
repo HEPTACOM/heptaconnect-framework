@@ -29,6 +29,7 @@
                 <!-- Can be removed when bentools/iterable-functions supports psalm -->
                 <file name="../src/Core/Ui/Admin/Action/PortalNodeConfigurationGetUi.php"/>
                 <file name="../src/Core/Ui/Admin/Action/PortalNodeStorageGetUi.php"/>
+                <file name="../src/TestSuiteStorage/Action/WebHttpHandlerConfigurationTestContract.php"/>
             </errorLevel>
         </PossiblyInvalidArgument>
 

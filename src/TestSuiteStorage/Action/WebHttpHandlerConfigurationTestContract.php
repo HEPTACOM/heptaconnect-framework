@@ -43,8 +43,11 @@ abstract class WebHttpHandlerConfigurationTestContract extends TestCase
             static fn (PortalNodeCreateResult $r): PortalNodeKeyInterface => $r->getPortalNodeKey()
         ));
 
-        static::assertCount(1, $createResults);
-        $portalA = $createResults[0]->getPortalNodeKey();
+        $createResult = $createResults->first();
+
+        static::assertInstanceOf(PortalNodeCreateResult::class, $createResult);
+
+        $portalA = $createResult->getPortalNodeKey();
 
         $httpStack = new HttpHandlerStackIdentifier($portalA, 'foo-bar');
 
