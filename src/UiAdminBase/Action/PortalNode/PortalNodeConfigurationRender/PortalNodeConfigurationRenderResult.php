@@ -24,19 +24,9 @@ final class PortalNodeConfigurationRenderResult implements AttachmentAwareInterf
         return $this->portalNodeKey;
     }
 
-    public function setPortalNodeKey(PortalNodeKeyInterface $portalNodeKey): void
-    {
-        $this->portalNodeKey = $portalNodeKey;
-    }
-
     public function getConfiguration(): array
     {
         return $this->configuration;
-    }
-
-    public function setConfiguration(array $configuration): void
-    {
-        $this->configuration = $configuration;
     }
 
     public function getAuditableData(): array
