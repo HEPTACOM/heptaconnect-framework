@@ -49,25 +49,14 @@ final class PortalNodeRemoveUiTest extends TestCase
 
     public function testSuccess(): void
     {
-        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparatorInterface::class);
         $portalNodeDeleteAction = $this->createMock(PortalNodeDeleteActionInterface::class);
         $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
-        $portalNodeKey2 = new PreviewPortalNodeKey(UninstantiablePortal::class());
 
-        $portalNodeExistenceSeparator->method('separateKeys')
-            ->willReturn(new PortalNodeExistenceSeparationResult(
-                new PortalNodeKeyCollection(),
-                new PortalNodeKeyCollection([
-                    $portalNodeKey,
-                    $portalNodeKey2,
-                ]),
-                new PortalNodeKeyCollection(),
-            ));
         $portalNodeDeleteAction->expects(static::once())->method('delete');
 
         $action = new PortalNodeRemoveUi(
             $this->createAuditTrailFactory(),
-            $portalNodeExistenceSeparator,
+            $this->createPortalNodeSeparatorAllExists(),
             $portalNodeDeleteAction
         );
         $criteria = new PortalNodeRemoveCriteria(new PortalNodeKeyCollection([
@@ -104,23 +93,12 @@ final class PortalNodeRemoveUiTest extends TestCase
 
     public function testPortalNodeFailedDeleting(): void
     {
-        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparatorInterface::class);
         $portalNodeDeleteAction = $this->createMock(PortalNodeDeleteActionInterface::class);
         $portalNodeKey = new PreviewPortalNodeKey(FooBarPortal::class());
-        $portalNodeKey2 = new PreviewPortalNodeKey(UninstantiablePortal::class());
 
-        $portalNodeExistenceSeparator->method('separateKeys')
-            ->willReturn(new PortalNodeExistenceSeparationResult(
-                new PortalNodeKeyCollection(),
-                new PortalNodeKeyCollection([
-                    $portalNodeKey,
-                    $portalNodeKey2,
-                ]),
-                new PortalNodeKeyCollection(),
-            ));
         $portalNodeDeleteAction->expects(static::once())->method('delete')->willThrowException(new \LogicException('Woops'));
 
-        $action = new PortalNodeRemoveUi($this->createAuditTrailFactory(), $portalNodeExistenceSeparator, $portalNodeDeleteAction);
+        $action = new PortalNodeRemoveUi($this->createAuditTrailFactory(), $this->createPortalNodeSeparatorAllExists(), $portalNodeDeleteAction);
         $criteria = new PortalNodeRemoveCriteria(new PortalNodeKeyCollection([
             $portalNodeKey,
         ]));

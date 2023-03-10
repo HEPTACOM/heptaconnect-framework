@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 
+use Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface;
 use Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract;
 use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
 use Heptacom\HeptaConnect\Core\Portal\Contract\PackageQueryMatcherInterface;
@@ -14,6 +15,7 @@ use Heptacom\HeptaConnect\Core\Ui\Admin\Action\JobRunUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalEntityListUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeAddUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeConfigurationGetUi;
+use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeConfigurationRenderUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeEntityListUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionActivateUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionBrowseUi;
@@ -52,6 +54,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalEntityListUi
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeAddUi
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeConfigurationGetUi
+ * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeConfigurationRenderUi
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeEntityListUi
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionActivateUi
  * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionBrowseUi
@@ -108,6 +111,7 @@ final class UiActionInterfaceTest extends TestCase
         $configurationGetAction = $this->createMock(PortalNodeConfigurationGetActionInterface::class);
         $portalStorageFactory = $this->createMock(PortalStorageFactory::class);
         $portalNodeExistenceSeparator = new PortalNodeExistenceSeparator($portalNodeGetAction);
+        $configurationService = $this->createMock(ConfigurationServiceInterface::class);
 
         yield new JobRunUi($auditTrailFactory, $jobActor, $jobGetAction);
         yield new PortalEntityListUi($auditTrailFactory, $portalNodeEntityListUiAction);
@@ -119,6 +123,7 @@ final class UiActionInterfaceTest extends TestCase
         yield new PortalNodeStatusReportUi($auditTrailFactory, $statusReportingService);
         yield new PortalNodeRemoveUi($auditTrailFactory, $portalNodeExistenceSeparator, $portalNodeDeleteAction);
         yield new PortalNodeConfigurationGetUi($auditTrailFactory, $portalNodeExistenceSeparator, $configurationGetAction);
+        yield new PortalNodeConfigurationRenderUi($auditTrailFactory, $portalNodeExistenceSeparator, $configurationService);
         yield new PortalNodeStorageGetUi($auditTrailFactory, $portalNodeExistenceSeparator, $portalStorageFactory);
         yield new RouteAddUiDefault($auditTrailFactory);
         yield new RouteAddUi($auditTrailFactory, $routeCreateAction, $routeFindAction, $routeGetAction, $routeDeleteAction, $portalNodeExistenceSeparator);

@@ -6,13 +6,10 @@ namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 
 use Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeStorageGetUi;
-use Heptacom\HeptaConnect\Core\Ui\Admin\Support\Contract\PortalNodeExistenceSeparatorInterface;
-use Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparationResult;
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalStorageInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStorageGet\PortalNodeStorageGetCriteria;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Action\PortalNode\PortalNodeStorageGet\PortalNodeStorageGetResult;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\InvalidPortalNodeStorageValueException;
@@ -51,21 +48,13 @@ final class PortalNodeStorageGetUiTest extends TestCase
 
     public function testReadingValues(): void
     {
-        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparatorInterface::class);
         $storageFactory = $this->createMock(PortalStorageFactory::class);
         $action = new PortalNodeStorageGetUi(
             $this->createAuditTrailFactory(),
-            $portalNodeExistenceSeparator,
+            $this->createPortalNodeSeparatorAllExists(),
             $storageFactory
         );
         $portalNodeKey = $this->createPortalNodeKey();
-
-        $portalNodeExistenceSeparator->method('separateKeys')->willReturn(new PortalNodeExistenceSeparationResult(
-            new PortalNodeKeyCollection(),
-            new PortalNodeKeyCollection([$portalNodeKey]),
-            new PortalNodeKeyCollection(),
-        ));
-
         $storage = $this->createCache();
         $storageFactory->method('createPortalStorage')->willReturn($storage);
 
@@ -119,20 +108,13 @@ final class PortalNodeStorageGetUiTest extends TestCase
 
     public function testMissingPortalNode(): void
     {
-        $portalNodeExistenceSeparator = $this->createMock(PortalNodeExistenceSeparatorInterface::class);
         $storageFactory = $this->createMock(PortalStorageFactory::class);
         $action = new PortalNodeStorageGetUi(
             $this->createAuditTrailFactory(),
-            $portalNodeExistenceSeparator,
+            $this->createPortalNodeSeparatorNoneExists(),
             $storageFactory
         );
         $portalNodeKey = $this->createPortalNodeKey();
-
-        $portalNodeExistenceSeparator->method('separateKeys')->willReturn(new PortalNodeExistenceSeparationResult(
-            new PortalNodeKeyCollection(),
-            new PortalNodeKeyCollection(),
-            new PortalNodeKeyCollection([$portalNodeKey]),
-        ));
 
         $storage = $this->createCache();
         $storageFactory->method('createPortalStorage')->willReturn($storage);
