@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Action;
 
-use Heptacom\HeptaConnect\Core\Test\Fixture\DependentPortal;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
+use Heptacom\HeptaConnect\Core\Test\Fixture\UninstantiablePortal;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUi;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Support\Contract\PortalNodeExistenceSeparatorInterface;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResult;
@@ -116,7 +116,7 @@ final class RouteAddUiTest extends TestCase
         $routeDeleteAction = $this->createMock(RouteDeleteActionInterface::class);
         $routeKey = $this->createMock(RouteKeyInterface::class);
         $portalNodeKeyA = new PreviewPortalNodeKey(FooBarPortal::class());
-        $portalNodeKeyB = new PreviewPortalNodeKey(DependentPortal::class());
+        $portalNodeKeyB = new PreviewPortalNodeKey(UninstantiablePortal::class());
 
         $routeCreateAction->method('create')->willReturn(new RouteCreateResults([
             new RouteCreateResult($routeKey),

@@ -26,6 +26,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+## [0.9.4.0] - 2023-03-04
+
+### Added
+
+- Add `\Heptacom\HeptaConnect\TestSuite\Storage\Action\IdentityMappingTestContract::testReflectTwoEntitiesOfSameTypeFromPortalNodeAToBWithIdentityRedirects` to test identities using identity redirects
+- Add `\Heptacom\HeptaConnect\TestSuite\Storage\Action\IdentityMappingTestContract::testReflectTwoEntitiesOfSameTypeFromPortalNodeAToBWithPortalAssignedAndIdentityRedirects` to test identities using identity redirects and portal assigned identities
+
+### Changed
+
+- Add `\Heptacom\HeptaConnect\TestSuite\Storage\Action\JobTestContract::testStartJobThatIsAlreadyStarted` to test situations, where a job is already started and this is not causing issues starting it again
+- Add `\Heptacom\HeptaConnect\TestSuite\Storage\Action\WebHttpHandlerConfigurationTestContract` to test basic life cycle of web HTTP handler configuration
+
 ## [0.9.3.0] - 2022-11-26
 
 ## [0.9.2.0] - 2022-10-16

@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Create\CreatePayloadInterface;
 
 final class WebHttpHandlerConfigurationSetPayload implements CreatePayloadInterface, AttachmentAwareInterface
@@ -14,31 +14,20 @@ final class WebHttpHandlerConfigurationSetPayload implements CreatePayloadInterf
     use AttachmentAwareTrait;
 
     public function __construct(
-        private PortalNodeKeyInterface $portalNodeKey,
-        private string $path,
+        private HttpHandlerStackIdentifier $stackIdentifier,
         private string $configurationKey,
         private ?array $configurationValue = null
     ) {
     }
 
-    public function getPortalNodeKey(): PortalNodeKeyInterface
+    public function getStackIdentifier(): HttpHandlerStackIdentifier
     {
-        return $this->portalNodeKey;
+        return $this->stackIdentifier;
     }
 
-    public function setPortalNodeKey(PortalNodeKeyInterface $portalNodeKey): void
+    public function setStackIdentifier(HttpHandlerStackIdentifier $stackIdentifier): void
     {
-        $this->portalNodeKey = $portalNodeKey;
-    }
-
-    public function getPath(): string
-    {
-        return $this->path;
-    }
-
-    public function setPath(string $path): void
-    {
-        $this->path = $path;
+        $this->stackIdentifier = $stackIdentifier;
     }
 
     public function getConfigurationKey(): string

@@ -12,6 +12,9 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverview
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityReflectActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityError\IdentityErrorCreateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectCreateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectDeleteActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface;
@@ -73,6 +76,21 @@ class Psr11StorageFacade extends AbstractSingletonStorageFacade
     protected function createFileReferencePersistRequestAction(): FileReferencePersistRequestActionInterface
     {
         return $this->getInstanceFromContainer(FileReferencePersistRequestActionInterface::class);
+    }
+
+    protected function createIdentityRedirectCreateActionInterface(): IdentityRedirectCreateActionInterface
+    {
+        return $this->getInstanceFromContainer(IdentityRedirectCreateActionInterface::class);
+    }
+
+    protected function createIdentityRedirectDeleteActionInterface(): IdentityRedirectDeleteActionInterface
+    {
+        return $this->getInstanceFromContainer(IdentityRedirectDeleteActionInterface::class);
+    }
+
+    protected function createIdentityRedirectOverviewActionInterface(): IdentityRedirectOverviewActionInterface
+    {
+        return $this->getInstanceFromContainer(IdentityRedirectOverviewActionInterface::class);
     }
 
     protected function createIdentityErrorCreateAction(): IdentityErrorCreateActionInterface

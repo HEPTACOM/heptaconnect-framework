@@ -62,6 +62,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+## [0.9.4.0] - 2023-03-04
+
+### Added
+
+- Add composer dependency `symfony/config: ^4.4 || ^5.0` and `symfony/dependency-injection: ^4.4 || ^5.0`
+- Add `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract` as base class for additional packages, other than portals and portal extensions
+- Add `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract::buildContainer` allowing packages to influence the build-process of the portal-container
+- Add `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract::getAdditionalPackages` allowing packages to provide additional packages. These packages may also influence the build-process of the portal-container.
+- Add `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract::registerContainerFile` allowing packages to automatically register their service definition files (e. g. `Resources/config/services.xml`)
+- Add `\Heptacom\HeptaConnect\Portal\Base\Portal\Exception\DelegatingLoaderLoadException` for when a service definition file cannot be loaded
+- Add exception code `1674923696` for when a service definition file cannot be loaded
+- Add interface `\Heptacom\HeptaConnect\Portal\Base\FlowComponent\Contract\FlowComponentStackIdentifierInterface` to identify flow component stack identifier and all their commonly shared features
+- Add class `\Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier` to hold the identifying components of an HTTP handler stack being the portal node key and served path 
+- Add class `\Heptacom\HeptaConnect\Portal\Base\Web\Http\ServerRequestCycle` to hold a server request and response, that correspond to a single HTTP request/response cycle 
+- Add service of `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageCurlShellFormatterContract` implementing `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageFormatterContract` to format HTTP messages described in PSR-7 into cURL shell commands
+- Add service of `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageRawHttpFormatterContract` implementing `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageFormatterContract` as default provider to format HTTP messages described in PSR-7 into raw HTTP traffic, that can be used with TCP networking tools
+
+### Deprecated
+
+- Deprecate and discourage usage of `\Heptacom\HeptaConnect\Dataset\Base\Contract\DeferralAwareInterface` as it has not been a practical solution to defer closure execution in a different process
+- Deprecate extending method `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract::__construct` as this method will become final in version 0.10
+
 ## [0.9.3.0] - 2022-11-26
 
 ### Added

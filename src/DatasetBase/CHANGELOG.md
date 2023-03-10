@@ -56,6 +56,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+## [0.9.4.0] - 2023-03-04
+
+### Deprecated
+
+- Deprecate and discourage usage of `\Heptacom\HeptaConnect\Dataset\Base\Contract\DeferralAwareInterface` and `\Heptacom\HeptaConnect\Dataset\Base\Support\DeferralAwareTrait` as it has not been a practical solution to defer closure execution in a different process
+
 ## [0.9.3.0] - 2022-11-26
 
 ## [0.9.2.0] - 2022-10-16

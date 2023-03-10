@@ -11,6 +11,9 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverview
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityReflectActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityError\IdentityErrorCreateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectCreateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectDeleteActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface;
@@ -72,6 +75,27 @@ interface StorageFacadeInterface
      * @throws StorageFacadeServiceExceptionInterface
      */
     public function getFileReferencePersistRequestAction(): FileReferencePersistRequestActionInterface;
+
+    /**
+     * Provides storage action to create identity redirects.
+     *
+     * @throws StorageFacadeServiceExceptionInterface
+     */
+    public function getIdentityRedirectCreateAction(): IdentityRedirectCreateActionInterface;
+
+    /**
+     * Provides storage action to delete identity redirects.
+     *
+     * @throws StorageFacadeServiceExceptionInterface
+     */
+    public function getIdentityRedirectDeleteAction(): IdentityRedirectDeleteActionInterface;
+
+    /**
+     * Provides storage action to paginate over identity redirects.
+     *
+     * @throws StorageFacadeServiceExceptionInterface
+     */
+    public function getIdentityRedirectOverviewAction(): IdentityRedirectOverviewActionInterface;
 
     /**
      * Provides storage action to map entities to their identities.

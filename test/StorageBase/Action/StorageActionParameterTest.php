@@ -16,6 +16,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\IdentityErrorKeyInterf
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier;
 use Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestPersist\FileReferencePersistRequestPayload;
@@ -31,6 +32,13 @@ use Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityError
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreatePayloads;
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResults;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreatePayload;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreatePayloadCollection;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreateResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreateResultCollection;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Delete\IdentityRedirectDeleteCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview\IdentityRedirectOverviewCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview\IdentityRedirectOverviewResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayloads;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreateResult;
@@ -108,11 +116,14 @@ use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\W
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayloads;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Overview\OverviewCriteriaContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\FileReferenceRequestKeyInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\IdentityRedirectKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\JobKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\UiAuditTrailKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\FileReferenceRequestKeyCollection;
+use Heptacom\HeptaConnect\Storage\Base\IdentityRedirectKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\FirstEntity;
@@ -135,10 +146,18 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionType
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestPersist\FileReferencePersistRequestPayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestPersist\FileReferencePersistRequestResult
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreatePayload
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreatePayloadCollection
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreateResult
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreateResultCollection
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Delete\IdentityRedirectDeleteCriteria
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview\IdentityRedirectOverviewCriteria
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview\IdentityRedirectOverviewResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Map\IdentityMapPayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Map\IdentityMapResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Overview\IdentityOverviewCriteria
@@ -230,6 +249,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayloads
+ * @covers \Heptacom\HeptaConnect\Storage\Base\IdentityRedirectKeyCollection
  * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Action\UiActionType
  */
 class StorageActionParameterTest extends TestCase
@@ -244,6 +264,17 @@ class StorageActionParameterTest extends TestCase
         }
     }
 
+    public function testOverviewCriteriasHaveCustomizedDefaultSorting(): void
+    {
+        foreach ($this->iterateAttachmentAwareActionStructs() as $struct) {
+            if (!$struct instanceof OverviewCriteriaContract) {
+                continue;
+            }
+
+            static::assertNotSame([], $struct->getSort());
+        }
+    }
+
     /**
      * @return iterable<AttachmentAwareInterface>
      */
@@ -252,6 +283,7 @@ class StorageActionParameterTest extends TestCase
         $portalNodeKey = $this->createMock(PortalNodeKeyInterface::class);
         $mappingNodeKey = $this->createMock(MappingNodeKeyInterface::class);
         $fileReferenceRequestKey = $this->createMock(FileReferenceRequestKeyInterface::class);
+        $identityRedirectKey = $this->createMock(IdentityRedirectKeyInterface::class);
         $jobKey = $this->createMock(JobKeyInterface::class);
         $routeKey = $this->createMock(RouteKeyInterface::class);
         $identityErrorKey = $this->createMock(IdentityErrorKeyInterface::class);
@@ -268,11 +300,22 @@ class StorageActionParameterTest extends TestCase
         $unsafeClass = new UnsafeClassString($entityType);
         $uiAuditTrailKey = $this->createMock(UiAuditTrailKeyInterface::class);
         $stringCollection = new StringCollection();
+        $httpStackIdentifier = new HttpHandlerStackIdentifier($portalNodeKey, '');
 
         yield new FileReferencePersistRequestPayload($portalNodeKey);
         yield new FileReferencePersistRequestResult($portalNodeKey);
         yield new FileReferenceGetRequestCriteria($portalNodeKey, new FileReferenceRequestKeyCollection());
         yield new FileReferenceGetRequestResult($portalNodeKey, $fileReferenceRequestKey, '');
+        yield new IdentityRedirectCreatePayload($portalNodeKey, '', $portalNodeKey, '', $entityType::class());
+        yield new IdentityRedirectCreatePayloadCollection();
+        yield new IdentityRedirectCreateResult($identityRedirectKey);
+        yield new IdentityRedirectCreateResultCollection();
+        yield new IdentityRedirectDeleteCriteria(new IdentityRedirectKeyCollection([
+            $identityRedirectKey,
+        ]));
+        yield new IdentityRedirectOverviewCriteria();
+        yield new IdentityRedirectOverviewResult($identityRedirectKey, $portalNodeKey, '', $portalNodeKey, '', $entityType::class(), $createdAt);
+        yield new IdentityRedirectOverviewResult($identityRedirectKey, $portalNodeKey, '', $portalNodeKey, '', $unsafeClass, $createdAt);
         yield new IdentityMapPayload($portalNodeKey, $entityCollection);
         yield new IdentityMapResult($mappedDatasetEntityCollection);
         yield new IdentityOverviewCriteria();
@@ -368,9 +411,9 @@ class StorageActionParameterTest extends TestCase
         yield new UiAuditTrailLogErrorPayload($uiAuditTrailKey, \Throwable::class, 17, '', '');
         yield new UiAuditTrailLogErrorPayloadCollection();
         yield new UiAuditTrailEndPayload($uiAuditTrailKey);
-        yield new WebHttpHandlerConfigurationFindCriteria($portalNodeKey, '', '');
+        yield new WebHttpHandlerConfigurationFindCriteria($httpStackIdentifier, '');
         yield new WebHttpHandlerConfigurationFindResult(null);
-        yield new WebHttpHandlerConfigurationSetPayload($portalNodeKey, '', '');
+        yield new WebHttpHandlerConfigurationSetPayload($httpStackIdentifier, '');
         yield new WebHttpHandlerConfigurationSetPayloads();
     }
 }
