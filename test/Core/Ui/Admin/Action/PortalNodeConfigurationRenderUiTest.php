@@ -60,10 +60,10 @@ final class PortalNodeConfigurationRenderUiTest extends TestCase
             $configurationService
         );
 
-        $result = \current(\iterable_to_array($action->getRendered(
+        $result = \iterable_to_array($action->getRendered(
             new PortalNodeConfigurationRenderCriteria(new PortalNodeKeyCollection([$portalNodeKey])),
             $this->createUiActionContext()
-        )));
+        ))[0];
 
         static::assertInstanceOf(PortalNodeConfigurationRenderResult::class, $result);
         static::assertSame([
@@ -90,10 +90,10 @@ final class PortalNodeConfigurationRenderUiTest extends TestCase
             $configurationService
         );
 
-        $result = \current(\iterable_to_array($action->getRendered(
+        $result = \iterable_to_array($action->getRendered(
             new PortalNodeConfigurationRenderCriteria(new PortalNodeKeyCollection([$portalNodeKey])),
             $this->createUiActionContext()
-        )));
+        ))[0];
 
         static::assertInstanceOf(PortalNodeConfigurationRenderResult::class, $result);
         static::assertSame([
