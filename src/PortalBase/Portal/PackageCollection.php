@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Portal;
 
-use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
+use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract;
 
 /**
- * @extends AbstractCollection<PackageContract>
+ * @extends AbstractObjectCollection<PackageContract>
  */
-class PackageCollection extends AbstractCollection
+class PackageCollection extends AbstractObjectCollection
 {
-    protected function isValidItem($item): bool
+    protected function getT(): string
     {
-        /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */
-        return $item instanceof PackageContract;
+        return PackageContract::class;
     }
 }
