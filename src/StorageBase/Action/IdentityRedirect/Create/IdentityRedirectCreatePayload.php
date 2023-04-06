@@ -36,7 +36,7 @@ final class IdentityRedirectCreatePayload implements CreatePayloadInterface, Att
         string $sourceExternalId,
         PortalNodeKeyInterface $targetPortalNodeKey,
         string $targetExternalId,
-        string $entityType,
+        string $entityType
     ) {
         $this->attachments = new AttachmentCollection();
         $this->sourcePortalNodeKey = $sourcePortalNodeKey;

@@ -14,14 +14,14 @@ abstract class OverviewCriteriaContract
 
     public const SORT_DESC = 'desc';
 
-    private int $page = 0;
-
-    private ?int $pageSize = null;
-
     /**
      * @var array<string, string>
      */
     protected array $sort = [];
+
+    private int $page = 0;
+
+    private ?int $pageSize = null;
 
     /**
      * Get the page to query.
