@@ -21,7 +21,7 @@ interface HttpHandleContextInterface extends PortalNodeContextInterface
      * @param UriInterface|string $uri
      * @param string $method
      * @param StreamInterface|array|string|null $body
-     * @param array<string, string>|array<string, array<array-key, string>> $headers
+     * @param array<string, string|array<array-key, string>> $headers
      *
      * @return ResponseInterface
      */
