@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add `\Heptacom\HeptaConnect\Portal\Base\Portal\PackageCollection` as collection class for `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract`
 - Add service `Heptacom\HeptaConnect\Portal\Base\Portal\PackageCollection` to portal-container, containing the portal, all portal-extensions and all packages involved in building the container
+- Add service `Psr\Http\Message\ServerRequestFactoryInterface` to portal-container
+- Add service `Psr\Http\Message\UploadedFileFactoryInterface` to portal-container
+- Add service `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpKernelInterface` to portal-container to execute http-handlers from inside a portal
+- Add method `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandleContextInterface::forward` to provide a simple usage of `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpKernelInterface`
 
 ### Changed
 
