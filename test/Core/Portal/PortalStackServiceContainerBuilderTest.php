@@ -15,6 +15,7 @@ use Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory;
 use Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector;
 use Heptacom\HeptaConnect\Core\Test\Fixture\HttpClientInterfaceDecorator;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface;
+use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleServiceInterface;
 use Heptacom\HeptaConnect\Portal\Base\File\FileReferenceResolverContract;
 use Heptacom\HeptaConnect\Portal\Base\File\Filesystem\Contract\FilesystemInterface;
 use Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract;
@@ -255,6 +256,7 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
         );
         $builder->setDirectEmissionFlow($this->createMock(DirectEmissionFlowContract::class));
         $builder->setFileReferenceResolver($this->createMock(FileReferenceResolverContract::class));
+        $builder->setHttpHandleService($this->createMock(HttpHandleServiceInterface::class));
         $container = $builder->build(
             new Portal(),
             new PortalExtensionCollection([
