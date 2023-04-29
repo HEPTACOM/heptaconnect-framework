@@ -18,12 +18,9 @@ use Psr\Http\Message\UriInterface;
 interface HttpHandleContextInterface extends PortalNodeContextInterface
 {
     /**
-     * @param UriInterface|string $uri
-     * @param string $method
-     * @param StreamInterface|array|string|null $body
+     * @param UriInterface|string                $uri
+     * @param StreamInterface|array|string|null  $body
      * @param array<string, string|list<string>> $headers
-     *
-     * @return ResponseInterface
      */
     public function forward(
         $uri,
