@@ -27,6 +27,7 @@ use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleServiceInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Formatter\Psr7MessageCurlShellFormatter;
 use Heptacom\HeptaConnect\Core\Web\Http\Formatter\Psr7MessageRawHttpFormatter;
 use Heptacom\HeptaConnect\Core\Web\Http\Formatter\Support\HeaderUtility;
+use Heptacom\HeptaConnect\Core\Web\Http\Psr7MessageMultiPartFormDataBuilder;
 use Heptacom\HeptaConnect\Portal\Base\File\FileReferenceResolverContract;
 use Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract;
 use Heptacom\HeptaConnect\Portal\Base\Parallelization\Contract\ResourceLockingContract;
@@ -37,6 +38,7 @@ use Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface;
 use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegistryContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageCurlShellFormatterContract;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageMultiPartFormDataBuilderInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageRawHttpFormatterContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerUrlProviderInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface;
@@ -135,6 +137,7 @@ abstract class AbstractTestCase extends TestCase
             $services[FilesystemFactoryInterface::class] ?? $this->createFilesystemFactoryForDirectory($this->createRandomTemporaryDirectory()),
             $services[Psr7MessageCurlShellFormatterContract::class] ?? $this->createPsr7MessageCurlShellFormatter(),
             $services[Psr7MessageRawHttpFormatterContract::class] ?? $this->createPsr7MessageRawHttpFormatter(),
+            $services[Psr7MessageMultiPartFormDataBuilderInterface::class] ?? $this->createPsr7MessageMultiPartFormDataBuilder(),
         );
 
         $builder->setDirectEmissionFlow(
@@ -230,5 +233,10 @@ abstract class AbstractTestCase extends TestCase
         $headerUtility = new HeaderUtility();
 
         return new Psr7MessageRawHttpFormatter($headerUtility);
+    }
+
+    protected function createPsr7MessageMultiPartFormDataBuilder(): Psr7MessageMultiPartFormDataBuilderInterface
+    {
+        return new Psr7MessageMultiPartFormDataBuilder(Psr17FactoryDiscovery::findStreamFactory());
     }
 }
