@@ -24,7 +24,12 @@ interface Psr7MessageMultiPartFormDataBuilderInterface
      * `multipart/form-data` with the selected or generated boundary. It also has a message body that represents the
      * provided `$parameters` separated by the boundary.
      *
+     * @template T of MessageInterface
+     *
+     * @param T                                         $message
      * @param array<scalar|UploadedFileInterface|array> $parameters
+     *
+     * @return T
      */
     public function build(MessageInterface $message, array $parameters): MessageInterface;
 }
