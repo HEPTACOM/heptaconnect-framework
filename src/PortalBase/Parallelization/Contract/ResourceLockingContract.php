@@ -16,7 +16,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 abstract class ResourceLockingContract
 {
     /**
-     * Returns true, when the non-blocking check verifies the named resource key is not locked.
+     * Returns true, when the non-blocking check verifies the named resource key is locked.
      */
     abstract public function isLocked(string $resourceKey, ?StorageKeyInterface $owner): bool;
 

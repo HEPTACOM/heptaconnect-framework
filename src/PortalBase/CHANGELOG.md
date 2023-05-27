@@ -62,6 +62,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+## [0.9.5.0] - 2023-05-27
+
+### Added
+
+- Add `\Heptacom\HeptaConnect\Portal\Base\Portal\PackageCollection` as collection class for `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract`
+- Add service `Heptacom\HeptaConnect\Portal\Base\Portal\PackageCollection` to portal-container, containing the portal, all portal-extensions and all packages involved in building the container
+- Add service `Psr\Http\Message\ServerRequestFactoryInterface` to portal-container
+- Add service `Psr\Http\Message\UploadedFileFactoryInterface` to portal-container
+- Add service `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpKernelInterface` to portal-container to execute a `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerStackInterface` from inside a portal
+- Add method `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandleContextInterface::forward` to provide a guided usage of `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpKernelInterface`
+- Add service `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageMultiPartFormDataBuilderInterface` to build HTTP payloads for multipart messages
+
+### Changed
+
+- Allow handling of HTTP requests, even when no HTTP handler exists for the requested path. This means, middlewares for HTTP handlers will run for every request.
+- Add constant `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandleContextInterface::REQUEST_ATTRIBUTE_IS_STACK_EMPTY` to identify an attribute in `\Psr\Http\Message\ServerRequestInterface` objects. This attribute holds a value, that indicates whether the related `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerStackInterface` is empty.
+
+### Fixed
+
+- Remove a step in building a portal-container that would remove all services that extend `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract`
+
 ## [0.9.4.0] - 2023-03-04
 
 ### Added

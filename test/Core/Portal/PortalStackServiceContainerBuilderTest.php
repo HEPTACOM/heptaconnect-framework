@@ -15,6 +15,7 @@ use Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory;
 use Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector;
 use Heptacom\HeptaConnect\Core\Test\Fixture\HttpClientInterfaceDecorator;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface;
+use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleServiceInterface;
 use Heptacom\HeptaConnect\Portal\Base\File\FileReferenceResolverContract;
 use Heptacom\HeptaConnect\Portal\Base\File\Filesystem\Contract\FilesystemInterface;
 use Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract;
@@ -35,6 +36,7 @@ use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientMiddlewareInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageCurlShellFormatterContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageFormatterContract;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageMultiPartFormDataBuilderInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageRawHttpFormatterContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerUrlProviderInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -145,6 +147,7 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
         static::assertTrue($container->has(Psr7MessageFormatterContract::class));
         static::assertTrue($container->has(Psr7MessageCurlShellFormatterContract::class));
         static::assertTrue($container->has(Psr7MessageRawHttpFormatterContract::class));
+        static::assertTrue($container->has(Psr7MessageMultiPartFormDataBuilderInterface::class));
 
         static::assertInstanceOf(Psr7MessageRawHttpFormatterContract::class, $container->get(Psr7MessageFormatterContract::class));
         /** @var HttpMiddlewareCollector $middlewareCollector */
@@ -255,9 +258,11 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
             $this->createMock(FilesystemFactoryInterface::class),
             $this->createMock(Psr7MessageCurlShellFormatterContract::class),
             $this->createMock(Psr7MessageRawHttpFormatterContract::class),
+            $this->createMock(Psr7MessageMultiPartFormDataBuilderInterface::class),
         );
         $builder->setDirectEmissionFlow($this->createMock(DirectEmissionFlowContract::class));
         $builder->setFileReferenceResolver($this->createMock(FileReferenceResolverContract::class));
+        $builder->setHttpHandleService($this->createMock(HttpHandleServiceInterface::class));
         $container = $builder->build(
             $portal,
             new PortalExtensionCollection([
