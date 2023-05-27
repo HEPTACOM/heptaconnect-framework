@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add service `Psr\Http\Message\UploadedFileFactoryInterface` to portal-container
 - Add service `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpKernelInterface` to portal-container to execute a `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerStackInterface` from inside a portal
 - Add method `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandleContextInterface::forward` to provide a guided usage of `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpKernelInterface`
-- Add service `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageMultiPartFormDataBuilderInterface` to build http payloads for multipart messages
+- Add service `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageMultiPartFormDataBuilderInterface` to build HTTP payloads for multipart messages
 
 ### Changed
 
