@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Web\Http;
 
+use Heptacom\HeptaConnect\Core\Component\LogMessage;
 use Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleContextFactoryInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackBuilderFactoryInterface;
@@ -52,6 +53,9 @@ final class HttpHandleServiceTest extends TestCase
     public function testActingFails(): void
     {
         $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects(static::once())
+            ->method('notice')
+            ->with(LogMessage::WEB_HTTP_HANDLE_NO_HANDLER_FOR_PATH());
 
         $portalNodeKey = $this->createMock(PortalNodeKeyInterface::class);
         $uri = $this->createMock(UriInterface::class);
