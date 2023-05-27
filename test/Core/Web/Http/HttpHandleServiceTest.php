@@ -17,6 +17,7 @@ use Heptacom\HeptaConnect\Core\Web\Http\HttpHandleContext;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpHandleService;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpHandlingActor;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandleContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
@@ -53,7 +54,7 @@ final class HttpHandleServiceTest extends TestCase
     {
         $logger = $this->createMock(LoggerInterface::class);
         $logger->expects(static::once())
-            ->method('critical')
+            ->method('notice')
             ->with(LogMessage::WEB_HTTP_HANDLE_NO_HANDLER_FOR_PATH());
 
         $portalNodeKey = $this->createMock(PortalNodeKeyInterface::class);
@@ -90,8 +91,11 @@ final class HttpHandleServiceTest extends TestCase
         $dumper = $this->createMock(ServerRequestCycleDumperInterface::class);
         $dumper->expects(static::never())->method('dump');
 
+        $actor = $this->createMock(HttpHandlingActorInterface::class);
+        $actor->method('performHttpHandling')->willReturnArgument(1);
+
         $service = new HttpHandleService(
-            $this->createMock(HttpHandlingActorInterface::class),
+            $actor,
             $contextFactory,
             $logger,
             $stackBuilderFactory,
@@ -109,11 +113,16 @@ final class HttpHandleServiceTest extends TestCase
         $uri = $this->createMock(UriInterface::class);
         $uri->method('getPath')->willReturn('foobar');
 
+        $isStackEmpty = false;
+
         $request = $this->createMock(ServerRequestInterface::class);
         $request->method('getUri')->willReturn($uri);
-        $request->expects(static::once())
+        $request->expects(static::exactly(2))
             ->method('withAttribute')
-            ->with('Foo', 'Bar')
+            ->withConsecutive(
+                [HttpHandleContextInterface::REQUEST_ATTRIBUTE_IS_STACK_EMPTY, $isStackEmpty],
+                ['Foo', 'Bar']
+            )
             ->willReturnSelf();
         $request->method('getAttributes')->willReturn([]);
         $request->method('withoutAttribute')->willReturnSelf();
@@ -135,14 +144,14 @@ final class HttpHandleServiceTest extends TestCase
         $storageKeyGenerator->method('serialize')->willReturn('_');
 
         $stack = new HttpHandlerStack([
-            new HttpMiddlewareChainHandler(''),
+            new HttpMiddlewareChainHandler('', $isStackEmpty),
         ]);
 
         $stackBuilder = $this->createMock(HttpHandlerStackBuilderInterface::class);
         $stackBuilder->method('push')->willReturnSelf();
         $stackBuilder->method('pushSource')->willReturnSelf();
         $stackBuilder->method('pushDecorators')->willReturnSelf();
-        $stackBuilder->method('isEmpty')->willReturn(false);
+        $stackBuilder->method('isEmpty')->willReturn($isStackEmpty);
         $stackBuilder->method('build')->willReturn($stack);
 
         $stackBuilderFactory = $this->createMock(HttpHandlerStackBuilderFactoryInterface::class);
@@ -200,11 +209,16 @@ final class HttpHandleServiceTest extends TestCase
         $uri = $this->createMock(UriInterface::class);
         $uri->method('getPath')->willReturn('foobar');
 
+        $isStackEmpty = false;
+
         $request = $this->createMock(ServerRequestInterface::class);
         $request->method('getUri')->willReturn($uri);
-        $request->expects(static::once())
+        $request->expects(static::exactly(2))
             ->method('withAttribute')
-            ->with('Foo', 'Bar')
+            ->withConsecutive(
+                [HttpHandleContextInterface::REQUEST_ATTRIBUTE_IS_STACK_EMPTY, $isStackEmpty],
+                ['Foo', 'Bar']
+            )
             ->willReturnSelf();
 
         $request->method('getAttributes')->willReturn([]);
@@ -229,14 +243,14 @@ final class HttpHandleServiceTest extends TestCase
         $storageKeyGenerator->method('serialize')->willReturn('_');
 
         $stack = new HttpHandlerStack([
-            new HttpMiddlewareChainHandler(''),
+            new HttpMiddlewareChainHandler('', $isStackEmpty),
         ]);
 
         $stackBuilder = $this->createMock(HttpHandlerStackBuilderInterface::class);
         $stackBuilder->method('push')->willReturnSelf();
         $stackBuilder->method('pushSource')->willReturnSelf();
         $stackBuilder->method('pushDecorators')->willReturnSelf();
-        $stackBuilder->method('isEmpty')->willReturn(false);
+        $stackBuilder->method('isEmpty')->willReturn($isStackEmpty);
         $stackBuilder->method('build')->willReturn($stack);
 
         $stackBuilderFactory = $this->createMock(HttpHandlerStackBuilderFactoryInterface::class);

@@ -20,6 +20,7 @@ use Heptacom\HeptaConnect\Portal\Base\Web\Http\ServerRequestCycle;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -29,7 +30,7 @@ use Ramsey\Uuid\Uuid;
 final class HttpHandleService implements HttpHandleServiceInterface
 {
     /**
-     * @var array<array-key, HttpHandlerStackInterface|null>
+     * @var array<array-key, HttpHandlerStackInterface>
      */
     private array $stackCache = [];
 
@@ -128,45 +129,55 @@ final class HttpHandleService implements HttpHandleServiceInterface
 
             $response = $response->withStatus(423);
         } else {
-            $stack = $this->getStack($stackIdentifier);
+            $stack = $this->getStack($stackIdentifier, $request, $correlationId);
 
-            if (!$stack instanceof HttpHandlerStackInterface) {
-                $this->logger->critical(LogMessage::WEB_HTTP_HANDLE_NO_HANDLER_FOR_PATH(), [
-                    'code' => 1636845086,
-                    'path' => $stackIdentifier->getPath(),
-                    'portalNodeKey' => $stackIdentifier->getPortalNodeKey(),
-                    'request' => $request,
-                    'web_http_correlation_id' => $correlationId,
-                ]);
-            } else {
-                $response = $this->actor->performHttpHandling($request, $response, $stack, $this->getContext($stackIdentifier->getPortalNodeKey()));
-            }
+            $response = $this->actor->performHttpHandling(
+                $request,
+                $response,
+                $stack,
+                $this->getContext($stackIdentifier->getPortalNodeKey())
+            );
         }
 
         return $response->withHeader('X-HeptaConnect-Correlation-Id', $correlationId);
     }
 
-    private function getStack(HttpHandlerStackIdentifier $identifier): ?HttpHandlerStackInterface
-    {
+    private function getStack(
+        HttpHandlerStackIdentifier $identifier,
+        RequestInterface $request,
+        string $correlationId
+    ): HttpHandlerStackInterface {
         $cacheKey = $this->storageKeyGenerator->serialize($identifier->getPortalNodeKey()->withoutAlias()) . $identifier->getPath();
 
         if (!\array_key_exists($cacheKey, $this->stackCache)) {
             $builder = $this->stackBuilderFactory
                 ->createHttpHandlerStackBuilder($identifier->getPortalNodeKey(), $identifier->getPath())
                 ->pushSource()
-                ->pushDecorators()
-                ->push(new HttpMiddlewareChainHandler($identifier->getPath()));
+                ->pushDecorators();
 
-            $this->stackCache[$cacheKey] = $builder->isEmpty() ? null : $builder->build();
+            $isStackEmpty = $builder->isEmpty();
+
+            if ($isStackEmpty) {
+                $this->logger->notice(LogMessage::WEB_HTTP_HANDLE_NO_HANDLER_FOR_PATH(), [
+                    'code' => 1636845086,
+                    'path' => $identifier->getPath(),
+                    'portalNodeKey' => $identifier->getPortalNodeKey(),
+                    'request' => $request,
+                    'web_http_correlation_id' => $correlationId,
+                ]);
+            }
+
+            $builder->push(new HttpMiddlewareChainHandler(
+                $identifier->getPath(),
+                $isStackEmpty
+            ));
+
+            $this->stackCache[$cacheKey] = $builder->build();
         }
 
         $result = $this->stackCache[$cacheKey];
 
-        if ($result instanceof HttpHandlerStackInterface) {
-            return clone $result;
-        }
-
-        return null;
+        return clone $result;
     }
 
     private function getContext(PortalNodeKeyInterface $portalNodeKey): HttpHandleContextInterface
