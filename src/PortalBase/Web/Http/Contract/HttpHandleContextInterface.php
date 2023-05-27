@@ -18,6 +18,17 @@ use Psr\Http\Message\UriInterface;
 interface HttpHandleContextInterface extends PortalNodeContextInterface
 {
     /**
+     * Attributes with this prefix are managed by HEPTAconnect and SHOULD NOT be set by portals.
+     */
+    public const REQUEST_ATTRIBUTE_PREFIX = '@heptaconnect_portal.';
+
+    /**
+     * Indicates whether the @see HttpHandlerStackInterface that was prepared to handle
+     * the current request is empty or not.
+     */
+    public const REQUEST_ATTRIBUTE_IS_STACK_EMPTY = self::REQUEST_ATTRIBUTE_PREFIX . 'is_stack_empty';
+
+    /**
      * Forwards a (new) request to a different @see HttpHandlerStackInterface and returns its response
      *
      * @param UriInterface|string                $uri
