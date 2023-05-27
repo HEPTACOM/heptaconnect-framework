@@ -74,6 +74,7 @@ final class HttpHandleServiceTest extends TestCase
         $stackBuilder = $this->createMock(HttpHandlerStackBuilderInterface::class);
         $stackBuilderFactory = $this->createMock(HttpHandlerStackBuilderFactoryInterface::class);
 
+        $stackBuilder->method('push')->willReturnSelf();
         $stackBuilder->method('pushSource')->willReturnSelf();
         $stackBuilder->method('pushDecorators')->willReturnSelf();
         $stackBuilder->expects(static::atLeastOnce())->method('isEmpty')->willReturn(true);
@@ -138,6 +139,7 @@ final class HttpHandleServiceTest extends TestCase
         ]);
 
         $stackBuilder = $this->createMock(HttpHandlerStackBuilderInterface::class);
+        $stackBuilder->method('push')->willReturnSelf();
         $stackBuilder->method('pushSource')->willReturnSelf();
         $stackBuilder->method('pushDecorators')->willReturnSelf();
         $stackBuilder->method('isEmpty')->willReturn(false);
@@ -231,6 +233,7 @@ final class HttpHandleServiceTest extends TestCase
         ]);
 
         $stackBuilder = $this->createMock(HttpHandlerStackBuilderInterface::class);
+        $stackBuilder->method('push')->willReturnSelf();
         $stackBuilder->method('pushSource')->willReturnSelf();
         $stackBuilder->method('pushDecorators')->willReturnSelf();
         $stackBuilder->method('isEmpty')->willReturn(false);
