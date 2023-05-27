@@ -17,10 +17,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+### Security
+
+## [0.9.5.0] - 2023-05-27
+
+### Fixed
+
 - Fix default sort assignment in `\Heptacom\HeptaConnect\Storage\Base\Action\Identity\Overview\IdentityOverviewCriteria`, `\Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview\IdentityRedirectOverviewCriteria`, `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Overview\PortalNodeOverviewCriteria`, `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Overview\PortalNodeAliasOverviewCriteria`, `\Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview\RouteOverviewCriteria` and `\Heptacom\HeptaConnect\Storage\Base\Action\RouteCapability\Overview\RouteCapabilityOverviewCriteria` by making `\Heptacom\HeptaConnect\Storage\Base\Action\Identity\Overview\IdentityOverviewCriteria::$sort` protected again
 - Fix syntax error in `\Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreatePayload` affecting `php: ^7.4`
-
-### Security
 
 ## [0.9.4.0] - 2023-03-04
 
