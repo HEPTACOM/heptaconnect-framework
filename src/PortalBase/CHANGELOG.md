@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Allow handling of HTTP requests, even when no HTTP handler exists for the requested path. This means, middlewares for HTTP handlers will run for every request.
-- Add constant `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandleContextInterface::REQUEST_ATTRIBUTE_IS_STACK_EMPTY` to identify an attribute in `\Psr\Http\Message\ServerRequestInterface` objects.
+- Add constant `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandleContextInterface::REQUEST_ATTRIBUTE_IS_STACK_EMPTY` to identify an attribute in `\Psr\Http\Message\ServerRequestInterface` objects. This attribute holds a value, that indicates whether the related `\Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerStackInterface` is empty.
 
 ### Deprecated
 

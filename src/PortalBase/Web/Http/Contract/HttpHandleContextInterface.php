@@ -23,8 +23,8 @@ interface HttpHandleContextInterface extends PortalNodeContextInterface
     public const REQUEST_ATTRIBUTE_PREFIX = '@heptaconnect_portal.';
 
     /**
-     * Indicates whether the @see HttpHandlerStackInterface that was prepared to handle
-     * the current request is empty or not.
+     * Holds a value, that indicates whether the @see HttpHandlerStackInterface that was prepared
+     * to handle the current request is empty.
      */
     public const REQUEST_ATTRIBUTE_IS_STACK_EMPTY = self::REQUEST_ATTRIBUTE_PREFIX . 'is_stack_empty';
 
