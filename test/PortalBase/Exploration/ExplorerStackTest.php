@@ -54,6 +54,8 @@ final class ExplorerStackTest extends TestCase
             });
 
         $stack = new ExplorerStack([$explorer1, $explorer2, $explorer3]);
-        static::assertCount(3, $stack->next($this->createMock(ExploreContextInterface::class)));
+        static::assertCount(3, \iterable_to_array($stack->next(
+            $this->createMock(ExploreContextInterface::class)
+        )));
     }
 }

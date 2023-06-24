@@ -28,10 +28,10 @@ final class ExplorerCollectionTest extends TestCase
             $this->getExplorer(SecondEntity::class),
             $this->getExplorer(FirstEntity::class),
         ]);
-        static::assertNotEmpty($collection->bySupport(FirstEntity::class));
-        static::assertNotEmpty($collection->bySupport(SecondEntity::class));
-        static::assertCount(3, $collection->bySupport(FirstEntity::class));
-        static::assertCount(2, $collection->bySupport(SecondEntity::class));
+        static::assertNotEmpty(\iterable_to_array($collection->bySupport(FirstEntity::class)));
+        static::assertNotEmpty(\iterable_to_array($collection->bySupport(SecondEntity::class)));
+        static::assertCount(3, \iterable_to_array($collection->bySupport(FirstEntity::class)));
+        static::assertCount(2, \iterable_to_array($collection->bySupport(SecondEntity::class)));
     }
 
     private function getExplorer(string $support): ExplorerContract

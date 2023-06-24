@@ -28,10 +28,10 @@ final class ReceiverCollectionTest extends TestCase
             $this->getReceiver(SecondEntity::class),
             $this->getReceiver(FirstEntity::class),
         ]);
-        static::assertNotEmpty($collection->bySupport(FirstEntity::class));
-        static::assertNotEmpty($collection->bySupport(SecondEntity::class));
-        static::assertCount(3, $collection->bySupport(FirstEntity::class));
-        static::assertCount(2, $collection->bySupport(SecondEntity::class));
+        static::assertNotEmpty(\iterable_to_array($collection->bySupport(FirstEntity::class)));
+        static::assertNotEmpty(\iterable_to_array($collection->bySupport(SecondEntity::class)));
+        static::assertCount(3, \iterable_to_array($collection->bySupport(FirstEntity::class)));
+        static::assertCount(2, \iterable_to_array($collection->bySupport(SecondEntity::class)));
     }
 
     private function getReceiver(string $support): ReceiverContract
