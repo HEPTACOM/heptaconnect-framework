@@ -8,12 +8,12 @@
     ],
     "require": {
         "php": ">=7.4",
-        "heptacom/heptaconnect-portal-base": "@stable"
+        "heptacom/heptaconnect-portal-base": "@stable",
+        "heptacom-fixture/heptaconnect-packgage-a": "*"
     },
     "autoload": {
         "psr-4": {
-            "HeptacomFixture\\Portal\\A\\": "src/",
-            "HeptacomFixture\\Portal\\AdditionalPackage\\": "src-additional/"
+            "HeptacomFixture\\Portal\\A\\": "src/"
         }
     },
     "extra": {

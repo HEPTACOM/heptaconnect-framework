@@ -91,7 +91,7 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
 
         $this->classLoader = new ClassLoader();
         $this->classLoader->addPsr4('HeptacomFixture\\Portal\\A\\', __DIR__ . '/../../../test-composer-integration/portal-package/src/');
-        $this->classLoader->addPsr4('HeptacomFixture\\Portal\\AdditionalPackage\\', __DIR__ . '/../../../test-composer-integration/portal-package/src-additional/');
+        $this->classLoader->addPsr4('HeptacomFixture\\Portal\\AdditionalPackage\\', __DIR__ . '/../../../test-composer-integration/package-package/src/');
         $this->classLoader->addPsr4('HeptacomFixture\\Portal\\Extension\\', __DIR__ . '/../../../test-composer-integration/portal-package-extension/src/');
         $this->classLoader->register();
     }
