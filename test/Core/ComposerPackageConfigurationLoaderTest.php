@@ -24,11 +24,11 @@ final class ComposerPackageConfigurationLoaderTest extends TestCase
         $loader = new PackageConfigurationLoader(__DIR__ . '/../../test-composer-integration/composer.json', new NullAdapter());
         $configs = $loader->getPackageConfigurations();
 
-        static::assertCount(4, $configs);
-        static::assertCount(1, $configs->filter(
+        static::assertCount(5, \iterable_to_array($configs));
+        static::assertCount(1, \iterable_to_array($configs->filter(
             fn (PackageConfiguration $pkg): bool => $pkg->getName() === 'heptacom-fixture/heptaconnect-portal-a'
-        ));
-        static::assertCount(1, $configs->filter(
+        )));
+        static::assertCount(1, \iterable_to_array($configs->filter(
             fn (PackageConfiguration $pkg): bool => $pkg->getName() === 'heptacom-fixture/heptaconnect-portal-extension-a'
         ));
         static::assertCount(3, $configs->filter(
@@ -47,8 +47,8 @@ final class ComposerPackageConfigurationLoaderTest extends TestCase
                 fn (string $configKey): bool => \str_contains($configKey, 'portal')
             )) > 0
         ));
-        static::assertCount(4, $configs->filter(
+        static::assertCount(5, \iterable_to_array($configs->filter(
             fn (PackageConfiguration $pkg): bool => $pkg->getAutoloadedFiles()->count() > 0
-        ), 'When this fails it could be that the composer install in the test-integration is missing');
+        )), 'When this fails it could be that the composer install in the test-integration is missing');
     }
 }
