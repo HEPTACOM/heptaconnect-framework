@@ -32,10 +32,11 @@ final class ContractTest extends TestCase
             }
         };
         static::assertEquals(FirstEntity::class, $explorer->supports());
-        static::assertCount(0, $explorer->explore(
+        $exploreResult = \iterable_to_array($explorer->explore(
             $this->createMock(ExploreContextInterface::class),
             $this->createMock(ExplorerStackInterface::class)
         ));
+        static::assertCount(0, $exploreResult);
     }
 
     public function testSkippingExplorerContract(): void
@@ -68,7 +69,9 @@ final class ContractTest extends TestCase
 
         $context = $this->createMock(ExploreContextInterface::class);
 
-        static::assertCount(1, (new ExplorerStack([$decoratingExplorer, $explorer]))->next($context));
-        static::assertCount(2, (new ExplorerStack([$explorer]))->next($context));
+        $exploreResult = \iterable_to_array((new ExplorerStack([$decoratingExplorer, $explorer]))->next($context));
+        static::assertCount(1, $exploreResult);
+        $exploreResult = \iterable_to_array((new ExplorerStack([$explorer]))->next($context));
+        static::assertCount(2, $exploreResult);
     }
 }

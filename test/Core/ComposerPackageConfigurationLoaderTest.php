@@ -24,31 +24,31 @@ final class ComposerPackageConfigurationLoaderTest extends TestCase
         $loader = new PackageConfigurationLoader(__DIR__ . '/../../test-composer-integration/composer.json', new NullAdapter());
         $configs = $loader->getPackageConfigurations();
 
-        static::assertCount(4, $configs);
-        static::assertCount(1, $configs->filter(
+        static::assertCount(5, \iterable_to_array($configs));
+        static::assertCount(1, \iterable_to_array($configs->filter(
             fn (PackageConfiguration $pkg): bool => $pkg->getName() === 'heptacom-fixture/heptaconnect-portal-a'
-        ));
-        static::assertCount(1, $configs->filter(
+        )));
+        static::assertCount(1, \iterable_to_array($configs->filter(
             fn (PackageConfiguration $pkg): bool => $pkg->getName() === 'heptacom-fixture/heptaconnect-portal-extension-a'
-        ));
-        static::assertCount(3, $configs->filter(
+        )));
+        static::assertCount(3, \iterable_to_array($configs->filter(
             fn (PackageConfiguration $pkg): bool => $pkg->getTags()->filter(
                 fn (string $tag): bool => \str_contains($tag, 'portal')
             )->valid()
-        ));
-        static::assertCount(0, $configs->filter(
+        )));
+        static::assertCount(0, \iterable_to_array($configs->filter(
             fn (PackageConfiguration $pkg): bool => $pkg->getTags()->filter(
                 fn (string $tag): bool => !\str_starts_with($tag, 'heptaconnect-')
             )->valid()
-        ));
-        static::assertCount(2, $configs->filter(
+        )));
+        static::assertCount(2, \iterable_to_array($configs->filter(
             fn (PackageConfiguration $pkg): bool => \count(\array_filter(
                 \array_keys($pkg->getConfiguration()),
                 fn (string $configKey): bool => \str_contains($configKey, 'portal')
             )) > 0
-        ));
-        static::assertCount(4, $configs->filter(
+        )));
+        static::assertCount(5, \iterable_to_array($configs->filter(
             fn (PackageConfiguration $pkg): bool => $pkg->getAutoloadedFiles()->count() > 0
-        ), 'When this fails it could be that the composer install in the test-integration is missing');
+        )), 'When this fails it could be that the composer install in the test-integration is missing');
     }
 }

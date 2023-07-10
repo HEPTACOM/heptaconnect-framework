@@ -112,11 +112,11 @@ final class CollectionTest extends TestCase
     {
         $collection = new UsageStructCollection();
         $collection->push([new SerializationDatasetEntity()]);
-        static::assertCount(1, $collection->getIterator());
+        static::assertCount(1, \iterable_to_array($collection->getIterator()));
         static::assertFalse($collection->isEmpty());
 
         $collection->clear();
-        static::assertCount(0, $collection->getIterator());
+        static::assertCount(0, \iterable_to_array($collection->getIterator()));
         static::assertTrue($collection->isEmpty());
     }
 
@@ -183,7 +183,7 @@ final class CollectionTest extends TestCase
         ]);
 
         static::assertCount(2, $collection);
-        static::assertCount(0, $collection->filter(fn (SerializationDatasetEntity $entity) => $entity->publicInt === 0));
+        static::assertCount(0, \iterable_to_array($collection->filter(fn (SerializationDatasetEntity $entity) => $entity->publicInt === 0)));
     }
 
     public function testSetState(): void

@@ -40,11 +40,12 @@ final class ContractTest extends TestCase
                 return DatasetEntityContract::class;
             }
         };
-        static::assertCount(0, $receiver->receive(
+        $receiveResult = \iterable_to_array($receiver->receive(
             new TypedDatasetEntityCollection(DatasetEntityContract::class, []),
             $this->createMock(ReceiveContextInterface::class),
             $this->createMock(ReceiverStackInterface::class)
         ));
+        static::assertCount(0, $receiveResult);
         static::assertSame($receiver->supports(), DatasetEntityContract::class);
     }
 
@@ -62,7 +63,11 @@ final class ContractTest extends TestCase
                 ReceiveContextInterface $context,
                 ReceiverStackInterface $stack
             ): iterable {
-                return $this->receiveNextForExtends($stack, $entities, $context);
+                $key = 0;
+
+                foreach ($this->receiveNextForExtends($stack, $entities, $context) as $entity) {
+                    yield ++$key => $entity;
+                }
             }
 
             public function supports(): string
@@ -77,9 +82,11 @@ final class ContractTest extends TestCase
         $entities = new TypedDatasetEntityCollection(FirstEntity::class, [new FirstEntity()]);
 
         $singleStack = [$receiver];
-        static::assertCount(\count($singleStack), (new ReceiverStack($singleStack))->next($entities, $context));
+        $stackResult = \iterable_to_array((new ReceiverStack($singleStack))->next($entities, $context));
+        static::assertCount(\count($singleStack), $stackResult);
 
         $decoratedStack = [$receiver, $decoratingReceiver];
-        static::assertCount(\count($decoratedStack), (new ReceiverStack($decoratedStack))->next($entities, $context));
+        $stackResult = \iterable_to_array((new ReceiverStack($decoratedStack))->next($entities, $context));
+        static::assertCount(\count($decoratedStack), $stackResult);
     }
 }

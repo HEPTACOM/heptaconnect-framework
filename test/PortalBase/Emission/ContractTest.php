@@ -42,11 +42,12 @@ final class ContractTest extends TestCase
             }
         };
         static::assertSame(DatasetEntityContract::class, $emitter->supports());
-        static::assertCount(0, $emitter->emit(
+        $emitResult = \iterable_to_array($emitter->emit(
             [],
             $this->createMock(EmitContextInterface::class),
             $this->createMock(EmitterStackInterface::class)
         ));
+        static::assertCount(0, $emitResult);
     }
 
     public function testAttachingEmitterContract(): void

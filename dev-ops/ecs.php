@@ -103,8 +103,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__ . '/bin/phpstan/src',
         __DIR__ . '/../src',
         __DIR__ . '/../test',
+        __DIR__ . '/../test-composer-integration/package-package/src',
         __DIR__ . '/../test-composer-integration/portal-package/src',
-        __DIR__ . '/../test-composer-integration/portal-package/src-additional',
         __DIR__ . '/../test-composer-integration/portal-package-extension/src',
     ]);
     $parameters->set(Option::SKIP, [
