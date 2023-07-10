@@ -6,6 +6,10 @@
     "repositories": [
         {
             "type": "path",
+            "url": "package-package"
+        },
+        {
+            "type": "path",
             "url": "portal-package"
         },
         {

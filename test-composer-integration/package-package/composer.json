@@ -1,0 +1,18 @@
+{
+    "name": "heptacom-fixture/heptaconnect-packgage-a",
+    "description": "Fixture",
+    "type": "library",
+    "keywords": [
+        "heptaconnect-package",
+        "other-fancy-keyword"
+    ],
+    "require": {
+        "php": ">=7.4",
+        "heptacom/heptaconnect-portal-base": "@stable"
+    },
+    "autoload": {
+        "psr-4": {
+            "HeptacomFixture\\Portal\\AdditionalPackage\\": "src/"
+        }
+    }
+}

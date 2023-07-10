@@ -24,7 +24,7 @@ final class ComposerPackageConfigurationLoaderTest extends TestCase
         $loader = new PackageConfigurationLoader(__DIR__ . '/../../test-composer-integration/composer.json', new NullAdapter());
         $configs = $loader->getPackageConfigurations();
 
-        static::assertCount(4, \iterable_to_array($configs));
+        static::assertCount(5, \iterable_to_array($configs));
         static::assertCount(1, \iterable_to_array($configs->filter(
             fn (PackageConfiguration $pkg): bool => $pkg->getName() === 'heptacom-fixture/heptaconnect-portal-a'
         )));
@@ -47,7 +47,7 @@ final class ComposerPackageConfigurationLoaderTest extends TestCase
                 fn (string $configKey): bool => \str_contains($configKey, 'portal')
             )) > 0
         )));
-        static::assertCount(4, \iterable_to_array($configs->filter(
+        static::assertCount(5, \iterable_to_array($configs->filter(
             fn (PackageConfiguration $pkg): bool => $pkg->getAutoloadedFiles()->count() > 0
         )), 'When this fails it could be that the composer install in the test-integration is missing');
     }
