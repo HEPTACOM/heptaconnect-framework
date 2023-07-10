@@ -17,9 +17,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Fix emission check in implementation of `\Heptacom\HeptaConnect\Portal\Base\Support\Contract\EntityStatusContract::isMappedByEmitter`
-
 ### Security
+
+## [0.9.6.0] - 2023-07-10
+
+### Fixed
+
+- Fix emission check in implementation of `\Heptacom\HeptaConnect\Portal\Base\Support\Contract\EntityStatusContract::isMappedByEmitter`
 
 ## [0.9.5.0] - 2023-05-27
 
