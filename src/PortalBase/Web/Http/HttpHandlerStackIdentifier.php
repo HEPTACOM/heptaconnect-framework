@@ -29,6 +29,7 @@ final class HttpHandlerStackIdentifier implements FlowComponentStackIdentifierIn
         return $this->path;
     }
 
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return [

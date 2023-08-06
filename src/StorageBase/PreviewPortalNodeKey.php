@@ -36,6 +36,7 @@ final class PreviewPortalNodeKey implements PortalNodeKeyInterface
         return $other === $this || ($other instanceof PreviewPortalNodeKey && $other->getPortalType() === $this->getPortalType());
     }
 
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return ['preview' => $this->portalType];

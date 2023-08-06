@@ -463,6 +463,7 @@ class IntegrationTest extends TestCase
                             return \json_encode($other) === \json_encode($this);
                         }
 
+                        #[\ReturnTypeWillChange]
                         public function jsonSerialize()
                         {
                             return $this->content;
