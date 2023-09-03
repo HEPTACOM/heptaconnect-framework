@@ -80,6 +80,8 @@ final class FlowComponentTest extends TestCase
             ConfigurationContract::class => $config,
         ][$id] ?? null);
 
+        $flowComponent->reset();
+        $flowComponent->setDefaultPriority(0);
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->run(static fn () => $response);
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
@@ -87,6 +89,8 @@ final class FlowComponentTest extends TestCase
         static::assertCount(1, $handlers);
         static::assertSame($response, $handlers[0]->handle($request, $response, $context, $stack));
 
+        $flowComponent->reset();
+        $flowComponent->setDefaultPriority(0);
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->options(static fn () => $response);
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
@@ -94,6 +98,8 @@ final class FlowComponentTest extends TestCase
         static::assertCount(1, $handlers);
         static::assertSame($response, $handlers[0]->handle($request, $response, $context, $stack));
 
+        $flowComponent->reset();
+        $flowComponent->setDefaultPriority(0);
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->get(static fn () => $response);
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
@@ -101,6 +107,8 @@ final class FlowComponentTest extends TestCase
         static::assertCount(1, $handlers);
         static::assertSame($response, $handlers[0]->handle($request, $response, $context, $stack));
 
+        $flowComponent->reset();
+        $flowComponent->setDefaultPriority(0);
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->post(static fn () => $response);
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
@@ -108,6 +116,8 @@ final class FlowComponentTest extends TestCase
         static::assertCount(1, $handlers);
         static::assertSame($response, $handlers[0]->handle($request, $response, $context, $stack));
 
+        $flowComponent->reset();
+        $flowComponent->setDefaultPriority(0);
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->put(static fn () => $response);
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
@@ -115,6 +125,8 @@ final class FlowComponentTest extends TestCase
         static::assertCount(1, $handlers);
         static::assertSame($response, $handlers[0]->handle($request, $response, $context, $stack));
 
+        $flowComponent->reset();
+        $flowComponent->setDefaultPriority(0);
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->patch(static fn () => $response);
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
@@ -122,6 +134,8 @@ final class FlowComponentTest extends TestCase
         static::assertCount(1, $handlers);
         static::assertSame($response, $handlers[0]->handle($request, $response, $context, $stack));
 
+        $flowComponent->reset();
+        $flowComponent->setDefaultPriority(0);
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->delete(static fn () => $response);
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
@@ -148,6 +162,8 @@ final class FlowComponentTest extends TestCase
         $logger->expects(static::exactly(6))->method('warning');
         $flowComponent->setLogger($logger);
 
+        $flowComponent->reset();
+        $flowComponent->setDefaultPriority(0);
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->run(static fn () => $response)->options(static fn () => $response);
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
@@ -155,6 +171,8 @@ final class FlowComponentTest extends TestCase
         static::assertCount(1, $handlers);
         static::assertSame($response, $handlers[0]->handle($request, $response, $context, $stack));
 
+        $flowComponent->reset();
+        $flowComponent->setDefaultPriority(0);
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->run(static fn () => $response)->get(static fn () => $response);
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
@@ -162,6 +180,8 @@ final class FlowComponentTest extends TestCase
         static::assertCount(1, $handlers);
         static::assertSame($response, $handlers[0]->handle($request, $response, $context, $stack));
 
+        $flowComponent->reset();
+        $flowComponent->setDefaultPriority(0);
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->run(static fn () => $response)->post(static fn () => $response);
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
@@ -169,6 +189,8 @@ final class FlowComponentTest extends TestCase
         static::assertCount(1, $handlers);
         static::assertSame($response, $handlers[0]->handle($request, $response, $context, $stack));
 
+        $flowComponent->reset();
+        $flowComponent->setDefaultPriority(0);
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->run(static fn () => $response)->put(static fn () => $response);
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
@@ -176,6 +198,8 @@ final class FlowComponentTest extends TestCase
         static::assertCount(1, $handlers);
         static::assertSame($response, $handlers[0]->handle($request, $response, $context, $stack));
 
+        $flowComponent->reset();
+        $flowComponent->setDefaultPriority(0);
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->run(static fn () => $response)->patch(static fn () => $response);
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
@@ -183,6 +207,8 @@ final class FlowComponentTest extends TestCase
         static::assertCount(1, $handlers);
         static::assertSame($response, $handlers[0]->handle($request, $response, $context, $stack));
 
+        $flowComponent->reset();
+        $flowComponent->setDefaultPriority(0);
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->run(static fn () => $response)->delete(static fn () => $response);
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
@@ -206,6 +232,8 @@ final class FlowComponentTest extends TestCase
             ConfigurationContract::class => $config,
         ][$id] ?? null);
 
+        $flowComponent->reset();
+        $flowComponent->setDefaultPriority(0);
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->run(static fn () => '');
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
@@ -218,6 +246,8 @@ final class FlowComponentTest extends TestCase
             static::assertSame('Short-noted HttpHandler failed in run to return Psr\Http\Message\ResponseInterface', $throwable->getMessage());
         }
 
+        $flowComponent->reset();
+        $flowComponent->setDefaultPriority(0);
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->options(static fn () => '');
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
@@ -230,6 +260,8 @@ final class FlowComponentTest extends TestCase
             static::assertSame('Short-noted HttpHandler failed in options to return Psr\Http\Message\ResponseInterface', $throwable->getMessage());
         }
 
+        $flowComponent->reset();
+        $flowComponent->setDefaultPriority(0);
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->get(static fn () => '');
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
@@ -242,6 +274,8 @@ final class FlowComponentTest extends TestCase
             static::assertSame('Short-noted HttpHandler failed in get to return Psr\Http\Message\ResponseInterface', $throwable->getMessage());
         }
 
+        $flowComponent->reset();
+        $flowComponent->setDefaultPriority(0);
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->post(static fn () => '');
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
@@ -254,6 +288,8 @@ final class FlowComponentTest extends TestCase
             static::assertSame('Short-noted HttpHandler failed in post to return Psr\Http\Message\ResponseInterface', $throwable->getMessage());
         }
 
+        $flowComponent->reset();
+        $flowComponent->setDefaultPriority(0);
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->put(static fn () => '');
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
@@ -266,6 +302,8 @@ final class FlowComponentTest extends TestCase
             static::assertSame('Short-noted HttpHandler failed in put to return Psr\Http\Message\ResponseInterface', $throwable->getMessage());
         }
 
+        $flowComponent->reset();
+        $flowComponent->setDefaultPriority(0);
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->patch(static fn () => '');
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
@@ -278,6 +316,8 @@ final class FlowComponentTest extends TestCase
             static::assertSame('Short-noted HttpHandler failed in patch to return Psr\Http\Message\ResponseInterface', $throwable->getMessage());
         }
 
+        $flowComponent->reset();
+        $flowComponent->setDefaultPriority(0);
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->delete(static fn () => '');
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
@@ -306,6 +346,8 @@ final class FlowComponentTest extends TestCase
             ConfigurationContract::class => $config,
         ][$id] ?? null);
 
+        $flowComponent->reset();
+        $flowComponent->setDefaultPriority(0);
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->run(static fn (ConfigurationContract $config) => $response);
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
@@ -329,6 +371,8 @@ final class FlowComponentTest extends TestCase
             ConfigurationContract::class => $config,
         ][$id] ?? null);
 
+        $flowComponent->reset();
+        $flowComponent->setDefaultPriority(0);
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->run(static fn (ServerRequestInterface $request) => $response);
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
@@ -336,6 +380,8 @@ final class FlowComponentTest extends TestCase
         static::assertCount(1, $handlers);
         static::assertSame($response, $handlers[0]->handle($request, $response, $context, $stack));
 
+        $flowComponent->reset();
+        $flowComponent->setDefaultPriority(0);
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->run(static fn (RequestInterface $request) => $response);
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
@@ -359,6 +405,8 @@ final class FlowComponentTest extends TestCase
             ConfigurationContract::class => $config,
         ][$id] ?? null);
 
+        $flowComponent->reset();
+        $flowComponent->setDefaultPriority(0);
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->run(static fn (ResponseInterface $r) => $response);
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
@@ -382,6 +430,8 @@ final class FlowComponentTest extends TestCase
             ConfigurationContract::class => $config,
         ][$id] ?? null);
 
+        $flowComponent->reset();
+        $flowComponent->setDefaultPriority(0);
         $handlerBuilder = FlowComponent::httpHandler('foobar');
         $handlerBuilder->run(static fn (HttpHandleContextInterface $c) => $response);
         $handlers = \iterable_to_array($flowComponent->buildHttpHandlers());
