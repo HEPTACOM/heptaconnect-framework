@@ -75,6 +75,11 @@ abstract class PackageContract
         return [];
     }
 
+    public function getDefaultFlowComponentPriority(): int
+    {
+        return 1000;
+    }
+
     /**
      * Scans the path returned in @see getContainerConfigurationPath for files that match `services.{yml,yaml,xml,php}`
      * The found files are loaded as service definitions for the @see ContainerBuilder

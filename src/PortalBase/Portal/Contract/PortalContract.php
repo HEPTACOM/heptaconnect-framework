@@ -19,4 +19,9 @@ abstract class PortalContract extends PackageContract
     {
         return new OptionsResolver();
     }
+
+    public function getDefaultFlowComponentPriority(): int
+    {
+        return 0;
+    }
 }
