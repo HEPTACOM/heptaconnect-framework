@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Fix deprecation notice `Creation of dynamic property` by explicitly declaring property `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade::$portalNodeStorageSetAction`
+
 ### Security
 
 ## [0.9.6.0] - 2023-07-10
