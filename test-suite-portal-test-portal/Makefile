@@ -1,6 +1,6 @@
 SHELL := /bin/bash
-PHP := $(shell which php) $(PHP_EXTRA_ARGS)
-COMPOSER := $(PHP) $(shell which composer) $(COMPOSER_EXTRA_ARGS)
+PHP := "$(shell which php)" $(PHP_EXTRA_ARGS)
+COMPOSER := $(PHP) "$(shell which composer)" $(COMPOSER_EXTRA_ARGS)
 PHPUNIT_EXTRA_ARGS :=
 PHPUNIT := $(PHP) vendor/bin/phpunit $(PHPUNIT_EXTRA_ARGS)
 
