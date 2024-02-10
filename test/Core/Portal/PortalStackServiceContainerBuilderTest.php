@@ -288,7 +288,7 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
         $stack = new StatusReporterStack($statusReporters, $logger);
         $report = $stack->next($context);
 
-        self::assertSame([
+        static::assertSame([
             'foo-bar.2567988f-428b-434c-932c-1c2bb874464d' => true,
             'foo-bar.aacd0aaa-099f-49d4-9920-6315b8adf6f9' => true,
             'foo-bar.78c65ffd-e4eb-4c07-a264-61a9517dbb9a' => true,
