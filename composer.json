@@ -107,5 +107,5 @@
             "php-http/discovery": true
         }
     },
-    "website": "https://heptaconnect.io"
+    "homepage": "https://heptaconnect.io"
 }

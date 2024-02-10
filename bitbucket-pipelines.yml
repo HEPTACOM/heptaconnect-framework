@@ -6,7 +6,7 @@ definitions:
                 image: heptacom/heptaconnect-pipeline:php81-8.0.0
     services:
         mysql:
-            image: mysql:5.7
+            image: mysql:8.0
             variables:
                 MYSQL_DATABASE: 'pipelines'
                 MYSQL_ROOT_PASSWORD: 'let_me_in'
