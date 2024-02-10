@@ -1,11 +1,11 @@
 SHELL := /bin/bash
-PHP := $(shell which php) $(PHP_EXTRA_ARGS)
-COMPOSER := $(PHP) $(shell which composer) $(COMPOSER_EXTRA_ARGS)
+PHP := "$(shell which php)" $(PHP_EXTRA_ARGS)
+COMPOSER := $(PHP) "$(shell which composer)" $(COMPOSER_EXTRA_ARGS)
 PHPUNIT_EXTRA_ARGS := --config=test/phpunit.xml
 PHPUNIT := $(PHP) vendor/bin/phpunit $(PHPUNIT_EXTRA_ARGS)
-CURL := $(shell which curl)
-JQ := $(shell which jq)
-XSLTPROC := $(shell which xsltproc)
+CURL := "$(shell which curl)"
+JQ := "$(shell which jq)"
+XSLTPROC := "$(shell which xsltproc)"
 JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*' -not -path './.build/*' -not -path './dev-ops/bin/*/vendor/*')
 PHPSTAN_FILE := dev-ops/bin/phpstan/vendor/bin/phpstan
 COMPOSER_NORMALIZE_PHAR := https://github.com/ergebnis/composer-normalize/releases/download/2.22.0/composer-normalize.phar
