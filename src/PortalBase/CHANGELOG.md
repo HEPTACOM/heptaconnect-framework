@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [0.9.7.0] - 2024-02-10
+
+### Added
+
 - Add method `\Heptacom\HeptaConnect\Portal\Base\Builder\Builder\EmitterBuilder::priority` to sort flow component within the stack
 - Add method `\Heptacom\HeptaConnect\Portal\Base\Builder\Builder\ExplorerBuilder::priority` to sort flow component within the stack
 - Add method `\Heptacom\HeptaConnect\Portal\Base\Builder\Builder\HttpHandlerBuilder::priority` to sort flow component within the stack
@@ -25,14 +39,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Change `\Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract::iterate` to resolve nested iterables deferred instead of in the moment they are found to lower memory peaks during larger object inspection
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
 
 ## [0.9.6.0] - 2023-07-10
 
