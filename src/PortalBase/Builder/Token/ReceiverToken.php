@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Token;
 
 use Heptacom\HeptaConnect\Dataset\Base\EntityType;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Support\TokenPriorityTrait;
 
 class ReceiverToken
 {
+    use TokenPriorityTrait;
+
     private ?\Closure $batch = null;
 
     private ?\Closure $run = null;

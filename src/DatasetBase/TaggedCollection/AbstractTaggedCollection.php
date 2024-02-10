@@ -24,6 +24,7 @@ abstract class AbstractTaggedCollection extends AbstractCollection
      *
      * @psalm-return TagItem<T>
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         $offset = (string) $offset;

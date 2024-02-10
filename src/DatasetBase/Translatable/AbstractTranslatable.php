@@ -64,6 +64,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
      *
      * @psalm-return T|null
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         if (!\is_string($offset)) {

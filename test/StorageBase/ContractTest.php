@@ -26,6 +26,7 @@ final class ContractTest extends TestCase
                             return false;
                         }
 
+                        #[\ReturnTypeWillChange]
                         public function jsonSerialize()
                         {
                             return null;

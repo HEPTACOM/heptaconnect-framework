@@ -20,11 +20,20 @@ class DeepObjectIteratorContract
         $alreadyChecked = [];
 
         do {
-            $newIterables = [];
+            $finished = true;
+            $newIterables = new \AppendIterator();
 
             /** @var mixed $iterable */
             foreach ($toIterate as $iterable) {
-                if (\is_object($iterable)) {
+                if (\is_iterable($iterable)) {
+                    $newIterables->append(
+                        new \IteratorIterator(
+                            \iterable_to_traversable($this->iterateIterable($iterable))
+                        )
+                    );
+
+                    $finished = false;
+                } elseif (\is_object($iterable)) {
                     $class = $iterable::class;
 
                     if (\in_array($iterable, $alreadyChecked[$class] ?? [], true)) {
@@ -33,14 +42,19 @@ class DeepObjectIteratorContract
 
                     $alreadyChecked[$class][] = $iterable;
                     yield $iterable;
-                    $newIterables[] = \iterable_to_array($this->iterateProperties($iterable));
-                } elseif (\is_iterable($iterable)) {
-                    $newIterables[] = \iterable_to_array($this->iterateIterable($iterable));
+
+                    $newIterables->append(
+                        new \IteratorIterator(
+                            \iterable_to_traversable($this->iterateProperties($iterable))
+                        )
+                    );
+
+                    $finished = false;
                 }
             }
 
-            $toIterate = \array_merge([], ...\array_map('array_values', $newIterables));
-        } while ($toIterate !== []);
+            $toIterate = $newIterables;
+        } while (!$finished);
     }
 
     private function iterateProperties(object $object): iterable

@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Token;
 
 use Heptacom\HeptaConnect\Dataset\Base\EntityType;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Support\TokenPriorityTrait;
 
 class ExplorerToken
 {
+    use TokenPriorityTrait;
+
     private ?\Closure $run = null;
 
     private ?\Closure $isAllowed = null;

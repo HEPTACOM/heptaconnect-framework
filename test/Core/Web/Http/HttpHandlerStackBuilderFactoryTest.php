@@ -8,7 +8,6 @@ use Heptacom\HeptaConnect\Core\Portal\Contract\PortalNodeContainerFacadeContract
 use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerStackBuilderFactory;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection;
@@ -38,8 +37,7 @@ final class HttpHandlerStackBuilderFactoryTest extends TestCase
 
         $portalContainerFactory->method('create')->with($portalNodeKey)->willReturn($containerFacade);
         $containerFacade->method('getFlowComponentRegistry')->willReturn($flowComponentRegistry);
-        $flowComponentRegistry->method('getOrderedSources')->willReturn([PortalContract::class]);
-        $flowComponentRegistry->method('getWebHttpHandlers')->with(PortalContract::class)->willReturn(new HttpHandlerCollection([$httpHandler]));
+        $flowComponentRegistry->method('getWebHttpHandlers')->willReturn(new HttpHandlerCollection([$httpHandler]));
         $httpHandler->method('supports')->willReturn('foobar');
 
         $factory = new HttpHandlerStackBuilderFactory($portalContainerFactory, $logger);
@@ -63,8 +61,7 @@ final class HttpHandlerStackBuilderFactoryTest extends TestCase
 
         $portalContainerFactory->method('create')->with($portalNodeKey)->willReturn($containerFacade);
         $containerFacade->method('getFlowComponentRegistry')->willReturn($flowComponentRegistry);
-        $flowComponentRegistry->method('getOrderedSources')->willReturn([PortalContract::class]);
-        $flowComponentRegistry->method('getWebHttpHandlers')->with(PortalContract::class)->willReturn(new HttpHandlerCollection([$httpHandler1, $httpHandler2]));
+        $flowComponentRegistry->method('getWebHttpHandlers')->willReturn(new HttpHandlerCollection([$httpHandler1, $httpHandler2]));
         $httpHandler1->method('supports')->willReturn('foobar');
         $httpHandler2->method('supports')->willReturn('foobar');
 

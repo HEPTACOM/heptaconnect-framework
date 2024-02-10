@@ -27,6 +27,7 @@ final class StorageKeyCollectionTest extends TestCase
                 return $other::class === static::class;
             }
 
+            #[\ReturnTypeWillChange]
             public function jsonSerialize()
             {
                 return [];
@@ -44,6 +45,7 @@ final class StorageKeyCollectionTest extends TestCase
                 return $other::class === static::class;
             }
 
+            #[\ReturnTypeWillChange]
             public function jsonSerialize()
             {
                 return [];

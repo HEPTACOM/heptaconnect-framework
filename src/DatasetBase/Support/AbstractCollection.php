@@ -98,6 +98,7 @@ abstract class AbstractCollection implements CollectionInterface
         return \array_values($this->items);
     }
 
+    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         yield from $this->items;
@@ -116,6 +117,7 @@ abstract class AbstractCollection implements CollectionInterface
      *
      * @return T|null
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         if (!\is_numeric($offset)) {

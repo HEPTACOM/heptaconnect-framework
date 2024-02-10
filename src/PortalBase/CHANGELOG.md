@@ -62,6 +62,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+## [0.9.7.0] - 2024-02-10
+
+### Added
+
+- Add method `\Heptacom\HeptaConnect\Portal\Base\Builder\Builder\EmitterBuilder::priority` to sort flow component within the stack
+- Add method `\Heptacom\HeptaConnect\Portal\Base\Builder\Builder\ExplorerBuilder::priority` to sort flow component within the stack
+- Add method `\Heptacom\HeptaConnect\Portal\Base\Builder\Builder\HttpHandlerBuilder::priority` to sort flow component within the stack
+- Add method `\Heptacom\HeptaConnect\Portal\Base\Builder\Builder\ReceiverBuilder::priority` to sort flow component within the stack
+- Add method `\Heptacom\HeptaConnect\Portal\Base\Builder\Builder\StatusReporterBuilder::priority` to sort flow component within the stack
+- Add method `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\EmitterToken::getPriority` and `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\EmitterToken::setPriority` to sort flow component within the stack
+- Add method `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken::getPriority` and `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken::setPriority` to sort flow component within the stack
+- Add method `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken::getPriority` and `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken::setPriority` to sort flow component within the stack
+- Add method `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken::getPriority` and `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken::setPriority` to sort flow component within the stack
+- Add method `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\StatusReporterToken::getPriority` and `\Heptacom\HeptaConnect\Portal\Base\Builder\Token\StatusReporterToken::setPriority` to sort flow component within the stack
+- Add method `\Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent::setDefaultPriority` to set default position for flow components within the stack per source package
+- Add method `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract::getDefaultFlowComponentPriority` to set default position for flow components within the stack per source package
+
+### Changed
+
+- Change `\Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract::iterate` to resolve nested iterables deferred instead of in the moment they are found to lower memory peaks during larger object inspection
+
 ## [0.9.6.0] - 2023-07-10
 
 ### Fixed

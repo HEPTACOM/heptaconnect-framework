@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Token;
 
+use Heptacom\HeptaConnect\Portal\Base\Builder\Support\TokenPriorityTrait;
+
 class StatusReporterToken
 {
+    use TokenPriorityTrait;
+
     private ?\Closure $run = null;
 
     public function __construct(
