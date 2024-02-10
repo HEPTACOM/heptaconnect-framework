@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Builder;
 
+use Heptacom\HeptaConnect\Portal\Base\Builder\Support\BuilderPriorityTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken;
 
 class ReceiverBuilder
 {
+    use BuilderPriorityTrait;
+
     private ReceiverToken $token;
 
     public function __construct(ReceiverToken $token)

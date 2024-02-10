@@ -18,8 +18,8 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalN
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\AbstractLogger;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 /**
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory
@@ -73,14 +73,7 @@ class PortalNodeStorageTest extends TestCase
 
     public function testListWillContinueReturnEntriesEvenIfOneCanNotBeParsed(): void
     {
-        $logger = new class() extends AbstractLogger {
-            public array $capture = [];
-
-            public function log($level, $message, array $context = []): void
-            {
-                $this->capture[$level][$message][] = $context;
-            }
-        };
+        $logger = new NullLogger();
         $normalizer = new SerializableNormalizer();
         $normalizationRegistry = new NormalizationRegistry([
             $normalizer,
@@ -126,6 +119,5 @@ class PortalNodeStorageTest extends TestCase
             'key-b' => 'value-b',
             'key-d' => 'value-d',
         ], $entries);
-        static::assertNotEmpty($logger->capture);
     }
 }

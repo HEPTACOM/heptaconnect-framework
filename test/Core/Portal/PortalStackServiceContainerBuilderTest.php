@@ -13,6 +13,7 @@ use Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory;
 use Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract;
 use Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory;
 use Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector;
+use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarStatusReporter;
 use Heptacom\HeptaConnect\Core\Test\Fixture\HttpClientInterfaceDecorator;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleServiceInterface;
@@ -29,6 +30,8 @@ use Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerContract;
 use Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerFactoryContract;
 use Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface;
 use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegistryContract;
+use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReportingContextInterface;
+use Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterStack;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepCloneContract;
 use Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract;
@@ -229,6 +232,71 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
         static::assertSame($mockResponse, $actualResponse);
     }
 
+    public function testFlowComponentPrioritySorting(): void
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $context = $this->createMock(StatusReportingContextInterface::class);
+
+        $container = $this->getContainerBuilder();
+
+        $this->setSyntheticFlowComponent(
+            $container,
+            new FooBarStatusReporter('a7d966bd-30f8-4ca1-9ac8-38af70947852'),
+            'test.flow-component.status-reporter.' . \uniqid(),
+            PortalStackServiceContainerBuilder::STATUS_REPORTER_SOURCE_TAG,
+            10
+        );
+
+        $this->setSyntheticFlowComponent(
+            $container,
+            new FooBarStatusReporter('2567988f-428b-434c-932c-1c2bb874464d'),
+            'test.flow-component.status-reporter.' . \uniqid(),
+            PortalStackServiceContainerBuilder::STATUS_REPORTER_SOURCE_TAG,
+            -10
+        );
+
+        $this->setSyntheticFlowComponent(
+            $container,
+            new FooBarStatusReporter('aacd0aaa-099f-49d4-9920-6315b8adf6f9'),
+            'test.flow-component.status-reporter.' . \uniqid(),
+            PortalStackServiceContainerBuilder::STATUS_REPORTER_SOURCE_TAG,
+            0
+        );
+
+        $this->setSyntheticFlowComponent(
+            $container,
+            new FooBarStatusReporter('3c28e21e-f9e3-48bd-ac88-d81695acbda8'),
+            'test.flow-component.status-reporter.' . \uniqid(),
+            PortalStackServiceContainerBuilder::STATUS_REPORTER_SOURCE_TAG,
+            1000
+        );
+
+        $this->setSyntheticFlowComponent(
+            $container,
+            new FooBarStatusReporter('78c65ffd-e4eb-4c07-a264-61a9517dbb9a'),
+            'test.flow-component.status-reporter.' . \uniqid(),
+            PortalStackServiceContainerBuilder::STATUS_REPORTER_SOURCE_TAG,
+            1
+        );
+
+        $container->compile();
+
+        /** @var FlowComponentRegistry $flowComponentRegistry */
+        $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
+        $statusReporters = $flowComponentRegistry->getStatusReporters();
+
+        $stack = new StatusReporterStack($statusReporters, $logger);
+        $report = $stack->next($context);
+
+        static::assertSame([
+            'foo-bar.2567988f-428b-434c-932c-1c2bb874464d' => true,
+            'foo-bar.aacd0aaa-099f-49d4-9920-6315b8adf6f9' => true,
+            'foo-bar.78c65ffd-e4eb-4c07-a264-61a9517dbb9a' => true,
+            'foo-bar.a7d966bd-30f8-4ca1-9ac8-38af70947852' => true,
+            'foo-bar.3c28e21e-f9e3-48bd-ac88-d81695acbda8' => true,
+        ], $report);
+    }
+
     private function getContainerBuilder(): ContainerBuilder
     {
         $configurationService = $this->createMock(ConfigurationServiceInterface::class);
@@ -284,5 +352,26 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
                 ->setClass(\get_class($service));
             $containerBuilder->setDefinition($definitionId, $definition);
         }
+    }
+
+    private function setSyntheticFlowComponent(
+        ContainerBuilder $containerBuilder,
+        object $service,
+        string $definitionId,
+        string $tag,
+        int $priority
+    ): void {
+        $containerBuilder->set($definitionId, $service);
+
+        $definition = (new Definition())
+            ->setSynthetic(true)
+            ->setClass(\get_class($service))
+            ->addTag($tag, [
+                'source' => Portal::class,
+                'priority' => $priority,
+            ])
+        ;
+
+        $containerBuilder->setDefinition($definitionId, $definition);
     }
 }

@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Builder;
 
+use Heptacom\HeptaConnect\Portal\Base\Builder\Support\BuilderPriorityTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken;
 
 class HttpHandlerBuilder
 {
+    use BuilderPriorityTrait;
+
     private HttpHandlerToken $token;
 
     public function __construct(HttpHandlerToken $token)

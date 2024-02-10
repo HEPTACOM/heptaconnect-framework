@@ -39,6 +39,8 @@ class FlowComponent implements LoggerAwareInterface
      */
     protected $logger;
 
+    private ?int $defaultPriority = null;
+
     /**
      * @var ExplorerToken[]
      */
@@ -163,8 +165,10 @@ class FlowComponent implements LoggerAwareInterface
      */
     public function buildExplorers(): iterable
     {
-        foreach (self::$explorerTokens as $key => $explorerToken) {
-            yield new Explorer($explorerToken);
+        foreach (self::$explorerTokens as $key => $token) {
+            $priority = $token->getPriority() ?? $this->defaultPriority;
+
+            yield $priority => new Explorer($token);
             unset(self::$explorerTokens[$key]);
         }
     }
@@ -174,12 +178,14 @@ class FlowComponent implements LoggerAwareInterface
      */
     public function buildEmitters(): iterable
     {
-        foreach (self::$emitterTokens as $key => $emitterToken) {
-            if ($emitterToken->getRun() instanceof \Closure && $emitterToken->getBatch() instanceof \Closure) {
+        foreach (self::$emitterTokens as $key => $token) {
+            if ($token->getRun() instanceof \Closure && $token->getBatch() instanceof \Closure) {
                 $this->logImplementationConflict('Emitter', 'run', 'batch');
             }
 
-            yield new Emitter($emitterToken);
+            $priority = $token->getPriority() ?? $this->defaultPriority;
+
+            yield $priority => new Emitter($token);
             unset(self::$emitterTokens[$key]);
         }
     }
@@ -189,12 +195,14 @@ class FlowComponent implements LoggerAwareInterface
      */
     public function buildReceivers(): iterable
     {
-        foreach (self::$receiverTokens as $key => $receiverToken) {
-            if ($receiverToken->getRun() instanceof \Closure && $receiverToken->getBatch() instanceof \Closure) {
+        foreach (self::$receiverTokens as $key => $token) {
+            if ($token->getRun() instanceof \Closure && $token->getBatch() instanceof \Closure) {
                 $this->logImplementationConflict('Receiver', 'run', 'batch');
             }
 
-            yield new Receiver($receiverToken);
+            $priority = $token->getPriority() ?? $this->defaultPriority;
+
+            yield $priority => new Receiver($token);
             unset(self::$receiverTokens[$key]);
         }
     }
@@ -204,8 +212,10 @@ class FlowComponent implements LoggerAwareInterface
      */
     public function buildStatusReporters(): iterable
     {
-        foreach (self::$statusReporterTokens as $key => $statusReporterToken) {
-            yield new StatusReporter($statusReporterToken);
+        foreach (self::$statusReporterTokens as $key => $token) {
+            $priority = $token->getPriority() ?? $this->defaultPriority;
+
+            yield $priority => new StatusReporter($token);
             unset(self::$statusReporterTokens[$key]);
         }
     }
@@ -242,18 +252,26 @@ class FlowComponent implements LoggerAwareInterface
                 }
             }
 
-            yield new HttpHandler($httpHandlerToken);
+            $priority = $httpHandlerToken->getPriority() ?? $this->defaultPriority;
+
+            yield $priority => new HttpHandler($httpHandlerToken);
             unset(self::$httpHandlerTokens[$key]);
         }
     }
 
     public function reset(): void
     {
+        $this->defaultPriority = null;
         self::$explorerTokens = [];
         self::$emitterTokens = [];
         self::$receiverTokens = [];
         self::$statusReporterTokens = [];
         self::$httpHandlerTokens = [];
+    }
+
+    public function setDefaultPriority(int $defaultPriority): void
+    {
+        $this->defaultPriority = $defaultPriority;
     }
 
     private function logImplementationConflict(string $builder, string $method, string $dropped): void
