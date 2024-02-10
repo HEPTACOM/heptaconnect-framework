@@ -1,9 +1,9 @@
-image: heptacom/heptaconnect-pipeline:php80-8.0.0
+image: heptacom/heptaconnect-pipeline:php81-8.0.0
 
 definitions:
     partials:
-        -   step: &php81-image
-                image: heptacom/heptaconnect-pipeline:php81-8.0.0
+        -   step: &php82-image
+                image: heptacom/heptaconnect-pipeline:php82-8.0.0
     services:
         mysql:
             image: mysql:8.0
@@ -67,16 +67,16 @@ definitions:
                     - make .build
                     - mv vendor .build/vendor-low
                     - echo 'mkdir -p vendor; rm -rf vendor; mv .build/vendor-low vendor' > setup-vendor.sh
-        -   step: &test-unit-high-install-81
-                <<: *php81-image
-                name: Install and Unit test (8.1 + High dependencies)
+        -   step: &test-unit-high-install-82
+                <<: *php82-image
+                name: Install and Unit test (8.2 + High dependencies)
                 script:
                     - make clean
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - COMPOSER_EXTRA_ARGS=-vvv make -e test
-        -   step: &test-unit-low-install-81
-                <<: *php81-image
-                name: Install and Unit test (8.1 + Low dependencies)
+        -   step: &test-unit-low-install-82
+                <<: *php82-image
+                name: Install and Unit test (8.2 + Low dependencies)
                 script:
                     - make clean
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
@@ -167,8 +167,8 @@ pipelines:
                     -   step: *test-coverage
                     -   step: *test-code-style-composer-unused
             -   parallel: &steps-blocking-non-min-php-version-tests
-                    -   step: *test-unit-high-install-81
-                    -   step: *test-unit-low-install-81
+                    -   step: *test-unit-high-install-82
+                    -   step: *test-unit-low-install-82
             -   step: *composer-high-install
             -   parallel: &steps-non-blocking-tests
                     -   step: *test-code-style-phpmd
