@@ -4,9 +4,11 @@
 /dev-ops/bin/composer-require-checker
 /dev-ops/bin/composer-unused/vendor/
 /dev-ops/bin/easy-coding-standard/vendor/
+/dev-ops/bin/phpcpd
 /dev-ops/bin/phpmd
 /dev-ops/bin/phpstan/vendor/
 /dev-ops/bin/psalm/vendor/
+/dev-ops/bin/php-churn/vendor/
 /test/Core/Fixture/_files/portal_filesystem
 /test-composer-integration/vendor/*
 /test-suite-portal-test-portal/vendor/

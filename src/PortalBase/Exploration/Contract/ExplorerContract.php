@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Exploration\Contract;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityException;
-use Psr\Log\LoggerInterface;
 
 /**
  * Base class for every explorer implementation with various boilerplate-reducing entrypoints for rapid development.
@@ -15,6 +18,8 @@ use Psr\Log\LoggerInterface;
  */
 abstract class ExplorerContract
 {
+    private ?EntityType $supportedEntityType = null;
+
     /**
      * First entrypoint to handle an exploration in this flow component.
      * It allows direct stack handling manipulation. @see ExplorerStackInterface
@@ -29,11 +34,23 @@ abstract class ExplorerContract
     }
 
     /**
+     * Returns the supported entity type.
+     *
+     * @throws InvalidClassNameException
+     * @throws InvalidSubtypeClassNameException
+     * @throws UnexpectedLeadingNamespaceSeparatorInClassNameException
+     */
+    final public function getSupportedEntityType(): EntityType
+    {
+        return $this->supportedEntityType ??= new EntityType($this->supports());
+    }
+
+    /**
      * Must return the supported entity type.
      *
      * @return class-string<DatasetEntityContract>
      */
-    abstract public function supports(): string;
+    abstract protected function supports(): string;
 
     /**
      * The entrypoint for handling an exploration with the least need of additional programming.
@@ -59,7 +76,7 @@ abstract class ExplorerContract
             return false;
         }
 
-        return \is_string($entity) || \is_int($entity) || \is_a($entity, $this->supports(), false);
+        return \is_string($entity) || \is_int($entity) || $this->getSupportedEntityType()->isObjectOfType($entity);
     }
 
     /**
@@ -84,9 +101,7 @@ abstract class ExplorerContract
                 }
             }
         } catch (\Throwable $exception) {
-            /** @var LoggerInterface $logger */
-            $logger = $context->getContainer()->get(LoggerInterface::class);
-            $logger->critical(\sprintf(
+            $context->getLogger()->critical(\sprintf(
                 'FlowComponent explorer encountered exception in exploreNext(): %s',
                 $exception->getMessage()
             ));
@@ -110,9 +125,7 @@ abstract class ExplorerContract
                 }
             }
         } catch (\Throwable $exception) {
-            /** @var LoggerInterface $logger */
-            $logger = $context->getContainer()->get(LoggerInterface::class);
-            $logger->critical(\sprintf(
+            $context->getLogger()->critical(\sprintf(
                 'FlowComponent explorer encountered exception in exploreCurrent(): %s',
                 $exception->getMessage()
             ));

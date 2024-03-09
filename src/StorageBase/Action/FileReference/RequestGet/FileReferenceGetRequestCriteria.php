@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -14,17 +13,10 @@ final class FileReferenceGetRequestCriteria implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private PortalNodeKeyInterface $portalNodeKey;
-
-    private FileReferenceRequestKeyCollection $fileReferenceRequestKeys;
-
     public function __construct(
-        PortalNodeKeyInterface $portalNodeKey,
-        FileReferenceRequestKeyCollection $fileReferenceRequestKeys
+        private PortalNodeKeyInterface $portalNodeKey,
+        private FileReferenceRequestKeyCollection $fileReferenceRequestKeys
     ) {
-        $this->attachments = new AttachmentCollection();
-        $this->portalNodeKey = $portalNodeKey;
-        $this->fileReferenceRequestKeys = $fileReferenceRequestKeys;
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

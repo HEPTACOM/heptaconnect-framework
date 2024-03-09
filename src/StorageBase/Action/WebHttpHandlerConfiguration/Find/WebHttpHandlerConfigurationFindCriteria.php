@@ -4,47 +4,28 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier;
 
 final class WebHttpHandlerConfigurationFindCriteria implements AttachmentAwareInterface
 {
     use AttachmentAwareTrait;
 
-    private PortalNodeKeyInterface $portalNodeKey;
-
-    private string $path;
-
-    private string $configurationKey;
-
-    public function __construct(PortalNodeKeyInterface $portalNodeKey, string $path, string $configurationKey)
-    {
-        $this->attachments = new AttachmentCollection();
-        $this->portalNodeKey = $portalNodeKey;
-        $this->path = $path;
-        $this->configurationKey = $configurationKey;
+    public function __construct(
+        private HttpHandlerStackIdentifier $stackIdentifier,
+        private string $configurationKey
+    ) {
     }
 
-    public function getPortalNodeKey(): PortalNodeKeyInterface
+    public function getStackIdentifier(): HttpHandlerStackIdentifier
     {
-        return $this->portalNodeKey;
+        return $this->stackIdentifier;
     }
 
-    public function setPortalNodeKey(PortalNodeKeyInterface $portalNodeKey): void
+    public function setStackIdentifier(HttpHandlerStackIdentifier $stackIdentifier): void
     {
-        $this->portalNodeKey = $portalNodeKey;
-    }
-
-    public function getPath(): string
-    {
-        return $this->path;
-    }
-
-    public function setPath(string $path): void
-    {
-        $this->path = $path;
+        $this->stackIdentifier = $stackIdentifier;
     }
 
     public function getConfigurationKey(): string

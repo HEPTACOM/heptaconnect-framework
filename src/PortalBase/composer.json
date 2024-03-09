@@ -21,13 +21,12 @@
         "rss": "https://heptaconnect.io/news/rss2.xml"
     },
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.0",
         "ext-json": "*",
         "ext-mbstring": "*",
         "bentools/iterable-functions": ">=1.4 <2",
         "heptacom/heptaconnect-dataset-base": "self.version",
         "myclabs/deep-copy": ">=1.10 <2",
-        "opis/closure": "^3.6",
         "php-http/discovery": "^1.0",
         "psr/container": "^1.0",
         "psr/event-dispatcher": "^1.0",
@@ -59,13 +58,6 @@
             "infection/extension-installer": true,
             "php-http/discovery": true
         }
-    },
-    "extra": {
-        "unused": [
-            "bentools/iterable-functions",
-            "psr/http-server-handler",
-            "psr/http-server-middleware"
-        ]
     },
     "website": "https://heptaconnect.io"
 }

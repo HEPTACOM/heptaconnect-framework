@@ -3,9 +3,11 @@ PHP := "$(shell which php)" $(PHP_EXTRA_ARGS)
 COMPOSER := $(PHP) "$(shell which composer)" $(COMPOSER_EXTRA_ARGS)
 PHPUNIT_EXTRA_ARGS := --config=test/phpunit.xml
 PHPUNIT := $(PHP) vendor/bin/phpunit $(PHPUNIT_EXTRA_ARGS)
+INFECTION := $(PHP) vendor/bin/infection $(INFECTION_EXTRA_ARGS)
 CURL := "$(shell which curl)"
 JQ := "$(shell which jq)"
-JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*' -not -path './.build/*' -not -path './src/Core/vendor/*' -not -path './src/DatasetBase/vendor/*' -not -path './src/PortalBase/vendor/*' -not -path './src/StorageBase/vendor/*' -not -path './src/TestSuitePortal/vendor/*' -not -path './src/TestSuiteStorage/vendor/*' -not -path './test/Core/Fixture/_files/portal-node-configuration-invalid.json' -not -path './test-suite-portal-test-portal/vendor/*')
+XSLTPROC := "$(shell which xsltproc)"
+JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*' -not -path './.build/*' -not -path './dev-ops/bin/*/vendor/*' -not -path './src/Core/vendor/*' -not -path './src/DatasetBase/vendor/*' -not -path './src/PortalBase/vendor/*' -not -path './src/StorageBase/vendor/*' -not -path './src/TestSuitePortal/vendor/*' -not -path './src/TestSuiteStorage/vendor/*' -not -path './src/UiAdminBase/vendor/*' -not -path './test/Core/Fixture/_files/portal-node-configuration-invalid.json' -not -path './test-suite-portal-test-portal/vendor/*')
 GIT := "$(shell which git)"
 PHPSTAN_FILE := dev-ops/bin/phpstan/vendor/bin/phpstan
 COMPOSER_NORMALIZE_PHAR := https://github.com/ergebnis/composer-normalize/releases/download/2.22.0/composer-normalize.phar
@@ -14,9 +16,12 @@ COMPOSER_REQUIRE_CHECKER_PHAR := https://github.com/maglnet/ComposerRequireCheck
 COMPOSER_REQUIRE_CHECKER_FILE := dev-ops/bin/composer-require-checker
 PHPMD_PHAR := https://github.com/phpmd/phpmd/releases/download/2.11.1/phpmd.phar
 PHPMD_FILE := dev-ops/bin/phpmd
+PHPCPD_PHAR := https://phar.phpunit.de/phpcpd.phar
+PHPCPD_FILE := dev-ops/bin/phpcpd
 PSALM_FILE := dev-ops/bin/psalm/vendor/bin/psalm
 COMPOSER_UNUSED_FILE := dev-ops/bin/composer-unused/vendor/bin/composer-unused
 EASY_CODING_STANDARD_FILE := dev-ops/bin/easy-coding-standard/vendor/bin/ecs
+PHPCHURN_FILE := dev-ops/bin/php-churn/vendor/bin/churn
 
 .DEFAULT_GOAL := help
 .PHONY: help
@@ -28,7 +33,7 @@ help: ## List useful make targets
 all: clean it coverage infection ## Cleans up and runs typical tests and style analysis
 
 .PHONY: clean
-clean: ## Cleans up all ignored files and directories
+clean: clean-package-vendor ## Cleans up all ignored files and directories
 	[[ ! -f composer.lock ]] || rm composer.lock
 	[[ ! -d vendor ]] || rm -rf vendor
 	[[ ! -d .build ]] || rm -rf .build
@@ -37,15 +42,34 @@ clean: ## Cleans up all ignored files and directories
 	[[ ! -d dev-ops/bin/composer-unused/vendor ]] || rm -rf dev-ops/bin/composer-unused/vendor
 	[[ ! -d dev-ops/bin/easy-coding-standard/vendor ]] || rm -rf dev-ops/bin/easy-coding-standard/vendor
 	[[ ! -f dev-ops/bin/phpmd ]] || rm -f dev-ops/bin/phpmd
+	[[ ! -f dev-ops/bin/phpcpd ]] || rm -f dev-ops/bin/phpcpd
 	[[ ! -d dev-ops/bin/phpstan/vendor ]] || rm -rf dev-ops/bin/phpstan/vendor
 	[[ ! -d dev-ops/bin/psalm/vendor ]] || rm -rf dev-ops/bin/psalm/vendor
+	[[ ! -d dev-ops/bin/php-churn/vendor ]] || rm -rf dev-ops/bin/php-churn/vendor
+	[[ ! -d test/Core/Fixture/_files/portal_filesystem ]] || rm -rf test/Core/Fixture/_files/portal_filesystem
 	make -C test-suite-portal-test-portal clean
+
+.PHONY: clean-package-vendor
+clean-package-vendor:
+	[[ ! -d src/Core/vendor ]] || rm -rf src/Core/vendor
+	[[ ! -f src/Core/composer.lock ]] || rm -f src/Core/composer.lock
+	[[ ! -d src/DatasetBase/vendor ]] || rm -rf src/DatasetBase/vendor
+	[[ ! -f src/DatasetBase/composer.lock ]] || rm -f src/DatasetBase/composer.lock
+	[[ ! -d src/PortalBase/vendor ]] || rm -rf src/PortalBase/vendor
+	[[ ! -f src/PortalBase/composer.lock ]] || rm -f src/PortalBase/composer.lock
+	[[ ! -d src/StorageBase/vendor ]] || rm -rf src/StorageBase/vendor
+	[[ ! -f src/StorageBase/composer.lock ]] || rm -f src/StorageBase/composer.lock
+    # TODO add portal test suite
+	[[ ! -d src/TestSuiteStorage/vendor ]] || rm -rf src/TestSuiteStorage/vendor
+	[[ ! -f src/TestSuiteStorage/composer.lock ]] || rm -f src/TestSuiteStorage/composer.lock
+	[[ ! -d src/UiAdminBase/vendor ]] || rm -rf src/UiAdminBase/vendor
+	[[ ! -f src/UiAdminBase/composer.lock ]] || rm -f src/UiAdminBase/composer.lock
 
 .PHONY: it
 it: cs-fix cs test ## Fix code style and run unit tests
 
 .PHONY: coverage
-coverage: vendor .build test-setup-fixture run-phpunit-coverage test-clean-fixture ## Run phpunit coverage tests
+coverage: vendor .build test-setup-fixture clean-package-vendor run-phpunit-coverage test-clean-fixture ## Run phpunit coverage tests
 
 .PHONY: run-phpunit-coverage
 run-phpunit-coverage:
@@ -53,7 +77,7 @@ run-phpunit-coverage:
 	make -C test-suite-portal-test-portal coverage
 
 .PHONY: cs
-cs: cs-php cs-phpstan cs-psalm cs-phpmd cs-soft-require cs-composer-unused cs-composer-normalize cs-json ## Run every code style check target
+cs: cs-php cs-phpstan cs-psalm cs-phpmd cs-soft-require cs-composer-unused cs-composer-normalize cs-json cs-phpchurn ## Run every code style check target
 
 .PHONY: cs-php
 cs-php: vendor .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standard for code style analysis
@@ -70,26 +94,36 @@ cs-psalm: vendor .build $(PSALM_FILE) ## Run psalm for static code analysis
 
 .PHONY: cs-phpmd
 cs-phpmd: vendor .build $(PHPMD_FILE) ## Run php mess detector for static code analysis
-	# TODO Re-add rulesets/unused.xml when phpmd fixes false-positive UnusedPrivateField
-	$(PHP) $(PHPMD_FILE) --ignore-violations-on-exit src ansi rulesets/codesize.xml,rulesets/naming.xml
-	[[ -f .build/phpmd-junit.xslt ]] || $(CURL) https://phpmd.org/junit.xslt -o .build/phpmd-junit.xslt
-	$(PHP) $(PHPMD_FILE) src xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md.junit.xml
-	$(PHP) $(PHPMD_FILE) src/Core xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-core.junit.xml
-	$(PHP) $(PHPMD_FILE) src/DatasetBase xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-dataset-base.junit.xml
-	$(PHP) $(PHPMD_FILE) src/PortalBase xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-portal-base.junit.xml
-	$(PHP) $(PHPMD_FILE) src/StorageBase xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-storage-base.junit.xml
-	$(PHP) $(PHPMD_FILE) src/TestSuiteStorage xml rulesets/codesize.xml,rulesets/naming.xml | xsltproc .build/phpmd-junit.xslt - > .build/php-md-test-suite-storage.junit.xml
-	# TODO Add TestSuitePortal
+	[[ -z "${CI}" ]] || [[ -f .build/phpmd-junit.xslt ]] || $(CURL) https://phpmd.org/junit.xslt -o .build/phpmd-junit.xslt
+	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/Core xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-core.junit.xml
+	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/DatasetBase xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-dataset-base.junit.xml
+	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/PortalBase xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-portal-base.junit.xml
+	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/StorageBase xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-storage-base.junit.xml
+	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/TestSuitePortal xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-test-suite-portal.junit.xml
+	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/TestSuiteStorage xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-test-suite-storage.junit.xml
+	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/UiAdminBase xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-ui-admin-base.junit.xml
+	$(PHP) $(PHPMD_FILE) src ansi dev-ops/phpmd.xml
+
+.PHONY: cs-phpcpd
+cs-phpcpd: vendor clean-package-vendor .build $(PHPCPD_FILE) ## Run php copy paste detector for static code analysis
+	# clean up because phpcpd --exclude is not working atm https://github.com/sebastianbergmann/phpcpd/issues/202
+	$(PHP) $(PHPCPD_FILE) --fuzzy src/Core
+	$(PHP) $(PHPCPD_FILE) --fuzzy src/DatasetBase
+	$(PHP) $(PHPCPD_FILE) --fuzzy src/PortalBase
+	$(PHP) $(PHPCPD_FILE) --fuzzy src/StorageBase
+	$(PHP) $(PHPCPD_FILE) --fuzzy src/TestSuiteStorage
+	$(PHP) $(PHPCPD_FILE) --fuzzy src/UiAdminBase
 
 .PHONY: cs-composer-unused
-cs-composer-unused: vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to detect once-required packages that are not used anymore
-	$(PHP) $(COMPOSER_UNUSED_FILE) --no-progress
-	cd src/Core && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
+cs-composer-unused: vendor src/Core/vendor src/DatasetBase/vendor src/PortalBase/vendor src/StorageBase/vendor src/TestSuiteStorage/vendor src/UiAdminBase/vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to detect once-required packages that are not used anymore
+	$(PHP) $(COMPOSER_UNUSED_FILE) --configuration=dev-ops/composer-unused.php --no-progress
+	cd src/Core && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --configuration=../../dev-ops/composer-unused.php --no-progress
 	cd src/DatasetBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
-	cd src/PortalBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
+	cd src/PortalBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --configuration=../../dev-ops/composer-unused-portal-base.php --no-progress
 	cd src/StorageBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
-	cd src/TestSuitePortal && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
+# TODO add portal test suite
 	cd src/TestSuiteStorage && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
+	cd src/UiAdminBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
 
 .PHONY: cs-soft-require
 cs-soft-require: vendor .build $(COMPOSER_REQUIRE_CHECKER_FILE) ## Run composer-require-checker to detect library usage without requirement entry in composer.json
@@ -104,9 +138,14 @@ cs-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-normali
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/StorageBase/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/TestSuitePortal/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/TestSuiteStorage/composer.json
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/UiAdminBase/composer.json
 
 .PHONY: cs-json
 cs-json: $(JSON_FILES) ## Run jq on every json file to ensure they are parsable and therefore valid
+
+.PHONY: cs-phpchurn
+cs-phpchurn: vendor .build $(PHPCHURN_FILE) ## Run php-churn for prediction of refactoring cases
+	$(PHP) $(PHPCHURN_FILE) run --configuration dev-ops/churn.yml --format text
 
 .PHONY: $(JSON_FILES)
 $(JSON_FILES):
@@ -124,20 +163,21 @@ cs-fix-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-nor
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/StorageBase/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/TestSuitePortal/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/TestSuiteStorage/composer.json
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/UiAdminBase/composer.json
 
 .PHONY: cs-fix-php
 cs-fix-php: vendor .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standard for automatic code style fixes
 	$(PHP) $(EASY_CODING_STANDARD_FILE) check --config=dev-ops/ecs.php --fix
 
 .PHONY: infection
-infection: vendor .build ## Run infection tests
+infection: clean test-setup-fixture vendor .build ## Run infection tests
 	# Can be simplified when infection/infection#1283 is resolved
 	[[ -d .build/phpunit-logs ]] || mkdir -p .build/.phpunit-coverage
 	$(PHPUNIT) --coverage-xml=.build/.phpunit-coverage/index.xml --log-junit=.build/.phpunit-coverage/infection.junit.xml
-	$(PHP) vendor/bin/infection --min-covered-msi=80 --min-msi=80 --configuration=dev-ops/infection.json --coverage=../.build/.phpunit-coverage --show-mutations --no-interaction
+	$(INFECTION) --only-covered --only-covering-test-cases --threads=max --configuration=dev-ops/infection.json --coverage=../.build/.phpunit-coverage --show-mutations --no-interaction
 
 .PHONY: test
-test: test-setup-fixture run-phpunit test-clean-fixture ## Run phpunit for unit tests
+test: test-setup-fixture clean-package-vendor run-phpunit test-clean-fixture ## Run phpunit for unit tests
 
 .PHONY: run-phpunit
 run-phpunit: vendor .build
@@ -159,6 +199,9 @@ $(COMPOSER_REQUIRE_CHECKER_FILE): ## Install composer-require-checker executable
 $(PHPMD_FILE): ## Install phpmd executable
 	$(CURL) -L $(PHPMD_PHAR) -o $(PHPMD_FILE)
 
+$(PHPCPD_FILE): ## Install phpcpd executable
+	$(CURL) -L $(PHPCPD_PHAR) -o $(PHPCPD_FILE)
+
 $(PSALM_FILE): ## Install psalm executable
 	$(COMPOSER) install -d dev-ops/bin/psalm
 
@@ -168,9 +211,31 @@ $(COMPOSER_UNUSED_FILE): ## Install composer-unused executable
 $(EASY_CODING_STANDARD_FILE): ## Install easy-coding-standard executable
 	$(COMPOSER) install -d dev-ops/bin/easy-coding-standard
 
+$(PHPCHURN_FILE): ## Install php-churn executable
+	$(COMPOSER) install -d dev-ops/bin/php-churn
+
 .PHONY: composer-update
 composer-update:
 	[[ -f vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) update
+
+src/Core/vendor:
+	[[ -f src/Core/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) update -d src/Core
+
+src/DatasetBase/vendor:
+	[[ -f src/DatasetBase/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) update -d src/DatasetBase
+
+src/PortalBase/vendor:
+	[[ -f src/PortalBase/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) update -d src/PortalBase
+
+src/StorageBase/vendor:
+	[[ -f src/StorageBase/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) update -d src/StorageBase
+# TODO add portal test suite
+
+src/TestSuiteStorage/vendor:
+	[[ -f src/TestSuiteStorage/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) update -d src/TestSuiteStorage
+
+src/UiAdminBase/vendor:
+	[[ -f src/UiAdminBase/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) update -d src/UiAdminBase
 
 vendor: composer-update
 
@@ -203,6 +268,7 @@ build-packages:
 	dev-ops/bin/build-subpackage PortalBase
 	dev-ops/bin/build-subpackage StorageBase
 	dev-ops/bin/build-subpackage TestSuiteStorage
+	dev-ops/bin/build-subpackage UiAdminBase
 	# TODO Add TestSuitePortal
 
 .PHONY: publish-packages
@@ -214,6 +280,7 @@ publish-packages: build-packages
 	dev-ops/bin/publish-subpackage PortalBase portal-base "$(TAG)" "$(BRANCH)"
 	dev-ops/bin/publish-subpackage StorageBase storage-base "$(TAG)" "$(BRANCH)"
 	dev-ops/bin/publish-subpackage TestSuiteStorage test-suite-storage "$(TAG)" "$(BRANCH)"
+	dev-ops/bin/publish-subpackage UiAdminBase ui-admin-base "$(TAG)" "$(BRANCH)"
 	# TODO Add TestSuitePortal
 	$(GIT) reset --hard HEAD^1
 

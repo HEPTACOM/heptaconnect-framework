@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
+use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use Heptacom\HeptaConnect\Portal\Base\Builder\BindThisTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiveContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
-use Opis\Closure\SerializableClosure;
 use Psr\Container\ContainerInterface;
 
 final class Receiver extends ReceiverContract
@@ -19,46 +20,42 @@ final class Receiver extends ReceiverContract
     use BindThisTrait;
     use ResolveArgumentsTrait;
 
-    /**
-     * @var class-string<DatasetEntityContract>
-     */
-    private string $type;
+    private EntityType $entityType;
 
-    private ?SerializableClosure $batchMethod;
+    private ?\Closure $batchMethod;
 
-    private ?SerializableClosure $runMethod;
+    private ?\Closure $runMethod;
 
     public function __construct(ReceiverToken $token)
     {
-        $batch = $token->getBatch();
-        $run = $token->getRun();
-
-        $this->type = $token->getType();
-        $this->batchMethod = $batch instanceof \Closure ? new SerializableClosure($batch) : null;
-        $this->runMethod = $run instanceof \Closure ? new SerializableClosure($run) : null;
+        $this->entityType = $token->getEntityType();
+        $this->batchMethod = $token->getBatch();
+        $this->runMethod = $token->getRun();
     }
 
     public function getRunMethod(): ?\Closure
     {
-        return $this->runMethod instanceof SerializableClosure ? $this->runMethod->getClosure() : null;
+        return $this->runMethod;
     }
 
     public function getBatchMethod(): ?\Closure
     {
-        return $this->batchMethod instanceof SerializableClosure ? $this->batchMethod->getClosure() : null;
+        return $this->batchMethod;
     }
 
-    public function supports(): string
+    protected function supports(): string
     {
-        return $this->type;
+        return (string) $this->entityType;
     }
 
     protected function batch(
         TypedDatasetEntityCollection $entities,
         ReceiveContextInterface $context
     ): void {
-        if ($this->batchMethod instanceof SerializableClosure) {
-            $batch = $this->bindThis($this->batchMethod->getClosure());
+        $batch = $this->batchMethod;
+
+        if ($batch instanceof \Closure) {
+            $batch = $this->bindThis($batch);
             $arguments = $this->resolveArguments($batch, $context, function (
                 int $_propertyIndex,
                 string $propertyName,
@@ -84,15 +81,17 @@ final class Receiver extends ReceiverContract
         DatasetEntityContract $entity,
         ReceiveContextInterface $context
     ): void {
-        if ($this->runMethod instanceof SerializableClosure) {
-            $run = $this->bindThis($this->runMethod->getClosure());
+        $run = $this->runMethod;
+
+        if ($run instanceof \Closure) {
+            $run = $this->bindThis($run);
             $arguments = $this->resolveArguments($run, $context, function (
                 int $_propertyIndex,
                 string $propertyName,
                 ?string $propertyType,
                 ContainerInterface $container
             ) use ($entity) {
-                if (\is_string($propertyType) && \is_a($propertyType, $this->supports(), true)) {
+                if (\is_string($propertyType) && $this->getSupportedEntityType()->isClassStringOfType(new UnsafeClassString($propertyType))) {
                     return $entity;
                 }
 

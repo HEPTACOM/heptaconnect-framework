@@ -4,37 +4,19 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\Identity;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
 final class Mapping implements MappingInterface
 {
-    private ?string $externalId;
-
-    private PortalNodeKeyInterface $portalNodeKey;
-
-    private MappingNodeKeyInterface $mappingNodeKey;
-
-    /**
-     * @var class-string<DatasetEntityContract>
-     */
-    private string $entityType;
-
-    /**
-     * @param class-string<DatasetEntityContract> $entityType
-     */
     public function __construct(
-        ?string $externalId,
-        PortalNodeKeyInterface $portalNodeKey,
-        MappingNodeKeyInterface $mappingNodeKey,
-        string $entityType
+        private ?string $externalId,
+        private PortalNodeKeyInterface $portalNodeKey,
+        private MappingNodeKeyInterface $mappingNodeKey,
+        private EntityType $entityType
     ) {
-        $this->externalId = $externalId;
-        $this->portalNodeKey = $portalNodeKey;
-        $this->mappingNodeKey = $mappingNodeKey;
-        $this->entityType = $entityType;
     }
 
     public function getExternalId(): ?string
@@ -59,7 +41,7 @@ final class Mapping implements MappingInterface
         return $this->mappingNodeKey;
     }
 
-    public function getEntityType(): string
+    public function getEntityType(): EntityType
     {
         return $this->entityType;
     }

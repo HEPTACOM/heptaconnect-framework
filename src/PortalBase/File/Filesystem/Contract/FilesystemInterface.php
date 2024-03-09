@@ -6,6 +6,9 @@ namespace Heptacom\HeptaConnect\Portal\Base\File\Filesystem\Contract;
 
 use Heptacom\HeptaConnect\Portal\Base\File\Filesystem\Exception\UnexpectedFormatOfUriException;
 
+/**
+ * Supports accessing the portal node specific filesystem.
+ */
 interface FilesystemInterface
 {
     /**

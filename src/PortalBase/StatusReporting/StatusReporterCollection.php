@@ -12,10 +12,7 @@ use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterCon
  */
 class StatusReporterCollection extends AbstractObjectCollection
 {
-    /**
-     * @return iterable<int, StatusReporterContract>
-     */
-    public function bySupportedTopic(string $topic): iterable
+    public function bySupportedTopic(string $topic): static
     {
         return $this->filter(static fn (StatusReporterContract $reporter) => $reporter->supportsTopic() === $topic);
     }

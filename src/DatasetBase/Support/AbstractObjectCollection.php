@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface;
 
 /**
  * @template T
+ *
  * @template-extends AbstractCollection<T>
  */
 abstract class AbstractObjectCollection extends AbstractCollection implements AttachableInterface
@@ -15,9 +16,9 @@ abstract class AbstractObjectCollection extends AbstractCollection implements At
     abstract protected function getT(): string;
 
     /**
-     * @psalm-param T $item
+     * @psalm-assert-if-true T $item
      */
-    protected function isValidItem($item): bool
+    protected function isValidItem(mixed $item): bool
     {
         $expected = $this->getT();
 

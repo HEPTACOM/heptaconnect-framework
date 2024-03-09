@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Emission;
 
+use Heptacom\HeptaConnect\Core\Emission\EmitterStack;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
-use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -19,12 +19,17 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection
- * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack
+ * @covers \Heptacom\HeptaConnect\Core\Emission\EmitterStack
  */
 final class ContractTest extends TestCase
 {
@@ -36,12 +41,34 @@ final class ContractTest extends TestCase
                 yield from [];
             }
 
-            public function supports(): string
+            protected function supports(): string
             {
-                return DatasetEntityContract::class;
+                return FirstEntity::class;
             }
         };
-        static::assertSame(DatasetEntityContract::class, $emitter->supports());
+        static::assertTrue(FirstEntity::class()->equals($emitter->getSupportedEntityType()));
+        $emitResult = \iterable_to_array($emitter->emit(
+            [],
+            $this->createMock(EmitContextInterface::class),
+            $this->createMock(EmitterStackInterface::class)
+        ));
+        static::assertCount(0, $emitResult);
+    }
+
+    public function testExtendingEmitterContractLikeIn0Dot9(): void
+    {
+        $emitter = new class() extends EmitterContract {
+            public function emit(iterable $externalIds, EmitContextInterface $context, EmitterStackInterface $stack): iterable
+            {
+                yield from [];
+            }
+
+            public function supports(): string
+            {
+                return FirstEntity::class;
+            }
+        };
+        static::assertTrue(FirstEntity::class()->equals($emitter->getSupportedEntityType()));
         $emitResult = \iterable_to_array($emitter->emit(
             [],
             $this->createMock(EmitContextInterface::class),
@@ -80,8 +107,8 @@ final class ContractTest extends TestCase
                 return FirstEntity::class;
             }
         };
-        static::assertSame(FirstEntity::class, $emitter->supports());
-        static::assertSame(FirstEntity::class, $decoratingEmitter->supports());
+        static::assertTrue(FirstEntity::class()->equals($emitter->getSupportedEntityType()));
+        static::assertTrue(FirstEntity::class()->equals($decoratingEmitter->getSupportedEntityType()));
 
         $context = $this->createMock(EmitContextInterface::class);
         $container = $this->createMock(ContainerInterface::class);
@@ -90,9 +117,19 @@ final class ContractTest extends TestCase
 
         $container->method('get')->willReturn($logger);
 
-        $emitted = new DatasetEntityCollection((new EmitterStack([$emitter], $emitter->supports()))->next($externalIds, $context));
+        $emitted = new DatasetEntityCollection(
+            (new EmitterStack(
+                [$emitter],
+                $emitter->getSupportedEntityType(),
+                $this->createMock(LoggerInterface::class)
+            ))->next($externalIds, $context)
+        );
         $decoratedEmitted = new DatasetEntityCollection(
-            (new EmitterStack([$decoratingEmitter, $emitter], $emitter->supports()))
+            (new EmitterStack(
+                [$decoratingEmitter, $emitter],
+                $emitter->getSupportedEntityType(),
+                $this->createMock(LoggerInterface::class)
+            ))
                 ->next($externalIds, $context)
         );
 
@@ -119,22 +156,19 @@ final class ContractTest extends TestCase
         $logger = $this->createMock(LoggerInterface::class);
         $logger->expects(static::once())->method('error');
 
-        $container = $this->createMock(ContainerInterface::class);
-        $container->method('get')->willReturnCallback(function (string $id) use ($logger) {
-            switch ($id) {
-                case LoggerInterface::class:
-                    return $logger;
-            }
-
-            return null;
-        });
-
         $context = $this->createMock(EmitContextInterface::class);
-        $context->method('getContainer')->willReturn($container);
+        $context->method('getLogger')->willReturn($logger);
 
         $externalIds = ['foo'];
 
-        \iterable_to_array((new EmitterStack([$emitter], $emitter->supports()))->next($externalIds, $context));
+        \iterable_to_array(
+            (new EmitterStack(
+                [$emitter],
+                $emitter->getSupportedEntityType(),
+                $this->createMock(LoggerInterface::class)
+            ))
+                ->next($externalIds, $context)
+        );
     }
 
     public function testRunMethodExtensionWhenNotImplemented(): void
@@ -150,6 +184,13 @@ final class ContractTest extends TestCase
         $context->expects(static::never())->method('markAsFailed');
         $externalIds = ['foo'];
 
-        \iterable_to_array((new EmitterStack([$emitter], $emitter->supports()))->next($externalIds, $context));
+        \iterable_to_array(
+            (new EmitterStack(
+                [$emitter],
+                $emitter->getSupportedEntityType(),
+                $this->createMock(LoggerInterface::class)
+            ))
+                ->next($externalIds, $context)
+        );
     }
 }

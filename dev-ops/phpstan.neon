@@ -1,8 +1,13 @@
 rules:
 	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\ContractsHaveDocumentationRule
 	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\DoNotUseGlobBraceRule
+	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\FinalClassesMustNotHaveProtectedFieldsAndMethodsRule
 	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\ImplementationsMustBeFinalRule
 	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\InterfacesHaveDocumentationRule
+	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\UiActionsPublicMethodMustCallTracerOnReturnRule
+	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\UiActionsPublicMethodMustCallTracerOnThrowRule
+	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\UiActionsPublicMethodMustCallTracerOnYieldFromRule
+	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\UiActionsPublicMethodMustCallTracerOnYieldRule
 parameters:
 	checkMissingIterableValueType: false
 	inferPrivatePropertyTypeFromConstructor: true
@@ -12,6 +17,7 @@ parameters:
 		- ../src/DatasetBase/
 		- ../src/PortalBase/
 		- ../src/StorageBase/
+		- ../src/UiAdminBase/
 		- ../src/TestSuiteStorage/
         # TODO Add TestSuitePortal
 	tmpDir: ../.build/phpstan/
@@ -19,17 +25,24 @@ parameters:
 		- ../vendor/
 	ignoreErrors:
 		-
-			message: '#Return type \([a-zA-Z0-9\\_]+\) of method [a-zA-Z0-9\\_]+::(add|sub)\(\) should be covariant with return type \(static\(DateTime\)\) of method DateTime::(add|sub)\(\)#'
-			path: ../src/DatasetBase/Date.php
-		-
 			message: '#Unsafe usage of new static\(\)#'
+			path: ../src/DatasetBase/Support/SetStateTrait.php
+		-
+			message: '#Dead catch - Throwable is never thrown in the try block.#'
 			path: ../src/DatasetBase/Support/SetStateTrait.php
 		-
 			message: '#^Variable (method call|property access) on object\.$#'
 			path: ../src/DatasetBase/Support/AbstractCollection.php
 		-
-			message: '#^Method Heptacom\\HeptaConnect\\Dataset\\Base\\Translatable\\ScalarCollection\\AbstractTranslatableScalarCollection::getInitialValue\(\) return type with generic interface Heptacom\\HeptaConnect\\Dataset\\Base\\Contract\\CollectionInterface does not specify its types: T$#'
-			path: ../src/DatasetBase/Translatable/ScalarCollection/AbstractTranslatableScalarCollection.php
+			message: '#must have a documentation#'
+			paths:
+				- ../src/DatasetBase/Contract/DependencyInterface.php
+		-
+			message: '#Call to deprecated .* of class Heptacom#'
+			path: ../src/DatasetBase/Translatable/AbstractTranslatable.php
+		-
+			message: '#Parameter \#1 \$callback of function set_error_handler expects#'
+			path: ../src/PortalBase/Builder/BindThisTrait.php
 		-
 			# never trust user input
 			message: '#Instanceof between Heptacom\\HeptaConnect\\Dataset\\Base\\Contract\\DatasetEntityContract and Heptacom\\HeptaConnect\\Dataset\\Base\\Contract\\DatasetEntityContract will always evaluate to true.#'
@@ -39,6 +52,65 @@ parameters:
 			message: '#Instanceof between Heptacom\\HeptaConnect\\Dataset\\Base\\Contract\\DatasetEntityContract and Heptacom\\HeptaConnect\\Dataset\\Base\\Contract\\DatasetEntityContract will always evaluate to true.#'
 			path: ../src/PortalBase/Exploration/Contract/ExplorerContract.php
 		-
-			# never trust user input
-			message: '#Instanceof between Heptacom\\HeptaConnect\\Portal\\Base\\Mapping\\Contract\\MappingInterface and Heptacom\\HeptaConnect\\Portal\\Base\\Mapping\\Contract\\MappingInterface will always evaluate to true.#'
-			path: ../src/StorageBase/TypedMappingCollection.php
+			message: '#PHPDoc tag @param for parameter .* contains unresolvable type#'
+			paths:
+				- ../src/DatasetBase/Support/AbstractCollection.php
+		-
+			# will not fail anymore, when we require composer 2.3 https://github.com/composer/composer/commit/84f0f191122af73039555a3a9381a1a408131422
+			message: '#Instanceof between Composer\\Package\\Locker and Composer\\Package\\Locker will always evaluate to true#'
+			paths:
+				- ../src/Core/Component/Composer/PackageConfigurationLoader.php
+		-
+			# It can, when jsonSerialize throws an exception
+			message: '#Dead catch - Throwable is never thrown in the try block#'
+			paths:
+				- ../src/Core/Ui/Admin/Audit/AuditableDataSerializer.php
+		-
+			message: '#has typehint with deprecated class Heptacom\\HeptaConnect\\Core\\Storage\\PrimaryKeyToEntityHydrator#'
+			paths:
+				- ../src/Core/Emission/IdentityMappingEmitter.php
+				- ../src/Core/Exploration/DirectEmissionFlowEmittersFactory.php
+				- ../src/Core/Exploration/ExplorationFlowExplorersFactory.php
+				- ../src/Core/Exploration/IdentityMappingExplorer.php
+		-
+			# Min version is not high enough
+			message: '#Since Composer 2.4.0 use the composer/class-map-generator package instead#'
+			paths:
+				- ../src/Core/Component/Composer/PackageConfigurationLoader.php
+		-
+			# Should not occur when we update bentools/iterable-functions
+			message: '#Unable to resolve the template type#'
+			paths:
+				- ../src/Core/Ui/Admin/Action/PortalEntityListUi.php
+		-
+			# Should not occur when we update bentools/iterable-functions
+			message: '#Generator expects value type .*, object given#'
+			paths:
+				- ../src/Core/Ui/Admin/Action/PortalEntityListUi.php
+		-
+			# I know we can disable it but this hitting too much of the code base
+			message: "#Casting to .* something that's already .*#"
+			paths:
+				- ../src/Core/Portal/PortalStorage.php
+				- ../src/DatasetBase/ScalarCollection/IntegerCollection.php
+		-
+			# It looks like a struct, but as a utility class, that is not passed as an argument to a public API method, it does not need that interface
+			message: "#Class 'Heptacom\\\\HeptaConnect\\\\Portal\\\\Base\\\\Serialization\\\\Contract\\\\SerializableStream' that looks like a struct is expected to implement Heptacom\\\\HeptaConnect\\\\Dataset\\\\Base\\\\Contract\\\\AttachmentAwareInterface#"
+			paths:
+				- ../src/PortalBase/Serialization/Contract/SerializableStream.php
+		-
+			# We have hints what the right string values are and phpstan naively expects these are the only strings, that are used as arguments and therefore look ups will never fail
+			message: "#Offset .+ on .+ on left side of \\?\\? always exists and is not nullable.#"
+			paths:
+				- ../src/Core/Ui/Admin/Action/RouteBrowseUi.php
+		-
+			# This has been checked in the constructor already
+			message: "#Call to an undefined method League\\\\Flysystem\\\\FilesystemInterface::(getAdapter|getConfig)#"
+			paths:
+				- ../src/Core/Storage/Filesystem/AbstractFilesystem.php
+				- ../src/Core/Storage/Filesystem/PrefixFilesystem.php
+		-
+			# we have a collection concept without string keys, but we sometimes store strings in there. not good yet
+			message: "#PHPDoc type array<string, .*TagItem<T>> of property .*AbstractTaggedCollection::\\$items is not the same as PHPDoc type array<int, .*TagItem<T>> of overridden property .*AbstractCollection<.*TagItem<T>>::\\$items.#"
+			paths:
+				- ../src/DatasetBase/TaggedCollection/AbstractTaggedCollection.php

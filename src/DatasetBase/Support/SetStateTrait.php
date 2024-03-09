@@ -8,21 +8,18 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface;
 
 /**
  * @psalm-consistent-constructor
+ *
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ * @SuppressWarnings(PHPMD.NPathComplexity)
  */
 trait SetStateTrait
 {
-    /**
-     * @return static
-     */
-    public static function __set_state(array $an_array)
+    public static function __set_state(array $an_array): static
     {
-        return static::createStaticFromArray($an_array);
+        return self::createStaticFromArray($an_array);
     }
 
-    /**
-     * @return static
-     */
-    private static function createStaticFromArray(array $an_array)
+    private static function createStaticFromArray(array $an_array): static
     {
         $result = new static();
 
@@ -36,12 +33,12 @@ trait SetStateTrait
 
             try {
                 $method = new \ReflectionMethod($result, $setter);
-            } catch (\ReflectionException $exception) {
+            } catch (\ReflectionException) {
                 $getter = 'get' . \ucfirst($key);
 
                 try {
                     $method = new \ReflectionMethod($result, $getter);
-                } catch (\Throwable $ignored) {
+                } catch (\Throwable) {
                     continue;
                 }
 
@@ -49,13 +46,12 @@ trait SetStateTrait
                     continue;
                 }
 
-                /** @var mixed $initialValue */
                 $initialValue = $method->invoke($result);
 
                 if ($initialValue instanceof CollectionInterface && $value instanceof CollectionInterface) {
                     $initialValue->push($value);
                 }
-            } catch (\Throwable $ignored) {
+            } catch (\Throwable) {
                 continue;
             }
 

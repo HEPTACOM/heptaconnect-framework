@@ -7,12 +7,16 @@ namespace Heptacom\HeptaConnect\Storage\Base\Test\Action;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
+use Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedStringCollection;
+use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionTypeCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\IdentityErrorKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier;
 use Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestPersist\FileReferencePersistRequestPayload;
@@ -36,7 +40,9 @@ use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Delete\IdentityRe
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview\IdentityRedirectOverviewCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview\IdentityRedirectOverviewResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayload;
+use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayloads;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreateResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreateResults;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Delete\JobDeleteCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Fail\JobFailPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Fail\JobFailResult;
@@ -119,10 +125,20 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\AbstractTaggedCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionType
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestPersist\FileReferencePersistRequestPayload
@@ -146,7 +162,10 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResults
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayload
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayloads
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreateResult
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreateResults
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Contract\JobStateChangePayloadContract
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Delete\JobDeleteCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Fail\JobFailPayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Fail\JobFailResult
@@ -161,6 +180,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Start\JobStartResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Activate\PortalExtensionActivatePayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Activate\PortalExtensionActivateResult
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Contract\PortalExtensionActiveChangePayloadContract
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Deactivate\PortalExtensionDeactivatePayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Deactivate\PortalExtensionDeactivateResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Find\PortalExtensionFindResult
@@ -215,6 +235,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayloads
+ * @covers \Heptacom\HeptaConnect\Storage\Base\IdentityRedirectKeyCollection
  */
 class StorageActionParameterTest extends TestCase
 {
@@ -257,16 +278,19 @@ class StorageActionParameterTest extends TestCase
         $portalClass = Portal::class;
         $externalId = '1c1500cf-241b-4ecc-bdb1-f691daf59481';
         $entityType = FirstEntity::class;
-        $mappingComponentStruct = new MappingComponentStruct($portalNodeKey, $entityType, $externalId);
+        $mappingComponentStruct = new MappingComponentStruct($portalNodeKey, $entityType::class(), $externalId);
         $jobKeys = new JobKeyCollection();
         $routeKeys = new RouteKeyCollection();
         $createdAt = \date_create();
+        $unsafeClass = new UnsafeClassString($entityType);
+        $stringCollection = new StringCollection();
+        $httpStackIdentifier = new HttpHandlerStackIdentifier($portalNodeKey, '');
 
         yield new FileReferencePersistRequestPayload($portalNodeKey);
         yield new FileReferencePersistRequestResult($portalNodeKey);
         yield new FileReferenceGetRequestCriteria($portalNodeKey, new FileReferenceRequestKeyCollection());
         yield new FileReferenceGetRequestResult($portalNodeKey, $fileReferenceRequestKey, '');
-        yield new IdentityRedirectCreatePayload($portalNodeKey, '', $portalNodeKey, '', $entityType);
+        yield new IdentityRedirectCreatePayload($portalNodeKey, '', $portalNodeKey, '', $entityType::class());
         yield new IdentityRedirectCreatePayloadCollection();
         yield new IdentityRedirectCreateResult($identityRedirectKey);
         yield new IdentityRedirectCreateResultCollection();
@@ -274,11 +298,13 @@ class StorageActionParameterTest extends TestCase
             $identityRedirectKey,
         ]));
         yield new IdentityRedirectOverviewCriteria();
-        yield new IdentityRedirectOverviewResult($identityRedirectKey, $portalNodeKey, '', $portalNodeKey, '', $entityType, $createdAt);
+        yield new IdentityRedirectOverviewResult($identityRedirectKey, $portalNodeKey, '', $portalNodeKey, '', $entityType::class(), $createdAt);
+        yield new IdentityRedirectOverviewResult($identityRedirectKey, $portalNodeKey, '', $portalNodeKey, '', $unsafeClass, $createdAt);
         yield new IdentityMapPayload($portalNodeKey, $entityCollection);
         yield new IdentityMapResult($mappedDatasetEntityCollection);
         yield new IdentityOverviewCriteria();
-        yield new IdentityOverviewResult($portalNodeKey, $mappingNodeKey, $externalId, $entityType, $createdAt);
+        yield new IdentityOverviewResult($portalNodeKey, $mappingNodeKey, $externalId, $unsafeClass, $createdAt);
+        yield new IdentityOverviewResult($portalNodeKey, $mappingNodeKey, $externalId, $entityType::class(), $createdAt);
         yield new IdentityPersistPayload($portalNodeKey, new IdentityPersistPayloadCollection());
         yield new IdentityReflectPayload($portalNodeKey, $mappedDatasetEntityCollection);
         yield new IdentityErrorCreatePayloads();
@@ -286,7 +312,9 @@ class StorageActionParameterTest extends TestCase
         yield new IdentityErrorCreateResults();
         yield new IdentityErrorCreateResult($identityErrorKey);
         yield new JobCreatePayload('', $mappingComponentStruct, null);
+        yield new JobCreatePayloads();
         yield new JobCreateResult($jobKey);
+        yield new JobCreateResults();
         yield new JobDeleteCriteria($jobKeys);
         yield new JobFailPayload($jobKeys, $createdAt, '');
         yield new JobFailResult($jobKeys, $jobKeys);
@@ -300,59 +328,71 @@ class StorageActionParameterTest extends TestCase
         yield new JobStartPayload($jobKeys, $createdAt, '');
         yield new JobStartResult($jobKeys, $jobKeys);
         yield new PortalExtensionActivatePayload($portalNodeKey);
-        yield new PortalExtensionActivateResult([], []);
+        yield new PortalExtensionActivateResult(new PortalExtensionTypeCollection(), new PortalExtensionTypeCollection());
         yield new PortalExtensionDeactivatePayload($portalNodeKey);
-        yield new PortalExtensionDeactivateResult([], []);
+        yield new PortalExtensionDeactivateResult(new PortalExtensionTypeCollection(), new PortalExtensionTypeCollection());
         yield new PortalExtensionFindResult();
         yield new PortalNodeCreatePayloads();
-        yield new PortalNodeCreatePayload($portalClass);
+        yield new PortalNodeCreatePayload($portalClass::class());
         yield new PortalNodeCreateResults();
         yield new PortalNodeCreateResult($portalNodeKey);
         yield new PortalNodeDeleteCriteria($portalNodeKeys);
         yield new PortalNodeGetCriteria($portalNodeKeys);
-        yield new PortalNodeGetResult($portalNodeKey, $portalClass);
+        yield new PortalNodeGetResult($portalNodeKey, $portalClass::class());
         yield new PortalNodeListResult($portalNodeKey);
         yield new PortalNodeOverviewCriteria();
-        yield new PortalNodeOverviewResult($portalNodeKey, $portalClass, $createdAt);
+        yield new PortalNodeOverviewResult($portalNodeKey, $portalClass::class(), $createdAt);
+        yield new PortalNodeOverviewResult($portalNodeKey, new UnsafeClassString($portalClass), $createdAt);
         yield new PortalNodeConfigurationGetCriteria($portalNodeKeys);
         yield new PortalNodeConfigurationGetResult($portalNodeKey, []);
         yield new PortalNodeConfigurationSetPayload($portalNodeKey, []);
         yield new PortalNodeConfigurationSetPayloads();
         yield new PortalNodeStorageClearCriteria($portalNodeKey);
-        yield new PortalNodeStorageDeleteCriteria($portalNodeKey, new StringCollection());
+        yield new PortalNodeStorageDeleteCriteria($portalNodeKey, $stringCollection);
         yield new PortalNodeStorageGetResult($portalNodeKey, '', '', '');
-        yield new PortalNodeStorageGetCriteria($portalNodeKey, new StringCollection());
+        yield new PortalNodeStorageGetCriteria($portalNodeKey, $stringCollection);
         yield new PortalNodeStorageListCriteria($portalNodeKey);
         yield new PortalNodeStorageListResult($portalNodeKey, '', '', '');
         yield new PortalNodeStorageSetPayload($portalNodeKey, new PortalNodeStorageSetItems());
         yield new PortalNodeStorageSetItem('', '', '', null);
         yield new PortalNodeStorageSetItems();
         yield new PortalNodeAliasFindCriteria([]);
-        yield new PortalNodeAliasFindResult($portalNodeKey, null);
+        yield new PortalNodeAliasFindResult($portalNodeKey, '');
         yield new PortalNodeAliasGetCriteria($portalNodeKeys);
         yield new PortalNodeAliasGetResult($portalNodeKey, '');
         yield new PortalNodeAliasOverviewCriteria();
         yield new PortalNodeAliasOverviewResult($portalNodeKey, '');
         yield new PortalNodeAliasSetPayload($portalNodeKey, null);
         yield new PortalNodeAliasSetPayloads();
-        yield new RouteCreatePayload($portalNodeKey, $portalNodeKey, $entityType);
+        yield new RouteCreatePayload($portalNodeKey, $portalNodeKey, $entityType::class());
         yield new RouteCreatePayloads();
         yield new RouteCreateResult($routeKey);
         yield new RouteCreateResults();
         yield new RouteDeleteCriteria($routeKeys);
-        yield new RouteFindCriteria($portalNodeKey, $portalNodeKey, $entityType);
+        yield new RouteFindCriteria($portalNodeKey, $portalNodeKey, $entityType::class());
+        yield new RouteFindCriteria($portalNodeKey, $portalNodeKey, $unsafeClass);
         yield new RouteFindResult($routeKey);
         yield new RouteGetCriteria($routeKeys);
-        yield new RouteGetResult($routeKey, $portalNodeKey, $portalNodeKey, $entityType, []);
-        yield new ReceptionRouteListCriteria($portalNodeKey, $entityType);
+        yield new RouteGetResult($routeKey, $portalNodeKey, $portalNodeKey, $entityType::class(), []);
+        yield new RouteGetResult($routeKey, $portalNodeKey, $portalNodeKey, $unsafeClass, []);
+        yield new ReceptionRouteListCriteria($portalNodeKey, $entityType::class());
+        yield new ReceptionRouteListCriteria($portalNodeKey, $unsafeClass);
         yield new ReceptionRouteListResult($routeKey);
         yield new RouteOverviewCriteria();
-        yield new RouteOverviewResult($routeKey, $entityType, $portalNodeKey, $portalClass, $portalNodeKey, $portalClass, $createdAt, []);
+        yield new RouteOverviewResult($routeKey, $entityType::class(), $portalNodeKey, $portalClass::class(), $portalNodeKey, $portalClass::class(), $createdAt, $stringCollection);
+        yield new RouteOverviewResult($routeKey, $entityType::class(), $portalNodeKey, $portalClass::class(), $portalNodeKey, $unsafeClass, $createdAt, $stringCollection);
+        yield new RouteOverviewResult($routeKey, $entityType::class(), $portalNodeKey, $unsafeClass, $portalNodeKey, $portalClass::class(), $createdAt, $stringCollection);
+        yield new RouteOverviewResult($routeKey, $entityType::class(), $portalNodeKey, $unsafeClass, $portalNodeKey, $unsafeClass, $createdAt, $stringCollection);
+        yield new RouteOverviewResult($routeKey, $unsafeClass, $portalNodeKey, $portalClass::class(), $portalNodeKey, $portalClass::class(), $createdAt, $stringCollection);
+        yield new RouteOverviewResult($routeKey, $unsafeClass, $portalNodeKey, $portalClass::class(), $portalNodeKey, $unsafeClass, $createdAt, $stringCollection);
+        yield new RouteOverviewResult($routeKey, $unsafeClass, $portalNodeKey, $unsafeClass, $portalNodeKey, $portalClass::class(), $createdAt, $stringCollection);
+        yield new RouteOverviewResult($routeKey, $unsafeClass, $portalNodeKey, $unsafeClass, $portalNodeKey, $unsafeClass, $createdAt, $stringCollection);
         yield new RouteCapabilityOverviewCriteria();
         yield new RouteCapabilityOverviewResult('', $createdAt);
         yield new WebHttpHandlerConfigurationFindCriteria($portalNodeKey, '', '');
+        yield new WebHttpHandlerConfigurationFindCriteria($httpStackIdentifier, '');
         yield new WebHttpHandlerConfigurationFindResult(null);
-        yield new WebHttpHandlerConfigurationSetPayload($portalNodeKey, '', '');
+        yield new WebHttpHandlerConfigurationSetPayload($httpStackIdentifier, '');
         yield new WebHttpHandlerConfigurationSetPayloads();
     }
 }

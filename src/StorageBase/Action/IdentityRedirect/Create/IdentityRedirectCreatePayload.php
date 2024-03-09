@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Create\CreatePayloadInterface;
@@ -15,35 +14,13 @@ final class IdentityRedirectCreatePayload implements CreatePayloadInterface, Att
 {
     use AttachmentAwareTrait;
 
-    protected PortalNodeKeyInterface $sourcePortalNodeKey;
-
-    protected string $sourceExternalId;
-
-    protected PortalNodeKeyInterface $targetPortalNodeKey;
-
-    protected string $targetExternalId;
-
-    /**
-     * @var class-string<DatasetEntityContract>
-     */
-    protected string $entityType;
-
-    /**
-     * @param class-string<DatasetEntityContract> $entityType
-     */
     public function __construct(
-        PortalNodeKeyInterface $sourcePortalNodeKey,
-        string $sourceExternalId,
-        PortalNodeKeyInterface $targetPortalNodeKey,
-        string $targetExternalId,
-        string $entityType
+        private PortalNodeKeyInterface $sourcePortalNodeKey,
+        private string $sourceExternalId,
+        private PortalNodeKeyInterface $targetPortalNodeKey,
+        private string $targetExternalId,
+        private EntityType $entityType,
     ) {
-        $this->attachments = new AttachmentCollection();
-        $this->sourcePortalNodeKey = $sourcePortalNodeKey;
-        $this->sourceExternalId = $sourceExternalId;
-        $this->targetPortalNodeKey = $targetPortalNodeKey;
-        $this->targetExternalId = $targetExternalId;
-        $this->entityType = $entityType;
     }
 
     public function getSourcePortalNodeKey(): PortalNodeKeyInterface
@@ -66,18 +43,12 @@ final class IdentityRedirectCreatePayload implements CreatePayloadInterface, Att
         $this->targetPortalNodeKey = $targetPortalNodeKey;
     }
 
-    /**
-     * @return class-string<DatasetEntityContract>
-     */
-    public function getEntityType(): string
+    public function getEntityType(): EntityType
     {
         return $this->entityType;
     }
 
-    /**
-     * @param class-string<DatasetEntityContract> $entityType
-     */
-    public function setEntityType(string $entityType): void
+    public function setEntityType(EntityType $entityType): void
     {
         $this->entityType = $entityType;
     }

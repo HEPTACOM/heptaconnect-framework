@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader;
 use Heptacom\HeptaConnect\Core\Configuration\ConfigurationService;
 use Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface;
 use Heptacom\HeptaConnect\Core\Configuration\Contract\PortalNodeConfigurationProcessorInterface;
+use Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationProcessorService;
 use Heptacom\HeptaConnect\Core\File\Filesystem\RewritePathStreamWrapper;
 use Heptacom\HeptaConnect\Core\File\Filesystem\StreamUriSchemePathConverter;
 use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
@@ -87,7 +88,7 @@ abstract class AbstractTestCase extends TestCase
         $composerPortalLoader = $this->getPortalLoader();
         $portal = $composerPortalLoader->getPortals()->first();
 
-        return new PreviewPortalNodeKey(\get_class($portal));
+        return new PreviewPortalNodeKey($portal::class());
     }
 
     protected function getPortalLoader(): ComposerPortalLoader
@@ -107,7 +108,7 @@ abstract class AbstractTestCase extends TestCase
             $this->getPortalRegistry(),
             $this->createMock(PortalNodeConfigurationGetActionInterface::class),
             $this->createMock(PortalNodeConfigurationSetActionInterface::class),
-            [$configurationProcessor]
+            new PortalNodeConfigurationProcessorService([$configurationProcessor])
         );
     }
 

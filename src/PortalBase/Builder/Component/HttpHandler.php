@@ -10,7 +10,6 @@ use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandleContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract;
-use Opis\Closure\SerializableClosure;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -24,73 +23,65 @@ final class HttpHandler extends HttpHandlerContract
 
     private string $path;
 
-    private ?SerializableClosure $runMethod;
+    private ?\Closure $runMethod;
 
-    private ?SerializableClosure $optionsMethod;
+    private ?\Closure $optionsMethod;
 
-    private ?SerializableClosure $getMethod;
+    private ?\Closure $getMethod;
 
-    private ?SerializableClosure $postMethod;
+    private ?\Closure $postMethod;
 
-    private ?SerializableClosure $putMethod;
+    private ?\Closure $putMethod;
 
-    private ?SerializableClosure $patchMethod;
+    private ?\Closure $patchMethod;
 
-    private ?SerializableClosure $deleteMethod;
+    private ?\Closure $deleteMethod;
 
     public function __construct(HttpHandlerToken $token)
     {
-        $run = $token->getRun();
-        $options = $token->getOptions();
-        $get = $token->getGet();
-        $post = $token->getPost();
-        $put = $token->getPut();
-        $patch = $token->getPatch();
-        $delete = $token->getDelete();
-
         $this->path = $token->getPath();
-        $this->runMethod = $run instanceof \Closure ? new SerializableClosure($run) : null;
-        $this->optionsMethod = $options instanceof \Closure ? new SerializableClosure($options) : null;
-        $this->getMethod = $get instanceof \Closure ? new SerializableClosure($get) : null;
-        $this->postMethod = $post instanceof \Closure ? new SerializableClosure($post) : null;
-        $this->putMethod = $put instanceof \Closure ? new SerializableClosure($put) : null;
-        $this->patchMethod = $patch instanceof \Closure ? new SerializableClosure($patch) : null;
-        $this->deleteMethod = $delete instanceof \Closure ? new SerializableClosure($delete) : null;
+        $this->runMethod = $token->getRun();
+        $this->optionsMethod = $token->getOptions();
+        $this->getMethod = $token->getGet();
+        $this->postMethod = $token->getPost();
+        $this->putMethod = $token->getPut();
+        $this->patchMethod = $token->getPatch();
+        $this->deleteMethod = $token->getDelete();
     }
 
     public function getRunMethod(): ?\Closure
     {
-        return $this->runMethod instanceof SerializableClosure ? $this->runMethod->getClosure() : null;
+        return $this->runMethod;
     }
 
     public function getOptionsMethod(): ?\Closure
     {
-        return $this->optionsMethod instanceof SerializableClosure ? $this->optionsMethod->getClosure() : null;
+        return $this->optionsMethod;
     }
 
     public function getGetMethod(): ?\Closure
     {
-        return $this->getMethod instanceof SerializableClosure ? $this->getMethod->getClosure() : null;
+        return $this->getMethod;
     }
 
     public function getPostMethod(): ?\Closure
     {
-        return $this->postMethod instanceof SerializableClosure ? $this->postMethod->getClosure() : null;
+        return $this->postMethod;
     }
 
     public function getPatchMethod(): ?\Closure
     {
-        return $this->patchMethod instanceof SerializableClosure ? $this->patchMethod->getClosure() : null;
+        return $this->patchMethod;
     }
 
     public function getPutMethod(): ?\Closure
     {
-        return $this->putMethod instanceof SerializableClosure ? $this->putMethod->getClosure() : null;
+        return $this->putMethod;
     }
 
     public function getDeleteMethod(): ?\Closure
     {
-        return $this->deleteMethod instanceof SerializableClosure ? $this->deleteMethod->getClosure() : null;
+        return $this->deleteMethod;
     }
 
     protected function supports(): string
@@ -167,17 +158,17 @@ final class HttpHandler extends HttpHandlerContract
      * @throws \ReflectionException
      */
     private function resolveAndRunClosure(
-        ?SerializableClosure $closure,
+        ?\Closure $closure,
         string $methodName,
         ServerRequestInterface $request,
         ResponseInterface $response,
         HttpHandleContextInterface $context
     ): ?ResponseInterface {
-        if (!$closure instanceof SerializableClosure) {
+        if (!$closure instanceof \Closure) {
             return null;
         }
 
-        $callable = $this->bindThis($closure->getClosure());
+        $callable = $this->bindThis($closure);
         $arguments = $this->resolveArguments($callable, $context, function (
             int $_,
             string $propertyName,
@@ -201,7 +192,6 @@ final class HttpHandler extends HttpHandlerContract
             return $this->resolveFromContainer($container, $propertyType, $propertyName);
         });
 
-        /** @var mixed $result */
         $result = $callable(...$arguments);
 
         if ($result instanceof ResponseInterface) {

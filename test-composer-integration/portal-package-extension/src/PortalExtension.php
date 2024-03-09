@@ -8,8 +8,8 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 
 class PortalExtension extends PortalExtensionContract
 {
-    public function supports(): string
+    protected function supports(): string
     {
-        return 'HeptacomFixture\Portal\A\Portal';
+        return \HeptacomFixture\Portal\A\Portal::class;
     }
 }

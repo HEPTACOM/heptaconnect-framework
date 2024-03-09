@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Overview;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
+use Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Overview\OverviewCriteriaContract;
 
 final class PortalNodeOverviewCriteria extends OverviewCriteriaContract implements AttachmentAwareInterface
@@ -25,28 +24,19 @@ final class PortalNodeOverviewCriteria extends OverviewCriteriaContract implemen
         self::FIELD_CREATED => self::SORT_ASC,
     ];
 
-    /**
-     * @var array<class-string<PortalContract>>
-     */
-    protected array $classNameFilter = [];
+    private ClassStringReferenceCollection $classNameFilter;
 
     public function __construct()
     {
-        $this->attachments = new AttachmentCollection();
+        $this->classNameFilter = new ClassStringReferenceCollection();
     }
 
-    /**
-     * @return array<class-string<PortalContract>>
-     */
-    public function getClassNameFilter(): array
+    public function getClassNameFilter(): ClassStringReferenceCollection
     {
         return $this->classNameFilter;
     }
 
-    /**
-     * @param array<class-string<PortalContract>> $classNameFilter
-     */
-    public function setClassNameFilter(array $classNameFilter): void
+    public function setClassNameFilter(ClassStringReferenceCollection $classNameFilter): void
     {
         $this->classNameFilter = $classNameFilter;
     }

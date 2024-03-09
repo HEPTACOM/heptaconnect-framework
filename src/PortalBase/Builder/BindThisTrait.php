@@ -12,8 +12,11 @@ trait BindThisTrait
         });
 
         try {
-            if ($c = \Closure::bind($closure, $this)) {
-                $closure = $c;
+            /** @var \Closure|false|null $boundClosure */
+            $boundClosure = \Closure::bind($closure, $this);
+
+            if ($boundClosure instanceof \Closure) {
+                $closure = $boundClosure;
             }
         } finally {
             \restore_error_handler();

@@ -6,6 +6,7 @@ namespace Heptacom\HeptaConnect\TestSuite\Storage\Action;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayloads;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreateResult;
@@ -34,33 +35,38 @@ abstract class WebHttpHandlerConfigurationTestContract extends TestCase
         $configSet = $facade->getWebHttpHandlerConfigurationSetAction();
 
         $createPayloads = new PortalNodeCreatePayloads([
-            new PortalNodeCreatePayload(PortalA::class),
+            new PortalNodeCreatePayload(PortalA::class()),
         ]);
         $createResults = $createAction->create($createPayloads);
         $portalNodeKeys = new PortalNodeKeyCollection(\iterable_map(
             $createResults,
-            static fn (PortalNodeCreateResult $r): PortalNodeKeyInterface => $r->getPortalNodeKey()
+            static fn (PortalNodeCreateResult $result): PortalNodeKeyInterface => $result->getPortalNodeKey()
         ));
 
-        static::assertCount(1, $createResults);
-        $portalA = $createResults[0]->getPortalNodeKey();
+        $createResult = $createResults->first();
 
-        $findResult = $configFind->find(new WebHttpHandlerConfigurationFindCriteria($portalA, 'foo-bar', 'some-config'));
+        static::assertInstanceOf(PortalNodeCreateResult::class, $createResult);
+
+        $portalA = $createResult->getPortalNodeKey();
+
+        $httpStack = new HttpHandlerStackIdentifier($portalA, 'foo-bar');
+
+        $findResult = $configFind->find(new WebHttpHandlerConfigurationFindCriteria($httpStack, 'some-config'));
 
         static::assertNull($findResult->getValue());
 
         $configSet->set(new WebHttpHandlerConfigurationSetPayloads([
-            new WebHttpHandlerConfigurationSetPayload($portalA, 'foo-bar', 'some-config', ['value' => 'some-value']),
+            new WebHttpHandlerConfigurationSetPayload($httpStack, 'some-config', ['value' => 'some-value']),
         ]));
 
-        $findResult = $configFind->find(new WebHttpHandlerConfigurationFindCriteria($portalA, 'foo-bar', 'some-config'));
+        $findResult = $configFind->find(new WebHttpHandlerConfigurationFindCriteria($httpStack, 'some-config'));
 
         static::assertSame(['value' => 'some-value'], $findResult->getValue());
 
         $configSet->set(new WebHttpHandlerConfigurationSetPayloads([
-            new WebHttpHandlerConfigurationSetPayload($portalA, 'foo-bar', 'some-config'),
+            new WebHttpHandlerConfigurationSetPayload($httpStack, 'some-config'),
         ]));
-        $findResult = $configFind->find(new WebHttpHandlerConfigurationFindCriteria($portalA, 'foo-bar', 'some-config'));
+        $findResult = $configFind->find(new WebHttpHandlerConfigurationFindCriteria($httpStack, 'some-config'));
 
         static::assertNull($findResult->getValue());
 

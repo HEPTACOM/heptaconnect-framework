@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
+use Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
@@ -35,22 +35,17 @@ final class IdentityRedirectOverviewCriteria extends OverviewCriteriaContract im
         self::FIELD_CREATED => self::SORT_ASC,
     ];
 
-    protected ?StringCollection $entityTypeFilter = null;
+    private ?ClassStringReferenceCollection $entityTypeFilter = null;
 
-    protected ?PortalNodeKeyCollection $sourcePortalNodeKeyFilter = null;
+    private ?PortalNodeKeyCollection $sourcePortalNodeKeyFilter = null;
 
-    protected ?PortalNodeKeyCollection $targetPortalNodeKeyFilter = null;
+    private ?PortalNodeKeyCollection $targetPortalNodeKeyFilter = null;
 
-    protected ?StringCollection $sourceExternalIdFilter = null;
+    private ?StringCollection $sourceExternalIdFilter = null;
 
-    protected ?StringCollection $targetExternalIdFilter = null;
+    private ?StringCollection $targetExternalIdFilter = null;
 
-    protected ?IdentityRedirectKeyCollection $identityRedirectKeyFilter = null;
-
-    public function __construct()
-    {
-        $this->attachments = new AttachmentCollection();
-    }
+    private ?IdentityRedirectKeyCollection $identityRedirectKeyFilter = null;
 
     public function getSort(): array
     {
@@ -62,12 +57,12 @@ final class IdentityRedirectOverviewCriteria extends OverviewCriteriaContract im
         $this->sort = $sort;
     }
 
-    public function getEntityTypeFilter(): ?StringCollection
+    public function getEntityTypeFilter(): ?ClassStringReferenceCollection
     {
         return $this->entityTypeFilter;
     }
 
-    public function setEntityTypeFilter(?StringCollection $entityTypeFilter): void
+    public function setEntityTypeFilter(?ClassStringReferenceCollection $entityTypeFilter): void
     {
         $this->entityTypeFilter = $entityTypeFilter;
     }

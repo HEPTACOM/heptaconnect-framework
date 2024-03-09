@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\TestSuite\Storage\Action;
 
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayloads;
@@ -38,10 +37,14 @@ abstract class PortalNodeStorageTestContract extends TestCase
         $facade = $this->createStorageFacade();
         $portalNodeCreateAction = $facade->getPortalNodeCreateAction();
         $portalNodeDeleteAction = $facade->getPortalNodeDeleteAction();
-        $portalNodeCreateResult = $portalNodeCreateAction->create(new PortalNodeCreatePayloads([
-            new PortalNodeCreatePayload(PortalContract::class),
+        $portalNodeCreateResults = $portalNodeCreateAction->create(new PortalNodeCreatePayloads([
+            new PortalNodeCreatePayload(PortalA::class()),
         ]));
-        $portalNodeKey = $portalNodeCreateResult[0]->getPortalNodeKey();
+        $portalNodeCreateResult = $portalNodeCreateResults[0] ?? null;
+
+        static::assertInstanceOf(PortalNodeCreateResult::class, $portalNodeCreateResult);
+
+        $portalNodeKey = $portalNodeCreateResult->getPortalNodeKey();
         $set = $facade->getPortalNodeStorageSetAction();
 
         $set->set(new PortalNodeStorageSetPayload($portalNodeKey, new PortalNodeStorageSetItems([
@@ -61,11 +64,7 @@ abstract class PortalNodeStorageTestContract extends TestCase
             'FooBar ',
         ]))));
 
-        $getValues = \array_combine(
-            \array_map(static fn (PortalNodeStorageGetResult $g): string => $g->getStorageKey(), $getResults),
-            \array_map(static fn (PortalNodeStorageGetResult $g): string => $g->getValue(), $getResults)
-        );
-        \ksort($getValues);
+        $getValues = $this->transformGetResultsToMap($getResults);
 
         static::assertSame([
             'FooBar' => 'FooBar',
@@ -87,10 +86,14 @@ abstract class PortalNodeStorageTestContract extends TestCase
         $facade = $this->createStorageFacade();
         $portalNodeCreateAction = $facade->getPortalNodeCreateAction();
         $portalNodeDeleteAction = $facade->getPortalNodeDeleteAction();
-        $portalNodeCreateResult = $portalNodeCreateAction->create(new PortalNodeCreatePayloads([
-            new PortalNodeCreatePayload(PortalContract::class),
+        $portalNodeCreateResults = $portalNodeCreateAction->create(new PortalNodeCreatePayloads([
+            new PortalNodeCreatePayload(PortalA::class()),
         ]));
-        $portalNodeKey = $portalNodeCreateResult[0]->getPortalNodeKey();
+        $portalNodeCreateResult = $portalNodeCreateResults[0] ?? null;
+
+        static::assertInstanceOf(PortalNodeCreateResult::class, $portalNodeCreateResult);
+
+        $portalNodeKey = $portalNodeCreateResult->getPortalNodeKey();
         $set = $facade->getPortalNodeStorageSetAction();
 
         $set->set(new PortalNodeStorageSetPayload($portalNodeKey, new PortalNodeStorageSetItems([
@@ -106,11 +109,7 @@ abstract class PortalNodeStorageTestContract extends TestCase
             'Foo<Bar',
         ]))));
 
-        $getValues = \array_combine(
-            \array_map(static fn (PortalNodeStorageGetResult $g): string => $g->getStorageKey(), $getResults),
-            \array_map(static fn (PortalNodeStorageGetResult $g): string => $g->getValue(), $getResults)
-        );
-        \ksort($getValues);
+        $getValues = $this->transformGetResultsToMap($getResults);
 
         static::assertSame([
             '<foobar>' => '<foobar>',
@@ -136,7 +135,7 @@ abstract class PortalNodeStorageTestContract extends TestCase
         $set = $facade->getPortalNodeStorageSetAction();
 
         $firstPortalNode = $portalNodeCreate->create(new PortalNodeCreatePayloads([
-            new PortalNodeCreatePayload(PortalA::class),
+            new PortalNodeCreatePayload(PortalA::class()),
         ]))->first();
 
         static::assertInstanceOf(PortalNodeCreateResult::class, $firstPortalNode);
@@ -157,11 +156,7 @@ abstract class PortalNodeStorageTestContract extends TestCase
 
         static::assertCount(2, $getResults);
 
-        $getValues = \array_combine(
-            \array_map(static fn (PortalNodeStorageGetResult $g): string => $g->getStorageKey(), $getResults),
-            \array_map(static fn (PortalNodeStorageGetResult $g): string => $g->getValue(), $getResults)
-        );
-        \ksort($getValues);
+        $getValues = $this->transformGetResultsToMap($getResults);
 
         static::assertSame([
             'foo' => 'bar',
@@ -177,15 +172,11 @@ abstract class PortalNodeStorageTestContract extends TestCase
 
         static::assertCount(1, $getResults);
 
-        $getValues = \array_combine(
-            \array_map(static fn (PortalNodeStorageGetResult $g): string => $g->getStorageKey(), $getResults),
-            \array_map(static fn (PortalNodeStorageGetResult $g): string => $g->getValue(), $getResults)
-        );
-        \ksort($getValues);
+        $getResults = $this->transformGetResultsToMap($getResults);
 
         static::assertSame([
             'foo' => 'bar',
-        ], $getValues);
+        ], $getResults);
 
         $delete->delete(new PortalNodeStorageDeleteCriteria($portalNodeKey, new StringCollection([
             'bar',
@@ -230,7 +221,7 @@ abstract class PortalNodeStorageTestContract extends TestCase
         $set = $facade->getPortalNodeStorageSetAction();
         $list = $facade->getPortalNodeStorageListAction();
 
-        $portalNodeKey = new PreviewPortalNodeKey(PortalA::class);
+        $portalNodeKey = new PreviewPortalNodeKey(PortalA::class());
 
         try {
             $set->set(new PortalNodeStorageSetPayload($portalNodeKey, new PortalNodeStorageSetItems([
@@ -279,4 +270,25 @@ abstract class PortalNodeStorageTestContract extends TestCase
      * Provides the storage implementation to test against.
      */
     abstract protected function createStorageFacade(): StorageFacadeInterface;
+
+    /**
+     * @return array<string, string>
+     */
+    private function transformGetResultsToMap(array $getResults): array
+    {
+        $getValues = \array_combine(
+            \array_map(
+                static fn (PortalNodeStorageGetResult $getResult): string => $getResult->getStorageKey(),
+                $getResults
+            ),
+            \array_map(
+                static fn (PortalNodeStorageGetResult $getResult): string => $getResult->getValue(),
+                $getResults
+            )
+        );
+
+        \ksort($getValues);
+
+        return $getValues;
+    }
 }

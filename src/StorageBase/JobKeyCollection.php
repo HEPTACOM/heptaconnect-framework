@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Storage\Base;
 
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\JobKeyInterface;
 
 /**
@@ -12,9 +13,16 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\JobKeyInterface;
  */
 class JobKeyCollection extends AbstractCollection
 {
-    protected function isValidItem($item): bool
+    public function contains($value): bool
     {
-        /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */
+        return $this->containsByEqualsCheck(
+            $value,
+            static fn (StorageKeyInterface $a, StorageKeyInterface $b): bool => $a->equals($b)
+        );
+    }
+
+    protected function isValidItem(mixed $item): bool
+    {
         return $item instanceof JobKeyInterface;
     }
 }

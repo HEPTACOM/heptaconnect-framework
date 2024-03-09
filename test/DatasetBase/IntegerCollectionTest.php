@@ -22,9 +22,11 @@ final class IntegerCollectionTest extends TestCase
     public function testInsertTypeInTypeCollection(int $item): void
     {
         $collection = new IntegerCollection();
+        static::assertFalse($collection->contains($item));
         $collection->push([$item]);
         static::assertCount(1, $collection);
         static::assertEquals($item, $collection[0]);
+        static::assertTrue($collection->contains($item));
         static::assertSame($item, $collection->max());
         static::assertSame($item, $collection->min());
         static::assertSame($item, $collection->sum());
@@ -36,11 +38,23 @@ final class IntegerCollectionTest extends TestCase
     public function testInsertOtherTypeInTypeCollection($item): void
     {
         $collection = new IntegerCollection();
-        $collection->push([$item]);
+        static::assertFalse($collection->contains($item));
+        $collection->pushIgnoreInvalidItems([$item]);
         static::assertCount(0, $collection);
+        static::assertFalse($collection->contains($item));
         static::assertNull($collection->max());
         static::assertNull($collection->min());
         static::assertSame(0, $collection->sum());
+    }
+
+    /**
+     * @dataProvider provideInvalidTestCases
+     */
+    public function testFailInsertOtherTypeInTypeCollection($item): void
+    {
+        static::expectException(\InvalidArgumentException::class);
+        $collection = new IntegerCollection();
+        $collection->push([$item]);
     }
 
     public function testAggregate(): void

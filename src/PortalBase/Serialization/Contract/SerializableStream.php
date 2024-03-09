@@ -8,16 +8,17 @@ use Heptacom\HeptaConnect\Portal\Base\Serialization\Exception\StreamCopyExceptio
 use Http\Discovery\Psr17FactoryDiscovery;
 use Psr\Http\Message\StreamInterface;
 
-final class SerializableStream implements StreamInterface
+/**
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ */
+final class SerializableStream implements StreamInterface, \Stringable
 {
-    private StreamInterface $stream;
-
-    public function __construct(StreamInterface $stream)
-    {
-        $this->stream = $stream;
+    public function __construct(
+        private StreamInterface $stream
+    ) {
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->stream->__toString();
     }
@@ -42,7 +43,7 @@ final class SerializableStream implements StreamInterface
             throw new StreamCopyException(1636887427);
         }
 
-        $oldInternalIsSeekable = \stream_get_meta_data($oldInternal)['seekable'] ?? false;
+        $oldInternalIsSeekable = \stream_get_meta_data($oldInternal)['seekable'];
         $newExternal = \fopen('php://temp', 'rb+');
 
         if ($newExternal === false) {

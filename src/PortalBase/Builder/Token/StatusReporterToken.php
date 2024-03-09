@@ -10,13 +10,11 @@ class StatusReporterToken
 {
     use TokenPriorityTrait;
 
-    private string $topic;
-
     private ?\Closure $run = null;
 
-    public function __construct(string $topic)
-    {
-        $this->topic = $topic;
+    public function __construct(
+        private string $topic
+    ) {
     }
 
     public function getTopic(): string

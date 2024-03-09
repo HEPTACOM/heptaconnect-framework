@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Emission\Contract;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityException;
-use Psr\Log\LoggerInterface;
 
 /**
  * Base class for every emitter implementation with various boilerplate-reducing entrypoints for rapid development.
@@ -18,6 +21,8 @@ abstract class EmitterContract
     private ?string $runDeclaringClass = null;
 
     private ?string $batchDeclaringClass = null;
+
+    private ?EntityType $supportedEntityType = null;
 
     /**
      * First entrypoint to handle an emission in this flow component.
@@ -41,11 +46,23 @@ abstract class EmitterContract
     }
 
     /**
+     * Returns the supported entity type.
+     *
+     * @throws InvalidClassNameException
+     * @throws InvalidSubtypeClassNameException
+     * @throws UnexpectedLeadingNamespaceSeparatorInClassNameException
+     */
+    final public function getSupportedEntityType(): EntityType
+    {
+        return $this->supportedEntityType ??= new EntityType($this->supports());
+    }
+
+    /**
      * Must return the supported entity type.
      *
      * @return class-string<DatasetEntityContract>
      */
-    abstract public function supports(): string;
+    abstract protected function supports(): string;
 
     /**
      * The entrypoint for handling an emission with the least need of additional programming.
@@ -67,11 +84,7 @@ abstract class EmitterContract
             return false;
         }
 
-        if (!\is_a($entity, $this->supports(), false)) {
-            return false;
-        }
-
-        return true;
+        return $this->getSupportedEntityType()->isObjectOfType($entity);
     }
 
     /**
@@ -92,15 +105,10 @@ abstract class EmitterContract
             $primaryKey = $entity->getPrimaryKey();
 
             if ($primaryKey === null) {
-                /** @var LoggerInterface|null $logger */
-                $logger = $context->getContainer()->get(LoggerInterface::class);
-
-                if ($logger instanceof LoggerInterface) {
-                    $logger->error(\sprintf(
-                        'Emitter "%s" returned an entity with empty primary key. Skipping.',
-                        static::class
-                    ));
-                }
+                $context->getLogger()->error(\sprintf(
+                    'Emitter "%s" returned an entity with empty primary key. Skipping.',
+                    static::class
+                ));
 
                 continue;
             }
@@ -113,8 +121,8 @@ abstract class EmitterContract
                         \sprintf(
                             'Emitter "%s" returned object of unsupported type. Expected "%s" but got "%s".',
                             static::class,
-                            $this->supports(),
-                            \get_class($entity)
+                            $this->getSupportedEntityType(),
+                            $entity::class()
                         )
                     ));
 
@@ -142,18 +150,15 @@ abstract class EmitterContract
      */
     final protected function emitCurrent(iterable $externalIds, EmitContextInterface $context): iterable
     {
-        /** @var LoggerInterface|null $logger */
-        $logger = $context->getContainer()->get(LoggerInterface::class);
+        $logger = $context->getLogger();
 
         /** @var iterable<string> $externalIds */
         $externalIds = \iterable_filter($externalIds, function (?string $externalId) use ($logger): bool {
             if (!\is_string($externalId)) {
-                if ($logger instanceof LoggerInterface) {
-                    $logger->error(\sprintf(
-                        'Empty primary key was passed to emitter "%s". Skipping.',
-                        static::class
-                    ));
-                }
+                $logger->error(\sprintf(
+                    'Empty primary key was passed to emitter "%s". Skipping.',
+                    static::class
+                ));
 
                 return false;
             }
@@ -163,21 +168,16 @@ abstract class EmitterContract
 
         foreach ($this->batch($externalIds, $context) as $entity) {
             if (!$this->isSupported($entity)) {
-                $this->runDeclaringClass ??= (new \ReflectionMethod($this, 'run'))->getDeclaringClass()->getName();
-                $this->batchDeclaringClass ??= (new \ReflectionMethod($this, 'batch'))->getDeclaringClass()->getName();
-
-                if ($this->runDeclaringClass === self::class && $this->batchDeclaringClass === self::class) {
+                if ($this->isRunImplementationSelf() && $this->isBatchImplementationSelf()) {
                     continue;
                 }
 
-                if ($logger instanceof LoggerInterface) {
-                    $logger->error(\sprintf(
-                        'Emitter "%s" returned object of unsupported type. Expected "%s" but got "%s".',
-                        static::class,
-                        $this->supports(),
-                        $entity === null ? 'null' : \get_class($entity)
-                    ));
-                }
+                $logger->error(\sprintf(
+                    'Emitter "%s" returned object of unsupported type. Expected "%s" but got "%s".',
+                    static::class,
+                    $this->getSupportedEntityType(),
+                    $entity === null ? 'null' : $entity::class()
+                ));
             } elseif ($entity instanceof DatasetEntityContract) {
                 yield $entity;
             }
@@ -212,5 +212,19 @@ abstract class EmitterContract
     protected function extend(DatasetEntityContract $entity, EmitContextInterface $context): DatasetEntityContract
     {
         return $entity;
+    }
+
+    private function isBatchImplementationSelf(): bool
+    {
+        $this->batchDeclaringClass ??= (new \ReflectionMethod($this, 'batch'))->getDeclaringClass()->getName();
+
+        return $this->batchDeclaringClass === self::class;
+    }
+
+    private function isRunImplementationSelf(): bool
+    {
+        $this->runDeclaringClass ??= (new \ReflectionMethod($this, 'run'))->getDeclaringClass()->getName();
+
+        return $this->runDeclaringClass === self::class;
     }
 }

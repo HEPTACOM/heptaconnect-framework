@@ -12,12 +12,9 @@ class DeepObjectIteratorContract
     private array $reflectionProperties = [];
 
     /**
-     * @param object|iterable $object
-     *
-     * @return iterable|object[]
-     * @psalm-return iterable<array-key, object>
+     * @return iterable<int, object>
      */
-    public function iterate($object): iterable
+    public function iterate(object|iterable $object): iterable
     {
         $toIterate = [$object];
         $alreadyChecked = [];
@@ -37,7 +34,7 @@ class DeepObjectIteratorContract
 
                     $finished = false;
                 } elseif (\is_object($iterable)) {
-                    $class = \get_class($iterable);
+                    $class = $iterable::class;
 
                     if (\in_array($iterable, $alreadyChecked[$class] ?? [], true)) {
                         continue;
@@ -65,16 +62,15 @@ class DeepObjectIteratorContract
         try {
             foreach ($this->getPropertiesAccessor($object) as $prop) {
                 try {
-                    /** @var mixed $value */
                     $value = $prop->getValue($object);
 
                     if (\is_object($value) || \is_iterable($value) || (\is_array($value) && $value !== [])) {
                         yield $value;
                     }
-                } catch (\Throwable $_) {
+                } catch (\Throwable) {
                 }
             }
-        } catch (\Throwable $_) {
+        } catch (\Throwable) {
         }
     }
 
@@ -90,7 +86,7 @@ class DeepObjectIteratorContract
      */
     private function getPropertiesAccessor(object $object): array
     {
-        $class = \get_class($object);
+        $class = $object::class;
         $result = $this->reflectionProperties[$class] ?? null;
 
         if (\is_array($result)) {

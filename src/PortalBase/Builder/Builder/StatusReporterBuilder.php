@@ -11,11 +11,9 @@ class StatusReporterBuilder
 {
     use BuilderPriorityTrait;
 
-    private StatusReporterToken $token;
-
-    public function __construct(StatusReporterToken $token)
-    {
-        $this->token = $token;
+    public function __construct(
+        private StatusReporterToken $token
+    ) {
     }
 
     public function run(\Closure $run): self

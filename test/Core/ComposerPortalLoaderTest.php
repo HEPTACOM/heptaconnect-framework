@@ -23,10 +23,17 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader
  * @covers \Heptacom\HeptaConnect\Core\Portal\Contract\PortalFactoryContract
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalFactory
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionType
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
  */
 final class ComposerPortalLoaderTest extends TestCase
 {

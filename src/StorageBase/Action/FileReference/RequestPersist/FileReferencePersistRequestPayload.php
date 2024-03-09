@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestPersist;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -14,17 +13,14 @@ final class FileReferencePersistRequestPayload implements CreatePayloadInterface
 {
     use AttachmentAwareTrait;
 
-    private PortalNodeKeyInterface $portalNodeKey;
-
     /**
      * @var array<string, string>
      */
     private array $serializedRequests = [];
 
-    public function __construct(PortalNodeKeyInterface $portalNodeKey)
-    {
-        $this->attachments = new AttachmentCollection();
-        $this->portalNodeKey = $portalNodeKey;
+    public function __construct(
+        private PortalNodeKeyInterface $portalNodeKey
+    ) {
     }
 
     public function getPortalNodeKey(): PortalNodeKeyInterface

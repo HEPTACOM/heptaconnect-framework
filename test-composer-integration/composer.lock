@@ -155,15 +155,9 @@
             "require": {
                 "bentools/iterable-functions": ">=1.4 <2",
                 "ext-json": "*",
-                "opis/closure": "^3.6",
-                "php": ">=7.4"
+                "php": ">=8.0"
             },
             "type": "library",
-            "extra": {
-                "unused": [
-                    "bentools/iterable-functions"
-                ]
-            },
             "autoload": {
                 "psr-4": {
                     "Heptacom\\HeptaConnect\\Dataset\\Base\\": ""
@@ -206,8 +200,7 @@
                 "ext-mbstring": "*",
                 "heptacom/heptaconnect-dataset-base": "self.version",
                 "myclabs/deep-copy": ">=1.10 <2",
-                "opis/closure": "^3.6",
-                "php": ">=7.4",
+                "php": ">=8.0",
                 "php-http/discovery": "^1.0",
                 "psr/container": "^1.0",
                 "psr/event-dispatcher": "^1.0",

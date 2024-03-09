@@ -10,8 +10,6 @@ class HttpHandlerToken
 {
     use TokenPriorityTrait;
 
-    private string $path;
-
     private ?\Closure $run = null;
 
     private ?\Closure $options = null;
@@ -26,9 +24,9 @@ class HttpHandlerToken
 
     private ?\Closure $delete = null;
 
-    public function __construct(string $path)
-    {
-        $this->path = $path;
+    public function __construct(
+        private string $path
+    ) {
     }
 
     public function getPath(): string

@@ -9,14 +9,10 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class ServerRequestCycle
 {
-    private ServerRequestInterface $request;
-
-    private ResponseInterface $response;
-
-    public function __construct(ServerRequestInterface $request, ResponseInterface $response)
-    {
-        $this->request = $request;
-        $this->response = $response;
+    public function __construct(
+        private ServerRequestInterface $request,
+        private ResponseInterface $response
+    ) {
     }
 
     public function getRequest(): ServerRequestInterface

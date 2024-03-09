@@ -71,7 +71,8 @@ use Symfony\Component\DependencyInjection\Reference;
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddHttpMiddlewareClientCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddHttpMiddlewareCollectorCompilerPass
- * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddPortalConfigurationBindingsCompilerPass
+ * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddConfigurationBindingsCompilerPass
+ * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\SetConfigurationAsParameterCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AllDefinitionDefaultsCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\BuildDefinitionForFlowComponentRegistryCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\RemoveAutoPrototypedDefinitionsCompilerPass
@@ -81,7 +82,8 @@ use Symfony\Component\DependencyInjection\Reference;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Parallelization\Support\ResourceLockFacade
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PathMethodsTrait
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection
  */
 final class PortalStackServiceContainerBuilderTest extends TestCase
@@ -181,9 +183,7 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
 
         $httpMiddlewareA = $this->createMock(HttpClientMiddlewareInterface::class);
         $httpMiddlewareA->expects(static::once())->method('process')->willReturnCallback(
-            function (RequestInterface $request, ClientInterface $handler) {
-                return $handler->sendRequest($request);
-            }
+            fn (RequestInterface $request, ClientInterface $handler) => $handler->sendRequest($request)
         );
 
         $httpMiddlewareB = $this->createMock(HttpClientMiddlewareInterface::class);
@@ -299,10 +299,13 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
 
     private function getContainerBuilder(): ContainerBuilder
     {
+        $portal = new Portal();
+        $portalExtension = new PortalExtension();
+
         $configurationService = $this->createMock(ConfigurationServiceInterface::class);
         $configurationService->expects(static::atLeastOnce())
             ->method('getPortalNodeConfiguration')
-            ->willReturn([]);
+            ->willReturn($portalExtension->extendConfiguration($portal->getConfigurationTemplate())->resolve());
 
         $httpHandlerUrlProvider = $this->createMock(HttpHandlerUrlProviderInterface::class);
         $httpHandlerUrlProviderFactory = $this->createMock(HttpHandlerUrlProviderFactoryInterface::class);
@@ -329,9 +332,9 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
         $builder->setFileReferenceResolver($this->createMock(FileReferenceResolverContract::class));
         $builder->setHttpHandleService($this->createMock(HttpHandleServiceInterface::class));
         $container = $builder->build(
-            new Portal(),
+            $portal,
             new PortalExtensionCollection([
-                new PortalExtension(),
+                $portalExtension,
             ]),
             $this->createMock(PortalNodeKeyInterface::class),
         );
@@ -349,7 +352,7 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
             $containerBuilder->set($definitionId, $service);
             $definition = (new Definition())
                 ->setSynthetic(true)
-                ->setClass(\get_class($service));
+                ->setClass($service::class);
             $containerBuilder->setDefinition($definitionId, $definition);
         }
     }

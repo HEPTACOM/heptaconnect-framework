@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Component;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
+use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use Heptacom\HeptaConnect\Portal\Base\Builder\BindThisTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException;
 use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
-use Opis\Closure\SerializableClosure;
 use Psr\Container\ContainerInterface;
 
 final class Explorer extends ExplorerContract
@@ -19,54 +20,47 @@ final class Explorer extends ExplorerContract
     use BindThisTrait;
     use ResolveArgumentsTrait;
 
-    /**
-     * @var class-string<DatasetEntityContract>
-     */
-    private string $type;
+    private EntityType $entityType;
 
-    private ?SerializableClosure $runMethod;
+    private ?\Closure $runMethod;
 
-    private ?SerializableClosure $isAllowedMethod;
+    private ?\Closure $isAllowedMethod;
 
     public function __construct(ExplorerToken $token)
     {
-        $run = $token->getRun();
-        $isAllowed = $token->getIsAllowed();
-
-        $this->type = $token->getType();
-        $this->runMethod = $run instanceof \Closure ? new SerializableClosure($run) : null;
-        $this->isAllowedMethod = $isAllowed instanceof \Closure ? new SerializableClosure($isAllowed) : null;
+        $this->entityType = $token->getEntityType();
+        $this->runMethod = $token->getRun();
+        $this->isAllowedMethod = $token->getIsAllowed();
     }
 
     public function getRunMethod(): ?\Closure
     {
-        return $this->runMethod instanceof SerializableClosure ? $this->runMethod->getClosure() : null;
+        return $this->runMethod;
     }
 
     public function getIsAllowedMethod(): ?\Closure
     {
-        return $this->isAllowedMethod instanceof SerializableClosure ? $this->isAllowedMethod->getClosure() : null;
+        return $this->isAllowedMethod;
     }
 
-    public function supports(): string
+    protected function supports(): string
     {
-        return $this->type;
+        return (string) $this->entityType;
     }
 
     protected function run(ExploreContextInterface $context): iterable
     {
-        if ($this->runMethod instanceof SerializableClosure) {
-            $run = $this->bindThis($this->runMethod->getClosure());
-            $arguments = $this->resolveArguments($run, $context, function (
+        $run = $this->runMethod;
+
+        if ($run instanceof \Closure) {
+            $run = $this->bindThis($run);
+            $arguments = $this->resolveArguments($run, $context, fn (
                 int $_propertyIndex,
                 string $propertyName,
                 ?string $propertyType,
                 ContainerInterface $container
-            ) {
-                return $this->resolveFromContainer($container, $propertyType, $propertyName);
-            });
+            ) => $this->resolveFromContainer($container, $propertyType, $propertyName));
 
-            /** @var mixed $result */
             $result = $run(...$arguments);
 
             if (\is_iterable($result)) {
@@ -84,8 +78,10 @@ final class Explorer extends ExplorerContract
         ?DatasetEntityContract $entity,
         ExploreContextInterface $context
     ): bool {
-        if ($this->isAllowedMethod instanceof SerializableClosure) {
-            $isAllowed = $this->bindThis($this->isAllowedMethod->getClosure());
+        $isAllowedMethod = $this->isAllowedMethod;
+
+        if ($isAllowedMethod instanceof \Closure) {
+            $isAllowed = $this->bindThis($isAllowedMethod);
             $arguments = $this->resolveArguments($isAllowed, $context, function (
                 int $_propertyIndex,
                 string $propertyName,
@@ -96,14 +92,13 @@ final class Explorer extends ExplorerContract
                     return $externalId;
                 }
 
-                if (\is_string($propertyType) && \is_a($propertyType, $this->supports(), true)) {
+                if (\is_string($propertyType) && $this->getSupportedEntityType()->isClassStringOfType(new UnsafeClassString($propertyType))) {
                     return $entity;
                 }
 
                 return $this->resolveFromContainer($container, $propertyType, $propertyName);
             });
 
-            /** @var mixed $result */
             $result = $isAllowed(...$arguments);
 
             if (\is_bool($result)) {
@@ -134,7 +129,7 @@ final class Explorer extends ExplorerContract
                 continue;
             }
 
-            throw new InvalidResultException(1637034100, 'Explorer', 'run', 'string|int|' . $this->supports());
+            throw new InvalidResultException(1637034100, 'Explorer', 'run', 'string|int|' . $this->getSupportedEntityType());
         }
     }
 }

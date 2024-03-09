@@ -41,7 +41,8 @@ final class CollectionTest extends TestCase
      */
     public function testPassingInInvalidItemsAndKeepAll(array $items): void
     {
-        $collection = new UsageStructCollection($items);
+        $collection = new UsageStructCollection();
+        $collection->pushIgnoreInvalidItems($items);
         static::assertEquals(0, $collection->count());
 
         foreach ($items as $key => $item) {
@@ -136,10 +137,9 @@ final class CollectionTest extends TestCase
                 'publicInt' => 42,
                 'publicFloat' => 13.37,
                 'protectedString' => 'protected',
-                'attachments' => [],
-                'dependencies' => [],
+                'attachments' => null,
+                'dependencies' => null,
                 'primaryKey' => null,
-                'deferrals' => [],
             ],
             [
                 'publicString' => 'public',
@@ -147,10 +147,9 @@ final class CollectionTest extends TestCase
                 'publicInt' => 42,
                 'publicFloat' => 13.37,
                 'protectedString' => 'protected',
-                'attachments' => [],
-                'dependencies' => [],
+                'attachments' => null,
+                'dependencies' => null,
                 'primaryKey' => null,
-                'deferrals' => [],
             ],
             [
                 'publicString' => 'public',
@@ -158,10 +157,9 @@ final class CollectionTest extends TestCase
                 'publicInt' => 42,
                 'publicFloat' => 13.37,
                 'protectedString' => 'protected',
-                'attachments' => [],
-                'dependencies' => [],
+                'attachments' => null,
+                'dependencies' => null,
                 'primaryKey' => null,
-                'deferrals' => [],
             ],
         ], $coded);
 
@@ -233,6 +231,19 @@ final class CollectionTest extends TestCase
         $items = \range(26, 1, -1);
         $collection->reverse();
         static::assertSame($items, $collection->asArray());
+    }
+
+    public function testUnique(): void
+    {
+        $items = \range(1, 26);
+        $collection = new IntegerCollection($items);
+        $collection->push(\range(26, 1, -1));
+
+        static::assertCount(52, $collection);
+
+        $unique = $collection->asUnique();
+
+        static::assertCount(26, $unique);
     }
 
     /**

@@ -9,46 +9,59 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
 
 /**
  * @template T
+ *
  * @extends AbstractCollection<TagItem<T>>
  */
 abstract class AbstractTaggedCollection extends AbstractCollection
 {
     /**
+     * @var array<string, TagItem<T>>
+     */
+    protected array $items = [];
+
+    /**
      * @psalm-param array-key $offset
-     * @psalm-return TagItem
+     *
+     * @psalm-return TagItem<T>
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         $offset = (string) $offset;
-        $tag = parent::offsetGet($offset);
+        $tag = $this->items[$offset] ?? null;
 
         if ($tag !== null) {
             return $tag;
         }
 
         $tag = new TagItem($this->createEmptyCollection(), $offset);
-        $this->offsetSet($offset, $tag);
+        $this->items[$offset] = $tag;
 
         return $tag;
     }
 
     public function offsetSet($offset, $value): void
     {
-        parent::offsetSet($value->getTag(), $value);
+        if (!$this->isValidItem($value)) {
+            throw new \InvalidArgumentException();
+        }
+
+        $this->items[$value->getTag()] = $value;
     }
 
     public function push(iterable $items): void
     {
-        /** @psalm-var TagItem<T> $item */
-        foreach (\iterator_to_array($this->filterValid($items)) as $item) {
+        /** @var TagItem<T> $item */
+        foreach (\iterable_to_array($this->validateItems($items)) as $item) {
             $this->offsetSet($item->getTag(), $item);
         }
     }
 
-    protected function isValidItem($item): bool
+    /**
+     * @psalm-assert-if-true TagItem<T> $item
+     */
+    protected function isValidItem(mixed $item): bool
     {
-        /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */
         return \is_object($item) && $item instanceof TagItem && \is_a($item->getCollection(), $this->getCollectionType(), false);
     }
 

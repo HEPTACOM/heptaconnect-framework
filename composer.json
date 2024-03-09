@@ -21,17 +21,16 @@
         "rss": "https://heptaconnect.io/news/rss2.xml"
     },
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.0",
         "ext-hash": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-zlib": "*",
         "bentools/iterable-functions": ">=1.4 <2",
         "brzuchal/filesystem-stream-wrapper": "^0.9",
-        "composer/composer": ">=1.9",
+        "composer/composer": "^2.2.6",
         "league/flysystem": "^1.1",
         "myclabs/deep-copy": ">=1.10 <2",
-        "opis/closure": "^3.6",
         "php-http/discovery": "^1.11",
         "phpunit/phpunit": ">=9.3 <10",
         "psr/cache": "^1.0",
@@ -46,14 +45,14 @@
         "psr/simple-cache": "^1.0",
         "ramsey/uuid": "^3.5 || ^4",
         "riverline/multipart-parser": "^2.1",
+        "symfony/cache": "^4.4 || ^5.0",
         "symfony/config": "^4.4 || ^5.0",
-        "symfony/dependency-injection": "^4.4 || ^5.0",
+        "symfony/dependency-injection": "^4.4.11 || ^5.0",
         "symfony/event-dispatcher": "^4.0 || ^5.0",
         "symfony/event-dispatcher-contracts": ">=1.1",
         "symfony/lock": "^4.0 || ^5.0",
         "symfony/messenger": "^4.0 || ^5.0",
         "symfony/options-resolver": ">=4",
-        "symfony/polyfill-php80": ">=1.16",
         "symfony/serializer": ">=4",
         "symfony/yaml": "^4.4 || ^5.0"
     },
@@ -61,8 +60,7 @@
         "infection/infection": ">=0.21",
         "kor3k/flysystem-stream-wrapper": "^1.0.11",
         "nyholm/psr7": ">=1",
-        "php-http/curl-client": ">=2",
-        "symfony/cache": ">=3.2"
+        "php-http/curl-client": ">=2"
     },
     "replace": {
         "heptacom/heptaconnect-core": "*",
@@ -70,7 +68,8 @@
         "heptacom/heptaconnect-portal-base": "*",
         "heptacom/heptaconnect-storage-base": "*",
         "heptacom/heptaconnect-test-suite-portal": "*",
-        "heptacom/heptaconnect-test-suite-storage": "*"
+        "heptacom/heptaconnect-test-suite-storage": "*",
+        "heptacom/heptaconnect-ui-admin-base": "*"
     },
     "conflict": {
         "nikic/php-parser": "4.7.0"
@@ -88,7 +87,8 @@
             "Heptacom\\HeptaConnect\\Storage\\Base\\": "src/StorageBase/",
             "Heptacom\\HeptaConnect\\Core\\": "src/Core/",
             "Heptacom\\HeptaConnect\\TestSuite\\Portal\\": "src/TestSuitePortal/",
-            "Heptacom\\HeptaConnect\\TestSuite\\Storage\\": "src/TestSuiteStorage/"
+            "Heptacom\\HeptaConnect\\TestSuite\\Storage\\": "src/TestSuiteStorage/",
+            "Heptacom\\HeptaConnect\\Ui\\Admin\\Base\\": "src/UiAdminBase/"
         }
     },
     "autoload-dev": {
@@ -102,14 +102,9 @@
     "config": {
         "allow-plugins": {
             "infection/extension-installer": true,
+            "ocramius/package-versions": true,
             "php-http/discovery": true
         }
     },
-    "extra": {
-        "unused": [
-            "bentools/iterable-functions",
-            "symfony/polyfill-php80"
-        ]
-    },
-    "website": "https://heptaconnect.io"
+    "homepage": "https://heptaconnect.io"
 }

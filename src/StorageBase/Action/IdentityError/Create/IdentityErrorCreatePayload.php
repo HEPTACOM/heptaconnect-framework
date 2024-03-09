@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract;
@@ -14,15 +13,10 @@ final class IdentityErrorCreatePayload implements CreatePayloadInterface, Attach
 {
     use AttachmentAwareTrait;
 
-    protected MappingComponentStructContract $mappingComponent;
-
-    private \Throwable $throwable;
-
-    public function __construct(MappingComponentStructContract $mappingComponent, \Throwable $throwable)
-    {
-        $this->attachments = new AttachmentCollection();
-        $this->mappingComponent = $mappingComponent;
-        $this->throwable = $throwable;
+    public function __construct(
+        private MappingComponentStructContract $mappingComponent,
+        private \Throwable $throwable
+    ) {
     }
 
     public function getMappingComponent(): MappingComponentStructContract

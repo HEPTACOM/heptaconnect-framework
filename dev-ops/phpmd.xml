@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<ruleset
+    name="PHPMD rule set"
+    xmlns="http://pmd.sf.net/ruleset/1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"
+    xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd"
+>
+    <description>
+        HEPTAconnect rule set.
+    </description>
+
+    <rule ref="rulesets/codesize.xml">
+        <!-- Included with configuration below -->
+        <exclude name="TooManyMethods"/>
+        <exclude name="TooManyPublicMethods"/>
+    </rule>
+    <rule ref="rulesets/codesize.xml/TooManyMethods">
+        <properties>
+            <property name="ignorepattern" value="(^(set|get|add|without|with|create))i"/>
+        </properties>
+    </rule>
+    <rule ref="rulesets/codesize.xml/TooManyPublicMethods">
+        <properties>
+            <property name="ignorepattern" value="(^(set|get|add|without|with|create))i"/>
+        </properties>
+    </rule>
+
+    <rule ref="rulesets/naming.xml">
+        <exclude name="BooleanGetMethodName" />
+
+        <!-- Included with configuration below -->
+        <exclude name="LongClassName" />
+        <exclude name="LongVariable" />
+        <exclude name="ShortVariable" />
+    </rule>
+    <rule ref="rulesets/naming.xml/LongClassName">
+        <properties>
+            <property name="subtract-suffixes" value="Facade,UiActionContract,UiActionInterface,ActionContract,ActionInterface,ProviderInterface,ProviderContract,Provider,ServiceContract,ServiceInterface,TestContract,Collection,Contract,Interface,Exception,Throwable,UiAction,Action,CompilerPass,ContainerBuilder,Generator,Resolver"/>
+        </properties>
+    </rule>
+    <rule ref="rulesets/naming.xml/LongVariable">
+        <properties>
+            <property name="maximum" value="30"/>
+            <property name="subtract-suffixes" value="Service,Collection,Action,Facade,Factory,Generator,Resolver,Provider,Results,Payloads,Result,Payload,ContainerBuilder"/>
+        </properties>
+    </rule>
+    <rule ref="rulesets/naming.xml/ShortVariable">
+        <properties>
+            <property name="minimum">
+                <value>2</value>
+            </property>
+        </properties>
+    </rule>
+</ruleset>

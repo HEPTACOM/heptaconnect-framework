@@ -21,10 +21,9 @@
         "rss": "https://heptaconnect.io/news/rss2.xml"
     },
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.0",
         "ext-json": "*",
-        "bentools/iterable-functions": ">=1.4 <2",
-        "opis/closure": "^3.6"
+        "bentools/iterable-functions": ">=1.4 <2"
     },
     "repositories": {
         "heptaconnect-sources": {
@@ -42,11 +41,6 @@
             "infection/extension-installer": true,
             "php-http/discovery": true
         }
-    },
-    "extra": {
-        "unused": [
-            "bentools/iterable-functions"
-        ]
     },
     "website": "https://heptaconnect.io"
 }

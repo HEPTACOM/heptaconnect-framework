@@ -11,11 +11,9 @@ class ExplorerBuilder
 {
     use BuilderPriorityTrait;
 
-    private ExplorerToken $token;
-
-    public function __construct(ExplorerToken $token)
-    {
-        $this->token = $token;
+    public function __construct(
+        private ExplorerToken $token
+    ) {
     }
 
     public function run(\Closure $run): self

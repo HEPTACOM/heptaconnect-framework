@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Create;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Create\CreatePayloadInterface;
@@ -15,35 +14,15 @@ final class RouteCreatePayload implements CreatePayloadInterface, AttachmentAwar
 {
     use AttachmentAwareTrait;
 
-    protected PortalNodeKeyInterface $sourcePortalNodeKey;
-
-    protected PortalNodeKeyInterface $targetPortalNodeKey;
-
     /**
-     * @var class-string<DatasetEntityContract>
-     */
-    protected string $entityType;
-
-    /**
-     * @var string[]
-     */
-    protected array $capabilities;
-
-    /**
-     * @param class-string<DatasetEntityContract> $entityType
-     * @param string[]                            $capabilities
+     * @param string[] $capabilities
      */
     public function __construct(
-        PortalNodeKeyInterface $sourcePortalNodeKey,
-        PortalNodeKeyInterface $targetPortalNodeKey,
-        string $entityType,
-        array $capabilities = []
+        private PortalNodeKeyInterface $sourcePortalNodeKey,
+        private PortalNodeKeyInterface $targetPortalNodeKey,
+        private EntityType $entityType,
+        private array $capabilities = []
     ) {
-        $this->attachments = new AttachmentCollection();
-        $this->sourcePortalNodeKey = $sourcePortalNodeKey;
-        $this->targetPortalNodeKey = $targetPortalNodeKey;
-        $this->entityType = $entityType;
-        $this->capabilities = $capabilities;
     }
 
     public function getSourcePortalNodeKey(): PortalNodeKeyInterface
@@ -66,18 +45,12 @@ final class RouteCreatePayload implements CreatePayloadInterface, AttachmentAwar
         $this->targetPortalNodeKey = $targetPortalNodeKey;
     }
 
-    /**
-     * @return class-string<DatasetEntityContract>
-     */
-    public function getEntityType(): string
+    public function getEntityType(): EntityType
     {
         return $this->entityType;
     }
 
-    /**
-     * @param class-string<DatasetEntityContract> $entityType
-     */
-    public function setEntityType(string $entityType): void
+    public function setEntityType(EntityType $entityType): void
     {
         $this->entityType = $entityType;
     }

@@ -10,11 +10,9 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 
 class ResourceLockFacade
 {
-    private ResourceLockingContract $resourceLocking;
-
-    public function __construct(ResourceLockingContract $resourceLocking)
-    {
-        $this->resourceLocking = $resourceLocking;
+    public function __construct(
+        private ResourceLockingContract $resourceLocking
+    ) {
     }
 
     public function waitUntil(
@@ -25,6 +23,7 @@ class ResourceLockFacade
     ): bool {
         $countIterations = $iterations > 0;
         $isLocked = false;
+        $secondToWaits = \max(0, $secondToWaits);
 
         while (
             ($isLocked = $this->resourceLocking->isLocked($resourceKey, $owner))

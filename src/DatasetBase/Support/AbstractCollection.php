@@ -8,7 +8,12 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface;
 
 /**
  * @template T
+ *
  * @template-implements CollectionInterface<T>
+ *
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.TooManyMethods)
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 abstract class AbstractCollection implements CollectionInterface
 {
@@ -16,26 +21,28 @@ abstract class AbstractCollection implements CollectionInterface
     use SetStateTrait;
 
     /**
-     * @var array<array-key, T>
+     * @var array<int, T>
      */
     protected array $items = [];
 
     /**
-     * @psalm-param iterable<int, T> $items
+     * @param iterable<T> $items
+     *
+     * @throws \InvalidArgumentException
      */
     public function __construct(iterable $items = [])
     {
         $this->push($items);
     }
 
-    public static function __set_state(array $an_array)
+    public static function __set_state(array $an_array): static
     {
-        $result = static::createStaticFromArray($an_array);
+        $result = self::createStaticFromArray($an_array);
         /** @var array|mixed $items */
         $items = $an_array['items'] ?? [];
 
         if (\is_array($items) && $items !== []) {
-            $result->push($items);
+            $result->items = $items;
         }
 
         return $result;
@@ -45,7 +52,7 @@ abstract class AbstractCollection implements CollectionInterface
     {
         $newItems = [];
 
-        foreach ($this->filterValid($items) as $item) {
+        foreach ($this->validateItems($items) as $item) {
             $newItems[] = $item;
         }
 
@@ -54,6 +61,11 @@ abstract class AbstractCollection implements CollectionInterface
         }
 
         \array_push($this->items, ...$newItems);
+    }
+
+    public function pushIgnoreInvalidItems(iterable $items): void
+    {
+        $this->push($this->filterValid($items));
     }
 
     public function pop()
@@ -108,17 +120,26 @@ abstract class AbstractCollection implements CollectionInterface
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
-        return $this->items[$offset] ?? null;
+        if (!\is_numeric($offset)) {
+            throw new \InvalidArgumentException();
+        }
+
+        return $this->items[(int) $offset] ?? null;
     }
 
     /**
      * @param array-key|null $offset
+     *
      * @psalm-param T   $value
      */
     public function offsetSet($offset, $value): void
     {
-        if ($offset !== null && $this->isValidItem($value)) {
-            $this->items[$offset] = $value;
+        if (\is_numeric($offset) && $this->isValidItem($value)) {
+            $this->items[(int) $offset] = $value;
+        }
+
+        if ($offset === null) {
+            $this->push([$value]);
         }
     }
 
@@ -150,9 +171,13 @@ abstract class AbstractCollection implements CollectionInterface
         return $end === false ? null : $end;
     }
 
-    public function filter(callable $filterFn): \Generator
+    public function filter(callable $filterFn): static
     {
-        yield from \array_filter($this->items, $filterFn);
+        $result = $this->withoutItems();
+
+        $result->items = \array_values(\array_filter($this->items, $filterFn));
+
+        return $result;
     }
 
     public function map(callable $mapFn): iterable
@@ -167,12 +192,6 @@ abstract class AbstractCollection implements CollectionInterface
         }
     }
 
-    /**
-     * Group items in maximum $size big chunks. The last chunk can be less than $size items.
-     *
-     * @psalm-param positive-int $size
-     * @psalm-return iterable<self&non-empty-list<T>>
-     */
     public function chunk(int $size): iterable
     {
         $size = \max($size, 1);
@@ -184,7 +203,7 @@ abstract class AbstractCollection implements CollectionInterface
 
             if (($chunkIndex % $size) === 0) {
                 $result = $this->withoutItems();
-                $result->push($buffer);
+                $result->items = \array_values($buffer);
                 yield $result;
                 $buffer = [];
             }
@@ -192,14 +211,12 @@ abstract class AbstractCollection implements CollectionInterface
 
         if ($buffer !== []) {
             $result = $this->withoutItems();
-            $result->push($buffer);
+            $result->items = \array_values($buffer);
             yield $result;
         }
     }
 
     /**
-     * Returns the items as a fixed size array. This is useful to use with methods that don't support iterables.
-     *
      * @return array<T>
      */
     public function asArray(): array
@@ -207,18 +224,30 @@ abstract class AbstractCollection implements CollectionInterface
         return $this->items;
     }
 
-    /**
-     * Reorders the collection into the opposite order it is now.
-     */
     public function reverse(): void
     {
         $this->items = \array_reverse($this->items);
     }
 
-    /**
-     * Create a new collection of the same type, but without any content.
-     */
-    public function withoutItems(): self
+    public function contains($value): bool
+    {
+        return \in_array($value, $this->items, true);
+    }
+
+    public function asUnique(): static
+    {
+        $result = $this->withoutItems();
+
+        foreach ($this->items as $item) {
+            if (!$result->contains($item)) {
+                $result->push([$item]);
+            }
+        }
+
+        return $result;
+    }
+
+    public function withoutItems(): static
     {
         $that = clone $this;
 
@@ -228,24 +257,39 @@ abstract class AbstractCollection implements CollectionInterface
     }
 
     /**
-     * @psalm-param T $item
+     * @psalm-assert-if-true T $item
      */
-    abstract protected function isValidItem($item): bool;
+    abstract protected function isValidItem(mixed $item): bool;
 
-    protected function filterValid(iterable $items): \Generator
+    /**
+     * @psalm-return iterable<T>
+     */
+    protected function filterValid(iterable $items): iterable
     {
-        /**
-         * @var int $key
-         * @psalm-var T $item
-         */
-        foreach ($items as $key => $item) {
+        foreach ($items as $item) {
             if ($this->isValidItem($item)) {
-                yield $key => $item;
+                yield $item;
             }
         }
     }
 
-    protected function executeAccessor($item, ?string $accessor, $fallback)
+    /**
+     * @throws \InvalidArgumentException
+     *
+     * @return iterable<T>
+     */
+    protected function validateItems(iterable $items): iterable
+    {
+        foreach ($items as $item) {
+            if (!$this->isValidItem($item)) {
+                throw new \InvalidArgumentException();
+            }
+
+            yield $item;
+        }
+    }
+
+    protected function executeAccessor(mixed $item, ?string $accessor, mixed $fallback): mixed
     {
         if (!\is_string($accessor)) {
             return $fallback;
@@ -268,5 +312,27 @@ abstract class AbstractCollection implements CollectionInterface
         }
 
         return $fallback;
+    }
+
+    /**
+     * Alternative implementation for @see contains to check contains by more detailed object comparision.
+     * This is useful, when the collection contains items that can be equal even if they are not identical.
+     *
+     * @param T $value
+     * @param Closure(T $a,    T $b): bool $equalsCondition
+     */
+    final protected function containsByEqualsCheck(mixed $value, \Closure $equalsCondition): bool
+    {
+        if (!$this->isValidItem($value)) {
+            return false;
+        }
+
+        foreach ($this->items as $item) {
+            if ($equalsCondition($item, $value)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

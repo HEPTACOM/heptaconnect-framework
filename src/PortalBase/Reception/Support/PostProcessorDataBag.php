@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Reception\Support;
 
+/**
+ * @SuppressWarnings(PHPMD.ShortMethodName)
+ */
 class PostProcessorDataBag
 {
     /**
@@ -35,7 +38,11 @@ class PostProcessorDataBag
     }
 
     /**
-     * @param class-string $className
+     * @template T of object
+     *
+     * @param class-string<T> $className
+     *
+     * @return iterable<T>
      */
     public function of(string $className): iterable
     {

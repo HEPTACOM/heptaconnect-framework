@@ -30,7 +30,7 @@ class SampleRateServerRequestDumpCheckerTest extends TestCase
 
         $configurationFindAction->method('find')
             ->willReturnCallback(static function (WebHttpHandlerConfigurationFindCriteria $criteria): WebHttpHandlerConfigurationFindResult {
-                static::assertSame($criteria->getPath(), 'foo-bar');
+                static::assertSame($criteria->getStackIdentifier()->getPath(), 'foo-bar');
                 static::assertSame($criteria->getConfigurationKey(), 'dump-sample-rate');
 
                 return new WebHttpHandlerConfigurationFindResult([
@@ -59,7 +59,7 @@ class SampleRateServerRequestDumpCheckerTest extends TestCase
 
         $configurationFindAction->method('find')
             ->willReturnCallback(static function (WebHttpHandlerConfigurationFindCriteria $criteria): WebHttpHandlerConfigurationFindResult {
-                static::assertSame($criteria->getPath(), 'foo-bar');
+                static::assertSame($criteria->getStackIdentifier()->getPath(), 'foo-bar');
                 static::assertSame($criteria->getConfigurationKey(), 'dump-sample-rate');
 
                 return new WebHttpHandlerConfigurationFindResult([

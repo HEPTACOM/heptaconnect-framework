@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Portal;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 
@@ -12,16 +13,15 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
  */
 class PortalExtensionCollection extends AbstractCollection
 {
-    public function bySupport(string $portalClass): self
+    public function bySupport(ClassStringReferenceContract $portalClass): static
     {
-        return new self($this->filter(
-            fn (PortalExtensionContract $extension) => \is_a($extension->supports(), $portalClass, true)
-        ));
+        return $this->filter(
+            fn (PortalExtensionContract $extension) => $extension->getSupportedPortal()->isTypeOfClassString($portalClass)
+        );
     }
 
-    protected function isValidItem($item): bool
+    protected function isValidItem(mixed $item): bool
     {
-        /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */
         return $item instanceof PortalExtensionContract;
     }
 }

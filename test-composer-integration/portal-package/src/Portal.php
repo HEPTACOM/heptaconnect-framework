@@ -10,6 +10,7 @@ use HeptacomFixture\Portal\A\Dto\ShouldNotBeAService;
 use HeptacomFixture\Portal\AdditionalPackage\AdditionalPackage;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Portal extends PortalContract
 {
@@ -19,6 +20,14 @@ class Portal extends PortalContract
             ShouldNotBeAService::class,
             ShouldNotBeAnAlias::class,
         ]);
+    }
+
+    public function getConfigurationTemplate(): OptionsResolver
+    {
+        return parent::getConfigurationTemplate()
+            ->setDefault('timeInterval', 1)
+            ->setAllowedTypes('timeInterval', ['int', 'string'])
+        ;
     }
 
     public function buildContainer(ContainerBuilder $containerBuilder): void

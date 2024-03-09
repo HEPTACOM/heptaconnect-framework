@@ -9,11 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add test scenario in `\Heptacom\HeptaConnect\TestSuite\Storage\Action\IdentityMappingTestContract::testReflectFromPortalNodeAToBWhereNoMappingsAreInTheStorage` to test the mapping functionality of identity reflection action implementations
+- Add tests in `\Heptacom\HeptaConnect\TestSuite\Storage\Action\RouteTestContract` to test `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewActionInterface` usage for different sorting and pagination behaviours
+
 ### Changed
 
 ### Deprecated
 
 ### Removed
+
+- Remove support for `php: 7.4` as it will not receive any updates anymore, it is unlikely to be used. By raising the minimum PHP version we also make use of features introduced by PHP 8.0, which mainly have no effect on public API
 
 ### Fixed
 

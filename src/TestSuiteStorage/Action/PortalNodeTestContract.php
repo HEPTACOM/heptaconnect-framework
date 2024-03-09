@@ -36,10 +36,10 @@ abstract class PortalNodeTestContract extends TestCase
         $overviewAction = $facade->getPortalNodeOverviewAction();
 
         $createPayloads = new PortalNodeCreatePayloads([
-            new PortalNodeCreatePayload(PortalA::class),
-            new PortalNodeCreatePayload(PortalA::class),
-            new PortalNodeCreatePayload(PortalB::class),
-            new PortalNodeCreatePayload(PortalC::class),
+            new PortalNodeCreatePayload(PortalA::class()),
+            new PortalNodeCreatePayload(PortalA::class()),
+            new PortalNodeCreatePayload(PortalB::class()),
+            new PortalNodeCreatePayload(PortalC::class()),
         ]);
         $createResults = $createAction->create($createPayloads);
 
@@ -52,7 +52,7 @@ abstract class PortalNodeTestContract extends TestCase
             $getCriteria->getPortalNodeKeys()->push([$createResult->getPortalNodeKey()]);
             /** @var PortalNodeGetResult[] $getResult */
             $getResult = \iterable_to_array($getAction->get(new PortalNodeGetCriteria(new PortalNodeKeyCollection([$createResult->getPortalNodeKey()]))));
-            $collectedPortalNodeClasses[] = $getResult[0]->getPortalClass();
+            $collectedPortalNodeClasses[] = (string) $getResult[0]->getPortalClass();
 
             static::assertCount(1, $getResult);
             static::assertTrue($getResult[0]->getPortalNodeKey()->equals($createResult->getPortalNodeKey()));
@@ -73,7 +73,7 @@ abstract class PortalNodeTestContract extends TestCase
             $deleteCriteria->getPortalNodeKeys()->push([$listResult->getPortalNodeKey()]);
             /** @var PortalNodeGetResult[] $getResult */
             $getResult = \iterable_to_array($getAction->get(new PortalNodeGetCriteria(new PortalNodeKeyCollection([$listResult->getPortalNodeKey()]))));
-            $collectedPortalNodeClasses[] = $getResult[0]->getPortalClass();
+            $collectedPortalNodeClasses[] = (string) $getResult[0]->getPortalClass();
 
             static::assertCount(1, $getResult);
             static::assertTrue($getResult[0]->getPortalNodeKey()->equals($listResult->getPortalNodeKey()));
@@ -94,7 +94,7 @@ abstract class PortalNodeTestContract extends TestCase
 
         try {
             $deleteAction->delete($deleteCriteria);
-        } catch (NotFoundException $notFoundException) {
+        } catch (NotFoundException) {
             return;
         }
 

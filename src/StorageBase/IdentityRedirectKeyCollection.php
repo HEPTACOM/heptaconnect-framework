@@ -12,9 +12,8 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\IdentityRedirectKeyInterface;
  */
 class IdentityRedirectKeyCollection extends AbstractCollection
 {
-    protected function isValidItem($item): bool
+    protected function isValidItem(mixed $item): bool
     {
-        /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */
         return $item instanceof IdentityRedirectKeyInterface;
     }
 }

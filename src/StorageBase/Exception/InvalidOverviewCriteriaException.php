@@ -8,12 +8,12 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Overview\OverviewCriteria
 
 class InvalidOverviewCriteriaException extends \RuntimeException
 {
-    private OverviewCriteriaContract $criteria;
-
-    public function __construct(OverviewCriteriaContract $criteria, int $code, ?\Throwable $throwable = null)
-    {
+    public function __construct(
+        private OverviewCriteriaContract $criteria,
+        int $code,
+        ?\Throwable $throwable = null
+    ) {
         parent::__construct('Overview criteria cannot be processed as it contains invalid values', $code, $throwable);
-        $this->criteria = $criteria;
     }
 
     public function getCriteria(): OverviewCriteriaContract

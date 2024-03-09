@@ -9,11 +9,9 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 
 final class AliasAwarePortalNodeStorageKey implements PortalNodeKeyInterface
 {
-    private PortalNodeKeyInterface $portalNodeKey;
-
-    public function __construct(PortalNodeKeyInterface $portalNodeKey)
-    {
-        $this->portalNodeKey = $portalNodeKey;
+    public function __construct(
+        private PortalNodeKeyInterface $portalNodeKey
+    ) {
     }
 
     public function withAlias(): PortalNodeKeyInterface
@@ -31,8 +29,7 @@ final class AliasAwarePortalNodeStorageKey implements PortalNodeKeyInterface
         return $this->portalNodeKey->equals($other);
     }
 
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->portalNodeKey->jsonSerialize();
     }

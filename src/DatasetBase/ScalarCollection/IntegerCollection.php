@@ -38,9 +38,17 @@ final class IntegerCollection extends AbstractCollection
         return (int) \array_sum($this->items);
     }
 
-    protected function isValidItem($item): bool
+    public function asUnique(): static
     {
-        /* @phpstan-ignore-next-line treatPhpDocTypesAsCertain checks soft check but this is the hard check */
+        $result = $this->withoutItems();
+
+        $result->push(\array_keys(\array_flip($this->items)));
+
+        return $result;
+    }
+
+    protected function isValidItem(mixed $item): bool
+    {
         return \is_int($item);
     }
 }

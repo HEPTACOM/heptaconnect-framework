@@ -58,7 +58,7 @@ abstract class JobTestContract extends TestCase
         $jobStart = $facade->getJobStartAction();
 
         $firstPortalNode = $portalNodeCreate->create(new PortalNodeCreatePayloads([
-            new PortalNodeCreatePayload(PortalA::class),
+            new PortalNodeCreatePayload(PortalA::class()),
         ]))->first();
 
         static::assertInstanceOf(PortalNodeCreateResult::class, $firstPortalNode);
@@ -66,7 +66,7 @@ abstract class JobTestContract extends TestCase
         $portalNodeKey = $firstPortalNode->getPortalNodeKey();
 
         $firstRouteCreate = $routeCreate->create(new RouteCreatePayloads([
-            new RouteCreatePayload($portalNodeKey, $portalNodeKey, EntityA::class),
+            new RouteCreatePayload($portalNodeKey, $portalNodeKey, EntityA::class()),
         ]))->first();
 
         static::assertInstanceOf(RouteCreateResult::class, $firstRouteCreate);
@@ -77,7 +77,7 @@ abstract class JobTestContract extends TestCase
         $entity = new EntityA();
         $entity->setPrimaryKey($primaryKey);
         $entity->value = '366b3b50ab9c477ca6189a5c0589c75a';
-        $mapping = new MappingComponentStruct($portalNodeKey, EntityA::class, $primaryKey);
+        $mapping = new MappingComponentStruct($portalNodeKey, EntityA::class(), $primaryKey);
 
         $jobCreateResults = $jobCreate->create(new JobCreatePayloads([
             new JobCreatePayload(Exploration::class, $mapping, []),
@@ -130,7 +130,7 @@ abstract class JobTestContract extends TestCase
         try {
             $jobDelete->delete(new JobDeleteCriteria($jobKeys));
             static::fail('These jobs are already deleted');
-        } catch (\Throwable $throwable) {
+        } catch (\Throwable) {
         }
 
         $portalNodeDelete->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([$portalNodeKey])));
@@ -149,14 +149,14 @@ abstract class JobTestContract extends TestCase
         $jobStart = $facade->getJobStartAction();
 
         $firstPortalNode = $portalNodeCreate->create(new PortalNodeCreatePayloads([
-            new PortalNodeCreatePayload(PortalA::class),
+            new PortalNodeCreatePayload(PortalA::class()),
         ]))->first();
 
         static::assertInstanceOf(PortalNodeCreateResult::class, $firstPortalNode);
 
         $portalNodeKey = $firstPortalNode->getPortalNodeKey();
         $primaryKey = 'f6e26caedd8a4f01850ece9f32715196';
-        $mapping = new MappingComponentStruct($portalNodeKey, EntityA::class, $primaryKey);
+        $mapping = new MappingComponentStruct($portalNodeKey, EntityA::class(), $primaryKey);
 
         $firstJobs = $jobCreate->create(new JobCreatePayloads([
             new JobCreatePayload(Exploration::class, $mapping, []),

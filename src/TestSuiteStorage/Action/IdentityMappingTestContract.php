@@ -12,6 +12,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Map\IdentityMapPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Map\IdentityMapResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistCreatePayload;
+use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistDeletePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPayloadCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Reflect\IdentityReflectPayload;
@@ -21,6 +22,7 @@ use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRe
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Delete\IdentityRedirectDeleteCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayloads;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Delete\PortalNodeDeleteCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface;
@@ -75,23 +77,25 @@ abstract class IdentityMappingTestContract extends TestCase
         $this->identityRedirectDelete = $facade->getIdentityRedirectDeleteAction();
 
         $createPayloads = new PortalNodeCreatePayloads([
-            new PortalNodeCreatePayload(PortalA::class),
-            new PortalNodeCreatePayload(PortalB::class),
-            new PortalNodeCreatePayload(PortalC::class),
+            new PortalNodeCreatePayload(PortalA::class()),
+            new PortalNodeCreatePayload(PortalB::class()),
+            new PortalNodeCreatePayload(PortalC::class()),
         ]);
         $createResults = $portalNodeCreate->create($createPayloads);
-        $getCriteria = new PortalNodeGetCriteria(new PortalNodeKeyCollection($createResults->column('getPortalNodeKey')));
+        $getCriteria = new PortalNodeGetCriteria(new PortalNodeKeyCollection($createResults->map(
+            static fn (PortalNodeCreateResult $createResult): PortalNodeKeyInterface => $createResult->getPortalNodeKey()
+        )));
 
         foreach ($portalNodeGet->get($getCriteria) as $portalNode) {
-            if ($portalNode->getPortalClass() === PortalA::class) {
+            if ($portalNode->getPortalClass()->equals(PortalA::class())) {
                 $this->portalA = $portalNode->getPortalNodeKey();
             }
 
-            if ($portalNode->getPortalClass() === PortalB::class) {
+            if ($portalNode->getPortalClass()->equals(PortalB::class())) {
                 $this->portalB = $portalNode->getPortalNodeKey();
             }
 
-            if ($portalNode->getPortalClass() === PortalC::class) {
+            if ($portalNode->getPortalClass()->equals(PortalC::class())) {
                 $this->portalC = $portalNode->getPortalNodeKey();
             }
         }
@@ -103,12 +107,21 @@ abstract class IdentityMappingTestContract extends TestCase
     {
         $facade = $this->createStorageFacade();
         $portalNodeDelete = $facade->getPortalNodeDeleteAction();
+        $deleteCriteria = new PortalNodeDeleteCriteria(new PortalNodeKeyCollection());
 
-        $portalNodeDelete->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([
-            $this->portalA,
-            $this->portalB,
-            $this->portalC,
-        ])));
+        if ($this->portalA instanceof PortalNodeKeyInterface) {
+            $deleteCriteria->getPortalNodeKeys()->push([$this->portalA]);
+        }
+
+        if ($this->portalB instanceof PortalNodeKeyInterface) {
+            $deleteCriteria->getPortalNodeKeys()->push([$this->portalB]);
+        }
+
+        if ($this->portalC instanceof PortalNodeKeyInterface) {
+            $deleteCriteria->getPortalNodeKeys()->push([$this->portalC]);
+        }
+
+        $portalNodeDelete->delete($deleteCriteria);
         $this->portalA = null;
         $this->portalB = null;
         $this->portalC = null;
@@ -120,6 +133,7 @@ abstract class IdentityMappingTestContract extends TestCase
      * Test identification of entities and their primary keys in the identity storage of mapping and mappings nodes.
      *
      * @param class-string<DatasetEntityContract> $entityClass
+     *
      * @dataProvider provideEntityClasses
      */
     public function testIdentityMap(string $entityClass): void
@@ -156,6 +170,7 @@ abstract class IdentityMappingTestContract extends TestCase
      * The focus is on the transfer from one portal node to another.
      *
      * @param class-string<DatasetEntityContract> $entityClass
+     *
      * @dataProvider provideEntityClasses
      */
     public function testIdentityMapTwice(string $entityClass): void
@@ -191,7 +206,11 @@ abstract class IdentityMappingTestContract extends TestCase
     }
 
     /**
+     * Test transformation of entity primary keys through the identity storage of mapping and mappings nodes.
+     * The focus is on finding matches mappings on both portal nodes..
+     *
      * @param class-string<DatasetEntityContract> $entityClass
+     *
      * @dataProvider provideEntityClasses
      */
     public function testReflectFromPortalNodeAToB(string $entityClass): void
@@ -235,10 +254,58 @@ abstract class IdentityMappingTestContract extends TestCase
     }
 
     /**
+     * Test identification of entities and their creation of missing mappings.
+     * The focus is on the creation of mappings, when unmapped entities are about to be reflected.
+     *
+     * @param class-string<DatasetEntityContract> $entityClass
+     *
+     * @dataProvider provideEntityClasses
+     */
+    public function testReflectFromPortalNodeAToBWhereNoMappingsAreInTheStorage(string $entityClass): void
+    {
+        $sourceId = 'e9011418-5535-4180-93e9-94b44cc3e28d';
+
+        $datasetEntity = new $entityClass();
+        $datasetEntity->setPrimaryKey($sourceId);
+
+        // create new mapping node + identity for portal node A
+        $identityMapResult = $this->identifyEntities($this->getPortalNodeA(), new DatasetEntityCollection([$datasetEntity]));
+        $mappedEntities = $identityMapResult->getMappedDatasetEntityCollection();
+
+        static::assertCount(1, $mappedEntities);
+
+        /** @var MappedDatasetEntityStruct $mappedEntity */
+        $mappedEntity = $mappedEntities->first();
+        $identifiedEntity = $mappedEntity->getDatasetEntity();
+        $mappingNodeKey = $mappedEntity->getMapping()->getMappingNodeKey();
+
+        // remove identity for portal node A
+        $this->persistIdentity($this->getPortalNodeA(), new IdentityPersistPayloadCollection([
+            new IdentityPersistDeletePayload($mappingNodeKey),
+        ]));
+
+        // reflect entities (this is what we test here)
+        $this->getIdentityReflect()->reflect(new IdentityReflectPayload($this->getPortalNodeB(), $mappedEntities));
+
+        foreach ($mappedEntities as $reflectedMappedEntity) {
+            $reflectedEntity = $reflectedMappedEntity->getDatasetEntity();
+
+            /** @var PrimaryKeySharingMappingStruct|null $reflectionMapping */
+            $reflectionMapping = $reflectedEntity->getAttachment(PrimaryKeySharingMappingStruct::class);
+
+            static::assertInstanceOf(PrimaryKeySharingMappingStruct::class, $reflectionMapping);
+            static::assertSame($reflectedEntity, $identifiedEntity);
+            static::assertSame($reflectionMapping->getExternalId(), $sourceId);
+            static::assertNull($reflectedEntity->getPrimaryKey());
+        }
+    }
+
+    /**
      * Test identification of entities and transformation of their primary keys through the identity storage of mapping and mappings nodes.
      * The focus is on the transfer of multiple entities at once.
      *
      * @param class-string<DatasetEntityContract> $entityClass
+     *
      * @dataProvider provideEntityClasses
      */
     public function testReflectTwoEntitiesOfSameTypeFromPortalNodeAToB(string $entityClass): void
@@ -273,22 +340,22 @@ abstract class IdentityMappingTestContract extends TestCase
 
             switch ($identifiedEntity->getPrimaryKey()) {
                 case $sourceId1:
-                    $targetId = $targetId1;
+                    $identityPersistPayloadCollection->push([
+                        new IdentityPersistCreatePayload($mappingNodeKey, $targetId1),
+                    ]);
                     $switchCases[0] = true;
 
                     break;
                 case $sourceId2:
-                    $targetId = $targetId2;
+                    $identityPersistPayloadCollection->push([
+                        new IdentityPersistCreatePayload($mappingNodeKey, $targetId2),
+                    ]);
                     $switchCases[1] = true;
 
                     break;
                 default:
                     static::fail('Entity was not identified correctly.');
             }
-
-            $identityPersistPayloadCollection->push([
-                new IdentityPersistCreatePayload($mappingNodeKey, $targetId),
-            ]);
         }
 
         static::assertCount(2, $identityPersistPayloadCollection);
@@ -345,6 +412,7 @@ abstract class IdentityMappingTestContract extends TestCase
      * The focus is on the transfer from one portal node to another but with identities in a third portal node that must not impact the process.
      *
      * @param class-string<DatasetEntityContract> $entityClass
+     *
      * @dataProvider provideEntityClasses
      */
     public function testReflectEntityFromPortalNodeAToBAndAlsoExistsInC(string $entityClass): void
@@ -388,6 +456,7 @@ abstract class IdentityMappingTestContract extends TestCase
      * The focus is on the transfer of new entities for the target portal node.
      *
      * @param class-string<DatasetEntityContract> $entityClass
+     *
      * @dataProvider provideEntityClasses
      */
     public function testReflectEntityFromPortalNodeAToBButItIsNewInB(string $entityClass): void
@@ -439,21 +508,21 @@ abstract class IdentityMappingTestContract extends TestCase
 
         $identityDirCreateResult = $this->identityRedirectCreate
             ->create(new IdentityRedirectCreatePayloadCollection([
-                new IdentityRedirectCreatePayload($this->getPortalNodeA(), $sourceId1, $this->getPortalNodeB(), $targetId, EntityA::class),
-                new IdentityRedirectCreatePayload($this->getPortalNodeA(), $sourceId2, $this->getPortalNodeB(), $targetId, EntityA::class),
+                new IdentityRedirectCreatePayload($this->getPortalNodeA(), $sourceId1, $this->getPortalNodeB(), $targetId, EntityA::class()),
+                new IdentityRedirectCreatePayload($this->getPortalNodeA(), $sourceId2, $this->getPortalNodeB(), $targetId, EntityA::class()),
 
                 // this is some possible distraction, that shall not be picked
-                new IdentityRedirectCreatePayload($this->getPortalNodeA(), '984b818f-f067-4a01-9a00-0ec75516715e', $this->getPortalNodeB(), $targetId, EntityA::class),
-                new IdentityRedirectCreatePayload($this->getPortalNodeB(), 'fb9db174-7a0f-4851-9b51-83758512e095', $this->getPortalNodeB(), $targetId, EntityA::class),
-                new IdentityRedirectCreatePayload($this->getPortalNodeC(), 'fb9db174-7a0f-4851-9b51-83758512e095', $this->getPortalNodeB(), $targetId, EntityA::class),
-                new IdentityRedirectCreatePayload($this->getPortalNodeB(), $sourceId1, $this->getPortalNodeC(), $sourceId2, EntityA::class),
-                new IdentityRedirectCreatePayload($this->getPortalNodeC(), $sourceId1, $this->getPortalNodeC(), $sourceId2, EntityA::class),
-                new IdentityRedirectCreatePayload($this->getPortalNodeB(), $sourceId2, $this->getPortalNodeC(), $sourceId2, EntityA::class),
-                new IdentityRedirectCreatePayload($this->getPortalNodeC(), $sourceId2, $this->getPortalNodeC(), $sourceId2, EntityA::class),
-                new IdentityRedirectCreatePayload($this->getPortalNodeB(), $sourceId1, $this->getPortalNodeC(), 'invalid-value', EntityB::class),
-                new IdentityRedirectCreatePayload($this->getPortalNodeC(), $sourceId1, $this->getPortalNodeC(), 'invalid-value', EntityB::class),
-                new IdentityRedirectCreatePayload($this->getPortalNodeB(), $sourceId2, $this->getPortalNodeC(), 'invalid-value', EntityB::class),
-                new IdentityRedirectCreatePayload($this->getPortalNodeC(), $sourceId2, $this->getPortalNodeC(), 'invalid-value', EntityB::class),
+                new IdentityRedirectCreatePayload($this->getPortalNodeA(), '984b818f-f067-4a01-9a00-0ec75516715e', $this->getPortalNodeB(), $targetId, EntityA::class()),
+                new IdentityRedirectCreatePayload($this->getPortalNodeB(), 'fb9db174-7a0f-4851-9b51-83758512e095', $this->getPortalNodeB(), $targetId, EntityA::class()),
+                new IdentityRedirectCreatePayload($this->getPortalNodeC(), 'fb9db174-7a0f-4851-9b51-83758512e095', $this->getPortalNodeB(), $targetId, EntityA::class()),
+                new IdentityRedirectCreatePayload($this->getPortalNodeB(), $sourceId1, $this->getPortalNodeC(), $sourceId2, EntityA::class()),
+                new IdentityRedirectCreatePayload($this->getPortalNodeC(), $sourceId1, $this->getPortalNodeC(), $sourceId2, EntityA::class()),
+                new IdentityRedirectCreatePayload($this->getPortalNodeB(), $sourceId2, $this->getPortalNodeC(), $sourceId2, EntityA::class()),
+                new IdentityRedirectCreatePayload($this->getPortalNodeC(), $sourceId2, $this->getPortalNodeC(), $sourceId2, EntityA::class()),
+                new IdentityRedirectCreatePayload($this->getPortalNodeB(), $sourceId1, $this->getPortalNodeC(), 'invalid-value', EntityB::class()),
+                new IdentityRedirectCreatePayload($this->getPortalNodeC(), $sourceId1, $this->getPortalNodeC(), 'invalid-value', EntityB::class()),
+                new IdentityRedirectCreatePayload($this->getPortalNodeB(), $sourceId2, $this->getPortalNodeC(), 'invalid-value', EntityB::class()),
+                new IdentityRedirectCreatePayload($this->getPortalNodeC(), $sourceId2, $this->getPortalNodeC(), 'invalid-value', EntityB::class()),
             ]));
 
         // this is what we test here
@@ -500,7 +569,6 @@ abstract class IdentityMappingTestContract extends TestCase
         $identityPersistPayloadCollection = new IdentityPersistPayloadCollection();
 
         static::assertCount(2, $mappedEntities);
-        $switchCases = [];
 
         /** @var MappedDatasetEntityStruct $mappedEntity */
         foreach ($mappedEntities as $mappedEntity) {
@@ -509,33 +577,30 @@ abstract class IdentityMappingTestContract extends TestCase
 
             switch ($identifiedEntity->getPrimaryKey()) {
                 case $sourceId1:
-                    $unwantedTargetId = $unwantedTargetId1;
-                    $switchCases[0] = true;
+                    $identityPersistPayloadCollection->push([
+                        new IdentityPersistCreatePayload($mappingNodeKey, $unwantedTargetId1),
+                    ]);
 
                     break;
                 case $sourceId2:
-                    $unwantedTargetId = $unwantedTargetId2;
-                    $switchCases[1] = true;
+                    $identityPersistPayloadCollection->push([
+                        new IdentityPersistCreatePayload($mappingNodeKey, $unwantedTargetId2),
+                    ]);
 
                     break;
                 default:
                     static::fail('Entity was not identified correctly.');
             }
-
-            $identityPersistPayloadCollection->push([
-                new IdentityPersistCreatePayload($mappingNodeKey, $unwantedTargetId),
-            ]);
         }
 
         static::assertCount(2, $identityPersistPayloadCollection);
-        static::assertCount(2, $switchCases);
 
         $this->persistIdentity($this->getPortalNodeB(), $identityPersistPayloadCollection);
 
         $identityDirCreateResult = $this->identityRedirectCreate
             ->create(new IdentityRedirectCreatePayloadCollection([
-                new IdentityRedirectCreatePayload($this->getPortalNodeA(), $sourceId1, $this->getPortalNodeB(), $targetId, EntityA::class),
-                new IdentityRedirectCreatePayload($this->getPortalNodeA(), $sourceId2, $this->getPortalNodeB(), $targetId, EntityA::class),
+                new IdentityRedirectCreatePayload($this->getPortalNodeA(), $sourceId1, $this->getPortalNodeB(), $targetId, EntityA::class()),
+                new IdentityRedirectCreatePayload($this->getPortalNodeA(), $sourceId2, $this->getPortalNodeB(), $targetId, EntityA::class()),
             ]));
 
         // this is what we test here
@@ -556,6 +621,8 @@ abstract class IdentityMappingTestContract extends TestCase
 
     /**
      * Provide a list of FQCNs of entity classes.
+     *
+     * @return iterable<int, class-string<DatasetEntityContract>[]>
      */
     public function provideEntityClasses(): iterable
     {
@@ -569,9 +636,6 @@ abstract class IdentityMappingTestContract extends TestCase
      */
     abstract protected function createStorageFacade(): StorageFacadeInterface;
 
-    /**
-     * @param DatasetEntityCollection<DatasetEntityContract> $datasetEntityCollection
-     */
     private function identifyEntities(
         PortalNodeKeyInterface $portal,
         DatasetEntityCollection $datasetEntityCollection

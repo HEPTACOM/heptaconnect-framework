@@ -11,11 +11,9 @@ class ReceiverBuilder
 {
     use BuilderPriorityTrait;
 
-    private ReceiverToken $token;
-
-    public function __construct(ReceiverToken $token)
-    {
-        $this->token = $token;
+    public function __construct(
+        private ReceiverToken $token
+    ) {
     }
 
     public function batch(\Closure $batch): self

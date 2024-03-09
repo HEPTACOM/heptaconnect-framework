@@ -4,36 +4,25 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Builder\Token;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Support\TokenPriorityTrait;
 
 class ExplorerToken
 {
     use TokenPriorityTrait;
 
-    /**
-     * @var class-string<DatasetEntityContract>
-     */
-    private string $type;
-
     private ?\Closure $run = null;
 
     private ?\Closure $isAllowed = null;
 
-    /**
-     * @param class-string<DatasetEntityContract> $type
-     */
-    public function __construct(string $type)
-    {
-        $this->type = $type;
+    public function __construct(
+        private EntityType $entityType
+    ) {
     }
 
-    /**
-     * @return class-string<DatasetEntityContract>
-     */
-    public function getType(): string
+    public function getEntityType(): EntityType
     {
-        return $this->type;
+        return $this->entityType;
     }
 
     public function getRun(): ?\Closure
