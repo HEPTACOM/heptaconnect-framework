@@ -90,19 +90,36 @@ class DeepObjectIteratorContract
      */
     private function getPropertiesAccessor(object $object): array
     {
-        $class = \get_class($object);
-        $result = $this->reflectionProperties[$class] ?? null;
+        return $this->getClassPropertiesAccessor(\get_class($object));
+    }
+
+    /**
+     * @param class-string|\ReflectionClass $className
+     *
+     * @throws \ReflectionException
+     */
+    private function getClassPropertiesAccessor(\ReflectionClass|string $className): array
+    {
+        [$preResult, $className] = \is_string($className) ? [new \ReflectionClass($className), $className] : [$className, $className->getName()];
+        $result = $this->reflectionProperties[$className] ?? null;
 
         if (\is_array($result)) {
             return $result;
         }
 
-        $preResult = new \ReflectionClass($class);
         $result = [];
 
         foreach ($preResult->getProperties() as $property) {
             $property->setAccessible(true);
             $result[] = $property;
+        }
+
+        $parentClass = $preResult->getParentClass();
+
+        if ($parentClass instanceof \ReflectionClass) {
+            foreach ($this->getClassPropertiesAccessor($parentClass) as $property) {
+                $result[] = $property;
+            }
         }
 
         return $this->reflectionProperties[$class] = $result;
