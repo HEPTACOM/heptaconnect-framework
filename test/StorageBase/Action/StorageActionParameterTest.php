@@ -388,7 +388,6 @@ class StorageActionParameterTest extends TestCase
         yield new RouteOverviewResult($routeKey, $unsafeClass, $portalNodeKey, $unsafeClass, $portalNodeKey, $unsafeClass, $createdAt, $stringCollection);
         yield new RouteCapabilityOverviewCriteria();
         yield new RouteCapabilityOverviewResult('', $createdAt);
-        yield new WebHttpHandlerConfigurationFindCriteria($portalNodeKey, '', '');
         yield new WebHttpHandlerConfigurationFindCriteria($httpStackIdentifier, '');
         yield new WebHttpHandlerConfigurationFindResult(null);
         yield new WebHttpHandlerConfigurationSetPayload($httpStackIdentifier, '');

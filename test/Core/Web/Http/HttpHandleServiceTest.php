@@ -96,18 +96,21 @@ final class HttpHandleServiceTest extends TestCase
         $dumper = $this->createMock(ServerRequestCycleDumperInterface::class);
         $dumper->expects(static::never())->method('dump');
 
-        $actor = $this->createMock(HttpHandlingActorInterface::class);
-        $actor->method('performHttpHandling')->willReturnArgument(1);
+        $httpHandlersFactory = $this->createMock(HttpHandleFlowHttpHandlersFactoryInterface::class);
+        $httpHandlersFactory->method('createHttpHandlers')->willReturn(new HttpHandlerCollection());
+
+        $stackProcessor = $this->createMock(HttpHandlerStackProcessorInterface::class);
+        $stackProcessor->method('processStack')->willReturn($response);
 
         $service = new HttpHandleService(
-            $this->createMock(HttpHandlerStackProcessorInterface::class),
+            $stackProcessor,
             $contextFactory,
             $logger,
             $stackBuilderFactory,
             $this->createMock(StorageKeyGeneratorContract::class),
             $responseFactory,
             $findAction,
-            $this->createMock(HttpHandleFlowHttpHandlersFactoryInterface::class),
+            $httpHandlersFactory,
             $dumpChecker,
             $dumper,
         );
