@@ -14,6 +14,7 @@
             "name": "HEPTACOM GmbH"
         }
     ],
+    "homepage": "https://heptaconnect.io",
     "support": {
         "issues": "https://github.com/HEPTACOM/heptaconnect-framework/issues",
         "source": "https://github.com/HEPTACOM/heptaconnect-framework",
@@ -105,6 +106,5 @@
             "ocramius/package-versions": true,
             "php-http/discovery": true
         }
-    },
-    "homepage": "https://heptaconnect.io"
+    }
 }

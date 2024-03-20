@@ -7,7 +7,6 @@ namespace Heptacom\HeptaConnect\Storage\Base\Test\Action;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
-use Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedStringCollection;
 use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct;
