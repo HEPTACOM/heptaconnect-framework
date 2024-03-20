@@ -120,6 +120,12 @@ abstract class PackageContract
         return [];
     }
 
+    /**
+     * Flow components from this package get this priority by default.
+     * The priority of a flow component can be overridden via a tag in its service definition.
+     * If the priority is not overridden, this default priority will be used.
+     * The priority of a flow component determines the order of the stack.
+     */
     public function getDefaultFlowComponentPriority(): int
     {
         return 1000;

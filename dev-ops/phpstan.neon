@@ -4,10 +4,6 @@ rules:
 	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\FinalClassesMustNotHaveProtectedFieldsAndMethodsRule
 	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\ImplementationsMustBeFinalRule
 	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\InterfacesHaveDocumentationRule
-	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\UiActionsPublicMethodMustCallTracerOnReturnRule
-	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\UiActionsPublicMethodMustCallTracerOnThrowRule
-	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\UiActionsPublicMethodMustCallTracerOnYieldFromRule
-	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\UiActionsPublicMethodMustCallTracerOnYieldRule
 parameters:
 	checkMissingIterableValueType: false
 	inferPrivatePropertyTypeFromConstructor: true
@@ -61,11 +57,6 @@ parameters:
 			paths:
 				- ../src/Core/Component/Composer/PackageConfigurationLoader.php
 		-
-			# It can, when jsonSerialize throws an exception
-			message: '#Dead catch - Throwable is never thrown in the try block#'
-			paths:
-				- ../src/Core/Ui/Admin/Audit/AuditableDataSerializer.php
-		-
 			message: '#has typehint with deprecated class Heptacom\\HeptaConnect\\Core\\Storage\\PrimaryKeyToEntityHydrator#'
 			paths:
 				- ../src/Core/Emission/IdentityMappingEmitter.php
@@ -78,16 +69,6 @@ parameters:
 			paths:
 				- ../src/Core/Component/Composer/PackageConfigurationLoader.php
 		-
-			# Should not occur when we update bentools/iterable-functions
-			message: '#Unable to resolve the template type#'
-			paths:
-				- ../src/Core/Ui/Admin/Action/PortalEntityListUi.php
-		-
-			# Should not occur when we update bentools/iterable-functions
-			message: '#Generator expects value type .*, object given#'
-			paths:
-				- ../src/Core/Ui/Admin/Action/PortalEntityListUi.php
-		-
 			# I know we can disable it but this hitting too much of the code base
 			message: "#Casting to .* something that's already .*#"
 			paths:
@@ -98,11 +79,6 @@ parameters:
 			message: "#Class 'Heptacom\\\\HeptaConnect\\\\Portal\\\\Base\\\\Serialization\\\\Contract\\\\SerializableStream' that looks like a struct is expected to implement Heptacom\\\\HeptaConnect\\\\Dataset\\\\Base\\\\Contract\\\\AttachmentAwareInterface#"
 			paths:
 				- ../src/PortalBase/Serialization/Contract/SerializableStream.php
-		-
-			# We have hints what the right string values are and phpstan naively expects these are the only strings, that are used as arguments and therefore look ups will never fail
-			message: "#Offset .+ on .+ on left side of \\?\\? always exists and is not nullable.#"
-			paths:
-				- ../src/Core/Ui/Admin/Action/RouteBrowseUi.php
 		-
 			# This has been checked in the constructor already
 			message: "#Call to an undefined method League\\\\Flysystem\\\\FilesystemInterface::(getAdapter|getConfig)#"

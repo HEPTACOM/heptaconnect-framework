@@ -7,7 +7,6 @@ namespace Heptacom\HeptaConnect\DevOps\PhpStan\Support;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface;
-use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Audit\AuditableDataAwareInterface;
 use PhpParser\Node\Expr\Error;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Class_;
@@ -20,7 +19,6 @@ class StructDetector
         \JsonSerializable::class,
         AttachmentAwareInterface::class,
         AttachableInterface::class,
-        AuditableDataAwareInterface::class,
         ForeignKeyAwareInterface::class,
     ];
 

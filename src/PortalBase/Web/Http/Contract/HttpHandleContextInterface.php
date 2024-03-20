@@ -31,14 +31,12 @@ interface HttpHandleContextInterface extends PortalNodeContextInterface
     /**
      * Forwards a (new) request to a different @see HttpHandlerStackInterface and returns its response
      *
-     * @param UriInterface|string                $uri
-     * @param StreamInterface|array|string|null  $body
      * @param array<string, string|list<string>> $headers
      */
     public function forward(
-        $uri,
+        UriInterface|string $uri,
         string $method = 'GET',
-        $body = null,
+        StreamInterface|array|string|null $body = null,
         array $headers = []
     ): ResponseInterface;
 }
