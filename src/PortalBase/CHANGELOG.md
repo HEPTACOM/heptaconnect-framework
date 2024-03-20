@@ -41,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change return type of `\Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection::bySupport` from `iterable` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
 - Make class final: `\Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent`
 - Add implementation reference to `\Stringable` when `__toString` is already implemented in `\Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin` and `\Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\SerializableStream`
+- Change return type of `\Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier::jsonSerialize` to `array` struct instead of implicit `mixed`
 
 ### Deprecated
 

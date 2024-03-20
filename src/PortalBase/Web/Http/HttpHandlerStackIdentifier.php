@@ -25,8 +25,10 @@ final class HttpHandlerStackIdentifier implements FlowComponentStackIdentifierIn
         return $this->path;
     }
 
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    /**
+     * @return array{portalNodeKey: PortalNodeKeyInterface, path: string}
+     */
+    public function jsonSerialize(): array
     {
         return [
             'portalNodeKey' => $this->getPortalNodeKey(),
