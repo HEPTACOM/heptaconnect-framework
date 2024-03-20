@@ -20,11 +20,6 @@ interface PortalNodeContextInterface
     public function getConfig(): ?array;
 
     /**
-     * Returns the instance of the portal of this stack.
-     */
-    public function getPortal(): PortalContract;
-
-    /**
      * Returns the storage key of the portal node of this stack.
      */
     public function getPortalNodeKey(): PortalNodeKeyInterface;
