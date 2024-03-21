@@ -1,9 +1,9 @@
-image: heptacom/heptaconnect-pipeline:php81-8.0.0
+image: heptacom/heptaconnect-pipeline:php81-8.1.0
 
 definitions:
     partials:
         -   step: &php82-image
-                image: heptacom/heptaconnect-pipeline:php82-8.0.0
+                image: heptacom/heptaconnect-pipeline:php82-8.1.0
     services:
         mysql:
             image: mysql:8.0
