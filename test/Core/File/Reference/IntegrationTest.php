@@ -362,7 +362,7 @@ class IntegrationTest extends TestCase
             ) {
             }
 
-            public function supportsNormalization($data, $format = null)
+            public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
             {
                 return true;
             }
@@ -372,12 +372,17 @@ class IntegrationTest extends TestCase
                 return 'array';
             }
 
-            public function normalize($object, $format = null, array $context = [])
+            public function normalize(mixed $object, ?string $format = null, array $context = []): string
             {
                 $result = $this->array->count();
                 $this->array[$result] = $object;
 
                 return (string) $result;
+            }
+
+            public function getSupportedTypes(?string $format): array
+            {
+                return [$this->getType()];
             }
         };
         $denormalizer = new class($array) implements DenormalizerInterface {
@@ -391,7 +396,7 @@ class IntegrationTest extends TestCase
                 return 'array';
             }
 
-            public function denormalize($data, $type, $format = null, array $context = [])
+            public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
             {
                 $index = (string) $data;
 
@@ -402,9 +407,14 @@ class IntegrationTest extends TestCase
                 return $this->array[$index];
             }
 
-            public function supportsDenormalization($data, $type, $format = null)
+            public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
             {
                 return $type === 'array';
+            }
+
+            public function getSupportedTypes(?string $format): array
+            {
+                return [$this->getType()];
             }
         };
 
