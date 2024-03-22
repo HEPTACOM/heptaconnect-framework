@@ -138,7 +138,6 @@ final class CollectionTest extends TestCase
                 'publicFloat' => 13.37,
                 'protectedString' => 'protected',
                 'attachments' => null,
-                'dependencies' => null,
                 'primaryKey' => null,
             ],
             [
@@ -148,7 +147,6 @@ final class CollectionTest extends TestCase
                 'publicFloat' => 13.37,
                 'protectedString' => 'protected',
                 'attachments' => null,
-                'dependencies' => null,
                 'primaryKey' => null,
             ],
             [
@@ -158,7 +156,6 @@ final class CollectionTest extends TestCase
                 'publicFloat' => 13.37,
                 'protectedString' => 'protected',
                 'attachments' => null,
-                'dependencies' => null,
                 'primaryKey' => null,
             ],
         ], $coded);

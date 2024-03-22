@@ -6,7 +6,6 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
 
 use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
-use Heptacom\HeptaConnect\Dataset\Base\Support\DependencyAwareTrait;
 use Heptacom\HeptaConnect\Dataset\Base\Support\JsonSerializeObjectVarsTrait;
 use Heptacom\HeptaConnect\Dataset\Base\Support\PrimaryKeyTrait;
 use Heptacom\HeptaConnect\Dataset\Base\Support\SetStateTrait;
@@ -17,7 +16,6 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\SetStateTrait;
 abstract class DatasetEntityContract implements AttachableInterface, AttachmentAwareInterface, PrimaryKeyAwareInterface, \JsonSerializable
 {
     use AttachmentAwareTrait;
-    use DependencyAwareTrait;
     use JsonSerializeObjectVarsTrait;
     use PrimaryKeyTrait;
     use SetStateTrait;

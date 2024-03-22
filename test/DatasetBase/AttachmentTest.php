@@ -6,8 +6,8 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface;
-use Heptacom\HeptaConnect\Dataset\Base\Dependency;
 use Heptacom\HeptaConnect\Dataset\Base\EntityType;
+use Heptacom\HeptaConnect\Dataset\Base\File\FileReferenceCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Support\ForeignKeyTrait;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\AttachmentA;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\AttachmentAChild;
@@ -43,9 +43,9 @@ final class AttachmentTest extends TestCase
         $struct->attach(new SerializationDatasetEntity());
         static::assertEquals(1, $struct->getAttachments()->count());
         static::assertTrue($struct->hasAttached(SerializationDatasetEntity::class));
-        static::assertFalse($struct->hasAttached(Dependency::class));
+        static::assertFalse($struct->hasAttached(FileReferenceCollection::class));
         static::assertNotNull($struct->getAttachment(SerializationDatasetEntity::class));
-        static::assertNull($struct->getAttachment(Dependency::class));
+        static::assertNull($struct->getAttachment(FileReferenceCollection::class));
     }
 
     public function testDetachByType(): void

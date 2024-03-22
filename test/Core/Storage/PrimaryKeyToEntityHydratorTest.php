@@ -20,7 +20,6 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\DependencyTrait
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
  */
 final class PrimaryKeyToEntityHydratorTest extends TestCase
