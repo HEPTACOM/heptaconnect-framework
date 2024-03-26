@@ -52,6 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove support for `php: 7.4` as it will not receive any updates anymore, it is unlikely to be used. By raising the minimum PHP version we also make use of features introduced by PHP 8.0, which mainly have no effect on public API
 - Remove `\Heptacom\HeptaConnect\Dataset\Base\Contract\DeferralAwareInterface` and `\Heptacom\HeptaConnect\Dataset\Base\Support\DeferralAwareTrait` as it has not been a practical solution to defer closure execution in a different process
 - Remove composer dependency `opis/closure` as it is no longer needed with the removal of closure deferrals introduced in HEPTAconnect 0.5
+- Remove the concept of dependencies for entities: `\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract::getDependencies`, `\Heptacom\HeptaConnect\Dataset\Base\Contract\DependencyInterface`, `\Heptacom\HeptaConnect\Dataset\Base\Dependency`, `\Heptacom\HeptaConnect\Dataset\Base\DependencyCollection`, `\Heptacom\HeptaConnect\Dataset\Base\Support\DependencyAwareTrait` and `\Heptacom\HeptaConnect\Dataset\Base\Support\DependencyTrait`
 
 ### Fixed
 
