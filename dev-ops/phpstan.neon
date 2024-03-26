@@ -30,10 +30,6 @@ parameters:
 			message: '#^Variable (method call|property access) on object\.$#'
 			path: ../src/DatasetBase/Support/AbstractCollection.php
 		-
-			message: '#must have a documentation#'
-			paths:
-				- ../src/DatasetBase/Contract/DependencyInterface.php
-		-
 			message: '#Call to deprecated .* of class Heptacom#'
 			path: ../src/DatasetBase/Translatable/AbstractTranslatable.php
 		-
