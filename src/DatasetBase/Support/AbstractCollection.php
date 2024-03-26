@@ -185,7 +185,7 @@ abstract class AbstractCollection implements CollectionInterface
         yield from \array_map($mapFn, $this->items, \array_keys($this->items));
     }
 
-    public function column(string $valueAccessor, ?string $keyAccessor = null): iterable
+    public function column(?string $valueAccessor, ?string $keyAccessor = null): iterable
     {
         foreach ($this as $key => $value) {
             yield $this->executeAccessor($value, $keyAccessor, $key) => $this->executeAccessor($value, $valueAccessor, $value);

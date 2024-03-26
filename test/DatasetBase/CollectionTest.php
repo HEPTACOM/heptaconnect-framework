@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\IntegerCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\UsageStructCollection;
+use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\DatasetEntityStruct;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -244,6 +246,60 @@ final class CollectionTest extends TestCase
         $unique = $collection->asUnique();
 
         static::assertCount(26, $unique);
+    }
+
+    public function testColumn(): void
+    {
+        $entityA = new DatasetEntityStruct();
+        $entityA->setPrimaryKey('A');
+
+        $entityB = new DatasetEntityStruct();
+        $entityB->setPrimaryKey('B');
+
+        $entityC = new DatasetEntityStruct();
+        $entityC->setPrimaryKey('C');
+
+        $collection = new DatasetEntityCollection([
+            $entityA,
+            $entityB,
+            $entityC,
+        ]);
+
+        $result = $collection->column('getPrimaryKey');
+        $result = \iterable_to_array($result);
+
+        static::assertSame([
+            0 => 'A',
+            1 => 'B',
+            2 => 'C',
+        ], $result);
+
+        $result = $collection->column('getPrimaryKey', 'getPrimaryKey');
+        $result = \iterable_to_array($result);
+
+        static::assertSame([
+            'A' => 'A',
+            'B' => 'B',
+            'C' => 'C',
+        ], $result);
+
+        $result = $collection->column(null, 'getPrimaryKey');
+        $result = \iterable_to_array($result);
+
+        static::assertSame([
+            'A' => $entityA,
+            'B' => $entityB,
+            'C' => $entityC,
+        ], $result);
+
+        $result = $collection->column(null);
+        $result = \iterable_to_array($result);
+
+        static::assertSame([
+            0 => $entityA,
+            1 => $entityB,
+            2 => $entityC,
+        ], $result);
     }
 
     /**

@@ -93,7 +93,7 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
     /**
      * Returns an iterable list of values, that are pulled of each item by its property name, getter name or array index.
      */
-    public function column(string $valueAccessor, ?string $keyAccessor = null): iterable;
+    public function column(?string $valueAccessor, ?string $keyAccessor = null): iterable;
 
     /**
      * Create a new collection of the same type, but without any content.
