@@ -382,7 +382,7 @@ class IntegrationTest extends TestCase
 
             public function getSupportedTypes(?string $format): array
             {
-                return [$this->getType()];
+                return [$this->getType() => true];
             }
         };
         $denormalizer = new class($array) implements DenormalizerInterface {
@@ -414,7 +414,7 @@ class IntegrationTest extends TestCase
 
             public function getSupportedTypes(?string $format): array
             {
-                return [$this->getType()];
+                return [$this->getType() => true];
             }
         };
 
