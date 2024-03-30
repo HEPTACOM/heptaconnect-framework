@@ -46,7 +46,7 @@ clean: ## Cleans up all ignored files and directories
 	[[ ! -d dev-ops/bin/php-churn/vendor ]] || rm -rf dev-ops/bin/php-churn/vendor
 
 .PHONY: it
-it: cs-fix cs test ## Fix code style and run unit tests
+it: cs-fix cs coverage ## Fix code style and run unit tests
 
 .PHONY: coverage
 coverage: vendor .build ## Run phpunit coverage tests
@@ -119,13 +119,6 @@ infection: vendor .build ## Run infection tests
 	[[ -d .build/phpunit-logs ]] || mkdir -p .build/.phpunit-coverage
 	$(PHPUNIT) --coverage-xml=.build/.phpunit-coverage/index.xml --log-junit=.build/.phpunit-coverage/infection.junit.xml
 	$(PHP) vendor/bin/infection --min-covered-msi=80 --min-msi=80 --configuration=dev-ops/infection.json --coverage=../.build/.phpunit-coverage --show-mutations --no-interaction
-
-.PHONY: test
-test: vendor .build ## Run phpunit for unit tests
-	$(PHPUNIT) --log-junit=.build/.phpunit-coverage/infection.junit.xml
-
-test/%Test.php: vendor
-	$(PHPUNIT) "$@"
 
 $(PHPSTAN_FILE): ## Install phpstan executable
 	$(COMPOSER) install -d dev-ops/bin/phpstan

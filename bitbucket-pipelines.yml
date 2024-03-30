@@ -67,21 +67,21 @@ definitions:
                     - make .build
                     - mv vendor .build/vendor-low
                     - echo 'mkdir -p vendor; rm -rf vendor; mv .build/vendor-low vendor' > setup-vendor.sh
-        -   step: &test-unit-high-install-82
+        -   step: &test-coverage-high-install-82
                 <<: *php82-image
                 name: Install and Unit test (8.2 + High dependencies)
                 script:
                     - make clean
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
-                    - COMPOSER_EXTRA_ARGS=-vvv make -e test
-        -   step: &test-unit-low-install-82
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e coverage
+        -   step: &test-coverage-low-install-82
                 <<: *php82-image
                 name: Install and Unit test (8.2 + Low dependencies)
                 script:
                     - make clean
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - composer update --prefer-lowest --prefer-stable
-                    - COMPOSER_EXTRA_ARGS=-vvv make -e test
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e coverage
         -   step: &test-coverage
                 <<: *default-step
                 name: Test coverage
@@ -167,8 +167,8 @@ pipelines:
                     -   step: *test-coverage
                     -   step: *test-code-style-composer-unused
             -   parallel: &steps-blocking-non-min-php-version-tests
-                    -   step: *test-unit-high-install-82
-                    -   step: *test-unit-low-install-82
+                    -   step: *test-coverage-high-install-82
+                    -   step: *test-coverage-low-install-82
             -   step: *composer-high-install
             -   parallel: &steps-non-blocking-tests
                     -   step: *test-code-style-phpmd
