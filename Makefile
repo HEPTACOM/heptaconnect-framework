@@ -54,7 +54,7 @@ coverage: vendor .build ## Run phpunit coverage tests
 cs: cs-php cs-phpstan cs-phpmd cs-soft-require cs-composer-unused cs-composer-normalize cs-json cs-phpchurn ## Run every code style check target
 
 .PHONY: cs-php
-cs-php: vendor .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standard for code style analysis
+cs-php: .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standard for code style analysis
 	$(PHP) $(EASY_CODING_STANDARD_FILE) check --config=dev-ops/ecs.php
 
 .PHONY: cs-phpstan
@@ -63,13 +63,13 @@ cs-phpstan: vendor .build $(PHPSTAN_FILE) ## Run phpstan for static code analysi
 	[[ -n "${CI}" ]] || $(PHP) $(PHPSTAN_FILE) analyse --level 8 -c dev-ops/phpstan.neon
 
 .PHONY: cs-phpmd
-cs-phpmd: vendor .build $(PHPMD_FILE) ## Run php mess detector for static code analysis
+cs-phpmd: .build $(PHPMD_FILE) ## Run php mess detector for static code analysis
 	[[ -z "${CI}" ]] || [[ -f .build/phpmd-junit.xslt ]] || $(CURL) https://phpmd.org/junit.xslt -o .build/phpmd-junit.xslt
 	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md.junit.xml
 	[[ -n "${CI}" ]] || $(PHP) $(PHPMD_FILE) src ansi dev-ops/phpmd.xml
 
 .PHONY: cs-phpcpd
-cs-phpcpd: vendor .build $(PHPCPD_FILE) ## Run php copy paste detector for static code analysis
+cs-phpcpd: .build $(PHPCPD_FILE) ## Run php copy paste detector for static code analysis
 	[[ -z "${CI}" ]] || $(PHP) $(PHPCPD_FILE) --fuzzy src --log-pmd .build/phpcpd.xml
 	[[ -n "${CI}" ]] || $(PHP) $(PHPCPD_FILE) --fuzzy src
 
@@ -82,14 +82,14 @@ cs-soft-require: vendor .build $(COMPOSER_REQUIRE_CHECKER_FILE) ## Run composer-
 	$(PHP) $(COMPOSER_REQUIRE_CHECKER_FILE) check --config-file=$(shell pwd)/dev-ops/composer-soft-requirements.json composer.json
 
 .PHONY: cs-composer-normalize
-cs-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-normalize for composer.json style analysis
+cs-composer-normalize: $(COMPOSER_NORMALIZE_FILE) ## Run composer-normalize for composer.json style analysis
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock composer.json
 
 .PHONY: cs-json
 cs-json: $(JSON_FILES) ## Run jq on every json file to ensure they are parsable and therefore valid
 
 .PHONY: cs-phpchurn
-cs-phpchurn: vendor .build $(PHPCHURN_FILE) ## Run php-churn for prediction of refactoring cases
+cs-phpchurn: .build $(PHPCHURN_FILE) ## Run php-churn for prediction of refactoring cases
 	$(PHP) $(PHPCHURN_FILE) run --configuration dev-ops/churn.yml --format text
 
 .PHONY: $(JSON_FILES)
@@ -100,11 +100,11 @@ $(JSON_FILES):
 cs-fix: cs-fix-composer-normalize cs-fix-php
 
 .PHONY: cs-fix-composer-normalize
-cs-fix-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-normalize for automatic composer.json style fixes
+cs-fix-composer-normalize: $(COMPOSER_NORMALIZE_FILE) ## Run composer-normalize for automatic composer.json style fixes
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff composer.json
 
 .PHONY: cs-fix-php
-cs-fix-php: vendor .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standard for automatic code style fixes
+cs-fix-php: .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standard for automatic code style fixes
 	$(PHP) $(EASY_CODING_STANDARD_FILE) check --config=dev-ops/ecs.php --fix
 
 .PHONY: infection
