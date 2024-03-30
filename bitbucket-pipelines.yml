@@ -92,7 +92,6 @@ definitions:
                 <<: *default-step
                 name: ECS (Code style)
                 script:
-                    - bash setup-vendor.sh
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-php
         -   step: &test-code-style-phpstan
                 <<: *default-step
@@ -104,13 +103,11 @@ definitions:
                 <<: *default-step
                 name: PHP Mess Detector (Static code analysis)
                 script:
-                    - bash setup-vendor.sh
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-phpmd
         -   step: &test-code-style-phpcpd
                 <<: *default-step
                 name: PHP Copy Paste Detector (Static code analysis)
                 script:
-                    - bash setup-vendor.sh
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-phpcpd
         -   step: &test-code-style-soft-require
                 <<: *default-step
@@ -128,13 +125,11 @@ definitions:
                 <<: *default-step
                 name: composer.json (Code style)
                 script:
-                    - bash setup-vendor.sh
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-composer-normalize
         -   step: &test-code-style-json
                 <<: *default-step
                 name: '*.json (Code style)'
                 script:
-                    - bash setup-vendor.sh
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-json
         -   step: &test-infection
                 <<: *default-step
@@ -148,14 +143,16 @@ pipelines:
         master:
             -   step: *github-keyword-gate-step
             -   step: *github-mirror-branch
-            -   step: *composer-high-install
-            -   parallel: &steps-blocking-tests
-                    -   step: *test-coverage
+            -   parallel: &non-vendor-steps
                     -   step: *test-code-style-composer-normalize
-                    -   step: *test-code-style-composer-unused
                     -   step: *test-code-style-json
                     -   step: *test-code-style-php
                     -   step: *test-code-style-phpcpd
+                    -   step: *test-code-style-phpmd
+            -   step: *composer-high-install
+            -   parallel: &steps-blocking-tests
+                    -   step: *test-coverage
+                    -   step: *test-code-style-composer-unused
             -   step: *composer-low-install
             -   parallel: &steps-blocking-low-tests
                     -   step: *test-coverage
@@ -165,7 +162,6 @@ pipelines:
                     -   step: *test-coverage-low-install-82
             -   step: *composer-high-install
             -   parallel: &steps-non-blocking-tests
-                    -   step: *test-code-style-phpmd
                     -   step: *test-code-style-soft-require
                     -   step: *test-code-style-phpstan
                     -   step: *test-infection
@@ -184,6 +180,7 @@ pipelines:
             -   step: *github-mirror-tag
 
     default:
+        -   parallel: *non-vendor-steps
         -   step: *composer-high-install
         -   parallel: *steps-blocking-tests
         -   step: *composer-low-install
