@@ -100,12 +100,6 @@ definitions:
                 script:
                     - bash setup-vendor.sh
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-phpstan
-        -   step: &test-code-style-psalm
-                <<: *default-step
-                name: Psalm (Static code analysis)
-                script:
-                    - bash setup-vendor.sh
-                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-psalm
         -   step: &test-code-style-phpmd
                 <<: *default-step
                 name: PHP Mess Detector (Static code analysis)
@@ -174,12 +168,10 @@ pipelines:
                     -   step: *test-code-style-phpmd
                     -   step: *test-code-style-soft-require
                     -   step: *test-code-style-phpstan
-                    -   step: *test-code-style-psalm
                     -   step: *test-infection
             -   step: *composer-low-install
             -   parallel: &steps-non-blocking-low-tests
                     -   step: *test-code-style-phpstan
-                    -   step: *test-code-style-psalm
         '*.*.x':
             -   step: *github-keyword-gate-step
             -   step: *github-mirror-branch

@@ -16,7 +16,6 @@ PHPMD_PHAR := https://github.com/phpmd/phpmd/releases/download/2.11.1/phpmd.phar
 PHPMD_FILE := dev-ops/bin/phpmd
 PHPCPD_PHAR := https://phar.phpunit.de/phpcpd.phar
 PHPCPD_FILE := dev-ops/bin/phpcpd
-PSALM_FILE := dev-ops/bin/psalm/vendor/bin/psalm
 COMPOSER_UNUSED_FILE := dev-ops/bin/composer-unused/vendor/bin/composer-unused
 EASY_CODING_STANDARD_FILE := dev-ops/bin/easy-coding-standard/vendor/bin/ecs
 PHPCHURN_FILE := dev-ops/bin/php-churn/vendor/bin/churn
@@ -42,7 +41,6 @@ clean: ## Cleans up all ignored files and directories
 	[[ ! -f dev-ops/bin/phpmd ]] || rm -f dev-ops/bin/phpmd
 	[[ ! -f dev-ops/bin/phpcpd ]] || rm -f dev-ops/bin/phpcpd
 	[[ ! -d dev-ops/bin/phpstan/vendor ]] || rm -rf dev-ops/bin/phpstan/vendor
-	[[ ! -d dev-ops/bin/psalm/vendor ]] || rm -rf dev-ops/bin/psalm/vendor
 	[[ ! -d dev-ops/bin/php-churn/vendor ]] || rm -rf dev-ops/bin/php-churn/vendor
 
 .PHONY: it
@@ -53,7 +51,7 @@ coverage: vendor .build ## Run phpunit coverage tests
 	$(PHPUNIT) --coverage-text
 
 .PHONY: cs
-cs: cs-php cs-phpstan cs-psalm cs-phpmd cs-soft-require cs-composer-unused cs-composer-normalize cs-json cs-phpchurn ## Run every code style check target
+cs: cs-php cs-phpstan cs-phpmd cs-soft-require cs-composer-unused cs-composer-normalize cs-json cs-phpchurn ## Run every code style check target
 
 .PHONY: cs-php
 cs-php: vendor .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standard for code style analysis
@@ -63,10 +61,6 @@ cs-php: vendor .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standard f
 cs-phpstan: vendor .build $(PHPSTAN_FILE) ## Run phpstan for static code analysis
 	[[ -z "${CI}" ]] || $(PHP) $(PHPSTAN_FILE) analyse --level 8 -c dev-ops/phpstan.neon --error-format=junit > .build/phpstan.junit.xml
 	[[ -n "${CI}" ]] || $(PHP) $(PHPSTAN_FILE) analyse --level 8 -c dev-ops/phpstan.neon
-
-.PHONY: cs-psalm
-cs-psalm: vendor .build $(PSALM_FILE) ## Run psalm for static code analysis
-	$(PHP) $(PSALM_FILE) -c $(shell pwd)/dev-ops/psalm.xml
 
 .PHONY: cs-phpmd
 cs-phpmd: vendor .build $(PHPMD_FILE) ## Run php mess detector for static code analysis
@@ -134,9 +128,6 @@ $(PHPMD_FILE): ## Install phpmd executable
 
 $(PHPCPD_FILE): ## Install phpcpd executable
 	$(CURL) -L $(PHPCPD_PHAR) -o $(PHPCPD_FILE)
-
-$(PSALM_FILE): ## Install psalm executable
-	$(COMPOSER) install -d dev-ops/bin/psalm
 
 $(COMPOSER_UNUSED_FILE): ## Install composer-unused executable
 	$(COMPOSER) install -d dev-ops/bin/composer-unused
