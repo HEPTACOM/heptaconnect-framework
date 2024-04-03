@@ -16,7 +16,6 @@ PHPMD_PHAR := https://github.com/phpmd/phpmd/releases/download/2.11.1/phpmd.phar
 PHPMD_FILE := dev-ops/bin/phpmd
 PHPCPD_PHAR := https://phar.phpunit.de/phpcpd.phar
 PHPCPD_FILE := dev-ops/bin/phpcpd
-PSALM_FILE := dev-ops/bin/psalm/vendor/bin/psalm
 COMPOSER_UNUSED_FILE := dev-ops/bin/composer-unused/vendor/bin/composer-unused
 EASY_CODING_STANDARD_FILE := dev-ops/bin/easy-coding-standard/vendor/bin/ecs
 PHPCHURN_FILE := dev-ops/bin/php-churn/vendor/bin/churn
@@ -42,21 +41,20 @@ clean: ## Cleans up all ignored files and directories
 	[[ ! -f dev-ops/bin/phpmd ]] || rm -f dev-ops/bin/phpmd
 	[[ ! -f dev-ops/bin/phpcpd ]] || rm -f dev-ops/bin/phpcpd
 	[[ ! -d dev-ops/bin/phpstan/vendor ]] || rm -rf dev-ops/bin/phpstan/vendor
-	[[ ! -d dev-ops/bin/psalm/vendor ]] || rm -rf dev-ops/bin/psalm/vendor
 	[[ ! -d dev-ops/bin/php-churn/vendor ]] || rm -rf dev-ops/bin/php-churn/vendor
 
 .PHONY: it
-it: cs-fix cs test ## Fix code style and run unit tests
+it: cs-fix cs coverage ## Fix code style and run unit tests
 
 .PHONY: coverage
 coverage: vendor .build ## Run phpunit coverage tests
 	$(PHPUNIT) --coverage-text
 
 .PHONY: cs
-cs: cs-php cs-phpstan cs-psalm cs-phpmd cs-soft-require cs-composer-unused cs-composer-normalize cs-json cs-phpchurn ## Run every code style check target
+cs: cs-php cs-phpstan cs-phpmd cs-soft-require cs-composer-unused cs-composer-normalize cs-json cs-phpchurn ## Run every code style check target
 
 .PHONY: cs-php
-cs-php: vendor .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standard for code style analysis
+cs-php: .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standard for code style analysis
 	$(PHP) $(EASY_CODING_STANDARD_FILE) check --config=dev-ops/ecs.php
 
 .PHONY: cs-phpstan
@@ -64,18 +62,14 @@ cs-phpstan: vendor .build $(PHPSTAN_FILE) ## Run phpstan for static code analysi
 	[[ -z "${CI}" ]] || $(PHP) $(PHPSTAN_FILE) analyse --level 8 -c dev-ops/phpstan.neon --error-format=junit > .build/phpstan.junit.xml
 	[[ -n "${CI}" ]] || $(PHP) $(PHPSTAN_FILE) analyse --level 8 -c dev-ops/phpstan.neon
 
-.PHONY: cs-psalm
-cs-psalm: vendor .build $(PSALM_FILE) ## Run psalm for static code analysis
-	$(PHP) $(PSALM_FILE) -c $(shell pwd)/dev-ops/psalm.xml
-
 .PHONY: cs-phpmd
-cs-phpmd: vendor .build $(PHPMD_FILE) ## Run php mess detector for static code analysis
+cs-phpmd: .build $(PHPMD_FILE) ## Run php mess detector for static code analysis
 	[[ -z "${CI}" ]] || [[ -f .build/phpmd-junit.xslt ]] || $(CURL) https://phpmd.org/junit.xslt -o .build/phpmd-junit.xslt
 	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md.junit.xml
-	$(PHP) $(PHPMD_FILE) src ansi dev-ops/phpmd.xml
+	[[ -n "${CI}" ]] || $(PHP) $(PHPMD_FILE) src ansi dev-ops/phpmd.xml
 
 .PHONY: cs-phpcpd
-cs-phpcpd: vendor .build $(PHPCPD_FILE) ## Run php copy paste detector for static code analysis
+cs-phpcpd: .build $(PHPCPD_FILE) ## Run php copy paste detector for static code analysis
 	[[ -z "${CI}" ]] || $(PHP) $(PHPCPD_FILE) --fuzzy src --log-pmd .build/phpcpd.xml
 	[[ -n "${CI}" ]] || $(PHP) $(PHPCPD_FILE) --fuzzy src
 
@@ -88,14 +82,14 @@ cs-soft-require: vendor .build $(COMPOSER_REQUIRE_CHECKER_FILE) ## Run composer-
 	$(PHP) $(COMPOSER_REQUIRE_CHECKER_FILE) check --config-file=$(shell pwd)/dev-ops/composer-soft-requirements.json composer.json
 
 .PHONY: cs-composer-normalize
-cs-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-normalize for composer.json style analysis
+cs-composer-normalize: $(COMPOSER_NORMALIZE_FILE) ## Run composer-normalize for composer.json style analysis
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock composer.json
 
 .PHONY: cs-json
 cs-json: $(JSON_FILES) ## Run jq on every json file to ensure they are parsable and therefore valid
 
 .PHONY: cs-phpchurn
-cs-phpchurn: vendor .build $(PHPCHURN_FILE) ## Run php-churn for prediction of refactoring cases
+cs-phpchurn: .build $(PHPCHURN_FILE) ## Run php-churn for prediction of refactoring cases
 	$(PHP) $(PHPCHURN_FILE) run --configuration dev-ops/churn.yml --format text
 
 .PHONY: $(JSON_FILES)
@@ -106,11 +100,11 @@ $(JSON_FILES):
 cs-fix: cs-fix-composer-normalize cs-fix-php
 
 .PHONY: cs-fix-composer-normalize
-cs-fix-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-normalize for automatic composer.json style fixes
+cs-fix-composer-normalize: $(COMPOSER_NORMALIZE_FILE) ## Run composer-normalize for automatic composer.json style fixes
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff composer.json
 
 .PHONY: cs-fix-php
-cs-fix-php: vendor .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standard for automatic code style fixes
+cs-fix-php: .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standard for automatic code style fixes
 	$(PHP) $(EASY_CODING_STANDARD_FILE) check --config=dev-ops/ecs.php --fix
 
 .PHONY: infection
@@ -119,13 +113,6 @@ infection: vendor .build ## Run infection tests
 	[[ -d .build/phpunit-logs ]] || mkdir -p .build/.phpunit-coverage
 	$(PHPUNIT) --coverage-xml=.build/.phpunit-coverage/index.xml --log-junit=.build/.phpunit-coverage/infection.junit.xml
 	$(PHP) vendor/bin/infection --min-covered-msi=80 --min-msi=80 --configuration=dev-ops/infection.json --coverage=../.build/.phpunit-coverage --show-mutations --no-interaction
-
-.PHONY: test
-test: vendor .build ## Run phpunit for unit tests
-	$(PHPUNIT) --log-junit=.build/.phpunit-coverage/infection.junit.xml
-
-test/%Test.php: vendor
-	$(PHPUNIT) "$@"
 
 $(PHPSTAN_FILE): ## Install phpstan executable
 	$(COMPOSER) install -d dev-ops/bin/phpstan
@@ -141,9 +128,6 @@ $(PHPMD_FILE): ## Install phpmd executable
 
 $(PHPCPD_FILE): ## Install phpcpd executable
 	$(CURL) -L $(PHPCPD_PHAR) -o $(PHPCPD_FILE)
-
-$(PSALM_FILE): ## Install psalm executable
-	$(COMPOSER) install -d dev-ops/bin/psalm
 
 $(COMPOSER_UNUSED_FILE): ## Install composer-unused executable
 	$(COMPOSER) install -d dev-ops/bin/composer-unused

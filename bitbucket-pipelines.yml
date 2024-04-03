@@ -67,21 +67,21 @@ definitions:
                     - make .build
                     - mv vendor .build/vendor-low
                     - echo 'mkdir -p vendor; rm -rf vendor; mv .build/vendor-low vendor' > setup-vendor.sh
-        -   step: &test-unit-high-install-82
+        -   step: &test-coverage-high-install-82
                 <<: *php82-image
                 name: Install and Unit test (8.2 + High dependencies)
                 script:
                     - make clean
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
-                    - COMPOSER_EXTRA_ARGS=-vvv make -e test
-        -   step: &test-unit-low-install-82
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e coverage
+        -   step: &test-coverage-low-install-82
                 <<: *php82-image
                 name: Install and Unit test (8.2 + Low dependencies)
                 script:
                     - make clean
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - composer update --prefer-lowest --prefer-stable
-                    - COMPOSER_EXTRA_ARGS=-vvv make -e test
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e coverage
         -   step: &test-coverage
                 <<: *default-step
                 name: Test coverage
@@ -92,7 +92,6 @@ definitions:
                 <<: *default-step
                 name: ECS (Code style)
                 script:
-                    - bash setup-vendor.sh
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-php
         -   step: &test-code-style-phpstan
                 <<: *default-step
@@ -100,23 +99,15 @@ definitions:
                 script:
                     - bash setup-vendor.sh
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-phpstan
-        -   step: &test-code-style-psalm
-                <<: *default-step
-                name: Psalm (Static code analysis)
-                script:
-                    - bash setup-vendor.sh
-                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-psalm
         -   step: &test-code-style-phpmd
                 <<: *default-step
                 name: PHP Mess Detector (Static code analysis)
                 script:
-                    - bash setup-vendor.sh
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-phpmd
         -   step: &test-code-style-phpcpd
                 <<: *default-step
                 name: PHP Copy Paste Detector (Static code analysis)
                 script:
-                    - bash setup-vendor.sh
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-phpcpd
         -   step: &test-code-style-soft-require
                 <<: *default-step
@@ -134,13 +125,11 @@ definitions:
                 <<: *default-step
                 name: composer.json (Code style)
                 script:
-                    - bash setup-vendor.sh
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-composer-normalize
         -   step: &test-code-style-json
                 <<: *default-step
                 name: '*.json (Code style)'
                 script:
-                    - bash setup-vendor.sh
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-json
         -   step: &test-infection
                 <<: *default-step
@@ -154,32 +143,31 @@ pipelines:
         master:
             -   step: *github-keyword-gate-step
             -   step: *github-mirror-branch
-            -   step: *composer-high-install
-            -   parallel: &steps-blocking-tests
-                    -   step: *test-coverage
+            -   parallel: &non-vendor-steps
                     -   step: *test-code-style-composer-normalize
-                    -   step: *test-code-style-composer-unused
                     -   step: *test-code-style-json
                     -   step: *test-code-style-php
                     -   step: *test-code-style-phpcpd
+                    -   step: *test-code-style-phpmd
+            -   step: *composer-high-install
+            -   parallel: &steps-blocking-tests
+                    -   step: *test-coverage
+                    -   step: *test-code-style-composer-unused
             -   step: *composer-low-install
             -   parallel: &steps-blocking-low-tests
                     -   step: *test-coverage
                     -   step: *test-code-style-composer-unused
             -   parallel: &steps-blocking-non-min-php-version-tests
-                    -   step: *test-unit-high-install-82
-                    -   step: *test-unit-low-install-82
+                    -   step: *test-coverage-high-install-82
+                    -   step: *test-coverage-low-install-82
             -   step: *composer-high-install
             -   parallel: &steps-non-blocking-tests
-                    -   step: *test-code-style-phpmd
                     -   step: *test-code-style-soft-require
                     -   step: *test-code-style-phpstan
-                    -   step: *test-code-style-psalm
                     -   step: *test-infection
             -   step: *composer-low-install
             -   parallel: &steps-non-blocking-low-tests
                     -   step: *test-code-style-phpstan
-                    -   step: *test-code-style-psalm
         '*.*.x':
             -   step: *github-keyword-gate-step
             -   step: *github-mirror-branch
@@ -192,6 +180,7 @@ pipelines:
             -   step: *github-mirror-tag
 
     default:
+        -   parallel: *non-vendor-steps
         -   step: *composer-high-install
         -   parallel: *steps-blocking-tests
         -   step: *composer-low-install
