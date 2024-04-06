@@ -6,6 +6,7 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
 
 use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
 use Heptacom\HeptaConnect\Dataset\Base\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract;
 
 /**
  * Base class to hold a validated canonical class string of any class or interface.

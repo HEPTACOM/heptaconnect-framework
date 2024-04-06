@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
+namespace Heptacom\HeptaConnect\Utility\ClassString\Contract;
 
 abstract class ClassStringReferenceContract implements \JsonSerializable, \Stringable
 {

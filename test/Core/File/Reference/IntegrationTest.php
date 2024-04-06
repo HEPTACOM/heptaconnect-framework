@@ -61,7 +61,7 @@ use Psr\Http\Message\RequestInterface;
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\RequestDeserializer
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\RequestSerializer
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\File\FileReferenceContract
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
