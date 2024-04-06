@@ -2,27 +2,26 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Dataset\Base\Test;
+namespace Heptacom\HeptaConnect\Utility\Test;
 
-use Heptacom\HeptaConnect\Utility\Date\Date;
-use Heptacom\HeptaConnect\Utility\Date\DateCollection;
+use Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Date\DateCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection
  */
-final class DateCollectionTest extends TestCase
+final class StringCollectionTest extends TestCase
 {
-    use ProvidesDateTestsData;
     use ProvidesInvalidTestsData;
+    use ProvidesStringTestsData;
 
     /**
-     * @dataProvider provideValidDateTestCases
+     * @dataProvider provideValidStringTestCases
      */
-    public function testInsertTypeInTypeCollection(Date $item): void
+    public function testInsertTypeInTypeCollection(string $item): void
     {
-        $collection = new DateCollection();
+        $collection = new StringCollection();
         static::assertFalse($collection->contains($item));
         $collection->push([$item]);
         static::assertCount(1, $collection);
@@ -35,7 +34,7 @@ final class DateCollectionTest extends TestCase
      */
     public function testInsertOtherTypeInTypeCollection($item): void
     {
-        $collection = new DateCollection();
+        $collection = new StringCollection();
         static::assertFalse($collection->contains($item));
         $collection->pushIgnoreInvalidItems([$item]);
         static::assertCount(0, $collection);
@@ -48,7 +47,13 @@ final class DateCollectionTest extends TestCase
     public function testFailInsertOtherTypeInTypeCollection($item): void
     {
         static::expectException(\InvalidArgumentException::class);
-        $collection = new DateCollection();
+        $collection = new StringCollection();
         $collection->push([$item]);
+    }
+
+    public function testJoin(): void
+    {
+        $collection = new StringCollection(['php', 'is', 'nice']);
+        static::assertSame('php;is;nice', $collection->join(';'));
     }
 }

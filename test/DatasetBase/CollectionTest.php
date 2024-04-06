@@ -10,6 +10,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\UsageStructCollection;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\DatasetEntityStruct;
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\IntegerCollection;
+use Heptacom\HeptaConnect\Utility\Test\ProvidesJsonSerializer;
 use PHPUnit\Framework\TestCase;
 
 /**

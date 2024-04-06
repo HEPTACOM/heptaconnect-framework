@@ -6,6 +6,9 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable;
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableBoolean;
+use Heptacom\HeptaConnect\Utility\Test\ProvidesBooleanTestsData;
+use Heptacom\HeptaConnect\Utility\Test\ProvidesInvalidTestsData;
+use Heptacom\HeptaConnect\Utility\Test\ProvidesJsonSerializer;
 use PHPUnit\Framework\TestCase;
 
 /**

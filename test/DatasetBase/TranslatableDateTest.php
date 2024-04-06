@@ -7,6 +7,9 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable;
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableDate;
 use Heptacom\HeptaConnect\Utility\Date\Date;
+use Heptacom\HeptaConnect\Utility\Test\ProvidesDateTestsData;
+use Heptacom\HeptaConnect\Utility\Test\ProvidesInvalidTestsData;
+use Heptacom\HeptaConnect\Utility\Test\ProvidesJsonSerializer;
 use PHPUnit\Framework\TestCase;
 
 /**

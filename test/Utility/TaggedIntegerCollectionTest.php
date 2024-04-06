@@ -2,67 +2,67 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Dataset\Base\Test;
+namespace Heptacom\HeptaConnect\Utility\Test;
 
 use Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem;
-use Heptacom\HeptaConnect\Utility\Date\DateTimeCollection;
-use Heptacom\HeptaConnect\Utility\Date\TaggedDateTimeCollection;
+use Heptacom\HeptaConnect\Utility\Collection\Scalar\IntegerCollection;
+use Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedIntegerCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem
- * @covers \Heptacom\HeptaConnect\Utility\Date\DateTimeCollection
- * @covers \Heptacom\HeptaConnect\Utility\Date\TaggedDateTimeCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\IntegerCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedIntegerCollection
  */
-final class TaggedDateTimeCollectionTest extends TestCase
+final class TaggedIntegerCollectionTest extends TestCase
 {
-    use ProvidesDateTimeTestsData;
+    use ProvidesIntegerTestsData;
     use ProvidesInvalidTestsData;
 
     /**
-     * @dataProvider provideValidDateTimeTestCases
+     * @dataProvider provideValidIntegerTestCases
      */
-    public function testInsertTagOnCtor(\DateTimeInterface $item): void
+    public function testInsertTagOnCtor(int $item): void
     {
-        $tagged = new TaggedDateTimeCollection([new TagItem(new DateTimeCollection([$item]), 'randomoffset')]);
+        $tagged = new TaggedIntegerCollection([new TagItem(new IntegerCollection([$item]), 'randomoffset')]);
         static::assertTrue($tagged->offsetExists('randomoffset'));
         static::assertCount(1, $tagged->offsetGet('randomoffset')->getCollection());
         static::assertEquals($item, $tagged->offsetGet('randomoffset')->getCollection()->first());
     }
 
     /**
-     * @dataProvider provideValidDateTimeTestCases
+     * @dataProvider provideValidIntegerTestCases
      */
-    public function testChangingCollection(\DateTimeInterface $item): void
+    public function testChangingCollection(int $item): void
     {
-        $tagged = new TaggedDateTimeCollection();
+        $tagged = new TaggedIntegerCollection();
         static::assertFalse($tagged->offsetExists('randomoffset'));
         static::assertCount(0, $tagged->offsetGet('randomoffset')->getCollection());
         static::assertTrue($tagged->offsetExists('randomoffset'));
-        $tagged->offsetGet('randomoffset')->setCollection(new DateTimeCollection([$item]));
+        $tagged->offsetGet('randomoffset')->setCollection(new IntegerCollection([$item]));
         static::assertCount(1, $tagged->offsetGet('randomoffset')->getCollection());
     }
 
     /**
-     * @dataProvider provideValidDateTimeTestCases
+     * @dataProvider provideValidIntegerTestCases
      */
-    public function testGetTagItemAfterInserting(\DateTimeInterface $item): void
+    public function testGetTagItemAfterInserting(int $item): void
     {
-        $tagged = new TaggedDateTimeCollection();
-        $tagged->offsetSet('randomoffset', new TagItem(new DateTimeCollection([$item]), 'randomoffset'));
+        $tagged = new TaggedIntegerCollection();
+        $tagged->offsetSet('randomoffset', new TagItem(new IntegerCollection([$item]), 'randomoffset'));
         static::assertTrue($tagged->offsetExists('randomoffset'));
         static::assertCount(1, $tagged->offsetGet('randomoffset')->getCollection());
         static::assertEquals($item, $tagged->offsetGet('randomoffset')->getCollection()->first());
     }
 
     /**
-     * @dataProvider provideValidDateTimeTestCases
+     * @dataProvider provideValidIntegerTestCases
      */
-    public function testGetTagItemWithoutInsertingItFirst(\DateTimeInterface $item): void
+    public function testGetTagItemWithoutInsertingItFirst(int $item): void
     {
-        $tagged = new TaggedDateTimeCollection();
+        $tagged = new TaggedIntegerCollection();
         $tagged->offsetGet('randomoffset')->getCollection()->push([$item]);
         static::assertTrue($tagged->offsetExists('randomoffset'));
         static::assertCount(1, $tagged->offsetGet('randomoffset')->getCollection());
@@ -71,7 +71,7 @@ final class TaggedDateTimeCollectionTest extends TestCase
 
     public function testEnforceNumericKeysBeStrings(): void
     {
-        $tagged = new TaggedDateTimeCollection();
+        $tagged = new TaggedIntegerCollection();
         static::assertEquals('1', $tagged->offsetGet(1)->getTag());
         static::assertTrue($tagged->offsetExists('1'));
     }
@@ -81,7 +81,7 @@ final class TaggedDateTimeCollectionTest extends TestCase
      */
     public function testInsertOtherTypeInTypeCollection($item): void
     {
-        $collection = new TaggedDateTimeCollection();
+        $collection = new TaggedIntegerCollection();
         $collection->pushIgnoreInvalidItems([$item]);
         static::assertCount(0, $collection);
     }
@@ -92,7 +92,7 @@ final class TaggedDateTimeCollectionTest extends TestCase
     public function testFailInsertOtherTypeInTypeCollection($item): void
     {
         static::expectException(\InvalidArgumentException::class);
-        $collection = new TaggedDateTimeCollection();
+        $collection = new TaggedIntegerCollection();
         $collection->push([$item]);
     }
 }

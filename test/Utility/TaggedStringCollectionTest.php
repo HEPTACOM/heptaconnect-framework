@@ -2,67 +2,67 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Dataset\Base\Test;
+namespace Heptacom\HeptaConnect\Utility\Test;
 
 use Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem;
-use Heptacom\HeptaConnect\Utility\Collection\Scalar\IntegerCollection;
-use Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedIntegerCollection;
+use Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection;
+use Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedStringCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\IntegerCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedIntegerCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedStringCollection
  */
-final class TaggedIntegerCollectionTest extends TestCase
+final class TaggedStringCollectionTest extends TestCase
 {
-    use ProvidesIntegerTestsData;
     use ProvidesInvalidTestsData;
+    use ProvidesStringTestsData;
 
     /**
-     * @dataProvider provideValidIntegerTestCases
+     * @dataProvider provideValidStringTestCases
      */
-    public function testInsertTagOnCtor(int $item): void
+    public function testInsertTagOnCtor(string $item): void
     {
-        $tagged = new TaggedIntegerCollection([new TagItem(new IntegerCollection([$item]), 'randomoffset')]);
+        $tagged = new TaggedStringCollection([new TagItem(new StringCollection([$item]), 'randomoffset')]);
         static::assertTrue($tagged->offsetExists('randomoffset'));
         static::assertCount(1, $tagged->offsetGet('randomoffset')->getCollection());
         static::assertEquals($item, $tagged->offsetGet('randomoffset')->getCollection()->first());
     }
 
     /**
-     * @dataProvider provideValidIntegerTestCases
+     * @dataProvider provideValidStringTestCases
      */
-    public function testChangingCollection(int $item): void
+    public function testChangingCollection(string $item): void
     {
-        $tagged = new TaggedIntegerCollection();
+        $tagged = new TaggedStringCollection();
         static::assertFalse($tagged->offsetExists('randomoffset'));
         static::assertCount(0, $tagged->offsetGet('randomoffset')->getCollection());
         static::assertTrue($tagged->offsetExists('randomoffset'));
-        $tagged->offsetGet('randomoffset')->setCollection(new IntegerCollection([$item]));
+        $tagged->offsetGet('randomoffset')->setCollection(new StringCollection([$item]));
         static::assertCount(1, $tagged->offsetGet('randomoffset')->getCollection());
     }
 
     /**
-     * @dataProvider provideValidIntegerTestCases
+     * @dataProvider provideValidStringTestCases
      */
-    public function testGetTagItemAfterInserting(int $item): void
+    public function testGetTagItemAfterInserting(string $item): void
     {
-        $tagged = new TaggedIntegerCollection();
-        $tagged->offsetSet('randomoffset', new TagItem(new IntegerCollection([$item]), 'randomoffset'));
+        $tagged = new TaggedStringCollection();
+        $tagged->offsetSet('randomoffset', new TagItem(new StringCollection([$item]), 'randomoffset'));
         static::assertTrue($tagged->offsetExists('randomoffset'));
         static::assertCount(1, $tagged->offsetGet('randomoffset')->getCollection());
         static::assertEquals($item, $tagged->offsetGet('randomoffset')->getCollection()->first());
     }
 
     /**
-     * @dataProvider provideValidIntegerTestCases
+     * @dataProvider provideValidStringTestCases
      */
-    public function testGetTagItemWithoutInsertingItFirst(int $item): void
+    public function testGetTagItemWithoutInsertingItFirst(string $item): void
     {
-        $tagged = new TaggedIntegerCollection();
+        $tagged = new TaggedStringCollection();
         $tagged->offsetGet('randomoffset')->getCollection()->push([$item]);
         static::assertTrue($tagged->offsetExists('randomoffset'));
         static::assertCount(1, $tagged->offsetGet('randomoffset')->getCollection());
@@ -71,7 +71,7 @@ final class TaggedIntegerCollectionTest extends TestCase
 
     public function testEnforceNumericKeysBeStrings(): void
     {
-        $tagged = new TaggedIntegerCollection();
+        $tagged = new TaggedStringCollection();
         static::assertEquals('1', $tagged->offsetGet(1)->getTag());
         static::assertTrue($tagged->offsetExists('1'));
     }
@@ -81,7 +81,7 @@ final class TaggedIntegerCollectionTest extends TestCase
      */
     public function testInsertOtherTypeInTypeCollection($item): void
     {
-        $collection = new TaggedIntegerCollection();
+        $collection = new TaggedStringCollection();
         $collection->pushIgnoreInvalidItems([$item]);
         static::assertCount(0, $collection);
     }
@@ -92,7 +92,7 @@ final class TaggedIntegerCollectionTest extends TestCase
     public function testFailInsertOtherTypeInTypeCollection($item): void
     {
         static::expectException(\InvalidArgumentException::class);
-        $collection = new TaggedIntegerCollection();
+        $collection = new TaggedStringCollection();
         $collection->push([$item]);
     }
 }

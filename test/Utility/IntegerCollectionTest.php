@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Dataset\Base\Test;
+namespace Heptacom\HeptaConnect\Utility\Test;
 
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\IntegerCollection;
 use PHPUnit\Framework\TestCase;

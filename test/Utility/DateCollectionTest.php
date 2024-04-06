@@ -2,26 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Dataset\Base\Test;
+namespace Heptacom\HeptaConnect\Utility\Test;
 
-use Heptacom\HeptaConnect\Utility\Date\DateTimeCollection;
+use Heptacom\HeptaConnect\Utility\Date\Date;
+use Heptacom\HeptaConnect\Utility\Date\DateCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Date\DateTimeCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Date\DateCollection
  */
-final class DateTimeCollectionTest extends TestCase
+final class DateCollectionTest extends TestCase
 {
-    use ProvidesDateTimeTestsData;
+    use ProvidesDateTestsData;
     use ProvidesInvalidTestsData;
 
     /**
-     * @dataProvider provideValidDateTimeTestCases
+     * @dataProvider provideValidDateTestCases
      */
-    public function testInsertTypeInTypeCollection(\DateTimeInterface $item): void
+    public function testInsertTypeInTypeCollection(Date $item): void
     {
-        $collection = new DateTimeCollection();
+        $collection = new DateCollection();
         static::assertFalse($collection->contains($item));
         $collection->push([$item]);
         static::assertCount(1, $collection);
@@ -34,7 +35,7 @@ final class DateTimeCollectionTest extends TestCase
      */
     public function testInsertOtherTypeInTypeCollection($item): void
     {
-        $collection = new DateTimeCollection();
+        $collection = new DateCollection();
         static::assertFalse($collection->contains($item));
         $collection->pushIgnoreInvalidItems([$item]);
         static::assertCount(0, $collection);
@@ -47,7 +48,7 @@ final class DateTimeCollectionTest extends TestCase
     public function testFailInsertOtherTypeInTypeCollection($item): void
     {
         static::expectException(\InvalidArgumentException::class);
-        $collection = new DateTimeCollection();
+        $collection = new DateCollection();
         $collection->push([$item]);
     }
 }

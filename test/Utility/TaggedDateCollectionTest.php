@@ -2,67 +2,68 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Dataset\Base\Test;
+namespace Heptacom\HeptaConnect\Utility\Test;
 
 use Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem;
-use Heptacom\HeptaConnect\Utility\Collection\Scalar\BooleanCollection;
-use Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedBooleanCollection;
+use Heptacom\HeptaConnect\Utility\Date\Date;
+use Heptacom\HeptaConnect\Utility\Date\DateCollection;
+use Heptacom\HeptaConnect\Utility\Date\TaggedDateCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\BooleanCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedBooleanCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Date\DateCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Date\TaggedDateCollection
  */
-final class TaggedBooleanCollectionTest extends TestCase
+final class TaggedDateCollectionTest extends TestCase
 {
-    use ProvidesBooleanTestsData;
+    use ProvidesDateTestsData;
     use ProvidesInvalidTestsData;
 
     /**
-     * @dataProvider provideValidBooleanTestCases
+     * @dataProvider provideValidDateTestCases
      */
-    public function testInsertTagOnCtor(bool $item): void
+    public function testInsertTagOnCtor(Date $item): void
     {
-        $tagged = new TaggedBooleanCollection([new TagItem(new BooleanCollection([$item]), 'randomoffset')]);
+        $tagged = new TaggedDateCollection([new TagItem(new DateCollection([$item]), 'randomoffset')]);
         static::assertTrue($tagged->offsetExists('randomoffset'));
         static::assertCount(1, $tagged->offsetGet('randomoffset')->getCollection());
         static::assertEquals($item, $tagged->offsetGet('randomoffset')->getCollection()->first());
     }
 
     /**
-     * @dataProvider provideValidBooleanTestCases
+     * @dataProvider provideValidDateTestCases
      */
-    public function testChangingCollection(bool $item): void
+    public function testChangingCollection(Date $item): void
     {
-        $tagged = new TaggedBooleanCollection();
+        $tagged = new TaggedDateCollection();
         static::assertFalse($tagged->offsetExists('randomoffset'));
         static::assertCount(0, $tagged->offsetGet('randomoffset')->getCollection());
         static::assertTrue($tagged->offsetExists('randomoffset'));
-        $tagged->offsetGet('randomoffset')->setCollection(new BooleanCollection([$item]));
+        $tagged->offsetGet('randomoffset')->setCollection(new DateCollection([$item]));
         static::assertCount(1, $tagged->offsetGet('randomoffset')->getCollection());
     }
 
     /**
-     * @dataProvider provideValidBooleanTestCases
+     * @dataProvider provideValidDateTestCases
      */
-    public function testGetTagItemAfterInserting(bool $item): void
+    public function testGetTagItemAfterInserting(Date $item): void
     {
-        $tagged = new TaggedBooleanCollection();
-        $tagged->offsetSet('randomoffset', new TagItem(new BooleanCollection([$item]), 'randomoffset'));
+        $tagged = new TaggedDateCollection();
+        $tagged->offsetSet('randomoffset', new TagItem(new DateCollection([$item]), 'randomoffset'));
         static::assertTrue($tagged->offsetExists('randomoffset'));
         static::assertCount(1, $tagged->offsetGet('randomoffset')->getCollection());
         static::assertEquals($item, $tagged->offsetGet('randomoffset')->getCollection()->first());
     }
 
     /**
-     * @dataProvider provideValidBooleanTestCases
+     * @dataProvider provideValidDateTestCases
      */
-    public function testGetTagItemWithoutInsertingItFirst(bool $item): void
+    public function testGetTagItemWithoutInsertingItFirst(Date $item): void
     {
-        $tagged = new TaggedBooleanCollection();
+        $tagged = new TaggedDateCollection();
         $tagged->offsetGet('randomoffset')->getCollection()->push([$item]);
         static::assertTrue($tagged->offsetExists('randomoffset'));
         static::assertCount(1, $tagged->offsetGet('randomoffset')->getCollection());
@@ -71,7 +72,7 @@ final class TaggedBooleanCollectionTest extends TestCase
 
     public function testEnforceNumericKeysBeStrings(): void
     {
-        $tagged = new TaggedBooleanCollection();
+        $tagged = new TaggedDateCollection();
         static::assertEquals('1', $tagged->offsetGet(1)->getTag());
         static::assertTrue($tagged->offsetExists('1'));
     }
@@ -81,7 +82,7 @@ final class TaggedBooleanCollectionTest extends TestCase
      */
     public function testInsertOtherTypeInTypeCollection($item): void
     {
-        $collection = new TaggedBooleanCollection();
+        $collection = new TaggedDateCollection();
         $collection->pushIgnoreInvalidItems([$item]);
         static::assertCount(0, $collection);
     }
@@ -92,7 +93,7 @@ final class TaggedBooleanCollectionTest extends TestCase
     public function testFailInsertOtherTypeInTypeCollection($item): void
     {
         static::expectException(\InvalidArgumentException::class);
-        $collection = new TaggedBooleanCollection();
+        $collection = new TaggedDateCollection();
         $collection->push([$item]);
     }
 }
