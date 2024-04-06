@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\TaggedCollection;
 
-use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\FloatCollection;
+use Heptacom\HeptaConnect\Utility\Collection\Scalar\FloatCollection;
 
 /**
  * @extends AbstractTaggedCollection<float>

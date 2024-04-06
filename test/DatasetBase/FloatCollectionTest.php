@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
-use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\FloatCollection;
+use Heptacom\HeptaConnect\Utility\Collection\Scalar\FloatCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\FloatCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\FloatCollection
  */
 final class FloatCollectionTest extends TestCase
 {
