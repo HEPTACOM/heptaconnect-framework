@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Overview;
 use Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Overview\OverviewCriteriaContract;
-use Heptacom\HeptaConnect\Utility\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Utility\Attachment\Contract\AttachmentAwareInterface;
 
 final class PortalNodeOverviewCriteria extends OverviewCriteriaContract implements AttachmentAwareInterface
 {

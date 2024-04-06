@@ -41,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change default value from `\Heptacom\HeptaConnect\Dataset\Base\Support\DependencyAwareTrait::$dependencies` a new instance to `null`
 - Add possible exception `\InvalidArgumentException` to be thrown from `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::push` and `\Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection::__construct` when validating items, that are added to the collection items
 - Change signature of `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface::column` to make argument `$valueAccessor` nullable. Passing `null` for this argument will make this method yield its original items.
+- Extract `\Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface`, `\Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface`, `\Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface` from this package into new composer dependency `heptacom/heptaconnect-utility: self.version` and therefore new namespace
 
 ### Deprecated
 

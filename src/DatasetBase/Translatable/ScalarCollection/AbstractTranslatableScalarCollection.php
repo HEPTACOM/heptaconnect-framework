@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Dataset\Base\Translatable\ScalarCollection;
 
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable;
-use Heptacom\HeptaConnect\Utility\Contract\CollectionInterface;
+use Heptacom\HeptaConnect\Utility\Collection\Contract\CollectionInterface;
 
 /**
  * @template T of CollectionInterface

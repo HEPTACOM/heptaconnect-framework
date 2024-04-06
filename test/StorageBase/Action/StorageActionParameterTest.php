@@ -119,7 +119,7 @@ use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\FirstEntity;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\Portal;
-use Heptacom\HeptaConnect\Utility\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Utility\Attachment\Contract\AttachmentAwareInterface;
 use PHPUnit\Framework\TestCase;
 
 /**

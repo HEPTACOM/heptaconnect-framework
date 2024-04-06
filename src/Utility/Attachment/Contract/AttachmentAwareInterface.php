@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Utility\Contract;
+namespace Heptacom\HeptaConnect\Utility\Attachment\Contract;
 
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
 

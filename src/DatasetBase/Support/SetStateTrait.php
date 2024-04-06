@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Support;
 
-use Heptacom\HeptaConnect\Utility\Contract\CollectionInterface;
+use Heptacom\HeptaConnect\Utility\Collection\Contract\CollectionInterface;
 
 /**
  * @psalm-consistent-constructor

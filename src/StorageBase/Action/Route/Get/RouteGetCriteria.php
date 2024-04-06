@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\Route\Get;
 
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection;
-use Heptacom\HeptaConnect\Utility\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Utility\Attachment\Contract\AttachmentAwareInterface;
 
 final class RouteGetCriteria implements AttachmentAwareInterface
 {

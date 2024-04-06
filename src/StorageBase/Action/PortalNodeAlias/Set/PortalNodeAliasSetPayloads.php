@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Set;
 
 use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
-use Heptacom\HeptaConnect\Utility\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Utility\Attachment\Contract\AttachmentAwareInterface;
 
 /**
  * @extends AbstractObjectCollection<PortalNodeAliasSetPayload>

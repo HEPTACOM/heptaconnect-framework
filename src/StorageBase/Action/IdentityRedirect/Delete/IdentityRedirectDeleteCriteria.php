@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Delete;
 
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Storage\Base\IdentityRedirectKeyCollection;
-use Heptacom\HeptaConnect\Utility\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Utility\Attachment\Contract\AttachmentAwareInterface;
 
 final class IdentityRedirectDeleteCriteria implements AttachmentAwareInterface
 {

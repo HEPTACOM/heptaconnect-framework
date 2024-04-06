@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Utility\Contract;
+namespace Heptacom\HeptaConnect\Utility\Collection\Contract;
 
 /**
  * Describes collection resembling classes.

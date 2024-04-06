@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Move `\Heptacom\HeptaConnect\Utility\Attachment\Contract\AttachableInterface`, `\Heptacom\HeptaConnect\Utility\Attachment\Contract\AttachmentAwareInterface`, `\Heptacom\HeptaConnect\Utility\Collection\Contract\CollectionInterface` from `heptacom/heptaconnect-dataset-base` to this package
+
 ### Changed
 
 ### Deprecated

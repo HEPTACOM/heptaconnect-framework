@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\
 
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier;
-use Heptacom\HeptaConnect\Utility\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Utility\Attachment\Contract\AttachmentAwareInterface;
 
 final class WebHttpHandlerConfigurationFindCriteria implements AttachmentAwareInterface
 {

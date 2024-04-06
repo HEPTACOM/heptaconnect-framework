@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create;
 
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Storage\Base\Contract\IdentityRedirectKeyInterface;
-use Heptacom\HeptaConnect\Utility\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Utility\Attachment\Contract\AttachmentAwareInterface;
 
 final class IdentityRedirectCreateResult implements AttachmentAwareInterface
 {
