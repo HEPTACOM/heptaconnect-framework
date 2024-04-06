@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
-use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\DateTimeCollection;
 use Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedDateTimeCollection;
 use Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TagItem;
+use Heptacom\HeptaConnect\Utility\Date\DateTimeCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\DateTimeCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Date\DateTimeCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\AbstractTaggedCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedDateTimeCollection
