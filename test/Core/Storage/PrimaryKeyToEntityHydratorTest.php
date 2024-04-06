@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Core\Test\Storage;
 
 use Heptacom\HeptaConnect\Core\Storage\PrimaryKeyToEntityHydrator;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
-use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
+use Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection;
 use PHPUnit\Framework\TestCase;
 
 /**

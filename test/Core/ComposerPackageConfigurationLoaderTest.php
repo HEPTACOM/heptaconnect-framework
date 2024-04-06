@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 
 /**
- * @covers \Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Core\Component\Composer\PackageConfiguration
  * @covers \Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationClassMap

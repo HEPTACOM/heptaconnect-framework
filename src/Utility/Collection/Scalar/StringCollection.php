@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Dataset\Base\ScalarCollection;
+namespace Heptacom\HeptaConnect\Utility\Collection\Scalar;
 
 use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
 
