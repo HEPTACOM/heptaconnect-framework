@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
+namespace Heptacom\HeptaConnect\Utility\ClassString\Contract;
 
-use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract;
 use Heptacom\HeptaConnect\Utility\ClassString\Exception\InvalidClassNameException;
 use Heptacom\HeptaConnect\Utility\ClassString\Exception\InvalidSubtypeClassNameException;
 use Heptacom\HeptaConnect\Utility\ClassString\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException;

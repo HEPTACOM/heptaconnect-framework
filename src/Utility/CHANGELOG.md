@@ -24,6 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add base class `\Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract` to have a type safe way to make class string references for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Add exception code `1655559294` to `\Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract::__construct` when the given class string has a leading namespace separator
 - Add exception code `1655559295` to `\Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract::__construct` when the given class string does not refer to an existing class or interface
+- Add base class `\Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract` to have a type safe way to make class string references that are of a subtype for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Add exception code `1655559296` to `\Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract::__construct` when the given class string is not of the expected type
 - Add `\Heptacom\HeptaConnect\Utility\ClassString\Exception\InvalidClassNameException`, `\Heptacom\HeptaConnect\Utility\ClassString\Exception\InvalidSubtypeClassNameException` and `\Heptacom\HeptaConnect\Utility\ClassString\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException` to reference class-string issues for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 
 ### Changed

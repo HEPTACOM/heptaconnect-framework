@@ -34,7 +34,7 @@ use Psr\Log\NullLogger;
  * @covers \Heptacom\HeptaConnect\Core\Storage\Normalizer\SerializableNormalizer
  * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
