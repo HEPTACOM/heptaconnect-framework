@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Storage\Base\Test\Action;
 
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
-use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct;
 use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionTypeCollection;
@@ -119,6 +118,7 @@ use Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\FirstEntity;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\Portal;
 use Heptacom\HeptaConnect\Utility\Attachment\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Utility\ClassString\UnsafeClassString;
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection;
 use PHPUnit\Framework\TestCase;
 

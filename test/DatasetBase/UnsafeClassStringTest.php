@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\DatasetBase\Test;
 
 use Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
-use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
+use Heptacom\HeptaConnect\Utility\ClassString\UnsafeClassString;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\UnsafeClassString
  */
 final class UnsafeClassStringTest extends TestCase
 {
