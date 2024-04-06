@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Storage\Base\Action\Identity\Overview;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
-use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Utility\Attachment\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Utility\Attachment\Contract\AttachmentAwareInterface;
 
 final class IdentityOverviewResult implements AttachmentAwareInterface
