@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base;
 
-use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\IdentityRedirectKeyInterface;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
 
 /**
  * @extends AbstractCollection<IdentityRedirectKeyInterface>

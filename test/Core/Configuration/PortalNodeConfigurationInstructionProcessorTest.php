@@ -28,7 +28,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\Contract\InstructionTokenContract
  * @covers \Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationInstructionProcessor
  * @covers \Heptacom\HeptaConnect\Core\Portal\PackageQueryMatcher
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection

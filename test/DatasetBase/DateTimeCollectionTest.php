@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\DateTimeCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\DateTimeCollection
  */
 final class DateTimeCollectionTest extends TestCase

@@ -11,7 +11,7 @@ use Symfony\Component\Cache\Adapter\NullAdapter;
 
 /**
  * @covers \Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Core\Component\Composer\PackageConfiguration
  * @covers \Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationClassMap
  * @covers \Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationCollection
