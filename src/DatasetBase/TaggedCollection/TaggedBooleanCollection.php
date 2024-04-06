@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\TaggedCollection;
 
-use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\BooleanCollection;
+use Heptacom\HeptaConnect\Utility\Collection\Scalar\BooleanCollection;
 
 /**
  * @extends AbstractTaggedCollection<bool>
