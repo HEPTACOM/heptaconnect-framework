@@ -120,6 +120,11 @@ definitions:
                 name: Install UI Admin Base
                 script:
                     - composer install -d src/UiAdminBase
+        -   step: &composer-install-utility
+                <<: *default-step
+                name: Install Utility
+                script:
+                    - composer install -d src/Utility
         -   step: &test-unit
                 <<: *default-step
                 name: Unit tests
@@ -213,6 +218,7 @@ pipelines:
                     -   step: *composer-install-storage-base
                     -   step: *composer-install-test-suite-storage
                     -   step: *composer-install-ui-admin-base
+                    -   step: *composer-install-utility
             -   step: *composer-high-install
             -   parallel: &steps-blocking-tests
                     -   step: *test-coverage
@@ -248,6 +254,7 @@ pipelines:
                     -   step: *composer-install-storage-base
                     -   step: *composer-install-test-suite-storage
                     -   step: *composer-install-ui-admin-base
+                    -   step: *composer-install-utility
             -   step: *composer-low-install
             -   step: *composer-high-install
             -   step: *github-keyword-gate-step
@@ -262,6 +269,7 @@ pipelines:
                     -   step: *composer-install-storage-base
                     -   step: *composer-install-test-suite-storage
                     -   step: *composer-install-ui-admin-base
+                    -   step: *composer-install-utility
             -   step: *composer-high-install
             -   parallel: *steps-blocking-tests
             -   step: *composer-low-install
@@ -279,6 +287,7 @@ pipelines:
                 -   step: *composer-install-storage-base
                 -   step: *composer-install-test-suite-storage
                 -   step: *composer-install-ui-admin-base
+                -   step: *composer-install-utility
         -   step: *composer-high-install
         -   parallel: *steps-blocking-tests
         -   step: *composer-low-install

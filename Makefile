@@ -7,7 +7,7 @@ INFECTION := $(PHP) vendor/bin/infection $(INFECTION_EXTRA_ARGS)
 CURL := "$(shell which curl)"
 JQ := "$(shell which jq)"
 XSLTPROC := "$(shell which xsltproc)"
-JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*' -not -path './.build/*' -not -path './dev-ops/bin/*/vendor/*' -not -path './src/Core/vendor/*' -not -path './src/DatasetBase/vendor/*' -not -path './src/PortalBase/vendor/*' -not -path './src/StorageBase/vendor/*' -not -path './src/TestSuitePortal/vendor/*' -not -path './src/TestSuiteStorage/vendor/*' -not -path './src/UiAdminBase/vendor/*' -not -path './test/Core/Fixture/_files/portal-node-configuration-invalid.json' -not -path './test-suite-portal-test-portal/vendor/*')
+JSON_FILES := $(shell find . -name '*.json' -not -path './vendor/*' -not -path './.build/*' -not -path './dev-ops/bin/*/vendor/*' -not -path './src/Core/vendor/*' -not -path './src/DatasetBase/vendor/*' -not -path './src/PortalBase/vendor/*' -not -path './src/StorageBase/vendor/*' -not -path './src/TestSuitePortal/vendor/*' -not -path './src/TestSuiteStorage/vendor/*' -not -path './src/UiAdminBase/vendor/*' -not -path './src/Utility/vendor/*' -not -path './test/Core/Fixture/_files/portal-node-configuration-invalid.json' -not -path './test-suite-portal-test-portal/vendor/*')
 GIT := "$(shell which git)"
 PHPSTAN_FILE := dev-ops/bin/phpstan/vendor/bin/phpstan
 COMPOSER_NORMALIZE_PHAR := https://github.com/ergebnis/composer-normalize/releases/download/2.22.0/composer-normalize.phar
@@ -64,6 +64,8 @@ clean-package-vendor:
 	[[ ! -f src/TestSuiteStorage/composer.lock ]] || rm -f src/TestSuiteStorage/composer.lock
 	[[ ! -d src/UiAdminBase/vendor ]] || rm -rf src/UiAdminBase/vendor
 	[[ ! -f src/UiAdminBase/composer.lock ]] || rm -f src/UiAdminBase/composer.lock
+	[[ ! -d src/Utility/vendor ]] || rm -rf src/Utility/vendor
+	[[ ! -f src/Utility/composer.lock ]] || rm -f src/Utility/composer.lock
 
 .PHONY: it
 it: cs-fix cs test ## Fix code style and run unit tests
@@ -102,6 +104,7 @@ cs-phpmd: vendor .build $(PHPMD_FILE) ## Run php mess detector for static code a
 	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/TestSuitePortal xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-test-suite-portal.junit.xml
 	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/TestSuiteStorage xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-test-suite-storage.junit.xml
 	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/UiAdminBase xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-ui-admin-base.junit.xml
+	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src/Utility xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md-utility.junit.xml
 	$(PHP) $(PHPMD_FILE) src ansi dev-ops/phpmd.xml
 
 .PHONY: cs-phpcpd
@@ -113,9 +116,10 @@ cs-phpcpd: vendor clean-package-vendor .build $(PHPCPD_FILE) ## Run php copy pas
 	$(PHP) $(PHPCPD_FILE) --fuzzy src/StorageBase
 	$(PHP) $(PHPCPD_FILE) --fuzzy src/TestSuiteStorage
 	$(PHP) $(PHPCPD_FILE) --fuzzy src/UiAdminBase
+	$(PHP) $(PHPCPD_FILE) --fuzzy src/Utility
 
 .PHONY: cs-composer-unused
-cs-composer-unused: vendor src/Core/vendor src/DatasetBase/vendor src/PortalBase/vendor src/StorageBase/vendor src/TestSuiteStorage/vendor src/UiAdminBase/vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to detect once-required packages that are not used anymore
+cs-composer-unused: vendor src/Core/vendor src/DatasetBase/vendor src/PortalBase/vendor src/StorageBase/vendor src/TestSuiteStorage/vendor src/UiAdminBase/vendor src/Utility/vendor $(COMPOSER_UNUSED_FILE) ## Run composer-unused to detect once-required packages that are not used anymore
 	$(PHP) $(COMPOSER_UNUSED_FILE) --configuration=dev-ops/composer-unused.php --no-progress
 	cd src/Core && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --configuration=../../dev-ops/composer-unused.php --no-progress
 	cd src/DatasetBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
@@ -124,6 +128,7 @@ cs-composer-unused: vendor src/Core/vendor src/DatasetBase/vendor src/PortalBase
 # TODO add portal test suite
 	cd src/TestSuiteStorage && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
 	cd src/UiAdminBase && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
+	cd src/Utility && $(PHP) ../../$(COMPOSER_UNUSED_FILE) --no-progress
 
 .PHONY: cs-soft-require
 cs-soft-require: vendor .build $(COMPOSER_REQUIRE_CHECKER_FILE) ## Run composer-require-checker to detect library usage without requirement entry in composer.json
@@ -139,6 +144,7 @@ cs-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-normali
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/TestSuitePortal/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/TestSuiteStorage/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/UiAdminBase/composer.json
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff --dry-run --no-check-lock --no-update-lock src/Utility/composer.json
 
 .PHONY: cs-json
 cs-json: $(JSON_FILES) ## Run jq on every json file to ensure they are parsable and therefore valid
@@ -164,6 +170,7 @@ cs-fix-composer-normalize: vendor $(COMPOSER_NORMALIZE_FILE) ## Run composer-nor
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/TestSuitePortal/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/TestSuiteStorage/composer.json
 	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/UiAdminBase/composer.json
+	$(PHP) $(COMPOSER_NORMALIZE_FILE) --diff src/Utility/composer.json
 
 .PHONY: cs-fix-php
 cs-fix-php: vendor .build $(EASY_CODING_STANDARD_FILE) ## Run easy-coding-standard for automatic code style fixes
@@ -237,6 +244,9 @@ src/TestSuiteStorage/vendor:
 src/UiAdminBase/vendor:
 	[[ -f src/UiAdminBase/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) update -d src/UiAdminBase
 
+src/Utility/vendor:
+	[[ -f src/Utility/vendor/autoload.php && -n "${CI}" ]] || $(COMPOSER) update -d src/Utility
+
 vendor: composer-update
 
 .PHONY: .build
@@ -269,6 +279,7 @@ build-packages:
 	dev-ops/bin/build-subpackage StorageBase
 	dev-ops/bin/build-subpackage TestSuiteStorage
 	dev-ops/bin/build-subpackage UiAdminBase
+	dev-ops/bin/build-subpackage Utility
 	# TODO Add TestSuitePortal
 
 .PHONY: publish-packages
@@ -281,6 +292,7 @@ publish-packages: build-packages
 	dev-ops/bin/publish-subpackage StorageBase storage-base "$(TAG)" "$(BRANCH)"
 	dev-ops/bin/publish-subpackage TestSuiteStorage test-suite-storage "$(TAG)" "$(BRANCH)"
 	dev-ops/bin/publish-subpackage UiAdminBase ui-admin-base "$(TAG)" "$(BRANCH)"
+	dev-ops/bin/publish-subpackage Utility utility "$(TAG)" "$(BRANCH)"
 	# TODO Add TestSuitePortal
 	$(GIT) reset --hard HEAD^1
 
