@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
 use Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedIntegerCollection;
-use Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TagItem;
+use Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem;
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\IntegerCollection;
 use PHPUnit\Framework\TestCase;
 
@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\AbstractTaggedCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedIntegerCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TagItem
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem
  */
 final class TaggedIntegerCollectionTest extends TestCase
 {

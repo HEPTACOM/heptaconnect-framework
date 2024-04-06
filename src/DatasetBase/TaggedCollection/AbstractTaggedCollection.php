@@ -6,6 +6,7 @@ namespace Heptacom\HeptaConnect\Dataset\Base\TaggedCollection;
 
 use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
 use Heptacom\HeptaConnect\Utility\Collection\Contract\CollectionInterface;
+use Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem;
 
 /**
  * @template T
