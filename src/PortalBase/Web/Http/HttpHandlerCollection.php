@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Web\Http;
 
-use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
 
 /**
  * @extends AbstractObjectCollection<HttpHandlerContract>

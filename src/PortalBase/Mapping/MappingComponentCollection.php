@@ -8,10 +8,10 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\EntityTypeCollection;
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
-use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
 
 /**
  * @extends AbstractObjectCollection<MappingComponentStructContract>

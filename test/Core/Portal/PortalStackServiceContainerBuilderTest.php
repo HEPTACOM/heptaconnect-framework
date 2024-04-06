@@ -79,7 +79,7 @@ use Symfony\Component\DependencyInjection\Reference;
  * @covers \Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpMiddlewareClient
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Parallelization\Support\ResourceLockFacade
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract

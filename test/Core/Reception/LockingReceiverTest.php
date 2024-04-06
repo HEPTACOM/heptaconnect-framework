@@ -26,7 +26,7 @@ use Symfony\Component\Lock\LockInterface;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract

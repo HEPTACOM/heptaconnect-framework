@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection

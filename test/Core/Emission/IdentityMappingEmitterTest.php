@@ -28,7 +28,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
  * @covers \Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract

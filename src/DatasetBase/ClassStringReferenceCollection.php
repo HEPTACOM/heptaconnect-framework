@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Dataset\Base;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract;
-use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
 
 /**
  * @extends AbstractObjectCollection<ClassStringReferenceContract>

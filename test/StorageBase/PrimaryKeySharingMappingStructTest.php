@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
  * @covers \Heptacom\HeptaConnect\Storage\Base\PrimaryKeySharingMappingStruct
  */

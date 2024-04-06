@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist;
 
-use Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
 
 /**
  * @extends AbstractObjectCollection<IdentityPersistPayloadContract>
