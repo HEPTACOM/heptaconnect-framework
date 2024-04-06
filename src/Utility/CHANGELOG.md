@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add method `\Heptacom\HeptaConnect\Utility\Collection\AbstractCollection::asUnique` to build a collection with items that are not identical to the other items in the collection
 - Add `\InvalidArgumentException` to `\Heptacom\HeptaConnect\Utility\Collection\AbstractCollection` using the new method `\Heptacom\HeptaConnect\Utility\Collection\AbstractCollection::validateItems` when items are added, that are not compliant with the collection's validation
 - Add `\InvalidArgumentException` to `\Heptacom\HeptaConnect\Utility\Collection\AbstractCollection::offsetGet` and `\Heptacom\HeptaConnect\Utility\Collection\AbstractCollection::offsetSet` when items are accessed with keys, that are not numeric
-- Add `\Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException`, `\Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException` and `\Heptacom\HeptaConnect\Dataset\Base\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException` to reference class-string issues for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
+- Add `\Heptacom\HeptaConnect\Utility\ClassString\Exception\InvalidClassNameException`, `\Heptacom\HeptaConnect\Utility\ClassString\Exception\InvalidSubtypeClassNameException` and `\Heptacom\HeptaConnect\Utility\ClassString\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException` to reference class-string issues for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 
 ### Changed
 

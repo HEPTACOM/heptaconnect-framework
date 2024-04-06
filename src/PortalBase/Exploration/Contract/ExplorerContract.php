@@ -6,9 +6,9 @@ namespace Heptacom\HeptaConnect\Portal\Base\Exploration\Contract;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\EntityType;
-use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnsupportedDatasetEntityException;
 use Heptacom\HeptaConnect\Utility\ClassString\Exception\InvalidClassNameException;
+use Heptacom\HeptaConnect\Utility\ClassString\Exception\InvalidSubtypeClassNameException;
 use Heptacom\HeptaConnect\Utility\ClassString\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException;
 
 /**
