@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\TestSuite\Portal;
 
 use Composer\Autoload\ClassLoader;
+use Heptacom\HeptaConnect\Core\Bridge\Portal\PortalLoaderInterface;
 use Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader;
 use Heptacom\HeptaConnect\Core\Configuration\ConfigurationService;
 use Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface;
@@ -91,7 +92,7 @@ abstract class AbstractTestCase extends TestCase
         return new PreviewPortalNodeKey($portal::class());
     }
 
-    protected function getPortalLoader(): ComposerPortalLoader
+    protected function getPortalLoader(): PortalLoaderInterface
     {
         $packageRoot = \dirname((new \ReflectionClass(ClassLoader::class))->getFileName(), 3);
         $loader = new PackageConfigurationLoader($packageRoot . '/composer.json', new NullAdapter());
