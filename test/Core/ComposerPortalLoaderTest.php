@@ -23,7 +23,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader
  * @covers \Heptacom\HeptaConnect\Core\Portal\Contract\PortalFactoryContract
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalFactory
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection

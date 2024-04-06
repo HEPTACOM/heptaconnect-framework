@@ -29,7 +29,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Exploration\EmissionJobDispatchingExplorer
  * @covers \Heptacom\HeptaConnect\Core\Exploration\ExplorationFlowExplorersFactory
  * @covers \Heptacom\HeptaConnect\Core\Exploration\IdentityMappingExplorer
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
