@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
-use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\DateCollection;
 use Heptacom\HeptaConnect\Utility\Date\Date;
+use Heptacom\HeptaConnect\Utility\Date\DateCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\DateCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Date\DateCollection
  */
 final class DateCollectionTest extends TestCase
 {

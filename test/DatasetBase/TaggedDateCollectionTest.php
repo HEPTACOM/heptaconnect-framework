@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
-use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\DateCollection;
 use Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedDateCollection;
 use Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TagItem;
 use Heptacom\HeptaConnect\Utility\Date\Date;
+use Heptacom\HeptaConnect\Utility\Date\DateCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\DateCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Date\DateCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\AbstractTaggedCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedDateCollection
