@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\TaggedCollection;
 
-use Heptacom\HeptaConnect\Dataset\Base\Support\JsonSerializeObjectVarsTrait;
 use Heptacom\HeptaConnect\Utility\Collection\Contract\CollectionInterface;
+use Heptacom\HeptaConnect\Utility\Json\JsonSerializeObjectVarsTrait;
 
 /**
  * @template T

@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\IntegerCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\JsonSerializeObjectVarsTrait
+ * @covers \Heptacom\HeptaConnect\Utility\Json\JsonSerializeObjectVarsTrait
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\SetStateTrait
  */
 final class CollectionTest extends TestCase

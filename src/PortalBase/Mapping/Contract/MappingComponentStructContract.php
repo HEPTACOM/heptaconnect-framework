@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Mapping\Contract;
 
 use Heptacom\HeptaConnect\Dataset\Base\EntityType;
-use Heptacom\HeptaConnect\Dataset\Base\Support\JsonSerializeObjectVarsTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Utility\Json\JsonSerializeObjectVarsTrait;
 
 /**
  * Resembles all components of a mapping: what it is, which portal node it belongs to and which id it uses for identification.
