@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\Job\Get;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct;
 use Heptacom\HeptaConnect\Storage\Base\Contract\JobKeyInterface;
+use Heptacom\HeptaConnect\Utility\Contract\AttachmentAwareInterface;
 
 final class JobGetResult implements AttachmentAwareInterface
 {

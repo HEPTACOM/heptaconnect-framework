@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base;
 
-use Heptacom\HeptaConnect\Utility\Contract\AttachableInterface;
-use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\EntityType;
@@ -15,6 +13,8 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsharableOwnerException;
+use Heptacom\HeptaConnect\Utility\Contract\AttachableInterface;
+use Heptacom\HeptaConnect\Utility\Contract\AttachmentAwareInterface;
 
 final class PrimaryKeySharingMappingStruct implements AttachmentAwareInterface, AttachableInterface, ForeignKeyAwareInterface, MappingInterface
 {

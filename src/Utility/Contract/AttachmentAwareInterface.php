@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
+namespace Heptacom\HeptaConnect\Utility\Contract;
 
 use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
-use Heptacom\HeptaConnect\Utility\Contract\AttachableInterface;
 
 /**
  * Describe an object, that can have attachments.

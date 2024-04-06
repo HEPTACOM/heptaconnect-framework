@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview;
 
 use Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection;
-use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Overview\OverviewCriteriaContract;
 use Heptacom\HeptaConnect\Storage\Base\IdentityRedirectKeyCollection;
+use Heptacom\HeptaConnect\Utility\Contract\AttachmentAwareInterface;
 
 final class IdentityRedirectOverviewCriteria extends OverviewCriteriaContract implements AttachmentAwareInterface
 {
