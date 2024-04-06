@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Change default value from `\Heptacom\HeptaConnect\Utility\Attachment\AttachmentAwareTrait::$attachments` a new instance to `null`
 - Add possible exception `\InvalidArgumentException` to be thrown from `\Heptacom\HeptaConnect\Utility\Collection\Contract\CollectionInterface::push` and `\Heptacom\HeptaConnect\Utility\Collection\AbstractCollection::__construct` when validating items, that are added to the collection items
 - Change return type of `\Heptacom\HeptaConnect\Utility\Collection\Contract\CollectionInterface::filter` from `Generator` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
 - Change return type of `\Heptacom\HeptaConnect\Utility\Collection\Contract\CollectionInterface::filterValid` from `Generator` to `iterable`
