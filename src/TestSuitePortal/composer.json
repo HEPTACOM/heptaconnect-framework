@@ -31,7 +31,7 @@
         "heptacom/heptaconnect-storage-base": "self.version",
         "nyholm/psr7": "^1",
         "php-http/curl-client": "^2",
-        "psr/log": "^1",
+        "psr/log": "^2.0 || ^3.0",
         "symfony/cache": ">=5.3.7",
         "symfony/dependency-injection": ">=5.3.7"
     },
