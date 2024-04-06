@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
-use Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedFloatCollection;
 use Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem;
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\FloatCollection;
+use Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedFloatCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\FloatCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedFloatCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedFloatCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem
  */
 final class TaggedFloatCollectionTest extends TestCase
