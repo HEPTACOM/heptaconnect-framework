@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\DatasetBase\Test;
 
-use Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
+use Heptacom\HeptaConnect\Utility\ClassString\ClassStringReferenceCollection;
 use Heptacom\HeptaConnect\Utility\ClassString\UnsafeClassString;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\ClassStringReferenceCollection
  * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
