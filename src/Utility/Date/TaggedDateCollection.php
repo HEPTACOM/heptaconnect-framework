@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Dataset\Base\TaggedCollection;
+namespace Heptacom\HeptaConnect\Utility\Date;
 
 use Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection;
-use Heptacom\HeptaConnect\Utility\Date\Date;
-use Heptacom\HeptaConnect\Utility\Date\DateCollection;
 
 /**
  * @extends AbstractTaggedCollection<Date>

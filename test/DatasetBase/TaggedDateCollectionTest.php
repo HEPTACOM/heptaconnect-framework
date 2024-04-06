@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
-use Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedDateCollection;
 use Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem;
 use Heptacom\HeptaConnect\Utility\Date\Date;
 use Heptacom\HeptaConnect\Utility\Date\DateCollection;
+use Heptacom\HeptaConnect\Utility\Date\TaggedDateCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Utility\Date\DateCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedDateCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Date\TaggedDateCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem
  */
 final class TaggedDateCollectionTest extends TestCase
