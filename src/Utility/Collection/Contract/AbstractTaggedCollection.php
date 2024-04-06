@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Dataset\Base\TaggedCollection;
+namespace Heptacom\HeptaConnect\Utility\Collection\Contract;
 
 use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
-use Heptacom\HeptaConnect\Utility\Collection\Contract\CollectionInterface;
-use Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem;
 
 /**
  * @template T
