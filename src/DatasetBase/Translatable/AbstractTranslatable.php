@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Translatable;
 
-use Heptacom\HeptaConnect\Dataset\Base\Support\SetStateTrait;
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\Contract\TranslatableInterface;
+use Heptacom\HeptaConnect\Utility\Php\SetStateTrait;
 
 /**
  * @template T

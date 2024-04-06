@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableBoolean;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\SetStateTrait
+ * @covers \Heptacom\HeptaConnect\Utility\Php\SetStateTrait
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableBoolean
  */

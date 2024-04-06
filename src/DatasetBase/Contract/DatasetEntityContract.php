@@ -6,11 +6,11 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Contract;
 
 use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\Support\PrimaryKeyTrait;
-use Heptacom\HeptaConnect\Dataset\Base\Support\SetStateTrait;
 use Heptacom\HeptaConnect\Utility\Attachment\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Utility\Attachment\Contract\AttachableInterface;
 use Heptacom\HeptaConnect\Utility\Attachment\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Utility\Json\JsonSerializeObjectVarsTrait;
+use Heptacom\HeptaConnect\Utility\Php\SetStateTrait;
 
 /**
  * @psalm-consistent-constructor

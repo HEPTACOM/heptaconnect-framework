@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Utility\Json\JsonSerializeObjectVarsTrait
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\SetStateTrait
+ * @covers \Heptacom\HeptaConnect\Utility\Php\SetStateTrait
  */
 final class CollectionTest extends TestCase
 {

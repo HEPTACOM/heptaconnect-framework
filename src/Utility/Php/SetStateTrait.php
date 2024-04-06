@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Dataset\Base\Support;
+namespace Heptacom\HeptaConnect\Utility\Php;
 
 use Heptacom\HeptaConnect\Utility\Collection\Contract\CollectionInterface;
 
