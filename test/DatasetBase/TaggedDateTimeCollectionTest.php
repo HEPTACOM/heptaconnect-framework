@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
-use Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedDateTimeCollection;
 use Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem;
 use Heptacom\HeptaConnect\Utility\Date\DateTimeCollection;
+use Heptacom\HeptaConnect\Utility\Date\TaggedDateTimeCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Utility\Date\DateTimeCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedDateTimeCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Date\TaggedDateTimeCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem
  */
 final class TaggedDateTimeCollectionTest extends TestCase
