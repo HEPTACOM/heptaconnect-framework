@@ -19,16 +19,16 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Component\LogMessage
  * @covers \Heptacom\HeptaConnect\Core\Exploration\ExplorerStack
  * @covers \Heptacom\HeptaConnect\Core\Exploration\ExplorerStackProcessor
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
- * @covers \Heptacom\HeptaConnect\Utility\Attachment\AttachmentAwareTrait
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Attachment\AttachmentAwareTrait
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
  */
 final class ExplorerStackProcessorTest extends TestCase
 {

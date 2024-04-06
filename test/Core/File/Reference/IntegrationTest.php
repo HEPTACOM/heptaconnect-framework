@@ -60,11 +60,7 @@ use Psr\Http\Message\RequestInterface;
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpClient
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\RequestDeserializer
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\RequestSerializer
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\File\FileReferenceContract
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\File\ResolvedFileReferenceContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
@@ -78,6 +74,10 @@ use Psr\Http\Message\RequestInterface;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestPersist\FileReferencePersistRequestResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\FileReferenceRequestKeyCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  */
 class IntegrationTest extends TestCase
 {

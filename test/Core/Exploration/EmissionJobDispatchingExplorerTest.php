@@ -20,14 +20,14 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \Heptacom\HeptaConnect\Core\Exploration\AbstractBufferedResultProcessingExplorer
  * @covers \Heptacom\HeptaConnect\Core\Exploration\EmissionJobDispatchingExplorer
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract
  * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
  * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection
  */
 final class EmissionJobDispatchingExplorerTest extends TestCase
 {

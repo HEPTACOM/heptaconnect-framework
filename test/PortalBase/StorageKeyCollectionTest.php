@@ -12,9 +12,9 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\StorageKey\MappingNodeKeyCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  */
 final class StorageKeyCollectionTest extends TestCase
 {

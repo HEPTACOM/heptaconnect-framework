@@ -20,7 +20,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @covers \Heptacom\HeptaConnect\Core\Configuration\ConfigurationService
  * @covers \Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationProcessorService
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
@@ -28,6 +27,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * @covers \Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Get\PortalNodeConfigurationGetCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Get\PortalNodeConfigurationGetResult
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  */
 final class ConfigurationServiceTest extends TestCase
 {

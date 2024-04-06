@@ -21,10 +21,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalRegistry
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
@@ -36,6 +32,10 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Find\PortalExtensionFindResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  */
 final class PortalRegistryTest extends TestCase
 {

@@ -9,9 +9,9 @@ use Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableString;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Utility\Php\SetStateTrait
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableString
+ * @covers \Heptacom\HeptaConnect\Utility\Php\SetStateTrait
  */
 final class TranslatableStringTest extends TestCase
 {

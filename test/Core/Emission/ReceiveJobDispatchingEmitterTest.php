@@ -18,17 +18,17 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Heptacom\HeptaConnect\Core\Emission\AbstractBufferedResultProcessingEmitter
  * @covers \Heptacom\HeptaConnect\Core\Emission\ReceiveJobDispatchingEmitter
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
- * @covers \Heptacom\HeptaConnect\Utility\Attachment\AttachmentAwareTrait
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract
+ * @covers \Heptacom\HeptaConnect\Utility\Attachment\AttachmentAwareTrait
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
  */
 final class ReceiveJobDispatchingEmitterTest extends TestCase
 {

@@ -123,15 +123,8 @@ use Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Utility\Attachment\AttachmentCollection
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
@@ -142,6 +135,10 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestPersist\FileReferencePersistRequestPayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestPersist\FileReferencePersistRequestResult
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreatePayload
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreatePayloads
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResult
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResults
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreatePayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreatePayloadCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreateResult
@@ -156,15 +153,11 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPayloadCollection
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Reflect\IdentityReflectPayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreatePayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreatePayloads
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResults
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Contract\JobStateChangePayloadContract
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayloads
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreateResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreateResults
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Contract\JobStateChangePayloadContract
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Delete\JobDeleteCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Fail\JobFailPayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Fail\JobFailResult
@@ -183,16 +176,6 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Deactivate\PortalExtensionDeactivatePayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Deactivate\PortalExtensionDeactivateResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Find\PortalExtensionFindResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayloads
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreateResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreateResults
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Delete\PortalNodeDeleteCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Listing\PortalNodeListResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Overview\PortalNodeOverviewCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Overview\PortalNodeOverviewResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Find\PortalNodeAliasFindCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Find\PortalNodeAliasFindResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Get\PortalNodeAliasGetCriteria
@@ -201,6 +184,10 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Overview\PortalNodeAliasOverviewResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Set\PortalNodeAliasSetPayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Set\PortalNodeAliasSetPayloads
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Get\PortalNodeConfigurationGetCriteria
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Get\PortalNodeConfigurationGetResult
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Set\PortalNodeConfigurationSetPayload
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Set\PortalNodeConfigurationSetPayloads
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Clear\PortalNodeStorageClearCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Delete\PortalNodeStorageDeleteCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Get\PortalNodeStorageGetCriteria
@@ -211,6 +198,18 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Set\PortalNodeStorageSetItem
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Set\PortalNodeStorageSetItems
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Set\PortalNodeStorageSetPayload
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayloads
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreateResult
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreateResults
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Delete\PortalNodeDeleteCriteria
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetCriteria
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Listing\PortalNodeListResult
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Overview\PortalNodeOverviewCriteria
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Overview\PortalNodeOverviewResult
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\RouteCapability\Overview\RouteCapabilityOverviewCriteria
+ * @covers \Heptacom\HeptaConnect\Storage\Base\Action\RouteCapability\Overview\RouteCapabilityOverviewResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayloads
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResult
@@ -224,17 +223,18 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Listing\ReceptionRouteListResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview\RouteOverviewCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview\RouteOverviewResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Get\PortalNodeConfigurationGetCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Get\PortalNodeConfigurationGetResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Set\PortalNodeConfigurationSetPayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Set\PortalNodeConfigurationSetPayloads
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\RouteCapability\Overview\RouteCapabilityOverviewCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\RouteCapability\Overview\RouteCapabilityOverviewResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayloads
  * @covers \Heptacom\HeptaConnect\Storage\Base\IdentityRedirectKeyCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Attachment\AttachmentCollection
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection
  */
 class StorageActionParameterTest extends TestCase
 {

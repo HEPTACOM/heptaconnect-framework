@@ -10,11 +10,11 @@ use Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedIntegerCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\IntegerCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedIntegerCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\IntegerCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedIntegerCollection
  */
 final class TaggedIntegerCollectionTest extends TestCase
 {

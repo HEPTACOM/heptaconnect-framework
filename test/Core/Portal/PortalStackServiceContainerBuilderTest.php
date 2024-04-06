@@ -69,22 +69,22 @@ use Symfony\Component\DependencyInjection\Reference;
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalConfiguration
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalLogger
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder
+ * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddConfigurationBindingsCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddHttpMiddlewareClientCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddHttpMiddlewareCollectorCompilerPass
- * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddConfigurationBindingsCompilerPass
- * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\SetConfigurationAsParameterCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AllDefinitionDefaultsCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\BuildDefinitionForFlowComponentRegistryCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\RemoveAutoPrototypedDefinitionsCompilerPass
+ * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\SetConfigurationAsParameterCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpMiddlewareClient
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Parallelization\Support\ResourceLockFacade
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
  */
 final class PortalStackServiceContainerBuilderTest extends TestCase
 {

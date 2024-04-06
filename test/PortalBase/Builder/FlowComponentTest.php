@@ -46,40 +46,40 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Emission\EmitterStack
  * @covers \Heptacom\HeptaConnect\Core\Exploration\ExplorerStack
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalConfiguration
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Core\Reception\ReceiverStack
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\BindThisTrait
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Builder\HttpHandlerBuilder
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Component\Emitter
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Component\Explorer
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Component\HttpHandler
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Component\HttpHandler
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Component\Receiver
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Component\StatusReporter
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Token\EmitterToken
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken
  * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Token\StatusReporterToken
- * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Component\HttpHandler
- * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException
- * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\BindThisTrait
- * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent
- * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken
- * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait
  * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract
- * @covers \Heptacom\HeptaConnect\Core\Reception\ReceiverStack
  * @covers \Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterStack
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
  */
 final class FlowComponentTest extends TestCase
 {

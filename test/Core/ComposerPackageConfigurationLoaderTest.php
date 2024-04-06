@@ -10,12 +10,12 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 
 /**
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Core\Component\Composer\PackageConfiguration
  * @covers \Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationClassMap
  * @covers \Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationCollection
  * @covers \Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection
  */
 final class ComposerPackageConfigurationLoaderTest extends TestCase
 {

@@ -11,11 +11,11 @@ use Heptacom\HeptaConnect\Utility\Date\TaggedDateCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Utility\Date\DateCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection
- * @covers \Heptacom\HeptaConnect\Utility\Date\TaggedDateCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem
+ * @covers \Heptacom\HeptaConnect\Utility\Date\DateCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Date\TaggedDateCollection
  */
 final class TaggedDateCollectionTest extends TestCase
 {

@@ -10,11 +10,11 @@ use Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedFloatCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\FloatCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedFloatCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\FloatCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedFloatCollection
  */
 final class TaggedFloatCollectionTest extends TestCase
 {

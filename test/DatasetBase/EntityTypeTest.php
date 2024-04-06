@@ -14,16 +14,16 @@ use Heptacom\HeptaConnect\Utility\ClassString\Exception\UnexpectedLeadingNamespa
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
  * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityTypeCollection
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\AbstractClassStringReferenceCollection
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Utility\ClassString\Exception\InvalidClassNameException
  * @covers \Heptacom\HeptaConnect\Utility\ClassString\Exception\InvalidSubtypeClassNameException
  * @covers \Heptacom\HeptaConnect\Utility\ClassString\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\AbstractClassStringReferenceCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
  */

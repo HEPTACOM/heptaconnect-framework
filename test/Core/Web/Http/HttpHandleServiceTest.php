@@ -45,13 +45,13 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerStackProcessor
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpHandleService
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpMiddlewareHandler
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier
  * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\ServerRequestCycle
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria
  * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  */
 final class HttpHandleServiceTest extends TestCase
 {

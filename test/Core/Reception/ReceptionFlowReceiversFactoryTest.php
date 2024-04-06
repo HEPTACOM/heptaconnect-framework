@@ -14,14 +14,14 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \Heptacom\HeptaConnect\Core\Reception\LockingReceiver
  * @covers \Heptacom\HeptaConnect\Core\Reception\ReceptionFlowReceiversFactory
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
+ * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
+ * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection
  * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
  * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
- * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection
  */
 final class ReceptionFlowReceiversFactoryTest extends TestCase
 {

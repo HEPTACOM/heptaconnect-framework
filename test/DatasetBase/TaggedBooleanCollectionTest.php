@@ -10,11 +10,11 @@ use Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedBooleanCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\BooleanCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedBooleanCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\BooleanCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedBooleanCollection
  */
 final class TaggedBooleanCollectionTest extends TestCase
 {
