@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
-use Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedStringCollection;
 use Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem;
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection;
+use Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedStringCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedStringCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedStringCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem
  */
 final class TaggedStringCollectionTest extends TestCase
