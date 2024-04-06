@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Dataset\Base;
+namespace Heptacom\HeptaConnect\Utility\Date;
 
 final class Date extends \DateTime
 {
