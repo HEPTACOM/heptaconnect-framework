@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
-use Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedBooleanCollection;
 use Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem;
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\BooleanCollection;
+use Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedBooleanCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\BooleanCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\TaggedCollection\TaggedBooleanCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedBooleanCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem
  */
 final class TaggedBooleanCollectionTest extends TestCase
