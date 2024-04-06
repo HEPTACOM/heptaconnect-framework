@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Replace type hints to real union types in `\Heptacom\HeptaConnect\Utility\Date\Date::add`, `\Heptacom\HeptaConnect\Utility\Date\Date::sub`, `\Heptacom\HeptaConnect\Utility\Date\Date::setTime` and `\Heptacom\HeptaConnect\Utility\Date\Date::setTimestamp`
 - Change default value from `\Heptacom\HeptaConnect\Utility\Attachment\AttachmentAwareTrait::$attachments` a new instance to `null`
 - Add possible exception `\InvalidArgumentException` to be thrown from `\Heptacom\HeptaConnect\Utility\Collection\Contract\CollectionInterface::push` and `\Heptacom\HeptaConnect\Utility\Collection\AbstractCollection::__construct` when validating items, that are added to the collection items
 - Change return type of `\Heptacom\HeptaConnect\Utility\Collection\Contract\CollectionInterface::filter` from `Generator` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
