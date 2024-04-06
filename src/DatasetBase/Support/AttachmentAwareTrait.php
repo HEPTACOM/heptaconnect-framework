@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Support;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
+use Heptacom\HeptaConnect\Utility\Attachment\AttachmentCollection;
 use Heptacom\HeptaConnect\Utility\Attachment\Contract\AttachableInterface;
 
 trait AttachmentAwareTrait

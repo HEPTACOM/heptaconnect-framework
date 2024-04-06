@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Utility\Attachment\Contract;
 
-use Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection;
+use Heptacom\HeptaConnect\Utility\Attachment\AttachmentCollection;
 
 /**
  * Describe an object, that can have attachments.

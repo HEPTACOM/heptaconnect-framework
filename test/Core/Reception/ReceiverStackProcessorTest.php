@@ -24,7 +24,7 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Reception\ReceiverStackProcessor
  * @covers \Heptacom\HeptaConnect\Core\Reception\ReceiverStack
  * @covers \Heptacom\HeptaConnect\Core\Reception\Support\PrimaryKeyChangesAttachable
- * @covers \Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Attachment\AttachmentCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract

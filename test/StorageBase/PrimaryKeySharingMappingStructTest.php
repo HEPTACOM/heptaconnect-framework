@@ -11,7 +11,7 @@ use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\Simple;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Dataset\Base\AttachmentCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Attachment\AttachmentCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
