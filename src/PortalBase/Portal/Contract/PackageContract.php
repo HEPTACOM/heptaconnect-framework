@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Portal\Contract;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface;
+use Heptacom\HeptaConnect\Utility\Contract\AttachableInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\DelegatingLoaderLoadException;

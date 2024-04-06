@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Dataset\Base\Support\JsonSerializeObjectVarsTrait;
 use Heptacom\HeptaConnect\Dataset\Base\Support\PrimaryKeyTrait;
 use Heptacom\HeptaConnect\Dataset\Base\Support\SetStateTrait;
+use Heptacom\HeptaConnect\Utility\Contract\AttachableInterface;
 
 /**
  * @psalm-consistent-constructor

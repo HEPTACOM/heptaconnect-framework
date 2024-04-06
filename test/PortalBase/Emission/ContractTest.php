@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Emission;
 
 use Heptacom\HeptaConnect\Core\Emission\EmitterStack;
-use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface;
+use Heptacom\HeptaConnect\Utility\Contract\AttachableInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
