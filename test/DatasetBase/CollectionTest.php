@@ -6,16 +6,16 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
-use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\IntegerCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\UsageStructCollection;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\DatasetEntityStruct;
+use Heptacom\HeptaConnect\Utility\Collection\Scalar\IntegerCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\IntegerCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\IntegerCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
  * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\JsonSerializeObjectVarsTrait
