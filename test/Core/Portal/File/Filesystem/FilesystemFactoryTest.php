@@ -48,11 +48,12 @@ final class FilesystemFactoryTest extends TestCase
 
         $uriFactory = Psr17FactoryDiscovery::findUriFactory();
 
+        // TODO Fix Flysystem compatibility
         $flysystem = new FlysystemFilesystem(new Local($fixtureFolder));
         $flysystem = new PrefixFilesystem($flysystem, 'prefix');
         $fixtureFolder .= '/prefix';
 
-        \Twistor\FlysystemStreamWrapper::register('test-stream', $flysystem);
+        \M2MTech\FlysystemStreamWrapper\FlysystemStreamWrapper::register('test-stream', $flysystem);
 
         $streamProtocolProvider = $this->createMock(PortalNodeFilesystemStreamProtocolProviderInterface::class);
         $streamProtocolProvider->method('provide')->willReturn('test-stream');
