@@ -76,12 +76,6 @@ parameters:
 			paths:
 				- ../src/PortalBase/Serialization/Contract/SerializableStream.php
 		-
-			# This has been checked in the constructor already
-			message: "#Call to an undefined method League\\\\Flysystem\\\\FilesystemInterface::(getAdapter|getConfig)#"
-			paths:
-				- ../src/Core/Storage/Filesystem/AbstractFilesystem.php
-				- ../src/Core/Storage/Filesystem/PrefixFilesystem.php
-		-
 			# we have a collection concept without string keys, but we sometimes store strings in there. not good yet
 			message: "#PHPDoc type array<string, .*TagItem<T>> of property .*AbstractTaggedCollection::\\$items is not the same as PHPDoc type array<int, .*TagItem<T>> of overridden property .*AbstractCollection<.*TagItem<T>>::\\$items.#"
 			paths:

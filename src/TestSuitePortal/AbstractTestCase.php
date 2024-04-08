@@ -23,7 +23,6 @@ use Heptacom\HeptaConnect\Core\Portal\PortalRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder;
 use Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory;
 use Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract;
-use Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleServiceInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Formatter\Psr7MessageCurlShellFormatter;
@@ -131,7 +130,6 @@ abstract class AbstractTestCase extends TestCase
             $services[ResourceLockingContract::class] ?? $this->createMock(ResourceLockingContract::class),
             $services[ProfilerFactoryContract::class] ?? $this->getProfilerFactory(),
             $services[StorageKeyGeneratorContract::class] ?? $this->createMock(StorageKeyGeneratorContract::class),
-            $services[FilesystemFactory::class] ?? $this->createMock(FilesystemFactory::class),
             $services[ConfigurationServiceInterface::class] ?? $this->getConfigurationService(),
             $services[PublisherInterface::class] ?? $this->createMock(PublisherInterface::class),
             $services[HttpHandlerUrlProviderFactoryInterface::class] ?? $httpHandlerUrlProviderFactory,
