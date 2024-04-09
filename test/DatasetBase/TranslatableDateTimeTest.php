@@ -6,10 +6,13 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable;
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableDateTime;
+use Heptacom\HeptaConnect\Utility\Test\ProvidesDateTimeTestsData;
+use Heptacom\HeptaConnect\Utility\Test\ProvidesInvalidTestsData;
+use Heptacom\HeptaConnect\Utility\Test\ProvidesJsonSerializer;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\SetStateTrait
+ * @covers \Heptacom\HeptaConnect\Utility\Php\SetStateTrait
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableDateTime
  */

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Dataset\Base\Translatable\ScalarCollection;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\CollectionInterface;
-use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
+use Heptacom\HeptaConnect\Utility\Collection\Contract\CollectionInterface;
+use Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection;
 
 /**
  * @extends AbstractTranslatableScalarCollection<StringCollection>

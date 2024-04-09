@@ -70,7 +70,8 @@
         "heptacom/heptaconnect-storage-base": "*",
         "heptacom/heptaconnect-test-suite-portal": "*",
         "heptacom/heptaconnect-test-suite-storage": "*",
-        "heptacom/heptaconnect-ui-admin-base": "*"
+        "heptacom/heptaconnect-ui-admin-base": "*",
+        "heptacom/heptaconnect-utility": "*"
     },
     "conflict": {
         "nikic/php-parser": "4.7.0",
@@ -91,7 +92,8 @@
             "Heptacom\\HeptaConnect\\Core\\": "src/Core/",
             "Heptacom\\HeptaConnect\\TestSuite\\Portal\\": "src/TestSuitePortal/",
             "Heptacom\\HeptaConnect\\TestSuite\\Storage\\": "src/TestSuiteStorage/",
-            "Heptacom\\HeptaConnect\\Ui\\Admin\\Base\\": "src/UiAdminBase/"
+            "Heptacom\\HeptaConnect\\Ui\\Admin\\Base\\": "src/UiAdminBase/",
+            "Heptacom\\HeptaConnect\\Utility\\": "src/Utility/"
         }
     },
     "autoload-dev": {
@@ -99,7 +101,8 @@
             "Heptacom\\HeptaConnect\\Dataset\\Base\\Test\\": "test/DatasetBase/",
             "Heptacom\\HeptaConnect\\Portal\\Base\\Test\\": "test/PortalBase/",
             "Heptacom\\HeptaConnect\\Storage\\Base\\Test\\": "test/StorageBase/",
-            "Heptacom\\HeptaConnect\\Core\\Test\\": "test/Core/"
+            "Heptacom\\HeptaConnect\\Core\\Test\\": "test/Core/",
+            "Heptacom\\HeptaConnect\\Utility\\Test\\": "test/Utility/"
         }
     },
     "config": {
