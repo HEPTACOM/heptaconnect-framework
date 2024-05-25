@@ -6,6 +6,7 @@ namespace Heptacom\HeptaConnect\Core\Test\Configuration;
 
 use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\ClosureInstructionToken;
 use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\Contract\InstructionLoaderInterface;
+use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\Contract\InstructionTokenContract;
 use Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationInstructionProcessor;
 use Heptacom\HeptaConnect\Core\Portal\Contract\PortalRegistryInterface;
 use Heptacom\HeptaConnect\Core\Portal\PackageQueryMatcher;
@@ -13,28 +14,31 @@ use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortalExtension;
 use Heptacom\HeptaConnect\Core\Test\Fixture\UninstantiablePortal;
 use Heptacom\HeptaConnect\Core\Test\Fixture\UninstantiablePortalExtension;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\ClosureInstructionToken
- * @covers \Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\Contract\InstructionTokenContract
- * @covers \Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationInstructionProcessor
- * @covers \Heptacom\HeptaConnect\Core\Portal\PackageQueryMatcher
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalCollection
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection
- * @covers \Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection
- * @covers \Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- */
+#[CoversClass(ClosureInstructionToken::class)]
+#[CoversClass(InstructionTokenContract::class)]
+#[CoversClass(PortalNodeConfigurationInstructionProcessor::class)]
+#[CoversClass(PackageQueryMatcher::class)]
+#[CoversClass(PackageContract::class)]
+#[CoversClass(PortalCollection::class)]
+#[CoversClass(PortalExtensionCollection::class)]
+#[CoversClass(PortalNodeKeyCollection::class)]
+#[CoversClass(UnsupportedStorageKeyException::class)]
+#[CoversClass(AbstractCollection::class)]
 final class PortalNodeConfigurationInstructionProcessorTest extends TestCase
 {
     public function testMatchPortalClassName(): void

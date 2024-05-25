@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Storage\Base\Test\Bridge;
 
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeServiceExceptionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Bridge\Exception\StorageFacadeServiceException;
+use Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade;
 use Heptacom\HeptaConnect\Storage\Base\Bridge\Support\Psr11StorageFacade;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
-/**
- * @covers \Heptacom\HeptaConnect\Storage\Base\Bridge\Exception\StorageFacadeServiceException
- * @covers \Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade
- * @covers \Heptacom\HeptaConnect\Storage\Base\Bridge\Support\Psr11StorageFacade
- */
+#[CoversClass(StorageFacadeServiceException::class)]
+#[CoversClass(AbstractSingletonStorageFacade::class)]
+#[CoversClass(Psr11StorageFacade::class)]
 class Psr11StorageFacadeTest extends TestCase
 {
     public function testMissingServiceException(): void

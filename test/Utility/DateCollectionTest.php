@@ -4,22 +4,21 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Utility\Test;
 
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
 use Heptacom\HeptaConnect\Utility\Date\Date;
 use Heptacom\HeptaConnect\Utility\Date\DateCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Date\DateCollection
- */
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(DateCollection::class)]
 final class DateCollectionTest extends TestCase
 {
     use ProvidesDateTestsData;
     use ProvidesInvalidTestsData;
 
-    /**
-     * @dataProvider provideValidDateTestCases
-     */
+    #[DataProvider('provideValidDateTestCases')]
     public function testInsertTypeInTypeCollection(Date $item): void
     {
         $collection = new DateCollection();
@@ -30,9 +29,7 @@ final class DateCollectionTest extends TestCase
         static::assertTrue($collection->contains($item));
     }
 
-    /**
-     * @dataProvider provideInvalidTestCases
-     */
+    #[DataProvider('provideInvalidTestCases')]
     public function testInsertOtherTypeInTypeCollection($item): void
     {
         $collection = new DateCollection();
@@ -42,9 +39,7 @@ final class DateCollectionTest extends TestCase
         static::assertFalse($collection->contains($item));
     }
 
-    /**
-     * @dataProvider provideInvalidTestCases
-     */
+    #[DataProvider('provideInvalidTestCases')]
     public function testFailInsertOtherTypeInTypeCollection($item): void
     {
         static::expectException(\InvalidArgumentException::class);

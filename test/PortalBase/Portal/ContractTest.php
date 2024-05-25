@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Portal;
 
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\Portal;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
- */
+#[CoversClass(PackageContract::class)]
+#[CoversClass(PortalContract::class)]
+#[CoversClass(PortalExtensionContract::class)]
 final class ContractTest extends TestCase
 {
     public function testExtendingPortalContract(): void

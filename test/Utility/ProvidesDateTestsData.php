@@ -11,7 +11,7 @@ trait ProvidesDateTestsData
     /**
      * @return iterable<array-key, array<int, Date>>
      */
-    public function provideValidDateTestCases(): iterable
+    public static function provideValidDateTestCases(): iterable
     {
         yield [new Date()];
         yield [new Date()];

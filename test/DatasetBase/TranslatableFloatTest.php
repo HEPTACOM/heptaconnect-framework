@@ -6,25 +6,24 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable;
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableFloat;
+use Heptacom\HeptaConnect\Utility\Php\SetStateTrait;
 use Heptacom\HeptaConnect\Utility\Test\ProvidesFloatTestsData;
 use Heptacom\HeptaConnect\Utility\Test\ProvidesInvalidTestsData;
 use Heptacom\HeptaConnect\Utility\Test\ProvidesJsonSerializer;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableFloat
- * @covers \Heptacom\HeptaConnect\Utility\Php\SetStateTrait
- */
+#[CoversClass(AbstractTranslatable::class)]
+#[CoversClass(TranslatableFloat::class)]
+#[CoversClass(SetStateTrait::class)]
 final class TranslatableFloatTest extends TestCase
 {
     use ProvidesFloatTestsData;
     use ProvidesInvalidTestsData;
     use ProvidesJsonSerializer;
 
-    /**
-     * @dataProvider provideValidFloatTestCases
-     */
+    #[DataProvider('provideValidFloatTestCases')]
     public function testInsertTypeInTypeTranslatable(float $item): void
     {
         $translatable = new TranslatableFloat();
@@ -34,9 +33,7 @@ final class TranslatableFloatTest extends TestCase
         static::assertEquals(['en-GB'], $translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidFloatTestCases
-     */
+    #[DataProvider('provideValidFloatTestCases')]
     public function testArrayNotationInsertTypeInTypeTranslatable(float $item): void
     {
         $translatable = new TranslatableFloat();
@@ -46,9 +43,7 @@ final class TranslatableFloatTest extends TestCase
         static::assertEquals(['en-GB'], $translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidFloatTestCases
-     */
+    #[DataProvider('provideValidFloatTestCases')]
     public function testRemovalViaNullValue(float $anyValue): void
     {
         $translatable = new TranslatableFloat();
@@ -60,9 +55,7 @@ final class TranslatableFloatTest extends TestCase
         static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidFloatTestCases
-     */
+    #[DataProvider('provideValidFloatTestCases')]
     public function testRemovalViaArrayNullAssignment(float $anyValue): void
     {
         $translatable = new TranslatableFloat();
@@ -74,9 +67,7 @@ final class TranslatableFloatTest extends TestCase
         static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidFloatTestCases
-     */
+    #[DataProvider('provideValidFloatTestCases')]
     public function testRemovalViaUnset(float $anyValue): void
     {
         $translatable = new TranslatableFloat();
@@ -89,9 +80,7 @@ final class TranslatableFloatTest extends TestCase
         static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidFloatTestCases
-     */
+    #[DataProvider('provideValidFloatTestCases')]
     public function testAccessViaOffset(float $anyValue): void
     {
         $translatable = new TranslatableFloat();
@@ -104,9 +93,7 @@ final class TranslatableFloatTest extends TestCase
         static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidFloatTestCases
-     */
+    #[DataProvider('provideValidFloatTestCases')]
     public function testChainableCalls(float $anyValue): void
     {
         $translatable = new TranslatableFloat();
@@ -114,9 +101,7 @@ final class TranslatableFloatTest extends TestCase
         static::assertEquals($translatable, $translatable->removeTranslation('en-GB'));
     }
 
-    /**
-     * @dataProvider provideValidFloatTestCases
-     */
+    #[DataProvider('provideValidFloatTestCases')]
     public function testAccessDenialViaNumericKey(float $anyValue): void
     {
         $translatable = new TranslatableFloat();
@@ -130,9 +115,7 @@ final class TranslatableFloatTest extends TestCase
         static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidFloatTestCases
-     */
+    #[DataProvider('provideValidFloatTestCases')]
     public function testSetState(float $anyValue): void
     {
         /** @var AbstractTranslatable $translatable */
@@ -145,9 +128,7 @@ final class TranslatableFloatTest extends TestCase
         static::assertEquals($anyValue, $translatable->getTranslation('en-GB'));
     }
 
-    /**
-     * @dataProvider provideValidFloatTestCases
-     */
+    #[DataProvider('provideValidFloatTestCases')]
     public function testInvalidSetStateValues(float $anyValue): void
     {
         /** @var AbstractTranslatable $translatable */
@@ -157,9 +138,7 @@ final class TranslatableFloatTest extends TestCase
         static::assertCount(0, $translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideInvalidTestCases
-     */
+    #[DataProvider('provideInvalidTestCases')]
     public function testInsertOtherTypeInTypeCollection($item): void
     {
         $translatable = new TranslatableFloat();
@@ -174,9 +153,7 @@ final class TranslatableFloatTest extends TestCase
         static::assertEquals(['en-GB' => 3.142], $this->jsonEncodeAndDecode($translatable));
     }
 
-    /**
-     * @dataProvider provideValidFloatTestCases
-     */
+    #[DataProvider('provideValidFloatTestCases')]
     public function testValidFallback(float $anyValue): void
     {
         $translatable = new TranslatableFloat();
@@ -187,9 +164,7 @@ final class TranslatableFloatTest extends TestCase
         static::assertNull($translatable->getFallback());
     }
 
-    /**
-     * @dataProvider provideInvalidTestCases
-     */
+    #[DataProvider('provideInvalidTestCases')]
     public function testInvalidFallback($anyValue): void
     {
         $translatable = new TranslatableFloat();

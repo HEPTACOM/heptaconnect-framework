@@ -8,12 +8,11 @@ use Heptacom\HeptaConnect\Core\Storage\Contract\StreamPathContract;
 use Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamDenormalizer;
 use League\Flysystem\Adapter\NullAdapter;
 use League\Flysystem\Filesystem;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Storage\Contract\StreamPathContract
- * @covers \Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamDenormalizer
- */
+#[CoversClass(StreamPathContract::class)]
+#[CoversClass(StreamDenormalizer::class)]
 final class StreamDenormalizerTest extends TestCase
 {
     public function testNullStream(): void

@@ -7,28 +7,31 @@ namespace Heptacom\HeptaConnect\Core\Test\Configuration;
 use Heptacom\HeptaConnect\Core\Configuration\ConfigurationService;
 use Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationProcessorService;
 use Heptacom\HeptaConnect\Core\Portal\Contract\PortalRegistryInterface;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Get\PortalNodeConfigurationGetCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Get\PortalNodeConfigurationGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Configuration\ConfigurationService
- * @covers \Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationProcessorService
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection
- * @covers \Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Get\PortalNodeConfigurationGetCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Get\PortalNodeConfigurationGetResult
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- */
+#[CoversClass(ConfigurationService::class)]
+#[CoversClass(PortalNodeConfigurationProcessorService::class)]
+#[CoversClass(PackageContract::class)]
+#[CoversClass(PortalContract::class)]
+#[CoversClass(PortalExtensionContract::class)]
+#[CoversClass(PortalExtensionCollection::class)]
+#[CoversClass(PortalNodeKeyCollection::class)]
+#[CoversClass(PortalNodeConfigurationGetCriteria::class)]
+#[CoversClass(PortalNodeConfigurationGetResult::class)]
+#[CoversClass(AbstractCollection::class)]
 final class ConfigurationServiceTest extends TestCase
 {
     public function testConfigurationTemplateLoading(): void

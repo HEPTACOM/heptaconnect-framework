@@ -8,19 +8,19 @@ use Heptacom\HeptaConnect\Core\Component\LogMessage;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerStackProcessor;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandleContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Component\LogMessage
- * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerStackProcessor
- * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection
- * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack
- */
+#[CoversClass(LogMessage::class)]
+#[CoversClass(HttpHandlerStackProcessor::class)]
+#[CoversClass(HttpHandlerContract::class)]
+#[CoversClass(HttpHandlerCollection::class)]
+#[CoversClass(HttpHandlerStack::class)]
 final class HttpHandlerStackProcessorTest extends TestCase
 {
     public function testActingFails(): void

@@ -5,21 +5,23 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Json\JsonSerializeObjectVarsTrait;
+use Heptacom\HeptaConnect\Utility\Php\SetStateTrait;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Json\JsonSerializeObjectVarsTrait
- * @covers \Heptacom\HeptaConnect\Utility\Php\SetStateTrait
- */
+#[CoversClass(DatasetEntityContract::class)]
+#[CoversClass(DatasetEntityCollection::class)]
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(JsonSerializeObjectVarsTrait::class)]
+#[CoversClass(SetStateTrait::class)]
 final class EntitySetStateTest extends TestCase
 {
-    /**
-     * @dataProvider provideStructs
-     */
+    #[DataProvider('provideStructs')]
     public function testSerializationTypes(SerializationDatasetEntity $struct): void
     {
         /** @var SerializationDatasetEntity $deserializedData */
@@ -35,7 +37,7 @@ final class EntitySetStateTest extends TestCase
     /**
      * @return iterable<string, array<int, DatasetEntityContract>>
      */
-    public function provideStructs(): iterable
+    public static function provideStructs(): iterable
     {
         $struct = new SerializationDatasetEntity();
         $struct->setPrimaryKey('the primary key of choice');

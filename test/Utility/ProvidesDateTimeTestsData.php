@@ -9,7 +9,7 @@ trait ProvidesDateTimeTestsData
     /**
      * @return iterable<array-key, array<int, \DateTimeInterface>>
      */
-    public function provideValidDateTimeTestCases(): iterable
+    public static function provideValidDateTimeTestCases(): iterable
     {
         yield [new \DateTime()];
     }

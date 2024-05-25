@@ -6,27 +6,35 @@ namespace Heptacom\HeptaConnect\Core\Test\Storage;
 
 use Heptacom\HeptaConnect\Core\Storage\PrimaryKeyToEntityHydrator;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
+use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
+use Heptacom\HeptaConnect\Utility\Attachment\AttachmentAwareTrait;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Storage\PrimaryKeyToEntityHydrator
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
- * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
- * @covers \Heptacom\HeptaConnect\Utility\Attachment\AttachmentAwareTrait
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
- */
+#[CoversClass(PrimaryKeyToEntityHydrator::class)]
+#[CoversClass(DatasetEntityContract::class)]
+#[CoversClass(DatasetEntityCollection::class)]
+#[CoversClass(EntityType::class)]
+#[CoversClass(TypedDatasetEntityCollection::class)]
+#[CoversClass(AttachmentAwareTrait::class)]
+#[CoversClass(ClassStringContract::class)]
+#[CoversClass(ClassStringReferenceContract::class)]
+#[CoversClass(SubtypeClassStringContract::class)]
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(AbstractObjectCollection::class)]
 final class PrimaryKeyToEntityHydratorTest extends TestCase
 {
-    /**
-     * @dataProvider providePrimaryKeys
-     */
+    #[DataProvider('providePrimaryKeys')]
     public function testCountHydration(StringCollection $primaryKeys): void
     {
         $hydrator = new PrimaryKeyToEntityHydrator();
@@ -36,7 +44,7 @@ final class PrimaryKeyToEntityHydratorTest extends TestCase
         static::assertCount($primaryKeys->count(), $result);
     }
 
-    public function providePrimaryKeys(): iterable
+    public static function providePrimaryKeys(): iterable
     {
         $keys = new StringCollection();
         yield [clone $keys];

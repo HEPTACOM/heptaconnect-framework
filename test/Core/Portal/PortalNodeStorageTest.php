@@ -6,42 +6,50 @@ namespace Heptacom\HeptaConnect\Core\Test\Portal;
 
 use Heptacom\HeptaConnect\Core\Portal\PortalStorage;
 use Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory;
+use Heptacom\HeptaConnect\Core\Portal\PreviewPortalNodeStorage;
 use Heptacom\HeptaConnect\Core\Portal\Storage\PortalNodeStorageItemPacker;
 use Heptacom\HeptaConnect\Core\Portal\Storage\PortalNodeStorageItemUnpacker;
 use Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry;
 use Heptacom\HeptaConnect\Core\Storage\Normalizer\SerializableDenormalizer;
 use Heptacom\HeptaConnect\Core\Storage\Normalizer\SerializableNormalizer;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalType;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\Portal;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Listing\PortalNodeStorageListCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Listing\PortalNodeStorageListResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\PortalNodeStorageItemContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageClearActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Portal\PortalStorage
- * @covers \Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory
- * @covers \Heptacom\HeptaConnect\Core\Portal\PreviewPortalNodeStorage
- * @covers \Heptacom\HeptaConnect\Core\Portal\Storage\PortalNodeStorageItemPacker
- * @covers \Heptacom\HeptaConnect\Core\Portal\Storage\PortalNodeStorageItemUnpacker
- * @covers \Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry
- * @covers \Heptacom\HeptaConnect\Core\Storage\Normalizer\SerializableDenormalizer
- * @covers \Heptacom\HeptaConnect\Core\Storage\Normalizer\SerializableNormalizer
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Listing\PortalNodeStorageListCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\PortalNodeStorageItemContract
- * @covers \Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- */
+#[CoversClass(PortalStorage::class)]
+#[CoversClass(PortalStorageFactory::class)]
+#[CoversClass(PreviewPortalNodeStorage::class)]
+#[CoversClass(PortalNodeStorageItemPacker::class)]
+#[CoversClass(PortalNodeStorageItemUnpacker::class)]
+#[CoversClass(NormalizationRegistry::class)]
+#[CoversClass(SerializableDenormalizer::class)]
+#[CoversClass(SerializableNormalizer::class)]
+#[CoversClass(PortalContract::class)]
+#[CoversClass(PortalType::class)]
+#[CoversClass(PortalNodeStorageListCriteria::class)]
+#[CoversClass(PortalNodeStorageItemContract::class)]
+#[CoversClass(PreviewPortalNodeKey::class)]
+#[CoversClass(ClassStringContract::class)]
+#[CoversClass(ClassStringReferenceContract::class)]
+#[CoversClass(SubtypeClassStringContract::class)]
+#[CoversClass(AbstractCollection::class)]
 class PortalNodeStorageTest extends TestCase
 {
     public function testRequestsOnPortalNodePreviewKeyAreNotForwardedToStorageImplementation(): void

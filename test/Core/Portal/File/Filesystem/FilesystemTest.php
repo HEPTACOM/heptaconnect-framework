@@ -6,14 +6,14 @@ namespace Heptacom\HeptaConnect\Core\Test\Portal\File\Filesystem;
 
 use Heptacom\HeptaConnect\Core\File\Filesystem\StreamUriSchemePathConverter;
 use Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Filesystem;
+use Heptacom\HeptaConnect\Portal\Base\File\Filesystem\Exception\UnexpectedFormatOfUriException;
 use Http\Discovery\Psr17FactoryDiscovery;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\File\Filesystem\StreamUriSchemePathConverter
- * @covers \Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Filesystem
- * @covers \Heptacom\HeptaConnect\Portal\Base\File\Filesystem\Exception\UnexpectedFormatOfUriException
- */
+#[CoversClass(StreamUriSchemePathConverter::class)]
+#[CoversClass(Filesystem::class)]
+#[CoversClass(UnexpectedFormatOfUriException::class)]
 class FilesystemTest extends TestCase
 {
     public function testToStoragePathWorksWithPathOnlyUri(): void

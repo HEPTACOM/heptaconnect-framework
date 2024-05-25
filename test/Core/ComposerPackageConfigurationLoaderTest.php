@@ -5,18 +5,21 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Core\Test;
 
 use Heptacom\HeptaConnect\Core\Component\Composer\PackageConfiguration;
+use Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationClassMap;
+use Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationCollection;
 use Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Component\Composer\PackageConfiguration
- * @covers \Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationClassMap
- * @covers \Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationCollection
- * @covers \Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection
- */
+#[CoversClass(PackageConfiguration::class)]
+#[CoversClass(PackageConfigurationClassMap::class)]
+#[CoversClass(PackageConfigurationCollection::class)]
+#[CoversClass(PackageConfigurationLoader::class)]
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(StringCollection::class)]
 final class ComposerPackageConfigurationLoaderTest extends TestCase
 {
     public function testLoadingPlugin(): void

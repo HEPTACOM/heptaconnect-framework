@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Core\Test\Storage;
 
 use Heptacom\HeptaConnect\Core\Storage\Contract\StreamPathContract;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Storage\Contract\StreamPathContract
- */
+#[CoversClass(StreamPathContract::class)]
 final class StreamPathTest extends TestCase
 {
     public function testContract(): void

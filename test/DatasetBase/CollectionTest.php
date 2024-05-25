@@ -9,28 +9,31 @@ use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\UsageStructCollection;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\DatasetEntityStruct;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\IntegerCollection;
+use Heptacom\HeptaConnect\Utility\Json\JsonSerializeObjectVarsTrait;
+use Heptacom\HeptaConnect\Utility\Php\SetStateTrait;
 use Heptacom\HeptaConnect\Utility\Test\ProvidesJsonSerializer;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\IntegerCollection
- * @covers \Heptacom\HeptaConnect\Utility\Json\JsonSerializeObjectVarsTrait
- * @covers \Heptacom\HeptaConnect\Utility\Php\SetStateTrait
- */
+#[CoversClass(DatasetEntityContract::class)]
+#[CoversClass(DatasetEntityCollection::class)]
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(AbstractObjectCollection::class)]
+#[CoversClass(IntegerCollection::class)]
+#[CoversClass(JsonSerializeObjectVarsTrait::class)]
+#[CoversClass(SetStateTrait::class)]
 final class CollectionTest extends TestCase
 {
     use ProvidesJsonSerializer;
 
     /**
-     * @dataProvider provideValidItems
-     *
      * @param array<int, DatasetEntityContract> $items
      */
+    #[DataProvider('provideValidItems')]
     public function testPassingInValidItemsAndKeepAll(array $items): void
     {
         $collection = new UsageStructCollection($items);
@@ -38,10 +41,9 @@ final class CollectionTest extends TestCase
     }
 
     /**
-     * @dataProvider provideInvalidObjectItems
-     *
      * @param array<int, DatasetEntityContract> $items
      */
+    #[DataProvider('provideInvalidObjectItems')]
     public function testPassingInInvalidItemsAndKeepAll(array $items): void
     {
         $collection = new UsageStructCollection();
@@ -303,7 +305,7 @@ final class CollectionTest extends TestCase
     /**
      * @return iterable<string, array<int, array<int, DatasetEntityContract>>>
      */
-    public function provideValidItems(): iterable
+    public static function provideValidItems(): iterable
     {
         yield SerializationDatasetEntity::class => [[new SerializationDatasetEntity()]];
     }
@@ -311,7 +313,7 @@ final class CollectionTest extends TestCase
     /**
      * @return iterable<string, array<int, array<int, object>>>
      */
-    public function provideInvalidObjectItems(): iterable
+    public static function provideInvalidObjectItems(): iterable
     {
         yield \DateTime::class => [[new \DateTime()]];
         yield \DateInterval::class => [[new \DateInterval('P1D')]];

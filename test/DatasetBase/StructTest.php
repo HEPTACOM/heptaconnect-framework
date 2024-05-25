@@ -5,20 +5,22 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Json\JsonSerializeObjectVarsTrait;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Json\JsonSerializeObjectVarsTrait
- */
+#[CoversClass(DatasetEntityContract::class)]
+#[CoversClass(DatasetEntityCollection::class)]
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(JsonSerializeObjectVarsTrait::class)]
 final class StructTest extends TestCase
 {
-    /**
-     * @dataProvider provideStructs
-     */
+    #[DataProvider('provideStructs')]
     public function testSerializationAccessors(DatasetEntityContract $struct): void
     {
         $deserializedData = $this->codeIt($struct);
@@ -28,11 +30,8 @@ final class StructTest extends TestCase
         static::assertArrayHasKey('publicString', $deserializedData);
     }
 
-    /**
-     * @depends testSerializationAccessors
-     *
-     * @dataProvider provideStructs
-     */
+    #[Depends('testSerializationAccessors')]
+    #[DataProvider('provideStructs')]
     public function testSerializationTypes(DatasetEntityContract $struct): void
     {
         $deserializedData = $this->codeIt($struct);
@@ -48,7 +47,7 @@ final class StructTest extends TestCase
     /**
      * @return iterable<string, array<int, DatasetEntityContract>>
      */
-    public function provideStructs(): iterable
+    public static function provideStructs(): iterable
     {
         $struct = new SerializationDatasetEntity();
         $struct->setPrimaryKey('the primary key of choice');

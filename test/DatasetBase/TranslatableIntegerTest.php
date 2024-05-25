@@ -6,25 +6,24 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable;
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableInteger;
+use Heptacom\HeptaConnect\Utility\Php\SetStateTrait;
 use Heptacom\HeptaConnect\Utility\Test\ProvidesIntegerTestsData;
 use Heptacom\HeptaConnect\Utility\Test\ProvidesInvalidTestsData;
 use Heptacom\HeptaConnect\Utility\Test\ProvidesJsonSerializer;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableInteger
- * @covers \Heptacom\HeptaConnect\Utility\Php\SetStateTrait
- */
+#[CoversClass(AbstractTranslatable::class)]
+#[CoversClass(TranslatableInteger::class)]
+#[CoversClass(SetStateTrait::class)]
 final class TranslatableIntegerTest extends TestCase
 {
     use ProvidesIntegerTestsData;
     use ProvidesInvalidTestsData;
     use ProvidesJsonSerializer;
 
-    /**
-     * @dataProvider provideValidIntegerTestCases
-     */
+    #[DataProvider('provideValidIntegerTestCases')]
     public function testInsertTypeInTypeTranslatable(int $item): void
     {
         $translatable = new TranslatableInteger();
@@ -34,9 +33,7 @@ final class TranslatableIntegerTest extends TestCase
         static::assertEquals(['en-GB'], $translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidIntegerTestCases
-     */
+    #[DataProvider('provideValidIntegerTestCases')]
     public function testArrayNotationInsertTypeInTypeTranslatable(int $item): void
     {
         $translatable = new TranslatableInteger();
@@ -46,9 +43,7 @@ final class TranslatableIntegerTest extends TestCase
         static::assertEquals(['en-GB'], $translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidIntegerTestCases
-     */
+    #[DataProvider('provideValidIntegerTestCases')]
     public function testRemovalViaNullValue(int $anyValue): void
     {
         $translatable = new TranslatableInteger();
@@ -60,9 +55,7 @@ final class TranslatableIntegerTest extends TestCase
         static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidIntegerTestCases
-     */
+    #[DataProvider('provideValidIntegerTestCases')]
     public function testRemovalViaArrayNullAssignment(int $anyValue): void
     {
         $translatable = new TranslatableInteger();
@@ -74,9 +67,7 @@ final class TranslatableIntegerTest extends TestCase
         static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidIntegerTestCases
-     */
+    #[DataProvider('provideValidIntegerTestCases')]
     public function testRemovalViaUnset(int $anyValue): void
     {
         $translatable = new TranslatableInteger();
@@ -89,9 +80,7 @@ final class TranslatableIntegerTest extends TestCase
         static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidIntegerTestCases
-     */
+    #[DataProvider('provideValidIntegerTestCases')]
     public function testAccessViaOffset(int $anyValue): void
     {
         $translatable = new TranslatableInteger();
@@ -104,9 +93,7 @@ final class TranslatableIntegerTest extends TestCase
         static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidIntegerTestCases
-     */
+    #[DataProvider('provideValidIntegerTestCases')]
     public function testChainableCalls(int $anyValue): void
     {
         $translatable = new TranslatableInteger();
@@ -114,9 +101,7 @@ final class TranslatableIntegerTest extends TestCase
         static::assertEquals($translatable, $translatable->removeTranslation('en-GB'));
     }
 
-    /**
-     * @dataProvider provideValidIntegerTestCases
-     */
+    #[DataProvider('provideValidIntegerTestCases')]
     public function testAccessDenialViaNumericKey(int $anyValue): void
     {
         $translatable = new TranslatableInteger();
@@ -130,9 +115,7 @@ final class TranslatableIntegerTest extends TestCase
         static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidIntegerTestCases
-     */
+    #[DataProvider('provideValidIntegerTestCases')]
     public function testSetState(int $anyValue): void
     {
         /** @var AbstractTranslatable $translatable */
@@ -145,9 +128,7 @@ final class TranslatableIntegerTest extends TestCase
         static::assertEquals($anyValue, $translatable->getTranslation('en-GB'));
     }
 
-    /**
-     * @dataProvider provideValidIntegerTestCases
-     */
+    #[DataProvider('provideValidIntegerTestCases')]
     public function testInvalidSetStateValues(int $anyValue): void
     {
         /** @var AbstractTranslatable $translatable */
@@ -157,9 +138,7 @@ final class TranslatableIntegerTest extends TestCase
         static::assertCount(0, $translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideInvalidTestCases
-     */
+    #[DataProvider('provideInvalidTestCases')]
     public function testInsertOtherTypeInTypeCollection($item): void
     {
         $translatable = new TranslatableInteger();
@@ -174,9 +153,7 @@ final class TranslatableIntegerTest extends TestCase
         static::assertEquals(['en-GB' => 1234567890], $this->jsonEncodeAndDecode($translatable));
     }
 
-    /**
-     * @dataProvider provideValidIntegerTestCases
-     */
+    #[DataProvider('provideValidIntegerTestCases')]
     public function testValidFallback(int $anyValue): void
     {
         $translatable = new TranslatableInteger();
@@ -187,9 +164,7 @@ final class TranslatableIntegerTest extends TestCase
         static::assertNull($translatable->getFallback());
     }
 
-    /**
-     * @dataProvider provideInvalidTestCases
-     */
+    #[DataProvider('provideInvalidTestCases')]
     public function testInvalidFallback($anyValue): void
     {
         $translatable = new TranslatableInteger();

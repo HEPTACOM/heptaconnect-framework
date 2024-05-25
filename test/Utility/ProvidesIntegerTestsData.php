@@ -9,7 +9,7 @@ trait ProvidesIntegerTestsData
     /**
      * @return iterable<array-key, array<int, int>>
      */
-    public function provideValidIntegerTestCases(): iterable
+    public static function provideValidIntegerTestCases(): iterable
     {
         yield [0];
         yield [1];

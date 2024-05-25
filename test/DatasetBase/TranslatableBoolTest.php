@@ -6,25 +6,24 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable;
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableBoolean;
+use Heptacom\HeptaConnect\Utility\Php\SetStateTrait;
 use Heptacom\HeptaConnect\Utility\Test\ProvidesBooleanTestsData;
 use Heptacom\HeptaConnect\Utility\Test\ProvidesInvalidTestsData;
 use Heptacom\HeptaConnect\Utility\Test\ProvidesJsonSerializer;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableBoolean
- * @covers \Heptacom\HeptaConnect\Utility\Php\SetStateTrait
- */
+#[CoversClass(AbstractTranslatable::class)]
+#[CoversClass(TranslatableBoolean::class)]
+#[CoversClass(SetStateTrait::class)]
 final class TranslatableBoolTest extends TestCase
 {
     use ProvidesBooleanTestsData;
     use ProvidesInvalidTestsData;
     use ProvidesJsonSerializer;
 
-    /**
-     * @dataProvider provideValidBooleanTestCases
-     */
+    #[DataProvider('provideValidBooleanTestCases')]
     public function testInsertTypeInTypeTranslatable(bool $item): void
     {
         $translatable = new TranslatableBoolean();
@@ -34,9 +33,7 @@ final class TranslatableBoolTest extends TestCase
         static::assertEquals(['en-GB'], $translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidBooleanTestCases
-     */
+    #[DataProvider('provideValidBooleanTestCases')]
     public function testArrayNotationInsertTypeInTypeTranslatable(bool $item): void
     {
         $translatable = new TranslatableBoolean();
@@ -46,9 +43,7 @@ final class TranslatableBoolTest extends TestCase
         static::assertEquals(['en-GB'], $translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidBooleanTestCases
-     */
+    #[DataProvider('provideValidBooleanTestCases')]
     public function testRemovalViaNullValue(bool $anyValue): void
     {
         $translatable = new TranslatableBoolean();
@@ -60,9 +55,7 @@ final class TranslatableBoolTest extends TestCase
         static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidBooleanTestCases
-     */
+    #[DataProvider('provideValidBooleanTestCases')]
     public function testRemovalViaArrayNullAssignment(bool $anyValue): void
     {
         $translatable = new TranslatableBoolean();
@@ -74,9 +67,7 @@ final class TranslatableBoolTest extends TestCase
         static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidBooleanTestCases
-     */
+    #[DataProvider('provideValidBooleanTestCases')]
     public function testRemovalViaUnset(bool $anyValue): void
     {
         $translatable = new TranslatableBoolean();
@@ -89,9 +80,7 @@ final class TranslatableBoolTest extends TestCase
         static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidBooleanTestCases
-     */
+    #[DataProvider('provideValidBooleanTestCases')]
     public function testAccessViaOffset(bool $anyValue): void
     {
         $translatable = new TranslatableBoolean();
@@ -104,9 +93,7 @@ final class TranslatableBoolTest extends TestCase
         static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidBooleanTestCases
-     */
+    #[DataProvider('provideValidBooleanTestCases')]
     public function testAccessDenialViaNumericKey(bool $anyValue): void
     {
         $translatable = new TranslatableBoolean();
@@ -120,9 +107,7 @@ final class TranslatableBoolTest extends TestCase
         static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidBooleanTestCases
-     */
+    #[DataProvider('provideValidBooleanTestCases')]
     public function testSetState(bool $anyValue): void
     {
         /** @var AbstractTranslatable $translatable */
@@ -135,9 +120,7 @@ final class TranslatableBoolTest extends TestCase
         static::assertEquals($anyValue, $translatable->getTranslation('en-GB'));
     }
 
-    /**
-     * @dataProvider provideValidBooleanTestCases
-     */
+    #[DataProvider('provideValidBooleanTestCases')]
     public function testInvalidSetStateValues(bool $anyValue): void
     {
         /** @var AbstractTranslatable $translatable */
@@ -147,9 +130,7 @@ final class TranslatableBoolTest extends TestCase
         static::assertCount(0, $translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideInvalidTestCases
-     */
+    #[DataProvider('provideInvalidTestCases')]
     public function testInsertOtherTypeInTypeCollection($item): void
     {
         $translatable = new TranslatableBoolean();
@@ -164,9 +145,7 @@ final class TranslatableBoolTest extends TestCase
         static::assertEquals(['en-GB' => true], $this->jsonEncodeAndDecode($translatable));
     }
 
-    /**
-     * @dataProvider provideValidBooleanTestCases
-     */
+    #[DataProvider('provideValidBooleanTestCases')]
     public function testValidFallback(bool $anyValue): void
     {
         $translatable = new TranslatableBoolean();
@@ -177,9 +156,7 @@ final class TranslatableBoolTest extends TestCase
         static::assertNull($translatable->getFallback());
     }
 
-    /**
-     * @dataProvider provideInvalidTestCases
-     */
+    #[DataProvider('provideInvalidTestCases')]
     public function testInvalidFallback($anyValue): void
     {
         $translatable = new TranslatableBoolean();

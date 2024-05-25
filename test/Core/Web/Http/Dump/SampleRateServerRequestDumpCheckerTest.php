@@ -11,17 +11,17 @@ use Heptacom\HeptaConnect\Portal\Base\Web\Http\ServerRequestCycle;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
 use Http\Discovery\Psr17FactoryDiscovery;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Web\Http\Dump\SampleRateServerRequestCycleDumpChecker
- * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier
- * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\ServerRequestCycle
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- */
+#[CoversClass(SampleRateServerRequestCycleDumpChecker::class)]
+#[CoversClass(HttpHandlerStackIdentifier::class)]
+#[CoversClass(ServerRequestCycle::class)]
+#[CoversClass(WebHttpHandlerConfigurationFindCriteria::class)]
+#[CoversClass(WebHttpHandlerConfigurationFindResult::class)]
+#[CoversClass(AbstractCollection::class)]
 class SampleRateServerRequestDumpCheckerTest extends TestCase
 {
     public function testRequestShallBeDumped(): void

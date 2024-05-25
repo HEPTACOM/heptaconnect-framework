@@ -6,14 +6,15 @@ namespace Heptacom\HeptaConnect\Core\Test\Bridge\PortalNode\Configuration;
 
 use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\ClosureInstructionToken;
 use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\Config;
+use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\Contract\InstructionTokenContract;
+use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\PortalNodeConfigurationHelper;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\Config
- * @covers \Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\Contract\InstructionTokenContract
- * @covers \Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\ClosureInstructionToken
- * @covers \Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\PortalNodeConfigurationHelper
- */
+#[CoversClass(Config::class)]
+#[CoversClass(InstructionTokenContract::class)]
+#[CoversClass(ClosureInstructionToken::class)]
+#[CoversClass(PortalNodeConfigurationHelper::class)]
 final class ConfigTest extends TestCase
 {
     public function testMergeChain(): void

@@ -7,26 +7,25 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable;
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableDate;
 use Heptacom\HeptaConnect\Utility\Date\Date;
+use Heptacom\HeptaConnect\Utility\Php\SetStateTrait;
 use Heptacom\HeptaConnect\Utility\Test\ProvidesDateTestsData;
 use Heptacom\HeptaConnect\Utility\Test\ProvidesInvalidTestsData;
 use Heptacom\HeptaConnect\Utility\Test\ProvidesJsonSerializer;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableDate
- * @covers \Heptacom\HeptaConnect\Utility\Date\Date
- * @covers \Heptacom\HeptaConnect\Utility\Php\SetStateTrait
- */
+#[CoversClass(AbstractTranslatable::class)]
+#[CoversClass(TranslatableDate::class)]
+#[CoversClass(Date::class)]
+#[CoversClass(SetStateTrait::class)]
 final class TranslatableDateTest extends TestCase
 {
     use ProvidesDateTestsData;
     use ProvidesInvalidTestsData;
     use ProvidesJsonSerializer;
 
-    /**
-     * @dataProvider provideValidDateTestCases
-     */
+    #[DataProvider('provideValidDateTestCases')]
     public function testInsertTypeInTypeTranslatable(Date $item): void
     {
         $translatable = new TranslatableDate();
@@ -36,9 +35,7 @@ final class TranslatableDateTest extends TestCase
         static::assertEquals(['en-GB'], $translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidDateTestCases
-     */
+    #[DataProvider('provideValidDateTestCases')]
     public function testArrayNotationInsertTypeInTypeTranslatable(Date $item): void
     {
         $translatable = new TranslatableDate();
@@ -48,9 +45,7 @@ final class TranslatableDateTest extends TestCase
         static::assertEquals(['en-GB'], $translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidDateTestCases
-     */
+    #[DataProvider('provideValidDateTestCases')]
     public function testRemovalViaNullValue(Date $anyValue): void
     {
         $translatable = new TranslatableDate();
@@ -62,9 +57,7 @@ final class TranslatableDateTest extends TestCase
         static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidDateTestCases
-     */
+    #[DataProvider('provideValidDateTestCases')]
     public function testRemovalViaArrayNullAssignment(Date $anyValue): void
     {
         $translatable = new TranslatableDate();
@@ -76,9 +69,7 @@ final class TranslatableDateTest extends TestCase
         static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidDateTestCases
-     */
+    #[DataProvider('provideValidDateTestCases')]
     public function testRemovalViaUnset(Date $anyValue): void
     {
         $translatable = new TranslatableDate();
@@ -91,9 +82,7 @@ final class TranslatableDateTest extends TestCase
         static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidDateTestCases
-     */
+    #[DataProvider('provideValidDateTestCases')]
     public function testAccessViaOffset(Date $anyValue): void
     {
         $translatable = new TranslatableDate();
@@ -106,9 +95,7 @@ final class TranslatableDateTest extends TestCase
         static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidDateTestCases
-     */
+    #[DataProvider('provideValidDateTestCases')]
     public function testChainableCalls(Date $anyValue): void
     {
         $translatable = new TranslatableDate();
@@ -116,9 +103,7 @@ final class TranslatableDateTest extends TestCase
         static::assertEquals($translatable, $translatable->removeTranslation('en-GB'));
     }
 
-    /**
-     * @dataProvider provideValidDateTestCases
-     */
+    #[DataProvider('provideValidDateTestCases')]
     public function testAccessDenialViaNumericKey(Date $anyValue): void
     {
         $translatable = new TranslatableDate();
@@ -132,9 +117,7 @@ final class TranslatableDateTest extends TestCase
         static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidDateTestCases
-     */
+    #[DataProvider('provideValidDateTestCases')]
     public function testSetState(Date $anyValue): void
     {
         /** @var AbstractTranslatable $translatable */
@@ -147,9 +130,7 @@ final class TranslatableDateTest extends TestCase
         static::assertEquals($anyValue, $translatable->getTranslation('en-GB'));
     }
 
-    /**
-     * @dataProvider provideValidDateTestCases
-     */
+    #[DataProvider('provideValidDateTestCases')]
     public function testInvalidSetStateValues(Date $anyValue): void
     {
         /** @var AbstractTranslatable $translatable */
@@ -159,9 +140,7 @@ final class TranslatableDateTest extends TestCase
         static::assertCount(0, $translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideInvalidTestCases
-     */
+    #[DataProvider('provideInvalidTestCases')]
     public function testInsertOtherTypeInTypeCollection($item): void
     {
         $translatable = new TranslatableDate();
@@ -180,9 +159,7 @@ final class TranslatableDateTest extends TestCase
         ]], $this->jsonEncodeAndDecode($translatable));
     }
 
-    /**
-     * @dataProvider provideValidDateTestCases
-     */
+    #[DataProvider('provideValidDateTestCases')]
     public function testValidFallback(Date $anyValue): void
     {
         $translatable = new TranslatableDate();
@@ -193,9 +170,7 @@ final class TranslatableDateTest extends TestCase
         static::assertNull($translatable->getFallback());
     }
 
-    /**
-     * @dataProvider provideInvalidTestCases
-     */
+    #[DataProvider('provideInvalidTestCases')]
     public function testInvalidFallback($anyValue): void
     {
         $translatable = new TranslatableDate();

@@ -8,15 +8,14 @@ use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandleContextInterfa
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack;
 use Http\Discovery\Psr17FactoryDiscovery;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
-/**
- * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack
- */
+#[CoversClass(HttpHandlerContract::class)]
+#[CoversClass(HttpHandlerStack::class)]
 final class ContractTest extends TestCase
 {
     public function testImplementation(): void

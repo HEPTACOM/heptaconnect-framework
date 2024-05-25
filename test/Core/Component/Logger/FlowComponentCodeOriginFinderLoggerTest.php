@@ -16,14 +16,13 @@ use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterCod
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerCodeOriginFinderInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\AbstractLogger;
 use Psr\Log\LogLevel;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Component\Logger\FlowComponentCodeOriginFinderLogger
- * @covers \Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin
- */
+#[CoversClass(FlowComponentCodeOriginFinderLogger::class)]
+#[CoversClass(CodeOrigin::class)]
 final class FlowComponentCodeOriginFinderLoggerTest extends TestCase
 {
     public function testLocateComponentInContext(): void

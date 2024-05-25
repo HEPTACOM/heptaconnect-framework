@@ -7,11 +7,18 @@ namespace Heptacom\HeptaConnect\Core\Test\Ui\Admin\Support;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
 use Heptacom\HeptaConnect\Core\Ui\Admin\Support\StorageKeyAccessor;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalType;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
+use Heptacom\HeptaConnect\Storage\Base\Action\Job\Get\JobGetCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Get\JobGetResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\Route\Get\RouteGetCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Get\RouteGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
@@ -20,35 +27,41 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\JobKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
+use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
+use Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\ReadException;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\StorageKeyNotSupportedException;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Constraint\IsIdentical;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Ui\Admin\Support\StorageKeyAccessor
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
- * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
- * @covers \Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Get\JobGetCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Get\JobGetResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Get\RouteGetCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Get\RouteGetResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException
- * @covers \Heptacom\HeptaConnect\Storage\Base\JobKeyCollection
- * @covers \Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection
- * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\ReadException
- * @covers \Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\StorageKeyNotSupportedException
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- */
+#[CoversClass(StorageKeyAccessor::class)]
+#[CoversClass(DatasetEntityContract::class)]
+#[CoversClass(EntityType::class)]
+#[CoversClass(MappingComponentStruct::class)]
+#[CoversClass(PortalContract::class)]
+#[CoversClass(PortalType::class)]
+#[CoversClass(PortalNodeKeyCollection::class)]
+#[CoversClass(JobGetCriteria::class)]
+#[CoversClass(JobGetResult::class)]
+#[CoversClass(PortalNodeGetCriteria::class)]
+#[CoversClass(PortalNodeGetResult::class)]
+#[CoversClass(RouteGetCriteria::class)]
+#[CoversClass(RouteGetResult::class)]
+#[CoversClass(UnsupportedStorageKeyException::class)]
+#[CoversClass(JobKeyCollection::class)]
+#[CoversClass(RouteKeyCollection::class)]
+#[CoversClass(ReadException::class)]
+#[CoversClass(StorageKeyNotSupportedException::class)]
+#[CoversClass(ClassStringContract::class)]
+#[CoversClass(ClassStringReferenceContract::class)]
+#[CoversClass(SubtypeClassStringContract::class)]
+#[CoversClass(AbstractCollection::class)]
 final class StorageKeyAccessorTest extends TestCase
 {
     public function testPortalNodeExists(): void
@@ -256,11 +269,11 @@ final class StorageKeyAccessorTest extends TestCase
         $accessor->exists($testKey);
     }
 
-    /**
-     * @dataProvider provideSerializationStorageKeys
-     */
-    public function testKeySerialize(StorageKeyInterface $key): void
+    #[DataProvider('provideSerializationStorageKeys')]
+    public function testKeySerialize(string $keyClass): void
     {
+        $key = $this->createMock($keyClass);
+
         $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
@@ -276,11 +289,11 @@ final class StorageKeyAccessorTest extends TestCase
         static::assertSame('foobar', $accessor->serialize($key));
     }
 
-    /**
-     * @dataProvider provideSerializationStorageKeys
-     */
-    public function testKeySerializeFailsInImplementation(StorageKeyInterface $key): void
+    #[DataProvider('provideSerializationStorageKeys')]
+    public function testKeySerializeFailsInImplementation(string $keyClass): void
     {
+        $key = $this->createMock($keyClass);
+
         $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
@@ -299,11 +312,11 @@ final class StorageKeyAccessorTest extends TestCase
         $accessor->serialize($key);
     }
 
-    /**
-     * @dataProvider provideSerializationStorageKeys
-     */
-    public function testKeyDeserialize(StorageKeyInterface $key): void
+    #[DataProvider('provideSerializationStorageKeys')]
+    public function testKeyDeserialize(string $keyClass): void
     {
+        $key = $this->createMock($keyClass);
+
         $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
@@ -339,10 +352,10 @@ final class StorageKeyAccessorTest extends TestCase
         $accessor->deserialize('foobar');
     }
 
-    public function provideSerializationStorageKeys(): iterable
+    public static function provideSerializationStorageKeys(): iterable
     {
-        yield [$this->createMock(PortalNodeKeyInterface::class)];
-        yield [$this->createMock(RouteKeyInterface::class)];
-        yield [$this->createMock(JobKeyInterface::class)];
+        yield [PortalNodeKeyInterface::class];
+        yield [RouteKeyInterface::class];
+        yield [JobKeyInterface::class];
     }
 }

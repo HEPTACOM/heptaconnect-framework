@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Core\Test\Component\Logger;
 
 use Heptacom\HeptaConnect\Core\Component\Logger\ExceptionCodeLogger;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\AbstractLogger;
 use Psr\Log\LogLevel;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Component\Logger\ExceptionCodeLogger
- */
+#[CoversClass(ExceptionCodeLogger::class)]
 final class ExceptionCodeLoggerTest extends TestCase
 {
     public function testExceptionLogContainsTypeAndCode(): void

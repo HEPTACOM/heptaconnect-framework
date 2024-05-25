@@ -5,37 +5,51 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Core\Test\Exploration;
 
 use Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackProcessorInterface;
+use Heptacom\HeptaConnect\Core\Exploration\AbstractBufferedResultProcessingExplorer;
 use Heptacom\HeptaConnect\Core\Exploration\DirectEmitter;
 use Heptacom\HeptaConnect\Core\Exploration\DirectEmittingExplorer;
+use Heptacom\HeptaConnect\Core\Job\JobCollection;
+use Heptacom\HeptaConnect\Core\Job\Type\AbstractJobType;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerStackInterface;
+use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct;
+use Heptacom\HeptaConnect\Utility\Attachment\AttachmentAwareTrait;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
+use Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Exploration\AbstractBufferedResultProcessingExplorer
- * @covers \Heptacom\HeptaConnect\Core\Exploration\DirectEmitter
- * @covers \Heptacom\HeptaConnect\Core\Exploration\DirectEmittingExplorer
- * @covers \Heptacom\HeptaConnect\Core\Job\JobCollection
- * @covers \Heptacom\HeptaConnect\Core\Job\Type\AbstractJobType
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
- * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
- * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct
- * @covers \Heptacom\HeptaConnect\Utility\Attachment\AttachmentAwareTrait
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection
- */
+#[CoversClass(AbstractBufferedResultProcessingExplorer::class)]
+#[CoversClass(DirectEmitter::class)]
+#[CoversClass(DirectEmittingExplorer::class)]
+#[CoversClass(JobCollection::class)]
+#[CoversClass(AbstractJobType::class)]
+#[CoversClass(DatasetEntityContract::class)]
+#[CoversClass(DatasetEntityCollection::class)]
+#[CoversClass(EntityType::class)]
+#[CoversClass(TypedDatasetEntityCollection::class)]
+#[CoversClass(ExplorerContract::class)]
+#[CoversClass(MappingComponentStruct::class)]
+#[CoversClass(AttachmentAwareTrait::class)]
+#[CoversClass(ClassStringContract::class)]
+#[CoversClass(ClassStringReferenceContract::class)]
+#[CoversClass(SubtypeClassStringContract::class)]
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(AbstractObjectCollection::class)]
+#[CoversClass(StringCollection::class)]
 final class DirectEmittingExplorerTest extends TestCase
 {
     public function testEmitEntitiesInBatchSize(): void

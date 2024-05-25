@@ -1,29 +1,25 @@
+<?xml version="1.0"?>
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../vendor/phpunit/phpunit/phpunit.xsd"
     beStrictAboutChangesToGlobalState="true"
-    beStrictAboutCoversAnnotation="true"
     beStrictAboutOutputDuringTests="true"
-    beStrictAboutResourceUsageDuringSmallTests="true"
-    beStrictAboutTodoAnnotatedTests="true"
     cacheResult="false"
     colors="true"
     columns="max"
     executionOrder="random"
-    verbose="true"
-    forceCoversAnnotation="true"
+    cacheDirectory="../../.build/.phpunit-test-portal.cache"
+    requireCoverageMetadata="true"
+    beStrictAboutCoverageMetadata="true"
 >
     <testsuites>
         <testsuite name="Unit Tests">
             <directory>.</directory>
         </testsuite>
     </testsuites>
-    <coverage
-        includeUncoveredFiles="true"
-        processUncoveredFiles="true"
-    >
+    <source>
         <include>
-            <directory suffix=".php">../../src/TestSuitePortal</directory>
+            <directory>../../src/TestSuitePortal</directory>
         </include>
-    </coverage>
+    </source>
 </phpunit>

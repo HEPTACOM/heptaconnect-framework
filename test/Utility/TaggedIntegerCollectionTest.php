@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Utility\Test;
 
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection;
 use Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem;
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\IntegerCollection;
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedIntegerCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\IntegerCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedIntegerCollection
- */
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(AbstractTaggedCollection::class)]
+#[CoversClass(TagItem::class)]
+#[CoversClass(IntegerCollection::class)]
+#[CoversClass(TaggedIntegerCollection::class)]
 final class TaggedIntegerCollectionTest extends TestCase
 {
     use ProvidesIntegerTestsData;
     use ProvidesInvalidTestsData;
 
-    /**
-     * @dataProvider provideValidIntegerTestCases
-     */
+    #[DataProvider('provideValidIntegerTestCases')]
     public function testInsertTagOnCtor(int $item): void
     {
         $tagged = new TaggedIntegerCollection([new TagItem(new IntegerCollection([$item]), 'randomoffset')]);
@@ -32,9 +32,7 @@ final class TaggedIntegerCollectionTest extends TestCase
         static::assertEquals($item, $tagged->offsetGet('randomoffset')->getCollection()->first());
     }
 
-    /**
-     * @dataProvider provideValidIntegerTestCases
-     */
+    #[DataProvider('provideValidIntegerTestCases')]
     public function testChangingCollection(int $item): void
     {
         $tagged = new TaggedIntegerCollection();
@@ -45,9 +43,7 @@ final class TaggedIntegerCollectionTest extends TestCase
         static::assertCount(1, $tagged->offsetGet('randomoffset')->getCollection());
     }
 
-    /**
-     * @dataProvider provideValidIntegerTestCases
-     */
+    #[DataProvider('provideValidIntegerTestCases')]
     public function testGetTagItemAfterInserting(int $item): void
     {
         $tagged = new TaggedIntegerCollection();
@@ -57,9 +53,7 @@ final class TaggedIntegerCollectionTest extends TestCase
         static::assertEquals($item, $tagged->offsetGet('randomoffset')->getCollection()->first());
     }
 
-    /**
-     * @dataProvider provideValidIntegerTestCases
-     */
+    #[DataProvider('provideValidIntegerTestCases')]
     public function testGetTagItemWithoutInsertingItFirst(int $item): void
     {
         $tagged = new TaggedIntegerCollection();
@@ -76,9 +70,7 @@ final class TaggedIntegerCollectionTest extends TestCase
         static::assertTrue($tagged->offsetExists('1'));
     }
 
-    /**
-     * @dataProvider provideInvalidTestCases
-     */
+    #[DataProvider('provideInvalidTestCases')]
     public function testInsertOtherTypeInTypeCollection($item): void
     {
         $collection = new TaggedIntegerCollection();
@@ -86,9 +78,7 @@ final class TaggedIntegerCollectionTest extends TestCase
         static::assertCount(0, $collection);
     }
 
-    /**
-     * @dataProvider provideInvalidTestCases
-     */
+    #[DataProvider('provideInvalidTestCases')]
     public function testFailInsertOtherTypeInTypeCollection($item): void
     {
         static::expectException(\InvalidArgumentException::class);

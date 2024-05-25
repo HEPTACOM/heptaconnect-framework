@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Bridge\PortalNode\Configuration;
 
+use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\ClosureInstructionToken;
+use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\Config;
+use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\Contract\InstructionTokenContract;
 use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\InstructionFileLoader;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\ClosureInstructionToken
- * @covers \Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\Contract\InstructionTokenContract
- * @covers \Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\Config
- * @covers \Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\InstructionFileLoader
- */
+#[CoversClass(ClosureInstructionToken::class)]
+#[CoversClass(InstructionTokenContract::class)]
+#[CoversClass(Config::class)]
+#[CoversClass(InstructionFileLoader::class)]
 final class InstructionFileLoaderTest extends TestCase
 {
     public function testFailOnNonExistingFile(): void

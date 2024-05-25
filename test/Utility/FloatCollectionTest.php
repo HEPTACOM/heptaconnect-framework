@@ -4,21 +4,20 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Utility\Test;
 
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\FloatCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\FloatCollection
- */
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(FloatCollection::class)]
 final class FloatCollectionTest extends TestCase
 {
     use ProvidesFloatTestsData;
     use ProvidesInvalidTestsData;
 
-    /**
-     * @dataProvider provideValidFloatTestCases
-     */
+    #[DataProvider('provideValidFloatTestCases')]
     public function testInsertTypeInTypeCollection(float $item): void
     {
         $collection = new FloatCollection();
@@ -32,9 +31,7 @@ final class FloatCollectionTest extends TestCase
         static::assertTrue($collection->contains($item));
     }
 
-    /**
-     * @dataProvider provideInvalidTestCases
-     */
+    #[DataProvider('provideInvalidTestCases')]
     public function testInsertOtherTypeInTypeCollection($item): void
     {
         $collection = new FloatCollection();
@@ -47,9 +44,7 @@ final class FloatCollectionTest extends TestCase
         static::assertSame(0.0, $collection->sum());
     }
 
-    /**
-     * @dataProvider provideInvalidTestCases
-     */
+    #[DataProvider('provideInvalidTestCases')]
     public function testFailInsertOtherTypeInTypeCollection($item): void
     {
         static::expectException(\InvalidArgumentException::class);

@@ -7,23 +7,25 @@ namespace Heptacom\HeptaConnect\Core\Test\Web\Http;
 use Heptacom\HeptaConnect\Core\Portal\Contract\PortalNodeContainerFacadeContract;
 use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
+use Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerStackBuilder;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerStackBuilderFactory;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerStackBuilder
- * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerStackBuilderFactory
- * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection
- * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
- */
+#[CoversClass(HttpHandlerStackBuilder::class)]
+#[CoversClass(HttpHandlerStackBuilderFactory::class)]
+#[CoversClass(HttpHandlerContract::class)]
+#[CoversClass(HttpHandlerCollection::class)]
+#[CoversClass(HttpHandlerStackIdentifier::class)]
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(AbstractObjectCollection::class)]
 final class HttpHandlerStackBuilderFactoryTest extends TestCase
 {
     public function testFirstSourceBeingSourceInBuilder(): void

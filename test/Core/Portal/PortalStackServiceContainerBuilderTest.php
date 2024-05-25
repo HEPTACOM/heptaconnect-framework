@@ -6,30 +6,49 @@ namespace Heptacom\HeptaConnect\Core\Test\Portal;
 
 use Composer\Autoload\ClassLoader;
 use Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface;
+use Heptacom\HeptaConnect\Core\File\FileReferenceFactory;
+use Heptacom\HeptaConnect\Core\Portal\Exception\ServiceNotInstantiable;
+use Heptacom\HeptaConnect\Core\Portal\Exception\ServiceNotInstantiableEndlessLoopDetected;
 use Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Contract\FilesystemFactoryInterface;
 use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
+use Heptacom\HeptaConnect\Core\Portal\PortalConfiguration;
+use Heptacom\HeptaConnect\Core\Portal\PortalLogger;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder;
 use Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory;
+use Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddConfigurationBindingsCompilerPass;
+use Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddHttpMiddlewareClientCompilerPass;
+use Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddHttpMiddlewareCollectorCompilerPass;
+use Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AllDefinitionDefaultsCompilerPass;
+use Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\BuildDefinitionForFlowComponentRegistryCompilerPass;
+use Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\RemoveAutoPrototypedDefinitionsCompilerPass;
+use Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\SetConfigurationAsParameterCompilerPass;
 use Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract;
 use Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarStatusReporter;
 use Heptacom\HeptaConnect\Core\Test\Fixture\HttpClientInterfaceDecorator;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleServiceInterface;
+use Heptacom\HeptaConnect\Core\Web\Http\HttpKernel;
+use Heptacom\HeptaConnect\Core\Web\Http\HttpMiddlewareClient;
 use Heptacom\HeptaConnect\Portal\Base\File\FileReferenceResolverContract;
 use Heptacom\HeptaConnect\Portal\Base\File\Filesystem\Contract\FilesystemInterface;
 use Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract;
 use Heptacom\HeptaConnect\Portal\Base\Parallelization\Contract\ResourceLockingContract;
 use Heptacom\HeptaConnect\Portal\Base\Parallelization\Support\ResourceLockFacade;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\ConfigurationContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalStorageInterface;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PackageCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection;
 use Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerContract;
 use Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerFactoryContract;
 use Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface;
 use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegistryContract;
+use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract;
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReportingContextInterface;
+use Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterCollection;
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterStack;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepCloneContract;
@@ -42,6 +61,8 @@ use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageMultiPartForm
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageRawHttpFormatterContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerUrlProviderInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
 use HeptacomFixture\Portal\A\AutomaticService\ExceptionNotInContainer;
 use HeptacomFixture\Portal\A\AutomaticService\InboundHttpMiddleware;
 use HeptacomFixture\Portal\A\AutomaticService\OutboundHttpMiddleware;
@@ -49,6 +70,7 @@ use HeptacomFixture\Portal\A\Dto\ShouldNotBeAService;
 use HeptacomFixture\Portal\A\ManualService\ExceptionInContainer;
 use HeptacomFixture\Portal\A\Portal;
 use HeptacomFixture\Portal\Extension\PortalExtension;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -60,38 +82,40 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\File\FileReferenceFactory
- * @covers \Heptacom\HeptaConnect\Core\Portal\Exception\ServiceNotInstantiable
- * @covers \Heptacom\HeptaConnect\Core\Portal\Exception\ServiceNotInstantiableEndlessLoopDetected
- * @covers \Heptacom\HeptaConnect\Core\Portal\PortalConfiguration
- * @covers \Heptacom\HeptaConnect\Core\Portal\PortalLogger
- * @covers \Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder
- * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddConfigurationBindingsCompilerPass
- * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddHttpMiddlewareClientCompilerPass
- * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddHttpMiddlewareCollectorCompilerPass
- * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AllDefinitionDefaultsCompilerPass
- * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\BuildDefinitionForFlowComponentRegistryCompilerPass
- * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\RemoveAutoPrototypedDefinitionsCompilerPass
- * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\SetConfigurationAsParameterCompilerPass
- * @covers \Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector
- * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpMiddlewareClient
- * @covers \Heptacom\HeptaConnect\Portal\Base\Parallelization\Support\ResourceLockFacade
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
- */
+#[CoversClass(FileReferenceFactory::class)]
+#[CoversClass(ServiceNotInstantiable::class)]
+#[CoversClass(ServiceNotInstantiableEndlessLoopDetected::class)]
+#[CoversClass(PortalConfiguration::class)]
+#[CoversClass(PortalLogger::class)]
+#[CoversClass(PortalStackServiceContainerBuilder::class)]
+#[CoversClass(AddConfigurationBindingsCompilerPass::class)]
+#[CoversClass(AddHttpMiddlewareClientCompilerPass::class)]
+#[CoversClass(AddHttpMiddlewareCollectorCompilerPass::class)]
+#[CoversClass(AllDefinitionDefaultsCompilerPass::class)]
+#[CoversClass(BuildDefinitionForFlowComponentRegistryCompilerPass::class)]
+#[CoversClass(RemoveAutoPrototypedDefinitionsCompilerPass::class)]
+#[CoversClass(SetConfigurationAsParameterCompilerPass::class)]
+#[CoversClass(HttpKernel::class)]
+#[CoversClass(HttpMiddlewareCollector::class)]
+#[CoversClass(HttpMiddlewareClient::class)]
+#[CoversClass(ResourceLockFacade::class)]
+#[CoversClass(PackageCollection::class)]
+#[CoversClass(PackageContract::class)]
+#[CoversClass(PortalContract::class)]
+#[CoversClass(PortalExtensionContract::class)]
+#[CoversClass(PortalExtensionCollection::class)]
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(AbstractObjectCollection::class)]
+#[CoversClass(FlowComponentRegistry::class)]
+#[CoversClass(StatusReporterCollection::class)]
+#[CoversClass(StatusReporterContract::class)]
+#[CoversClass(StatusReporterStack::class)]
 final class PortalStackServiceContainerBuilderTest extends TestCase
 {
     private ClassLoader $classLoader;
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->classLoader = new ClassLoader();
         $this->classLoader->addPsr4('HeptacomFixture\\Portal\\A\\', __DIR__ . '/../../../test-composer-integration/portal-package/src/');
         $this->classLoader->addPsr4('HeptacomFixture\\Portal\\AdditionalPackage\\', __DIR__ . '/../../../test-composer-integration/package-package/src/');
@@ -101,8 +125,6 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
 
     protected function tearDown(): void
     {
-        parent::tearDown();
-
         $this->classLoader->unregister();
     }
 

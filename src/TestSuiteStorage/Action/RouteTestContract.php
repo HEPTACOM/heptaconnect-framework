@@ -73,8 +73,6 @@ abstract class RouteTestContract extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         $facade = $this->createStorageFacade();
         $this->portalNodeCreateAction = $facade->getPortalNodeCreateAction();
         $this->portalNodeDeleteAction = $facade->getPortalNodeDeleteAction();
@@ -102,8 +100,6 @@ abstract class RouteTestContract extends TestCase
 
     protected function tearDown(): void
     {
-        parent::tearDown();
-
         try {
             $this->portalNodeDeleteAction->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([$this->portalA])));
         } catch (NotFoundException) {

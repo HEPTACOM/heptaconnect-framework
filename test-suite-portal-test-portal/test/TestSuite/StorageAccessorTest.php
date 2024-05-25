@@ -7,10 +7,9 @@ namespace HeptacomFixture\TestSuitePortal\TestPortal\Test\TestSuite;
 use Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Contract\FilesystemFactoryInterface;
 use Heptacom\HeptaConnect\Portal\Base\File\Filesystem\Contract\FilesystemInterface;
 use Heptacom\HeptaConnect\TestSuite\Portal\AbstractTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Heptacom\HeptaConnect\TestSuite\Portal\AbstractTestCase
- */
+#[CoversClass(AbstractTestCase::class)]
 final class StorageAccessorTest extends AbstractTestCase
 {
     public function testNoDataInFilesystem(): void
