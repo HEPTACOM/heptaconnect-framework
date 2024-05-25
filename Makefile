@@ -65,7 +65,7 @@ cs-phpstan: vendor .build $(PHPSTAN_FILE) ## Run phpstan for static code analysi
 .PHONY: cs-phpmd
 cs-phpmd: .build $(PHPMD_FILE) ## Run php mess detector for static code analysis
 	[[ -z "${CI}" ]] || [[ -f .build/phpmd-junit.xslt ]] || $(CURL) https://phpmd.org/junit.xslt -o .build/phpmd-junit.xslt
-	[[ -z "${CI}" ]] || $(PHP) $(PHPMD_FILE) src xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md.junit.xml
+	[[ -z "${CI}" ]] || $(PHP) -d 'error_reporting=E_ALL & ~E_DEPRECATED' $(PHPMD_FILE) src xml dev-ops/phpmd.xml | $(XSLTPROC) .build/phpmd-junit.xslt - > .build/php-md.junit.xml
 	[[ -n "${CI}" ]] || $(PHP) $(PHPMD_FILE) src ansi dev-ops/phpmd.xml
 
 .PHONY: cs-phpcpd
