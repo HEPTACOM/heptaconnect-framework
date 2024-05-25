@@ -32,7 +32,7 @@
         "composer/composer": "^2.2.6",
         "myclabs/deep-copy": ">=1.10 <2",
         "php-http/discovery": "^1.11",
-        "phpunit/phpunit": ">=9.6 <10",
+        "phpunit/phpunit": ">=11 <12",
         "psr/cache": "^2.0 || ^3.0",
         "psr/container": "^2.0",
         "psr/event-dispatcher": "^1.0",
@@ -57,7 +57,7 @@
         "symfony/yaml": ">=6.4.0"
     },
     "require-dev": {
-        "infection/infection": ">=0.21",
+        "infection/infection": ">=0.28",
         "m2mtech/flysystem-stream-wrapper": "^1.4.0",
         "league/flysystem": "^3",
         "nyholm/psr7": ">=1",
