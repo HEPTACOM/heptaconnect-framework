@@ -94,6 +94,8 @@ definitions:
                 <<: *default-step
                 name: Install Core
                 script:
+                    - composer config -d src/Core minimum-stability dev
+                    - composer config -d src/Core prefer-stable true
                     - composer install -d src/Core
         -   step: &composer-install-dataset-base
                 <<: *default-step
@@ -104,26 +106,36 @@ definitions:
                 <<: *default-step
                 name: Install Portal Base
                 script:
+                    - composer config -d src/PortalBase minimum-stability dev
+                    - composer config -d src/PortalBase prefer-stable true
                     - composer install -d src/PortalBase
         -   step: &composer-install-storage-base
                 <<: *default-step
                 name: Install Storage Base
                 script:
+                    - composer config -d src/StorageBase minimum-stability dev
+                    - composer config -d src/StorageBase prefer-stable true
                     - composer install -d src/StorageBase
         -   step: &composer-install-test-suite-storage
                 <<: *default-step
                 name: Install Test Suite Storage
                 script:
+                    - composer config -d src/TestSuiteStorage minimum-stability dev
+                    - composer config -d src/TestSuiteStorage prefer-stable true
                     - composer install -d src/TestSuiteStorage
         -   step: &composer-install-ui-admin-base
                 <<: *default-step
                 name: Install UI Admin Base
                 script:
+                    - composer config -d src/UiAdminBase minimum-stability dev
+                    - composer config -d src/UiAdminBase prefer-stable true
                     - composer install -d src/UiAdminBase
         -   step: &composer-install-utility
                 <<: *default-step
                 name: Install Utility
                 script:
+                    - composer config -d src/Utility minimum-stability dev
+                    - composer config -d src/Utility prefer-stable true
                     - composer install -d src/Utility
         -   step: &test-coverage
                 <<: *default-step
