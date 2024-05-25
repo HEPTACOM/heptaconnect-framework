@@ -185,10 +185,6 @@ infection: clean test-setup-fixture vendor .build ## Run infection tests
 	$(PHPUNIT) --coverage-xml=.build/.phpunit-coverage/index.xml --log-junit=.build/.phpunit-coverage/infection.junit.xml
 	$(INFECTION) --only-covered --only-covering-test-cases --threads=max --configuration=dev-ops/infection.json --coverage=../.build/.phpunit-coverage --show-mutations --no-interaction
 
-# TODO check how to merge with coverage
-.PHONY: test
-test: test-setup-fixture clean-package-vendor run-phpunit test-clean-fixture ## Run phpunit for unit tests
-
 .PHONY: run-phpunit
 run-phpunit: vendor .build
 	$(PHPUNIT) --log-junit=.build/.phpunit-coverage/phpunit.junit.xml
