@@ -11,7 +11,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 class ResourceLockFacade
 {
     public function __construct(
-        private ResourceLockingContract $resourceLocking
+        private readonly ResourceLockingContract $resourceLocking
     ) {
     }
 

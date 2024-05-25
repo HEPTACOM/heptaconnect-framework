@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 
 class InvalidPortalNodeKeyException extends \Exception
 {
-    private PortalNodeKeyInterface $portalNodeKey;
+    private readonly PortalNodeKeyInterface $portalNodeKey;
 
     public function __construct(PortalNodeKeyInterface $portalNodeKey, ?\Throwable $previous = null)
     {

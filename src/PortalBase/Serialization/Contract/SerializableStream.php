@@ -20,7 +20,7 @@ final class SerializableStream implements StreamInterface, \Stringable
 
     public function __toString(): string
     {
-        return $this->stream->__toString();
+        return (string) $this->stream->__toString();
     }
 
     /**

@@ -11,7 +11,7 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
 final class FooBarEmitter extends EmitterContract
 {
     public function __construct(
-        private int $count
+        private readonly int $count
     ) {
     }
 

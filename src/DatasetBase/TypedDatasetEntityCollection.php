@@ -11,7 +11,7 @@ use Heptacom\HeptaConnect\Utility\ClassString\Exception\UnexpectedLeadingNamespa
 
 final class TypedDatasetEntityCollection extends DatasetEntityCollection
 {
-    private EntityType $type;
+    private readonly EntityType $type;
 
     /**
      * @psalm-param class-string<DatasetEntityContract>|EntityType $type

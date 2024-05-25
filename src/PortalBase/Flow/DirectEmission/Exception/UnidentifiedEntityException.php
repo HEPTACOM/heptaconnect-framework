@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 
 class UnidentifiedEntityException extends \Exception
 {
-    private DatasetEntityContract $entity;
+    private readonly DatasetEntityContract $entity;
 
     public function __construct(DatasetEntityContract $entity)
     {

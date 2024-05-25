@@ -24,7 +24,7 @@ final class StorageKeyCollectionTest extends TestCase
         $collection->push([new class() implements MappingNodeKeyInterface {
             public function equals(StorageKeyInterface $other): bool
             {
-                return $other::class === static::class;
+                return $other::class === self::class;
             }
 
             #[\ReturnTypeWillChange]
@@ -42,7 +42,7 @@ final class StorageKeyCollectionTest extends TestCase
         $collection->push([new class() implements PortalNodeKeyInterface {
             public function equals(StorageKeyInterface $other): bool
             {
-                return $other::class === static::class;
+                return $other::class === self::class;
             }
 
             #[\ReturnTypeWillChange]

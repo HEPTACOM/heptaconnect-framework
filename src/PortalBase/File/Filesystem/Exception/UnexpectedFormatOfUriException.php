@@ -7,8 +7,8 @@ namespace Heptacom\HeptaConnect\Portal\Base\File\Filesystem\Exception;
 class UnexpectedFormatOfUriException extends \InvalidArgumentException
 {
     public function __construct(
-        private string $argument,
-        private string $format,
+        private readonly string $argument,
+        private readonly string $format,
         int $code,
         ?\Throwable $previous = null
     ) {

@@ -9,11 +9,9 @@ use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReportingCo
 
 final class FooBarStatusReporter extends StatusReporterContract
 {
-    private string $id;
-
-    public function __construct(string $id)
-    {
-        $this->id = $id;
+    public function __construct(
+        private readonly string $id
+    ) {
     }
 
     public function supportsTopic(): string

@@ -13,9 +13,9 @@ final class Mapping implements MappingInterface
 {
     public function __construct(
         private ?string $externalId,
-        private PortalNodeKeyInterface $portalNodeKey,
-        private MappingNodeKeyInterface $mappingNodeKey,
-        private EntityType $entityType
+        private readonly PortalNodeKeyInterface $portalNodeKey,
+        private readonly MappingNodeKeyInterface $mappingNodeKey,
+        private readonly EntityType $entityType
     ) {
     }
 

@@ -575,22 +575,15 @@ abstract class IdentityMappingTestContract extends TestCase
             $identifiedEntity = $mappedEntity->getDatasetEntity();
             $mappingNodeKey = $mappedEntity->getMapping()->getMappingNodeKey();
 
-            switch ($identifiedEntity->getPrimaryKey()) {
-                case $sourceId1:
-                    $identityPersistPayloadCollection->push([
-                        new IdentityPersistCreatePayload($mappingNodeKey, $unwantedTargetId1),
-                    ]);
-
-                    break;
-                case $sourceId2:
-                    $identityPersistPayloadCollection->push([
-                        new IdentityPersistCreatePayload($mappingNodeKey, $unwantedTargetId2),
-                    ]);
-
-                    break;
-                default:
-                    static::fail('Entity was not identified correctly.');
-            }
+            match ($identifiedEntity->getPrimaryKey()) {
+                $sourceId1 => $identityPersistPayloadCollection->push([
+                    new IdentityPersistCreatePayload($mappingNodeKey, $unwantedTargetId1),
+                ]),
+                $sourceId2 => $identityPersistPayloadCollection->push([
+                    new IdentityPersistCreatePayload($mappingNodeKey, $unwantedTargetId2),
+                ]),
+                default => static::fail('Entity was not identified correctly.'),
+            };
         }
 
         static::assertCount(2, $identityPersistPayloadCollection);
@@ -624,7 +617,7 @@ abstract class IdentityMappingTestContract extends TestCase
      *
      * @return iterable<int, class-string<DatasetEntityContract>[]>
      */
-    public function provideEntityClasses(): iterable
+    public static function provideEntityClasses(): iterable
     {
         yield [EntityA::class];
         yield [EntityB::class];

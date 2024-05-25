@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception;
 
 final class PortalNodeAliasNotFoundException extends \RuntimeException implements InvalidArgumentThrowableInterface
 {
-    private string $portalNodeAlias;
+    private readonly string $portalNodeAlias;
 
     public function __construct(string $portalNodeAlias, int $code, ?\Throwable $previous = null)
     {

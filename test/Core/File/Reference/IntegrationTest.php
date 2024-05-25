@@ -456,7 +456,7 @@ class IntegrationTest extends TestCase
                 foreach ($p->getSerializedRequests() as $key => $serializedRequest) {
                     $result->addFileReferenceRequestKey($key, new class($serializedRequest) implements FileReferenceRequestKeyInterface {
                         public function __construct(
-                            private string $content
+                            private readonly string $content
                         ) {
                         }
 

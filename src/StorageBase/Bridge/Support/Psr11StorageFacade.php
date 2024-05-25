@@ -60,7 +60,7 @@ use Psr\Container\ContainerInterface;
 class Psr11StorageFacade extends AbstractSingletonStorageFacade
 {
     public function __construct(
-        private ContainerInterface $container
+        private readonly ContainerInterface $container
     ) {
     }
 

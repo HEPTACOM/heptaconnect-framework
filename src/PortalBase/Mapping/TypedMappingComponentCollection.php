@@ -14,7 +14,7 @@ class TypedMappingComponentCollection extends MappingComponentCollection
      * @param iterable<MappingComponentStructContract> $items
      */
     public function __construct(
-        private EntityType $entityType,
+        private readonly EntityType $entityType,
         iterable $items = []
     ) {
         parent::__construct($items);

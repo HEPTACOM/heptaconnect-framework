@@ -10,7 +10,7 @@ use Heptacom\HeptaConnect\Utility\Attachment\Contract\AttachableInterface;
 abstract class FileReferenceContract implements AttachableInterface
 {
     public function __construct(
-        private PortalNodeKeyInterface $portalNodeKey
+        private readonly PortalNodeKeyInterface $portalNodeKey
     ) {
     }
 

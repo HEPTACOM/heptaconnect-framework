@@ -18,7 +18,7 @@ final class StreamPathTest extends TestCase
 
         $streamPath = new class($testValue) extends StreamPathContract {
             public function __construct(
-                private string $prefix
+                private readonly string $prefix
             ) {
             }
 

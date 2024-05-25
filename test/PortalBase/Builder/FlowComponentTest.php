@@ -492,7 +492,7 @@ final class FlowComponentTest extends TestCase
         $explorerToken = new ExplorerToken(FirstEntity::class());
         $explorerToken->setRun(function () use (&$supports, &$thisClasses): array {
             /* @var $this ExplorerContract */
-            $thisClasses[] = static::class;
+            $thisClasses[] = self::class;
             $supports[] = (string) $this->getSupportedEntityType();
 
             return [];
@@ -502,7 +502,7 @@ final class FlowComponentTest extends TestCase
         $emitterToken = new EmitterToken(FirstEntity::class());
         $emitterToken->setBatch(function () use (&$supports, &$thisClasses): array {
             /* @var $this EmitterContract */
-            $thisClasses[] = static::class;
+            $thisClasses[] = self::class;
             $supports[] = (string) $this->getSupportedEntityType();
 
             return [];
@@ -512,7 +512,7 @@ final class FlowComponentTest extends TestCase
         $receiverToken = new ReceiverToken(FirstEntity::class());
         $receiverToken->setBatch(function () use (&$supports, &$thisClasses): void {
             /* @var $this ReceiverContract */
-            $thisClasses[] = static::class;
+            $thisClasses[] = self::class;
             $supports[] = (string) $this->getSupportedEntityType();
         });
         $receiver = new Receiver($receiverToken);
@@ -520,7 +520,7 @@ final class FlowComponentTest extends TestCase
         $statusReporterToken = new StatusReporterToken(StatusReporterContract::TOPIC_HEALTH);
         $statusReporterToken->setRun(function () use (&$supports, &$thisClasses): array {
             /* @var $this StatusReporterContract */
-            $thisClasses[] = static::class;
+            $thisClasses[] = self::class;
             $supports[] = $this->supportsTopic();
 
             return [];
@@ -530,7 +530,7 @@ final class FlowComponentTest extends TestCase
         $httpHandlerToken = new HttpHandlerToken('/');
         $httpHandlerToken->setRun(function (ResponseInterface $response) use (&$supports, &$thisClasses): ResponseInterface {
             /* @var $this HttpHandlerContract */
-            $thisClasses[] = static::class;
+            $thisClasses[] = self::class;
             $supports[] = $this->getPath();
 
             return $response;

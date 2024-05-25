@@ -106,12 +106,12 @@ abstract class RouteTestContract extends TestCase
 
         try {
             $this->portalNodeDeleteAction->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([$this->portalA])));
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
         }
 
         try {
             $this->portalNodeDeleteAction->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([$this->portalB])));
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
         }
     }
 

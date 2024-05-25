@@ -55,7 +55,7 @@ class Portal extends PortalContract
             $containerBuilder->set($definitionId, $service);
             $definition = (new Definition())
                 ->setSynthetic(true)
-                ->setClass(\get_class($service));
+                ->setClass($service::class);
             $containerBuilder->setDefinition($definitionId, $definition);
         }
     }

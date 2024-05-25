@@ -364,7 +364,7 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
 
         $definition = (new Definition())
             ->setSynthetic(true)
-            ->setClass(\get_class($service))
+            ->setClass($service::class)
             ->addTag($tag, [
                 'source' => Portal::class,
                 'priority' => $priority,

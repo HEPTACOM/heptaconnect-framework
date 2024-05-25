@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Exception;
 
 class UnsupportedStorageKeyException extends \Exception
 {
-    private string $storageKeyClass;
+    private readonly string $storageKeyClass;
 
     public function __construct(string $storageKeyClass, ?\Throwable $previous = null)
     {

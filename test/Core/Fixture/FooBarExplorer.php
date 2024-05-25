@@ -11,7 +11,7 @@ use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerStackInterfac
 final class FooBarExplorer extends ExplorerContract
 {
     public function __construct(
-        private int $count
+        private readonly int $count
     ) {
     }
 

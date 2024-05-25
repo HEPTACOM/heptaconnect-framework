@@ -9,7 +9,7 @@ namespace Heptacom\HeptaConnect\Utility\ClassString\Exception;
  */
 class UnexpectedLeadingNamespaceSeparatorInClassNameException extends \InvalidArgumentException
 {
-    private string $className;
+    private readonly string $className;
 
     public function __construct(string $className, int $code, ?\Throwable $previous = null)
     {
