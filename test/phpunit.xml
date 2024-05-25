@@ -25,6 +25,9 @@
         <testsuite name="Storage Base Tests">
             <directory>StorageBase</directory>
         </testsuite>
+        <testsuite name="Utility Tests">
+            <directory>Utility</directory>
+        </testsuite>
     </testsuites>
     <source>
         <include>
@@ -32,6 +35,7 @@
             <directory>../src/DatasetBase/</directory>
             <directory>../src/PortalBase/</directory>
             <directory>../src/StorageBase/</directory>
+            <directory>../src/Utility/</directory>
         </include>
     </source>
 </phpunit>
