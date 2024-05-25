@@ -6,8 +6,8 @@ namespace Heptacom\HeptaConnect\Core\Test\Storage;
 
 use Heptacom\HeptaConnect\Core\Storage\Contract\StreamPathContract;
 use Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamDenormalizer;
-use League\Flysystem\Adapter\NullAdapter;
 use League\Flysystem\Filesystem;
+use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -17,7 +17,7 @@ final class StreamDenormalizerTest extends TestCase
 {
     public function testNullStream(): void
     {
-        $denorm = new StreamDenormalizer(new Filesystem(new NullAdapter()), new StreamPathContract());
+        $denorm = new StreamDenormalizer(new Filesystem(new InMemoryFilesystemAdapter()), new StreamPathContract());
 
         static::assertFalse($denorm->supportsDenormalization(null, $denorm->getType()));
         static::expectExceptionMessage('data is null');
@@ -26,7 +26,7 @@ final class StreamDenormalizerTest extends TestCase
 
     public function testEmptyStreamReference(): void
     {
-        $denorm = new StreamDenormalizer(new Filesystem(new NullAdapter()), new StreamPathContract());
+        $denorm = new StreamDenormalizer(new Filesystem(new InMemoryFilesystemAdapter()), new StreamPathContract());
 
         static::assertFalse($denorm->supportsDenormalization('', $denorm->getType()));
         static::expectExceptionMessage('data is empty');

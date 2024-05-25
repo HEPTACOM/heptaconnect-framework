@@ -59,6 +59,7 @@
     "require-dev": {
         "infection/infection": ">=0.28",
         "league/flysystem": "^3",
+        "league/flysystem-memory": "^3",
         "m2mtech/flysystem-stream-wrapper": "^1.4.0",
         "nyholm/psr7": ">=1",
         "php-http/curl-client": ">=2"
