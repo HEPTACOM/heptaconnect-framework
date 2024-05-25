@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Storage\Base;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 
-final class AliasAwarePortalNodeStorageKey implements PortalNodeKeyInterface
+final readonly class AliasAwarePortalNodeStorageKey implements PortalNodeKeyInterface
 {
     public function __construct(
         private PortalNodeKeyInterface $portalNodeKey

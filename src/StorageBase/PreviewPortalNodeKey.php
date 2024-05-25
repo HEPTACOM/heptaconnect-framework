@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\PortalType;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 
-final class PreviewPortalNodeKey implements PortalNodeKeyInterface
+final readonly class PreviewPortalNodeKey implements PortalNodeKeyInterface
 {
     public function __construct(
         private PortalType $portalType

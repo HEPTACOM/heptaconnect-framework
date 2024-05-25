@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
-final class MappingStruct implements MappingInterface
+final readonly class MappingStruct implements MappingInterface
 {
     public function __construct(
         private PortalNodeKeyInterface $portalNodeKey,

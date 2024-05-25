@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\Web\Http;
 use Heptacom\HeptaConnect\Portal\Base\FlowComponent\Contract\FlowComponentStackIdentifierInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
-final class HttpHandlerStackIdentifier implements FlowComponentStackIdentifierInterface
+final readonly class HttpHandlerStackIdentifier implements FlowComponentStackIdentifierInterface
 {
     public function __construct(
         private PortalNodeKeyInterface $portalNodeKey,
