@@ -7,13 +7,13 @@
         "testing"
     ],
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.2",
         "heptacom/heptaconnect-portal-base": "@dev"
     },
     "require-dev": {
         "heptacom/heptaconnect-framework": "@dev",
         "heptacom/heptaconnect-test-suite-portal": "@dev",
-        "phpunit/phpunit": ">=9.6 <10",
+        "phpunit/phpunit": ">=11 <12",
         "symfony/cache": ">=5.3.7",
         "php-http/discovery": "^1.11",
         "nyholm/psr7": "^1"
