@@ -154,7 +154,7 @@ trait ResolveArgumentsTrait
                 return false;
             }
 
-            if (\in_array(\mb_strtolower((string) $type), ['string', 'float', 'int', 'bool', 'array'], true)) {
+            if (\in_array(\mb_strtolower($type), ['string', 'float', 'int', 'bool', 'array'], true)) {
                 return true;
             }
         }

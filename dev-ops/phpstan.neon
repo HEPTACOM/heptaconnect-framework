@@ -15,20 +15,21 @@ parameters:
 		- ../src/StorageBase/
 		- ../src/UiAdminBase/
 		- ../src/TestSuiteStorage/
-        # TODO Add TestSuitePortal
+		- ../src/Utility/
+		# TODO Add TestSuitePortal
 	tmpDir: ../.build/phpstan/
 	scanDirectories:
 		- ../vendor/
 	ignoreErrors:
 		-
 			message: '#Unsafe usage of new static\(\)#'
-			path: ../src/DatasetBase/Support/SetStateTrait.php
+			path: ../src/Utility/Php/SetStateTrait.php
 		-
 			message: '#Dead catch - Throwable is never thrown in the try block.#'
-			path: ../src/DatasetBase/Support/SetStateTrait.php
+			path: ../src/Utility/Php/SetStateTrait.php
 		-
 			message: '#^Variable (method call|property access) on object\.$#'
-			path: ../src/DatasetBase/Support/AbstractCollection.php
+			path: ../src/Utility/Collection/AbstractCollection.php
 		-
 			message: '#Call to deprecated .* of class Heptacom#'
 			path: ../src/DatasetBase/Translatable/AbstractTranslatable.php
@@ -46,7 +47,7 @@ parameters:
 		-
 			message: '#PHPDoc tag @param for parameter .* contains unresolvable type#'
 			paths:
-				- ../src/DatasetBase/Support/AbstractCollection.php
+				- ../src/Utility/Collection/AbstractCollection.php
 		-
 			# will not fail anymore, when we require composer 2.3 https://github.com/composer/composer/commit/84f0f191122af73039555a3a9381a1a408131422
 			message: '#Instanceof between Composer\\Package\\Locker and Composer\\Package\\Locker will always evaluate to true#'
@@ -69,14 +70,23 @@ parameters:
 			message: "#Casting to .* something that's already .*#"
 			paths:
 				- ../src/Core/Portal/PortalStorage.php
-				- ../src/DatasetBase/ScalarCollection/IntegerCollection.php
-		-
-			# It looks like a struct, but as a utility class, that is not passed as an argument to a public API method, it does not need that interface
-			message: "#Class 'Heptacom\\\\HeptaConnect\\\\Portal\\\\Base\\\\Serialization\\\\Contract\\\\SerializableStream' that looks like a struct is expected to implement Heptacom\\\\HeptaConnect\\\\Dataset\\\\Base\\\\Contract\\\\AttachmentAwareInterface#"
-			paths:
-				- ../src/PortalBase/Serialization/Contract/SerializableStream.php
+				- ../src/Utility/Collection/Scalar/IntegerCollection.php
 		-
 			# we have a collection concept without string keys, but we sometimes store strings in there. not good yet
 			message: "#PHPDoc type array<string, .*TagItem<T>> of property .*AbstractTaggedCollection::\\$items is not the same as PHPDoc type array<int, .*TagItem<T>> of overridden property .*AbstractCollection<.*TagItem<T>>::\\$items.#"
 			paths:
-				- ../src/DatasetBase/TaggedCollection/AbstractTaggedCollection.php
+				- ../src/Utility/Collection/Contract/AbstractTaggedCollection.php
+		-
+			# make a rule, that detects Symfony message handlers automatically but only if we have more
+			message: '#Class .Heptacom\\HeptaConnect\\Core\\Flow\\MessageQueueFlow\\MessageHandler. that is final neither looks like a struct, extends a contract nor implements an interface#'
+			paths:
+				- ../src/Core/Flow/MessageQueueFlow/MessageHandler.php
+		-
+			# not yet released
+			message: '#Class Heptacom\\HeptaConnect\\Ui\\Admin\\Base\\Contract\\Audit\\AuditableDataAwareInterface not found#'
+			paths:
+				- ../dev-ops/bin/phpstan/src/Support/StructDetector.php
+		-
+			message: '#Class .Heptacom\\HeptaConnect\\Portal\\Base\\Serialization\\Contract\\SerializableStream. that looks like a struct is expected to implement Heptacom\\HeptaConnect\\Utility\\Attachment\\Contract\\AttachmentAwareInterface#'
+			paths:
+				- ../src/PortalBase/Serialization/Contract/SerializableStream.php
