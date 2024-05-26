@@ -40,6 +40,7 @@ final class FinalClassesMustNotHaveProtectedFieldsAndMethodsRule implements Rule
 
         $reflectionClass = $this->reflectionProvider->getClass($scope->getNamespace() . '\\' . $node->name);
         $parentMethods = [];
+        /** @var array<string, string> $parentConsts */
         $parentConsts = [];
         $parentProperties = [];
 
@@ -52,7 +53,7 @@ final class FinalClassesMustNotHaveProtectedFieldsAndMethodsRule implements Rule
             }
 
             foreach (\array_keys($interfaceRefl->getReflectionConstants()) as $constant) {
-                $parentConsts[$constant] = $constant;
+                $parentConsts[(string) $constant] = $constant;
             }
 
             foreach ($interfaceRefl->getProperties() as $property) {
@@ -70,7 +71,7 @@ final class FinalClassesMustNotHaveProtectedFieldsAndMethodsRule implements Rule
             }
 
             foreach (\array_keys($classRefl->getReflectionConstants()) as $constant) {
-                $parentConsts[$constant] = $constant;
+                $parentConsts[(string) $constant] = $constant;
             }
 
             foreach ($classRefl->getProperties() as $property) {

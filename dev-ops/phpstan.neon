@@ -5,7 +5,6 @@ rules:
 	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\ImplementationsMustBeFinalRule
 	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\InterfacesHaveDocumentationRule
 parameters:
-	checkMissingIterableValueType: false
 	inferPrivatePropertyTypeFromConstructor: true
 	paths:
 		- ../dev-ops/bin/phpstan/src/
@@ -21,6 +20,8 @@ parameters:
 	scanDirectories:
 		- ../vendor/
 	ignoreErrors:
+		-
+			identifier: missingType.iterableValue
 		-
 			message: '#Unsafe usage of new static\(\)#'
 			path: ../src/Utility/Php/SetStateTrait.php
