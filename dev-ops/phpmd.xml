@@ -36,12 +36,12 @@
     </rule>
     <rule ref="rulesets/naming.xml/LongClassName">
         <properties>
-            <property name="subtract-suffixes" value="ServiceContract,ServiceInterface,Collection,Contract,Interface"/>
+            <property name="subtract-suffixes" value="ServiceContract,ServiceInterface,Collection,Contract,Interface,CompilerPass,Exception,Converter"/>
         </properties>
     </rule>
     <rule ref="rulesets/naming.xml/LongVariable">
         <properties>
-            <property name="subtract-suffixes" value="Service,Collection"/>
+            <property name="subtract-suffixes" value="Service,Collection,Action,ClassName,Results,Result,Processor,Provider,Filter,Key,CodeOriginFinder,Converter,Hydrator,Factory,Registry,Exception,Builder,ormalizer"/>
         </properties>
     </rule>
     <rule ref="rulesets/naming.xml/ShortVariable">

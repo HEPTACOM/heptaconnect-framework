@@ -12,10 +12,6 @@ use Heptacom\HeptaConnect\Utility\Php\SetStateTrait;
  * @template T
  *
  * @template-implements CollectionInterface<T>
- *
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
- * @SuppressWarnings(PHPMD.TooManyMethods)
- * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 abstract class AbstractCollection implements CollectionInterface
 {

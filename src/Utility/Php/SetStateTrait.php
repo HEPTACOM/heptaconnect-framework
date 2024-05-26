@@ -8,9 +8,6 @@ use Heptacom\HeptaConnect\Utility\Collection\Contract\CollectionInterface;
 
 /**
  * @phpstan-consistent-constructor
- *
- * @SuppressWarnings(PHPMD.CyclomaticComplexity)
- * @SuppressWarnings(PHPMD.NPathComplexity)
  */
 trait SetStateTrait
 {

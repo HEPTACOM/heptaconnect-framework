@@ -45,9 +45,6 @@ use Heptacom\HeptaConnect\Utility\ClassString\ClassStringReferenceCollection;
 
 /**
  * Test pre-implementation to test route related storage actions. Some other storage actions e.g. PortalNodeCreate are needed to set up test scenarios.
- *
- * @SuppressWarnings(PHPMD.CyclomaticComplexity)
- * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
  */
 abstract class RouteTestContract extends TestCase
 {

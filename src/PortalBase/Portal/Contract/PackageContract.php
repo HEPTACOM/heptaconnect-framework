@@ -21,9 +21,6 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  *   - any portal @see PortalContract
  *   - any portal extension @see PortalExtensionContract
  *   - any additional packages returned by @see PackageContract::getAdditionalPackages()
- *
- * @SuppressWarnings(PHPMD.CyclomaticComplexity)
- * @SuppressWarnings(PHPMD.NPathComplexity)
  */
 abstract class PackageContract
 {

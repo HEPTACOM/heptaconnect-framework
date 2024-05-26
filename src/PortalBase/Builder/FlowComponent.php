@@ -33,9 +33,6 @@ use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-/**
- * @SuppressWarnings(PHPMD.TooManyPublicMethods)
- */
 final class FlowComponent implements LoggerAwareInterface
 {
     private LoggerInterface $logger;

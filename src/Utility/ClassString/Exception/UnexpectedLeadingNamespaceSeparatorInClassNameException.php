@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Utility\ClassString\Exception;
 
-/**
- * @SuppressWarnings(PHPMD.LongClassName)
- */
 class UnexpectedLeadingNamespaceSeparatorInClassNameException extends \InvalidArgumentException
 {
     private readonly string $className;

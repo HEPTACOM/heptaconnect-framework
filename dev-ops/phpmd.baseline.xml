@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<phpmd-baseline>
+    <!-- Intentional -->
+    <violation rule="PHPMD\Rule\CyclomaticComplexity" file="src/Core/File/Filesystem/RewritePathStreamWrapper.php" method="getOptions"/>
+    <violation rule="PHPMD\Rule\CyclomaticComplexity" file="src/Core/File/Filesystem/RewritePathStreamWrapper.php" method="stream_metadata"/>
+    <violation rule="PHPMD\Rule\CyclomaticComplexity" file="src/Core/Job/Handler/ReceptionHandler.php" method="triggerReception"/>
+    <violation rule="PHPMD\Rule\CyclomaticComplexity" file="src/Core/Portal/FlowComponentRegistry.php" method="loadSource"/>
+    <violation rule="PHPMD\Rule\CyclomaticComplexity" file="src/Core/Web/Http/HttpClient.php" method="sendRequest"/>
+    <violation rule="PHPMD\Rule\CyclomaticComplexity" file="src/Core/Web/Http/HttpKernel.php" method="getRequestWithParsedBodyAndUploadedFiles"/>
+    <violation rule="PHPMD\Rule\CyclomaticComplexity" file="src/PortalBase/Portal/Contract/PackageContract.php" method="getComposerPsr4"/>
+    <violation rule="PHPMD\Rule\CyclomaticComplexity" file="src/TestSuiteStorage/Action/RouteTestContract.php" method="testRouteLifecycle"/>
+    <violation rule="PHPMD\Rule\CyclomaticComplexity" file="src/Utility/Php/SetStateTrait.php" method="createStaticFromArray"/>
+    <violation rule="PHPMD\Rule\Design\LongMethod" file="src/Core/Job/Handler/ReceptionHandler.php" method="triggerReception"/>
+    <violation rule="PHPMD\Rule\Design\LongMethod" file="src/Core/Portal/PortalStackServiceContainerBuilder.php" method="build"/>
+    <violation rule="PHPMD\Rule\Design\LongMethod" file="src/TestSuiteStorage/Action/RouteTestContract.php" method="testRouteLifecycle"/>
+    <violation rule="PHPMD\Rule\Design\LongParameterList" file="src/Core/Exploration/ExplorationFlowExplorersFactory.php" method="__construct"/>
+    <violation rule="PHPMD\Rule\Design\LongParameterList" file="src/Core/Job/Handler/ReceptionHandler.php" method="__construct"/>
+    <violation rule="PHPMD\Rule\Design\LongParameterList" file="src/Core/Portal/PortalStackServiceContainerBuilder.php" method="__construct"/>
+    <violation rule="PHPMD\Rule\Design\LongParameterList" file="src/Core/Web/Http/HttpHandleService.php" method="__construct"/>
+    <violation rule="PHPMD\Rule\Design\NpathComplexity" file="src/Core/File/Filesystem/RewritePathStreamWrapper.php" method="getOptions"/>
+    <violation rule="PHPMD\Rule\Design\NpathComplexity" file="src/Core/File/Filesystem/StreamUriSchemePathConverter.php" method="convertToUri"/>
+    <violation rule="PHPMD\Rule\Design\NpathComplexity" file="src/Core/Job/Handler/ReceptionHandler.php" method="triggerReception"/>
+    <violation rule="PHPMD\Rule\Design\NpathComplexity" file="src/Core/Web/Http/HttpClient.php" method="sendRequest"/>
+    <violation rule="PHPMD\Rule\Design\NpathComplexity" file="src/PortalBase/Portal/Contract/PackageContract.php" method="getComposerPsr4"/>
+    <violation rule="PHPMD\Rule\Design\NpathComplexity" file="src/Utility/Php/SetStateTrait.php" method="createStaticFromArray"/>
+    <violation rule="PHPMD\Rule\Design\TooManyFields" file="src/StorageBase/Bridge/Support/AbstractSingletonStorageFacade.php"/>
+    <violation rule="PHPMD\Rule\Design\TooManyMethods" file="src/Core/File/Filesystem/RewritePathStreamWrapper.php"/>
+    <violation rule="PHPMD\Rule\Design\TooManyMethods" file="src/Utility/Collection/AbstractCollection.php"/>
+    <violation rule="PHPMD\Rule\Design\TooManyPublicMethods" file="src/Core/File/Filesystem/RewritePathStreamWrapper.php"/>
+    <violation rule="PHPMD\Rule\Design\TooManyPublicMethods" file="src/PortalBase/Builder/FlowComponent.php"/>
+    <violation rule="PHPMD\Rule\Design\TooManyPublicMethods" file="src/PortalBase/Serialization/Contract/SerializableStream.php"/>
+    <violation rule="PHPMD\Rule\Design\TooManyPublicMethods" file="src/Utility/Collection/AbstractCollection.php"/>
+    <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="src/Core/File/Filesystem/RewritePathStreamWrapper.php"/>
+    <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="src/StorageBase/Bridge/Support/AbstractSingletonStorageFacade.php"/>
+    <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="src/StorageBase/Bridge/Support/Psr11StorageFacade.php"/>
+    <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="src/Utility/Collection/AbstractCollection.php"/>
+    <violation rule="PHPMD\Rule\ExcessivePublicCount" file="src/StorageBase/Bridge/Support/AbstractSingletonStorageFacade.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongClassName" file="src/Core/Bridge/File/PortalNodeFilesystemStreamProtocolProviderInterface.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongClassName" file="src/Core/Configuration/PortalNodeConfigurationInstructionProcessor.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongClassName" file="src/Core/Portal/Exception/ServiceNotInstantiableEndlessLoopDetected.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongClassName" file="src/Utility/ClassString/Exception/UnexpectedLeadingNamespaceSeparatorInClassNameException.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongVariable" file="src/Core/Exploration/ExplorationFlowExplorersFactory.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongVariable" file="src/Core/Exploration/ExploreService.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongVariable" file="src/Core/Flow/DirectEmissionFlow/DirectEmissionFlow.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongVariable" file="src/Core/Portal/FlowComponentRegistry.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongVariable" file="src/Core/Portal/PortalStackServiceContainerBuilder.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongVariable" file="src/Core/Portal/ServiceContainerCompilerPass/BuildDefinitionForFlowComponentRegistryCompilerPass.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongVariable" file="src/Core/Reception/ReceiveService.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongVariable" file="src/Core/StatusReporting/StatusReportingService.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongVariable" file="src/Core/Web/Http/Handler/HttpMiddlewareChainHandler.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongVariable" file="src/Core/Web/Http/HttpHandleService.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongVariable" file="src/PortalBase/Emission/Contract/EmitterContract.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongVariable" file="src/PortalBase/Portal/Contract/PackageContract.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongVariable" file="src/PortalBase/Serialization/Contract/SerializableStream.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongVariable" file="src/PortalBase/StatusReporting/StatusReporterStack.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongVariable" file="src/PortalBase/Web/Http/Contract/HttpClientContract.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongVariable" file="src/StorageBase/Action/FileReference/RequestGet/FileReferenceGetRequestCriteria.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongVariable" file="src/StorageBase/Action/FileReference/RequestPersist/FileReferencePersistRequestResult.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongVariable" file="src/StorageBase/Action/Identity/Persist/IdentityPersistPayload.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongVariable" file="src/StorageBase/Action/Identity/Reflect/IdentityReflectPayload.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongVariable" file="src/StorageBase/Bridge/Support/AbstractSingletonStorageFacade.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongVariable" file="src/TestSuitePortal/AbstractTestCase.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongVariable" file="src/TestSuiteStorage/Action/IdentityMappingTestContract.php"/>
+    <violation rule="PHPMD\Rule\Naming\LongVariable" file="src/TestSuiteStorage/Action/PortalExtensionTestContract.php"/>
+    <violation rule="PHPMD\Rule\Naming\ShortMethodName" file="src/PortalBase/Reception/Support/PostProcessorDataBag.php" method="of"/>
+</phpmd-baseline>
