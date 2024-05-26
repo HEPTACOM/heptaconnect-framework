@@ -77,7 +77,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
 
     /**
      * @param int|string|null $offset
-     * @param T|null $value
+     * @param T|null          $value
      */
     #[\Override]
     public function offsetSet($offset, $value): void

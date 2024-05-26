@@ -137,7 +137,6 @@ abstract class AbstractCollection implements CollectionInterface
 
     /**
      * @phpstan-param array-key|null $offset
-     *
      * @phpstan-param T   $value
      */
     #[\Override]
