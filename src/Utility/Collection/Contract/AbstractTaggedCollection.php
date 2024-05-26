@@ -23,8 +23,7 @@ abstract class AbstractTaggedCollection extends AbstractCollection
      *
      * @phpstan-return TagItem<T>
      */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         $offset = (string) $offset;
         $tag = $this->items[$offset] ?? null;

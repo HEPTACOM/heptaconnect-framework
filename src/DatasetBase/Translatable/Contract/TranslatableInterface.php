@@ -18,7 +18,7 @@ interface TranslatableInterface
      *
      * @return T|null
      */
-    public function getTranslation(string $localeKey, bool $returnFallback = false);
+    public function getTranslation(string $localeKey, bool $returnFallback = false): mixed;
 
     /**
      * Sets a translation by the given locale identifier.

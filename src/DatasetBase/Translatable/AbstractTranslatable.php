@@ -64,8 +64,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
      *
      * @return T|null
      */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         if (!\is_string($offset)) {
             return null;
@@ -106,7 +105,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
     /**
      * @return T|null
      */
-    public function getTranslation(string $localeKey, bool $returnFallback = false)
+    public function getTranslation(string $localeKey, bool $returnFallback = false): mixed
     {
         /* @deprecated 1.0.0 */
         if ($localeKey === 'default') {

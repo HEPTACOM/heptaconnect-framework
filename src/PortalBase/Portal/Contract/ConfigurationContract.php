@@ -12,10 +12,8 @@ abstract class ConfigurationContract
     /**
      * Return configuration value by path.
      * Configuration nesting is resolved by dots.
-     *
-     * @psalm-return mixed
      */
-    abstract public function get(string $name);
+    abstract public function get(string $name): mixed;
 
     /**
      * Returns true, when there is a configuration value by path.

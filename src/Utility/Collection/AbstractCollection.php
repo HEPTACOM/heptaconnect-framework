@@ -119,8 +119,7 @@ abstract class AbstractCollection implements CollectionInterface
      *
      * @return T|null
      */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         if (!\is_numeric($offset)) {
             throw new \InvalidArgumentException();
