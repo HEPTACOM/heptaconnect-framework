@@ -9,8 +9,6 @@ use Heptacom\HeptaConnect\Core\Storage\Contract\StreamPathContract;
 use Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamNormalizer;
 use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\SerializableStream;
 use Http\Discovery\Psr17FactoryDiscovery;
-use League\Flysystem\Filesystem;
-use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\AbstractLogger;
@@ -47,7 +45,7 @@ final class StreamNormalizerTest extends TestCase
 
         $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
         $stream = new SerializableStream($streamFactory->createStream(''));
-        $norm = new StreamNormalizer(new Filesystem(new InMemoryFilesystemAdapter()), new StreamPathContract(), $logger);
+        $norm = new StreamNormalizer(\sys_get_temp_dir(), new StreamPathContract(), $logger);
 
         static::assertTrue($norm->supportsNormalization($stream, $norm->getType()));
         $norm->normalize($stream, $norm->getType(), [
