@@ -24,10 +24,9 @@ abstract class AbstractTranslatableScalarCollection extends AbstractTranslatable
      */
     public function getTranslation(string $localeKey, bool $returnFallback = false): mixed
     {
-        /** @var mixed $result */
         $result = parent::getTranslation($localeKey, false);
 
-        if ($result !== null && $this->isValidValue($result)) {
+        if ($result !== null) {
             return $result;
         }
 

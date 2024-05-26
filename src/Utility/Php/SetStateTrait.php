@@ -23,7 +23,6 @@ trait SetStateTrait
     {
         $result = new static();
 
-        /** @var mixed $value */
         foreach ($an_array as $key => $value) {
             if (\is_numeric($key)) {
                 continue;

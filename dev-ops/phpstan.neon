@@ -71,6 +71,7 @@ parameters:
 			message: "#Casting to .* something that's already .*#"
 			paths:
 				- ../src/Core/Portal/PortalStorage.php
+				- ../src/Utility/Collection/Scalar/FloatCollection.php
 				- ../src/Utility/Collection/Scalar/IntegerCollection.php
 		-
 			# we have a collection concept without string keys, but we sometimes store strings in there. not good yet

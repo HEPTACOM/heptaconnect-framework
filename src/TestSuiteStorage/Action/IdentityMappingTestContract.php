@@ -350,11 +350,11 @@ abstract class IdentityMappingTestContract extends TestCase
             }
         }
 
+        unset($mappedEntity);
         static::assertCount(2, $identityPersistPayloadCollection);
         static::assertCount(2, $switchCases);
 
         $this->persistIdentity($this->getPortalNodeB(), $identityPersistPayloadCollection);
-
         // this is what we test here
         $this->getIdentityReflect()->reflect(new IdentityReflectPayload($this->getPortalNodeB(), $mappedEntities));
 
@@ -381,6 +381,7 @@ abstract class IdentityMappingTestContract extends TestCase
             }
         }
 
+        unset($mappedEntity);
         static::assertCount(2, $switchCases);
         static::assertInstanceOf(MappedDatasetEntityStruct::class, $mappedEntity1);
         static::assertInstanceOf(MappedDatasetEntityStruct::class, $mappedEntity2);

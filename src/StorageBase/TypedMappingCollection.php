@@ -38,10 +38,7 @@ class TypedMappingCollection extends MappingCollection
             return false;
         }
 
-        if (!$item instanceof MappingInterface) {
-            return false;
-        }
-
+        /* @var MappingInterface $item */
         return $item->getEntityType()->equals($this->entityType);
     }
 }
