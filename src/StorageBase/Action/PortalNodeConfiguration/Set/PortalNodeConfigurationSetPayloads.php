@@ -15,6 +15,7 @@ final class PortalNodeConfigurationSetPayloads extends AbstractObjectCollection 
 {
     use AttachmentAwareTrait;
 
+    #[\Override]
     protected function getT(): string
     {
         return PortalNodeConfigurationSetPayload::class;

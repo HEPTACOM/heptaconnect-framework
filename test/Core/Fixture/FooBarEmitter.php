@@ -15,6 +15,7 @@ final class FooBarEmitter extends EmitterContract
     ) {
     }
 
+    #[\Override]
     public function emit(iterable $externalIds, EmitContextInterface $context, EmitterStackInterface $stack): iterable
     {
         for ($c = 0; $c < $this->count; ++$c) {
@@ -24,6 +25,7 @@ final class FooBarEmitter extends EmitterContract
         yield from $stack->next($externalIds, $context);
     }
 
+    #[\Override]
     public function supports(): string
     {
         return FooBarEntity::class;

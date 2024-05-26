@@ -68,6 +68,7 @@ abstract class RouteTestContract extends TestCase
 
     private PortalNodeKeyInterface $portalB;
 
+    #[\Override]
     protected function setUp(): void
     {
         $facade = $this->createStorageFacade();
@@ -95,6 +96,7 @@ abstract class RouteTestContract extends TestCase
         $this->portalB = $lastResult->getPortalNodeKey();
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         try {

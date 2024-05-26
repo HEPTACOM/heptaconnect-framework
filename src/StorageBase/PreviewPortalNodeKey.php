@@ -20,21 +20,25 @@ final readonly class PreviewPortalNodeKey implements PortalNodeKeyInterface
         return $this->portalType;
     }
 
+    #[\Override]
     public function equals(StorageKeyInterface $other): bool
     {
         return $other === $this || ($other instanceof PreviewPortalNodeKey && $other->getPortalType()->equals($this->getPortalType()));
     }
 
+    #[\Override]
     public function jsonSerialize(): array
     {
         return ['preview' => $this->portalType];
     }
 
+    #[\Override]
     public function withAlias(): PortalNodeKeyInterface
     {
         return $this;
     }
 
+    #[\Override]
     public function withoutAlias(): PortalNodeKeyInterface
     {
         return $this;

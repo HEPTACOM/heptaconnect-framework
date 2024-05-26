@@ -15,6 +15,7 @@ final class JobCreatePayloads extends AbstractObjectCollection implements Attach
 {
     use AttachmentAwareTrait;
 
+    #[\Override]
     protected function getT(): string
     {
         return JobCreatePayload::class;

@@ -11,6 +11,7 @@ use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverStackInterface;
 
 final class ThrowReceiver extends ReceiverContract
 {
+    #[\Override]
     public function receive(
         TypedDatasetEntityCollection $entities,
         ReceiveContextInterface $context,
@@ -19,6 +20,7 @@ final class ThrowReceiver extends ReceiverContract
         throw new \RuntimeException();
     }
 
+    #[\Override]
     public function supports(): string
     {
         return FooBarEntity::class;

@@ -14,6 +14,7 @@ use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
  */
 abstract class AbstractClassStringReferenceCollection extends AbstractObjectCollection
 {
+    #[\Override]
     public function contains($value): bool
     {
         return $this->containsByEqualsCheck(

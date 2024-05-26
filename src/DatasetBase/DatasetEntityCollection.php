@@ -34,6 +34,7 @@ class DatasetEntityCollection extends AbstractObjectCollection
         }
     }
 
+    #[\Override]
     protected function getT(): string
     {
         return DatasetEntityContract::class;

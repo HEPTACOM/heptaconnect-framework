@@ -14,6 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Portal extends PortalContract
 {
+    #[\Override]
     public function getContainerExcludedClasses(): array
     {
         return \array_merge(parent::getContainerExcludedClasses(), [
@@ -22,6 +23,7 @@ class Portal extends PortalContract
         ]);
     }
 
+    #[\Override]
     public function getConfigurationTemplate(): OptionsResolver
     {
         return parent::getConfigurationTemplate()
@@ -30,6 +32,7 @@ class Portal extends PortalContract
         ;
     }
 
+    #[\Override]
     public function buildContainer(ContainerBuilder $containerBuilder): void
     {
         parent::buildContainer($containerBuilder);
@@ -40,6 +43,7 @@ class Portal extends PortalContract
         ]);
     }
 
+    #[\Override]
     public function getAdditionalPackages(): iterable
     {
         yield new AdditionalPackage();

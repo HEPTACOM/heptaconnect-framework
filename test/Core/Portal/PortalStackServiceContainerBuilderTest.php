@@ -114,6 +114,7 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
 {
     private ClassLoader $classLoader;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->classLoader = new ClassLoader();
@@ -123,6 +124,7 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
         $this->classLoader->register();
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         $this->classLoader->unregister();

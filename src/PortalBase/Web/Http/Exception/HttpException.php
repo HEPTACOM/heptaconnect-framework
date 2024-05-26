@@ -95,6 +95,7 @@ class HttpException extends \RuntimeException implements RequestExceptionInterfa
         $this->response = $response;
     }
 
+    #[\Override]
     public function getRequest(): RequestInterface
     {
         return $this->request;

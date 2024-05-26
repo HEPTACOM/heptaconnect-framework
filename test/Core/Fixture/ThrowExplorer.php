@@ -10,11 +10,13 @@ use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerStackInterfac
 
 final class ThrowExplorer extends ExplorerContract
 {
+    #[\Override]
     public function explore(ExploreContextInterface $context, ExplorerStackInterface $stack): iterable
     {
         throw new \RuntimeException();
     }
 
+    #[\Override]
     public function supports(): string
     {
         return FooBarEntity::class;

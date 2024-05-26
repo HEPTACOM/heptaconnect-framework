@@ -43,11 +43,13 @@ final class Receiver extends ReceiverContract
         return $this->batchMethod;
     }
 
+    #[\Override]
     protected function supports(): string
     {
         return (string) $this->entityType;
     }
 
+    #[\Override]
     protected function batch(
         TypedDatasetEntityCollection $entities,
         ReceiveContextInterface $context
@@ -77,6 +79,7 @@ final class Receiver extends ReceiverContract
         parent::batch($entities, $context);
     }
 
+    #[\Override]
     protected function run(
         DatasetEntityContract $entity,
         ReceiveContextInterface $context

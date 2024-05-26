@@ -9,6 +9,7 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Translatable;
  */
 final class TranslatableInteger extends AbstractTranslatable
 {
+    #[\Override]
     protected function isValidValue(mixed $value): bool
     {
         return \is_int($value);

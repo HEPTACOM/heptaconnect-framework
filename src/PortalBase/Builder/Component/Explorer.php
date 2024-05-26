@@ -43,11 +43,13 @@ final class Explorer extends ExplorerContract
         return $this->isAllowedMethod;
     }
 
+    #[\Override]
     protected function supports(): string
     {
         return (string) $this->entityType;
     }
 
+    #[\Override]
     protected function run(ExploreContextInterface $context): iterable
     {
         $run = $this->runMethod;
@@ -73,6 +75,7 @@ final class Explorer extends ExplorerContract
         return parent::run($context);
     }
 
+    #[\Override]
     protected function isAllowed(
         string $externalId,
         ?DatasetEntityContract $entity,

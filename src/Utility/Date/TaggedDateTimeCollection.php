@@ -11,6 +11,7 @@ use Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection;
  */
 final class TaggedDateTimeCollection extends AbstractTaggedCollection
 {
+    #[\Override]
     protected function getCollectionType(): string
     {
         return DateTimeCollection::class;

@@ -20,6 +20,7 @@ class ReceiverCollection extends AbstractObjectCollection
         );
     }
 
+    #[\Override]
     protected function getT(): string
     {
         return ReceiverContract::class;

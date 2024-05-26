@@ -15,6 +15,7 @@ use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContrac
  */
 final class PortalType extends SubtypeClassStringContract
 {
+    #[\Override]
     public function getExpectedSuperClassName(): string
     {
         return PortalContract::class;

@@ -13,6 +13,7 @@ use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
  */
 class PortalNodeKeyCollection extends AbstractCollection
 {
+    #[\Override]
     public function contains($value): bool
     {
         return $this->containsByEqualsCheck(
@@ -21,6 +22,7 @@ class PortalNodeKeyCollection extends AbstractCollection
         );
     }
 
+    #[\Override]
     protected function isValidItem(mixed $item): bool
     {
         return $item instanceof PortalNodeKeyInterface;

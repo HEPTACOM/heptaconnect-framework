@@ -28,6 +28,7 @@ final class StatusReporterStack implements StatusReporterStackInterface
         $this->statusReporters = $rewindableStatusReporters;
     }
 
+    #[\Override]
     public function next(StatusReportingContextInterface $context): array
     {
         $statusReporter = \array_shift($this->statusReporters);

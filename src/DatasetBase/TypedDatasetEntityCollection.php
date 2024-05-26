@@ -44,6 +44,7 @@ final class TypedDatasetEntityCollection extends DatasetEntityCollection
         return $this->type;
     }
 
+    #[\Override]
     protected function isValidItem(mixed $item): bool
     {
         return parent::isValidItem($item) && $this->type->isObjectOfType($item);

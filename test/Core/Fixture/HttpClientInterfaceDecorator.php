@@ -15,6 +15,7 @@ final class HttpClientInterfaceDecorator implements ClientInterface
     ) {
     }
 
+    #[\Override]
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
         return $this->decorated->sendRequest($request);

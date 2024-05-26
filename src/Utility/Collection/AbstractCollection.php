@@ -46,6 +46,7 @@ abstract class AbstractCollection implements CollectionInterface
         return $result;
     }
 
+    #[\Override]
     public function push(iterable $items): void
     {
         $newItems = [];
@@ -61,42 +62,50 @@ abstract class AbstractCollection implements CollectionInterface
         \array_push($this->items, ...$newItems);
     }
 
+    #[\Override]
     public function pushIgnoreInvalidItems(iterable $items): void
     {
         $this->push($this->filterValid($items));
     }
 
+    #[\Override]
     public function pop()
     {
         return \array_pop($this->items);
     }
 
+    #[\Override]
     public function shift()
     {
         return \array_shift($this->items);
     }
 
+    #[\Override]
     public function clear(): void
     {
         $this->items = [];
     }
 
+    #[\Override]
     public function isEmpty(): bool
     {
         return $this->items === [];
     }
 
+    #[\Override]
     public function count(): int
     {
         return \count($this->items);
     }
 
+    #[\Override]
     public function jsonSerialize(): array
     {
         return \array_values($this->items);
     }
 
     #[\ReturnTypeWillChange]
+    #[\Override]
     public function getIterator()
     {
         yield from $this->items;
@@ -105,6 +114,7 @@ abstract class AbstractCollection implements CollectionInterface
     /**
      * @param string|int $offset
      */
+    #[\Override]
     public function offsetExists($offset): bool
     {
         return \array_key_exists($offset, $this->items);
@@ -115,6 +125,7 @@ abstract class AbstractCollection implements CollectionInterface
      *
      * @return T|null
      */
+    #[\Override]
     public function offsetGet($offset): mixed
     {
         if (!\is_numeric($offset)) {
@@ -129,6 +140,7 @@ abstract class AbstractCollection implements CollectionInterface
      *
      * @phpstan-param T   $value
      */
+    #[\Override]
     public function offsetSet($offset, $value): void
     {
         if (\is_numeric($offset) && $this->isValidItem($value)) {
@@ -143,6 +155,7 @@ abstract class AbstractCollection implements CollectionInterface
     /**
      * @param string|int $offset
      */
+    #[\Override]
     public function offsetUnset($offset): void
     {
         unset($this->items[$offset]);
@@ -151,6 +164,7 @@ abstract class AbstractCollection implements CollectionInterface
     /**
      * @return T|null
      */
+    #[\Override]
     public function first()
     {
         $end = \reset($this->items);
@@ -161,6 +175,7 @@ abstract class AbstractCollection implements CollectionInterface
     /**
      * @return T|null
      */
+    #[\Override]
     public function last()
     {
         $end = \end($this->items);
@@ -168,6 +183,7 @@ abstract class AbstractCollection implements CollectionInterface
         return $end === false ? null : $end;
     }
 
+    #[\Override]
     public function filter(callable $filterFn): static
     {
         $result = $this->withoutItems();
@@ -177,11 +193,13 @@ abstract class AbstractCollection implements CollectionInterface
         return $result;
     }
 
+    #[\Override]
     public function map(callable $mapFn): iterable
     {
         yield from \array_map($mapFn, $this->items, \array_keys($this->items));
     }
 
+    #[\Override]
     public function column(?string $valueAccessor, ?string $keyAccessor = null): iterable
     {
         foreach ($this as $key => $value) {
@@ -189,6 +207,7 @@ abstract class AbstractCollection implements CollectionInterface
         }
     }
 
+    #[\Override]
     public function chunk(int $size): iterable
     {
         $size = \max($size, 1);
@@ -216,21 +235,25 @@ abstract class AbstractCollection implements CollectionInterface
     /**
      * @return array<T>
      */
+    #[\Override]
     public function asArray(): array
     {
         return $this->items;
     }
 
+    #[\Override]
     public function reverse(): void
     {
         $this->items = \array_reverse($this->items);
     }
 
+    #[\Override]
     public function contains($value): bool
     {
         return \in_array($value, $this->items, true);
     }
 
+    #[\Override]
     public function asUnique(): static
     {
         $result = $this->withoutItems();
@@ -244,6 +267,7 @@ abstract class AbstractCollection implements CollectionInterface
         return $result;
     }
 
+    #[\Override]
     public function withoutItems(): static
     {
         $that = clone $this;

@@ -14,11 +14,13 @@ final class FooBarStatusReporter extends StatusReporterContract
     ) {
     }
 
+    #[\Override]
     public function supportsTopic(): string
     {
         return 'foo-bar';
     }
 
+    #[\Override]
     protected function run(StatusReportingContextInterface $context): array
     {
         return [$this->supportsTopic() . '.' . $this->id => true];

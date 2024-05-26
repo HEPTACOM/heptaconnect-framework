@@ -14,21 +14,25 @@ final readonly class AliasAwarePortalNodeStorageKey implements PortalNodeKeyInte
     ) {
     }
 
+    #[\Override]
     public function withAlias(): PortalNodeKeyInterface
     {
         return $this;
     }
 
+    #[\Override]
     public function withoutAlias(): PortalNodeKeyInterface
     {
         return $this->portalNodeKey;
     }
 
+    #[\Override]
     public function equals(StorageKeyInterface $other): bool
     {
         return $this->portalNodeKey->equals($other);
     }
 
+    #[\Override]
     public function jsonSerialize(): mixed
     {
         return $this->portalNodeKey->jsonSerialize();

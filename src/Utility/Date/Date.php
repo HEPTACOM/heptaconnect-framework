@@ -34,21 +34,25 @@ final class Date extends \DateTime
         return new \DateTime('@' . $this->getTimestamp(), $this->getTimezone());
     }
 
+    #[\Override]
     public function add(\DateInterval $interval): Date
     {
         return static::createFromDateTime(parent::add($this->removeTimeFromInterval($interval)));
     }
 
+    #[\Override]
     public function sub(\DateInterval $interval): Date
     {
         return static::createFromDateTime(parent::sub($this->removeTimeFromInterval($interval)));
     }
 
+    #[\Override]
     public function setTime(int $hour, int $minute, int $second = 0, int $microsecond = 0): Date
     {
         return parent::setTime(0, 0, 0, 0);
     }
 
+    #[\Override]
     public function setTimestamp(int $unixtimestamp): Date
     {
         $time = $unixtimestamp % (24 * 60 * 60);

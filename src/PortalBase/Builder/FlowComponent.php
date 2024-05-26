@@ -279,6 +279,7 @@ final class FlowComponent implements LoggerAwareInterface
         self::$httpHandlerTokens = [];
     }
 
+    #[\Override]
     public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;

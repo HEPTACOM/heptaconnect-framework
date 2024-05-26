@@ -52,6 +52,7 @@ final class PortalRegistryTest extends TestCase
 {
     private ClassLoader $classLoader;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->classLoader = new ClassLoader();
@@ -60,6 +61,7 @@ final class PortalRegistryTest extends TestCase
         $this->classLoader->register();
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         $this->classLoader->unregister();

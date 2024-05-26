@@ -11,6 +11,7 @@ use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
  */
 final class FileReferenceCollection extends AbstractObjectCollection
 {
+    #[\Override]
     protected function getT(): string
     {
         return FileReferenceContract::class;

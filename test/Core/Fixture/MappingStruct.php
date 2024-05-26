@@ -17,26 +17,31 @@ final class MappingStruct implements MappingInterface
     ) {
     }
 
+    #[\Override]
     public function getExternalId(): string
     {
         return __METHOD__;
     }
 
+    #[\Override]
     public function setExternalId(?string $externalId): MappingInterface
     {
         return $this;
     }
 
+    #[\Override]
     public function getMappingNodeKey(): MappingNodeKeyInterface
     {
         return $this->mappingNodeKey;
     }
 
+    #[\Override]
     public function getPortalNodeKey(): PortalNodeKeyInterface
     {
         return $this->portalNodeId;
     }
 
+    #[\Override]
     public function getEntityType(): EntityType
     {
         return FooBarEntity::class();

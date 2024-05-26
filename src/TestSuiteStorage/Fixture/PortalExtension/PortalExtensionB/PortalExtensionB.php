@@ -9,11 +9,13 @@ use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalB\PortalB;
 
 final class PortalExtensionB extends PortalExtensionContract
 {
+    #[\Override]
     public function isActiveByDefault(): bool
     {
         return false;
     }
 
+    #[\Override]
     protected function supports(): string
     {
         return PortalB::class;

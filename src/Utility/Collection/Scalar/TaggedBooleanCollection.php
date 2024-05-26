@@ -11,6 +11,7 @@ use Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection;
  */
 final class TaggedBooleanCollection extends AbstractTaggedCollection
 {
+    #[\Override]
     protected function getCollectionType(): string
     {
         return BooleanCollection::class;

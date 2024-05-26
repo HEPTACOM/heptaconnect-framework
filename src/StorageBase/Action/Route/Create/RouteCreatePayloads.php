@@ -15,6 +15,7 @@ final class RouteCreatePayloads extends AbstractObjectCollection implements Atta
 {
     use AttachmentAwareTrait;
 
+    #[\Override]
     protected function getT(): string
     {
         return RouteCreatePayload::class;

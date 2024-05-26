@@ -10,6 +10,7 @@ use Symfony\Component\DependencyInjection\Definition;
 
 class AdditionalPackage extends PackageContract
 {
+    #[\Override]
     public function buildContainer(ContainerBuilder $containerBuilder): void
     {
         $this->setSyntheticServices($containerBuilder, [

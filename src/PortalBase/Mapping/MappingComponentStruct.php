@@ -17,16 +17,19 @@ final class MappingComponentStruct extends MappingComponentStructContract
     ) {
     }
 
+    #[\Override]
     public function getPortalNodeKey(): PortalNodeKeyInterface
     {
         return $this->portalNodeKey;
     }
 
+    #[\Override]
     public function getEntityType(): EntityType
     {
         return $this->entityType;
     }
 
+    #[\Override]
     public function getExternalId(): string
     {
         return $this->externalId;

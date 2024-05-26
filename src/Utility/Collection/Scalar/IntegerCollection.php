@@ -38,6 +38,7 @@ final class IntegerCollection extends AbstractCollection
         return (int) \array_sum($this->items);
     }
 
+    #[\Override]
     public function asUnique(): static
     {
         $result = $this->withoutItems();
@@ -47,6 +48,7 @@ final class IntegerCollection extends AbstractCollection
         return $result;
     }
 
+    #[\Override]
     protected function isValidItem(mixed $item): bool
     {
         return \is_int($item);

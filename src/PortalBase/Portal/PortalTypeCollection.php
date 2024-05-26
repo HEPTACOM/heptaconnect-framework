@@ -11,6 +11,7 @@ use Heptacom\HeptaConnect\Utility\ClassString\AbstractClassStringReferenceCollec
  */
 final class PortalTypeCollection extends AbstractClassStringReferenceCollection
 {
+    #[\Override]
     protected function getT(): string
     {
         return PortalType::class;

@@ -13,6 +13,7 @@ final readonly class CodeOrigin implements \Stringable
     ) {
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return \sprintf('%s:%d-%d', $this->getFilepath(), $this->getStartLine(), $this->getEndLine());

@@ -20,6 +20,7 @@ class ExplorerCollection extends AbstractObjectCollection
         );
     }
 
+    #[\Override]
     protected function getT(): string
     {
         return ExplorerContract::class;

@@ -13,6 +13,7 @@ use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
  */
 final class FileReferenceRequestKeyCollection extends AbstractCollection
 {
+    #[\Override]
     public function contains($value): bool
     {
         return $this->containsByEqualsCheck(
@@ -21,6 +22,7 @@ final class FileReferenceRequestKeyCollection extends AbstractCollection
         );
     }
 
+    #[\Override]
     protected function isValidItem(mixed $item): bool
     {
         return $item instanceof FileReferenceRequestKeyInterface;

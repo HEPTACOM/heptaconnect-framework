@@ -50,6 +50,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
     /**
      * @param string|int $offset
      */
+    #[\Override]
     public function offsetExists($offset): bool
     {
         if (!\is_string($offset)) {
@@ -64,6 +65,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
      *
      * @return T|null
      */
+    #[\Override]
     public function offsetGet($offset): mixed
     {
         if (!\is_string($offset)) {
@@ -77,6 +79,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
      * @param int|string|null $offset
      * @param T|null $value
      */
+    #[\Override]
     public function offsetSet($offset, $value): void
     {
         if (!\is_string($offset)) {
@@ -93,6 +96,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
     /**
      * @param int|string $offset
      */
+    #[\Override]
     public function offsetUnset($offset): void
     {
         if (!\is_string($offset)) {
@@ -105,6 +109,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
     /**
      * @return T|null
      */
+    #[\Override]
     public function getTranslation(string $localeKey, bool $returnFallback = false): mixed
     {
         /* @deprecated 1.0.0 */
@@ -121,6 +126,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
      *
      * @return TranslatableInterface<T>
      */
+    #[\Override]
     public function setTranslation(string $localeKey, $value): TranslatableInterface
     {
         if ($value !== null && $this->isValidValue($value)) {
@@ -139,6 +145,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
     /**
      * @return TranslatableInterface<T>
      */
+    #[\Override]
     public function removeTranslation(string $localeKey): TranslatableInterface
     {
         $this->deleteTranslation($localeKey);
@@ -155,6 +162,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
     /**
      * @return T|null
      */
+    #[\Override]
     public function getFallback(): mixed
     {
         return $this->fallback;
@@ -165,6 +173,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
      *
      * @return TranslatableInterface<T>
      */
+    #[\Override]
     public function setFallback($value): TranslatableInterface
     {
         if ($value === null || $this->isValidValue($value)) {
@@ -177,6 +186,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
     /**
      * @return TranslatableInterface<T>
      */
+    #[\Override]
     public function removeFallback(): TranslatableInterface
     {
         $this->fallback = null;
@@ -184,6 +194,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
         return $this;
     }
 
+    #[\Override]
     public function getLocaleKeys(): array
     {
         /** @var string[] $stringKeys */
@@ -192,6 +203,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
         return \array_values($stringKeys);
     }
 
+    #[\Override]
     public function jsonSerialize(): array
     {
         return $this->translations;

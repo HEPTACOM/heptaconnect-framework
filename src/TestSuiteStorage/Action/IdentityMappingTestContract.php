@@ -64,6 +64,7 @@ abstract class IdentityMappingTestContract extends TestCase
 
     private IdentityRedirectDeleteActionInterface $identityRedirectDelete;
 
+    #[\Override]
     protected function setUp(): void
     {
         $facade = $this->createStorageFacade();
@@ -102,6 +103,7 @@ abstract class IdentityMappingTestContract extends TestCase
         static::assertCount($createPayloads->count(), $createResults);
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         $facade = $this->createStorageFacade();

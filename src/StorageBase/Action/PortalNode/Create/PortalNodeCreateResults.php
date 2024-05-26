@@ -15,6 +15,7 @@ final class PortalNodeCreateResults extends AbstractObjectCollection implements 
 {
     use AttachmentAwareTrait;
 
+    #[\Override]
     protected function getT(): string
     {
         return PortalNodeCreateResult::class;

@@ -15,6 +15,7 @@ final class IdentityRedirectCreateResultCollection extends AbstractObjectCollect
 {
     use AttachmentAwareTrait;
 
+    #[\Override]
     protected function getT(): string
     {
         return IdentityRedirectCreateResult::class;

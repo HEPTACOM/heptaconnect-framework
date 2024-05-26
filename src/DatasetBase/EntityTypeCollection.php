@@ -11,6 +11,7 @@ use Heptacom\HeptaConnect\Utility\ClassString\AbstractClassStringReferenceCollec
  */
 final class EntityTypeCollection extends AbstractClassStringReferenceCollection
 {
+    #[\Override]
     protected function getT(): string
     {
         return EntityType::class;

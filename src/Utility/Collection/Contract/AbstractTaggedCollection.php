@@ -23,6 +23,7 @@ abstract class AbstractTaggedCollection extends AbstractCollection
      *
      * @phpstan-return TagItem<T>
      */
+    #[\Override]
     public function offsetGet($offset): mixed
     {
         $offset = (string) $offset;
@@ -38,6 +39,7 @@ abstract class AbstractTaggedCollection extends AbstractCollection
         return $tag;
     }
 
+    #[\Override]
     public function offsetSet($offset, $value): void
     {
         if (!$this->isValidItem($value)) {
@@ -47,6 +49,7 @@ abstract class AbstractTaggedCollection extends AbstractCollection
         $this->items[$value->getTag()] = $value;
     }
 
+    #[\Override]
     public function push(iterable $items): void
     {
         /** @var TagItem<T> $item */
@@ -58,6 +61,7 @@ abstract class AbstractTaggedCollection extends AbstractCollection
     /**
      * @phpstan-assert-if-true TagItem<T> $item
      */
+    #[\Override]
     protected function isValidItem(mixed $item): bool
     {
         return \is_object($item) && $item instanceof TagItem && \is_a($item->getCollection(), $this->getCollectionType(), false);

@@ -17,6 +17,7 @@ class HttpHandlerCollection extends AbstractObjectCollection
         return $this->filter(fn (HttpHandlerContract $httpHandler) => $path === $httpHandler->getPath());
     }
 
+    #[\Override]
     protected function getT(): string
     {
         return HttpHandlerContract::class;

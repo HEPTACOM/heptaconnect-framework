@@ -11,6 +11,7 @@ abstract class ClassStringReferenceContract implements \JsonSerializable, \Strin
     ) {
     }
 
+    #[\Override]
     final public function __toString(): string
     {
         return $this->classString;
@@ -25,6 +26,7 @@ abstract class ClassStringReferenceContract implements \JsonSerializable, \Strin
         return (string) $other === (string) $this;
     }
 
+    #[\Override]
     final public function jsonSerialize(): string
     {
         return $this->classString;

@@ -12,6 +12,7 @@ use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
  */
 final class AttachmentCollection extends AbstractObjectCollection
 {
+    #[\Override]
     protected function getT(): string
     {
         return AttachableInterface::class;

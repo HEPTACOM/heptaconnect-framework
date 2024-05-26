@@ -47,6 +47,7 @@ final class PrimaryKeySharingMappingStruct implements AttachmentAwareInterface, 
         new EntityType($this->entityType);
     }
 
+    #[\Override]
     public function getEntityType(): EntityType
     {
         /*
@@ -55,11 +56,13 @@ final class PrimaryKeySharingMappingStruct implements AttachmentAwareInterface, 
         return new EntityType($this->entityType);
     }
 
+    #[\Override]
     public function getExternalId(): ?string
     {
         return $this->externalId;
     }
 
+    #[\Override]
     public function setExternalId(?string $externalId): self
     {
         $this->externalId = $externalId;
@@ -67,21 +70,25 @@ final class PrimaryKeySharingMappingStruct implements AttachmentAwareInterface, 
         return $this;
     }
 
+    #[\Override]
     public function getPortalNodeKey(): PortalNodeKeyInterface
     {
         return $this->portalNodeKey;
     }
 
+    #[\Override]
     public function getMappingNodeKey(): MappingNodeKeyInterface
     {
         return $this->mappingNodeKey;
     }
 
+    #[\Override]
     public function getForeignEntityType(): EntityType
     {
         return $this->getEntityType();
     }
 
+    #[\Override]
     public function setForeignKey(?string $foreignKey): void
     {
         $this->foreignKey = $foreignKey;

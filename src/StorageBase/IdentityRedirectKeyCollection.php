@@ -12,6 +12,7 @@ use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
  */
 class IdentityRedirectKeyCollection extends AbstractCollection
 {
+    #[\Override]
     protected function isValidItem(mixed $item): bool
     {
         return $item instanceof IdentityRedirectKeyInterface;

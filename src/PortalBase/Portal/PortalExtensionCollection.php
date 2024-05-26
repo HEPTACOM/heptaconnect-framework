@@ -20,6 +20,7 @@ class PortalExtensionCollection extends AbstractCollection
         );
     }
 
+    #[\Override]
     protected function isValidItem(mixed $item): bool
     {
         return $item instanceof PortalExtensionContract;

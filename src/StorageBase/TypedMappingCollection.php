@@ -32,6 +32,7 @@ class TypedMappingCollection extends MappingCollection
         return (string) $this->entityType;
     }
 
+    #[\Override]
     protected function isValidItem(mixed $item): bool
     {
         if (!parent::isValidItem($item)) {

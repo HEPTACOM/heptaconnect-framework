@@ -26,6 +26,7 @@ abstract class DatasetEntityContract implements AttachableInterface, AttachmentA
     {
     }
 
+    #[\Override]
     public function setPrimaryKey(?string $primaryKey): void
     {
         if ($primaryKey !== $this->getPrimaryKey()) {

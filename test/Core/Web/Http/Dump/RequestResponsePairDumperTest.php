@@ -25,6 +25,7 @@ final class RequestResponsePairDumperTest extends TestCase
 {
     private const DUMP_DIR = __DIR__ . '/../../../Fixture/_files/http_handle_dump_dir';
 
+    #[\Override]
     protected function setUp(): void
     {
         foreach ($this->getDumpedFiles() as $file) {
@@ -32,6 +33,7 @@ final class RequestResponsePairDumperTest extends TestCase
         }
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         foreach ($this->getDumpedFiles() as $file) {

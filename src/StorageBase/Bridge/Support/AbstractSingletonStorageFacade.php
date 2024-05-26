@@ -151,6 +151,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
 
     private ?WebHttpHandlerConfigurationSetActionInterface $webHttpHandlerConfigurationSetAction = null;
 
+    #[\Override]
     public function getFileReferenceGetRequestAction(): FileReferenceGetRequestActionInterface
     {
         try {
@@ -162,6 +163,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getFileReferencePersistRequestAction(): FileReferencePersistRequestActionInterface
     {
         try {
@@ -173,6 +175,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getIdentityRedirectCreateAction(): IdentityRedirectCreateActionInterface
     {
         try {
@@ -184,6 +187,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getIdentityRedirectDeleteAction(): IdentityRedirectDeleteActionInterface
     {
         try {
@@ -195,6 +199,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getIdentityRedirectOverviewAction(): IdentityRedirectOverviewActionInterface
     {
         try {
@@ -206,6 +211,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getIdentityErrorCreateAction(): IdentityErrorCreateActionInterface
     {
         try {
@@ -217,6 +223,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getIdentityMapAction(): IdentityMapActionInterface
     {
         try {
@@ -228,6 +235,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getIdentityOverviewAction(): IdentityOverviewActionInterface
     {
         try {
@@ -239,6 +247,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getIdentityPersistAction(): IdentityPersistActionInterface
     {
         try {
@@ -250,6 +259,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getIdentityReflectAction(): IdentityReflectActionInterface
     {
         try {
@@ -261,6 +271,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getJobCreateAction(): JobCreateActionInterface
     {
         try {
@@ -272,6 +283,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getJobDeleteAction(): JobDeleteActionInterface
     {
         try {
@@ -283,6 +295,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getJobFailAction(): JobFailActionInterface
     {
         try {
@@ -294,6 +307,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getJobFinishAction(): JobFinishActionInterface
     {
         try {
@@ -305,6 +319,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getJobGetAction(): JobGetActionInterface
     {
         try {
@@ -316,6 +331,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getJobListFinishedAction(): JobListFinishedActionInterface
     {
         try {
@@ -327,6 +343,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getJobScheduleAction(): JobScheduleActionInterface
     {
         try {
@@ -338,6 +355,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getPortalExtensionActivateAction(): PortalExtensionActivateActionInterface
     {
         try {
@@ -349,6 +367,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getPortalExtensionDeactivateAction(): PortalExtensionDeactivateActionInterface
     {
         try {
@@ -360,6 +379,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getPortalExtensionFindAction(): PortalExtensionFindActionInterface
     {
         try {
@@ -371,6 +391,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getJobStartAction(): JobStartActionInterface
     {
         try {
@@ -382,6 +403,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getPortalNodeCreateAction(): PortalNodeCreateActionInterface
     {
         try {
@@ -393,6 +415,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getPortalNodeDeleteAction(): PortalNodeDeleteActionInterface
     {
         try {
@@ -404,6 +427,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getPortalNodeGetAction(): PortalNodeGetActionInterface
     {
         try {
@@ -415,6 +439,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getPortalNodeListAction(): PortalNodeListActionInterface
     {
         try {
@@ -426,6 +451,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getPortalNodeOverviewAction(): PortalNodeOverviewActionInterface
     {
         try {
@@ -437,6 +463,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getPortalNodeAliasGetAction(): PortalNodeAliasGetActionInterface
     {
         try {
@@ -448,6 +475,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getPortalNodeAliasFindAction(): PortalNodeAliasFindActionInterface
     {
         try {
@@ -459,6 +487,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getPortalNodeAliasSetAction(): PortalNodeAliasSetActionInterface
     {
         try {
@@ -470,6 +499,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getPortalNodeAliasOverviewAction(): PortalNodeAliasOverviewActionInterface
     {
         try {
@@ -481,6 +511,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getPortalNodeConfigurationGetAction(): PortalNodeConfigurationGetActionInterface
     {
         try {
@@ -492,6 +523,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getPortalNodeConfigurationSetAction(): PortalNodeConfigurationSetActionInterface
     {
         try {
@@ -503,6 +535,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getPortalNodeStorageClearAction(): PortalNodeStorageClearActionInterface
     {
         try {
@@ -514,6 +547,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getPortalNodeStorageDeleteAction(): PortalNodeStorageDeleteActionInterface
     {
         try {
@@ -525,6 +559,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getPortalNodeStorageGetAction(): PortalNodeStorageGetActionInterface
     {
         try {
@@ -536,6 +571,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getPortalNodeStorageListAction(): PortalNodeStorageListActionInterface
     {
         try {
@@ -547,6 +583,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getPortalNodeStorageSetAction(): PortalNodeStorageSetActionInterface
     {
         try {
@@ -558,6 +595,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getRouteCreateAction(): RouteCreateActionInterface
     {
         try {
@@ -569,6 +607,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getRouteDeleteAction(): RouteDeleteActionInterface
     {
         try {
@@ -580,6 +619,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getRouteFindAction(): RouteFindActionInterface
     {
         try {
@@ -591,6 +631,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getRouteGetAction(): RouteGetActionInterface
     {
         try {
@@ -602,6 +643,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getReceptionRouteListAction(): ReceptionRouteListActionInterface
     {
         try {
@@ -613,6 +655,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getRouteOverviewAction(): RouteOverviewActionInterface
     {
         try {
@@ -624,6 +667,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getRouteCapabilityOverviewAction(): RouteCapabilityOverviewActionInterface
     {
         try {
@@ -635,6 +679,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getStorageKeyGenerator(): StorageKeyGeneratorContract
     {
         try {
@@ -646,6 +691,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getWebHttpHandlerConfigurationFindAction(): WebHttpHandlerConfigurationFindActionInterface
     {
         try {
@@ -657,6 +703,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
         }
     }
 
+    #[\Override]
     public function getWebHttpHandlerConfigurationSetAction(): WebHttpHandlerConfigurationSetActionInterface
     {
         try {

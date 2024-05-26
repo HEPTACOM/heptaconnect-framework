@@ -18,6 +18,7 @@ abstract class AbstractObjectCollection extends AbstractCollection implements At
     /**
      * @phpstan-assert-if-true T $item
      */
+    #[\Override]
     protected function isValidItem(mixed $item): bool
     {
         $expected = $this->getT();

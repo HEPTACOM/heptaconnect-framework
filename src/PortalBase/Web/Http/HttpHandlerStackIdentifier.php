@@ -15,6 +15,7 @@ final readonly class HttpHandlerStackIdentifier implements FlowComponentStackIde
     ) {
     }
 
+    #[\Override]
     public function getPortalNodeKey(): PortalNodeKeyInterface
     {
         return $this->portalNodeKey;
@@ -28,6 +29,7 @@ final readonly class HttpHandlerStackIdentifier implements FlowComponentStackIde
     /**
      * @return array{portalNodeKey: PortalNodeKeyInterface, path: string}
      */
+    #[\Override]
     public function jsonSerialize(): array
     {
         return [

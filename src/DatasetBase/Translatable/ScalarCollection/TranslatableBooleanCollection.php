@@ -12,6 +12,7 @@ use Heptacom\HeptaConnect\Utility\Collection\Scalar\BooleanCollection;
  */
 final class TranslatableBooleanCollection extends AbstractTranslatableScalarCollection
 {
+    #[\Override]
     protected function getInitialValue(): CollectionInterface
     {
         return new BooleanCollection();

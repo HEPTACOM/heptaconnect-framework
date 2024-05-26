@@ -22,6 +22,7 @@ abstract class AbstractTranslatableScalarCollection extends AbstractTranslatable
     /**
      * @return T|null
      */
+    #[\Override]
     public function getTranslation(string $localeKey, bool $returnFallback = false): mixed
     {
         $result = parent::getTranslation($localeKey, false);
@@ -43,6 +44,7 @@ abstract class AbstractTranslatableScalarCollection extends AbstractTranslatable
     /**
      * @phpstan-return T
      */
+    #[\Override]
     public function getFallback(): CollectionInterface
     {
         $result = $this->fallback ?? $this->getInitialValue();
@@ -51,6 +53,7 @@ abstract class AbstractTranslatableScalarCollection extends AbstractTranslatable
         return $result;
     }
 
+    #[\Override]
     protected function isValidValue(mixed $value): bool
     {
         $collection = $this->getInitialValue();
