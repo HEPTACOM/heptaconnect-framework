@@ -23,8 +23,6 @@ interface TranslatableInterface
     /**
      * Sets a translation by the given locale identifier.
      *
-     * @psalm-param T $value
-     *
      * @param T $value
      *
      * @return TranslatableInterface<T>
@@ -47,8 +45,6 @@ interface TranslatableInterface
 
     /**
      * Sets the fallback value, that is used by @see getTranslation
-     *
-     * @psalm-param T $value
      *
      * @param T $value
      *

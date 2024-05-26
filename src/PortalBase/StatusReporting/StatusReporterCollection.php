@@ -17,9 +17,6 @@ class StatusReporterCollection extends AbstractObjectCollection
         return $this->filter(static fn (StatusReporterContract $reporter) => $reporter->supportsTopic() === $topic);
     }
 
-    /**
-     * @psalm-return Contract\StatusReporterContract::class
-     */
     protected function getT(): string
     {
         return StatusReporterContract::class;

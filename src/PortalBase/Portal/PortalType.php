@@ -10,8 +10,8 @@ use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContrac
 /**
  * @extends SubtypeClassStringContract<PortalContract>
  *
- * @psalm-method class-string<PortalContract> __toString()
- * @psalm-method class-string<PortalContract> jsonSerialize()
+ * @phpstan-method class-string<PortalContract> __toString()
+ * @phpstan-method class-string<PortalContract> jsonSerialize()
  */
 final class PortalType extends SubtypeClassStringContract
 {

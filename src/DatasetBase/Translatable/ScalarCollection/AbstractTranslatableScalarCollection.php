@@ -20,10 +20,11 @@ abstract class AbstractTranslatableScalarCollection extends AbstractTranslatable
     }
 
     /**
-     * @psalm-return T|null
+     * @return T|null
      */
-    public function getTranslation(string $localeKey, bool $returnFallback = false)
+    public function getTranslation(string $localeKey, bool $returnFallback = false): mixed
     {
+        /** @var mixed $result */
         $result = parent::getTranslation($localeKey, false);
 
         if ($result !== null && $this->isValidValue($result)) {
@@ -41,7 +42,7 @@ abstract class AbstractTranslatableScalarCollection extends AbstractTranslatable
     }
 
     /**
-     * @return T
+     * @phpstan-return T
      */
     public function getFallback(): CollectionInterface
     {
@@ -59,7 +60,7 @@ abstract class AbstractTranslatableScalarCollection extends AbstractTranslatable
     }
 
     /**
-     * @return T
+     * @phpstan-return T
      */
     abstract protected function getInitialValue(): CollectionInterface;
 }

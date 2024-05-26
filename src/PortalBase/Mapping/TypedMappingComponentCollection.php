@@ -28,7 +28,7 @@ class TypedMappingComponentCollection extends MappingComponentCollection
     /**
      * @deprecated use @see getEntityType instead
      *
-     * @psalm-return class-string<DatasetEntityContract>
+     * @phpstan-return class-string<DatasetEntityContract>
      */
     public function getType(): string
     {

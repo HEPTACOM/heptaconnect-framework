@@ -19,13 +19,13 @@ abstract class StorageKeyGeneratorContract
      *
      * @see StorageKeyInterface
      *
-     * @psalm-param class-string<StorageKeyInterface> $keyClassName
+     * @param class-string<StorageKeyInterface> $keyClassName
      *
      * @throws UnsupportedStorageKeyException
      *
      * @return StorageKeyInterface[]
      *
-     * @psalm-return iterable<int, StorageKeyInterface>
+     * @phpstan-return iterable<int, StorageKeyInterface>
      */
     abstract public function generateKeys(string $keyClassName, int $count): iterable;
 

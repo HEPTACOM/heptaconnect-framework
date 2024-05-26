@@ -13,8 +13,8 @@ use Heptacom\HeptaConnect\Utility\ClassString\Exception\UnexpectedLeadingNamespa
 /**
  * @extends ClassStringContract<PortalContract>
  *
- * @psalm-method class-string<PortalContract> __toString()
- * @psalm-method class-string<PortalContract> jsonSerialize()
+ * @phpstan-method class-string<PortalContract> __toString()
+ * @phpstan-method class-string<PortalContract> jsonSerialize()
  */
 final class SupportedPortalType extends ClassStringContract
 {

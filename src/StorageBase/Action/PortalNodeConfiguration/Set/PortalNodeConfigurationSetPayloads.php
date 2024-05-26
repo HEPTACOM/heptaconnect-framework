@@ -15,9 +15,6 @@ final class PortalNodeConfigurationSetPayloads extends AbstractObjectCollection 
 {
     use AttachmentAwareTrait;
 
-    /**
-     * @psalm-return PortalNodeConfigurationSetPayload::class
-     */
     protected function getT(): string
     {
         return PortalNodeConfigurationSetPayload::class;

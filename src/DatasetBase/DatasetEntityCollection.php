@@ -34,9 +34,6 @@ class DatasetEntityCollection extends AbstractObjectCollection
         }
     }
 
-    /**
-     * @psalm-return Contract\DatasetEntityContract::class
-     */
     protected function getT(): string
     {
         return DatasetEntityContract::class;

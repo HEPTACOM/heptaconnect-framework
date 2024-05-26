@@ -20,9 +20,6 @@ class MappingNodeStructCollection extends AbstractObjectCollection
         );
     }
 
-    /**
-     * @psalm-return Contract\MappingNodeStructInterface::class
-     */
     protected function getT(): string
     {
         return MappingNodeStructInterface::class;

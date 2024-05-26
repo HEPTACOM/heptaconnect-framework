@@ -18,7 +18,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
     use SetStateTrait;
 
     /**
-     * @psalm-var T[]
+     * @var T[]
      */
     protected array $translations = [];
 
@@ -48,7 +48,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
     }
 
     /**
-     * @psalm-param array-key $offset
+     * @param string|int $offset
      */
     public function offsetExists($offset): bool
     {
@@ -60,9 +60,9 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
     }
 
     /**
-     * @psalm-param array-key $offset
+     * @param string|int $offset
      *
-     * @psalm-return T|null
+     * @return T|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
@@ -75,8 +75,8 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
     }
 
     /**
-     * @psalm-param array-key|null $offset
-     * @psalm-param T|null $value
+     * @param int|string|null $offset
+     * @param T|null $value
      */
     public function offsetSet($offset, $value): void
     {
@@ -92,7 +92,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
     }
 
     /**
-     * @psalm-param array-key $offset
+     * @param int|string $offset
      */
     public function offsetUnset($offset): void
     {
@@ -104,7 +104,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
     }
 
     /**
-     * @psalm-return T|null
+     * @return T|null
      */
     public function getTranslation(string $localeKey, bool $returnFallback = false)
     {
@@ -118,9 +118,9 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
     }
 
     /**
-     * @psalm-param T $value
+     * @param T $value
      *
-     * @psalm-return TranslatableInterface<T>
+     * @return TranslatableInterface<T>
      */
     public function setTranslation(string $localeKey, $value): TranslatableInterface
     {
@@ -138,7 +138,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
     }
 
     /**
-     * @psalm-return TranslatableInterface<T>
+     * @return TranslatableInterface<T>
      */
     public function removeTranslation(string $localeKey): TranslatableInterface
     {
@@ -154,7 +154,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
     }
 
     /**
-     * @psalm-return T|null
+     * @return T|null
      */
     public function getFallback(): mixed
     {
@@ -162,9 +162,9 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
     }
 
     /**
-     * @psalm-param T $value
+     * @param T $value
      *
-     * @psalm-return TranslatableInterface<T>
+     * @return TranslatableInterface<T>
      */
     public function setFallback($value): TranslatableInterface
     {
@@ -176,7 +176,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
     }
 
     /**
-     * @psalm-return TranslatableInterface<T>
+     * @return TranslatableInterface<T>
      */
     public function removeFallback(): TranslatableInterface
     {
@@ -199,7 +199,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
     }
 
     /**
-     * @psalm-assert-if-true T $value
+     * @phpstan-assert-if-true T $value
      */
     abstract protected function isValidValue(mixed $value): bool;
 

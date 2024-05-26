@@ -10,8 +10,8 @@ use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContrac
 /**
  * @extends SubtypeClassStringContract<DatasetEntityContract>
  *
- * @psalm-method class-string<DatasetEntityContract> __toString()
- * @psalm-method class-string<DatasetEntityContract> jsonSerialize()
+ * @phpstan-method class-string<DatasetEntityContract> __toString()
+ * @phpstan-method class-string<DatasetEntityContract> jsonSerialize()
  */
 final class EntityType extends SubtypeClassStringContract
 {

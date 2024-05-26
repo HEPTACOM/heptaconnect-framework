@@ -20,9 +20,6 @@ class ReceiverCollection extends AbstractObjectCollection
         );
     }
 
-    /**
-     * @psalm-return Contract\ReceiverContract::class
-     */
     protected function getT(): string
     {
         return ReceiverContract::class;

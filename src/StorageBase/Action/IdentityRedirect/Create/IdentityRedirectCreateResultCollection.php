@@ -15,9 +15,6 @@ final class IdentityRedirectCreateResultCollection extends AbstractObjectCollect
 {
     use AttachmentAwareTrait;
 
-    /**
-     * @psalm-return IdentityRedirectCreateResult::class
-     */
     protected function getT(): string
     {
         return IdentityRedirectCreateResult::class;

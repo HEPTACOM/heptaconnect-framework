@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Utility\Php;
 use Heptacom\HeptaConnect\Utility\Collection\Contract\CollectionInterface;
 
 /**
- * @psalm-consistent-constructor
+ * @phpstan-consistent-constructor
  *
  * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  * @SuppressWarnings(PHPMD.NPathComplexity)

@@ -130,9 +130,9 @@ abstract class AbstractCollection implements CollectionInterface
     }
 
     /**
-     * @param array-key|null $offset
+     * @phpstan-param array-key|null $offset
      *
-     * @psalm-param T   $value
+     * @phpstan-param T   $value
      */
     public function offsetSet($offset, $value): void
     {
@@ -259,12 +259,12 @@ abstract class AbstractCollection implements CollectionInterface
     }
 
     /**
-     * @psalm-assert-if-true T $item
+     * @phpstan-assert-if-true T $item
      */
     abstract protected function isValidItem(mixed $item): bool;
 
     /**
-     * @psalm-return iterable<T>
+     * @return iterable<int, T>
      */
     protected function filterValid(iterable $items): iterable
     {

@@ -29,7 +29,7 @@ class MappingComponentCollection extends AbstractObjectCollection
     }
 
     /**
-     * @psalm-return class-string<DatasetEntityContract>[]
+     * @phpstan-return class-string<DatasetEntityContract>[]
      *
      * @return string[]
      */

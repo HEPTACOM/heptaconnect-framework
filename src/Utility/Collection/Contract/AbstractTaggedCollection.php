@@ -19,9 +19,9 @@ abstract class AbstractTaggedCollection extends AbstractCollection
     protected array $items = [];
 
     /**
-     * @psalm-param array-key $offset
+     * @phpstan-param array-key $offset
      *
-     * @psalm-return TagItem<T>
+     * @phpstan-return TagItem<T>
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
@@ -57,7 +57,7 @@ abstract class AbstractTaggedCollection extends AbstractCollection
     }
 
     /**
-     * @psalm-assert-if-true TagItem<T> $item
+     * @phpstan-assert-if-true TagItem<T> $item
      */
     protected function isValidItem(mixed $item): bool
     {
@@ -65,12 +65,12 @@ abstract class AbstractTaggedCollection extends AbstractCollection
     }
 
     /**
-     * @psalm-return class-string<CollectionInterface<T>>
+     * @phpstan-return class-string<CollectionInterface<T>>
      */
     abstract protected function getCollectionType(): string;
 
     /**
-     * @psalm-return CollectionInterface<T>
+     * @phpstan-return CollectionInterface<T>
      */
     private function createEmptyCollection(): CollectionInterface
     {

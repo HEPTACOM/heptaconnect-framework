@@ -96,7 +96,7 @@ final class PrimaryKeySharingMappingStruct implements AttachmentAwareInterface, 
     /**
      * @return iterable|DatasetEntityContract[]
      *
-     * @psalm-return iterable<array-key, DatasetEntityContract>
+     * @phpstan-return iterable<string|int, DatasetEntityContract>
      */
     public function getOwners(): iterable
     {

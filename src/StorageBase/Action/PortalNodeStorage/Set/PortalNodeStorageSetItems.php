@@ -15,9 +15,6 @@ final class PortalNodeStorageSetItems extends AbstractObjectCollection implement
 {
     use AttachmentAwareTrait;
 
-    /**
-     * @psalm-return PortalNodeStorageSetItem::class
-     */
     protected function getT(): string
     {
         return PortalNodeStorageSetItem::class;
