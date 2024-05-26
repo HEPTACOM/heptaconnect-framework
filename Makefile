@@ -43,7 +43,6 @@ clean: clean-package-vendor ## Cleans up all ignored files and directories
 	[[ ! -f dev-ops/bin/phpmd ]] || rm -f dev-ops/bin/phpmd
 	[[ ! -f dev-ops/bin/phpcpd ]] || rm -f dev-ops/bin/phpcpd
 	[[ ! -d dev-ops/bin/phpstan/vendor ]] || rm -rf dev-ops/bin/phpstan/vendor
-	[[ ! -d dev-ops/bin/psalm/vendor ]] || rm -rf dev-ops/bin/psalm/vendor
 	[[ ! -d dev-ops/bin/php-churn/vendor ]] || rm -rf dev-ops/bin/php-churn/vendor
 	[[ ! -d test/Core/Fixture/_files/portal_filesystem ]] || rm -rf test/Core/Fixture/_files/portal_filesystem
 	make -C test-suite-portal-test-portal clean

@@ -7,7 +7,6 @@
 /dev-ops/bin/phpcpd
 /dev-ops/bin/phpmd
 /dev-ops/bin/phpstan/vendor/
-/dev-ops/bin/psalm/vendor/
 /dev-ops/bin/php-churn/vendor/
 /test/Core/Fixture/_files/portal_filesystem
 /test-composer-integration/vendor/*
