@@ -42,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Make class final: `\Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent`
 - Add implementation reference to `\Stringable` when `__toString` is already implemented in `\Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin` and `\Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\SerializableStream`
 - Change return type of `\Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier::jsonSerialize` to `array` struct instead of implicit `mixed`
+- Change return type of `\Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiveContextInterface::getEventDispatcher` from `\Psr\EventDispatcher\EventDispatcherInterface` to `\Symfony\Component\EventDispatcher\EventDispatcherInterface` in order to allow registering listeners
 - Add return type `mixed` to `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\ConfigurationContract::get`
 - Add type `mixed` of first parameter `\Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry::getNormalizer`
 

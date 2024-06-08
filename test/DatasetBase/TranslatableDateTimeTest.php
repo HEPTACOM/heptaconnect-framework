@@ -144,9 +144,11 @@ final class TranslatableDateTimeTest extends TestCase
     #[DataProvider('provideInvalidTestCases')]
     public function testInsertOtherTypeInTypeCollection($item): void
     {
+        static::expectException(\TypeError::class);
+        static::expectExceptionMessageMatches('/must be of type \\\\DateTimeInterface/');
+
         $translatable = new TranslatableDateTime();
         $translatable->setTranslation('en-GB', $item);
-        static::assertCount(0, $translatable->getLocaleKeys());
     }
 
     public function testSerialization(): void
@@ -174,9 +176,10 @@ final class TranslatableDateTimeTest extends TestCase
     #[DataProvider('provideInvalidTestCases')]
     public function testInvalidFallback($anyValue): void
     {
-        $translatable = new TranslatableDateTime();
+        static::expectException(\TypeError::class);
+        static::expectExceptionMessageMatches('/must be of type \\\\DateTimeInterface/');
 
+        $translatable = new TranslatableDateTime();
         $translatable->setFallback($anyValue);
-        static::assertNull($translatable->getFallback());
     }
 }

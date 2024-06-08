@@ -13,7 +13,7 @@ use Heptacom\HeptaConnect\Utility\Php\SetStateTrait;
  * @implements \ArrayAccess<array-key, T>
  * @implements Contract\TranslatableInterface<T>
  */
-abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, Contract\TranslatableInterface
+abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, TranslatableInterface
 {
     use SetStateTrait;
 
@@ -78,6 +78,7 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
     /**
      * @param int|string|null $offset
      * @param T|null          $value
+     * @phpstan-assert T|null $value
      */
     #[\Override]
     public function offsetSet($offset, $value): void
@@ -90,6 +91,8 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
             $this->deleteTranslation($offset);
         } elseif ($this->isValidValue($value)) {
             $this->translations[$offset] = $value;
+        } else {
+            throw $this->generateTypeError(__FUNCTION__, $value, 2, 'value');
         }
     }
 
@@ -123,13 +126,16 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
 
     /**
      * @param T $value
+     * @phpstan-assert T|null $value
      *
      * @return TranslatableInterface<T>
      */
     #[\Override]
     public function setTranslation(string $localeKey, $value): TranslatableInterface
     {
-        if ($value !== null && $this->isValidValue($value)) {
+        if ($value === null) {
+            return $this->removeTranslation($localeKey);
+        } elseif ($this->isValidValue($value)) {
             $this->translations[$localeKey] = $value;
 
             /* @deprecated 1.0.0 */
@@ -137,9 +143,11 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
                 @\trigger_error('The key "default" for translations is deprecated. Use setFallback instead.', \E_USER_DEPRECATED);
                 $this->removeFallback();
             }
+
+            return $this;
         }
 
-        return $this;
+        throw $this->generateTypeError(__FUNCTION__, $value, 2, 'value');
     }
 
     /**
@@ -170,17 +178,21 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
 
     /**
      * @param T $value
+     * @phpstan-assert T|null $value
      *
      * @return TranslatableInterface<T>
      */
     #[\Override]
     public function setFallback($value): TranslatableInterface
     {
-        if ($value === null || $this->isValidValue($value)) {
+        if ($value === null) {
+            return $this->removeFallback();
+        } elseif ($this->isValidValue($value)) {
             $this->fallback = $value;
+            return $this;
         }
 
-        return $this;
+        throw $this->generateTypeError(__FUNCTION__, $value, 1, 'value');
     }
 
     /**
@@ -219,5 +231,27 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
         if (\array_key_exists($offset, $this->translations)) {
             unset($this->translations[$offset]);
         }
+    }
+
+    private function generateTypeError(string $method, mixed $value, int $parameterPosition, string $parameterName): \TypeError
+    {
+        \preg_match_all(
+            '/.*@extends.*<([^>]+)>/m',
+            (new \ReflectionClass($this))->getDocComment(),
+            $result,
+            \PREG_SET_ORDER
+        );
+
+        return new \TypeError(
+            \sprintf(
+                '%s::%s: Argument #%d ($%s) must be of type %s, %s given',
+                static::class,
+                $method,
+                $parameterPosition,
+                $parameterName,
+                $result[0][1] ?? '',
+                \get_debug_type($value)
+            )
+        );
     }
 }

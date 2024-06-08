@@ -14,6 +14,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use TypeError;
 
 #[CoversClass(AbstractTranslatable::class)]
 #[CoversClass(TranslatableString::class)]
@@ -142,9 +143,11 @@ final class TranslatableStringTest extends TestCase
     #[DataProvider('provideInvalidTestCases')]
     public function testInsertOtherTypeInTypeCollection($item): void
     {
+        static::expectException(\TypeError::class);
+        static::expectExceptionMessageMatches('/must be of type string/');
+
         $translatable = new TranslatableString();
         $translatable->setTranslation('en-GB', $item);
-        static::assertCount(0, $translatable->getLocaleKeys());
     }
 
     public function testSerialization(): void
@@ -168,9 +171,10 @@ final class TranslatableStringTest extends TestCase
     #[DataProvider('provideInvalidTestCases')]
     public function testInvalidFallback($anyValue): void
     {
-        $translatable = new TranslatableString();
+        static::expectException(\TypeError::class);
+        static::expectExceptionMessageMatches('/must be of type string/');
 
+        $translatable = new TranslatableString();
         $translatable->setFallback($anyValue);
-        static::assertNull($translatable->getFallback());
     }
 }

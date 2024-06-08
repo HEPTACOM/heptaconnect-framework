@@ -144,9 +144,11 @@ final class TranslatableDateTest extends TestCase
     #[DataProvider('provideInvalidTestCases')]
     public function testInsertOtherTypeInTypeCollection($item): void
     {
+        static::expectException(\TypeError::class);
+        static::expectExceptionMessageMatches('/must be of type Date/');
+
         $translatable = new TranslatableDate();
         $translatable->setTranslation('en-GB', $item);
-        static::assertCount(0, $translatable->getLocaleKeys());
     }
 
     public function testSerialization(): void
@@ -174,9 +176,10 @@ final class TranslatableDateTest extends TestCase
     #[DataProvider('provideInvalidTestCases')]
     public function testInvalidFallback($anyValue): void
     {
-        $translatable = new TranslatableDate();
+        static::expectException(\TypeError::class);
+        static::expectExceptionMessageMatches('/must be of type Date/');
 
+        $translatable = new TranslatableDate();
         $translatable->setFallback($anyValue);
-        static::assertNull($translatable->getFallback());
     }
 }
