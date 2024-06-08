@@ -21,7 +21,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Wrap `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract::supports` in new method `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract::getSupportedPortal` to provide an instance of `\Heptacom\HeptaConnect\Portal\Base\Portal\SupportedPortalType` for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Add `\Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerStackInterface::supports` to get the entity type of the explorer stack
 - Add `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeContextInterface::getLogger` so every context can directly access the portal node focused logger
-- Add composer dependency `symfony/event-dispatcher: ^5` to allow symfony event listener in receptions
 
 ### Changed
 
@@ -44,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add implementation reference to `\Stringable` when `__toString` is already implemented in `\Heptacom\HeptaConnect\Portal\Base\FlowComponent\CodeOrigin` and `\Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\SerializableStream`
 - Change return type of `\Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier::jsonSerialize` to `array` struct instead of implicit `mixed`
 - Change return type of `\Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiveContextInterface::getEventDispatcher` from `\Psr\EventDispatcher\EventDispatcherInterface` to `\Symfony\Component\EventDispatcher\EventDispatcherInterface` in order to allow registering listeners
+- Change composer dependency from `psr/event-dispatcher: ^1` to `symfony/event-dispatcher: ^5` to allow symfony event listener in receptions
 - Add return type `mixed` to `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\ConfigurationContract::get`
 - Add type `mixed` of first parameter `\Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry::getNormalizer`
 
