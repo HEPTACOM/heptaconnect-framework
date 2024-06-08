@@ -162,9 +162,11 @@ final class TranslatableFloatTest extends TestCase
      */
     public function testInsertOtherTypeInTypeCollection($item): void
     {
+        static::expectException(\TypeError::class);
+        static::expectExceptionMessageMatches('/must be of type float/');
+
         $translatable = new TranslatableFloat();
         $translatable->setTranslation('en-GB', $item);
-        static::assertCount(0, $translatable->getLocaleKeys());
     }
 
     public function testSerialization(): void
@@ -192,9 +194,10 @@ final class TranslatableFloatTest extends TestCase
      */
     public function testInvalidFallback($anyValue): void
     {
-        $translatable = new TranslatableFloat();
+        static::expectException(\TypeError::class);
+        static::expectExceptionMessageMatches('/must be of type float/');
 
+        $translatable = new TranslatableFloat();
         $translatable->setFallback($anyValue);
-        static::assertNull($translatable->getFallback());
     }
 }

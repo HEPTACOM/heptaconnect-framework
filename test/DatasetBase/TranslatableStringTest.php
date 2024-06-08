@@ -10,6 +10,7 @@ use Heptacom\HeptaConnect\Utility\Test\ProvidesInvalidTestsData;
 use Heptacom\HeptaConnect\Utility\Test\ProvidesJsonSerializer;
 use Heptacom\HeptaConnect\Utility\Test\ProvidesStringTestsData;
 use PHPUnit\Framework\TestCase;
+use TypeError;
 
 /**
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable
@@ -162,9 +163,11 @@ final class TranslatableStringTest extends TestCase
      */
     public function testInsertOtherTypeInTypeCollection($item): void
     {
+        static::expectException(\TypeError::class);
+        static::expectExceptionMessageMatches('/must be of type string/');
+
         $translatable = new TranslatableString();
         $translatable->setTranslation('en-GB', $item);
-        static::assertCount(0, $translatable->getLocaleKeys());
     }
 
     public function testSerialization(): void
@@ -192,9 +195,10 @@ final class TranslatableStringTest extends TestCase
      */
     public function testInvalidFallback($anyValue): void
     {
-        $translatable = new TranslatableString();
+        static::expectException(\TypeError::class);
+        static::expectExceptionMessageMatches('/must be of type string/');
 
+        $translatable = new TranslatableString();
         $translatable->setFallback($anyValue);
-        static::assertNull($translatable->getFallback());
     }
 }

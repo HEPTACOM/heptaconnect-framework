@@ -152,9 +152,11 @@ final class TranslatableBoolTest extends TestCase
      */
     public function testInsertOtherTypeInTypeCollection($item): void
     {
+        static::expectException(\TypeError::class);
+        static::expectExceptionMessageMatches('/must be of type bool/');
+
         $translatable = new TranslatableBoolean();
         $translatable->setTranslation('en-GB', $item);
-        static::assertCount(0, $translatable->getLocaleKeys());
     }
 
     public function testSerialization(): void
@@ -182,9 +184,10 @@ final class TranslatableBoolTest extends TestCase
      */
     public function testInvalidFallback($anyValue): void
     {
-        $translatable = new TranslatableBoolean();
+        static::expectException(\TypeError::class);
+        static::expectExceptionMessageMatches('/must be of type bool/');
 
+        $translatable = new TranslatableBoolean();
         $translatable->setFallback($anyValue);
-        static::assertNull($translatable->getFallback());
     }
 }
