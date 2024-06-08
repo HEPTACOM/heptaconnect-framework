@@ -6,12 +6,15 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable;
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableFloat;
+use Heptacom\HeptaConnect\Utility\Test\ProvidesFloatTestsData;
+use Heptacom\HeptaConnect\Utility\Test\ProvidesInvalidTestsData;
+use Heptacom\HeptaConnect\Utility\Test\ProvidesJsonSerializer;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\SetStateTrait
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableFloat
+ * @covers \Heptacom\HeptaConnect\Utility\Php\SetStateTrait
  */
 final class TranslatableFloatTest extends TestCase
 {

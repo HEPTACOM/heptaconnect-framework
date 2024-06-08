@@ -11,7 +11,6 @@ use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder;
 use Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory;
 use Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract;
-use Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory;
 use Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarStatusReporter;
 use Heptacom\HeptaConnect\Core\Test\Fixture\HttpClientInterfaceDecorator;
@@ -50,7 +49,6 @@ use HeptacomFixture\Portal\A\Dto\ShouldNotBeAService;
 use HeptacomFixture\Portal\A\ManualService\ExceptionInContainer;
 use HeptacomFixture\Portal\A\Portal;
 use HeptacomFixture\Portal\Extension\PortalExtension;
-use League\Flysystem\FilesystemInterface as FlysystemFilesystemInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -69,22 +67,22 @@ use Symfony\Component\DependencyInjection\Reference;
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalConfiguration
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalLogger
  * @covers \Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder
+ * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddConfigurationBindingsCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddHttpMiddlewareClientCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddHttpMiddlewareCollectorCompilerPass
- * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AddConfigurationBindingsCompilerPass
- * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\SetConfigurationAsParameterCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\AllDefinitionDefaultsCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\BuildDefinitionForFlowComponentRegistryCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\RemoveAutoPrototypedDefinitionsCompilerPass
+ * @covers \Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass\SetConfigurationAsParameterCompilerPass
  * @covers \Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector
  * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpMiddlewareClient
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Parallelization\Support\ResourceLockFacade
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
  */
 final class PortalStackServiceContainerBuilderTest extends TestCase
 {
@@ -119,7 +117,6 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
         static::assertTrue($container->has(DeepObjectIteratorContract::class));
         static::assertTrue($container->has(DirectEmissionFlowContract::class));
         static::assertTrue($container->has(FilesystemInterface::class));
-        static::assertTrue($container->has(FlysystemFilesystemInterface::class));
         static::assertTrue($container->has(LoggerInterface::class));
         static::assertTrue($container->has(NormalizationRegistryContract::class));
         static::assertTrue($container->has(PortalContract::class));
@@ -318,7 +315,6 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
             $this->createMock(ResourceLockingContract::class),
             $this->createMock(ProfilerFactoryContract::class),
             $this->createMock(StorageKeyGeneratorContract::class),
-            $this->createMock(FilesystemFactory::class),
             $configurationService,
             $this->createMock(PublisherInterface::class),
             $httpHandlerUrlProviderFactory,

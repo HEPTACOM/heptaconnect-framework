@@ -6,12 +6,15 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable;
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableString;
+use Heptacom\HeptaConnect\Utility\Test\ProvidesInvalidTestsData;
+use Heptacom\HeptaConnect\Utility\Test\ProvidesJsonSerializer;
+use Heptacom\HeptaConnect\Utility\Test\ProvidesStringTestsData;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\SetStateTrait
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableString
+ * @covers \Heptacom\HeptaConnect\Utility\Php\SetStateTrait
  */
 final class TranslatableStringTest extends TestCase
 {

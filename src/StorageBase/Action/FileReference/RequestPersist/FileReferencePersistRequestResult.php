@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestPersist;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
-use Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\FileReferenceRequestKeyInterface;
+use Heptacom\HeptaConnect\Utility\Attachment\AttachmentAwareTrait;
+use Heptacom\HeptaConnect\Utility\Attachment\Contract\AttachmentAwareInterface;
 
 final class FileReferencePersistRequestResult implements AttachmentAwareInterface
 {

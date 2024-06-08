@@ -6,13 +6,12 @@ namespace Heptacom\HeptaConnect\Core\Test\Portal\File\Filesystem;
 
 use Heptacom\HeptaConnect\Core\Bridge\File\PortalNodeFilesystemStreamProtocolProviderInterface;
 use Heptacom\HeptaConnect\Core\Portal\File\Filesystem\FilesystemFactory;
-use Heptacom\HeptaConnect\Core\Storage\Filesystem\PrefixFilesystem;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Http\Discovery\Psr17FactoryDiscovery;
-use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem as FlysystemFilesystem;
+use League\Flysystem\Local\LocalFilesystemAdapter;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,9 +19,6 @@ use PHPUnit\Framework\TestCase;
  * @covers \Heptacom\HeptaConnect\Core\File\Filesystem\StreamUriSchemePathConverter
  * @covers \Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Filesystem
  * @covers \Heptacom\HeptaConnect\Core\Portal\File\Filesystem\FilesystemFactory
- * @covers \Heptacom\HeptaConnect\Core\Storage\Filesystem\AbstractFilesystem
- * @covers \Heptacom\HeptaConnect\Core\Storage\Filesystem\PrefixAdapter
- * @covers \Heptacom\HeptaConnect\Core\Storage\Filesystem\PrefixFilesystem
  */
 final class FilesystemFactoryTest extends TestCase
 {
@@ -49,8 +45,7 @@ final class FilesystemFactoryTest extends TestCase
         $uriFactory = Psr17FactoryDiscovery::findUriFactory();
 
         // TODO Fix Flysystem compatibility
-        $flysystem = new FlysystemFilesystem(new Local($fixtureFolder));
-        $flysystem = new PrefixFilesystem($flysystem, 'prefix');
+        $flysystem = new FlysystemFilesystem(new LocalFilesystemAdapter($fixtureFolder . '/prefix'));
         $fixtureFolder .= '/prefix';
 
         \M2MTech\FlysystemStreamWrapper\FlysystemStreamWrapper::register('test-stream', $flysystem);

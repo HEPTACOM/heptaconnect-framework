@@ -1,0 +1,39 @@
+{
+    "name": "heptacom/heptaconnect-utility",
+    "description": "HEPTAconnect package with helpful classes for type safety, collections and other generic reusable code",
+    "license": [
+        "AGPL-3.0-or-later",
+        "proprietary"
+    ],
+    "type": "library",
+    "keywords": [
+        "heptaconnect"
+    ],
+    "authors": [
+        {
+            "name": "HEPTACOM GmbH"
+        }
+    ],
+    "homepage": "https://heptaconnect.io",
+    "support": {
+        "issues": "https://github.com/HEPTACOM/heptaconnect-framework/issues",
+        "source": "https://github.com/HEPTACOM/heptaconnect-framework",
+        "docs": "https://heptaconnect.io/",
+        "rss": "https://heptaconnect.io/news/rss2.xml"
+    },
+    "require": {
+        "php": ">=8.1",
+        "ext-json": "*"
+    },
+    "repositories": {
+        "heptaconnect-sources": {
+            "type": "path",
+            "url": "../**"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Heptacom\\HeptaConnect\\Utility\\": ""
+        }
+    }
+}

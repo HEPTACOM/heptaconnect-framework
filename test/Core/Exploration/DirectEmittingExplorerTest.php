@@ -22,19 +22,19 @@ use Psr\Log\LoggerInterface;
  * @covers \Heptacom\HeptaConnect\Core\Exploration\DirectEmittingExplorer
  * @covers \Heptacom\HeptaConnect\Core\Job\JobCollection
  * @covers \Heptacom\HeptaConnect\Core\Job\Type\AbstractJobType
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\ClassStringReferenceContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\SubtypeClassStringContract
  * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
- * @covers \Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AbstractObjectCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait
  * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
  * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract
  * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct
+ * @covers \Heptacom\HeptaConnect\Utility\Attachment\AttachmentAwareTrait
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
+ * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
+ * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection
  */
 final class DirectEmittingExplorerTest extends TestCase
 {
