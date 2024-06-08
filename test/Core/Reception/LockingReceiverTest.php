@@ -22,6 +22,7 @@ use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContrac
 use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
 use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Lock\LockInterface;
@@ -33,7 +34,7 @@ use Symfony\Component\Lock\LockInterface;
 #[CoversClass(EntityType::class)]
 #[CoversClass(TypedDatasetEntityCollection::class)]
 #[CoversClass(ReceiverContract::class)]
-#[CoversClass(AttachmentAwareTrait::class)]
+#[CoversTrait(AttachmentAwareTrait::class)]
 #[CoversClass(AttachmentCollection::class)]
 #[CoversClass(ClassStringContract::class)]
 #[CoversClass(ClassStringReferenceContract::class)]

@@ -46,7 +46,7 @@ use Psr\Log\LoggerInterface;
 #[CoversClass(ReceptionRouteListCriteria::class)]
 #[CoversClass(ReceptionRouteListResult::class)]
 #[CoversClass(PreviewPortalNodeKey::class)]
-#[CoversClass(AttachmentAwareTrait::class)]
+#[CoversTrait(AttachmentAwareTrait::class)]
 #[CoversClass(ClassStringContract::class)]
 #[CoversClass(ClassStringReferenceContract::class)]
 #[CoversClass(SubtypeClassStringContract::class)]

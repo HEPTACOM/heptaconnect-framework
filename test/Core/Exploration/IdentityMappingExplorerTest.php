@@ -27,6 +27,7 @@ use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
 use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -40,7 +41,7 @@ use Psr\Log\LoggerInterface;
 #[CoversClass(ExplorerContract::class)]
 #[CoversClass(IdentityMapPayload::class)]
 #[CoversClass(IdentityMapResult::class)]
-#[CoversClass(AttachmentAwareTrait::class)]
+#[CoversTrait(AttachmentAwareTrait::class)]
 #[CoversClass(ClassStringContract::class)]
 #[CoversClass(ClassStringReferenceContract::class)]
 #[CoversClass(SubtypeClassStringContract::class)]

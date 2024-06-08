@@ -11,12 +11,13 @@ use Heptacom\HeptaConnect\Utility\Test\ProvidesFloatTestsData;
 use Heptacom\HeptaConnect\Utility\Test\ProvidesInvalidTestsData;
 use Heptacom\HeptaConnect\Utility\Test\ProvidesJsonSerializer;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(AbstractTranslatable::class)]
 #[CoversClass(TranslatableFloat::class)]
-#[CoversClass(SetStateTrait::class)]
+#[CoversTrait(SetStateTrait::class)]
 final class TranslatableFloatTest extends TestCase
 {
     use ProvidesFloatTestsData;

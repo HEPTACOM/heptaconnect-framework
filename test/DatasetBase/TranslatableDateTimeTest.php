@@ -11,10 +11,11 @@ use Heptacom\HeptaConnect\Utility\Test\ProvidesDateTimeTestsData;
 use Heptacom\HeptaConnect\Utility\Test\ProvidesInvalidTestsData;
 use Heptacom\HeptaConnect\Utility\Test\ProvidesJsonSerializer;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(SetStateTrait::class)]
+#[CoversTrait(SetStateTrait::class)]
 #[CoversClass(AbstractTranslatable::class)]
 #[CoversClass(TranslatableDateTime::class)]
 final class TranslatableDateTimeTest extends TestCase

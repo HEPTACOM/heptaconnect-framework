@@ -11,14 +11,15 @@ use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
 use Heptacom\HeptaConnect\Utility\Json\JsonSerializeObjectVarsTrait;
 use Heptacom\HeptaConnect\Utility\Php\SetStateTrait;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(DatasetEntityContract::class)]
 #[CoversClass(DatasetEntityCollection::class)]
 #[CoversClass(AbstractCollection::class)]
-#[CoversClass(JsonSerializeObjectVarsTrait::class)]
-#[CoversClass(SetStateTrait::class)]
+#[CoversTrait(JsonSerializeObjectVarsTrait::class)]
+#[CoversTrait(SetStateTrait::class)]
 final class EntitySetStateTest extends TestCase
 {
     #[DataProvider('provideStructs')]

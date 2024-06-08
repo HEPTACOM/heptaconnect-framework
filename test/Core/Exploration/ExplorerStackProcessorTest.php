@@ -21,6 +21,7 @@ use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContrac
 use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
 use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -31,7 +32,7 @@ use Psr\Log\LoggerInterface;
 #[CoversClass(EntityType::class)]
 #[CoversClass(ExplorerContract::class)]
 #[CoversClass(ExplorerCollection::class)]
-#[CoversClass(AttachmentAwareTrait::class)]
+#[CoversTrait(AttachmentAwareTrait::class)]
 #[CoversClass(ClassStringContract::class)]
 #[CoversClass(ClassStringReferenceContract::class)]
 #[CoversClass(SubtypeClassStringContract::class)]

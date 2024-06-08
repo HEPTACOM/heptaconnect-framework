@@ -18,6 +18,7 @@ use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
 use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -26,7 +27,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(DatasetEntityCollection::class)]
 #[CoversClass(EntityType::class)]
 #[CoversClass(TypedDatasetEntityCollection::class)]
-#[CoversClass(AttachmentAwareTrait::class)]
+#[CoversTrait(AttachmentAwareTrait::class)]
 #[CoversClass(ClassStringContract::class)]
 #[CoversClass(ClassStringReferenceContract::class)]
 #[CoversClass(SubtypeClassStringContract::class)]

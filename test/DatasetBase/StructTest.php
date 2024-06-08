@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(DatasetEntityContract::class)]
 #[CoversClass(DatasetEntityCollection::class)]
 #[CoversClass(AbstractCollection::class)]
-#[CoversClass(JsonSerializeObjectVarsTrait::class)]
+#[CoversTrait(JsonSerializeObjectVarsTrait::class)]
 final class StructTest extends TestCase
 {
     #[DataProvider('provideStructs')]

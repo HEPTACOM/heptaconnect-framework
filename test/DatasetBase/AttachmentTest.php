@@ -22,15 +22,16 @@ use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContrac
 use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
 use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
 #[CoversClass(DatasetEntityContract::class)]
 #[CoversClass(DatasetEntityCollection::class)]
 #[CoversClass(EntityType::class)]
-#[CoversClass(ForeignKeyTrait::class)]
-#[CoversClass(PrimaryKeyTrait::class)]
-#[CoversClass(AttachmentAwareTrait::class)]
+#[CoversTrait(ForeignKeyTrait::class)]
+#[CoversTrait(PrimaryKeyTrait::class)]
+#[CoversTrait(AttachmentAwareTrait::class)]
 #[CoversClass(AttachmentCollection::class)]
 #[CoversClass(ClassStringContract::class)]
 #[CoversClass(ClassStringReferenceContract::class)]

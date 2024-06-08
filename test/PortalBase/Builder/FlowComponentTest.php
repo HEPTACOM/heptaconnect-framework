@@ -47,6 +47,7 @@ use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContrac
 use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
 use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\RequestInterface;
@@ -62,7 +63,7 @@ use Psr\Log\LoggerInterface;
 #[CoversClass(DatasetEntityCollection::class)]
 #[CoversClass(EntityType::class)]
 #[CoversClass(TypedDatasetEntityCollection::class)]
-#[CoversClass(BindThisTrait::class)]
+#[CoversTrait(BindThisTrait::class)]
 #[CoversClass(HttpHandlerBuilder::class)]
 #[CoversClass(Emitter::class)]
 #[CoversClass(Explorer::class)]
@@ -71,7 +72,7 @@ use Psr\Log\LoggerInterface;
 #[CoversClass(StatusReporter::class)]
 #[CoversClass(InvalidResultException::class)]
 #[CoversClass(FlowComponent::class)]
-#[CoversClass(ResolveArgumentsTrait::class)]
+#[CoversTrait(ResolveArgumentsTrait::class)]
 #[CoversClass(EmitterToken::class)]
 #[CoversClass(ExplorerToken::class)]
 #[CoversClass(HttpHandlerToken::class)]

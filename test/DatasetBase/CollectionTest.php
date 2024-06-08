@@ -16,6 +16,7 @@ use Heptacom\HeptaConnect\Utility\Json\JsonSerializeObjectVarsTrait;
 use Heptacom\HeptaConnect\Utility\Php\SetStateTrait;
 use Heptacom\HeptaConnect\Utility\Test\ProvidesJsonSerializer;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -24,8 +25,8 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(AbstractCollection::class)]
 #[CoversClass(AbstractObjectCollection::class)]
 #[CoversClass(IntegerCollection::class)]
-#[CoversClass(JsonSerializeObjectVarsTrait::class)]
-#[CoversClass(SetStateTrait::class)]
+#[CoversTrait(JsonSerializeObjectVarsTrait::class)]
+#[CoversTrait(SetStateTrait::class)]
 final class CollectionTest extends TestCase
 {
     use ProvidesJsonSerializer;
