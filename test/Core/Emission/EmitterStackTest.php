@@ -75,7 +75,14 @@ final class EmitterStackTest extends TestCase
                 yield from $stack->next($ids, $con);
             });
 
-        $stack = new EmitterStack([$emitter1, $emitter2, $emitter3], FirstEntity::class(), $this->createMock(LoggerInterface::class));
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects(static::exactly(3))
+            ->method('debug')
+            ->willReturnCallback(static function (mixed $message, array $context): void {
+                static::assertArrayHasKey('emitter', $context);
+            });
+
+        $stack = new EmitterStack([$emitter1, $emitter2, $emitter3], FirstEntity::class(), $logger);
         $stackResult = \iterable_to_array($stack->next([], $this->createMock(EmitContextInterface::class)));
         static::assertCount(3, $stackResult);
     }

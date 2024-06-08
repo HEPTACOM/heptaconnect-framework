@@ -69,10 +69,17 @@ final class ExplorerStackTest extends TestCase
                 yield from $stack->next($c);
             });
 
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects(static::exactly(3))
+            ->method('debug')
+            ->willReturnCallback(static function (mixed $message, array $context): void {
+                static::assertArrayHasKey('explorer', $context);
+            });
+
         $stack = new ExplorerStack(
             [$explorer1, $explorer2, $explorer3],
             FooBarEntity::class(),
-            $this->createMock(LoggerInterface::class)
+            $logger
         );
         $stackResult = \iterable_to_array($stack->next($this->createMock(ExploreContextInterface::class)));
         static::assertCount(3, $stackResult);

@@ -79,7 +79,14 @@ final class ReceiverStackTest extends TestCase
                 yield from $stack->next($col, $con);
             });
 
-        $stack = new ReceiverStack([$receiver1, $receiver2, $receiver3], $this->createMock(LoggerInterface::class));
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects(static::exactly(3))
+            ->method('debug')
+            ->willReturnCallback(static function (mixed $message, array $context): void {
+                static::assertArrayHasKey('receiver', $context);
+            });
+
+        $stack = new ReceiverStack([$receiver1, $receiver2, $receiver3], $logger);
         $stackResult = \iterable_to_array($stack->next(new TypedDatasetEntityCollection(FooBarEntity::class()), $this->createMock(ReceiveContextInterface::class)));
         static::assertCount(3, $stackResult);
     }
