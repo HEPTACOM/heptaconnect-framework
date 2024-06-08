@@ -49,6 +49,7 @@
         "allow-plugins": {
             "infection/extension-installer": true,
             "php-http/discovery": true
-        }
+        },
+        "vendor-dir": "../../.build/local-composer-vendor-test-suite-storage"
     }
 }

@@ -53,20 +53,13 @@ clean: clean-package-vendor ## Cleans up all ignored files and directories
 
 .PHONY: clean-package-vendor
 clean-package-vendor:
-	[[ ! -d src/Core/vendor ]] || rm -rf src/Core/vendor
 	[[ ! -f src/Core/composer.lock ]] || rm -f src/Core/composer.lock
-	[[ ! -d src/DatasetBase/vendor ]] || rm -rf src/DatasetBase/vendor
 	[[ ! -f src/DatasetBase/composer.lock ]] || rm -f src/DatasetBase/composer.lock
-	[[ ! -d src/PortalBase/vendor ]] || rm -rf src/PortalBase/vendor
 	[[ ! -f src/PortalBase/composer.lock ]] || rm -f src/PortalBase/composer.lock
-	[[ ! -d src/StorageBase/vendor ]] || rm -rf src/StorageBase/vendor
 	[[ ! -f src/StorageBase/composer.lock ]] || rm -f src/StorageBase/composer.lock
     # TODO add portal test suite
-	[[ ! -d src/TestSuiteStorage/vendor ]] || rm -rf src/TestSuiteStorage/vendor
 	[[ ! -f src/TestSuiteStorage/composer.lock ]] || rm -f src/TestSuiteStorage/composer.lock
-	[[ ! -d src/UiAdminBase/vendor ]] || rm -rf src/UiAdminBase/vendor
 	[[ ! -f src/UiAdminBase/composer.lock ]] || rm -f src/UiAdminBase/composer.lock
-	[[ ! -d src/Utility/vendor ]] || rm -rf src/Utility/vendor
 	[[ ! -f src/Utility/composer.lock ]] || rm -f src/Utility/composer.lock
 
 .PHONY: it
