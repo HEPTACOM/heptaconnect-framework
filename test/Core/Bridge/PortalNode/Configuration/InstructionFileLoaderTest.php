@@ -23,6 +23,11 @@ final class InstructionFileLoaderTest extends TestCase
             (new InstructionFileLoader(__DIR__ . '/does-not-exists.php'))->loadInstructions();
         } catch (\Throwable $throwable) {
             static::assertSame(1645611612, $throwable->getCode());
+            static::assertStringContainsString('configuration file /', $throwable->getMessage());
+
+            static::assertSame(1717858650, $throwable->getPrevious()?->getCode());
+            static::assertStringContainsString('File /', $throwable->getPrevious()?->getMessage());
+            static::assertStringContainsString('/does-not-exists.php does not exist', $throwable->getPrevious()?->getMessage());
         }
     }
 
