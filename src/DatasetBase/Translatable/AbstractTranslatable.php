@@ -232,9 +232,15 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
 
     private function generateTypeError(string $method, mixed $value, int $parameterPosition, string $parameterName): \TypeError
     {
+        $docComment = (new \ReflectionClass($this))->getDocComment();
+
+        if ($docComment === false) {
+            $docComment = '';
+        }
+
         \preg_match_all(
             '/.*@extends.*<([^>]+)>/m',
-            (new \ReflectionClass($this))->getDocComment(),
+            $docComment,
             $result,
             \PREG_SET_ORDER
         );
