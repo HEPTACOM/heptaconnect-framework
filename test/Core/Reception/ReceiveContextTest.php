@@ -7,11 +7,10 @@ namespace Heptacom\HeptaConnect\Core\Test\Reception;
 use Heptacom\HeptaConnect\Core\Portal\Contract\PortalNodeContainerFacadeContract;
 use Heptacom\HeptaConnect\Core\Reception\ReceiveContext;
 use Heptacom\HeptaConnect\Portal\Base\Support\Contract\EntityStatusContract;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers  \Heptacom\HeptaConnect\Core\Reception\ReceiveContext
- */
+#[CoversClass(ReceiveContext::class)]
 final class ReceiveContextTest extends TestCase
 {
     public function testAddEventListener(): void
