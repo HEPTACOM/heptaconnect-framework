@@ -9,7 +9,7 @@ Read more in the [documentation](https://heptaconnect.io/).
 
 ## System requirements
 
-* PHP 8.2 or above
+* PHP 8.3 or above
 
 
 ## Changelog

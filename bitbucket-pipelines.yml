@@ -1,8 +1,9 @@
-image: heptacom/heptaconnect-pipeline:php82-8.0.0
+image: heptacom/heptaconnect-pipeline:php83-8.0.0
 
 definitions:
     partials:
-        -   step: &php83-image
+        -   step: &php84-image
+                # TODO wait for PHP 8.4 and provide the actual image
                 image: heptacom/heptaconnect-pipeline:php83-8.0.0
     services:
         mysql:
@@ -75,16 +76,16 @@ definitions:
                     - make .build
                     - mv vendor .build/vendor-low
                     - echo 'mkdir -p vendor; rm -rf vendor; mv .build/vendor-low vendor' > setup-vendor.sh
-        -   step: &test-coverage-high-install-83
-                <<: *php83-image
-                name: Install and Unit test (8.3 + High dependencies)
+        -   step: &test-coverage-high-install-84
+                <<: *php84-image
+                name: Install and Unit test (8.4 + High dependencies)
                 script:
                     - make clean
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - XDEBUG_MODE=coverage COMPOSER_EXTRA_ARGS=-vvv make -e coverage
-        -   step: &test-coverage-low-install-83
-                <<: *php83-image
-                name: Install and Unit test (8.3 + Low dependencies)
+        -   step: &test-coverage-low-install-84
+                <<: *php84-image
+                name: Install and Unit test (8.4 + Low dependencies)
                 script:
                     - make clean
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
@@ -235,8 +236,8 @@ pipelines:
                     -   step: *test-coverage
                     -   step: *test-code-style-composer-unused
             -   parallel: &steps-blocking-non-min-php-version-tests
-                    -   step: *test-coverage-high-install-83
-                    -   step: *test-coverage-low-install-83
+                    -   step: *test-coverage-high-install-84
+                    -   step: *test-coverage-low-install-84
             -   step: *composer-high-install
             -   parallel: &steps-non-blocking-tests
                     -   step: *test-code-style-soft-require

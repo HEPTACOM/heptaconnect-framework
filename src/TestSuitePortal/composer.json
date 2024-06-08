@@ -23,7 +23,7 @@
         "rss": "https://heptaconnect.io/news/rss2.xml"
     },
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.3",
         "brzuchal/filesystem-stream-wrapper": "^0.9",
         "heptacom/heptaconnect-core": "self.version",
         "heptacom/heptaconnect-dataset-base": "self.version",

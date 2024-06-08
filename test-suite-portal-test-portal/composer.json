@@ -7,7 +7,7 @@
         "testing"
     ],
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.3",
         "heptacom/heptaconnect-portal-base": "@dev"
     },
     "require-dev": {
