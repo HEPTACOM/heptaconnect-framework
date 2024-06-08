@@ -71,7 +71,7 @@ final class PortalNodeConfigurationInstructionProcessorTest extends TestCase
         $portalRegistry->method('getPortalExtensions')
             ->with($portalNodeKey)
             ->willReturn(new PortalExtensionCollection([new FooBarPortalExtension()]));
-        $instructionLoader->method('loadInstructions')->willReturn([
+        $instructionLoader->expects(static::once())->method('loadInstructions')->willReturn([
             new ClosureInstructionToken(FooBarPortal::class, static fn (\Closure $l) => \array_replace($l(), ['portal-class' => true])),
             new ClosureInstructionToken(FooBarPortalExtension::class, static fn (\Closure $l) => \array_replace($l(), ['portal-ext-class' => true])),
             new ClosureInstructionToken('PortalNode:1234', static fn (\Closure $l) => \array_replace($l(), ['key' => true])),
@@ -94,6 +94,8 @@ final class PortalNodeConfigurationInstructionProcessorTest extends TestCase
             [$instructionLoader]
         );
 
+        $firstRead = $processor->read($portalNodeKey, static fn () => []);
+
         static::assertSame([
             'portal-class' => true,
             'portal-ext-class' => true,
@@ -101,6 +103,10 @@ final class PortalNodeConfigurationInstructionProcessorTest extends TestCase
             'portal-alias' => true,
             'portal-base-class' => true,
             'portal-ext-base-class' => true,
-        ], $processor->read($portalNodeKey, static fn () => []));
+        ], $firstRead);
+
+        $secondRead = $processor->read($portalNodeKey, static fn () => []);
+
+        static::assertSame($firstRead, $secondRead);
     }
 }
