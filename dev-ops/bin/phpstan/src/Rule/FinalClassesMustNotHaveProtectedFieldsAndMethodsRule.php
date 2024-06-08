@@ -17,13 +17,14 @@ use PHPStan\Rules\RuleErrorBuilder;
 /**
  * @implements Rule<Class_>
  */
-final class FinalClassesMustNotHaveProtectedFieldsAndMethodsRule implements Rule
+final readonly class FinalClassesMustNotHaveProtectedFieldsAndMethodsRule implements Rule
 {
     public function __construct(
         private ReflectionProvider $reflectionProvider
     ) {
     }
 
+    #[\Override]
     public function getNodeType(): string
     {
         return Class_::class;
@@ -32,6 +33,7 @@ final class FinalClassesMustNotHaveProtectedFieldsAndMethodsRule implements Rule
     /**
      * @param Class_ $node
      */
+    #[\Override]
     public function processNode(Node $node, Scope $scope): array
     {
         if (!$node->isFinal()) {

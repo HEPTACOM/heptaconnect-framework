@@ -15,7 +15,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 /**
  * @implements \PHPStan\Rules\Rule<\PhpParser\Node\Stmt\Class_>
  */
-final class ImplementationsMustBeFinalRule implements Rule
+final readonly class ImplementationsMustBeFinalRule implements Rule
 {
     private StructDetector $structDetector;
 
@@ -24,6 +24,7 @@ final class ImplementationsMustBeFinalRule implements Rule
         $this->structDetector = new StructDetector();
     }
 
+    #[\Override]
     public function getNodeType(): string
     {
         return Class_::class;
@@ -32,6 +33,7 @@ final class ImplementationsMustBeFinalRule implements Rule
     /**
      * @param Class_ $node
      */
+    #[\Override]
     public function processNode(Node $node, Scope $scope): array
     {
         if ($this->structDetector->isClassLikeAStruct($node)) {

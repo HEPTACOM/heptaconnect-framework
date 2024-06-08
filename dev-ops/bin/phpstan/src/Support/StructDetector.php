@@ -122,7 +122,7 @@ class StructDetector
         $interfaces = \array_map('strval', $class->implements);
         $interfaces = \array_diff($interfaces, self::STRUCT_INTERFACES);
 
-        return \array_filter($interfaces, [self::class, 'classOrInterfaceHasNoMethods']);
+        return \array_filter($interfaces, self::classOrInterfaceHasNoMethods(...));
     }
 
     public function hasStructInterfaces(Class_ $class): bool
