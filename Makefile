@@ -22,6 +22,9 @@ COMPOSER_UNUSED_FILE := dev-ops/bin/composer-unused/vendor/bin/composer-unused
 EASY_CODING_STANDARD_FILE := dev-ops/bin/easy-coding-standard/vendor/bin/ecs
 PHPCHURN_FILE := dev-ops/bin/php-churn/vendor/bin/churn
 
+RECTOR_PATH := dev-ops/bin/rector
+RECTOR_FILE := $(RECTOR_PATH)/vendor/bin/rector
+
 .DEFAULT_GOAL := help
 .PHONY: help
 help: ## List useful make targets
@@ -40,6 +43,7 @@ clean: clean-package-vendor ## Cleans up all ignored files and directories
 	[[ ! -f dev-ops/bin/composer-require-checker ]] || rm -f dev-ops/bin/composer-require-checker
 	[[ ! -d dev-ops/bin/composer-unused/vendor ]] || rm -rf dev-ops/bin/composer-unused/vendor
 	[[ ! -d dev-ops/bin/easy-coding-standard/vendor ]] || rm -rf dev-ops/bin/easy-coding-standard/vendor
+	[[ ! -d $(RECTOR_PATH)/vendor ]] || rm -rf $(RECTOR_PATH)/vendor
 	[[ ! -f dev-ops/bin/phpmd ]] || rm -f dev-ops/bin/phpmd
 	[[ ! -f dev-ops/bin/phpcpd ]] || rm -f dev-ops/bin/phpcpd
 	[[ ! -d dev-ops/bin/phpstan/vendor ]] || rm -rf dev-ops/bin/phpstan/vendor
@@ -154,6 +158,10 @@ cs-json: $(JSON_FILES) ## Run jq on every json file to ensure they are parsable 
 cs-phpchurn: .build $(PHPCHURN_FILE) ## Run php-churn for prediction of refactoring cases
 	$(PHP) $(PHPCHURN_FILE) run --configuration dev-ops/churn.yml --format text
 
+.PHONY: cs-fix-rector
+cs-fix-rector: $(RECTOR_FILE) ## Run rector to upgrade PHP code to recent features
+	$(PHP) $(RECTOR_FILE) --config=dev-ops/rector.php
+
 .PHONY: $(JSON_FILES)
 $(JSON_FILES):
 	$(JQ) . "$@"
@@ -215,6 +223,9 @@ $(EASY_CODING_STANDARD_FILE): ## Install easy-coding-standard executable
 
 $(PHPCHURN_FILE): ## Install php-churn executable
 	$(COMPOSER) install -d dev-ops/bin/php-churn
+
+$(RECTOR_FILE): ## Install rector executable
+	$(COMPOSER) install -d $(RECTOR_PATH)
 
 .PHONY: composer-update
 composer-update:

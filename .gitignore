@@ -6,6 +6,7 @@
 /dev-ops/bin/easy-coding-standard/vendor/
 /dev-ops/bin/phpcpd
 /dev-ops/bin/phpmd
+/dev-ops/bin/rector/vendor
 /dev-ops/bin/phpstan/vendor/
 /dev-ops/bin/php-churn/vendor/
 /test/Core/Fixture/_files/portal_filesystem
