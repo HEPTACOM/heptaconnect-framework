@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Support\PostProcessorDataBag;
 use Heptacom\HeptaConnect\Portal\Base\Support\Contract\EntityStatusContract;
-use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Describes reception specific contexts.
