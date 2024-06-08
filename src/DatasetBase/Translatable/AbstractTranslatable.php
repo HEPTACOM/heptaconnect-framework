@@ -78,7 +78,6 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
     /**
      * @param int|string|null $offset
      * @param T|null          $value
-     * @phpstan-assert T|null $value
      */
     #[\Override]
     public function offsetSet($offset, $value): void
@@ -126,7 +125,6 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
 
     /**
      * @param T $value
-     * @phpstan-assert T|null $value
      *
      * @return TranslatableInterface<T>
      */
@@ -178,7 +176,6 @@ abstract class AbstractTranslatable implements \ArrayAccess, \JsonSerializable, 
 
     /**
      * @param T $value
-     * @phpstan-assert T|null $value
      *
      * @return TranslatableInterface<T>
      */
