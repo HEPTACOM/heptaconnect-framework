@@ -96,9 +96,14 @@ final class ConfigurationServiceTest extends TestCase
         $portalNodeKey = $this->createMock(PortalNodeKeyInterface::class);
         $portalNodeConfigGet = $this->createMock(PortalNodeConfigurationGetActionInterface::class);
         $portalNodeConfigSet = $this->createMock(PortalNodeConfigurationSetActionInterface::class);
-        $portalNodeConfigGet->method('get')->willReturn([
-            new PortalNodeConfigurationGetResult($portalNodeKey, []),
-        ]);
+        $portalNodeConfigGet->method('get')
+            ->willReturnCallback(
+                static function (PortalNodeConfigurationGetCriteria $criteria): iterable {
+                    foreach ($criteria->getPortalNodeKeys() as $portalNodeKey) {
+                        yield new PortalNodeConfigurationGetResult($portalNodeKey, []);
+                    }
+                }
+            );
 
         $configService = new ConfigurationService(
             $registry,
