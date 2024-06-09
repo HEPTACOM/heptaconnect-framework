@@ -133,4 +133,21 @@ final class HttpHandlerStackBuilderTest extends TestCase
 
         static::assertEquals([2, 1], $calc);
     }
+
+    public function testEmptyStack(): void
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $stackBuilder = new HttpHandlerStackBuilder(new HttpHandlerCollection(), 'foobar', $logger);
+        $stackBuilder->pushSource();
+        $stackBuilder->pushDecorators();
+        $stack = $stackBuilder->build();
+
+        $logger->expects(static::never())->method('debug');
+
+        $stack->next(
+            $this->createMock(ServerRequestInterface::class),
+            $this->createMock(ResponseInterface::class),
+            $this->createMock(HttpHandleContextInterface::class),
+        );
+    }
 }

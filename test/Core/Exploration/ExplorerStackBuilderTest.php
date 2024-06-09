@@ -111,4 +111,17 @@ final class ExplorerStackBuilderTest extends TestCase
 
         static::assertEquals([2, 1], $calc);
     }
+
+    public function testEmptyStack(): void
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $stackBuilder = new ExplorerStackBuilder(new ExplorerCollection(), FooBarEntity::class(), $logger);
+        $stackBuilder->pushSource();
+        $stackBuilder->pushDecorators();
+        $stack = $stackBuilder->build();
+
+        $logger->expects(static::never())->method('debug');
+
+        $stack->next($this->createMock(ExploreContextInterface::class));
+    }
 }

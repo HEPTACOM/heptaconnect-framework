@@ -119,4 +119,20 @@ final class ReceiverStackBuilderTest extends TestCase
 
         static::assertEquals([2, 1], $calc);
     }
+
+    public function testEmptyStack(): void
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $stackBuilder = new ReceiverStackBuilder(new ReceiverCollection(), FooBarEntity::class(), $logger);
+        $stackBuilder->pushSource();
+        $stackBuilder->pushDecorators();
+        $stack = $stackBuilder->build();
+
+        $logger->expects(static::never())->method('debug');
+
+        $stack->next(
+            new TypedDatasetEntityCollection(FooBarEntity::class()),
+            $this->createMock(ReceiveContextInterface::class)
+        );
+    }
 }

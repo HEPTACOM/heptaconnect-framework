@@ -112,4 +112,17 @@ final class EmitterStackBuilderTest extends TestCase
 
         static::assertEquals([2, 1], $calc);
     }
+
+    public function testEmptyStack(): void
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $stackBuilder = new EmitterStackBuilder(new EmitterCollection(), FooBarEntity::class(), $logger);
+        $stackBuilder->pushSource();
+        $stackBuilder->pushDecorators();
+        $stack = $stackBuilder->build();
+
+        $logger->expects(static::never())->method('debug');
+
+        $stack->next([], $this->createMock(EmitContextInterface::class));
+    }
 }
