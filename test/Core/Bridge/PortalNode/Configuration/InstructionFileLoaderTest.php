@@ -8,10 +8,16 @@ use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\ClosureInstructio
 use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\Config;
 use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\Contract\InstructionTokenContract;
 use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\InstructionFileLoader;
+use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\InstructionTokenCollection;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(AbstractObjectCollection::class)]
 #[CoversClass(ClosureInstructionToken::class)]
+#[CoversClass(InstructionTokenCollection::class)]
 #[CoversClass(InstructionTokenContract::class)]
 #[CoversClass(Config::class)]
 #[CoversClass(InstructionFileLoader::class)]
@@ -33,6 +39,6 @@ final class InstructionFileLoaderTest extends TestCase
 
     public function testExistingFile(): void
     {
-        static::assertCount(1, (new InstructionFileLoader(__DIR__ . '/../../../Fixture/_files/portal-node-configuration.php'))->loadInstructions());
+        static::assertSame(1, (new InstructionFileLoader(__DIR__ . '/../../../Fixture/_files/portal-node-configuration.php'))->loadInstructions()->count());
     }
 }
