@@ -84,11 +84,13 @@ final class HttpHandler extends HttpHandlerContract
         return $this->deleteMethod;
     }
 
+    #[\Override]
     protected function supports(): string
     {
         return $this->path;
     }
 
+    #[\Override]
     protected function run(
         ServerRequestInterface $request,
         ResponseInterface $response,
@@ -98,6 +100,7 @@ final class HttpHandler extends HttpHandlerContract
             ?? parent::run($request, $response, $context);
     }
 
+    #[\Override]
     protected function options(
         ServerRequestInterface $request,
         ResponseInterface $response,
@@ -107,6 +110,7 @@ final class HttpHandler extends HttpHandlerContract
             ?? parent::options($request, $response, $context);
     }
 
+    #[\Override]
     protected function get(
         ServerRequestInterface $request,
         ResponseInterface $response,
@@ -116,6 +120,7 @@ final class HttpHandler extends HttpHandlerContract
             ?? parent::get($request, $response, $context);
     }
 
+    #[\Override]
     protected function post(
         ServerRequestInterface $request,
         ResponseInterface $response,
@@ -125,6 +130,7 @@ final class HttpHandler extends HttpHandlerContract
             ?? parent::post($request, $response, $context);
     }
 
+    #[\Override]
     protected function patch(
         ServerRequestInterface $request,
         ResponseInterface $response,
@@ -134,6 +140,7 @@ final class HttpHandler extends HttpHandlerContract
             ?? parent::patch($request, $response, $context);
     }
 
+    #[\Override]
     protected function put(
         ServerRequestInterface $request,
         ResponseInterface $response,
@@ -143,6 +150,7 @@ final class HttpHandler extends HttpHandlerContract
             ?? parent::put($request, $response, $context);
     }
 
+    #[\Override]
     protected function delete(
         ServerRequestInterface $request,
         ResponseInterface $response,

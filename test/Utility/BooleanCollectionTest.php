@@ -4,20 +4,19 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Utility\Test;
 
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\BooleanCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\BooleanCollection
- */
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(BooleanCollection::class)]
 final class BooleanCollectionTest extends TestCase
 {
     use ProvidesBooleanTestsData;
 
-    /**
-     * @dataProvider provideValidBooleanTestCases
-     */
+    #[DataProvider('provideValidBooleanTestCases')]
     public function testInsertTypeInTypeCollection(bool $item): void
     {
         $collection = new BooleanCollection();

@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Core\Test\Portal\File\Filesystem;
 
 use Heptacom\HeptaConnect\Core\Bridge\File\PortalNodeFilesystemStreamProtocolProviderInterface;
+use Heptacom\HeptaConnect\Core\File\Filesystem\RewritePathStreamWrapper;
+use Heptacom\HeptaConnect\Core\File\Filesystem\StreamUriSchemePathConverter;
+use Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Filesystem;
 use Heptacom\HeptaConnect\Core\Portal\File\Filesystem\FilesystemFactory;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
@@ -12,14 +15,14 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Http\Discovery\Psr17FactoryDiscovery;
 use League\Flysystem\Filesystem as FlysystemFilesystem;
 use League\Flysystem\Local\LocalFilesystemAdapter;
+use M2MTech\FlysystemStreamWrapper\FlysystemStreamWrapper;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\File\Filesystem\RewritePathStreamWrapper
- * @covers \Heptacom\HeptaConnect\Core\File\Filesystem\StreamUriSchemePathConverter
- * @covers \Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Filesystem
- * @covers \Heptacom\HeptaConnect\Core\Portal\File\Filesystem\FilesystemFactory
- */
+#[CoversClass(RewritePathStreamWrapper::class)]
+#[CoversClass(StreamUriSchemePathConverter::class)]
+#[CoversClass(Filesystem::class)]
+#[CoversClass(FilesystemFactory::class)]
 final class FilesystemFactoryTest extends TestCase
 {
     public function testFileAccessLifecycle(): void
@@ -48,7 +51,7 @@ final class FilesystemFactoryTest extends TestCase
         $flysystem = new FlysystemFilesystem(new LocalFilesystemAdapter($fixtureFolder . '/prefix'));
         $fixtureFolder .= '/prefix';
 
-        \M2MTech\FlysystemStreamWrapper\FlysystemStreamWrapper::register('test-stream', $flysystem);
+        FlysystemStreamWrapper::register('test-stream', $flysystem);
 
         $streamProtocolProvider = $this->createMock(PortalNodeFilesystemStreamProtocolProviderInterface::class);
         $streamProtocolProvider->method('provide')->willReturn('test-stream');

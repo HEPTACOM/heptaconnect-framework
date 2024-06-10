@@ -6,25 +6,25 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable;
 use Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableDateTime;
+use Heptacom\HeptaConnect\Utility\Php\SetStateTrait;
 use Heptacom\HeptaConnect\Utility\Test\ProvidesDateTimeTestsData;
 use Heptacom\HeptaConnect\Utility\Test\ProvidesInvalidTestsData;
 use Heptacom\HeptaConnect\Utility\Test\ProvidesJsonSerializer;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Utility\Php\SetStateTrait
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\AbstractTranslatable
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Translatable\TranslatableDateTime
- */
+#[CoversTrait(SetStateTrait::class)]
+#[CoversClass(AbstractTranslatable::class)]
+#[CoversClass(TranslatableDateTime::class)]
 final class TranslatableDateTimeTest extends TestCase
 {
     use ProvidesDateTimeTestsData;
     use ProvidesInvalidTestsData;
     use ProvidesJsonSerializer;
 
-    /**
-     * @dataProvider provideValidDateTimeTestCases
-     */
+    #[DataProvider('provideValidDateTimeTestCases')]
     public function testInsertTypeInTypeTranslatable(\DateTimeInterface $item): void
     {
         $translatable = new TranslatableDateTime();
@@ -34,9 +34,7 @@ final class TranslatableDateTimeTest extends TestCase
         static::assertEquals(['en-GB'], $translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidDateTimeTestCases
-     */
+    #[DataProvider('provideValidDateTimeTestCases')]
     public function testArrayNotationInsertTypeInTypeTranslatable(\DateTimeInterface $item): void
     {
         $translatable = new TranslatableDateTime();
@@ -46,9 +44,7 @@ final class TranslatableDateTimeTest extends TestCase
         static::assertEquals(['en-GB'], $translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidDateTimeTestCases
-     */
+    #[DataProvider('provideValidDateTimeTestCases')]
     public function testRemovalViaNullValue(\DateTimeInterface $anyValue): void
     {
         $translatable = new TranslatableDateTime();
@@ -60,9 +56,7 @@ final class TranslatableDateTimeTest extends TestCase
         static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidDateTimeTestCases
-     */
+    #[DataProvider('provideValidDateTimeTestCases')]
     public function testRemovalViaArrayNullAssignment(\DateTimeInterface $anyValue): void
     {
         $translatable = new TranslatableDateTime();
@@ -74,9 +68,7 @@ final class TranslatableDateTimeTest extends TestCase
         static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidDateTimeTestCases
-     */
+    #[DataProvider('provideValidDateTimeTestCases')]
     public function testRemovalViaUnset(\DateTimeInterface $anyValue): void
     {
         $translatable = new TranslatableDateTime();
@@ -89,9 +81,7 @@ final class TranslatableDateTimeTest extends TestCase
         static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidDateTimeTestCases
-     */
+    #[DataProvider('provideValidDateTimeTestCases')]
     public function testAccessViaOffset(\DateTimeInterface $anyValue): void
     {
         $translatable = new TranslatableDateTime();
@@ -104,9 +94,7 @@ final class TranslatableDateTimeTest extends TestCase
         static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidDateTimeTestCases
-     */
+    #[DataProvider('provideValidDateTimeTestCases')]
     public function testChainableCalls(\DateTimeInterface $anyValue): void
     {
         $translatable = new TranslatableDateTime();
@@ -114,9 +102,7 @@ final class TranslatableDateTimeTest extends TestCase
         static::assertEquals($translatable, $translatable->removeTranslation('en-GB'));
     }
 
-    /**
-     * @dataProvider provideValidDateTimeTestCases
-     */
+    #[DataProvider('provideValidDateTimeTestCases')]
     public function testAccessDenialViaNumericKey(\DateTimeInterface $anyValue): void
     {
         $translatable = new TranslatableDateTime();
@@ -130,9 +116,7 @@ final class TranslatableDateTimeTest extends TestCase
         static::assertEmpty($translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideValidDateTimeTestCases
-     */
+    #[DataProvider('provideValidDateTimeTestCases')]
     public function testSetState(\DateTimeInterface $anyValue): void
     {
         /** @var AbstractTranslatable $translatable */
@@ -145,9 +129,7 @@ final class TranslatableDateTimeTest extends TestCase
         static::assertEquals($anyValue, $translatable->getTranslation('en-GB'));
     }
 
-    /**
-     * @dataProvider provideValidDateTimeTestCases
-     */
+    #[DataProvider('provideValidDateTimeTestCases')]
     public function testInvalidSetStateValues(\DateTimeInterface $anyValue): void
     {
         /** @var AbstractTranslatable $translatable */
@@ -159,9 +141,7 @@ final class TranslatableDateTimeTest extends TestCase
         static::assertCount(1, $translatable->getLocaleKeys());
     }
 
-    /**
-     * @dataProvider provideInvalidTestCases
-     */
+    #[DataProvider('provideInvalidTestCases')]
     public function testInsertOtherTypeInTypeCollection($item): void
     {
         static::expectException(\TypeError::class);
@@ -182,9 +162,7 @@ final class TranslatableDateTimeTest extends TestCase
         ]], $this->jsonEncodeAndDecode($translatable));
     }
 
-    /**
-     * @dataProvider provideValidDateTimeTestCases
-     */
+    #[DataProvider('provideValidDateTimeTestCases')]
     public function testValidFallback(\DateTimeInterface $anyValue): void
     {
         $translatable = new TranslatableDateTime();
@@ -195,9 +173,7 @@ final class TranslatableDateTimeTest extends TestCase
         static::assertNull($translatable->getFallback());
     }
 
-    /**
-     * @dataProvider provideInvalidTestCases
-     */
+    #[DataProvider('provideInvalidTestCases')]
     public function testInvalidFallback($anyValue): void
     {
         static::expectException(\TypeError::class);

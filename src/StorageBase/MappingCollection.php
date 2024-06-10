@@ -12,6 +12,7 @@ use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
  */
 class MappingCollection extends AbstractObjectCollection
 {
+    #[\Override]
     public function contains($value): bool
     {
         return $this->containsByEqualsCheck(
@@ -40,6 +41,7 @@ class MappingCollection extends AbstractObjectCollection
         yield from $typedMappings;
     }
 
+    #[\Override]
     protected function getT(): string
     {
         return MappingInterface::class;

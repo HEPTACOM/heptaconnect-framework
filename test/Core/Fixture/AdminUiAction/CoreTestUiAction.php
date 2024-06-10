@@ -11,6 +11,6 @@ final class CoreTestUiAction implements UiActionInterface
 {
     public static function class(): UiActionType
     {
-        return new UiActionType(static::class);
+        return new UiActionType(self::class);
     }
 }

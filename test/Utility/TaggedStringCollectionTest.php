@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Utility\Test;
 
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection;
 use Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem;
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection;
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedStringCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedStringCollection
- */
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(AbstractTaggedCollection::class)]
+#[CoversClass(TagItem::class)]
+#[CoversClass(StringCollection::class)]
+#[CoversClass(TaggedStringCollection::class)]
 final class TaggedStringCollectionTest extends TestCase
 {
     use ProvidesInvalidTestsData;
     use ProvidesStringTestsData;
 
-    /**
-     * @dataProvider provideValidStringTestCases
-     */
+    #[DataProvider('provideValidStringTestCases')]
     public function testInsertTagOnCtor(string $item): void
     {
         $tagged = new TaggedStringCollection([new TagItem(new StringCollection([$item]), 'randomoffset')]);
@@ -32,9 +32,7 @@ final class TaggedStringCollectionTest extends TestCase
         static::assertEquals($item, $tagged->offsetGet('randomoffset')->getCollection()->first());
     }
 
-    /**
-     * @dataProvider provideValidStringTestCases
-     */
+    #[DataProvider('provideValidStringTestCases')]
     public function testChangingCollection(string $item): void
     {
         $tagged = new TaggedStringCollection();
@@ -45,9 +43,7 @@ final class TaggedStringCollectionTest extends TestCase
         static::assertCount(1, $tagged->offsetGet('randomoffset')->getCollection());
     }
 
-    /**
-     * @dataProvider provideValidStringTestCases
-     */
+    #[DataProvider('provideValidStringTestCases')]
     public function testGetTagItemAfterInserting(string $item): void
     {
         $tagged = new TaggedStringCollection();
@@ -57,9 +53,7 @@ final class TaggedStringCollectionTest extends TestCase
         static::assertEquals($item, $tagged->offsetGet('randomoffset')->getCollection()->first());
     }
 
-    /**
-     * @dataProvider provideValidStringTestCases
-     */
+    #[DataProvider('provideValidStringTestCases')]
     public function testGetTagItemWithoutInsertingItFirst(string $item): void
     {
         $tagged = new TaggedStringCollection();
@@ -76,9 +70,7 @@ final class TaggedStringCollectionTest extends TestCase
         static::assertTrue($tagged->offsetExists('1'));
     }
 
-    /**
-     * @dataProvider provideInvalidTestCases
-     */
+    #[DataProvider('provideInvalidTestCases')]
     public function testInsertOtherTypeInTypeCollection($item): void
     {
         $collection = new TaggedStringCollection();
@@ -86,9 +78,7 @@ final class TaggedStringCollectionTest extends TestCase
         static::assertCount(0, $collection);
     }
 
-    /**
-     * @dataProvider provideInvalidTestCases
-     */
+    #[DataProvider('provideInvalidTestCases')]
     public function testFailInsertOtherTypeInTypeCollection($item): void
     {
         static::expectException(\InvalidArgumentException::class);

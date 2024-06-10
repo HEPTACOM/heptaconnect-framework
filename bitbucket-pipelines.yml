@@ -1,9 +1,10 @@
-image: heptacom/heptaconnect-pipeline:php81-8.1.0
+image: heptacom/heptaconnect-pipeline:php83-8.0.0
 
 definitions:
     partials:
-        -   step: &php82-image
-                image: heptacom/heptaconnect-pipeline:php82-8.1.0
+        -   step: &php84-image
+                # TODO wait for PHP 8.4 and provide the actual image
+                image: heptacom/heptaconnect-pipeline:php83-8.0.0
     services:
         mysql:
             image: mysql:8.0
@@ -75,25 +76,27 @@ definitions:
                     - make .build
                     - mv vendor .build/vendor-low
                     - echo 'mkdir -p vendor; rm -rf vendor; mv .build/vendor-low vendor' > setup-vendor.sh
-        -   step: &test-unit-high-install-82
-                <<: *php82-image
-                name: Install and Unit test (8.2 + High dependencies)
+        -   step: &test-coverage-high-install-84
+                <<: *php84-image
+                name: Install and Unit test (8.4 + High dependencies)
                 script:
                     - make clean
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
-                    - COMPOSER_EXTRA_ARGS=-vvv make -e test
-        -   step: &test-unit-low-install-82
-                <<: *php82-image
-                name: Install and Unit test (8.2 + Low dependencies)
+                    - XDEBUG_MODE=coverage COMPOSER_EXTRA_ARGS=-vvv make -e coverage
+        -   step: &test-coverage-low-install-84
+                <<: *php84-image
+                name: Install and Unit test (8.4 + Low dependencies)
                 script:
                     - make clean
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - composer update --prefer-lowest --prefer-stable
-                    - COMPOSER_EXTRA_ARGS=-vvv make -e test
+                    - XDEBUG_MODE=coverage COMPOSER_EXTRA_ARGS=-vvv make -e coverage
         -   step: &composer-install-core
                 <<: *default-step
                 name: Install Core
                 script:
+                    - composer config -d src/Core minimum-stability dev
+                    - composer config -d src/Core prefer-stable true
                     - composer install -d src/Core
         -   step: &composer-install-dataset-base
                 <<: *default-step
@@ -104,34 +107,37 @@ definitions:
                 <<: *default-step
                 name: Install Portal Base
                 script:
+                    - composer config -d src/PortalBase minimum-stability dev
+                    - composer config -d src/PortalBase prefer-stable true
                     - composer install -d src/PortalBase
         -   step: &composer-install-storage-base
                 <<: *default-step
                 name: Install Storage Base
                 script:
+                    - composer config -d src/StorageBase minimum-stability dev
+                    - composer config -d src/StorageBase prefer-stable true
                     - composer install -d src/StorageBase
         -   step: &composer-install-test-suite-storage
                 <<: *default-step
                 name: Install Test Suite Storage
                 script:
+                    - composer config -d src/TestSuiteStorage minimum-stability dev
+                    - composer config -d src/TestSuiteStorage prefer-stable true
                     - composer install -d src/TestSuiteStorage
         -   step: &composer-install-ui-admin-base
                 <<: *default-step
                 name: Install UI Admin Base
                 script:
+                    - composer config -d src/UiAdminBase minimum-stability dev
+                    - composer config -d src/UiAdminBase prefer-stable true
                     - composer install -d src/UiAdminBase
         -   step: &composer-install-utility
                 <<: *default-step
                 name: Install Utility
                 script:
+                    - composer config -d src/Utility minimum-stability dev
+                    - composer config -d src/Utility prefer-stable true
                     - composer install -d src/Utility
-        -   step: &test-unit
-                <<: *default-step
-                name: Unit tests
-                script:
-                    - make clean
-                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
-                    - COMPOSER_EXTRA_ARGS=-vvv make -e test
         -   step: &test-coverage
                 <<: *default-step
                 name: Test coverage
@@ -142,7 +148,6 @@ definitions:
                 <<: *default-step
                 name: ECS (Code style)
                 script:
-                    - bash setup-vendor.sh
                     - PHP_EXTRA_ARGS=-dmemory_limit=1G COMPOSER_EXTRA_ARGS=-vvv make -e cs-php
         -   step: &test-code-style-phpstan
                 <<: *default-step
@@ -150,23 +155,15 @@ definitions:
                 script:
                     - bash setup-vendor.sh
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-phpstan
-        -   step: &test-code-style-psalm
-                <<: *default-step
-                name: Psalm (Static code analysis)
-                script:
-                    - bash setup-vendor.sh
-                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-psalm
         -   step: &test-code-style-phpmd
                 <<: *default-step
                 name: PHP Mess Detector (Static code analysis)
                 script:
-                    - bash setup-vendor.sh
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-phpmd
         -   step: &test-code-style-phpcpd
                 <<: *default-step
                 name: PHP Copy Paste Detector (Static code analysis)
                 script:
-                    - bash setup-vendor.sh
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-phpcpd
         -   step: &test-code-style-soft-require
                 <<: *default-step
@@ -178,19 +175,25 @@ definitions:
                 <<: *default-step
                 name: Composer unused (Requirement analysis)
                 script:
+                    - composer config minimum-stability dev && composer config prefer-stable true
+                    - composer config -d src/Core minimum-stability dev && composer config -d src/Core prefer-stable true
+                    - composer config -d src/DatasetBase minimum-stability dev && composer config -d src/DatasetBase prefer-stable true
+                    - composer config -d src/PortalBase minimum-stability dev && composer config -d src/PortalBase prefer-stable true
+                    - composer config -d src/StorageBase minimum-stability dev && composer config -d src/StorageBase prefer-stable true
+                    - composer config -d src/TestSuiteStorage minimum-stability dev && composer config -d src/TestSuiteStorage prefer-stable true
+                    - composer config -d src/UiAdminBase minimum-stability dev && composer config -d src/UiAdminBase prefer-stable true
+                    - composer config -d src/Utility minimum-stability dev && composer config -d src/Utility prefer-stable true
                     - bash setup-vendor.sh
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-composer-unused
         -   step: &test-code-style-composer-normalize
                 <<: *default-step
                 name: composer.json (Code style)
                 script:
-                    - bash setup-vendor.sh
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-composer-normalize
         -   step: &test-code-style-json
                 <<: *default-step
                 name: '*.json (Code style)'
                 script:
-                    - bash setup-vendor.sh
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-json
         -   step: &test-infection-full
                 <<: *default-step
@@ -211,7 +214,7 @@ pipelines:
         master:
             -   step: *github-keyword-gate-step
             -   step: *github-mirror-branch
-            -   parallel:
+            -   parallel: &non-vendor-steps
                     -   step: *composer-install-core
                     -   step: *composer-install-dataset-base
                     -   step: *composer-install-portal-base
@@ -219,28 +222,30 @@ pipelines:
                     -   step: *composer-install-test-suite-storage
                     -   step: *composer-install-ui-admin-base
                     -   step: *composer-install-utility
-            -   step: *composer-high-install
-            -   parallel: &steps-blocking-tests
-                    -   step: *test-coverage
                     -   step: *test-code-style-composer-normalize
-                    -   step: *test-code-style-composer-unused
                     -   step: *test-code-style-json
                     -   step: *test-code-style-php
                     -   step: *test-code-style-phpcpd
+                    -   step: *test-code-style-phpmd
+            -   step: *composer-high-install
+            -   parallel: &steps-blocking-tests
+                    -   step: *test-coverage
+                    -   step: *test-code-style-composer-unused
             -   step: *composer-low-install
             -   parallel: &steps-blocking-low-tests
                     -   step: *test-coverage
                     -   step: *test-code-style-composer-unused
             -   parallel: &steps-blocking-non-min-php-version-tests
-                    -   step: *test-unit-high-install-82
-                    -   step: *test-unit-low-install-82
+                    -   step: *test-coverage-high-install-84
+                    -   step: *test-coverage-low-install-84
             -   step: *composer-high-install
             -   parallel: &steps-non-blocking-tests
-                    -   step: *test-code-style-phpmd
                     -   step: *test-code-style-soft-require
                     -   step: *test-code-style-phpstan
-                    -   step: *test-code-style-psalm
-            -   step: *test-infection-full
+                    -   step: *test-infection-full
+            -   step: *composer-low-install
+            -   parallel: &steps-non-blocking-low-tests
+                    -   step: *test-code-style-phpstan
         '*.*.x':
             -   step: *github-keyword-gate-step
             -   step: *github-mirror-branch
@@ -280,14 +285,7 @@ pipelines:
             -   step: *test-infection-diff
 
     default:
-        -   parallel:
-                -   step: *composer-install-core
-                -   step: *composer-install-dataset-base
-                -   step: *composer-install-portal-base
-                -   step: *composer-install-storage-base
-                -   step: *composer-install-test-suite-storage
-                -   step: *composer-install-ui-admin-base
-                -   step: *composer-install-utility
+        -   parallel: *non-vendor-steps
         -   step: *composer-high-install
         -   parallel: *steps-blocking-tests
         -   step: *composer-low-install
@@ -295,4 +293,5 @@ pipelines:
         -   parallel: *steps-blocking-non-min-php-version-tests
         -   step: *composer-high-install
         -   parallel: *steps-non-blocking-tests
-        -   step: *test-infection-full
+        -   step: *composer-low-install
+        -   parallel: *steps-non-blocking-low-tests

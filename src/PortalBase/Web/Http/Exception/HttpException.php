@@ -75,9 +75,9 @@ class HttpException extends \RuntimeException implements RequestExceptionInterfa
         511 => 'Network Authentication Required',
     ];
 
-    private RequestInterface $request;
+    private readonly RequestInterface $request;
 
-    private ResponseInterface $response;
+    private readonly ResponseInterface $response;
 
     public function __construct(RequestInterface $request, ResponseInterface $response)
     {
@@ -95,6 +95,7 @@ class HttpException extends \RuntimeException implements RequestExceptionInterfa
         $this->response = $response;
     }
 
+    #[\Override]
     public function getRequest(): RequestInterface
     {
         return $this->request;

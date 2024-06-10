@@ -15,9 +15,7 @@ final class WebHttpHandlerConfigurationSetPayloads extends AbstractObjectCollect
 {
     use AttachmentAwareTrait;
 
-    /**
-     * @psalm-return WebHttpHandlerConfigurationSetPayload::class
-     */
+    #[\Override]
     protected function getT(): string
     {
         return WebHttpHandlerConfigurationSetPayload::class;

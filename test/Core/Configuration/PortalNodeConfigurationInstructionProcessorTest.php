@@ -6,6 +6,8 @@ namespace Heptacom\HeptaConnect\Core\Test\Configuration;
 
 use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\ClosureInstructionToken;
 use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\Contract\InstructionLoaderInterface;
+use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\Contract\InstructionTokenContract;
+use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\InstructionTokenCollection;
 use Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationInstructionProcessor;
 use Heptacom\HeptaConnect\Core\Portal\Contract\PortalRegistryInterface;
 use Heptacom\HeptaConnect\Core\Portal\PackageQueryMatcher;
@@ -13,28 +15,34 @@ use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortalExtension;
 use Heptacom\HeptaConnect\Core\Test\Fixture\UninstantiablePortal;
 use Heptacom\HeptaConnect\Core\Test\Fixture\UninstantiablePortalExtension;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\ClosureInstructionToken
- * @covers \Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\Contract\InstructionTokenContract
- * @covers \Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationInstructionProcessor
- * @covers \Heptacom\HeptaConnect\Core\Portal\PackageQueryMatcher
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalCollection
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection
- * @covers \Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection
- * @covers \Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- */
+#[CoversClass(ClosureInstructionToken::class)]
+#[CoversClass(InstructionTokenContract::class)]
+#[CoversClass(InstructionTokenCollection::class)]
+#[CoversClass(PortalNodeConfigurationInstructionProcessor::class)]
+#[CoversClass(PackageQueryMatcher::class)]
+#[CoversClass(PackageContract::class)]
+#[CoversClass(PortalCollection::class)]
+#[CoversClass(PortalExtensionCollection::class)]
+#[CoversClass(PortalNodeKeyCollection::class)]
+#[CoversClass(UnsupportedStorageKeyException::class)]
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(AbstractObjectCollection::class)]
 final class PortalNodeConfigurationInstructionProcessorTest extends TestCase
 {
     public function testMatchPortalClassName(): void
@@ -67,7 +75,7 @@ final class PortalNodeConfigurationInstructionProcessorTest extends TestCase
         $portalRegistry->method('getPortalExtensions')
             ->with($portalNodeKey)
             ->willReturn(new PortalExtensionCollection([new FooBarPortalExtension()]));
-        $instructionLoader->method('loadInstructions')->willReturn([
+        $instructionLoader->expects(static::once())->method('loadInstructions')->willReturn(new InstructionTokenCollection([
             new ClosureInstructionToken(FooBarPortal::class, static fn (\Closure $l) => \array_replace($l(), ['portal-class' => true])),
             new ClosureInstructionToken(FooBarPortalExtension::class, static fn (\Closure $l) => \array_replace($l(), ['portal-ext-class' => true])),
             new ClosureInstructionToken('PortalNode:1234', static fn (\Closure $l) => \array_replace($l(), ['key' => true])),
@@ -76,12 +84,14 @@ final class PortalNodeConfigurationInstructionProcessorTest extends TestCase
             new ClosureInstructionToken(PortalContract::class, static fn (\Closure $l) => \array_replace($l(), ['portal-base-class' => true])),
             new ClosureInstructionToken(PortalExtensionContract::class, static fn (\Closure $l) => \array_replace($l(), ['portal-ext-base-class' => true])),
 
+            new class ('portal-alias') extends InstructionTokenContract { }, // this should not be blocking although not supported
+
             new ClosureInstructionToken(UninstantiablePortal::class, static fn (\Closure $l) => \array_replace($l(), ['wrong-portal-class' => true])),
             new ClosureInstructionToken(UninstantiablePortalExtension::class, static fn (\Closure $l) => \array_replace($l(), ['wrong-portal-ext-class' => true])),
             new ClosureInstructionToken(LoggerInterface::class, static fn (\Closure $l) => \array_replace($l(), ['wrong-interface' => true])),
             new ClosureInstructionToken('PortalNode:abcd', static fn (\Closure $l) => \array_replace($l(), ['wrong-key' => true])),
             new ClosureInstructionToken('foo-bar', static fn (\Closure $l) => \array_replace($l(), ['wrong-portal-alias' => true])),
-        ]);
+        ]));
 
         $processor = new PortalNodeConfigurationInstructionProcessor(
             $logger,
@@ -90,6 +100,8 @@ final class PortalNodeConfigurationInstructionProcessorTest extends TestCase
             [$instructionLoader]
         );
 
+        $firstRead = $processor->read($portalNodeKey, static fn () => []);
+
         static::assertSame([
             'portal-class' => true,
             'portal-ext-class' => true,
@@ -97,6 +109,10 @@ final class PortalNodeConfigurationInstructionProcessorTest extends TestCase
             'portal-alias' => true,
             'portal-base-class' => true,
             'portal-ext-base-class' => true,
-        ], $processor->read($portalNodeKey, static fn () => []));
+        ], $firstRead);
+
+        $secondRead = $processor->read($portalNodeKey, static fn () => []);
+
+        static::assertSame($firstRead, $secondRead);
     }
 }

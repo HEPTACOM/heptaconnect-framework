@@ -15,11 +15,12 @@ use Psr\Http\Message\ServerRequestInterface;
 final class HttpMiddlewareChainHandler extends HttpHandlerContract
 {
     public function __construct(
-        private string $path,
-        private bool $isStackEmpty,
+        private readonly string $path,
+        private readonly bool $isStackEmpty,
     ) {
     }
 
+    #[\Override]
     public function handle(
         ServerRequestInterface $request,
         ResponseInterface $response,
@@ -48,6 +49,7 @@ final class HttpMiddlewareChainHandler extends HttpHandlerContract
         return $middlewareHandler->handle($request);
     }
 
+    #[\Override]
     protected function supports(): string
     {
         return $this->path;

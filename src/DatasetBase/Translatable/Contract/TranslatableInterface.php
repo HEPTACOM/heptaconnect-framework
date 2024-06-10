@@ -18,12 +18,10 @@ interface TranslatableInterface
      *
      * @return T|null
      */
-    public function getTranslation(string $localeKey, bool $returnFallback = false);
+    public function getTranslation(string $localeKey, bool $returnFallback = false): mixed;
 
     /**
      * Sets a translation by the given locale identifier.
-     *
-     * @psalm-param T $value
      *
      * @param T $value
      *
@@ -47,8 +45,6 @@ interface TranslatableInterface
 
     /**
      * Sets the fallback value, that is used by @see getTranslation
-     *
-     * @psalm-param T $value
      *
      * @param T $value
      *

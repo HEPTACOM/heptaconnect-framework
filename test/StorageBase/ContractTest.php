@@ -6,11 +6,10 @@ namespace Heptacom\HeptaConnect\Storage\Base\Test;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract
- */
+#[CoversClass(StorageKeyGeneratorContract::class)]
 final class ContractTest extends TestCase
 {
     public function testExtendingStorageKeyGenerator(): void

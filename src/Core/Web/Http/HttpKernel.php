@@ -13,28 +13,17 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UploadedFileFactoryInterface;
 use Riverline\MultiPartParser\Converters\PSR7 as MultiPartParser;
 
-final class HttpKernel implements HttpKernelInterface
+final readonly class HttpKernel implements HttpKernelInterface
 {
-    private PortalNodeKeyInterface $portalNodeKey;
-
-    private HttpHandleServiceInterface $httpHandleService;
-
-    private StreamFactoryInterface $streamFactory;
-
-    private UploadedFileFactoryInterface $uploadedFileFactory;
-
     public function __construct(
-        PortalNodeKeyInterface $portalNodeKey,
-        HttpHandleServiceInterface $httpHandleService,
-        StreamFactoryInterface $streamFactory,
-        UploadedFileFactoryInterface $uploadedFileFactory
+        private PortalNodeKeyInterface $portalNodeKey,
+        private HttpHandleServiceInterface $httpHandleService,
+        private StreamFactoryInterface $streamFactory,
+        private UploadedFileFactoryInterface $uploadedFileFactory
     ) {
-        $this->portalNodeKey = $portalNodeKey;
-        $this->httpHandleService = $httpHandleService;
-        $this->streamFactory = $streamFactory;
-        $this->uploadedFileFactory = $uploadedFileFactory;
     }
 
+    #[\Override]
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $request = $this->getRequestWithQueryParams($request);
@@ -144,7 +133,7 @@ final class HttpKernel implements HttpKernelInterface
                     512,
                     \JSON_THROW_ON_ERROR
                 );
-            } catch (\JsonException $_) {
+            } catch (\JsonException) {
                 $parsedBody = null;
             }
 
@@ -154,7 +143,7 @@ final class HttpKernel implements HttpKernelInterface
         } elseif (\str_starts_with($contentType, 'application/x-www-form-urlencoded')) {
             \parse_str((string) $request->getBody(), $parsedBody);
 
-            if (\is_array($parsedBody) && $parsedBody !== []) {
+            if ($parsedBody !== []) {
                 $request = $request->withParsedBody($parsedBody);
             }
         }

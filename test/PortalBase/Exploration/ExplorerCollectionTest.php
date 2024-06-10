@@ -4,23 +4,29 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Exploration;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\SecondEntity;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
- * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
- */
+#[CoversClass(DatasetEntityContract::class)]
+#[CoversClass(EntityType::class)]
+#[CoversClass(ExplorerContract::class)]
+#[CoversClass(ExplorerCollection::class)]
+#[CoversClass(ClassStringContract::class)]
+#[CoversClass(ClassStringReferenceContract::class)]
+#[CoversClass(SubtypeClassStringContract::class)]
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(AbstractObjectCollection::class)]
 final class ExplorerCollectionTest extends TestCase
 {
     public function testBySupport(): void

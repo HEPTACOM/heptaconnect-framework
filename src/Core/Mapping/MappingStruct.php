@@ -15,16 +15,18 @@ final class MappingStruct implements MappingInterface
     private ?string $externalId = null;
 
     public function __construct(
-        private PortalNodeKeyInterface $portalNodeId,
-        private MappingNodeStructInterface $mappingNodeStruct
+        private readonly PortalNodeKeyInterface $portalNodeId,
+        private readonly MappingNodeStructInterface $mappingNodeStruct
     ) {
     }
 
+    #[\Override]
     public function getExternalId(): ?string
     {
         return $this->externalId;
     }
 
+    #[\Override]
     public function setExternalId(?string $externalId): MappingInterface
     {
         $this->externalId = $externalId;
@@ -32,16 +34,19 @@ final class MappingStruct implements MappingInterface
         return $this;
     }
 
+    #[\Override]
     public function getPortalNodeKey(): PortalNodeKeyInterface
     {
         return $this->portalNodeId;
     }
 
+    #[\Override]
     public function getMappingNodeKey(): MappingNodeKeyInterface
     {
         return $this->mappingNodeStruct->getKey();
     }
 
+    #[\Override]
     public function getEntityType(): EntityType
     {
         return $this->mappingNodeStruct->getEntityType();

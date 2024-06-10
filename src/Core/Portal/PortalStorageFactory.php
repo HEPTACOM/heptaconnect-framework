@@ -19,14 +19,14 @@ use Psr\Log\LoggerInterface;
 class PortalStorageFactory
 {
     public function __construct(
-        private PortalNodeStorageItemPackerInterface $portalNodeStorageItemPacker,
-        private PortalNodeStorageItemUnpackerInterface $portalNodeStorageItemUnpacker,
-        private PortalNodeStorageClearActionInterface $portalNodeStorageClearAction,
-        private PortalNodeStorageDeleteActionInterface $portalNodeStorageDeleteAction,
-        private PortalNodeStorageGetActionInterface $portalNodeStorageGetAction,
-        private PortalNodeStorageListActionInterface $portalNodeStorageListAction,
-        private PortalNodeStorageSetActionInterface $portalNodeStorageSetAction,
-        private LoggerInterface $logger
+        private readonly PortalNodeStorageItemPackerInterface $storageItemPacker,
+        private readonly PortalNodeStorageItemUnpackerInterface $storageItemUnpacker,
+        private readonly PortalNodeStorageClearActionInterface $storageClearAction,
+        private readonly PortalNodeStorageDeleteActionInterface $storageDeleteAction,
+        private readonly PortalNodeStorageGetActionInterface $storageGetAction,
+        private readonly PortalNodeStorageListActionInterface $storageListAction,
+        private readonly PortalNodeStorageSetActionInterface $storageSetAction,
+        private readonly LoggerInterface $logger
     ) {
     }
 
@@ -37,13 +37,13 @@ class PortalStorageFactory
         }
 
         return new PortalStorage(
-            $this->portalNodeStorageItemPacker,
-            $this->portalNodeStorageItemUnpacker,
-            $this->portalNodeStorageClearAction,
-            $this->portalNodeStorageDeleteAction,
-            $this->portalNodeStorageGetAction,
-            $this->portalNodeStorageListAction,
-            $this->portalNodeStorageSetAction,
+            $this->storageItemPacker,
+            $this->storageItemUnpacker,
+            $this->storageClearAction,
+            $this->storageDeleteAction,
+            $this->storageGetAction,
+            $this->storageListAction,
+            $this->storageSetAction,
             $this->logger,
             $portalNodeKey
         );

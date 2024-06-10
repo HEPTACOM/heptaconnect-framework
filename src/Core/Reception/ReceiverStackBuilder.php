@@ -15,9 +15,9 @@ final class ReceiverStackBuilder implements ReceiverStackBuilderInterface
 {
     private ?ReceiverContract $source;
 
-    private ReceiverCollection $decorators;
+    private readonly ReceiverCollection $decorators;
 
-    private EntityType $entityType;
+    private readonly EntityType $entityType;
 
     /**
      * @var ReceiverContract[]
@@ -27,7 +27,7 @@ final class ReceiverStackBuilder implements ReceiverStackBuilderInterface
     public function __construct(
         ReceiverCollection $sources,
         EntityType $entityType,
-        private LoggerInterface $logger
+        private readonly LoggerInterface $logger
     ) {
         $sources = $sources->bySupport($entityType);
         $this->source = $sources->shift();
@@ -35,6 +35,7 @@ final class ReceiverStackBuilder implements ReceiverStackBuilderInterface
         $this->entityType = $entityType;
     }
 
+    #[\Override]
     public function push(ReceiverContract $receiver): self
     {
         if ($this->entityType->equals($receiver->getSupportedEntityType())) {
@@ -58,6 +59,7 @@ final class ReceiverStackBuilder implements ReceiverStackBuilderInterface
         return $this;
     }
 
+    #[\Override]
     public function pushSource(): self
     {
         if ($this->source instanceof ReceiverContract) {
@@ -73,6 +75,7 @@ final class ReceiverStackBuilder implements ReceiverStackBuilderInterface
         return $this;
     }
 
+    #[\Override]
     public function pushDecorators(): self
     {
         foreach ($this->decorators as $receiver) {
@@ -88,6 +91,7 @@ final class ReceiverStackBuilder implements ReceiverStackBuilderInterface
         return $this;
     }
 
+    #[\Override]
     public function build(): ReceiverStackInterface
     {
         $receiverStack = new ReceiverStack(
@@ -103,6 +107,7 @@ final class ReceiverStackBuilder implements ReceiverStackBuilderInterface
         return $receiverStack;
     }
 
+    #[\Override]
     public function isEmpty(): bool
     {
         return $this->receivers === [];

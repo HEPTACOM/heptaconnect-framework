@@ -10,11 +10,13 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
 
 final class ThrowEmitter extends EmitterContract
 {
+    #[\Override]
     public function emit(iterable $externalIds, EmitContextInterface $context, EmitterStackInterface $stack): iterable
     {
         throw new \RuntimeException();
     }
 
+    #[\Override]
     public function supports(): string
     {
         return FooBarEntity::class;

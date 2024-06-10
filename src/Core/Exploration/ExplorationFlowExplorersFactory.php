@@ -18,10 +18,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface;
 use Psr\Log\LoggerInterface;
 
-/**
- * @SuppressWarnings(PHPMD.ExcessiveParameterList)
- */
-final class ExplorationFlowExplorersFactory implements ExplorationFlowExplorersFactoryInterface
+final readonly class ExplorationFlowExplorersFactory implements ExplorationFlowExplorersFactoryInterface
 {
     public function __construct(
         private DirectEmissionFlowEmittersFactoryInterface $directEmissionFlowEmittersFactory,
@@ -39,6 +36,7 @@ final class ExplorationFlowExplorersFactory implements ExplorationFlowExplorersF
     ) {
     }
 
+    #[\Override]
     public function createExplorers(PortalNodeKeyInterface $portalNodeKey, EntityType $entityType): ExplorerCollection
     {
         $directEmitter = new DirectEmitter($entityType);

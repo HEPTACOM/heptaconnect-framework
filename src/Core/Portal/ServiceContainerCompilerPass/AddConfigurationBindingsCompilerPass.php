@@ -13,6 +13,7 @@ final class AddConfigurationBindingsCompilerPass implements CompilerPassInterfac
 {
     public const CONFIG_KEY_SEPARATORS = '_.-';
 
+    #[\Override]
     public function process(ContainerBuilder $container): void
     {
         $keys = [];
@@ -24,8 +25,8 @@ final class AddConfigurationBindingsCompilerPass implements CompilerPassInterfac
         }
 
         $bindings = \array_combine(
-            \array_map([$this, 'getBindingKey'], $keys),
-            \array_map([$this, 'createBinding'], $keys)
+            \array_map($this->getBindingKey(...), $keys),
+            \array_map($this->createBinding(...), $keys)
         );
 
         foreach ($container->getDefinitions() as $definition) {
@@ -101,7 +102,7 @@ final class AddConfigurationBindingsCompilerPass implements CompilerPassInterfac
     /**
      * @return string[]
      *
-     * @psalm-return array<int, string>
+     * @phpstan-return array<int, string>
      */
     private function extractParameterParameterNames(?\ReflectionMethod $method): array
     {
@@ -110,7 +111,7 @@ final class AddConfigurationBindingsCompilerPass implements CompilerPassInterfac
         }
 
         $parameters = $method->getParameters();
-        $parameters = \array_filter($parameters, [$this, 'isParameterScalarish']);
+        $parameters = \array_filter($parameters, $this->isParameterScalarish(...));
 
         return \array_map(static fn (\ReflectionParameter $param): string => '$' . $param->getName(), $parameters);
     }
@@ -140,7 +141,7 @@ final class AddConfigurationBindingsCompilerPass implements CompilerPassInterfac
         }
 
         if ($type instanceof \ReflectionUnionType) {
-            return \array_merge([], ...\array_map([$this, 'getParameterTypes'], $type->getTypes()));
+            return \array_merge([], ...\array_map($this->getParameterTypes(...), $type->getTypes()));
         }
 
         return [];

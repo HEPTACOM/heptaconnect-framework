@@ -9,7 +9,7 @@ trait ProvidesStringTestsData
     /**
      * @return iterable<array-key, array<int, string>>
      */
-    public function provideValidStringTestCases(): iterable
+    public static function provideValidStringTestCases(): iterable
     {
         yield ['Hello'];
         yield ['World'];

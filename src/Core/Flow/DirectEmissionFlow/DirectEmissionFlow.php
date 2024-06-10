@@ -30,15 +30,16 @@ final class DirectEmissionFlow extends DirectEmissionFlowContract implements Log
     private ProfilerContract $profiler;
 
     public function __construct(
-        private EmitterStackBuilderFactoryInterface $emitterStackBuilderFactory,
-        private EmitContextFactory $emitContextFactory,
-        private EmitterStackProcessorInterface $stackProcessor,
-        private DirectEmissionFlowEmittersFactoryInterface $directEmissionFlowEmittersFactory
+        private readonly EmitterStackBuilderFactoryInterface $emitterStackBuilderFactory,
+        private readonly EmitContextFactory $emitContextFactory,
+        private readonly EmitterStackProcessorInterface $stackProcessor,
+        private readonly DirectEmissionFlowEmittersFactoryInterface $directEmissionFlowEmittersFactory
     ) {
         $this->logger = new NullLogger();
         $this->profiler = new NullProfiler();
     }
 
+    #[\Override]
     public function run(PortalNodeKeyInterface $portalNodeKey, DatasetEntityCollection $entities): DirectEmissionResult
     {
         $result = new DirectEmissionResult();
@@ -90,11 +91,13 @@ final class DirectEmissionFlow extends DirectEmissionFlowContract implements Log
         return $result;
     }
 
+    #[\Override]
     public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
     }
 
+    #[\Override]
     public function setProfiler(ProfilerContract $profiler): void
     {
         $this->profiler = $profiler;

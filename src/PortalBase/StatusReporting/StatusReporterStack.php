@@ -21,13 +21,14 @@ final class StatusReporterStack implements StatusReporterStackInterface
      */
     public function __construct(
         iterable $statusReporters,
-        private LoggerInterface $logger
+        private readonly LoggerInterface $logger
     ) {
         /** @var StatusReporterContract[] $rewindableStatusReporters */
         $rewindableStatusReporters = \iterable_to_array($statusReporters);
         $this->statusReporters = $rewindableStatusReporters;
     }
 
+    #[\Override]
     public function next(StatusReportingContextInterface $context): array
     {
         $statusReporter = \array_shift($this->statusReporters);

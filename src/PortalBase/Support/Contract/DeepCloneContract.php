@@ -9,11 +9,11 @@ use DeepCopy\DeepCopy;
 class DeepCloneContract
 {
     /**
-     * @psalm-template T
+     * @template T
      *
-     * @psalm-param T $any
+     * @param T $any
      *
-     * @psalm-return T
+     * @return T
      */
     public function deepClone($any)
     {

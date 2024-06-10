@@ -19,11 +19,12 @@ use Symfony\Component\Lock\LockInterface;
 final class LockingReceiver extends ReceiverContract
 {
     public function __construct(
-        private EntityType $entityType,
-        private LoggerInterface $logger
+        private readonly EntityType $entityType,
+        private readonly LoggerInterface $logger
     ) {
     }
 
+    #[\Override]
     public function receive(
         TypedDatasetEntityCollection $entities,
         ReceiveContextInterface $context,
@@ -66,6 +67,7 @@ final class LockingReceiver extends ReceiverContract
         return $result;
     }
 
+    #[\Override]
     protected function supports(): string
     {
         return (string) $this->entityType;

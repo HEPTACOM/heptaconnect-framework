@@ -15,9 +15,9 @@ final class HttpHandlerStackBuilder implements HttpHandlerStackBuilderInterface
 {
     private ?HttpHandlerContract $source;
 
-    private HttpHandlerCollection $decorators;
+    private readonly HttpHandlerCollection $decorators;
 
-    private string $path;
+    private readonly string $path;
 
     /**
      * @var HttpHandlerContract[]
@@ -27,7 +27,7 @@ final class HttpHandlerStackBuilder implements HttpHandlerStackBuilderInterface
     public function __construct(
         HttpHandlerCollection $sources,
         string $path,
-        private LoggerInterface $logger
+        private readonly LoggerInterface $logger
     ) {
         $sources = $sources->bySupport($path);
         $this->source = $sources->shift();
@@ -35,6 +35,7 @@ final class HttpHandlerStackBuilder implements HttpHandlerStackBuilderInterface
         $this->path = $path;
     }
 
+    #[\Override]
     public function push(HttpHandlerContract $httpHandler): self
     {
         if ($this->path === $httpHandler->getPath()) {
@@ -58,6 +59,7 @@ final class HttpHandlerStackBuilder implements HttpHandlerStackBuilderInterface
         return $this;
     }
 
+    #[\Override]
     public function pushSource(): self
     {
         if ($this->source instanceof HttpHandlerContract) {
@@ -73,6 +75,7 @@ final class HttpHandlerStackBuilder implements HttpHandlerStackBuilderInterface
         return $this;
     }
 
+    #[\Override]
     public function pushDecorators(): self
     {
         foreach ($this->decorators as $item) {
@@ -88,6 +91,7 @@ final class HttpHandlerStackBuilder implements HttpHandlerStackBuilderInterface
         return $this;
     }
 
+    #[\Override]
     public function build(): HttpHandlerStackInterface
     {
         $stack = new HttpHandlerStack(\array_map(
@@ -101,6 +105,7 @@ final class HttpHandlerStackBuilder implements HttpHandlerStackBuilderInterface
         return $stack;
     }
 
+    #[\Override]
     public function isEmpty(): bool
     {
         return $this->selection === [];

@@ -84,7 +84,7 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
      *
      * @template TMapResult
      *
-     * @psalm-param callable(T, array-key):TMapResult|callable(T):TMapResult $mapFn
+     * @phpstan-param callable(T, array-key):TMapResult|callable(T):TMapResult $mapFn
      *
      * @return iterable<int, TMapResult>
      */
@@ -103,9 +103,9 @@ interface CollectionInterface extends \IteratorAggregate, \Countable, \ArrayAcce
     /**
      * Group items in maximum $size big chunks. The last chunk can be less than $size items.
      *
-     * @psalm-param positive-int $size
+     * @phpstan-param positive-int $size
      *
-     * @psalm-return iterable<static&self<T>>
+     * @phpstan-return iterable<static&self<T>>
      */
     public function chunk(int $size): iterable;
 

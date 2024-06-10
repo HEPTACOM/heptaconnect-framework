@@ -22,14 +22,15 @@ final class RequestStorage extends RequestStorageContract
     private const DEFAULT_KEY = 'default';
 
     public function __construct(
-        private RequestSerializerInterface $serializer,
-        private RequestDeserializerInterface $deserializer,
-        private FileReferenceGetRequestActionInterface $getRequestAction,
-        private FileReferencePersistRequestActionInterface $persistRequestAction,
-        private StorageKeyGeneratorContract $storageKeyGenerator
+        private readonly RequestSerializerInterface $serializer,
+        private readonly RequestDeserializerInterface $deserializer,
+        private readonly FileReferenceGetRequestActionInterface $getRequestAction,
+        private readonly FileReferencePersistRequestActionInterface $persistRequestAction,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator
     ) {
     }
 
+    #[\Override]
     public function load(
         PortalNodeKeyInterface $portalNodeKey,
         FileReferenceRequestKeyInterface $fileReferenceRequestKey
@@ -59,6 +60,7 @@ final class RequestStorage extends RequestStorageContract
         ), 1647791094);
     }
 
+    #[\Override]
     public function persist(
         PortalNodeKeyInterface $portalNodeKey,
         RequestInterface $request

@@ -13,14 +13,15 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
 
 final class DirectEmitter extends EmitterContract
 {
-    private DatasetEntityCollection $entities;
+    private readonly DatasetEntityCollection $entities;
 
     public function __construct(
-        private EntityType $supports
+        private readonly EntityType $supports
     ) {
         $this->entities = new DatasetEntityCollection();
     }
 
+    #[\Override]
     public function emit(iterable $externalIds, EmitContextInterface $context, EmitterStackInterface $stack): iterable
     {
         $externalIds = \iterable_to_array($externalIds);
@@ -38,11 +39,13 @@ final class DirectEmitter extends EmitterContract
         return $this->entities;
     }
 
+    #[\Override]
     protected function supports(): string
     {
         return (string) $this->supports;
     }
 
+    #[\Override]
     protected function batch(iterable $externalIds, EmitContextInterface $context): iterable
     {
         $externalIds = \iterable_to_array($externalIds);

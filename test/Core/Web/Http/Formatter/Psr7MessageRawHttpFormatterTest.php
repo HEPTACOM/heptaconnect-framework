@@ -7,13 +7,12 @@ namespace Heptacom\HeptaConnect\Core\Test\Web\Http\Formatter;
 use Heptacom\HeptaConnect\Core\Web\Http\Formatter\Psr7MessageRawHttpFormatter;
 use Heptacom\HeptaConnect\Core\Web\Http\Formatter\Support\HeaderUtility;
 use Http\Discovery\Psr17FactoryDiscovery;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\MessageInterface;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Web\Http\Formatter\Psr7MessageRawHttpFormatter
- * @covers \Heptacom\HeptaConnect\Core\Web\Http\Formatter\Support\HeaderUtility
- */
+#[CoversClass(Psr7MessageRawHttpFormatter::class)]
+#[CoversClass(HeaderUtility::class)]
 final class Psr7MessageRawHttpFormatterTest extends TestCase
 {
     public function testHeadersAreInAlphabeticalOrder(): void

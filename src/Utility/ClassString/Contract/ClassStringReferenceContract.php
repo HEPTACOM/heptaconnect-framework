@@ -7,10 +7,11 @@ namespace Heptacom\HeptaConnect\Utility\ClassString\Contract;
 abstract class ClassStringReferenceContract implements \JsonSerializable, \Stringable
 {
     public function __construct(
-        private string $classString
+        private readonly string $classString
     ) {
     }
 
+    #[\Override]
     final public function __toString(): string
     {
         return $this->classString;
@@ -25,6 +26,7 @@ abstract class ClassStringReferenceContract implements \JsonSerializable, \Strin
         return (string) $other === (string) $this;
     }
 
+    #[\Override]
     final public function jsonSerialize(): string
     {
         return $this->classString;

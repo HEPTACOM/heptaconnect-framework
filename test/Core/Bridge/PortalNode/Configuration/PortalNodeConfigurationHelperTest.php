@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Core\Test\Bridge\PortalNode\Configuration;
 
 use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\PortalNodeConfigurationHelper;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\PortalNodeConfigurationHelper
- */
+#[CoversClass(PortalNodeConfigurationHelper::class)]
 final class PortalNodeConfigurationHelperTest extends TestCase
 {
     public function testParseAndMapArray(): void

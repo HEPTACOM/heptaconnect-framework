@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Psr\Cache\CacheItemPoolInterface;
 
-final class PortalNodeConfigurationCacheProcessor implements PortalNodeConfigurationProcessorInterface
+final readonly class PortalNodeConfigurationCacheProcessor implements PortalNodeConfigurationProcessorInterface
 {
     public function __construct(
         private CacheItemPoolInterface $cache,
@@ -17,6 +17,7 @@ final class PortalNodeConfigurationCacheProcessor implements PortalNodeConfigura
     ) {
     }
 
+    #[\Override]
     public function read(PortalNodeKeyInterface $portalNodeKey, \Closure $read): array
     {
         $cachedConfig = $this->cache->getItem($this->getConfigCacheKey($portalNodeKey));
@@ -36,6 +37,7 @@ final class PortalNodeConfigurationCacheProcessor implements PortalNodeConfigura
         return $configuration;
     }
 
+    #[\Override]
     public function write(PortalNodeKeyInterface $portalNodeKey, array $payload, \Closure $write): void
     {
         $cachedConfigKey = $this->getConfigCacheKey($portalNodeKey);

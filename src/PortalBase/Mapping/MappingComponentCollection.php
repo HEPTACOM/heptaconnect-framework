@@ -18,6 +18,7 @@ use Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection;
  */
 class MappingComponentCollection extends AbstractObjectCollection
 {
+    #[\Override]
     public function contains($value): bool
     {
         return $this->containsByEqualsCheck(
@@ -29,7 +30,7 @@ class MappingComponentCollection extends AbstractObjectCollection
     }
 
     /**
-     * @psalm-return class-string<DatasetEntityContract>[]
+     * @phpstan-return class-string<DatasetEntityContract>[]
      *
      * @return string[]
      */
@@ -73,6 +74,7 @@ class MappingComponentCollection extends AbstractObjectCollection
         );
     }
 
+    #[\Override]
     protected function getT(): string
     {
         return MappingComponentStructContract::class;

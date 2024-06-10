@@ -14,27 +14,25 @@ use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-/**
- * @SuppressWarnings(PHPMD.CyclomaticComplexity)
- * @SuppressWarnings(PHPMD.NPathComplexity)
- */
 final class HttpClient extends HttpClientContract implements LoggerAwareInterface
 {
     private LoggerInterface $logger;
 
     public function __construct(
         ClientInterface $client,
-        private UriFactoryInterface $uriFactory
+        private readonly UriFactoryInterface $uriFactory
     ) {
         parent::__construct($client);
         $this->logger = new NullLogger();
     }
 
+    #[\Override]
     public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
     }
 
+    #[\Override]
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
         foreach ($this->getDefaultRequestHeaders()->getHeaders() as $header => $values) {

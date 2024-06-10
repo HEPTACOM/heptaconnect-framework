@@ -7,18 +7,20 @@ namespace Heptacom\HeptaConnect\Core\Storage\Normalizer;
 use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\DenormalizerInterface;
 use Heptacom\HeptaConnect\Portal\Base\Serialization\Exception\InvalidArgumentException;
 
-final class SerializableCompressDenormalizer implements DenormalizerInterface
+final readonly class SerializableCompressDenormalizer implements DenormalizerInterface
 {
     public function __construct(
         private DenormalizerInterface $serializableDenormalizer
     ) {
     }
 
+    #[\Override]
     public function getType(): string
     {
         return $this->serializableDenormalizer->getType() . '+gzpress';
     }
 
+    #[\Override]
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         if (!$this->supportsDenormalization($data, $type, $format)) {
@@ -34,8 +36,9 @@ final class SerializableCompressDenormalizer implements DenormalizerInterface
     }
 
     /**
-     * @psalm-assert string $data
+     * @phpstan-assert string $data
      */
+    #[\Override]
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         return $type === $this->getType()

@@ -8,7 +8,12 @@ use Heptacom\HeptaConnect\Core\Emission\EmitterStack;
 use Heptacom\HeptaConnect\Core\Exploration\ExplorerStack;
 use Heptacom\HeptaConnect\Core\Portal\PortalConfiguration;
 use Heptacom\HeptaConnect\Core\Reception\ReceiverStack;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
+use Heptacom\HeptaConnect\Portal\Base\Builder\BindThisTrait;
+use Heptacom\HeptaConnect\Portal\Base\Builder\Builder\HttpHandlerBuilder;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Component\Emitter;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Component\Explorer;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Component\HttpHandler;
@@ -16,6 +21,7 @@ use Heptacom\HeptaConnect\Portal\Base\Builder\Component\Receiver;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Component\StatusReporter;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException;
 use Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent;
+use Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\EmitterToken;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken;
 use Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken;
@@ -35,6 +41,13 @@ use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandleContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\RequestInterface;
@@ -42,45 +55,41 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Emission\EmitterStack
- * @covers \Heptacom\HeptaConnect\Core\Exploration\ExplorerStack
- * @covers \Heptacom\HeptaConnect\Core\Portal\PortalConfiguration
- * @covers \Heptacom\HeptaConnect\Core\Reception\ReceiverStack
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
- * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
- * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\BindThisTrait
- * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Builder\HttpHandlerBuilder
- * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Component\Emitter
- * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Component\Explorer
- * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Component\HttpHandler
- * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Component\HttpHandler
- * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Component\Receiver
- * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Component\StatusReporter
- * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Exception\InvalidResultException
- * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent
- * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\ResolveArgumentsTrait
- * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Token\EmitterToken
- * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Token\ExplorerToken
- * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken
- * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Token\HttpHandlerToken
- * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Token\ReceiverToken
- * @covers \Heptacom\HeptaConnect\Portal\Base\Builder\Token\StatusReporterToken
- * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterStack
- * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
- */
+#[CoversClass(EmitterStack::class)]
+#[CoversClass(ExplorerStack::class)]
+#[CoversClass(PortalConfiguration::class)]
+#[CoversClass(ReceiverStack::class)]
+#[CoversClass(DatasetEntityContract::class)]
+#[CoversClass(DatasetEntityCollection::class)]
+#[CoversClass(EntityType::class)]
+#[CoversClass(TypedDatasetEntityCollection::class)]
+#[CoversTrait(BindThisTrait::class)]
+#[CoversClass(HttpHandlerBuilder::class)]
+#[CoversClass(Emitter::class)]
+#[CoversClass(Explorer::class)]
+#[CoversClass(HttpHandler::class)]
+#[CoversClass(Receiver::class)]
+#[CoversClass(StatusReporter::class)]
+#[CoversClass(InvalidResultException::class)]
+#[CoversClass(FlowComponent::class)]
+#[CoversTrait(ResolveArgumentsTrait::class)]
+#[CoversClass(EmitterToken::class)]
+#[CoversClass(ExplorerToken::class)]
+#[CoversClass(HttpHandlerToken::class)]
+#[CoversClass(ReceiverToken::class)]
+#[CoversClass(StatusReporterToken::class)]
+#[CoversClass(EmitterContract::class)]
+#[CoversClass(ExplorerContract::class)]
+#[CoversClass(ReceiverContract::class)]
+#[CoversClass(StatusReporterContract::class)]
+#[CoversClass(StatusReporterStack::class)]
+#[CoversClass(HttpHandlerContract::class)]
+#[CoversClass(HttpHandlerStack::class)]
+#[CoversClass(ClassStringContract::class)]
+#[CoversClass(ClassStringReferenceContract::class)]
+#[CoversClass(SubtypeClassStringContract::class)]
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(AbstractObjectCollection::class)]
 final class FlowComponentTest extends TestCase
 {
     public function testBuildHttpHandlers(): void

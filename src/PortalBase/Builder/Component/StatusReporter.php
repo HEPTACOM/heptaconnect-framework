@@ -32,11 +32,13 @@ final class StatusReporter extends StatusReporterContract
         return $this->runMethod;
     }
 
+    #[\Override]
     public function supportsTopic(): string
     {
         return $this->topic;
     }
 
+    #[\Override]
     protected function run(StatusReportingContextInterface $context): array
     {
         $run = $this->runMethod;

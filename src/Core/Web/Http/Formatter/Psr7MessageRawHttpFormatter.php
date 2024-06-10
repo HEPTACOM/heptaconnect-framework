@@ -13,10 +13,11 @@ use Psr\Http\Message\ResponseInterface;
 final class Psr7MessageRawHttpFormatter extends Psr7MessageRawHttpFormatterContract
 {
     public function __construct(
-        private HeaderUtilityInterface $headerUtility
+        private readonly HeaderUtilityInterface $headerUtility
     ) {
     }
 
+    #[\Override]
     public function formatMessage(MessageInterface $message): string
     {
         if ($message instanceof RequestInterface) {
@@ -30,6 +31,7 @@ final class Psr7MessageRawHttpFormatter extends Psr7MessageRawHttpFormatterContr
         throw new \InvalidArgumentException('Message must be a request or a response', 1674950000);
     }
 
+    #[\Override]
     public function getFileExtension(MessageInterface $message): string
     {
         if ($message instanceof RequestInterface) {

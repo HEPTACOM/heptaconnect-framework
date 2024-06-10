@@ -10,8 +10,8 @@ use Psr\Http\Message\ServerRequestInterface;
 class ServerRequestCycle
 {
     public function __construct(
-        private ServerRequestInterface $request,
-        private ResponseInterface $response
+        private readonly ServerRequestInterface $request,
+        private readonly ResponseInterface $response
     ) {
     }
 

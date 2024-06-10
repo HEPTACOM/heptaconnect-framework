@@ -16,6 +16,7 @@ final class StringCollection extends AbstractCollection
         return \implode($glue, $this->items);
     }
 
+    #[\Override]
     public function asUnique(): static
     {
         $result = $this->withoutItems();
@@ -25,6 +26,7 @@ final class StringCollection extends AbstractCollection
         return $result;
     }
 
+    #[\Override]
     protected function isValidItem(mixed $item): bool
     {
         return \is_string($item);

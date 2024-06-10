@@ -6,12 +6,12 @@ namespace Heptacom\HeptaConnect\Utility\ClassString\Exception;
 
 class InvalidSubtypeClassNameException extends \InvalidArgumentException
 {
-    private string $givenClassName;
+    private readonly string $givenClassName;
 
     /**
      * @var class-string
      */
-    private string $expectedSuperClassName;
+    private readonly string $expectedSuperClassName;
 
     /**
      * @param class-string $expectedSuperClassName

@@ -9,7 +9,7 @@ trait ProvidesBooleanTestsData
     /**
      * @return iterable<array-key, array<int, bool>>
      */
-    public function provideValidBooleanTestCases(): iterable
+    public static function provideValidBooleanTestCases(): iterable
     {
         yield [false];
         yield [true];

@@ -6,29 +6,38 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Test;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface;
+use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\File\FileReferenceCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Support\ForeignKeyTrait;
+use Heptacom\HeptaConnect\Dataset\Base\Support\PrimaryKeyTrait;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\AttachmentA;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\AttachmentAChild;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
+use Heptacom\HeptaConnect\Utility\Attachment\AttachmentAwareTrait;
+use Heptacom\HeptaConnect\Utility\Attachment\AttachmentCollection;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
-/**
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\ForeignKeyTrait
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Support\PrimaryKeyTrait
- * @covers \Heptacom\HeptaConnect\Utility\Attachment\AttachmentAwareTrait
- * @covers \Heptacom\HeptaConnect\Utility\Attachment\AttachmentCollection
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
- */
+#[CoversClass(DatasetEntityContract::class)]
+#[CoversClass(DatasetEntityCollection::class)]
+#[CoversClass(EntityType::class)]
+#[CoversTrait(ForeignKeyTrait::class)]
+#[CoversTrait(PrimaryKeyTrait::class)]
+#[CoversTrait(AttachmentAwareTrait::class)]
+#[CoversClass(AttachmentCollection::class)]
+#[CoversClass(ClassStringContract::class)]
+#[CoversClass(ClassStringReferenceContract::class)]
+#[CoversClass(SubtypeClassStringContract::class)]
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(AbstractObjectCollection::class)]
 final class AttachmentTest extends TestCase
 {
     public function testStructAttachmentsAreEmptyByDefault(): void

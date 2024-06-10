@@ -5,18 +5,20 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Core\Test\Web\Http;
 
 use Heptacom\HeptaConnect\Core\Web\Http\HttpClient;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientContract;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Exception\HttpException;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Support\DefaultRequestHeaders;
 use Http\Discovery\Psr17FactoryDiscovery;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpClient
- * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Exception\HttpException
- * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Support\DefaultRequestHeaders
- */
+#[CoversClass(HttpClient::class)]
+#[CoversClass(HttpClientContract::class)]
+#[CoversClass(HttpException::class)]
+#[CoversClass(DefaultRequestHeaders::class)]
 final class HttpClientTest extends TestCase
 {
     public function testHeaders(): void

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Core\Test\Web\Http;
 
 use Heptacom\HeptaConnect\Core\Component\LogMessage;
+use Heptacom\HeptaConnect\Core\Portal\AbstractPortalNodeContext;
 use Heptacom\HeptaConnect\Core\Portal\Contract\PortalNodeContainerFacadeContract;
 use Heptacom\HeptaConnect\Core\Portal\PortalNodeContainerFacade;
 use Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector;
@@ -19,13 +20,20 @@ use Heptacom\HeptaConnect\Core\Web\Http\Handler\HttpMiddlewareChainHandler;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpHandleContext;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerStackProcessor;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpHandleService;
+use Heptacom\HeptaConnect\Core\Web\Http\HttpMiddlewareHandler;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandleContextInterface;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\ServerRequestCycle;
+use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -36,23 +44,21 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Component\LogMessage
- * @covers \Heptacom\HeptaConnect\Core\Portal\AbstractPortalNodeContext
- * @covers \Heptacom\HeptaConnect\Core\Portal\PortalNodeContainerFacade
- * @covers \Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector
- * @covers \Heptacom\HeptaConnect\Core\Web\Http\Handler\HttpMiddlewareChainHandler
- * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerStackProcessor
- * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpHandleService
- * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpMiddlewareHandler
- * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack
- * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier
- * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\ServerRequestCycle
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- */
+#[CoversClass(LogMessage::class)]
+#[CoversClass(AbstractPortalNodeContext::class)]
+#[CoversClass(PortalNodeContainerFacade::class)]
+#[CoversClass(HttpMiddlewareCollector::class)]
+#[CoversClass(HttpMiddlewareChainHandler::class)]
+#[CoversClass(HttpHandlerStackProcessor::class)]
+#[CoversClass(HttpHandleService::class)]
+#[CoversClass(HttpMiddlewareHandler::class)]
+#[CoversClass(HttpHandlerContract::class)]
+#[CoversClass(HttpHandlerStack::class)]
+#[CoversClass(HttpHandlerStackIdentifier::class)]
+#[CoversClass(ServerRequestCycle::class)]
+#[CoversClass(WebHttpHandlerConfigurationFindCriteria::class)]
+#[CoversClass(WebHttpHandlerConfigurationFindResult::class)]
+#[CoversClass(AbstractCollection::class)]
 final class HttpHandleServiceTest extends TestCase
 {
     public function testActingFails(): void
@@ -126,13 +132,18 @@ final class HttpHandleServiceTest extends TestCase
 
         $request = $this->createMock(ServerRequestInterface::class);
         $request->method('getUri')->willReturn($uri);
-        $request->expects(static::exactly(2))
-            ->method('withAttribute')
-            ->withConsecutive(
-                [HttpHandleContextInterface::REQUEST_ATTRIBUTE_IS_STACK_EMPTY, $isStackEmpty],
-                ['Foo', 'Bar']
-            )
-            ->willReturnSelf();
+        $matcher = static::exactly(2);
+        $request->expects($matcher)
+            ->method('withAttribute')->willReturnCallback(function ($attributeName, $attributeValue) use ($matcher, $isStackEmpty, $request) {
+                $parameters = [$attributeName, $attributeValue];
+
+                match ($matcher->numberOfInvocations()) {
+                    1 => self::assertEquals([HttpHandleContextInterface::REQUEST_ATTRIBUTE_IS_STACK_EMPTY, $isStackEmpty], $parameters),
+                    2 => self::assertEquals(['Foo', 'Bar'], $parameters),
+                };
+
+                return $request;
+            });
         $request->method('getAttributes')->willReturn([]);
         $request->method('withoutAttribute')->willReturnSelf();
 
@@ -229,13 +240,18 @@ final class HttpHandleServiceTest extends TestCase
 
         $request = $this->createMock(ServerRequestInterface::class);
         $request->method('getUri')->willReturn($uri);
-        $request->expects(static::exactly(2))
-            ->method('withAttribute')
-            ->withConsecutive(
-                [HttpHandleContextInterface::REQUEST_ATTRIBUTE_IS_STACK_EMPTY, $isStackEmpty],
-                ['Foo', 'Bar']
-            )
-            ->willReturnSelf();
+        $matcher = static::exactly(2);
+        $request->expects($matcher)
+            ->method('withAttribute')->willReturnCallback(function ($attributeName, $attributeValue) use ($matcher, $isStackEmpty, $request) {
+                $parameters = [$attributeName, $attributeValue];
+
+                match ($matcher->numberOfInvocations()) {
+                    1 => self::assertEquals([HttpHandleContextInterface::REQUEST_ATTRIBUTE_IS_STACK_EMPTY, $isStackEmpty], $parameters),
+                    2 => self::assertEquals(['Foo', 'Bar'], $parameters),
+                };
+
+                return $request;
+            });
 
         $request->method('getAttributes')->willReturn([]);
         $request->method('withoutAttribute')->willReturnSelf();

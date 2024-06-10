@@ -17,10 +17,11 @@ use Heptacom\HeptaConnect\Storage\Base\PrimaryKeySharingMappingStruct;
 final class MarkAsFailedPostProcessor extends PostProcessorContract
 {
     public function __construct(
-        private IdentityErrorCreateActionInterface $identityErrorCreateAction
+        private readonly IdentityErrorCreateActionInterface $identityErrorCreateAction
     ) {
     }
 
+    #[\Override]
     public function handle(PostReceptionEvent $event): void
     {
         $markAsFailedData = \iterable_map(

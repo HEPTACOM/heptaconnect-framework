@@ -7,10 +7,7 @@ namespace Heptacom\HeptaConnect\Utility\Php;
 use Heptacom\HeptaConnect\Utility\Collection\Contract\CollectionInterface;
 
 /**
- * @psalm-consistent-constructor
- *
- * @SuppressWarnings(PHPMD.CyclomaticComplexity)
- * @SuppressWarnings(PHPMD.NPathComplexity)
+ * @phpstan-consistent-constructor
  */
 trait SetStateTrait
 {
@@ -23,7 +20,6 @@ trait SetStateTrait
     {
         $result = new static();
 
-        /** @var mixed $value */
         foreach ($an_array as $key => $value) {
             if (\is_numeric($key)) {
                 continue;

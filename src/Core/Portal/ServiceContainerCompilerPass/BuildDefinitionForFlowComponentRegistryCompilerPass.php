@@ -31,6 +31,7 @@ final class BuildDefinitionForFlowComponentRegistryCompilerPass implements Compi
     ) {
     }
 
+    #[\Override]
     public function process(ContainerBuilder $container): void
     {
         $groupedExplorers = $this->getServiceReferencesGroupedBySource($container, PortalStackServiceContainerBuilder::EXPLORER_SOURCE_TAG);
@@ -53,7 +54,7 @@ final class BuildDefinitionForFlowComponentRegistryCompilerPass implements Compi
     /**
      * @return Definition[]
      *
-     * @psalm-return array<Definition>
+     * @phpstan-return array<Definition>
      */
     private function groupServices(string $collectionClass, array $groupServiceIds): array
     {
@@ -101,7 +102,7 @@ final class BuildDefinitionForFlowComponentRegistryCompilerPass implements Compi
         $packages = $builtPackages->withoutItems();
 
         $packages->push($builtPackages->filter(
-            static fn (PackageContract $package): bool => \get_class($package) === $source
+            static fn (PackageContract $package): bool => $package::class === $source
         ));
 
         $sourcePackage = $packages->first();

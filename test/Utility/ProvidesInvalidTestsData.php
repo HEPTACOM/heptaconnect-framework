@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Utility\Test;
 
 trait ProvidesInvalidTestsData
 {
-    public function provideInvalidTestCases(): iterable
+    public static function provideInvalidTestCases(): iterable
     {
         yield [new \Exception()];
         yield [new \stdClass()];

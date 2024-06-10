@@ -9,13 +9,14 @@ use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-final class SetConfigurationAsParameterCompilerPass implements CompilerPassInterface
+final readonly class SetConfigurationAsParameterCompilerPass implements CompilerPassInterface
 {
     public function __construct(
         private ?array $configuration
     ) {
     }
 
+    #[\Override]
     public function process(ContainerBuilder $container): void
     {
         $config = new PortalConfiguration($this->configuration ?? []);

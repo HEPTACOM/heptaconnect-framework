@@ -25,28 +25,29 @@ use Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Cache\Exception\InvalidArgumentException;
 
-final class PortalStorage implements PortalStorageInterface
+final readonly class PortalStorage implements PortalStorageInterface
 {
     public function __construct(
-        private PortalNodeStorageItemPackerInterface $portalNodeStorageItemPacker,
-        private PortalNodeStorageItemUnpackerInterface $portalNodeStorageItemUnpacker,
-        private PortalNodeStorageClearActionInterface $portalNodeStorageClearAction,
-        private PortalNodeStorageDeleteActionInterface $portalNodeStorageDeleteAction,
-        private PortalNodeStorageGetActionInterface $portalNodeStorageGetAction,
-        private PortalNodeStorageListActionInterface $portalNodeStorageListAction,
-        private PortalNodeStorageSetActionInterface $portalNodeStorageSetAction,
+        private PortalNodeStorageItemPackerInterface $storageItemPacker,
+        private PortalNodeStorageItemUnpackerInterface $storageItemUnpacker,
+        private PortalNodeStorageClearActionInterface $storageClearAction,
+        private PortalNodeStorageDeleteActionInterface $storageDeleteAction,
+        private PortalNodeStorageGetActionInterface $storageGetAction,
+        private PortalNodeStorageListActionInterface $storageListAction,
+        private PortalNodeStorageSetActionInterface $storageSetAction,
         private LoggerInterface $logger,
         private PortalNodeKeyInterface $portalNodeKey
     ) {
     }
 
+    #[\Override]
     public function get($key, $default = null)
     {
         try {
             $storageKeys = new StringCollection([(string) $key]);
             $getCriteria = new PortalNodeStorageGetCriteria($this->portalNodeKey, $storageKeys);
             /** @var PortalNodeStorageGetResult[] $getResults */
-            $getResults = \iterable_to_array($this->portalNodeStorageGetAction->get($getCriteria));
+            $getResults = \iterable_to_array($this->storageGetAction->get($getCriteria));
 
             if ($getResults === []) {
                 return $default;
@@ -54,10 +55,10 @@ final class PortalStorage implements PortalStorageInterface
 
             /** @var PortalNodeStorageGetResult $getResult */
             $getResult = \current($getResults);
-            $result = $this->portalNodeStorageItemUnpacker->unpack($getResult);
+            $result = $this->storageItemUnpacker->unpack($getResult);
 
             if ($result === null) {
-                $this->portalNodeStorageDeleteAction->delete(new PortalNodeStorageDeleteCriteria($this->portalNodeKey, $storageKeys));
+                $this->storageDeleteAction->delete(new PortalNodeStorageDeleteCriteria($this->portalNodeKey, $storageKeys));
 
                 return $default;
             }
@@ -75,18 +76,19 @@ final class PortalStorage implements PortalStorageInterface
         }
     }
 
+    #[\Override]
     public function set($key, $value, $ttl = null): bool
     {
         $ttl = $this->convertTtl($ttl);
 
         try {
-            $item = $this->portalNodeStorageItemPacker->pack($key, $value, $ttl);
+            $item = $this->storageItemPacker->pack($key, $value, $ttl);
 
             if (!$item instanceof PortalNodeStorageSetItem) {
                 return false;
             }
 
-            $this->portalNodeStorageSetAction->set(new PortalNodeStorageSetPayload(
+            $this->storageSetAction->set(new PortalNodeStorageSetPayload(
                 $this->portalNodeKey,
                 new PortalNodeStorageSetItems([$item])
             ));
@@ -104,14 +106,15 @@ final class PortalStorage implements PortalStorageInterface
         }
     }
 
+    #[\Override]
     public function list(): iterable
     {
         $criteria = new PortalNodeStorageListCriteria($this->portalNodeKey);
 
         try {
-            foreach ($this->portalNodeStorageListAction->list($criteria) as $result) {
+            foreach ($this->storageListAction->list($criteria) as $result) {
                 try {
-                    $value = $this->portalNodeStorageItemUnpacker->unpack($result);
+                    $value = $this->storageItemUnpacker->unpack($result);
                 } catch (\Throwable $throwable) {
                     $this->logger->error('Failed unpack a portal storage value for listing', [
                         'code' => 1651338559,
@@ -137,14 +140,15 @@ final class PortalStorage implements PortalStorageInterface
         }
     }
 
+    #[\Override]
     public function has($key): bool
     {
         try {
             $storageKeys = new StringCollection([(string) $key]);
             $getCriteria = new PortalNodeStorageGetCriteria($this->portalNodeKey, $storageKeys);
 
-            foreach ($this->portalNodeStorageGetAction->get($getCriteria) as $getResult) {
-                return $this->portalNodeStorageItemUnpacker->unpack($getResult) !== null;
+            foreach ($this->storageGetAction->get($getCriteria) as $getResult) {
+                return $this->storageItemUnpacker->unpack($getResult) !== null;
             }
 
             return false;
@@ -160,11 +164,12 @@ final class PortalStorage implements PortalStorageInterface
         }
     }
 
+    #[\Override]
     public function delete($key): bool
     {
         try {
             $criteria = new PortalNodeStorageDeleteCriteria($this->portalNodeKey, new StringCollection([(string) $key]));
-            $this->portalNodeStorageDeleteAction->delete($criteria);
+            $this->storageDeleteAction->delete($criteria);
 
             return true;
         } catch (\Throwable $throwable) {
@@ -179,11 +184,12 @@ final class PortalStorage implements PortalStorageInterface
         }
     }
 
+    #[\Override]
     public function clear(): bool
     {
         try {
             $criteria = new PortalNodeStorageClearCriteria($this->portalNodeKey);
-            $this->portalNodeStorageClearAction->clear($criteria);
+            $this->storageClearAction->clear($criteria);
 
             return true;
         } catch (\Throwable $throwable) {
@@ -197,6 +203,7 @@ final class PortalStorage implements PortalStorageInterface
         }
     }
 
+    #[\Override]
     public function getMultiple($keys, $default = null): iterable
     {
         $keysArray = $this->validateKeys($keys);
@@ -205,10 +212,10 @@ final class PortalStorage implements PortalStorageInterface
         $deleteCriteria = new PortalNodeStorageDeleteCriteria($this->portalNodeKey, new StringCollection([]));
 
         try {
-            foreach ($this->portalNodeStorageGetAction->get($criteria) as $getResult) {
+            foreach ($this->storageGetAction->get($criteria) as $getResult) {
                 unset($notReturnedKeys[$getResult->getStorageKey()]);
 
-                $value = $this->portalNodeStorageItemUnpacker->unpack($getResult);
+                $value = $this->storageItemUnpacker->unpack($getResult);
 
                 if ($value === null) {
                     $deleteCriteria->getStorageKeys()->push([$getResult->getStorageKey()]);
@@ -225,24 +232,25 @@ final class PortalStorage implements PortalStorageInterface
             ]);
         }
 
-        $this->portalNodeStorageDeleteAction->delete($deleteCriteria);
+        $this->storageDeleteAction->delete($deleteCriteria);
 
-        $notReturnedStorageKeys = \array_map('strval', \array_keys($notReturnedKeys));
+        $notReturnedKeys = \array_map('strval', \array_keys($notReturnedKeys));
 
-        if ($notReturnedStorageKeys !== []) {
-            foreach ($notReturnedStorageKeys as $key) {
+        if ($notReturnedKeys !== []) {
+            foreach ($notReturnedKeys as $key) {
                 yield $key => $default;
             }
         }
     }
 
+    #[\Override]
     public function setMultiple($values, $ttl = null): bool
     {
         $ttl = $this->convertTtl($ttl);
         $payload = new PortalNodeStorageSetPayload($this->portalNodeKey, new PortalNodeStorageSetItems());
 
         foreach ($values as $key => $value) {
-            $item = $this->portalNodeStorageItemPacker->pack((string) $key, $value, $ttl);
+            $item = $this->storageItemPacker->pack((string) $key, $value, $ttl);
 
             if (!$item instanceof PortalNodeStorageSetItem) {
                 return false;
@@ -252,7 +260,7 @@ final class PortalStorage implements PortalStorageInterface
         }
 
         try {
-            $this->portalNodeStorageSetAction->set($payload);
+            $this->storageSetAction->set($payload);
 
             return true;
         } catch (\Throwable $throwable) {
@@ -266,11 +274,12 @@ final class PortalStorage implements PortalStorageInterface
         }
     }
 
+    #[\Override]
     public function deleteMultiple($keys): bool
     {
         try {
             $criteria = new PortalNodeStorageDeleteCriteria($this->portalNodeKey, new StringCollection($this->validateKeys($keys)));
-            $this->portalNodeStorageDeleteAction->delete($criteria);
+            $this->storageDeleteAction->delete($criteria);
 
             return true;
         } catch (\Throwable $throwable) {

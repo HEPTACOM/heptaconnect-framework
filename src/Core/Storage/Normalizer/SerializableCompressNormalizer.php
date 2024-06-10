@@ -7,18 +7,20 @@ namespace Heptacom\HeptaConnect\Core\Storage\Normalizer;
 use Heptacom\HeptaConnect\Core\Storage\Exception\GzipCompressException;
 use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizerInterface;
 
-final class SerializableCompressNormalizer implements NormalizerInterface
+final readonly class SerializableCompressNormalizer implements NormalizerInterface
 {
     public function __construct(
         private NormalizerInterface $serializableNormalizer
     ) {
     }
 
+    #[\Override]
     public function getType(): string
     {
         return $this->serializableNormalizer->getType() . '+gzpress';
     }
 
+    #[\Override]
     public function normalize(mixed $object, ?string $format = null, array $context = []): string
     {
         $normalizedValue = $this->serializableNormalizer->normalize($object, $format, $context);
@@ -36,6 +38,7 @@ final class SerializableCompressNormalizer implements NormalizerInterface
         return $result;
     }
 
+    #[\Override]
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return $this->serializableNormalizer->supportsNormalization($data, $format);

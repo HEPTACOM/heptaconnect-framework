@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
 
 final class UsageStructCollection extends DatasetEntityCollection
 {
+    #[\Override]
     protected function getT(): string
     {
         return DatasetEntityContract::class;

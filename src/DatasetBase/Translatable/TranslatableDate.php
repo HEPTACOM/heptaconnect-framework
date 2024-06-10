@@ -11,6 +11,7 @@ use Heptacom\HeptaConnect\Utility\Date\Date;
  */
 final class TranslatableDate extends AbstractTranslatable
 {
+    #[\Override]
     protected function isValidValue(mixed $value): bool
     {
         return $value instanceof Date;

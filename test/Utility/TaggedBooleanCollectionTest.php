@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Utility\Test;
 
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection;
 use Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem;
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\BooleanCollection;
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedBooleanCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\BooleanCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedBooleanCollection
- */
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(AbstractTaggedCollection::class)]
+#[CoversClass(TagItem::class)]
+#[CoversClass(BooleanCollection::class)]
+#[CoversClass(TaggedBooleanCollection::class)]
 final class TaggedBooleanCollectionTest extends TestCase
 {
     use ProvidesBooleanTestsData;
     use ProvidesInvalidTestsData;
 
-    /**
-     * @dataProvider provideValidBooleanTestCases
-     */
+    #[DataProvider('provideValidBooleanTestCases')]
     public function testInsertTagOnCtor(bool $item): void
     {
         $tagged = new TaggedBooleanCollection([new TagItem(new BooleanCollection([$item]), 'randomoffset')]);
@@ -32,9 +32,7 @@ final class TaggedBooleanCollectionTest extends TestCase
         static::assertEquals($item, $tagged->offsetGet('randomoffset')->getCollection()->first());
     }
 
-    /**
-     * @dataProvider provideValidBooleanTestCases
-     */
+    #[DataProvider('provideValidBooleanTestCases')]
     public function testChangingCollection(bool $item): void
     {
         $tagged = new TaggedBooleanCollection();
@@ -45,9 +43,7 @@ final class TaggedBooleanCollectionTest extends TestCase
         static::assertCount(1, $tagged->offsetGet('randomoffset')->getCollection());
     }
 
-    /**
-     * @dataProvider provideValidBooleanTestCases
-     */
+    #[DataProvider('provideValidBooleanTestCases')]
     public function testGetTagItemAfterInserting(bool $item): void
     {
         $tagged = new TaggedBooleanCollection();
@@ -57,9 +53,7 @@ final class TaggedBooleanCollectionTest extends TestCase
         static::assertEquals($item, $tagged->offsetGet('randomoffset')->getCollection()->first());
     }
 
-    /**
-     * @dataProvider provideValidBooleanTestCases
-     */
+    #[DataProvider('provideValidBooleanTestCases')]
     public function testGetTagItemWithoutInsertingItFirst(bool $item): void
     {
         $tagged = new TaggedBooleanCollection();
@@ -76,9 +70,7 @@ final class TaggedBooleanCollectionTest extends TestCase
         static::assertTrue($tagged->offsetExists('1'));
     }
 
-    /**
-     * @dataProvider provideInvalidTestCases
-     */
+    #[DataProvider('provideInvalidTestCases')]
     public function testInsertOtherTypeInTypeCollection($item): void
     {
         $collection = new TaggedBooleanCollection();
@@ -86,9 +78,7 @@ final class TaggedBooleanCollectionTest extends TestCase
         static::assertCount(0, $collection);
     }
 
-    /**
-     * @dataProvider provideInvalidTestCases
-     */
+    #[DataProvider('provideInvalidTestCases')]
     public function testFailInsertOtherTypeInTypeCollection($item): void
     {
         static::expectException(\InvalidArgumentException::class);

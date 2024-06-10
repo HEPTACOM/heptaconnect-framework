@@ -10,18 +10,19 @@ use Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingContextFa
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReportingContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
-final class StatusReportingContextFactory implements StatusReportingContextFactoryInterface
+final readonly class StatusReportingContextFactory implements StatusReportingContextFactoryInterface
 {
     public function __construct(
         private ConfigurationServiceInterface $configurationService,
-        private PortalStackServiceContainerFactory $portalStackServiceContainerFactory
+        private PortalStackServiceContainerFactory $portalStackContainerFactory
     ) {
     }
 
+    #[\Override]
     public function factory(PortalNodeKeyInterface $portalNodeKey): StatusReportingContextInterface
     {
         return new StatusReportingContext(
-            $this->portalStackServiceContainerFactory->create($portalNodeKey),
+            $this->portalStackContainerFactory->create($portalNodeKey),
             $this->configurationService->getPortalNodeConfiguration($portalNodeKey)
         );
     }

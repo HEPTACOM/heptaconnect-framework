@@ -10,15 +10,13 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use Ramsey\Uuid\Uuid;
 
-final class Psr7MessageMultiPartFormDataBuilder implements Psr7MessageMultiPartFormDataBuilderInterface
+final readonly class Psr7MessageMultiPartFormDataBuilder implements Psr7MessageMultiPartFormDataBuilderInterface
 {
-    private StreamFactoryInterface $streamFactory;
-
-    public function __construct(StreamFactoryInterface $streamFactory)
+    public function __construct(private StreamFactoryInterface $streamFactory)
     {
-        $this->streamFactory = $streamFactory;
     }
 
+    #[\Override]
     public function build(MessageInterface $message, array $parameters): MessageInterface
     {
         \array_walk_recursive($parameters, static function ($parameter, $key): void {

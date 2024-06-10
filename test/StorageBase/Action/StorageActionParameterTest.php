@@ -4,10 +4,16 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Storage\Base\Test\Action;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionType;
 use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionTypeCollection;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalType;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\IdentityErrorKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -35,6 +41,7 @@ use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRe
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Delete\IdentityRedirectDeleteCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview\IdentityRedirectOverviewCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview\IdentityRedirectOverviewResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\Job\Contract\JobStateChangePayloadContract;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayloads;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreateResult;
@@ -53,6 +60,7 @@ use Heptacom\HeptaConnect\Storage\Base\Action\Job\Start\JobStartPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Start\JobStartResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Activate\PortalExtensionActivatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Activate\PortalExtensionActivateResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Contract\PortalExtensionActiveChangePayloadContract;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Deactivate\PortalExtensionDeactivatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Deactivate\PortalExtensionDeactivateResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Find\PortalExtensionFindResult;
@@ -84,6 +92,7 @@ use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Get\PortalNodeSt
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Get\PortalNodeStorageGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Listing\PortalNodeStorageListCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Listing\PortalNodeStorageListResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\PortalNodeStorageItemContract;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Set\PortalNodeStorageSetItem;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Set\PortalNodeStorageSetItems;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Set\PortalNodeStorageSetPayload;
@@ -117,125 +126,131 @@ use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\FirstEntity;
 use Heptacom\HeptaConnect\Storage\Base\Test\Fixture\Portal;
+use Heptacom\HeptaConnect\Utility\Attachment\AttachmentCollection;
 use Heptacom\HeptaConnect\Utility\Attachment\Contract\AttachmentAwareInterface;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract;
 use Heptacom\HeptaConnect\Utility\ClassString\UnsafeClassString;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
+use Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection;
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
- * @covers \Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionType
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
- * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestPersist\FileReferencePersistRequestPayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestPersist\FileReferencePersistRequestResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreatePayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreatePayloads
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityError\Create\IdentityErrorCreateResults
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreatePayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreatePayloadCollection
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreateResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreateResultCollection
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Delete\IdentityRedirectDeleteCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview\IdentityRedirectOverviewCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview\IdentityRedirectOverviewResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Map\IdentityMapPayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Map\IdentityMapResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Overview\IdentityOverviewCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Overview\IdentityOverviewResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPayloadCollection
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Identity\Reflect\IdentityReflectPayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Contract\JobStateChangePayloadContract
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreatePayloads
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreateResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Create\JobCreateResults
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Delete\JobDeleteCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Fail\JobFailPayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Fail\JobFailResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Finish\JobFinishPayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Finish\JobFinishResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Get\JobGetCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Get\JobGetResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Listing\JobListFinishedResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Schedule\JobSchedulePayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Schedule\JobScheduleResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Start\JobStartPayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Job\Start\JobStartResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Activate\PortalExtensionActivatePayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Activate\PortalExtensionActivateResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Contract\PortalExtensionActiveChangePayloadContract
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Deactivate\PortalExtensionDeactivatePayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Deactivate\PortalExtensionDeactivateResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Find\PortalExtensionFindResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Find\PortalNodeAliasFindCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Find\PortalNodeAliasFindResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Get\PortalNodeAliasGetCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Get\PortalNodeAliasGetResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Overview\PortalNodeAliasOverviewCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Overview\PortalNodeAliasOverviewResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Set\PortalNodeAliasSetPayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Set\PortalNodeAliasSetPayloads
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Get\PortalNodeConfigurationGetCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Get\PortalNodeConfigurationGetResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Set\PortalNodeConfigurationSetPayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeConfiguration\Set\PortalNodeConfigurationSetPayloads
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Clear\PortalNodeStorageClearCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Delete\PortalNodeStorageDeleteCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Get\PortalNodeStorageGetCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Get\PortalNodeStorageGetResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Listing\PortalNodeStorageListCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Listing\PortalNodeStorageListResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\PortalNodeStorageItemContract
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Set\PortalNodeStorageSetItem
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Set\PortalNodeStorageSetItems
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeStorage\Set\PortalNodeStorageSetPayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayloads
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreateResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreateResults
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Delete\PortalNodeDeleteCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Listing\PortalNodeListResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Overview\PortalNodeOverviewCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Overview\PortalNodeOverviewResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\RouteCapability\Overview\RouteCapabilityOverviewCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\RouteCapability\Overview\RouteCapabilityOverviewResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayloads
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResults
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Delete\RouteDeleteCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Find\RouteFindCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Find\RouteFindResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Get\RouteGetCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Get\RouteGetResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Listing\ReceptionRouteListCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Listing\ReceptionRouteListResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview\RouteOverviewCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview\RouteOverviewResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayloads
- * @covers \Heptacom\HeptaConnect\Storage\Base\IdentityRedirectKeyCollection
- * @covers \Heptacom\HeptaConnect\Utility\Attachment\AttachmentCollection
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection
- */
+#[CoversClass(DatasetEntityContract::class)]
+#[CoversClass(EntityType::class)]
+#[CoversClass(MappingComponentStruct::class)]
+#[CoversClass(PortalContract::class)]
+#[CoversClass(PortalExtensionContract::class)]
+#[CoversClass(PortalExtensionType::class)]
+#[CoversClass(PortalType::class)]
+#[CoversClass(HttpHandlerStackIdentifier::class)]
+#[CoversClass(FileReferenceGetRequestCriteria::class)]
+#[CoversClass(FileReferenceGetRequestResult::class)]
+#[CoversClass(FileReferencePersistRequestPayload::class)]
+#[CoversClass(FileReferencePersistRequestResult::class)]
+#[CoversClass(IdentityErrorCreatePayload::class)]
+#[CoversClass(IdentityErrorCreatePayloads::class)]
+#[CoversClass(IdentityErrorCreateResult::class)]
+#[CoversClass(IdentityErrorCreateResults::class)]
+#[CoversClass(IdentityRedirectCreatePayload::class)]
+#[CoversClass(IdentityRedirectCreatePayloadCollection::class)]
+#[CoversClass(IdentityRedirectCreateResult::class)]
+#[CoversClass(IdentityRedirectCreateResultCollection::class)]
+#[CoversClass(IdentityRedirectDeleteCriteria::class)]
+#[CoversClass(IdentityRedirectOverviewCriteria::class)]
+#[CoversClass(IdentityRedirectOverviewResult::class)]
+#[CoversClass(IdentityMapPayload::class)]
+#[CoversClass(IdentityMapResult::class)]
+#[CoversClass(IdentityOverviewCriteria::class)]
+#[CoversClass(IdentityOverviewResult::class)]
+#[CoversClass(IdentityPersistPayload::class)]
+#[CoversClass(IdentityPersistPayloadCollection::class)]
+#[CoversClass(IdentityReflectPayload::class)]
+#[CoversClass(JobStateChangePayloadContract::class)]
+#[CoversClass(JobCreatePayload::class)]
+#[CoversClass(JobCreatePayloads::class)]
+#[CoversClass(JobCreateResult::class)]
+#[CoversClass(JobCreateResults::class)]
+#[CoversClass(JobDeleteCriteria::class)]
+#[CoversClass(JobFailPayload::class)]
+#[CoversClass(JobFailResult::class)]
+#[CoversClass(JobFinishPayload::class)]
+#[CoversClass(JobFinishResult::class)]
+#[CoversClass(JobGetCriteria::class)]
+#[CoversClass(JobGetResult::class)]
+#[CoversClass(JobListFinishedResult::class)]
+#[CoversClass(JobSchedulePayload::class)]
+#[CoversClass(JobScheduleResult::class)]
+#[CoversClass(JobStartPayload::class)]
+#[CoversClass(JobStartResult::class)]
+#[CoversClass(PortalExtensionActivatePayload::class)]
+#[CoversClass(PortalExtensionActivateResult::class)]
+#[CoversClass(PortalExtensionActiveChangePayloadContract::class)]
+#[CoversClass(PortalExtensionDeactivatePayload::class)]
+#[CoversClass(PortalExtensionDeactivateResult::class)]
+#[CoversClass(PortalExtensionFindResult::class)]
+#[CoversClass(PortalNodeAliasFindCriteria::class)]
+#[CoversClass(PortalNodeAliasFindResult::class)]
+#[CoversClass(PortalNodeAliasGetCriteria::class)]
+#[CoversClass(PortalNodeAliasGetResult::class)]
+#[CoversClass(PortalNodeAliasOverviewCriteria::class)]
+#[CoversClass(PortalNodeAliasOverviewResult::class)]
+#[CoversClass(PortalNodeAliasSetPayload::class)]
+#[CoversClass(PortalNodeAliasSetPayloads::class)]
+#[CoversClass(PortalNodeConfigurationGetCriteria::class)]
+#[CoversClass(PortalNodeConfigurationGetResult::class)]
+#[CoversClass(PortalNodeConfigurationSetPayload::class)]
+#[CoversClass(PortalNodeConfigurationSetPayloads::class)]
+#[CoversClass(PortalNodeStorageClearCriteria::class)]
+#[CoversClass(PortalNodeStorageDeleteCriteria::class)]
+#[CoversClass(PortalNodeStorageGetCriteria::class)]
+#[CoversClass(PortalNodeStorageGetResult::class)]
+#[CoversClass(PortalNodeStorageListCriteria::class)]
+#[CoversClass(PortalNodeStorageListResult::class)]
+#[CoversClass(PortalNodeStorageItemContract::class)]
+#[CoversClass(PortalNodeStorageSetItem::class)]
+#[CoversClass(PortalNodeStorageSetItems::class)]
+#[CoversClass(PortalNodeStorageSetPayload::class)]
+#[CoversClass(PortalNodeCreatePayload::class)]
+#[CoversClass(PortalNodeCreatePayloads::class)]
+#[CoversClass(PortalNodeCreateResult::class)]
+#[CoversClass(PortalNodeCreateResults::class)]
+#[CoversClass(PortalNodeDeleteCriteria::class)]
+#[CoversClass(PortalNodeGetCriteria::class)]
+#[CoversClass(PortalNodeGetResult::class)]
+#[CoversClass(PortalNodeListResult::class)]
+#[CoversClass(PortalNodeOverviewCriteria::class)]
+#[CoversClass(PortalNodeOverviewResult::class)]
+#[CoversClass(RouteCapabilityOverviewCriteria::class)]
+#[CoversClass(RouteCapabilityOverviewResult::class)]
+#[CoversClass(RouteCreatePayload::class)]
+#[CoversClass(RouteCreatePayloads::class)]
+#[CoversClass(RouteCreateResult::class)]
+#[CoversClass(RouteCreateResults::class)]
+#[CoversClass(RouteDeleteCriteria::class)]
+#[CoversClass(RouteFindCriteria::class)]
+#[CoversClass(RouteFindResult::class)]
+#[CoversClass(RouteGetCriteria::class)]
+#[CoversClass(RouteGetResult::class)]
+#[CoversClass(ReceptionRouteListCriteria::class)]
+#[CoversClass(ReceptionRouteListResult::class)]
+#[CoversClass(RouteOverviewCriteria::class)]
+#[CoversClass(RouteOverviewResult::class)]
+#[CoversClass(WebHttpHandlerConfigurationFindCriteria::class)]
+#[CoversClass(WebHttpHandlerConfigurationFindResult::class)]
+#[CoversClass(WebHttpHandlerConfigurationSetPayload::class)]
+#[CoversClass(WebHttpHandlerConfigurationSetPayloads::class)]
+#[CoversClass(IdentityRedirectKeyCollection::class)]
+#[CoversClass(AttachmentCollection::class)]
+#[CoversClass(ClassStringContract::class)]
+#[CoversClass(ClassStringReferenceContract::class)]
+#[CoversClass(SubtypeClassStringContract::class)]
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(AbstractObjectCollection::class)]
+#[CoversClass(AbstractTaggedCollection::class)]
 class StorageActionParameterTest extends TestCase
 {
     public function testAttachabilityOfStorageActionStructs(): void

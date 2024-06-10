@@ -41,6 +41,7 @@ use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalA\PortalA;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalB\PortalB;
 use Heptacom\HeptaConnect\TestSuite\Storage\Fixture\Portal\PortalC\PortalC;
 use Heptacom\HeptaConnect\TestSuite\Storage\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test pre-implementation to test identity/entity mapping related storage actions. Some other storage actions e.g. PortalNodeCreate are needed to set up test scenarios.
@@ -63,10 +64,9 @@ abstract class IdentityMappingTestContract extends TestCase
 
     private IdentityRedirectDeleteActionInterface $identityRedirectDelete;
 
+    #[\Override]
     protected function setUp(): void
     {
-        parent::setUp();
-
         $facade = $this->createStorageFacade();
         $portalNodeCreate = $facade->getPortalNodeCreateAction();
         $portalNodeGet = $facade->getPortalNodeGetAction();
@@ -103,6 +103,7 @@ abstract class IdentityMappingTestContract extends TestCase
         static::assertCount($createPayloads->count(), $createResults);
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         $facade = $this->createStorageFacade();
@@ -125,17 +126,14 @@ abstract class IdentityMappingTestContract extends TestCase
         $this->portalA = null;
         $this->portalB = null;
         $this->portalC = null;
-
-        parent::tearDown();
     }
 
     /**
      * Test identification of entities and their primary keys in the identity storage of mapping and mappings nodes.
      *
      * @param class-string<DatasetEntityContract> $entityClass
-     *
-     * @dataProvider provideEntityClasses
      */
+    #[DataProvider('provideEntityClasses')]
     public function testIdentityMap(string $entityClass): void
     {
         $facade = $this->createStorageFacade();
@@ -170,9 +168,8 @@ abstract class IdentityMappingTestContract extends TestCase
      * The focus is on the transfer from one portal node to another.
      *
      * @param class-string<DatasetEntityContract> $entityClass
-     *
-     * @dataProvider provideEntityClasses
      */
+    #[DataProvider('provideEntityClasses')]
     public function testIdentityMapTwice(string $entityClass): void
     {
         $facade = $this->createStorageFacade();
@@ -210,9 +207,8 @@ abstract class IdentityMappingTestContract extends TestCase
      * The focus is on finding matches mappings on both portal nodes..
      *
      * @param class-string<DatasetEntityContract> $entityClass
-     *
-     * @dataProvider provideEntityClasses
      */
+    #[DataProvider('provideEntityClasses')]
     public function testReflectFromPortalNodeAToB(string $entityClass): void
     {
         $sourceId = 'e9011418-5535-4180-93e9-94b44cc3e28d';
@@ -258,9 +254,8 @@ abstract class IdentityMappingTestContract extends TestCase
      * The focus is on the creation of mappings, when unmapped entities are about to be reflected.
      *
      * @param class-string<DatasetEntityContract> $entityClass
-     *
-     * @dataProvider provideEntityClasses
      */
+    #[DataProvider('provideEntityClasses')]
     public function testReflectFromPortalNodeAToBWhereNoMappingsAreInTheStorage(string $entityClass): void
     {
         $sourceId = 'e9011418-5535-4180-93e9-94b44cc3e28d';
@@ -305,9 +300,8 @@ abstract class IdentityMappingTestContract extends TestCase
      * The focus is on the transfer of multiple entities at once.
      *
      * @param class-string<DatasetEntityContract> $entityClass
-     *
-     * @dataProvider provideEntityClasses
      */
+    #[DataProvider('provideEntityClasses')]
     public function testReflectTwoEntitiesOfSameTypeFromPortalNodeAToB(string $entityClass): void
     {
         $sourceId1 = 'c1870a69-e409-4dbc-be22-d7ac1071cb0c';
@@ -358,11 +352,11 @@ abstract class IdentityMappingTestContract extends TestCase
             }
         }
 
+        unset($mappedEntity);
         static::assertCount(2, $identityPersistPayloadCollection);
         static::assertCount(2, $switchCases);
 
         $this->persistIdentity($this->getPortalNodeB(), $identityPersistPayloadCollection);
-
         // this is what we test here
         $this->getIdentityReflect()->reflect(new IdentityReflectPayload($this->getPortalNodeB(), $mappedEntities));
 
@@ -389,6 +383,7 @@ abstract class IdentityMappingTestContract extends TestCase
             }
         }
 
+        unset($mappedEntity);
         static::assertCount(2, $switchCases);
         static::assertInstanceOf(MappedDatasetEntityStruct::class, $mappedEntity1);
         static::assertInstanceOf(MappedDatasetEntityStruct::class, $mappedEntity2);
@@ -412,9 +407,8 @@ abstract class IdentityMappingTestContract extends TestCase
      * The focus is on the transfer from one portal node to another but with identities in a third portal node that must not impact the process.
      *
      * @param class-string<DatasetEntityContract> $entityClass
-     *
-     * @dataProvider provideEntityClasses
      */
+    #[DataProvider('provideEntityClasses')]
     public function testReflectEntityFromPortalNodeAToBAndAlsoExistsInC(string $entityClass): void
     {
         $sourceId = 'ec7587bb-0ee0-4b7e-a980-1c258695e011';
@@ -456,9 +450,8 @@ abstract class IdentityMappingTestContract extends TestCase
      * The focus is on the transfer of new entities for the target portal node.
      *
      * @param class-string<DatasetEntityContract> $entityClass
-     *
-     * @dataProvider provideEntityClasses
      */
+    #[DataProvider('provideEntityClasses')]
     public function testReflectEntityFromPortalNodeAToBButItIsNewInB(string $entityClass): void
     {
         $sourceId = 'ce909bf3-6564-47dd-ad81-c3a94bc1aad0';
@@ -575,22 +568,15 @@ abstract class IdentityMappingTestContract extends TestCase
             $identifiedEntity = $mappedEntity->getDatasetEntity();
             $mappingNodeKey = $mappedEntity->getMapping()->getMappingNodeKey();
 
-            switch ($identifiedEntity->getPrimaryKey()) {
-                case $sourceId1:
-                    $identityPersistPayloadCollection->push([
-                        new IdentityPersistCreatePayload($mappingNodeKey, $unwantedTargetId1),
-                    ]);
-
-                    break;
-                case $sourceId2:
-                    $identityPersistPayloadCollection->push([
-                        new IdentityPersistCreatePayload($mappingNodeKey, $unwantedTargetId2),
-                    ]);
-
-                    break;
-                default:
-                    static::fail('Entity was not identified correctly.');
-            }
+            match ($identifiedEntity->getPrimaryKey()) {
+                $sourceId1 => $identityPersistPayloadCollection->push([
+                    new IdentityPersistCreatePayload($mappingNodeKey, $unwantedTargetId1),
+                ]),
+                $sourceId2 => $identityPersistPayloadCollection->push([
+                    new IdentityPersistCreatePayload($mappingNodeKey, $unwantedTargetId2),
+                ]),
+                default => static::fail('Entity was not identified correctly.'),
+            };
         }
 
         static::assertCount(2, $identityPersistPayloadCollection);
@@ -624,7 +610,7 @@ abstract class IdentityMappingTestContract extends TestCase
      *
      * @return iterable<int, class-string<DatasetEntityContract>[]>
      */
-    public function provideEntityClasses(): iterable
+    public static function provideEntityClasses(): iterable
     {
         yield [EntityA::class];
         yield [EntityB::class];

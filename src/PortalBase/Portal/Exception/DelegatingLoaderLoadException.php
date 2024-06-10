@@ -6,14 +6,13 @@ namespace Heptacom\HeptaConnect\Portal\Base\Portal\Exception;
 
 final class DelegatingLoaderLoadException extends \Exception
 {
-    private string $path;
-
-    public function __construct(string $path, int $code, ?\Throwable $previous = null)
-    {
-        $this->path = $path;
-
+    public function __construct(
+        private readonly string $path,
+        int $code,
+        ?\Throwable $previous = null
+    ) {
         parent::__construct(
-            \sprintf('Exception when loading container service file from path %s', $path),
+            \sprintf('Exception when loading container service file from path %s', $this->path),
             $code,
             $previous
         );

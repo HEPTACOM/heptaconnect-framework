@@ -14,13 +14,14 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 
-final class PackageQueryMatcher implements PackageQueryMatcherInterface
+final readonly class PackageQueryMatcher implements PackageQueryMatcherInterface
 {
     public function __construct(
         private StorageKeyGeneratorContract $storageKeyGenerator
     ) {
     }
 
+    #[\Override]
     public function matchPortalNodeKeys(string $query, PortalNodeKeyCollection $portalNodeKeys): PortalNodeKeyCollection
     {
         if (\class_exists($query) || \interface_exists($query)) {
@@ -47,6 +48,7 @@ final class PackageQueryMatcher implements PackageQueryMatcherInterface
         }
     }
 
+    #[\Override]
     public function matchPortals(string $query, PortalCollection $portals): PortalCollection
     {
         if (!\class_exists($query) && !\interface_exists($query)) {
@@ -58,6 +60,7 @@ final class PackageQueryMatcher implements PackageQueryMatcherInterface
         );
     }
 
+    #[\Override]
     public function matchPortalExtensions(string $query, PortalExtensionCollection $portalExtensions): PortalExtensionCollection
     {
         if (!\class_exists($query) && !\interface_exists($query)) {

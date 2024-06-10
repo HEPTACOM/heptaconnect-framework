@@ -15,6 +15,7 @@ final class IdentityErrorCreateResults extends AbstractObjectCollection implemen
 {
     use AttachmentAwareTrait;
 
+    #[\Override]
     protected function getT(): string
     {
         return IdentityErrorCreateResult::class;

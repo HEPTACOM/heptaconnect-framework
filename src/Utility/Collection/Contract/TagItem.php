@@ -23,7 +23,7 @@ final class TagItem implements \JsonSerializable
     }
 
     /**
-     * @psalm-return CollectionInterface<T>
+     * @return CollectionInterface<T>
      */
     public function getCollection(): CollectionInterface
     {
@@ -31,9 +31,9 @@ final class TagItem implements \JsonSerializable
     }
 
     /**
-     * @psalm-param CollectionInterface<T> $collection
+     * @param CollectionInterface<T> $collection
      *
-     * @psalm-return TagItem<T>
+     * @return TagItem<T>
      */
     public function setCollection(CollectionInterface $collection): self
     {

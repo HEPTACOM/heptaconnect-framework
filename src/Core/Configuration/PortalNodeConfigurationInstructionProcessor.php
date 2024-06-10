@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Core\Configuration;
 
 use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\ClosureInstructionToken;
 use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\Contract\InstructionLoaderInterface;
-use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\Contract\InstructionTokenContract;
+use Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\InstructionTokenCollection;
 use Heptacom\HeptaConnect\Core\Configuration\Contract\PortalNodeConfigurationProcessorInterface;
 use Heptacom\HeptaConnect\Core\Portal\Contract\PackageQueryMatcherInterface;
 use Heptacom\HeptaConnect\Core\Portal\Contract\PortalRegistryInterface;
@@ -15,33 +15,28 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Psr\Log\LoggerInterface;
 
-/**
- * @SuppressWarnings(PHPMD.LongClassName)
- */
 final class PortalNodeConfigurationInstructionProcessor implements PortalNodeConfigurationProcessorInterface
 {
-    /**
-     * @var InstructionTokenContract[]|null
-     */
-    private ?array $instructions = null;
+    private ?InstructionTokenCollection $instructions = null;
 
     /**
      * @var InstructionLoaderInterface[]
      */
-    private array $instructionLoaders;
+    private readonly array $instructionLoaders;
 
     /**
      * @param iterable<InstructionLoaderInterface> $instructionLoaders
      */
     public function __construct(
-        private LoggerInterface $logger,
-        private PortalRegistryInterface $portalRegistry,
-        private PackageQueryMatcherInterface $packageQueryMatcher,
+        private readonly LoggerInterface $logger,
+        private readonly PortalRegistryInterface $portalRegistry,
+        private readonly PackageQueryMatcherInterface $packageQueryMatcher,
         iterable $instructionLoaders
     ) {
         $this->instructionLoaders = \iterable_to_array($instructionLoaders);
     }
 
+    #[\Override]
     public function read(PortalNodeKeyInterface $portalNodeKey, \Closure $read): array
     {
         $instructions = $this->filterInstructions($portalNodeKey);
@@ -58,17 +53,15 @@ final class PortalNodeConfigurationInstructionProcessor implements PortalNodeCon
         return $readConfig();
     }
 
+    #[\Override]
     public function write(PortalNodeKeyInterface $portalNodeKey, array $payload, \Closure $write): void
     {
         $write($payload);
     }
 
-    /**
-     * @return InstructionTokenContract[]
-     */
-    private function filterInstructions(PortalNodeKeyInterface $portalNodeKey): array
+    private function filterInstructions(PortalNodeKeyInterface $portalNodeKey): InstructionTokenCollection
     {
-        $result = [];
+        $result = new InstructionTokenCollection();
         $portalExtensions = null;
 
         foreach ($this->getInstructions() as $instruction) {
@@ -78,7 +71,7 @@ final class PortalNodeConfigurationInstructionProcessor implements PortalNodeCon
             ]));
 
             if ($matchedKeys->count() > 0) {
-                $result[] = $instruction;
+                $result->push([$instruction]);
 
                 continue;
             }
@@ -89,39 +82,33 @@ final class PortalNodeConfigurationInstructionProcessor implements PortalNodeCon
             ]));
 
             if ($matchedPortals->count() > 0) {
-                $result[] = $instruction;
+                $result->push([$instruction]);
 
                 continue;
             }
 
-            $matchedPortalExtensions = $this->packageQueryMatcher->matchPortalExtensions($query, $portalExtensions);
+            $matchedExtensions = $this->packageQueryMatcher->matchPortalExtensions($query, $portalExtensions);
 
-            if ($matchedPortalExtensions->count() > 0) {
-                $result[] = $instruction;
+            if ($matchedExtensions->count() > 0) {
+                $result->push([$instruction]);
             }
         }
 
         return $result;
     }
 
-    /**
-     * @return InstructionTokenContract[]
-     */
-    private function getInstructions(): array
+    private function getInstructions(): InstructionTokenCollection
     {
         return $this->instructions ??= $this->loadInstructions();
     }
 
-    /**
-     * @return InstructionTokenContract[]
-     */
-    private function loadInstructions(): array
+    private function loadInstructions(): InstructionTokenCollection
     {
-        $result = [];
+        $result = new InstructionTokenCollection();
 
         foreach ($this->instructionLoaders as $instructionLoader) {
             try {
-                $result[] = $instructionLoader->loadInstructions();
+                $result->push($instructionLoader->loadInstructions());
             } catch (\Throwable $throwable) {
                 $this->logger->critical('Failed loading instructions', [
                     'class' => $instructionLoader::class,
@@ -131,6 +118,6 @@ final class PortalNodeConfigurationInstructionProcessor implements PortalNodeCon
             }
         }
 
-        return \array_merge([], ...$result);
+        return $result;
     }
 }

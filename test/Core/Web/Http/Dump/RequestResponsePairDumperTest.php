@@ -12,33 +12,30 @@ use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageFormatterCont
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\ServerRequestCycle;
 use Http\Discovery\Psr17FactoryDiscovery;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Web\Http\Dump\ServerRequestCycleDumper
- * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier
- * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\ServerRequestCycle
- */
+#[CoversClass(ServerRequestCycleDumper::class)]
+#[CoversClass(HttpHandlerStackIdentifier::class)]
+#[CoversClass(ServerRequestCycle::class)]
 final class RequestResponsePairDumperTest extends TestCase
 {
     private const DUMP_DIR = __DIR__ . '/../../../Fixture/_files/http_handle_dump_dir';
 
+    #[\Override]
     protected function setUp(): void
     {
-        parent::setUp();
-
         foreach ($this->getDumpedFiles() as $file) {
             \unlink(static::DUMP_DIR . '/' . $file);
         }
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
-        parent::tearDown();
-
         foreach ($this->getDumpedFiles() as $file) {
             \unlink(static::DUMP_DIR . '/' . $file);
         }

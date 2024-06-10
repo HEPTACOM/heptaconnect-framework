@@ -6,11 +6,11 @@ namespace Heptacom\HeptaConnect\Portal\Base\Builder\Exception;
 
 class InvalidResultException extends \RuntimeException
 {
-    private string $flowComponent;
+    private readonly string $flowComponent;
 
-    private string $method;
+    private readonly string $method;
 
-    private string $expected;
+    private readonly string $expected;
 
     public function __construct(
         int $code,

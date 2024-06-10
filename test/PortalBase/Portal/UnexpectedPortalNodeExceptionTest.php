@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Portal;
 
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnexpectedPortalNodeException;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\Portal;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Exception\UnexpectedPortalNodeException
- */
+#[CoversClass(PackageContract::class)]
+#[CoversClass(UnexpectedPortalNodeException::class)]
 final class UnexpectedPortalNodeExceptionTest extends TestCase
 {
     public function testExceptionDetectsTypeCorrectly(): void

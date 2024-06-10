@@ -8,25 +8,30 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Dataset\Base\EntityTypeCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Test\Fixture\SerializationDatasetEntity;
+use Heptacom\HeptaConnect\Utility\ClassString\AbstractClassStringReferenceCollection;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract;
 use Heptacom\HeptaConnect\Utility\ClassString\Exception\InvalidClassNameException;
 use Heptacom\HeptaConnect\Utility\ClassString\Exception\InvalidSubtypeClassNameException;
 use Heptacom\HeptaConnect\Utility\ClassString\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
- * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityTypeCollection
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\AbstractClassStringReferenceCollection
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Exception\InvalidClassNameException
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Exception\InvalidSubtypeClassNameException
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
- */
+#[CoversClass(DatasetEntityContract::class)]
+#[CoversClass(EntityType::class)]
+#[CoversClass(EntityTypeCollection::class)]
+#[CoversClass(AbstractClassStringReferenceCollection::class)]
+#[CoversClass(ClassStringContract::class)]
+#[CoversClass(ClassStringReferenceContract::class)]
+#[CoversClass(SubtypeClassStringContract::class)]
+#[CoversClass(InvalidClassNameException::class)]
+#[CoversClass(InvalidSubtypeClassNameException::class)]
+#[CoversClass(UnexpectedLeadingNamespaceSeparatorInClassNameException::class)]
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(AbstractObjectCollection::class)]
 final class EntityTypeTest extends TestCase
 {
     public function testNoExceptionOnValidClassString(): void

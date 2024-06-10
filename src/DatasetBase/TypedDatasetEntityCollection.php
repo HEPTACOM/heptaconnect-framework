@@ -11,10 +11,10 @@ use Heptacom\HeptaConnect\Utility\ClassString\Exception\UnexpectedLeadingNamespa
 
 final class TypedDatasetEntityCollection extends DatasetEntityCollection
 {
-    private EntityType $type;
+    private readonly EntityType $type;
 
     /**
-     * @psalm-param class-string<DatasetEntityContract>|EntityType $type
+     * @phpstan-param class-string<DatasetEntityContract>|EntityType $type
      *
      * @param iterable<DatasetEntityContract> $items
      *
@@ -32,7 +32,7 @@ final class TypedDatasetEntityCollection extends DatasetEntityCollection
     /**
      * @deprecated use @see getEntityType instead
      *
-     * @psalm-return class-string<DatasetEntityContract>
+     * @phpstan-return class-string<DatasetEntityContract>
      */
     public function getType(): string
     {
@@ -44,6 +44,7 @@ final class TypedDatasetEntityCollection extends DatasetEntityCollection
         return $this->type;
     }
 
+    #[\Override]
     protected function isValidItem(mixed $item): bool
     {
         return parent::isValidItem($item) && $this->type->isObjectOfType($item);

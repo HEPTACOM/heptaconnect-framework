@@ -33,11 +33,13 @@ final class HttpHandlerStack implements HttpHandlerStackInterface, LoggerAwareIn
         $this->logger = new NullLogger();
     }
 
+    #[\Override]
     public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
     }
 
+    #[\Override]
     public function next(
         ServerRequestInterface $request,
         ResponseInterface $response,

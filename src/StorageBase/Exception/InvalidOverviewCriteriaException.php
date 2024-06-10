@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Overview\OverviewCriteria
 class InvalidOverviewCriteriaException extends \RuntimeException
 {
     public function __construct(
-        private OverviewCriteriaContract $criteria,
+        private readonly OverviewCriteriaContract $criteria,
         int $code,
         ?\Throwable $throwable = null
     ) {

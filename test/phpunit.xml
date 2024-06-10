@@ -1,18 +1,16 @@
+<?xml version="1.0"?>
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../vendor/phpunit/phpunit/phpunit.xsd"
     beStrictAboutChangesToGlobalState="true"
-    beStrictAboutCoversAnnotation="true"
     beStrictAboutOutputDuringTests="true"
-    beStrictAboutResourceUsageDuringSmallTests="true"
-    beStrictAboutTodoAnnotatedTests="true"
     bootstrap="../vendor/autoload.php"
-    cacheResultFile="../.build/.phpunit/unit.cache"
     colors="true"
     columns="max"
     executionOrder="random"
-    verbose="true"
-    forceCoversAnnotation="true"
+    cacheDirectory="../.build/.phpunit.cache"
+    requireCoverageMetadata="true"
+    beStrictAboutCoverageMetadata="true"
 >
     <testsuites>
         <testsuite name="Core Tests">
@@ -27,17 +25,17 @@
         <testsuite name="Storage Base Tests">
             <directory>StorageBase</directory>
         </testsuite>
+        <testsuite name="Utility Tests">
+            <directory>Utility</directory>
+        </testsuite>
     </testsuites>
-    <coverage
-        includeUncoveredFiles="true"
-        pathCoverage="true"
-        processUncoveredFiles="true"
-    >
+    <source>
         <include>
-            <directory suffix=".php">../src/Core/</directory>
-            <directory suffix=".php">../src/DatasetBase/</directory>
-            <directory suffix=".php">../src/PortalBase/</directory>
-            <directory suffix=".php">../src/StorageBase/</directory>
+            <directory>../src/Core/</directory>
+            <directory>../src/DatasetBase/</directory>
+            <directory>../src/PortalBase/</directory>
+            <directory>../src/StorageBase/</directory>
+            <directory>../src/Utility/</directory>
         </include>
-    </coverage>
+    </source>
 </phpunit>

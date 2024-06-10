@@ -11,6 +11,7 @@ use Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection;
  */
 final class TaggedIntegerCollection extends AbstractTaggedCollection
 {
+    #[\Override]
     protected function getCollectionType(): string
     {
         return IntegerCollection::class;

@@ -11,10 +11,11 @@ use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerStackInterfac
 final class FooBarExplorer extends ExplorerContract
 {
     public function __construct(
-        private int $count
+        private readonly int $count
     ) {
     }
 
+    #[\Override]
     public function explore(ExploreContextInterface $context, ExplorerStackInterface $stack): iterable
     {
         for ($c = 0; $c < $this->count; ++$c) {
@@ -24,6 +25,7 @@ final class FooBarExplorer extends ExplorerContract
         yield from $this->exploreNext($context, $stack);
     }
 
+    #[\Override]
     public function supports(): string
     {
         return FooBarEntity::class;

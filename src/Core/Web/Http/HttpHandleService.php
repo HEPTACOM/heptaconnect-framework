@@ -27,9 +27,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
 
-/**
- * @SuppressWarnings(PHPMD.ExcessiveParameterList)
- */
 final class HttpHandleService implements HttpHandleServiceInterface
 {
     /**
@@ -43,19 +40,20 @@ final class HttpHandleService implements HttpHandleServiceInterface
     private array $contextCache = [];
 
     public function __construct(
-        private HttpHandlerStackProcessorInterface $stackProcessor,
-        private HttpHandleContextFactoryInterface $contextFactory,
-        private LoggerInterface $logger,
-        private HttpHandlerStackBuilderFactoryInterface $stackBuilderFactory,
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private ResponseFactoryInterface $responseFactory,
-        private WebHttpHandlerConfigurationFindActionInterface $httpHandlerConfigurationFindAction,
-        private HttpHandleFlowHttpHandlersFactoryInterface $httpHandleFlowHttpHandlersFactory,
-        private ServerRequestCycleDumpCheckerInterface $dumpChecker,
-        private ServerRequestCycleDumperInterface $requestResponsePairDumper
+        private readonly HttpHandlerStackProcessorInterface $stackProcessor,
+        private readonly HttpHandleContextFactoryInterface $contextFactory,
+        private readonly LoggerInterface $logger,
+        private readonly HttpHandlerStackBuilderFactoryInterface $stackBuilderFactory,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly ResponseFactoryInterface $responseFactory,
+        private readonly WebHttpHandlerConfigurationFindActionInterface $httpHandlerConfigurationFindAction,
+        private readonly HttpHandleFlowHttpHandlersFactoryInterface $httpHandleFlowHttpHandlersFactory,
+        private readonly ServerRequestCycleDumpCheckerInterface $dumpChecker,
+        private readonly ServerRequestCycleDumperInterface $requestResponsePairDumper
     ) {
     }
 
+    #[\Override]
     public function handle(ServerRequestInterface $request, PortalNodeKeyInterface $portalNodeKey): ResponseInterface
     {
         $httpHandlerStackIdentifier = new HttpHandlerStackIdentifier(

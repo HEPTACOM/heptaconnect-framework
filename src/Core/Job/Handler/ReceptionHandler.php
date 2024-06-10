@@ -39,13 +39,7 @@ use Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Lock\LockFactory;
 
-/**
- * @SuppressWarnings(PHPMD.CyclomaticComplexity)
- * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
- * @SuppressWarnings(PHPMD.ExcessiveParameterList)
- * @SuppressWarnings(PHPMD.NPathComplexity)
- */
-final class ReceptionHandler implements ReceptionHandlerInterface
+final readonly class ReceptionHandler implements ReceptionHandlerInterface
 {
     public function __construct(
         private LockFactory $lockFactory,
@@ -62,6 +56,7 @@ final class ReceptionHandler implements ReceptionHandlerInterface
     ) {
     }
 
+    #[\Override]
     public function triggerReception(JobDataCollection $jobs): void
     {
         $receptions = [];
@@ -145,8 +140,8 @@ final class ReceptionHandler implements ReceptionHandlerInterface
         }
 
         foreach ($receptions as $dataType => $portaledEntities) {
-            foreach ($portaledEntities as $targetPortalKey => $sourcePortaledEntities) {
-                foreach ($sourcePortaledEntities as $sourcePortalKey => $entityGroups) {
+            foreach ($portaledEntities as $targetPortalKey => $sourceEntities) {
+                foreach ($sourceEntities as $sourcePortalKey => $entityGroups) {
                     foreach ($entityGroups as $externalId => $entityGroup) {
                         $lock = $this->lockFactory->createLock('ca9137ba5ec646078043b96030a00e70_' . \md5(\implode('_', [
                             $sourcePortalKey,
@@ -183,11 +178,11 @@ final class ReceptionHandler implements ReceptionHandlerInterface
                     $rawEntities = \array_merge([], ...$rawEntityGroups);
                     $jobKeys = new JobKeyCollection(\array_merge(...$jobKeyGroups));
 
-                    $filteredEntityObjects = new DatasetEntityCollection();
-                    $filteredEntityObjects->pushIgnoreInvalidItems($this->objectIterator->iterate($rawEntities));
+                    $filteredEntities = new DatasetEntityCollection();
+                    $filteredEntities->pushIgnoreInvalidItems($this->objectIterator->iterate($rawEntities));
                     // TODO inspect memory raise - probably fixed by new storage
                     $mappedEntities = $this->identityMapAction
-                        ->map(new IdentityMapPayload($sourcePortalNodeKey, $filteredEntityObjects))
+                        ->map(new IdentityMapPayload($sourcePortalNodeKey, $filteredEntities))
                         ->getMappedDatasetEntityCollection();
                     $this->identityReflectAction->reflect(new IdentityReflectPayload($targetPortalNodeKey, $mappedEntities));
 

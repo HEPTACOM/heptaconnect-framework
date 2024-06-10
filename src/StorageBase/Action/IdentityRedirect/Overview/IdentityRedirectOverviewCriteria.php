@@ -47,11 +47,13 @@ final class IdentityRedirectOverviewCriteria extends OverviewCriteriaContract im
 
     private ?IdentityRedirectKeyCollection $identityRedirectKeyFilter = null;
 
+    #[\Override]
     public function getSort(): array
     {
         return $this->sort;
     }
 
+    #[\Override]
     public function setSort(array $sort): void
     {
         $this->sort = $sort;

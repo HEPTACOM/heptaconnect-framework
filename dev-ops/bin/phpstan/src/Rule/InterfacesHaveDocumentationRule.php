@@ -15,18 +15,20 @@ use PHPStan\Rules\RuleErrorBuilder;
 /**
  * @implements Rule<Interface_>
  */
-final class InterfacesHaveDocumentationRule implements Rule
+final readonly class InterfacesHaveDocumentationRule implements Rule
 {
     public function __construct(
         private ReflectionProvider $reflectionProvider
     ) {
     }
 
+    #[\Override]
     public function getNodeType(): string
     {
         return Interface_::class;
     }
 
+    #[\Override]
     public function processNode(Node $node, Scope $scope): array
     {
         $reflectionClass = $this->reflectionProvider->getClass($scope->getNamespace() . '\\' . $node->name);

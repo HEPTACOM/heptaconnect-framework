@@ -13,7 +13,7 @@ use Heptacom\HeptaConnect\Utility\Json\JsonSerializeObjectVarsTrait;
 use Heptacom\HeptaConnect\Utility\Php\SetStateTrait;
 
 /**
- * @psalm-consistent-constructor
+ * @phpstan-consistent-constructor
  */
 abstract class DatasetEntityContract implements AttachableInterface, AttachmentAwareInterface, PrimaryKeyAwareInterface, \JsonSerializable
 {
@@ -26,6 +26,7 @@ abstract class DatasetEntityContract implements AttachableInterface, AttachmentA
     {
     }
 
+    #[\Override]
     public function setPrimaryKey(?string $primaryKey): void
     {
         if ($primaryKey !== $this->getPrimaryKey()) {

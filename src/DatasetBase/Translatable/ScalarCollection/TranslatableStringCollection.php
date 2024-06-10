@@ -12,6 +12,7 @@ use Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection;
  */
 final class TranslatableStringCollection extends AbstractTranslatableScalarCollection
 {
+    #[\Override]
     protected function getInitialValue(): CollectionInterface
     {
         return new StringCollection();

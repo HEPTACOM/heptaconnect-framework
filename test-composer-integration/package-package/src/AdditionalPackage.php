@@ -10,6 +10,7 @@ use Symfony\Component\DependencyInjection\Definition;
 
 class AdditionalPackage extends PackageContract
 {
+    #[\Override]
     public function buildContainer(ContainerBuilder $containerBuilder): void
     {
         $this->setSyntheticServices($containerBuilder, [
@@ -28,7 +29,7 @@ class AdditionalPackage extends PackageContract
             $containerBuilder->set($definitionId, $service);
             $definition = (new Definition())
                 ->setSynthetic(true)
-                ->setClass(\get_class($service));
+                ->setClass($service::class);
             $containerBuilder->setDefinition($definitionId, $definition);
         }
     }

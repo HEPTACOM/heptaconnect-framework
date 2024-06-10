@@ -51,11 +51,13 @@ final class Emitter extends EmitterContract
         return $this->extendMethod;
     }
 
+    #[\Override]
     protected function supports(): string
     {
         return (string) $this->entityType;
     }
 
+    #[\Override]
     protected function batch(iterable $externalIds, EmitContextInterface $context): iterable
     {
         $batch = $this->batchMethod;
@@ -87,6 +89,7 @@ final class Emitter extends EmitterContract
         return parent::batch($externalIds, $context);
     }
 
+    #[\Override]
     protected function run(
         string $externalId,
         EmitContextInterface $context
@@ -120,6 +123,7 @@ final class Emitter extends EmitterContract
         return parent::run($externalId, $context);
     }
 
+    #[\Override]
     protected function extend(
         DatasetEntityContract $entity,
         EmitContextInterface $context

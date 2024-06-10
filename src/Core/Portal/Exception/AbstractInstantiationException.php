@@ -10,14 +10,14 @@ abstract class AbstractInstantiationException extends \RuntimeException
      * @param class-string $class
      */
     public function __construct(
-        private string $class,
+        private readonly string $class,
         ?\Throwable $previous = null
     ) {
         parent::__construct('Could not instantiate object', 0, $previous);
     }
 
     /**
-     * @psalm-return class-string
+     * @phpstan-return class-string
      */
     public function getClass(): string
     {

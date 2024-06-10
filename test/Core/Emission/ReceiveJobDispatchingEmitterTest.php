@@ -4,32 +4,43 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Emission;
 
+use Heptacom\HeptaConnect\Core\Emission\AbstractBufferedResultProcessingEmitter;
 use Heptacom\HeptaConnect\Core\Emission\ReceiveJobDispatchingEmitter;
 use Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract;
 use Heptacom\HeptaConnect\Core\Job\JobCollection;
 use Heptacom\HeptaConnect\Core\Job\Transition\Contract\EmittedEntitiesToJobsConverterInterface;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
+use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
+use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Utility\Attachment\AttachmentAwareTrait;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Emission\AbstractBufferedResultProcessingEmitter
- * @covers \Heptacom\HeptaConnect\Core\Emission\ReceiveJobDispatchingEmitter
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection
- * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
- * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
- * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract
- * @covers \Heptacom\HeptaConnect\Utility\Attachment\AttachmentAwareTrait
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
- */
+#[CoversClass(AbstractBufferedResultProcessingEmitter::class)]
+#[CoversClass(ReceiveJobDispatchingEmitter::class)]
+#[CoversClass(DatasetEntityContract::class)]
+#[CoversClass(DatasetEntityCollection::class)]
+#[CoversClass(EntityType::class)]
+#[CoversClass(TypedDatasetEntityCollection::class)]
+#[CoversClass(EmitterContract::class)]
+#[CoversTrait(AttachmentAwareTrait::class)]
+#[CoversClass(ClassStringContract::class)]
+#[CoversClass(ClassStringReferenceContract::class)]
+#[CoversClass(SubtypeClassStringContract::class)]
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(AbstractObjectCollection::class)]
 final class ReceiveJobDispatchingEmitterTest extends TestCase
 {
     public function testConvertsEntitiesInBatchSize(): void

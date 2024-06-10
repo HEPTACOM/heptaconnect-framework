@@ -25,10 +25,17 @@ use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarPortal;
 use Heptacom\HeptaConnect\Core\Web\Http\HttpClient;
 use Heptacom\HeptaConnect\Core\Web\Http\RequestDeserializer;
 use Heptacom\HeptaConnect\Core\Web\Http\RequestSerializer;
+use Heptacom\HeptaConnect\Dataset\Base\File\FileReferenceContract;
+use Heptacom\HeptaConnect\Portal\Base\File\ResolvedFileReferenceContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalType;
 use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\DenormalizerInterface;
 use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizerInterface;
+use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\SerializableStream;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientContract;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Exception\HttpException;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Support\DefaultRequestHeaders;
 use Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestPersist\FileReferencePersistRequestPayload;
@@ -37,48 +44,52 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferen
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferencePersistRequestActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\FileReferenceRequestKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\FileReferenceRequestKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
 use Http\Discovery\Psr17FactoryDiscovery;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\File\FileReferenceFactory
- * @covers \Heptacom\HeptaConnect\Core\File\FileReferenceResolver
- * @covers \Heptacom\HeptaConnect\Core\File\Reference\ContentsFileReference
- * @covers \Heptacom\HeptaConnect\Core\File\Reference\PublicUrlFileReference
- * @covers \Heptacom\HeptaConnect\Core\File\Reference\RequestFileReference
- * @covers \Heptacom\HeptaConnect\Core\File\ResolvedReference\ResolvedContentsFileReference
- * @covers \Heptacom\HeptaConnect\Core\File\ResolvedReference\ResolvedPublicUrlFileReference
- * @covers \Heptacom\HeptaConnect\Core\File\ResolvedReference\ResolvedRequestFileReference
- * @covers \Heptacom\HeptaConnect\Core\Portal\PortalNodeContainerFacade
- * @covers \Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry
- * @covers \Heptacom\HeptaConnect\Core\Storage\RequestStorage
- * @covers \Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector
- * @covers \Heptacom\HeptaConnect\Core\Web\Http\HttpClient
- * @covers \Heptacom\HeptaConnect\Core\Web\Http\RequestDeserializer
- * @covers \Heptacom\HeptaConnect\Core\Web\Http\RequestSerializer
- * @covers \Heptacom\HeptaConnect\Dataset\Base\File\FileReferenceContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\File\ResolvedFileReferenceContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
- * @covers \Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\SerializableStream
- * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Exception\HttpException
- * @covers \Heptacom\HeptaConnect\Portal\Base\Web\Http\Support\DefaultRequestHeaders
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestCriteria
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestGet\FileReferenceGetRequestResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestPersist\FileReferencePersistRequestPayload
- * @covers \Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestPersist\FileReferencePersistRequestResult
- * @covers \Heptacom\HeptaConnect\Storage\Base\FileReferenceRequestKeyCollection
- * @covers \Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- */
+#[CoversClass(FileReferenceFactory::class)]
+#[CoversClass(FileReferenceResolver::class)]
+#[CoversClass(ContentsFileReference::class)]
+#[CoversClass(PublicUrlFileReference::class)]
+#[CoversClass(RequestFileReference::class)]
+#[CoversClass(ResolvedContentsFileReference::class)]
+#[CoversClass(ResolvedPublicUrlFileReference::class)]
+#[CoversClass(ResolvedRequestFileReference::class)]
+#[CoversClass(PortalNodeContainerFacade::class)]
+#[CoversClass(NormalizationRegistry::class)]
+#[CoversClass(RequestStorage::class)]
+#[CoversClass(HttpMiddlewareCollector::class)]
+#[CoversClass(HttpClient::class)]
+#[CoversClass(RequestDeserializer::class)]
+#[CoversClass(RequestSerializer::class)]
+#[CoversClass(FileReferenceContract::class)]
+#[CoversClass(ResolvedFileReferenceContract::class)]
+#[CoversClass(PortalContract::class)]
+#[CoversClass(PortalType::class)]
+#[CoversClass(SerializableStream::class)]
+#[CoversClass(HttpClientContract::class)]
+#[CoversClass(HttpException::class)]
+#[CoversClass(DefaultRequestHeaders::class)]
+#[CoversClass(FileReferenceGetRequestCriteria::class)]
+#[CoversClass(FileReferenceGetRequestResult::class)]
+#[CoversClass(FileReferencePersistRequestPayload::class)]
+#[CoversClass(FileReferencePersistRequestResult::class)]
+#[CoversClass(FileReferenceRequestKeyCollection::class)]
+#[CoversClass(PreviewPortalNodeKey::class)]
+#[CoversClass(ClassStringContract::class)]
+#[CoversClass(ClassStringReferenceContract::class)]
+#[CoversClass(SubtypeClassStringContract::class)]
+#[CoversClass(AbstractCollection::class)]
 class IntegrationTest extends TestCase
 {
     public function testPublicUrl(): void
@@ -456,7 +467,7 @@ class IntegrationTest extends TestCase
                 foreach ($p->getSerializedRequests() as $key => $serializedRequest) {
                     $result->addFileReferenceRequestKey($key, new class($serializedRequest) implements FileReferenceRequestKeyInterface {
                         public function __construct(
-                            private string $content
+                            private readonly string $content
                         ) {
                         }
 

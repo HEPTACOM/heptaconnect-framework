@@ -15,9 +15,7 @@ final class JobCreateResults extends AbstractObjectCollection implements Attachm
 {
     use AttachmentAwareTrait;
 
-    /**
-     * @psalm-return JobCreateResult::class
-     */
+    #[\Override]
     protected function getT(): string
     {
         return JobCreateResult::class;

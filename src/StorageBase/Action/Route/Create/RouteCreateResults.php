@@ -15,9 +15,7 @@ final class RouteCreateResults extends AbstractObjectCollection implements Attac
 {
     use AttachmentAwareTrait;
 
-    /**
-     * @psalm-return RouteCreateResult::class
-     */
+    #[\Override]
     protected function getT(): string
     {
         return RouteCreateResult::class;

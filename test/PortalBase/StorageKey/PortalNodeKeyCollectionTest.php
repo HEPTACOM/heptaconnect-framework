@@ -4,21 +4,26 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\Test\StorageKey;
 
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalType;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\Portal;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
- * @covers \Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection
- * @covers \Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- */
+#[CoversClass(PortalContract::class)]
+#[CoversClass(PortalType::class)]
+#[CoversClass(PortalNodeKeyCollection::class)]
+#[CoversClass(PreviewPortalNodeKey::class)]
+#[CoversClass(ClassStringContract::class)]
+#[CoversClass(ClassStringReferenceContract::class)]
+#[CoversClass(SubtypeClassStringContract::class)]
+#[CoversClass(AbstractCollection::class)]
 final class PortalNodeKeyCollectionTest extends TestCase
 {
     public function testContains(): void

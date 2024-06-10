@@ -8,9 +8,6 @@ use Heptacom\HeptaConnect\Portal\Base\Serialization\Exception\StreamCopyExceptio
 use Http\Discovery\Psr17FactoryDiscovery;
 use Psr\Http\Message\StreamInterface;
 
-/**
- * @SuppressWarnings(PHPMD.TooManyPublicMethods)
- */
 final class SerializableStream implements StreamInterface, \Stringable
 {
     public function __construct(
@@ -18,6 +15,7 @@ final class SerializableStream implements StreamInterface, \Stringable
     ) {
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->stream->__toString();
@@ -77,71 +75,85 @@ final class SerializableStream implements StreamInterface, \Stringable
         return $streamFactory->createStreamFromResource($newExternal);
     }
 
+    #[\Override]
     public function close(): void
     {
         $this->stream->close();
     }
 
+    #[\Override]
     public function detach()
     {
         return $this->stream->detach();
     }
 
+    #[\Override]
     public function getSize()
     {
         return $this->stream->getSize();
     }
 
+    #[\Override]
     public function tell()
     {
         return $this->stream->tell();
     }
 
+    #[\Override]
     public function eof()
     {
         return $this->stream->eof();
     }
 
+    #[\Override]
     public function isSeekable()
     {
         return $this->stream->isSeekable();
     }
 
+    #[\Override]
     public function seek($offset, $whence = \SEEK_SET): void
     {
         $this->stream->seek($offset, $whence);
     }
 
+    #[\Override]
     public function rewind(): void
     {
         $this->stream->rewind();
     }
 
+    #[\Override]
     public function isWritable()
     {
         return $this->stream->isWritable();
     }
 
+    #[\Override]
     public function write($string)
     {
         return $this->stream->write($string);
     }
 
+    #[\Override]
     public function isReadable()
     {
         return $this->stream->isReadable();
     }
 
+    #[\Override]
     public function read($length)
     {
         return $this->stream->read($length);
     }
 
+    #[\Override]
     public function getContents()
     {
         return $this->stream->getContents();
     }
 
+    #[\Override]
     public function getMetadata($key = null)
     {
         return $this->stream->getMetadata($key);

@@ -27,8 +27,8 @@ final class ReceiveContext extends AbstractPortalNodeContext implements ReceiveC
     public function __construct(
         PortalNodeContainerFacadeContract $containerFacade,
         ?array $configuration,
-        private EntityStatusContract $entityStatus,
-        private array $postProcessors
+        private readonly EntityStatusContract $entityStatus,
+        private readonly array $postProcessors
     ) {
         parent::__construct($containerFacade, $configuration);
         $this->postProcessingBag = new PostProcessorDataBag();
@@ -41,21 +41,25 @@ final class ReceiveContext extends AbstractPortalNodeContext implements ReceiveC
         $this->initializeEventDispatcher();
     }
 
+    #[\Override]
     public function getPostProcessingBag(): PostProcessorDataBag
     {
         return $this->postProcessingBag;
     }
 
+    #[\Override]
     public function getEntityStatus(): EntityStatusContract
     {
         return $this->entityStatus;
     }
 
+    #[\Override]
     public function markAsFailed(DatasetEntityContract $entity, \Throwable $throwable): void
     {
         $this->getPostProcessingBag()->add(new MarkAsFailedData($entity, $throwable));
     }
 
+    #[\Override]
     public function getEventDispatcher(): EventDispatcherInterface
     {
         return $this->eventDispatcher;

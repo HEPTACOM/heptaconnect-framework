@@ -14,7 +14,7 @@ final class HttpMiddlewareCollector implements \IteratorAggregate
     /**
      * @var MiddlewareInterface[]
      */
-    private array $middlewares;
+    private readonly array $middlewares;
 
     /**
      * @param iterable<MiddlewareInterface> $middlewares
@@ -27,6 +27,7 @@ final class HttpMiddlewareCollector implements \IteratorAggregate
     /**
      * @return \Traversable<int, MiddlewareInterface>
      */
+    #[\Override]
     public function getIterator(): \Traversable
     {
         return new \ArrayObject($this->middlewares);

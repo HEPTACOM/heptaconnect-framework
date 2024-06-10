@@ -72,27 +72,21 @@ use Symfony\Component\DependencyInjection\Loader\GlobFileLoader;
 use Symfony\Component\DependencyInjection\Parameter;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * @SuppressWarnings(PHPMD.CyclomaticComplexity)
- * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
- * @SuppressWarnings(PHPMD.ExcessiveParameterList)
- * @SuppressWarnings(PHPMD.LongVariableName)
- */
 final class PortalStackServiceContainerBuilder implements PortalStackServiceContainerBuilderInterface
 {
-    public const STATUS_REPORTER_SOURCE_TAG = 'heptaconnect.flow_component.status_reporter_source';
+    public const string STATUS_REPORTER_SOURCE_TAG = 'heptaconnect.flow_component.status_reporter_source';
 
-    public const EMITTER_SOURCE_TAG = 'heptaconnect.flow_component.emitter_source';
+    public const string EMITTER_SOURCE_TAG = 'heptaconnect.flow_component.emitter_source';
 
-    public const EXPLORER_SOURCE_TAG = 'heptaconnect.flow_component.explorer_source';
+    public const string EXPLORER_SOURCE_TAG = 'heptaconnect.flow_component.explorer_source';
 
-    public const RECEIVER_SOURCE_TAG = 'heptaconnect.flow_component.receiver_source';
+    public const string RECEIVER_SOURCE_TAG = 'heptaconnect.flow_component.receiver_source';
 
-    public const WEB_HTTP_HANDLER_SOURCE_TAG = 'heptaconnect.flow_component.web_http_handler_source';
+    public const string WEB_HTTP_HANDLER_SOURCE_TAG = 'heptaconnect.flow_component.web_http_handler_source';
 
-    public const SERVICE_FROM_A_PORTAL_TAG = 'heptaconnect.service_from_a_portal';
+    public const string SERVICE_FROM_A_PORTAL_TAG = 'heptaconnect.service_from_a_portal';
 
-    public const PORTAL_CONFIGURATION_PARAMETER_PREFIX = 'portal_config.';
+    public const string PORTAL_CONFIGURATION_PARAMETER_PREFIX = 'portal_config.';
 
     private ?DirectEmissionFlowContract $directEmissionFlow = null;
 
@@ -106,26 +100,27 @@ final class PortalStackServiceContainerBuilder implements PortalStackServiceCont
     private array $alreadyBuiltPackages = [];
 
     public function __construct(
-        private LoggerInterface $logger,
-        private NormalizationRegistryContract $normalizationRegistry,
-        private PortalStorageFactory $portalStorageFactory,
-        private ResourceLockingContract $resourceLocking,
-        private ProfilerFactoryContract $profilerFactory,
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private ConfigurationServiceInterface $configurationService,
-        private PublisherInterface $publisher,
-        private HttpHandlerUrlProviderFactoryInterface $httpHandlerUrlProviderFactory,
-        private RequestStorageContract $requestStorage,
-        private FilesystemFactoryInterface $filesystemFactory,
-        private Psr7MessageCurlShellFormatterContract $psr7MessageCurlShellFormatter,
-        private Psr7MessageRawHttpFormatterContract $psr7MessageRawHttpFormatter,
-        private Psr7MessageMultiPartFormDataBuilderInterface $psr7MessageMultiPartFormDataBuilder,
+        private readonly LoggerInterface $logger,
+        private readonly NormalizationRegistryContract $normalizationRegistry,
+        private readonly PortalStorageFactory $portalStorageFactory,
+        private readonly ResourceLockingContract $resourceLocking,
+        private readonly ProfilerFactoryContract $profilerFactory,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly ConfigurationServiceInterface $configurationService,
+        private readonly PublisherInterface $publisher,
+        private readonly HttpHandlerUrlProviderFactoryInterface $httpHandlerUrlProviderFactory,
+        private readonly RequestStorageContract $requestStorage,
+        private readonly FilesystemFactoryInterface $filesystemFactory,
+        private readonly Psr7MessageCurlShellFormatterContract $psr7MessageCurlShellFormatter,
+        private readonly Psr7MessageRawHttpFormatterContract $psr7MessageRawHttpFormatter,
+        private readonly Psr7MessageMultiPartFormDataBuilderInterface $psr7MessageMultiPartFormDataBuilder,
     ) {
     }
 
     /**
      * @throws DelegatingLoaderLoadException
      */
+    #[\Override]
     public function build(
         PortalContract $portal,
         PortalExtensionCollection $portalExtensions,
@@ -327,7 +322,7 @@ final class PortalStackServiceContainerBuilder implements PortalStackServiceCont
      *
      * @return string[]
      *
-     * @psalm-return array<string>
+     * @phpstan-return array<string>
      */
     private function getChangedServiceIds(ContainerBuilder $containerBuilder, callable $registration): array
     {
@@ -356,7 +351,7 @@ final class PortalStackServiceContainerBuilder implements PortalStackServiceCont
         PackageContract $package,
         ContainerBuilder $containerBuilder
     ): void {
-        $packageType = \get_class($package);
+        $packageType = $package::class;
 
         if (isset($this->alreadyBuiltPackages[$packageType])) {
             return;
@@ -374,8 +369,8 @@ final class PortalStackServiceContainerBuilder implements PortalStackServiceCont
     /**
      * @param Definition[] $definitions
      *
-     * @psalm-param class-string $interface
-     * @psalm-param class-string $packageClass
+     * @phpstan-param class-string $interface
+     * @phpstan-param class-string $packageClass
      */
     private function tagDefinitionSource(array $definitions, string $interface, string $tag, string $packageClass): void
     {

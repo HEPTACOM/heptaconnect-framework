@@ -9,6 +9,7 @@ namespace Heptacom\HeptaConnect\Dataset\Base\Translatable;
  */
 final class TranslatableBoolean extends AbstractTranslatable
 {
+    #[\Override]
     protected function isValidValue(mixed $value): bool
     {
         return \is_bool($value);

@@ -17,20 +17,21 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\P
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-final class ConfigurationService implements ConfigurationServiceInterface
+final readonly class ConfigurationService implements ConfigurationServiceInterface
 {
     public function __construct(
         private PortalRegistryInterface $portalRegistry,
-        private PortalNodeConfigurationGetActionInterface $portalNodeConfigurationGet,
-        private PortalNodeConfigurationSetActionInterface $portalNodeConfigurationSet,
-        private PortalNodeConfigurationProcessorServiceInterface $configurationProcessorService
+        private PortalNodeConfigurationGetActionInterface $configurationGet,
+        private PortalNodeConfigurationSetActionInterface $configurationSet,
+        private PortalNodeConfigurationProcessorServiceInterface $configProcessorService
     ) {
     }
 
+    #[\Override]
     public function getPortalNodeConfiguration(PortalNodeKeyInterface $portalNodeKey): ?array
     {
         $template = $this->getMergedConfigurationTemplate($portalNodeKey);
-        $configuration = $this->configurationProcessorService->applyRead(
+        $configuration = $this->configProcessorService->applyRead(
             $portalNodeKey,
             fn () => $this->getPortalNodeConfigurationInternal($portalNodeKey)
         );
@@ -38,6 +39,7 @@ final class ConfigurationService implements ConfigurationServiceInterface
         return $template->resolve($configuration);
     }
 
+    #[\Override]
     public function setPortalNodeConfiguration(PortalNodeKeyInterface $portalNodeKey, ?array $configuration): void
     {
         $template = $this->getMergedConfigurationTemplate($portalNodeKey);
@@ -53,10 +55,10 @@ final class ConfigurationService implements ConfigurationServiceInterface
             $template->resolve($data);
         }
 
-        $this->configurationProcessorService->applyWrite(
+        $this->configProcessorService->applyWrite(
             $portalNodeKey,
             $data ?? [],
-            fn (array $config) => $this->portalNodeConfigurationSet->set(new PortalNodeConfigurationSetPayloads([
+            fn (array $config) => $this->configurationSet->set(new PortalNodeConfigurationSetPayloads([
                 new PortalNodeConfigurationSetPayload($portalNodeKey, $config),
             ]))
         );
@@ -106,7 +108,7 @@ final class ConfigurationService implements ConfigurationServiceInterface
 
         $criteria = new PortalNodeConfigurationGetCriteria(new PortalNodeKeyCollection([$portalNodeKey]));
 
-        foreach ($this->portalNodeConfigurationGet->get($criteria) as $configuration) {
+        foreach ($this->configurationGet->get($criteria) as $configuration) {
             return $configuration->getValue();
         }
 

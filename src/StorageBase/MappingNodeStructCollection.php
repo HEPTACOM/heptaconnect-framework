@@ -12,6 +12,7 @@ use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
  */
 class MappingNodeStructCollection extends AbstractObjectCollection
 {
+    #[\Override]
     public function contains($value): bool
     {
         return $this->containsByEqualsCheck(
@@ -20,9 +21,7 @@ class MappingNodeStructCollection extends AbstractObjectCollection
         );
     }
 
-    /**
-     * @psalm-return Contract\MappingNodeStructInterface::class
-     */
+    #[\Override]
     protected function getT(): string
     {
         return MappingNodeStructInterface::class;

@@ -17,11 +17,12 @@ use Symfony\Component\Messenger\MessageBusInterface;
 final class JobDispatcher extends JobDispatcherContract
 {
     public function __construct(
-        private MessageBusInterface $bus,
-        private JobCreateActionInterface $jobCreateAction
+        private readonly MessageBusInterface $bus,
+        private readonly JobCreateActionInterface $jobCreateAction
     ) {
     }
 
+    #[\Override]
     public function dispatch(JobCollection $jobs): void
     {
         $createPayload = new JobCreatePayloads($jobs->map(

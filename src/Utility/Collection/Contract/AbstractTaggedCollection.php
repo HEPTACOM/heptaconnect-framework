@@ -19,12 +19,12 @@ abstract class AbstractTaggedCollection extends AbstractCollection
     protected array $items = [];
 
     /**
-     * @psalm-param array-key $offset
+     * @phpstan-param array-key $offset
      *
-     * @psalm-return TagItem<T>
+     * @phpstan-return TagItem<T>
      */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    #[\Override]
+    public function offsetGet($offset): mixed
     {
         $offset = (string) $offset;
         $tag = $this->items[$offset] ?? null;
@@ -39,6 +39,7 @@ abstract class AbstractTaggedCollection extends AbstractCollection
         return $tag;
     }
 
+    #[\Override]
     public function offsetSet($offset, $value): void
     {
         if (!$this->isValidItem($value)) {
@@ -48,6 +49,7 @@ abstract class AbstractTaggedCollection extends AbstractCollection
         $this->items[$value->getTag()] = $value;
     }
 
+    #[\Override]
     public function push(iterable $items): void
     {
         /** @var TagItem<T> $item */
@@ -57,20 +59,21 @@ abstract class AbstractTaggedCollection extends AbstractCollection
     }
 
     /**
-     * @psalm-assert-if-true TagItem<T> $item
+     * @phpstan-assert-if-true TagItem<T> $item
      */
+    #[\Override]
     protected function isValidItem(mixed $item): bool
     {
         return \is_object($item) && $item instanceof TagItem && \is_a($item->getCollection(), $this->getCollectionType(), false);
     }
 
     /**
-     * @psalm-return class-string<CollectionInterface<T>>
+     * @phpstan-return class-string<CollectionInterface<T>>
      */
     abstract protected function getCollectionType(): string;
 
     /**
-     * @psalm-return CollectionInterface<T>
+     * @phpstan-return CollectionInterface<T>
      */
     private function createEmptyCollection(): CollectionInterface
     {

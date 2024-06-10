@@ -13,12 +13,13 @@ use Psr\Http\Message\ResponseInterface;
 final class Psr7MessageCurlShellFormatter extends Psr7MessageCurlShellFormatterContract
 {
     public function __construct(
-        private HeaderUtilityInterface $headerUtility,
-        private Psr7MessageRawHttpFormatter $rawFormatter,
-        private string $curlCommand
+        private readonly HeaderUtilityInterface $headerUtility,
+        private readonly Psr7MessageRawHttpFormatter $rawFormatter,
+        private readonly string $curlCommand
     ) {
     }
 
+    #[\Override]
     public function formatMessage(MessageInterface $message): string
     {
         if ($message instanceof RequestInterface) {
@@ -32,6 +33,7 @@ final class Psr7MessageCurlShellFormatter extends Psr7MessageCurlShellFormatterC
         throw new \InvalidArgumentException('Message must be a request or a response', 1674950002);
     }
 
+    #[\Override]
     public function getFileExtension(MessageInterface $message): string
     {
         if ($message instanceof RequestInterface) {

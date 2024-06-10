@@ -20,18 +20,20 @@ use Psr\Http\Message\StreamFactoryInterface;
 final class FileReferenceFactory extends FileReferenceFactoryContract
 {
     public function __construct(
-        private PortalNodeKeyInterface $portalNodeKey,
-        private StreamFactoryInterface $streamFactory,
-        private NormalizationRegistryContract $normalizationRegistry,
-        private RequestStorageContract $requestStorage
+        private readonly PortalNodeKeyInterface $portalNodeKey,
+        private readonly StreamFactoryInterface $streamFactory,
+        private readonly NormalizationRegistryContract $normalizationRegistry,
+        private readonly RequestStorageContract $requestStorage
     ) {
     }
 
+    #[\Override]
     public function fromPublicUrl(string $publicUrl): FileReferenceContract
     {
         return new PublicUrlFileReference($this->portalNodeKey, $publicUrl);
     }
 
+    #[\Override]
     public function fromRequest(RequestInterface $request): FileReferenceContract
     {
         $requestKey = $this->requestStorage->persist($this->portalNodeKey, $request);
@@ -39,6 +41,7 @@ final class FileReferenceFactory extends FileReferenceFactoryContract
         return new RequestFileReference($this->portalNodeKey, $requestKey);
     }
 
+    #[\Override]
     public function fromContents(
         string $contents,
         string $mimeType = 'application/octet-stream'

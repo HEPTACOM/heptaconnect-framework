@@ -16,7 +16,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 /**
  * @implements Rule<Class_>
  */
-final class ContractsHaveDocumentationRule implements Rule
+final readonly class ContractsHaveDocumentationRule implements Rule
 {
     private StructDetector $structDetector;
 
@@ -26,11 +26,13 @@ final class ContractsHaveDocumentationRule implements Rule
         $this->structDetector = new StructDetector();
     }
 
+    #[\Override]
     public function getNodeType(): string
     {
         return Class_::class;
     }
 
+    #[\Override]
     public function processNode(Node $node, Scope $scope): array
     {
         /* @see https://github.com/nikic/PHP-Parser/issues/821 */

@@ -14,14 +14,15 @@ final class ResolvedContentsFileReference extends ResolvedFileReferenceContract
 {
     public function __construct(
         PortalNodeKeyInterface $portalNodeKey,
-        private string $normalizedStream,
-        private string $mimeType,
-        private DenormalizerInterface $denormalizer,
-        private FileContentsUrlProviderInterface $fileContentsUrlProvider
+        private readonly string $normalizedStream,
+        private readonly string $mimeType,
+        private readonly DenormalizerInterface $denormalizer,
+        private readonly FileContentsUrlProviderInterface $fileContentsUrlProvider
     ) {
         parent::__construct($portalNodeKey);
     }
 
+    #[\Override]
     public function getPublicUrl(): string
     {
         return (string) $this->fileContentsUrlProvider->resolve(
@@ -31,6 +32,7 @@ final class ResolvedContentsFileReference extends ResolvedFileReferenceContract
         );
     }
 
+    #[\Override]
     public function getContents(): string
     {
         $stream = $this->denormalizer->denormalize($this->normalizedStream, $this->denormalizer->getType());

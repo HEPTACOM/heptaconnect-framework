@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception;
 class StorageKeyDataNotSupportedException extends \RuntimeException implements InvalidArgumentThrowableInterface
 {
     public function __construct(
-        private string $keyData,
+        private readonly string $keyData,
         int $code,
         ?\Throwable $previous = null
     ) {

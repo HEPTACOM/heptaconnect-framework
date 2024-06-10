@@ -48,6 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add constant `\Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder::PORTAL_CONFIGURATION_PARAMETER_PREFIX`, that is preceding a portal node configuration binding aliases
 - Add exception code `1710936675` to `\Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder::build` when property `httpHandleService` is not set
 - Add `\Heptacom\HeptaConnect\Core\Bridge\Portal\PortalLoaderInterface` to allow for easier decoration of `\Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader`
+- Add exception code `1716752000` in `\Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamNormalizer::normalize` when the stream cannot be copied to disk
 
 ### Changed
 
@@ -80,6 +81,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use `\Heptacom\HeptaConnect\Core\Web\Http\Contract\RequestSerializerInterface` and `\Heptacom\HeptaConnect\Core\Web\Http\Contract\RequestDeserializerInterface` in `\Heptacom\HeptaConnect\Core\Storage\RequestStorage` instead of `\Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestNormalizer` and `\Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestDenormalizer` to allow for implementation change
 - Add exception code `1647801830` in return callable from `\Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\PortalNodeConfigurationHelper::json` when the JSON file can not be read from the filesystem
 - Add exception code `1637432096` in `\Heptacom\HeptaConnect\Core\Storage\Normalizer\SerializableCompressNormalizer::normalize` when original normalized value is not a string
+- Add exception code `1717858650` to `\Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\InstructionFileLoader::loadInstructions` when the referenced file can not be read from the filesystem
 - Make classes final: `\Heptacom\HeptaConnect\Core\Component\Composer\PackageConfiguration` and `\Heptacom\HeptaConnect\Core\Flow\MessageQueueFlow\MessageHandler`
 - Implement `\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeContextInterface::getLogger` in `\Heptacom\HeptaConnect\Core\Portal\AbstractPortalNodeContext::getLogger` by looking up the service in the container
 - Implement `\Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface` in `\Heptacom\HeptaConnect\Core\Component\Composer\PackageConfiguration`
@@ -95,12 +97,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Combine `portalNodeKey` and `path` parameter in `\Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackBuilderFactoryInterface::createHttpHandlerStackBuilder` and `\Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerStackBuilderFactory::createHttpHandlerStackBuilder` using `\Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier`
 - Make class final: `\Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader`
 - Change return type of `\Heptacom\HeptaConnect\Core\Reception\ReceiveContext::getEventDispatcher` from `\Psr\EventDispatcher\EventDispatcherInterface` to `\Symfony\Component\EventDispatcher\EventDispatcherInterface` in order to allow registering listeners
+- Change parameter of type `\League\Flysystem\FilesystemInterface` in `\Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamNormalizer::__construct` and `\Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamDenormalizer::__construct` to string representing a directory
+- Change return type of `\Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\Config::buildInstructions`, `\Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\Contract\InstructionLoaderInterface::loadInstructions` and `\Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\InstructionFileLoader::loadInstructions` to new type safe collection `\Heptacom\HeptaConnect\Core\Bridge\PortalNode\Configuration\InstructionTokenCollection`
 
 ### Deprecated
 
 ### Removed
 
-- Remove support for `php: 7.4` as it will not receive any updates anymore, it is unlikely to be used. By raising the minimum PHP version we also make use of features introduced by PHP 8.0, which mainly have no effect on public API
+- Remove support for `php: 7.4` as it will not receive any updates anymore, it is unlikely to be used. By raising the minimum PHP version to `php: ^8.3` we also make use of features introduced by PHP 8.0, which mainly have no effect on public API
 - Remove composer dependency `symfony/polyfill-php80` as minimum PHP version is raised to PHP 8.0
 - Remove `\Heptacom\HeptaConnect\Core\Portal\Exception\UnexpectedClassInheritanceOnInstantionException` and `\Heptacom\HeptaConnect\Core\Portal\Exception\ClassNotFoundOnInstantionException` as their condition origin will occur earlier related to either `\Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException`, `\Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException` or `\Heptacom\HeptaConnect\Dataset\Base\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException` will be thrown instead
 - Remove `\Heptacom\HeptaConnect\Core\Portal\Exception\DelegatingLoaderLoadException` as `\Heptacom\HeptaConnect\Portal\Base\Portal\Exception\DelegatingLoaderLoadException` will be thrown instead
@@ -110,6 +114,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove composer dependency `league/flysystem`
 
 ### Fixed
+
+- Fix data detection in `\Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamDenormalizer::supportsDenormalization` to represent denormalization support of non-empty data as supported
+- Ensure, that all forbidden characters are removed from cache keys in `\Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader::getPackageConfigurations`
 
 ### Security
 

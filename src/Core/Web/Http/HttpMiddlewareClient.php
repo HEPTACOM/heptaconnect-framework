@@ -14,18 +14,19 @@ final class HttpMiddlewareClient implements ClientInterface
     /**
      * @var HttpClientMiddlewareInterface[]
      */
-    private array $middlewares;
+    private readonly array $middlewares;
 
     /**
      * @param iterable<HttpClientMiddlewareInterface> $middlewares
      */
     public function __construct(
-        private ClientInterface $client,
+        private readonly ClientInterface $client,
         iterable $middlewares
     ) {
         $this->middlewares = \iterable_to_array($middlewares);
     }
 
+    #[\Override]
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
         return $this->next($request, ...$this->middlewares);
@@ -43,7 +44,7 @@ final class HttpMiddlewareClient implements ClientInterface
                  * @param \Closure(RequestInterface): ResponseInterface $next
                  */
                 public function __construct(
-                    private \Closure $next
+                    private readonly \Closure $next
                 ) {
                 }
 

@@ -34,14 +34,15 @@ final class PortalRegistry implements PortalRegistryInterface
     ];
 
     public function __construct(
-        private PortalFactoryContract $portalFactory,
-        private PortalLoaderInterface $portalLoader,
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private PortalNodeGetActionInterface $portalNodeGetAction,
-        private PortalExtensionFindActionInterface $portalExtensionFindAction
+        private readonly PortalFactoryContract $portalFactory,
+        private readonly PortalLoaderInterface $portalLoader,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly PortalNodeGetActionInterface $portalNodeGetAction,
+        private readonly PortalExtensionFindActionInterface $portalExtensionFindAction
     ) {
     }
 
+    #[\Override]
     public function getPortal(PortalNodeKeyInterface $portalNodeKey): PortalContract
     {
         $portalClass = $this->getPortalNodeClassCached($portalNodeKey);
@@ -54,6 +55,7 @@ final class PortalRegistry implements PortalRegistryInterface
         return $this->cache['portals'][$cacheKey];
     }
 
+    #[\Override]
     public function getPortalExtensions(PortalNodeKeyInterface $portalNodeKey): PortalExtensionCollection
     {
         $portalClass = $this->getPortalNodeClassCached($portalNodeKey);
@@ -65,7 +67,7 @@ final class PortalRegistry implements PortalRegistryInterface
             if (!$extensions->isEmpty() && !$portalNodeKey instanceof PreviewPortalNodeKey) {
                 $portalExtensionFindResult = $this->portalExtensionFindAction->find($portalNodeKey);
 
-                $extensions = $extensions->filter([$portalExtensionFindResult, 'isActive']);
+                $extensions = $extensions->filter($portalExtensionFindResult->isActive(...));
             }
 
             $this->cache['portalExtensions'][$cacheKey] = $extensions;

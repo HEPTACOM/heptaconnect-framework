@@ -12,8 +12,8 @@ use Heptacom\HeptaConnect\Utility\ClassString\Exception\UnexpectedLeadingNamespa
  *
  * @template T
  *
- * @psalm-method class-string<T> __toString()
- * @psalm-method class-string<T> jsonSerialize()
+ * @phpstan-method class-string<T> __toString()
+ * @phpstan-method class-string<T> jsonSerialize()
  */
 abstract class ClassStringContract extends ClassStringReferenceContract
 {

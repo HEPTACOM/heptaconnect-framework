@@ -10,26 +10,34 @@ use Heptacom\HeptaConnect\Core\Exploration\ExplorerStackProcessor;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
 use Heptacom\HeptaConnect\Core\Test\Fixture\ThrowExplorer;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
+use Heptacom\HeptaConnect\Utility\Attachment\AttachmentAwareTrait;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Component\LogMessage
- * @covers \Heptacom\HeptaConnect\Core\Exploration\ExplorerStack
- * @covers \Heptacom\HeptaConnect\Core\Exploration\ExplorerStackProcessor
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
- * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection
- * @covers \Heptacom\HeptaConnect\Utility\Attachment\AttachmentAwareTrait
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
- */
+#[CoversClass(LogMessage::class)]
+#[CoversClass(ExplorerStack::class)]
+#[CoversClass(ExplorerStackProcessor::class)]
+#[CoversClass(DatasetEntityContract::class)]
+#[CoversClass(EntityType::class)]
+#[CoversClass(ExplorerContract::class)]
+#[CoversClass(ExplorerCollection::class)]
+#[CoversTrait(AttachmentAwareTrait::class)]
+#[CoversClass(ClassStringContract::class)]
+#[CoversClass(ClassStringReferenceContract::class)]
+#[CoversClass(SubtypeClassStringContract::class)]
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(AbstractObjectCollection::class)]
 final class ExplorerStackProcessorTest extends TestCase
 {
     public function testProcessingSucceeds(): void

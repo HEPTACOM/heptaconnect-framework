@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Portal\Base\FlowComponent\Exception;
 class CodeOriginNotFound extends \RuntimeException
 {
     public function __construct(
-        private object $flowComponent,
+        private readonly object $flowComponent,
         int $code,
         ?\Throwable $throwable = null
     ) {

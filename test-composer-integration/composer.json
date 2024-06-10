@@ -22,7 +22,7 @@
         }
     ],
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.3",
         "heptacom-fixture/heptaconnect-portal-a": "@dev",
         "heptacom-fixture/heptaconnect-portal-extension-a": "@dev"
     },

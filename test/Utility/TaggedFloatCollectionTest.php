@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Utility\Test;
 
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection;
 use Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem;
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\FloatCollection;
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedFloatCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\FloatCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Scalar\TaggedFloatCollection
- */
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(AbstractTaggedCollection::class)]
+#[CoversClass(TagItem::class)]
+#[CoversClass(FloatCollection::class)]
+#[CoversClass(TaggedFloatCollection::class)]
 final class TaggedFloatCollectionTest extends TestCase
 {
     use ProvidesFloatTestsData;
     use ProvidesInvalidTestsData;
 
-    /**
-     * @dataProvider provideValidFloatTestCases
-     */
+    #[DataProvider('provideValidFloatTestCases')]
     public function testInsertTagOnCtor(float $item): void
     {
         $tagged = new TaggedFloatCollection([new TagItem(new FloatCollection([$item]), 'randomoffset')]);
@@ -32,9 +32,7 @@ final class TaggedFloatCollectionTest extends TestCase
         static::assertEquals($item, $tagged->offsetGet('randomoffset')->getCollection()->first());
     }
 
-    /**
-     * @dataProvider provideValidFloatTestCases
-     */
+    #[DataProvider('provideValidFloatTestCases')]
     public function testChangingCollection(float $item): void
     {
         $tagged = new TaggedFloatCollection();
@@ -45,9 +43,7 @@ final class TaggedFloatCollectionTest extends TestCase
         static::assertCount(1, $tagged->offsetGet('randomoffset')->getCollection());
     }
 
-    /**
-     * @dataProvider provideValidFloatTestCases
-     */
+    #[DataProvider('provideValidFloatTestCases')]
     public function testGetTagItemAfterInserting(float $item): void
     {
         $tagged = new TaggedFloatCollection();
@@ -57,9 +53,7 @@ final class TaggedFloatCollectionTest extends TestCase
         static::assertEquals($item, $tagged->offsetGet('randomoffset')->getCollection()->first());
     }
 
-    /**
-     * @dataProvider provideValidFloatTestCases
-     */
+    #[DataProvider('provideValidFloatTestCases')]
     public function testGetTagItemWithoutInsertingItFirst(float $item): void
     {
         $tagged = new TaggedFloatCollection();
@@ -76,9 +70,7 @@ final class TaggedFloatCollectionTest extends TestCase
         static::assertTrue($tagged->offsetExists('1'));
     }
 
-    /**
-     * @dataProvider provideInvalidTestCases
-     */
+    #[DataProvider('provideInvalidTestCases')]
     public function testInsertOtherTypeInTypeCollection($item): void
     {
         $collection = new TaggedFloatCollection();
@@ -86,9 +78,7 @@ final class TaggedFloatCollectionTest extends TestCase
         static::assertCount(0, $collection);
     }
 
-    /**
-     * @dataProvider provideInvalidTestCases
-     */
+    #[DataProvider('provideInvalidTestCases')]
     public function testFailInsertOtherTypeInTypeCollection($item): void
     {
         static::expectException(\InvalidArgumentException::class);

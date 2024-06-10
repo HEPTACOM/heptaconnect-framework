@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Core\Test\Reception\Support;
 
 use Heptacom\HeptaConnect\Portal\Base\Reception\Support\PostProcessorDataBag;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Portal\Base\Reception\Support\PostProcessorDataBag
- */
+#[CoversClass(PostProcessorDataBag::class)]
 final class PostProcessorDataBagTest extends TestCase
 {
     public function testPriorityIndependent(): void

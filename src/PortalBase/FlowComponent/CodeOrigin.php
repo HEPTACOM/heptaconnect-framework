@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Portal\Base\FlowComponent;
 
-final class CodeOrigin implements \Stringable
+final readonly class CodeOrigin implements \Stringable
 {
     public function __construct(
         private string $filepath,
@@ -13,6 +13,7 @@ final class CodeOrigin implements \Stringable
     ) {
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return \sprintf('%s:%d-%d', $this->getFilepath(), $this->getStartLine(), $this->getEndLine());

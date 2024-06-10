@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeServiceExcep
 
 final class StorageFacadeServiceException extends \Exception implements StorageFacadeServiceExceptionInterface
 {
-    private string $service;
+    private readonly string $service;
 
     public function __construct(string $service, ?\Throwable $previous = null)
     {

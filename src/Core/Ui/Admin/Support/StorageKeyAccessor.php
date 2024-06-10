@@ -24,7 +24,7 @@ use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\StorageKeyDataNotSupp
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Exception\StorageKeyNotSupportedException;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Support\StorageKeyAccessorInterface;
 
-final class StorageKeyAccessor implements StorageKeyAccessorInterface
+final readonly class StorageKeyAccessor implements StorageKeyAccessorInterface
 {
     public function __construct(
         private StorageKeyGeneratorContract $storageKeyGenerator,
@@ -34,6 +34,7 @@ final class StorageKeyAccessor implements StorageKeyAccessorInterface
     ) {
     }
 
+    #[\Override]
     public function deserialize(string $keyData): StorageKeyInterface
     {
         try {
@@ -45,6 +46,7 @@ final class StorageKeyAccessor implements StorageKeyAccessorInterface
         }
     }
 
+    #[\Override]
     public function serialize(StorageKeyInterface $storageKey): string
     {
         try {
@@ -56,6 +58,7 @@ final class StorageKeyAccessor implements StorageKeyAccessorInterface
         }
     }
 
+    #[\Override]
     public function exists(StorageKeyInterface $storageKey): bool
     {
         try {

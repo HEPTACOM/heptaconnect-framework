@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Reception\Support;
 
-use Heptacom\HeptaConnect\Utility\Attachment\Contract\AttachableInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\EntityType;
+use Heptacom\HeptaConnect\Utility\Attachment\Contract\AttachableInterface;
 
 class PrimaryKeyChangesAttachable implements AttachableInterface, ForeignKeyAwareInterface
 {
     /**
-     * @psalm-var class-string<DatasetEntityContract> $entityType
+     * @phpstan-var class-string<DatasetEntityContract> $entityType
      */
-    private string $entityType;
+    private readonly string $entityType;
 
     private array $foreignKeys = [];
 
@@ -25,6 +25,7 @@ class PrimaryKeyChangesAttachable implements AttachableInterface, ForeignKeyAwar
         $this->entityType = (string) $entityType;
     }
 
+    #[\Override]
     public function getForeignEntityType(): EntityType
     {
         return new EntityType($this->entityType);
@@ -42,11 +43,13 @@ class PrimaryKeyChangesAttachable implements AttachableInterface, ForeignKeyAwar
         return \is_string($result) ? $result : null;
     }
 
+    #[\Override]
     public function getForeignKey(): ?string
     {
         return $this->foreignKey;
     }
 
+    #[\Override]
     public function setForeignKey(?string $foreignKey): void
     {
         if ($this->foreignKeys === [] || $this->foreignKey !== $foreignKey) {

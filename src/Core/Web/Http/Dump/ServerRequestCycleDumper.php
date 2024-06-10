@@ -12,7 +12,7 @@ use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\ServerRequestCycle;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class ServerRequestCycleDumper implements ServerRequestCycleDumperInterface
+final readonly class ServerRequestCycleDumper implements ServerRequestCycleDumperInterface
 {
     public function __construct(
         private HttpHandlerDumpPathProviderInterface $pathProvider,
@@ -20,6 +20,7 @@ final class ServerRequestCycleDumper implements ServerRequestCycleDumperInterfac
     ) {
     }
 
+    #[\Override]
     public function dump(HttpHandlerStackIdentifier $httpHandler, ServerRequestCycle $requestCycle): void
     {
         $request = $requestCycle->getRequest();

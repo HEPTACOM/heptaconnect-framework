@@ -13,14 +13,23 @@
     },
     "mutators": {
         "@default": true,
+        "global-ignoreSourceCodeByRegex": [
+            "\\$this->logger.*"
+        ],
         "DecrementInteger": {
             "ignore": [
                 "Heptacom\\HeptaConnect\\Dataset\\Base\\Date"
+            ],
+            "ignoreSourceCodeByRegex": [
+                "1[67][0-9]{8}"
             ]
         },
         "IncrementInteger": {
             "ignore": [
                 "Heptacom\\HeptaConnect\\Dataset\\Base\\Date"
+            ],
+            "ignoreSourceCodeByRegex": [
+                "1[67][0-9]{8}"
             ]
         }
     },

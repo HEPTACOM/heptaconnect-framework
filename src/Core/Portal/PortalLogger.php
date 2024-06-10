@@ -10,12 +10,13 @@ use Psr\Log\LoggerInterface;
 class PortalLogger extends AbstractLogger
 {
     public function __construct(
-        private LoggerInterface $decorated,
-        private string $prefix,
-        private array $context
+        private readonly LoggerInterface $decorated,
+        private readonly string $prefix,
+        private readonly array $context
     ) {
     }
 
+    #[\Override]
     public function log($level, $message, array $context = []): void
     {
         $this->decorated->log($level, $this->prefix . $message, \array_merge($context, $this->context));

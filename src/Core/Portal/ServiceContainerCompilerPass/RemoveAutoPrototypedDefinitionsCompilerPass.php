@@ -7,11 +7,7 @@ namespace Heptacom\HeptaConnect\Core\Portal\ServiceContainerCompilerPass;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-/**
- * @SuppressWarnings(PHPMD.CyclomaticComplexity)
- * @SuppressWarnings(PHPMD.NPathComplexity)
- */
-final class RemoveAutoPrototypedDefinitionsCompilerPass implements CompilerPassInterface
+final readonly class RemoveAutoPrototypedDefinitionsCompilerPass implements CompilerPassInterface
 {
     /**
      * @param class-string[] $excludedClasses
@@ -22,6 +18,7 @@ final class RemoveAutoPrototypedDefinitionsCompilerPass implements CompilerPassI
     ) {
     }
 
+    #[\Override]
     public function process(ContainerBuilder $container): void
     {
         foreach ($this->prototypedIds as $serviceId) {

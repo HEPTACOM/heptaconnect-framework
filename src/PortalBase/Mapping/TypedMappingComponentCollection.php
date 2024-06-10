@@ -14,7 +14,7 @@ class TypedMappingComponentCollection extends MappingComponentCollection
      * @param iterable<MappingComponentStructContract> $items
      */
     public function __construct(
-        private EntityType $entityType,
+        private readonly EntityType $entityType,
         iterable $items = []
     ) {
         parent::__construct($items);
@@ -28,13 +28,14 @@ class TypedMappingComponentCollection extends MappingComponentCollection
     /**
      * @deprecated use @see getEntityType instead
      *
-     * @psalm-return class-string<DatasetEntityContract>
+     * @phpstan-return class-string<DatasetEntityContract>
      */
     public function getType(): string
     {
         return (string) $this->entityType;
     }
 
+    #[\Override]
     protected function isValidItem(mixed $item): bool
     {
         if (!parent::isValidItem($item)) {

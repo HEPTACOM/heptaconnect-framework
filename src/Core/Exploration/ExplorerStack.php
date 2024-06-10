@@ -13,19 +13,20 @@ use Psr\Log\LoggerInterface;
 
 final class ExplorerStack implements ExplorerStackInterface
 {
-    private ExplorerCollection $explorers;
+    private readonly ExplorerCollection $explorers;
 
     /**
      * @param iterable<array-key, ExplorerContract> $explorers
      */
     public function __construct(
         iterable $explorers,
-        private EntityType $entityType,
-        private LoggerInterface $logger
+        private readonly EntityType $entityType,
+        private readonly LoggerInterface $logger
     ) {
         $this->explorers = new ExplorerCollection($explorers);
     }
 
+    #[\Override]
     public function next(ExploreContextInterface $context): iterable
     {
         $explorer = $this->explorers->shift();
@@ -41,6 +42,7 @@ final class ExplorerStack implements ExplorerStackInterface
         return $explorer->explore($context, $this);
     }
 
+    #[\Override]
     public function supports(): EntityType
     {
         return $this->entityType;

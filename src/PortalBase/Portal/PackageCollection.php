@@ -12,6 +12,7 @@ use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
  */
 class PackageCollection extends AbstractObjectCollection
 {
+    #[\Override]
     protected function getT(): string
     {
         return PackageContract::class;

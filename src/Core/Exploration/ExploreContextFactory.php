@@ -10,18 +10,19 @@ use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExploreContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
-final class ExploreContextFactory implements ExploreContextFactoryInterface
+final readonly class ExploreContextFactory implements ExploreContextFactoryInterface
 {
     public function __construct(
         private ConfigurationServiceInterface $configurationService,
-        private PortalStackServiceContainerFactory $portalStackServiceContainerFactory
+        private PortalStackServiceContainerFactory $portalStackContainerFactory
     ) {
     }
 
+    #[\Override]
     public function factory(PortalNodeKeyInterface $portalNodeKey): ExploreContextInterface
     {
         return new ExploreContext(
-            $this->portalStackServiceContainerFactory->create($portalNodeKey),
+            $this->portalStackContainerFactory->create($portalNodeKey),
             $this->configurationService->getPortalNodeConfiguration($portalNodeKey)
         );
     }

@@ -14,9 +14,9 @@ class IdentityConflictException extends \Exception
     public function __construct(
         string $message,
         int $code,
-        private PortalNodeKeyInterface $portalNodeKey,
-        private MappingNodeKeyInterface $mappingNodeKey,
-        private string $externalId
+        private readonly PortalNodeKeyInterface $portalNodeKey,
+        private readonly MappingNodeKeyInterface $mappingNodeKey,
+        private readonly string $externalId
     ) {
         parent::__construct($message, $code);
     }

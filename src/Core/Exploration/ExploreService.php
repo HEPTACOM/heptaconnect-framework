@@ -22,19 +22,20 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Psr\Log\LoggerInterface;
 
-final class ExploreService implements ExploreServiceInterface
+final readonly class ExploreService implements ExploreServiceInterface
 {
     public function __construct(
         private ExploreContextFactoryInterface $exploreContextFactory,
         private ExplorerStackProcessorInterface $explorerStackProcessor,
         private ExplorationFlowExplorersFactoryInterface $explorationFlowExplorersFactory,
         private ExplorerStackBuilderFactoryInterface $explorerStackBuilderFactory,
-        private PortalStackServiceContainerFactory $portalStackServiceContainerFactory,
+        private PortalStackServiceContainerFactory $portalStackContainerFactory,
         private LoggerInterface $logger,
         private JobDispatcherContract $jobDispatcher
     ) {
     }
 
+    #[\Override]
     public function dispatchExploreJob(PortalNodeKeyInterface $portalNodeKey, ?EntityTypeCollection $entityTypes = null): void
     {
         $jobs = new JobCollection();
@@ -50,6 +51,7 @@ final class ExploreService implements ExploreServiceInterface
         $this->jobDispatcher->dispatch($jobs);
     }
 
+    #[\Override]
     public function explore(PortalNodeKeyInterface $portalNodeKey, ?EntityTypeCollection $entityTypes = null): void
     {
         $context = $this->exploreContextFactory->factory($portalNodeKey);
@@ -89,7 +91,7 @@ final class ExploreService implements ExploreServiceInterface
 
     private function getExplorers(PortalNodeKeyInterface $portalNodeKey): ExplorerCollection
     {
-        $flowComponentRegistry = $this->portalStackServiceContainerFactory
+        $flowComponentRegistry = $this->portalStackContainerFactory
             ->create($portalNodeKey)
             ->getFlowComponentRegistry();
 

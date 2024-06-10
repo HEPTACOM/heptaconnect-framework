@@ -12,6 +12,7 @@ use Heptacom\HeptaConnect\Utility\Date\DateTimeCollection;
  */
 final class TranslatableDateTimeCollection extends AbstractTranslatableScalarCollection
 {
+    #[\Override]
     protected function getInitialValue(): CollectionInterface
     {
         return new DateTimeCollection();

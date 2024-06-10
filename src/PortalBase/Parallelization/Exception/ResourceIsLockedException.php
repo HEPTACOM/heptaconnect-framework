@@ -8,11 +8,11 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 
 class ResourceIsLockedException extends \RuntimeException
 {
-    private string $resourceKey;
+    private readonly string $resourceKey;
 
     public function __construct(
         string $resourceKey,
-        private ?StorageKeyInterface $owner,
+        private readonly ?StorageKeyInterface $owner,
         ?\Throwable $previous = null
     ) {
         parent::__construct(\sprintf('The resource "%s" is locked', $resourceKey), 0, $previous);

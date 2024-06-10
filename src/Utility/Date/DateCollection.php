@@ -11,6 +11,7 @@ use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
  */
 final class DateCollection extends AbstractCollection
 {
+    #[\Override]
     protected function isValidItem(mixed $item): bool
     {
         return $item instanceof Date;

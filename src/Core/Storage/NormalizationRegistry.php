@@ -13,16 +13,16 @@ final class NormalizationRegistry extends NormalizationRegistryContract
     /**
      * @var NormalizerInterface[]
      */
-    private array $normalizer;
+    private readonly array $normalizer;
 
     /**
      * @var DenormalizerInterface[]
      */
-    private array $denormalizer;
+    private readonly array $denormalizer;
 
     /**
-     * @psalm-param iterable<int, NormalizerInterface> $normalizer
-     * @psalm-param iterable<int, DenormalizerInterface> $denormalizer
+     * @phpstan-param iterable<int, NormalizerInterface> $normalizer
+     * @phpstan-param iterable<int, DenormalizerInterface> $denormalizer
      */
     public function __construct(iterable $normalizer, iterable $denormalizer)
     {
@@ -30,7 +30,8 @@ final class NormalizationRegistry extends NormalizationRegistryContract
         $this->denormalizer = \iterable_to_array($denormalizer);
     }
 
-    public function getNormalizer($value): ?NormalizerInterface
+    #[\Override]
+    public function getNormalizer(mixed $value): ?NormalizerInterface
     {
         foreach ($this->normalizer as $normalizer) {
             if ($normalizer->supportsNormalization($value)) {
@@ -41,6 +42,7 @@ final class NormalizationRegistry extends NormalizationRegistryContract
         return parent::getNormalizer($value);
     }
 
+    #[\Override]
     public function getNormalizerByType(string $type): ?NormalizerInterface
     {
         foreach ($this->normalizer as $normalizer) {
@@ -52,6 +54,7 @@ final class NormalizationRegistry extends NormalizationRegistryContract
         return parent::getNormalizerByType($type);
     }
 
+    #[\Override]
     public function getDenormalizer(string $type): ?DenormalizerInterface
     {
         foreach ($this->denormalizer as $denormalizer) {

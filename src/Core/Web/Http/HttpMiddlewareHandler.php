@@ -12,26 +12,21 @@ use Psr\Http\Server\RequestHandlerInterface;
 final class HttpMiddlewareHandler implements RequestHandlerInterface
 {
     /**
-     * @var \Closure(ServerRequestInterface): ResponseInterface
-     */
-    private \Closure $handleStack;
-
-    /**
      * @var MiddlewareInterface[]
      */
-    private array $middlewares;
+    private readonly array $middlewares;
 
     /**
-     * @param \Closure(ServerRequestInterface): ResponseInterface $next
+     * @param \Closure(ServerRequestInterface):ResponseInterface $handleStack
      */
     public function __construct(
-        \Closure $next,
+        private readonly \Closure $handleStack,
         MiddlewareInterface ...$middlewares
     ) {
-        $this->handleStack = $next;
         $this->middlewares = $middlewares;
     }
 
+    #[\Override]
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         return $this->next($request, ...$this->middlewares);
@@ -50,7 +45,7 @@ final class HttpMiddlewareHandler implements RequestHandlerInterface
                  * @param \Closure(ServerRequestInterface): ResponseInterface $next
                  */
                 public function __construct(
-                    private \Closure $next
+                    private readonly \Closure $next
                 ) {
                 }
 

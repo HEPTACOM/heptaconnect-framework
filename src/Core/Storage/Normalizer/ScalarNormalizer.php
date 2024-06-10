@@ -10,13 +10,15 @@ use Heptacom\HeptaConnect\Portal\Base\Serialization\Exception\InvalidArgumentExc
 final class ScalarNormalizer implements NormalizerInterface
 {
     /**
-     * @psalm-return 'scalar'
+     * @phpstan-return 'scalar'
      */
+    #[\Override]
     public function getType(): string
     {
         return 'scalar';
     }
 
+    #[\Override]
     public function normalize(mixed $object, ?string $format = null, array $context = []): string
     {
         if (!$this->supportsNormalization($object)) {
@@ -26,6 +28,7 @@ final class ScalarNormalizer implements NormalizerInterface
         return \serialize($object);
     }
 
+    #[\Override]
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return \is_bool($data) || \is_string($data) || $data === null || \is_float($data) || \is_int($data);

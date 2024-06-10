@@ -12,13 +12,14 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
 use Psr\Log\LoggerInterface;
 
-final class EmitterStackProcessor implements EmitterStackProcessorInterface
+final readonly class EmitterStackProcessor implements EmitterStackProcessorInterface
 {
     public function __construct(
         private LoggerInterface $logger
     ) {
     }
 
+    #[\Override]
     public function processStack(
         iterable $externalIds,
         EmitterStackInterface $stack,

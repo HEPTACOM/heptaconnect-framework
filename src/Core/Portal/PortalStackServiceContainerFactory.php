@@ -18,9 +18,9 @@ class PortalStackServiceContainerFactory
     private array $portalContainers = [];
 
     public function __construct(
-        private PortalRegistryInterface $portalRegistry,
-        private PortalStackServiceContainerBuilderInterface $portalStackServiceContainerBuilder,
-        private StorageKeyGeneratorContract $storageKeyGenerator
+        private readonly PortalRegistryInterface $portalRegistry,
+        private readonly PortalStackServiceContainerBuilderInterface $portalStackContainerBuilder,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator
     ) {
     }
 
@@ -33,7 +33,7 @@ class PortalStackServiceContainerFactory
             return $result;
         }
 
-        $container = $this->portalStackServiceContainerBuilder->build(
+        $container = $this->portalStackContainerBuilder->build(
             $this->portalRegistry->getPortal($portalNodeKey),
             $this->portalRegistry->getPortalExtensions($portalNodeKey),
             $portalNodeKey

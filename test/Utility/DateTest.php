@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Utility\Test;
 
 use Heptacom\HeptaConnect\Utility\Date\Date;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Utility\Date\Date
- */
+#[CoversClass(Date::class)]
 final class DateTest extends TestCase
 {
     public function testMissingTimeComponent(): void

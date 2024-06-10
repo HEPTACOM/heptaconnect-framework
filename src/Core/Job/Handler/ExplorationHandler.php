@@ -20,7 +20,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
 use Psr\Log\LoggerInterface;
 
-final class ExplorationHandler implements ExplorationHandlerInterface
+final readonly class ExplorationHandler implements ExplorationHandlerInterface
 {
     public function __construct(
         private ExploreServiceInterface $exploreService,
@@ -32,6 +32,7 @@ final class ExplorationHandler implements ExplorationHandlerInterface
     ) {
     }
 
+    #[\Override]
     public function triggerExplorations(JobDataCollection $jobs): void
     {
         $keys = [];

@@ -20,7 +20,7 @@ final class PortalNodeContainerFacade extends PortalNodeContainerFacadeContract
      * @throws ServiceNotFoundException
      */
     public function __construct(
-        private ContainerInterface $container
+        private readonly ContainerInterface $container
     ) {
         foreach ((new \ReflectionClass($this))->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
             if ($method->getName() === 'get' || !\str_starts_with($method->getName(), 'get')) {
@@ -41,36 +41,43 @@ final class PortalNodeContainerFacade extends PortalNodeContainerFacadeContract
         }
     }
 
+    #[\Override]
     public function getPortalNodeKey(): PortalNodeKeyInterface
     {
         return $this->get(PortalNodeKeyInterface::class);
     }
 
+    #[\Override]
     public function getResourceLocker(): ResourceLockFacade
     {
         return $this->get(ResourceLockFacade::class);
     }
 
+    #[\Override]
     public function getStorage(): PortalStorageInterface
     {
         return $this->get(PortalStorageInterface::class);
     }
 
+    #[\Override]
     public function getLogger(): LoggerInterface
     {
         return $this->get(LoggerInterface::class);
     }
 
+    #[\Override]
     public function getWebHttpClient(): HttpClientContract
     {
         return $this->get(HttpClientContract::class);
     }
 
+    #[\Override]
     public function getFlowComponentRegistry(): FlowComponentRegistry
     {
         return $this->get(FlowComponentRegistry::class);
     }
 
+    #[\Override]
     public function getHttpHandlerMiddlewareCollector(): HttpMiddlewareCollector
     {
         return $this->get(HttpMiddlewareCollector::class);
@@ -83,12 +90,14 @@ final class PortalNodeContainerFacade extends PortalNodeContainerFacadeContract
      *
      * @return ($id is class-string<TGet> ? TGet : object|null)
      */
-    public function get(string $id)
+    #[\Override]
+    public function get(string $id): mixed
     {
         return $this->container->get($id);
     }
 
-    public function has(string $id): bool
+    #[\Override]
+    public function has($id): bool
     {
         return $this->container->has($id);
     }

@@ -8,11 +8,11 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 
 class UnsharableOwnerException extends \Exception
 {
-    private string $expectedEntityType;
+    private readonly string $expectedEntityType;
 
-    private ?string $expectedPrimaryKey;
+    private readonly ?string $expectedPrimaryKey;
 
-    private DatasetEntityContract $owner;
+    private readonly DatasetEntityContract $owner;
 
     public function __construct(string $expectedEntityType, ?string $expectedPrimaryKey, DatasetEntityContract $owner, ?\Throwable $previous = null)
     {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\DevOps\PhpStan\Rule;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\DevOps\PhpStan\Support\StructDetector;
+use Heptacom\HeptaConnect\Utility\Attachment\Contract\AttachmentAwareInterface;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
@@ -15,7 +15,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 /**
  * @implements \PHPStan\Rules\Rule<\PhpParser\Node\Stmt\Class_>
  */
-final class ImplementationsMustBeFinalRule implements Rule
+final readonly class ImplementationsMustBeFinalRule implements Rule
 {
     private StructDetector $structDetector;
 
@@ -24,6 +24,7 @@ final class ImplementationsMustBeFinalRule implements Rule
         $this->structDetector = new StructDetector();
     }
 
+    #[\Override]
     public function getNodeType(): string
     {
         return Class_::class;
@@ -32,6 +33,7 @@ final class ImplementationsMustBeFinalRule implements Rule
     /**
      * @param Class_ $node
      */
+    #[\Override]
     public function processNode(Node $node, Scope $scope): array
     {
         if ($this->structDetector->isClassLikeAStruct($node)) {

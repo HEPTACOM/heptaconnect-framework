@@ -9,17 +9,14 @@ use Heptacom\HeptaConnect\Core\Storage\Contract\StreamPathContract;
 use Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamNormalizer;
 use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\SerializableStream;
 use Http\Discovery\Psr17FactoryDiscovery;
-use League\Flysystem\Adapter\NullAdapter;
-use League\Flysystem\Filesystem;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\AbstractLogger;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Component\LogMessage
- * @covers \Heptacom\HeptaConnect\Core\Storage\Contract\StreamPathContract
- * @covers \Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamNormalizer
- * @covers \Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\SerializableStream
- */
+#[CoversClass(LogMessage::class)]
+#[CoversClass(StreamPathContract::class)]
+#[CoversClass(StreamNormalizer::class)]
+#[CoversClass(SerializableStream::class)]
 final class StreamNormalizerTest extends TestCase
 {
     public function testLogging(): void
@@ -48,7 +45,7 @@ final class StreamNormalizerTest extends TestCase
 
         $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
         $stream = new SerializableStream($streamFactory->createStream(''));
-        $norm = new StreamNormalizer(new Filesystem(new NullAdapter()), new StreamPathContract(), $logger);
+        $norm = new StreamNormalizer(\sys_get_temp_dir(), new StreamPathContract(), $logger);
 
         static::assertTrue($norm->supportsNormalization($stream, $norm->getType()));
         $norm->normalize($stream, $norm->getType(), [

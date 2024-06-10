@@ -13,18 +13,20 @@ final class ResolvedPublicUrlFileReference extends ResolvedFileReferenceContract
 {
     public function __construct(
         PortalNodeKeyInterface $portalNodeKey,
-        private string $publicUrl,
-        private ClientInterface $client,
-        private RequestFactoryInterface $requestFactory
+        private readonly string $publicUrl,
+        private readonly ClientInterface $client,
+        private readonly RequestFactoryInterface $requestFactory
     ) {
         parent::__construct($portalNodeKey);
     }
 
+    #[\Override]
     public function getPublicUrl(): string
     {
         return $this->publicUrl;
     }
 
+    #[\Override]
     public function getContents(): string
     {
         $request = $this->requestFactory->createRequest('GET', $this->publicUrl);

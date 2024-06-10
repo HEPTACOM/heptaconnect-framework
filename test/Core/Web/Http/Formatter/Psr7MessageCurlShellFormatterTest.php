@@ -8,14 +8,13 @@ use Heptacom\HeptaConnect\Core\Web\Http\Formatter\Psr7MessageCurlShellFormatter;
 use Heptacom\HeptaConnect\Core\Web\Http\Formatter\Psr7MessageRawHttpFormatter;
 use Heptacom\HeptaConnect\Core\Web\Http\Formatter\Support\HeaderUtility;
 use Http\Discovery\Psr17FactoryDiscovery;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\MessageInterface;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Web\Http\Formatter\Psr7MessageCurlShellFormatter
- * @covers \Heptacom\HeptaConnect\Core\Web\Http\Formatter\Psr7MessageRawHttpFormatter
- * @covers \Heptacom\HeptaConnect\Core\Web\Http\Formatter\Support\HeaderUtility
- */
+#[CoversClass(Psr7MessageCurlShellFormatter::class)]
+#[CoversClass(Psr7MessageRawHttpFormatter::class)]
+#[CoversClass(HeaderUtility::class)]
 final class Psr7MessageCurlShellFormatterTest extends TestCase
 {
     public function testHeadersAreInAlphabeticalOrder(): void

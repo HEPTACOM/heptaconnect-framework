@@ -10,31 +10,33 @@ use Heptacom\HeptaConnect\Portal\Base\Serialization\Exception\InvalidArgumentExc
 final class SerializableDenormalizer implements DenormalizerInterface
 {
     /**
-     * @psalm-return 'serializable'
+     * @phpstan-return 'serializable'
      */
+    #[\Override]
     public function getType(): string
     {
         return 'serializable';
     }
 
+    #[\Override]
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         if (!$this->supportsDenormalization($data, $type, $format)) {
             throw new InvalidArgumentException();
         }
 
-        $unserialize_callback_func = false;
+        $unserializeCallback = false;
 
         try {
-            $unserialize_callback_func = \ini_get('unserialize_callback_func');
+            $unserializeCallback = \ini_get('unserialize_callback_func');
             \ini_set('unserialize_callback_func', self::class . '::handleUnserializeClass');
 
             $result = \unserialize($data);
         } catch (\Throwable) {
             return null;
         } finally {
-            if (\is_string($unserialize_callback_func)) {
-                \ini_set('unserialize_callback_func', $unserialize_callback_func);
+            if (\is_string($unserializeCallback)) {
+                \ini_set('unserialize_callback_func', $unserializeCallback);
             }
         }
 
@@ -42,16 +44,17 @@ final class SerializableDenormalizer implements DenormalizerInterface
     }
 
     /**
-     * @psalm-assert string $data
+     * @phpstan-assert string $data
      */
+    #[\Override]
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         return $type === $this->getType()
             && \is_string($data)
-            && (\unserialize($data) !== false || $data === 'b:0;');
+            && (@\unserialize($data) !== false || $data === 'b:0;');
     }
 
-    public static function handleUnserializeClass(): void
+    public static function handleUnserializeClass(): never
     {
         throw new \Exception();
     }

@@ -4,28 +4,37 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test;
 
+use Heptacom\HeptaConnect\Core\Portal\Contract\PortalFactoryContract;
+use Heptacom\HeptaConnect\Core\Portal\Exception\AbstractInstantiationException;
 use Heptacom\HeptaConnect\Core\Portal\Exception\InaccessableConstructorOnInstantionException;
 use Heptacom\HeptaConnect\Core\Portal\PortalFactory;
 use Heptacom\HeptaConnect\Core\Test\Fixture\UninstantiablePortal;
 use Heptacom\HeptaConnect\Core\Test\Fixture\UninstantiablePortalExtension;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionType;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalType;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract;
 use HeptacomFixture\Portal\A\Portal;
 use HeptacomFixture\Portal\Extension\PortalExtension;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Portal\Contract\PortalFactoryContract
- * @covers \Heptacom\HeptaConnect\Core\Portal\Exception\AbstractInstantiationException
- * @covers \Heptacom\HeptaConnect\Core\Portal\Exception\InaccessableConstructorOnInstantionException
- * @covers \Heptacom\HeptaConnect\Core\Portal\PortalFactory
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PackageContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionType
- * @covers \Heptacom\HeptaConnect\Portal\Base\Portal\PortalType
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
- */
+#[CoversClass(PortalFactoryContract::class)]
+#[CoversClass(AbstractInstantiationException::class)]
+#[CoversClass(InaccessableConstructorOnInstantionException::class)]
+#[CoversClass(PortalFactory::class)]
+#[CoversClass(PackageContract::class)]
+#[CoversClass(PortalContract::class)]
+#[CoversClass(PortalExtensionContract::class)]
+#[CoversClass(PortalExtensionType::class)]
+#[CoversClass(PortalType::class)]
+#[CoversClass(ClassStringContract::class)]
+#[CoversClass(ClassStringReferenceContract::class)]
+#[CoversClass(SubtypeClassStringContract::class)]
 final class PortalFactoryTest extends TestCase
 {
     public function testPortal(): void

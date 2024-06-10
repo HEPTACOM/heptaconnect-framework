@@ -4,28 +4,35 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Emission;
 
+use Heptacom\HeptaConnect\Core\Emission\EmitterStack;
 use Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilder;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterStackInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Emission\EmitterStack
- * @covers \Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilder
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
- * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
- */
+#[CoversClass(EmitterStack::class)]
+#[CoversClass(EmitterStackBuilder::class)]
+#[CoversClass(DatasetEntityContract::class)]
+#[CoversClass(EntityType::class)]
+#[CoversClass(EmitterContract::class)]
+#[CoversClass(EmitterCollection::class)]
+#[CoversClass(ClassStringContract::class)]
+#[CoversClass(ClassStringReferenceContract::class)]
+#[CoversClass(SubtypeClassStringContract::class)]
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(AbstractObjectCollection::class)]
 final class EmitterStackBuilderTest extends TestCase
 {
     public function testStackBuilderManualOrder(): void
@@ -104,5 +111,18 @@ final class EmitterStackBuilderTest extends TestCase
         $stack->next([], $this->createMock(EmitContextInterface::class));
 
         static::assertEquals([2, 1], $calc);
+    }
+
+    public function testEmptyStack(): void
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $stackBuilder = new EmitterStackBuilder(new EmitterCollection(), FooBarEntity::class(), $logger);
+        $stackBuilder->pushSource();
+        $stackBuilder->pushDecorators();
+        $stack = $stackBuilder->build();
+
+        $logger->expects(static::never())->method('debug');
+
+        $stack->next([], $this->createMock(EmitContextInterface::class));
     }
 }

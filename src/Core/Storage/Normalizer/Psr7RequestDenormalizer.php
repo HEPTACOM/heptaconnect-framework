@@ -9,18 +9,20 @@ use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\DenormalizerInterfa
 use Heptacom\HeptaConnect\Portal\Base\Serialization\Exception\InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
 
-final class Psr7RequestDenormalizer implements DenormalizerInterface
+final readonly class Psr7RequestDenormalizer implements DenormalizerInterface
 {
     public function __construct(
         private RequestDeserializerInterface $deserializer
     ) {
     }
 
+    #[\Override]
     public function getType(): string
     {
         return 'psr7-request';
     }
 
+    #[\Override]
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): RequestInterface
     {
         if (!$this->supportsDenormalization($data, $type, $format)) {
@@ -31,8 +33,9 @@ final class Psr7RequestDenormalizer implements DenormalizerInterface
     }
 
     /**
-     * @psalm-assert string $data
+     * @phpstan-assert string $data
      */
+    #[\Override]
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== $this->getType() || !\is_string($data)) {

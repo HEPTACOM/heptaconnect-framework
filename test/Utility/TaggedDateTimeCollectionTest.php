@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Utility\Test;
 
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection;
 use Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem;
 use Heptacom\HeptaConnect\Utility\Date\DateTimeCollection;
 use Heptacom\HeptaConnect\Utility\Date\TaggedDateTimeCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\AbstractTaggedCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\Contract\TagItem
- * @covers \Heptacom\HeptaConnect\Utility\Date\DateTimeCollection
- * @covers \Heptacom\HeptaConnect\Utility\Date\TaggedDateTimeCollection
- */
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(AbstractTaggedCollection::class)]
+#[CoversClass(TagItem::class)]
+#[CoversClass(DateTimeCollection::class)]
+#[CoversClass(TaggedDateTimeCollection::class)]
 final class TaggedDateTimeCollectionTest extends TestCase
 {
     use ProvidesDateTimeTestsData;
     use ProvidesInvalidTestsData;
 
-    /**
-     * @dataProvider provideValidDateTimeTestCases
-     */
+    #[DataProvider('provideValidDateTimeTestCases')]
     public function testInsertTagOnCtor(\DateTimeInterface $item): void
     {
         $tagged = new TaggedDateTimeCollection([new TagItem(new DateTimeCollection([$item]), 'randomoffset')]);
@@ -32,9 +32,7 @@ final class TaggedDateTimeCollectionTest extends TestCase
         static::assertEquals($item, $tagged->offsetGet('randomoffset')->getCollection()->first());
     }
 
-    /**
-     * @dataProvider provideValidDateTimeTestCases
-     */
+    #[DataProvider('provideValidDateTimeTestCases')]
     public function testChangingCollection(\DateTimeInterface $item): void
     {
         $tagged = new TaggedDateTimeCollection();
@@ -45,9 +43,7 @@ final class TaggedDateTimeCollectionTest extends TestCase
         static::assertCount(1, $tagged->offsetGet('randomoffset')->getCollection());
     }
 
-    /**
-     * @dataProvider provideValidDateTimeTestCases
-     */
+    #[DataProvider('provideValidDateTimeTestCases')]
     public function testGetTagItemAfterInserting(\DateTimeInterface $item): void
     {
         $tagged = new TaggedDateTimeCollection();
@@ -57,9 +53,7 @@ final class TaggedDateTimeCollectionTest extends TestCase
         static::assertEquals($item, $tagged->offsetGet('randomoffset')->getCollection()->first());
     }
 
-    /**
-     * @dataProvider provideValidDateTimeTestCases
-     */
+    #[DataProvider('provideValidDateTimeTestCases')]
     public function testGetTagItemWithoutInsertingItFirst(\DateTimeInterface $item): void
     {
         $tagged = new TaggedDateTimeCollection();
@@ -76,9 +70,7 @@ final class TaggedDateTimeCollectionTest extends TestCase
         static::assertTrue($tagged->offsetExists('1'));
     }
 
-    /**
-     * @dataProvider provideInvalidTestCases
-     */
+    #[DataProvider('provideInvalidTestCases')]
     public function testInsertOtherTypeInTypeCollection($item): void
     {
         $collection = new TaggedDateTimeCollection();
@@ -86,9 +78,7 @@ final class TaggedDateTimeCollectionTest extends TestCase
         static::assertCount(0, $collection);
     }
 
-    /**
-     * @dataProvider provideInvalidTestCases
-     */
+    #[DataProvider('provideInvalidTestCases')]
     public function testFailInsertOtherTypeInTypeCollection($item): void
     {
         static::expectException(\InvalidArgumentException::class);

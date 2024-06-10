@@ -13,7 +13,7 @@ class TypedMappingCollection extends MappingCollection
      * @param iterable<MappingInterface> $items
      */
     public function __construct(
-        private EntityType $entityType,
+        private readonly EntityType $entityType,
         iterable $items = []
     ) {
         parent::__construct($items);
@@ -32,16 +32,14 @@ class TypedMappingCollection extends MappingCollection
         return (string) $this->entityType;
     }
 
+    #[\Override]
     protected function isValidItem(mixed $item): bool
     {
         if (!parent::isValidItem($item)) {
             return false;
         }
 
-        if (!$item instanceof MappingInterface) {
-            return false;
-        }
-
+        /* @var MappingInterface $item */
         return $item->getEntityType()->equals($this->entityType);
     }
 }

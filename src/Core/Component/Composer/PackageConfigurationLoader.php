@@ -17,18 +17,24 @@ use Psr\Cache\CacheItemPoolInterface;
 
 final class PackageConfigurationLoader implements Contract\PackageConfigurationLoaderInterface
 {
+    /**
+     * @see \Symfony\Contracts\Cache\ItemInterface::RESERVED_CHARACTERS
+     */
+    private const string SYMFONY_RESERVED_CHARACTERS = '{}()/\@:';
+
     public function __construct(
         private ?string $composerJson,
-        private CacheItemPoolInterface $cache
+        private readonly CacheItemPoolInterface $cache
     ) {
     }
 
+    #[\Override]
     public function getPackageConfigurations(): PackageConfigurationCollection
     {
         $cacheKey = $this->getCacheKey();
 
         if (\is_string($cacheKey)) {
-            $cacheItem = $this->cache->getItem(\str_replace('\\', '-', self::class) . '-' . $cacheKey);
+            $cacheItem = $this->cache->getItem(\str_replace(self::SYMFONY_RESERVED_CHARACTERS, '-', self::class) . '-' . $cacheKey);
 
             if ($cacheItem->isHit()) {
                 $result = $cacheItem->get();
@@ -118,7 +124,7 @@ final class PackageConfigurationLoader implements Contract\PackageConfigurationL
     }
 
     /**
-     * @psalm-return iterable<class-string, string>
+     * @phpstan-return iterable<class-string, string>
      */
     private function iterateClassMaps(
         Composer $composer,

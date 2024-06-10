@@ -9,7 +9,7 @@ trait ProvidesFloatTestsData
     /**
      * @return iterable<array-key, array<int, float>>
      */
-    public function provideValidFloatTestCases(): iterable
+    public static function provideValidFloatTestCases(): iterable
     {
         yield [0.0];
         yield [1.0];

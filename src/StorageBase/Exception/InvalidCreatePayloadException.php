@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Create\CreatePayloadInter
 class InvalidCreatePayloadException extends CreateException
 {
     public function __construct(
-        private CreatePayloadInterface $payload,
+        private readonly CreatePayloadInterface $payload,
         int $code,
         ?\Throwable $throwable = null
     ) {

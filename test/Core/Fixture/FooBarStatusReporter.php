@@ -9,18 +9,18 @@ use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReportingCo
 
 final class FooBarStatusReporter extends StatusReporterContract
 {
-    private string $id;
-
-    public function __construct(string $id)
-    {
-        $this->id = $id;
+    public function __construct(
+        private readonly string $id
+    ) {
     }
 
+    #[\Override]
     public function supportsTopic(): string
     {
         return 'foo-bar';
     }
 
+    #[\Override]
     protected function run(StatusReportingContextInterface $context): array
     {
         return [$this->supportsTopic() . '.' . $this->id => true];

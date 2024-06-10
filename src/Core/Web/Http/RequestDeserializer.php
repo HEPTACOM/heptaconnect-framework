@@ -10,7 +10,7 @@ use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 
-final class RequestDeserializer implements RequestDeserializerInterface
+final readonly class RequestDeserializer implements RequestDeserializerInterface
 {
     public function __construct(
         private RequestFactoryInterface $requestFactory,
@@ -18,6 +18,7 @@ final class RequestDeserializer implements RequestDeserializerInterface
     ) {
     }
 
+    #[\Override]
     public function deserialize(string $requestData): RequestInterface
     {
         $requestPayload = $this->validateRequestData($requestData);

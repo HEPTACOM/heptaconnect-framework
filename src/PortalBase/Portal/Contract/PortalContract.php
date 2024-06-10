@@ -29,6 +29,7 @@ abstract class PortalContract extends PackageContract
         return new PortalType(static::class);
     }
 
+    #[\Override]
     public function getDefaultFlowComponentPriority(): int
     {
         return 0;

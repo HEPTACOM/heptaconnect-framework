@@ -4,32 +4,41 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Core\Test\Exploration;
 
+use Heptacom\HeptaConnect\Core\Emission\AbstractBufferedResultProcessingEmitter;
 use Heptacom\HeptaConnect\Core\Emission\Contract\EmissionFlowEmittersFactoryInterface;
 use Heptacom\HeptaConnect\Core\Emission\IdentityMappingEmitter;
 use Heptacom\HeptaConnect\Core\Exploration\DirectEmissionFlowEmittersFactory;
 use Heptacom\HeptaConnect\Core\Storage\PrimaryKeyToEntityHydrator;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEmitter;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarEntity;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
+use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
+use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract;
+use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Core\Emission\AbstractBufferedResultProcessingEmitter
- * @covers \Heptacom\HeptaConnect\Core\Emission\IdentityMappingEmitter
- * @covers \Heptacom\HeptaConnect\Core\Exploration\DirectEmissionFlowEmittersFactory
- * @covers \Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract
- * @covers \Heptacom\HeptaConnect\Dataset\Base\EntityType
- * @covers \Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection
- * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract
- * @covers \Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract
- * @covers \Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection
- */
+#[CoversClass(AbstractBufferedResultProcessingEmitter::class)]
+#[CoversClass(IdentityMappingEmitter::class)]
+#[CoversClass(DirectEmissionFlowEmittersFactory::class)]
+#[CoversClass(DatasetEntityContract::class)]
+#[CoversClass(EntityType::class)]
+#[CoversClass(TypedDatasetEntityCollection::class)]
+#[CoversClass(EmitterContract::class)]
+#[CoversClass(EmitterCollection::class)]
+#[CoversClass(ClassStringContract::class)]
+#[CoversClass(ClassStringReferenceContract::class)]
+#[CoversClass(SubtypeClassStringContract::class)]
+#[CoversClass(AbstractCollection::class)]
+#[CoversClass(AbstractObjectCollection::class)]
 final class DirectEmissionFlowEmittersFactoryTest extends TestCase
 {
     public function testCollectionContainsExpectedServices(): void

@@ -11,6 +11,7 @@ use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
  */
 class MappedDatasetEntityCollection extends AbstractObjectCollection
 {
+    #[\Override]
     protected function getT(): string
     {
         return MappedDatasetEntityStruct::class;

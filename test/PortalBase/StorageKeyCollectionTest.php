@@ -9,13 +9,13 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\MappingNodeKeyCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Portal\Base\StorageKey\MappingNodeKeyCollection
- * @covers \Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection
- * @covers \Heptacom\HeptaConnect\Utility\Collection\AbstractCollection
- */
+#[CoversClass(MappingNodeKeyCollection::class)]
+#[CoversClass(PortalNodeKeyCollection::class)]
+#[CoversClass(AbstractCollection::class)]
 final class StorageKeyCollectionTest extends TestCase
 {
     public function testMappingNodeKeyCollection(): void
@@ -24,7 +24,7 @@ final class StorageKeyCollectionTest extends TestCase
         $collection->push([new class() implements MappingNodeKeyInterface {
             public function equals(StorageKeyInterface $other): bool
             {
-                return $other::class === static::class;
+                return $other::class === self::class;
             }
 
             #[\ReturnTypeWillChange]
@@ -42,7 +42,7 @@ final class StorageKeyCollectionTest extends TestCase
         $collection->push([new class() implements PortalNodeKeyInterface {
             public function equals(StorageKeyInterface $other): bool
             {
-                return $other::class === static::class;
+                return $other::class === self::class;
             }
 
             #[\ReturnTypeWillChange]

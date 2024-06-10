@@ -13,16 +13,14 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection;
 use Psr\Log\LoggerInterface;
 
-/**
- * @SuppressWarnings(PHPMD.LongClassName)
- */
-final class ExploredPrimaryKeysToEmissionJobsConverter implements ExploredPrimaryKeysToJobsConverterInterface
+final readonly class ExploredPrimaryKeysToEmissionJobsConverter implements ExploredPrimaryKeysToJobsConverterInterface
 {
     public function __construct(
         private LoggerInterface $logger
     ) {
     }
 
+    #[\Override]
     public function convert(
         PortalNodeKeyInterface $portalNodeKey,
         EntityType $entityType,

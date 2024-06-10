@@ -45,9 +45,6 @@ use Heptacom\HeptaConnect\Utility\ClassString\ClassStringReferenceCollection;
 
 /**
  * Test pre-implementation to test route related storage actions. Some other storage actions e.g. PortalNodeCreate are needed to set up test scenarios.
- *
- * @SuppressWarnings(PHPMD.CyclomaticComplexity)
- * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
  */
 abstract class RouteTestContract extends TestCase
 {
@@ -71,10 +68,9 @@ abstract class RouteTestContract extends TestCase
 
     private PortalNodeKeyInterface $portalB;
 
+    #[\Override]
     protected function setUp(): void
     {
-        parent::setUp();
-
         $facade = $this->createStorageFacade();
         $this->portalNodeCreateAction = $facade->getPortalNodeCreateAction();
         $this->portalNodeDeleteAction = $facade->getPortalNodeDeleteAction();
@@ -100,18 +96,17 @@ abstract class RouteTestContract extends TestCase
         $this->portalB = $lastResult->getPortalNodeKey();
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
-        parent::tearDown();
-
         try {
             $this->portalNodeDeleteAction->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([$this->portalA])));
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
         }
 
         try {
             $this->portalNodeDeleteAction->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([$this->portalB])));
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
         }
     }
 

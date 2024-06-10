@@ -14,20 +14,23 @@ final class PortalConfiguration extends ConfigurationContract
     private ?array $flat = null;
 
     public function __construct(
-        private array $configuration
+        private readonly array $configuration
     ) {
     }
 
-    public function get(string $name)
+    #[\Override]
+    public function get(string $name): mixed
     {
         return $this->flattened()[$name] ?? null;
     }
 
+    #[\Override]
     public function has(string $name): bool
     {
         return isset($this->flattened()[$name]);
     }
 
+    #[\Override]
     public function keys(): array
     {
         return \array_keys($this->flattened());

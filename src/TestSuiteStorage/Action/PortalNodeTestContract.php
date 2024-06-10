@@ -46,46 +46,46 @@ abstract class PortalNodeTestContract extends TestCase
         static::assertCount($createPayloads->count(), $createResults);
 
         $getCriteria = new PortalNodeGetCriteria(new PortalNodeKeyCollection());
-        $collectedPortalNodeClasses = [];
+        $portalNodeClasses = [];
 
         foreach ($createResults as $createResult) {
             $getCriteria->getPortalNodeKeys()->push([$createResult->getPortalNodeKey()]);
             /** @var PortalNodeGetResult[] $getResult */
             $getResult = \iterable_to_array($getAction->get(new PortalNodeGetCriteria(new PortalNodeKeyCollection([$createResult->getPortalNodeKey()]))));
-            $collectedPortalNodeClasses[] = (string) $getResult[0]->getPortalClass();
+            $portalNodeClasses[] = (string) $getResult[0]->getPortalClass();
 
             static::assertCount(1, $getResult);
             static::assertTrue($getResult[0]->getPortalNodeKey()->equals($createResult->getPortalNodeKey()));
         }
 
-        \sort($collectedPortalNodeClasses);
+        \sort($portalNodeClasses);
         static::assertSame([
             PortalA::class,
             PortalA::class,
             PortalB::class,
             PortalC::class,
-        ], $collectedPortalNodeClasses);
+        ], $portalNodeClasses);
 
         $deleteCriteria = new PortalNodeDeleteCriteria(new PortalNodeKeyCollection());
-        $collectedPortalNodeClasses = [];
+        $portalNodeClasses = [];
 
         foreach ($listAction->list() as $listResult) {
             $deleteCriteria->getPortalNodeKeys()->push([$listResult->getPortalNodeKey()]);
             /** @var PortalNodeGetResult[] $getResult */
             $getResult = \iterable_to_array($getAction->get(new PortalNodeGetCriteria(new PortalNodeKeyCollection([$listResult->getPortalNodeKey()]))));
-            $collectedPortalNodeClasses[] = (string) $getResult[0]->getPortalClass();
+            $portalNodeClasses[] = (string) $getResult[0]->getPortalClass();
 
             static::assertCount(1, $getResult);
             static::assertTrue($getResult[0]->getPortalNodeKey()->equals($listResult->getPortalNodeKey()));
         }
 
-        \sort($collectedPortalNodeClasses);
+        \sort($portalNodeClasses);
         static::assertSame([
             PortalA::class,
             PortalA::class,
             PortalB::class,
             PortalC::class,
-        ], $collectedPortalNodeClasses);
+        ], $portalNodeClasses);
 
         $deleteAction->delete($deleteCriteria);
 

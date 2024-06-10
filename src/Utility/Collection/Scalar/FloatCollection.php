@@ -38,6 +38,7 @@ final class FloatCollection extends AbstractCollection
         return (float) \array_sum($this->items);
     }
 
+    #[\Override]
     protected function isValidItem(mixed $item): bool
     {
         return \is_float($item);

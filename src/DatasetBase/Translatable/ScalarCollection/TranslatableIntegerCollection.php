@@ -12,6 +12,7 @@ use Heptacom\HeptaConnect\Utility\Collection\Scalar\IntegerCollection;
  */
 final class TranslatableIntegerCollection extends AbstractTranslatableScalarCollection
 {
+    #[\Override]
     protected function getInitialValue(): CollectionInterface
     {
         return new IntegerCollection();

@@ -20,9 +20,7 @@ class EmitterCollection extends AbstractObjectCollection
         );
     }
 
-    /**
-     * @psalm-return Contract\EmitterContract::class
-     */
+    #[\Override]
     protected function getT(): string
     {
         return EmitterContract::class;

@@ -12,7 +12,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 abstract class ResolvedFileReferenceContract
 {
     public function __construct(
-        private PortalNodeKeyInterface $portalNodeKey
+        private readonly PortalNodeKeyInterface $portalNodeKey
     ) {
     }
 

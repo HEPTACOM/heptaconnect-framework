@@ -15,6 +15,7 @@ final class IdentityErrorCreatePayloads extends AbstractObjectCollection impleme
 {
     use AttachmentAwareTrait;
 
+    #[\Override]
     protected function getT(): string
     {
         return IdentityErrorCreatePayload::class;

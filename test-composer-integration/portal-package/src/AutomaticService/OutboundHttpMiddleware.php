@@ -11,6 +11,7 @@ use Psr\Http\Message\ResponseInterface;
 
 final class OutboundHttpMiddleware implements HttpClientMiddlewareInterface
 {
+    #[\Override]
     public function process(RequestInterface $request, ClientInterface $handler): ResponseInterface
     {
         return $handler->sendRequest($request);
