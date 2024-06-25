@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\DevOps\PhpStan\Support;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachableInterface;
-use Heptacom\HeptaConnect\Dataset\Base\Contract\AttachmentAwareInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\ForeignKeyAwareInterface;
 use Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Audit\AuditableDataAwareInterface;
+use Heptacom\HeptaConnect\Utility\Attachment\Contract\AttachableInterface;
+use Heptacom\HeptaConnect\Utility\Attachment\Contract\AttachmentAwareInterface;
 use PhpParser\Node\Expr\Error;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Class_;
