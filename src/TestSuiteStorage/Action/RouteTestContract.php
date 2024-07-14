@@ -119,8 +119,8 @@ abstract class RouteTestContract extends TestCase
 
         foreach ([$this->portalA, $this->portalB] as $sourcePortal) {
             foreach ([$this->portalA, $this->portalB] as $targetPortal) {
-                foreach ([EntityA::class, EntityB::class, EntityC::class] as $entityType) {
-                    $createPayloads->push([new RouteCreatePayload($sourcePortal, $targetPortal, $entityType::class())]);
+                foreach ([EntityA::class(), EntityB::class(), EntityC::class()] as $entityType) {
+                    $createPayloads->push([new RouteCreatePayload($sourcePortal, $targetPortal, $entityType)]);
                 }
             }
         }
@@ -204,8 +204,8 @@ abstract class RouteTestContract extends TestCase
 
         foreach ([$this->portalA, $this->portalB] as $sourcePortal) {
             foreach ([$this->portalA, $this->portalB] as $targetPortal) {
-                foreach ([EntityA::class, EntityB::class, EntityC::class] as $entityType) {
-                    $createPayloads->push([new RouteCreatePayload($sourcePortal, $targetPortal, $entityType::class(), [
+                foreach ([EntityA::class(), EntityB::class(), EntityC::class()] as $entityType) {
+                    $createPayloads->push([new RouteCreatePayload($sourcePortal, $targetPortal, $entityType, [
                         RouteCapability::RECEPTION,
                     ])]);
                 }
