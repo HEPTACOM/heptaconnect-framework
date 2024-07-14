@@ -69,6 +69,7 @@ definitions:
                     - mv vendor .build/vendor-low
                     - echo 'mkdir -p vendor; rm -rf vendor; mv .build/vendor-low vendor' > setup-vendor.sh
         -   step: &test-coverage-high-install-84
+                <<: *default-step
                 <<: *php84-image
                 name: Install and Unit test (8.4 + High dependencies)
                 script:
@@ -76,6 +77,7 @@ definitions:
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - XDEBUG_MODE=coverage COMPOSER_EXTRA_ARGS=-vvv make -e coverage
         -   step: &test-coverage-low-install-84
+                <<: *default-step
                 <<: *php84-image
                 name: Install and Unit test (8.4 + Low dependencies)
                 script:
