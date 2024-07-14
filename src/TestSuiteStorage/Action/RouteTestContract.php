@@ -128,7 +128,7 @@ abstract class RouteTestContract extends TestCase
         $createResults = $this->routeCreateAction->create($createPayloads);
         static::assertCount($createPayloads->count(), $createResults);
 
-        foreach ($createPayloads as $createPayload) {
+        foreach ($createPayloads as $createPayloadIndex => $createPayload) {
             $findCriteria = new RouteFindCriteria(
                 $createPayload->getSourcePortalNodeKey(),
                 $createPayload->getTargetPortalNodeKey(),
@@ -159,7 +159,7 @@ abstract class RouteTestContract extends TestCase
             )));
 
             $overviewAllResult = \iterable_to_array($this->routeOverviewAction->overview(new RouteOverviewCriteria()));
-            static::assertCount(1, $overviewAllResult);
+            static::assertCount(12 - $createPayloadIndex, $overviewAllResult); // is decreasing as 1 route is deleted in each step
             static::assertCount(1, \array_filter(
                 $overviewAllResult,
                 static fn (RouteOverviewResult $r): bool => $r->getRouteKey()->equals($findResult->getRouteKey())
