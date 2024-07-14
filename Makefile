@@ -68,6 +68,10 @@ it: cs-fix cs coverage ## Fix code style and run unit tests
 coverage: vendor .build ## Run phpunit coverage tests
 	$(PHPUNIT) --coverage-text
 
+.PHONY: tests-without-coverage
+tests-without-coverage: vendor .build ## Run phpunit tests without coverage. This is needed as pecl does not serve xdebug 3.2 for php 8.3 . See https://bugs.xdebug.org/view.php?id=2252
+	$(PHPUNIT)
+
 .PHONY: cs
 cs: cs-php cs-phpstan cs-phpmd cs-soft-require cs-composer-unused cs-composer-normalize cs-json cs-phpchurn ## Run every code style check target
 
