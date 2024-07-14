@@ -234,11 +234,13 @@ abstract class RouteTestContract extends TestCase
                 $createPayload->getSourcePortalNodeKey(),
                 $createPayload->getEntityType()
             )));
+            static::assertCount(2, $listResults);
+
             $receptionListResult = \array_filter(
                 $listResults,
                 static fn (ReceptionRouteListResult $r): bool => $r->getRouteKey()->equals($findResult->getRouteKey())
             );
-            static::assertCount(1, $receptionListResult);
+            static::assertCount(1, $receptionListResult, 'Are the route keys in the same format?');
 
             $routeKeys->push([$findResult->getRouteKey()]);
         }
