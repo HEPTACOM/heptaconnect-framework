@@ -41,11 +41,11 @@ abstract class StorageKeyGeneratorContract
             try {
                 return \json_encode($key, \JSON_THROW_ON_ERROR);
             } catch (\Throwable $throwable) {
-                throw new UnsupportedStorageKeyException(\get_debug_type($key), $throwable);
+                throw new UnsupportedStorageKeyException($key, $throwable);
             }
         }
 
-        throw new UnsupportedStorageKeyException(\get_debug_type($key));
+        throw new UnsupportedStorageKeyException($key);
     }
 
     /**
@@ -65,9 +65,9 @@ abstract class StorageKeyGeneratorContract
                 return new PreviewPortalNodeKey($portalType::class());
             }
         } catch (\Throwable $throwable) {
-            throw new UnsupportedStorageKeyException(StorageKeyInterface::class, $throwable);
+            throw new UnsupportedStorageKeyException(null, $throwable);
         }
 
-        throw new UnsupportedStorageKeyException(StorageKeyInterface::class);
+        throw new UnsupportedStorageKeyException(null);
     }
 }

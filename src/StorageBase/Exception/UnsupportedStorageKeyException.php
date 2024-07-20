@@ -8,8 +8,10 @@ class UnsupportedStorageKeyException extends \Exception
 {
     private readonly string $storageKeyClass;
 
-    public function __construct(string $storageKeyClass, ?\Throwable $previous = null)
+    public function __construct(mixed $storageKey, ?\Throwable $previous = null)
     {
+        $storageKeyClass = \get_debug_type($storageKey);
+
         parent::__construct(\sprintf('Unsupported storage key class: %s', $storageKeyClass), 0, $previous);
         $this->storageKeyClass = $storageKeyClass;
     }
