@@ -17,13 +17,14 @@ use PHPStan\Rules\RuleErrorBuilder;
 /**
  * @implements Rule<Class_>
  */
-final class FinalClassesMustNotHaveProtectedFieldsAndMethodsRule implements Rule
+final readonly class FinalClassesMustNotHaveProtectedFieldsAndMethodsRule implements Rule
 {
     public function __construct(
         private ReflectionProvider $reflectionProvider
     ) {
     }
 
+    #[\Override]
     public function getNodeType(): string
     {
         return Class_::class;
@@ -32,6 +33,7 @@ final class FinalClassesMustNotHaveProtectedFieldsAndMethodsRule implements Rule
     /**
      * @param Class_ $node
      */
+    #[\Override]
     public function processNode(Node $node, Scope $scope): array
     {
         if (!$node->isFinal()) {
@@ -40,6 +42,7 @@ final class FinalClassesMustNotHaveProtectedFieldsAndMethodsRule implements Rule
 
         $reflectionClass = $this->reflectionProvider->getClass($scope->getNamespace() . '\\' . $node->name);
         $parentMethods = [];
+        /** @var array<string, string> $parentConsts */
         $parentConsts = [];
         $parentProperties = [];
 
@@ -52,7 +55,7 @@ final class FinalClassesMustNotHaveProtectedFieldsAndMethodsRule implements Rule
             }
 
             foreach (\array_keys($interfaceRefl->getReflectionConstants()) as $constant) {
-                $parentConsts[$constant] = $constant;
+                $parentConsts[(string) $constant] = $constant;
             }
 
             foreach ($interfaceRefl->getProperties() as $property) {
@@ -70,7 +73,7 @@ final class FinalClassesMustNotHaveProtectedFieldsAndMethodsRule implements Rule
             }
 
             foreach (\array_keys($classRefl->getReflectionConstants()) as $constant) {
-                $parentConsts[$constant] = $constant;
+                $parentConsts[(string) $constant] = $constant;
             }
 
             foreach ($classRefl->getProperties() as $property) {

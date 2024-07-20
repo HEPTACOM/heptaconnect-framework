@@ -5,7 +5,6 @@ rules:
 	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\ImplementationsMustBeFinalRule
 	- Heptacom\HeptaConnect\DevOps\PhpStan\Rule\InterfacesHaveDocumentationRule
 parameters:
-	checkMissingIterableValueType: false
 	inferPrivatePropertyTypeFromConstructor: true
 	paths:
 		- ../dev-ops/bin/phpstan/src/
@@ -13,3 +12,6 @@ parameters:
 	tmpDir: ../.build/phpstan/
 	scanDirectories:
 		- ../vendor/
+	ignoreErrors:
+		-
+			identifier: missingType.iterableValue

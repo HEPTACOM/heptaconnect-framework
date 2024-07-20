@@ -1,6 +1,6 @@
 {
     "require": {
         "php": ">=8.3",
-        "bmitch/churn-php": "^1.7"
+        "rector/rector": "^1"
     }
 }

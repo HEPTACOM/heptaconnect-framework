@@ -1,8 +1,8 @@
 {
     "require": {
-        "php": ">=8.0",
-        "kubawerlos/php-cs-fixer-custom-fixers": "^3",
-        "symplify/easy-coding-standard": "^11"
+        "php": ">=8.3",
+        "kubawerlos/php-cs-fixer-custom-fixers": "^3.21",
+        "symplify/easy-coding-standard": "^11.5"
     },
     "config": {
         "allow-plugins": {

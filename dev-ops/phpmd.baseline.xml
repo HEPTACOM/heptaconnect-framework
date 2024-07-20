@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<phpmd-baseline>
+    <!-- Intentional -->
+    <!-- To generate use: $ dev-ops/bin/phpmd --generate-baseline src xml dev-ops/phpmd.xml -->
+</phpmd-baseline>
