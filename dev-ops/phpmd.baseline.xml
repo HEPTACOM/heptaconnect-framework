@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <phpmd-baseline>
     <!-- Intentional -->
-    <!-- To generate use: $ dev-ops/bin/phpmd --generate-baseline src xml dev-ops/phpmd.xml -->
+    <!-- To generate use: $ dev-ops/bin/phpmd - - generate-baseline src xml dev-ops/phpmd.xml -->
     <violation rule="PHPMD\Rule\CyclomaticComplexity" file="src/Core/File/Filesystem/RewritePathStreamWrapper.php" method="getOptions"/>
     <violation rule="PHPMD\Rule\CyclomaticComplexity" file="src/Core/File/Filesystem/RewritePathStreamWrapper.php" method="stream_metadata"/>
     <violation rule="PHPMD\Rule\CyclomaticComplexity" file="src/Core/Job/Handler/ReceptionHandler.php" method="triggerReception"/>
