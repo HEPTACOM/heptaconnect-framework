@@ -140,11 +140,6 @@ infection: clean vendor .build ## Run infection tests
 	$(PHPUNIT) --coverage-xml=.build/.phpunit-coverage/index.xml --log-junit=.build/.phpunit-coverage/infection.junit.xml
 	$(INFECTION) --only-covered --only-covering-test-cases --threads=max --configuration=dev-ops/infection.json --coverage=../.build/.phpunit-coverage --show-mutations --no-interaction
 
-.PHONY: run-phpunit
-run-phpunit: vendor .build
-	$(PHPUNIT) --log-junit=.build/.phpunit-coverage/phpunit.junit.xml
-	make -C test-suite-portal-test-portal test
-
 $(PHPSTAN_FILE): ## Install phpstan executable
 	$(COMPOSER) install -d "$(PHPSTAN_COMPOSER_DIR)"
 
