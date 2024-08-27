@@ -14,17 +14,17 @@ final class ClassCodeHasher
     {
     }
 
-    static function hashClassStringCode(ClassStringReferenceContract $classString): string
+    public static function hashClassStringCode(ClassStringReferenceContract $classString): string
     {
         return self::hashReflectionClassCode(new \ReflectionClass((string) $classString));
     }
 
-    static function hashClassCode(object $class): string
+    public static function hashClassCode(object $class): string
     {
         return self::hashReflectionClassCode(new \ReflectionClass($class));
     }
 
-    static function hashReflectionClassCode(\ReflectionClass $reflectionClass): string
+    public static function hashReflectionClassCode(\ReflectionClass $reflectionClass): string
     {
         if (isset(self::$fileHashes[$reflectionClass->name])) {
             return self::$fileHashes[$reflectionClass->name];
