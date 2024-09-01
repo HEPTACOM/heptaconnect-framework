@@ -87,8 +87,12 @@ run-phpunit-coverage:
 	make -C test-suite-portal-test-portal coverage
 
 .PHONY: tests-without-coverage
-tests-without-coverage: vendor .build ## Run phpunit tests without coverage. This is needed as pecl does not serve xdebug 3.2 for php 8.3 . See https://bugs.xdebug.org/view.php?id=2252
+tests-without-coverage: vendor .build test-setup-fixture clean-package-vendor run-phpunit test-clean-fixture ## Run phpunit tests without coverage. This is needed as pecl does not serve xdebug 3.2 for php 8.3 . See https://bugs.xdebug.org/view.php?id=2252
+
+.PHONY: run-phpunit
+run-phpunit:
 	$(PHPUNIT)
+	make -C test-suite-portal-test-portal test
 
 .PHONY: cs
 cs: cs-php cs-phpstan cs-phpmd cs-soft-require cs-composer-unused cs-composer-normalize cs-json cs-phpchurn ## Run every code style check target
