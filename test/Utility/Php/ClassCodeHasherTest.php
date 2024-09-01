@@ -17,40 +17,40 @@ final class ClassCodeHasherTest extends TestCase
 {
     public function testHashClass(): void
     {
-        static::assertNotSame('', ClassCodeHasher::hashClassStringCode(new UnsafeClassString(\DateTime::class)));
+        static::assertNotSame('', ClassCodeHasher::getInstance()->hashClassStringCode(new UnsafeClassString(\DateTime::class)));
     }
 
     public function testHashInterface(): void
     {
-        static::assertNotSame('', ClassCodeHasher::hashClassStringCode(new UnsafeClassString(\DateTimeInterface::class)));
+        static::assertNotSame('', ClassCodeHasher::getInstance()->hashClassStringCode(new UnsafeClassString(\DateTimeInterface::class)));
     }
 
     public function testHashTrait(): void
     {
-        static::assertNotSame('', ClassCodeHasher::hashClassStringCode(new UnsafeClassString(SetStateTrait::class)));
+        static::assertNotSame('', ClassCodeHasher::getInstance()->hashClassStringCode(new UnsafeClassString(SetStateTrait::class)));
     }
 
     public function testHashClassContainsInterfaceHash(): void
     {
         static::assertStringContainsString(
-            ClassCodeHasher::hashClassStringCode(new UnsafeClassString(\DateTimeInterface::class)),
-            ClassCodeHasher::hashClassStringCode(new UnsafeClassString(\DateTime::class)),
+            ClassCodeHasher::getInstance()->hashClassStringCode(new UnsafeClassString(\DateTimeInterface::class)),
+            ClassCodeHasher::getInstance()->hashClassStringCode(new UnsafeClassString(\DateTime::class)),
         );
     }
 
     public function testHashClassContainsTraitHash(): void
     {
         static::assertStringContainsString(
-            ClassCodeHasher::hashClassStringCode(new UnsafeClassString(SetStateTrait::class)),
-            ClassCodeHasher::hashClassStringCode(new UnsafeClassString(AbstractCollection::class)),
+            ClassCodeHasher::getInstance()->hashClassStringCode(new UnsafeClassString(SetStateTrait::class)),
+            ClassCodeHasher::getInstance()->hashClassStringCode(new UnsafeClassString(AbstractCollection::class)),
         );
     }
 
     public function testHashClassContainsParentClassHash(): void
     {
         static::assertStringContainsString(
-            ClassCodeHasher::hashClassStringCode(new UnsafeClassString(AbstractCollection::class)),
-            ClassCodeHasher::hashClassStringCode(new UnsafeClassString(AbstractObjectCollection::class)),
+            ClassCodeHasher::getInstance()->hashClassStringCode(new UnsafeClassString(AbstractCollection::class)),
+            ClassCodeHasher::getInstance()->hashClassStringCode(new UnsafeClassString(AbstractObjectCollection::class)),
         );
     }
 }
