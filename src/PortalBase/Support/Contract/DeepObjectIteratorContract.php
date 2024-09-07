@@ -36,7 +36,9 @@ class DeepObjectIteratorContract
                     );
 
                     $finished = false;
-                } elseif (\is_object($iterable)) {
+                }
+
+                if (\is_object($iterable)) {
                     $class = \get_class($iterable);
 
                     if (\in_array($iterable, $alreadyChecked[$class] ?? [], true)) {

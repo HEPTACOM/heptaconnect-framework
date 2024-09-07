@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Fix `\Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract` to treat objects of classes that implement `\Iterator` as both iterables and key-value-objects
+
 ### Security
 
 ## [0.9.7.0] - 2024-02-10
