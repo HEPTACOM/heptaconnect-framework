@@ -103,21 +103,21 @@ class DeepObjectIteratorContract
     private function getClassPropertiesAccessor($className): array
     {
         $cacheKey = (string) $className;
-        $reflectionClass = \is_string($className) ? new \ReflectionClass($className) : $className;
         $result = $this->reflectionProperties[$cacheKey] ?? null;
 
         if (\is_array($result)) {
             return $result;
         }
 
+        $preResult = \is_string($className) ? new \ReflectionClass($className) : $className;
         $result = [];
 
-        foreach ($reflectionClass->getProperties() as $property) {
+        foreach ($preResult->getProperties() as $property) {
             $property->setAccessible(true);
             $result[] = $property;
         }
 
-        $parentClass = $reflectionClass->getParentClass();
+        $parentClass = $preResult->getParentClass();
 
         if ($parentClass instanceof \ReflectionClass) {
             foreach ($this->getClassPropertiesAccessor($parentClass) as $property) {
