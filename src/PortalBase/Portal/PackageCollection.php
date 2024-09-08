@@ -17,4 +17,34 @@ class PackageCollection extends AbstractObjectCollection
     {
         return PackageContract::class;
     }
+
+    public function withAdditionalPackages(): self
+    {
+        /** @var PackageContract[] $toCheck */
+        $toCheck = $this->asArray();
+        $packages = [];
+
+        while ($toCheck !== []) {
+            $newToCheck = [];
+
+            foreach ($toCheck as $package) {
+                if (\array_key_exists($package::class, $packages)) {
+                    continue;
+                }
+
+                $packages[$package::class] = $package;
+
+                foreach ($package->getAdditionalPackages() as $additionalPackage) {
+                    $newToCheck[] = $additionalPackage;
+                }
+            }
+
+            $toCheck = $newToCheck;
+        }
+
+        $result = self::withoutItems();
+        $result->push(\array_values($packages));
+
+        return $result;
+    }
 }

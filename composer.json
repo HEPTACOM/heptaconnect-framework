@@ -86,10 +86,10 @@
     },
     "autoload": {
         "psr-4": {
+            "Heptacom\\HeptaConnect\\Core\\": "src/Core/",
             "Heptacom\\HeptaConnect\\Dataset\\Base\\": "src/DatasetBase/",
             "Heptacom\\HeptaConnect\\Portal\\Base\\": "src/PortalBase/",
             "Heptacom\\HeptaConnect\\Storage\\Base\\": "src/StorageBase/",
-            "Heptacom\\HeptaConnect\\Core\\": "src/Core/",
             "Heptacom\\HeptaConnect\\TestSuite\\Portal\\": "src/TestSuitePortal/",
             "Heptacom\\HeptaConnect\\TestSuite\\Storage\\": "src/TestSuiteStorage/",
             "Heptacom\\HeptaConnect\\Ui\\Admin\\Base\\": "src/UiAdminBase/",
@@ -98,10 +98,10 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "Heptacom\\HeptaConnect\\Core\\Test\\": "test/Core/",
             "Heptacom\\HeptaConnect\\Dataset\\Base\\Test\\": "test/DatasetBase/",
             "Heptacom\\HeptaConnect\\Portal\\Base\\Test\\": "test/PortalBase/",
             "Heptacom\\HeptaConnect\\Storage\\Base\\Test\\": "test/StorageBase/",
-            "Heptacom\\HeptaConnect\\Core\\Test\\": "test/Core/",
             "Heptacom\\HeptaConnect\\Utility\\Test\\": "test/Utility/"
         }
     },

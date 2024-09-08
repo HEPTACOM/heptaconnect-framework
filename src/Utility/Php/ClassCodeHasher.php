@@ -6,43 +6,59 @@ namespace Heptacom\HeptaConnect\Utility\Php;
 
 use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract;
 
-final class ClassCodeHasher
+/**
+ * Calculate source code hashes to build and detect source code changes.
+ */
+class ClassCodeHasher
 {
-    private static array $fileHashes = [];
+    private array $fileHashes = [];
 
-    private function __construct()
+    /**
+     * Returns a singleton instance for a global cache.
+     */
+    public static function getInstance(): ClassCodeHasher
     {
+        static $instance = null;
+
+        if (null === $instance) {
+            $instance = new static();
+        }
+
+        return $instance;
     }
 
-    public static function hashClassStringCode(ClassStringReferenceContract $classString): string
+    public function hashClassStringCode(ClassStringReferenceContract $classString): string
     {
-        return self::hashReflectionClassCode(new \ReflectionClass((string) $classString));
+        return $this->hashReflectionClassCode(new \ReflectionClass((string) $classString));
     }
 
-    public static function hashClassCode(object $class): string
+    public function hashClassCode(object $class): string
     {
-        return self::hashReflectionClassCode(new \ReflectionClass($class));
+        return $this-hashReflectionClassCode(new \ReflectionClass($class));
     }
 
-    public static function hashReflectionClassCode(\ReflectionClass $reflectionClass): string
+    /**
+     * @param \ReflectionClass<object> $reflectionClass
+     */
+    public function hashReflectionClassCode(\ReflectionClass $reflectionClass): string
     {
-        if (isset(self::$fileHashes[$reflectionClass->name])) {
-            return self::$fileHashes[$reflectionClass->name];
+        if (isset($this->fileHashes[$reflectionClass->name])) {
+            return $this->fileHashes[$reflectionClass->name];
         }
 
         $results = [];
         $parentClass = $reflectionClass->getParentClass();
 
         if ($parentClass !== false) {
-            $results[] = self::hashReflectionClassCode($parentClass);
+            $results[] = $this->hashReflectionClassCode($parentClass);
         }
 
         foreach ($reflectionClass->getInterfaces() as $interface) {
-            $results[] = self::hashReflectionClassCode($interface);
+            $results[] = $this->hashReflectionClassCode($interface);
         }
 
         foreach ($reflectionClass->getTraits() as $trait) {
-            $results[] = self::hashReflectionClassCode($trait);
+            $results[] = $this->hashReflectionClassCode($trait);
         }
 
         $fileName = $reflectionClass->getFileName();
@@ -68,7 +84,7 @@ final class ClassCodeHasher
 
         $results[] = $classHash;
         $result = \implode('-', $results);
-        self::$fileHashes[$reflectionClass->name] = $result;
+        $this->fileHashes[$reflectionClass->name] = $result;
 
         return $result;
     }
