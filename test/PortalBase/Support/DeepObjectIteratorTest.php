@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Portal\Base\Test\Support;
 
 use Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract;
+use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\ChildClass;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntity;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\FirstEntityCollectionWithOtherProperties;
+use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\ParentClass;
 use Heptacom\HeptaConnect\Portal\Base\Test\Fixture\SecondEntity;
 use PHPUnit\Framework\TestCase;
 
@@ -67,5 +69,25 @@ final class DeepObjectIteratorTest extends TestCase
         static::assertContains($firstEntityC, $list3);
         static::assertContains($secondEntity, $list3);
         static::assertContains($firstEntityCollectionWithOtherProperties, $list3);
+    }
+
+    public function testParentIteration(): void
+    {
+        $deepObjectIterator = new DeepObjectIteratorContract();
+
+        $childItems = \iterable_to_array($deepObjectIterator->iterate(new ChildClass()));
+        $parentClass = new ParentClass();
+        $parentItems = \iterable_to_array($deepObjectIterator->iterate($parentClass));
+
+        static::assertNotSame([], $childItems);
+        static::assertNotSame([], $parentItems);
+
+        foreach ($parentItems as $parentItem) {
+            if ($parentItem === $parentClass) {
+                continue;
+            }
+
+            static::assertContains($parentItem, $childItems);
+        }
     }
 }
