@@ -100,7 +100,7 @@ class DeepObjectIteratorContract
      *
      * @throws \ReflectionException
      */
-    private function getClassPropertiesAccessor(\ReflectionClass|string $className): array
+    private function getClassPropertiesAccessor($className): array
     {
         $cacheKey = (string) $className;
         $reflectionClass = \is_string($className) ? new \ReflectionClass($className) : $className;
