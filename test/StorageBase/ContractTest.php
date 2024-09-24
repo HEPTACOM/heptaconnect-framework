@@ -16,32 +16,33 @@ final class ContractTest extends TestCase
     {
         $this->expectNotToPerformAssertions();
         new class() extends StorageKeyGeneratorContract {
-            public function generateKeys(string $keyClassName, int $count): iterable
-            {
-                while ($count-- > 0) {
-                    yield new class() implements StorageKeyInterface {
-                        public function equals(StorageKeyInterface $other): bool
-                        {
-                            return false;
-                        }
-
-                        #[\ReturnTypeWillChange]
-                        public function jsonSerialize()
-                        {
-                            return null;
-                        }
-                    };
-                }
-            }
-
+            #[\Override]
             public function serialize(StorageKeyInterface $key): string
             {
                 return '';
             }
 
+            #[\Override]
             public function deserialize(string $keyData): StorageKeyInterface
             {
-                return \iterable_to_array($this->generateKeys($keyData, 1))[0];
+                return new class($keyData) implements StorageKeyInterface {
+                    public function __construct(
+                        private readonly string $key,
+                    ) {
+                    }
+
+                    #[\Override]
+                    public function equals(StorageKeyInterface $other): bool
+                    {
+                        return false;
+                    }
+
+                    #[\Override]
+                    public function jsonSerialize(): string
+                    {
+                        return $this->key;
+                    }
+                };
             }
         };
     }

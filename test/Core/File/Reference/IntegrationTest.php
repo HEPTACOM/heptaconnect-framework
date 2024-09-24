@@ -446,12 +446,7 @@ class IntegrationTest extends TestCase
     {
         $getRequestAction = $this->createMock(FileReferenceGetRequestActionInterface::class);
         $persistRequestAction = $this->createMock(FileReferencePersistRequestActionInterface::class);
-        $storageKeyGenerator = new class() extends StorageKeyGeneratorContract {
-            public function generateKeys(string $keyClassName, int $count): iterable
-            {
-                return [];
-            }
-        };
+        $storageKeyGenerator = new class() extends StorageKeyGeneratorContract {};
 
         $getRequestAction->method('getRequest')
             ->willReturnCallback(static function (FileReferenceGetRequestCriteria $c) {

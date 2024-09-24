@@ -15,21 +15,6 @@ use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 abstract class StorageKeyGeneratorContract
 {
     /**
-     * Generate a storage specific implementations of keys specified by their interface.
-     *
-     * @see StorageKeyInterface
-     *
-     * @param class-string<StorageKeyInterface> $keyClassName
-     *
-     * @throws UnsupportedStorageKeyException
-     *
-     * @return StorageKeyInterface[]
-     *
-     * @phpstan-return iterable<int, StorageKeyInterface>
-     */
-    abstract public function generateKeys(string $keyClassName, int $count): iterable;
-
-    /**
      * Convert a storage key into a string.
      * Must be reversible by passing the result into deserialize.
      *
