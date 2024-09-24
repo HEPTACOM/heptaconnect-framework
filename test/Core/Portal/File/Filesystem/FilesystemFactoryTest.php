@@ -28,14 +28,10 @@ final class FilesystemFactoryTest extends TestCase
     public function testFileAccessLifecycle(): void
     {
         $storageKeyGenerator = new class() extends StorageKeyGeneratorContract {
+            #[\Override]
             public function serialize(StorageKeyInterface $key): string
             {
                 return 'PortalNode:' . \json_decode(\json_encode($key), true);
-            }
-
-            public function generateKeys(string $keyClassName, int $count): iterable
-            {
-                return [];
             }
         };
 
