@@ -41,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replace `\Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload::getPortalNodeKey` and `\Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload::getPath` methods with `\Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload::getStackIdentifier` using `\Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier`
 - Replace `\Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload::setPortalNodeKey` and `\Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload::setPath` methods with `\Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload::setStackIdentifier` using `\Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier`
 - Change parameter `string $storageKeyClass` to `mixed $storageKey` in `\Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException::__construct` to allow the exception to interpret the given value for visual representation using `get_debug_type`
+- Rename class `\Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract` to `\Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract`
 
 ### Deprecated
 

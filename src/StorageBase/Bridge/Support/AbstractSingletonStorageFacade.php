@@ -53,7 +53,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewAction
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\RouteCapability\RouteCapabilityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationSetActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 
 abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
 {
@@ -145,7 +145,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
 
     private ?RouteCapabilityOverviewActionInterface $routeCapabilityOverviewAction = null;
 
-    private ?StorageKeyGeneratorContract $storageKeyGenerator = null;
+    private ?StorageKeySerializerContract $storageKeyGenerator = null;
 
     private ?WebHttpHandlerConfigurationFindActionInterface $webHttpHandlerConfigurationFindAction = null;
 
@@ -680,14 +680,14 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     }
 
     #[\Override]
-    public function getStorageKeyGenerator(): StorageKeyGeneratorContract
+    public function getStorageKeyGenerator(): StorageKeySerializerContract
     {
         try {
             return $this->storageKeyGenerator ??= $this->createStorageKeyGenerator();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             throw $throwable;
         } catch (\Throwable $throwable) {
-            throw new StorageFacadeServiceException(StorageKeyGeneratorContract::class, $throwable);
+            throw new StorageFacadeServiceException(StorageKeySerializerContract::class, $throwable);
         }
     }
 
@@ -938,7 +938,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     /**
      * @throws \Throwable
      */
-    abstract protected function createStorageKeyGenerator(): StorageKeyGeneratorContract;
+    abstract protected function createStorageKeyGenerator(): StorageKeySerializerContract;
 
     /**
      * @throws \Throwable

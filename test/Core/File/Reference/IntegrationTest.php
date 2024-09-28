@@ -43,7 +43,7 @@ use Heptacom\HeptaConnect\Storage\Base\Action\FileReference\RequestPersist\FileR
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferenceGetRequestActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferencePersistRequestActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\FileReferenceRequestKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Heptacom\HeptaConnect\Storage\Base\FileReferenceRequestKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract;
@@ -446,7 +446,7 @@ class IntegrationTest extends TestCase
     {
         $getRequestAction = $this->createMock(FileReferenceGetRequestActionInterface::class);
         $persistRequestAction = $this->createMock(FileReferencePersistRequestActionInterface::class);
-        $storageKeyGenerator = new class() extends StorageKeyGeneratorContract {};
+        $storageKeyGenerator = new class() extends StorageKeySerializerContract {};
 
         $getRequestAction->method('getRequest')
             ->willReturnCallback(static function (FileReferenceGetRequestCriteria $c) {

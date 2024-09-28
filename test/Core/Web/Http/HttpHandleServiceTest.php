@@ -31,7 +31,7 @@ use Heptacom\HeptaConnect\Portal\Base\Web\Http\ServerRequestCycle;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -113,7 +113,7 @@ final class HttpHandleServiceTest extends TestCase
             $contextFactory,
             $logger,
             $stackBuilderFactory,
-            $this->createMock(StorageKeyGeneratorContract::class),
+            $this->createMock(StorageKeySerializerContract::class),
             $responseFactory,
             $findAction,
             $httpHandlersFactory,
@@ -160,7 +160,7 @@ final class HttpHandleServiceTest extends TestCase
         $findAction = $this->createMock(WebHttpHandlerConfigurationFindActionInterface::class);
         $findAction->method('find')->willReturn(new WebHttpHandlerConfigurationFindResult([]));
 
-        $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
+        $storageKeyGenerator = $this->createMock(StorageKeySerializerContract::class);
         $storageKeyGenerator->method('serialize')->willReturn('_');
 
         $stack = new HttpHandlerStack([
@@ -218,7 +218,7 @@ final class HttpHandleServiceTest extends TestCase
             $contextFactory,
             $logger,
             $stackBuilderFactory,
-            $this->createMock(StorageKeyGeneratorContract::class),
+            $this->createMock(StorageKeySerializerContract::class),
             $responseFactory,
             $findAction,
             $httpHandleFlowHttpHandlersFactory,
@@ -271,7 +271,7 @@ final class HttpHandleServiceTest extends TestCase
         $findAction = $this->createMock(WebHttpHandlerConfigurationFindActionInterface::class);
         $findAction->method('find')->willReturn(new WebHttpHandlerConfigurationFindResult([]));
 
-        $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
+        $storageKeyGenerator = $this->createMock(StorageKeySerializerContract::class);
         $storageKeyGenerator->method('serialize')->willReturn('_');
 
         $stack = new HttpHandlerStack([

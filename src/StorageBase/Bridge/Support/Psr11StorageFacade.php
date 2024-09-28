@@ -51,7 +51,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewAction
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\RouteCapability\RouteCapabilityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationSetActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Psr\Container\ContainerInterface;
 
 class Psr11StorageFacade extends AbstractSingletonStorageFacade
@@ -326,9 +326,9 @@ class Psr11StorageFacade extends AbstractSingletonStorageFacade
     }
 
     #[\Override]
-    protected function createStorageKeyGenerator(): StorageKeyGeneratorContract
+    protected function createStorageKeyGenerator(): StorageKeySerializerContract
     {
-        return $this->getInstanceFromContainer(StorageKeyGeneratorContract::class);
+        return $this->getInstanceFromContainer(StorageKeySerializerContract::class);
     }
 
     #[\Override]

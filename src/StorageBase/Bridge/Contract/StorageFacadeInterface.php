@@ -50,7 +50,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewAction
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\RouteCapability\RouteCapabilityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationSetActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 
 /**
  * Central storage action providing facade.
@@ -371,7 +371,7 @@ interface StorageFacadeInterface
      *
      * @throws StorageFacadeServiceExceptionInterface
      */
-    public function getStorageKeyGenerator(): StorageKeyGeneratorContract;
+    public function getStorageKeyGenerator(): StorageKeySerializerContract;
 
     /**
      * Provides storage action to get web HTTP handler configuration by portal node and path.
