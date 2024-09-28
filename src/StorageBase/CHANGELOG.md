@@ -42,6 +42,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replace `\Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload::setPortalNodeKey` and `\Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload::setPath` methods with `\Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload::setStackIdentifier` using `\Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier`
 - Change parameter `string $storageKeyClass` to `mixed $storageKey` in `\Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException::__construct` to allow the exception to interpret the given value for visual representation using `get_debug_type`
 - Rename class `\Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract` to `\Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract`
+- Rename method `\Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface::getStorageKeyGenerator` to `\Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface::getStorageKeySerializer` as return type has been renamed
+- Rename method `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade::getStorageKeyGenerator` to `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade::getStorageKeySerializer` as return type has been renamed
+- Rename method `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade::createStorageKeyGenerator` to `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade::createStorageKeySerializer` as return type has been renamed
+- Rename method `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\Psr11StorageFacade::createStorageKeyGenerator` to `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\Psr11StorageFacade::createStorageKeySerializer` as return type has been renamed
 
 ### Deprecated
 

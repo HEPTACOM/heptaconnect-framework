@@ -371,7 +371,7 @@ interface StorageFacadeInterface
      *
      * @throws StorageFacadeServiceExceptionInterface
      */
-    public function getStorageKeyGenerator(): StorageKeySerializerContract;
+    public function getStorageKeySerializer(): StorageKeySerializerContract;
 
     /**
      * Provides storage action to get web HTTP handler configuration by portal node and path.

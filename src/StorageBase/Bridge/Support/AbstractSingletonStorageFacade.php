@@ -680,10 +680,10 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     }
 
     #[\Override]
-    public function getStorageKeyGenerator(): StorageKeySerializerContract
+    public function getStorageKeySerializer(): StorageKeySerializerContract
     {
         try {
-            return $this->storageKeyGenerator ??= $this->createStorageKeyGenerator();
+            return $this->storageKeyGenerator ??= $this->createStorageKeySerializer();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             throw $throwable;
         } catch (\Throwable $throwable) {
@@ -938,7 +938,7 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     /**
      * @throws \Throwable
      */
-    abstract protected function createStorageKeyGenerator(): StorageKeySerializerContract;
+    abstract protected function createStorageKeySerializer(): StorageKeySerializerContract;
 
     /**
      * @throws \Throwable

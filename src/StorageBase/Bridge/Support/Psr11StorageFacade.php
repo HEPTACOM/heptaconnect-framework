@@ -326,7 +326,7 @@ class Psr11StorageFacade extends AbstractSingletonStorageFacade
     }
 
     #[\Override]
-    protected function createStorageKeyGenerator(): StorageKeySerializerContract
+    protected function createStorageKeySerializer(): StorageKeySerializerContract
     {
         return $this->getInstanceFromContainer(StorageKeySerializerContract::class);
     }
