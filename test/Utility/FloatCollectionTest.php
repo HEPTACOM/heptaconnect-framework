@@ -5,13 +5,17 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Utility\Test;
 
 use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractIterable;
+use Heptacom\HeptaConnect\Utility\Collection\IterableImplementationTrait;
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\FloatCollection;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(AbstractCollection::class)]
+#[CoversClass(AbstractIterable::class)]
 #[CoversClass(FloatCollection::class)]
+#[CoversClass(IterableImplementationTrait::class)]
 final class FloatCollectionTest extends TestCase
 {
     use ProvidesFloatTestsData;

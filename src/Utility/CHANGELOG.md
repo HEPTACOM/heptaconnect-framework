@@ -29,6 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `\Heptacom\HeptaConnect\Utility\ClassString\UnsafeClassString` based on class `\Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract` with `\Heptacom\HeptaConnect\Utility\ClassString\ClassStringReferenceCollection` and `\Heptacom\HeptaConnect\Utility\ClassString\AbstractClassStringReferenceCollection` to have a string references, that could be a class-string for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Add `\Heptacom\HeptaConnect\Utility\ClassString\Exception\InvalidClassNameException`, `\Heptacom\HeptaConnect\Utility\ClassString\Exception\InvalidSubtypeClassNameException` and `\Heptacom\HeptaConnect\Utility\ClassString\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException` to reference class-string issues for better [type safe class strings](https://heptaconnect.io/reference/adr/2022-06-12-type-safe-class-strings/)
 - Add `\Heptacom\HeptaConnect\Utility\Php\ClassCodeHasher` to calculate unique hashes for code of classes, interfaces and traits
+- Add implementation `\Heptacom\HeptaConnect\Utility\Collection\AbstractIterable` for new interface `\Heptacom\HeptaConnect\Utility\Collection\Contract\IterableInterface` based `\Heptacom\HeptaConnect\Utility\Collection\IterableImplementationTrait` to represent readonly data
+- Add implementation `\Heptacom\HeptaConnect\Utility\Collection\AbstractObjectIterable` for new interface `\Heptacom\HeptaConnect\Utility\Collection\Contract\IterableInterface` to represent readonly collections of objects
 
 ### Changed
 
@@ -38,6 +40,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change return type of `\Heptacom\HeptaConnect\Utility\Collection\Contract\CollectionInterface::filter` from `Generator` to `static` to improve its code usage for fluent syntax and better accessibility of other collection methods
 - Change return type of `\Heptacom\HeptaConnect\Utility\Collection\Contract\CollectionInterface::filterValid` from `Generator` to `iterable`
 - Change signature of `\Heptacom\HeptaConnect\Utility\Collection\Contract\CollectionInterface::column` to make argument `$valueAccessor` nullable. Passing `null` for this argument will make this method yield its original items.
+- Extract only reading methods from `\Heptacom\HeptaConnect\Utility\Collection\Contract\CollectionInterface` into `\Heptacom\HeptaConnect\Utility\Collection\Contract\IterableInterface`
+- Extract only reading method implementations from `\Heptacom\HeptaConnect\Utility\Collection\AbstractCollection` into `\Heptacom\HeptaConnect\Utility\Collection\IterableImplementationTrait`
 
 ### Deprecated
 
