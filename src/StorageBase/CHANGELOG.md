@@ -56,6 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove support for `php: 7.4` as it will not receive any updates anymore, it is unlikely to be used. By raising the minimum PHP version to `php: ^8.3` we also make use of features introduced by PHP 8.0, which mainly have no effect on public API
 - Remove deprecated `Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::unattach`
 - Remove method `\Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract::generateKeys` as only the storage layer should generate keys on writing data
+- Remove ability to have null as portal node alias from `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload` and `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Set\PortalNodeAliasSetPayload`
 
 ### Fixed
 
