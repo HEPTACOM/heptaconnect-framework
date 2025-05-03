@@ -23,7 +23,7 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
 use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
@@ -49,7 +49,7 @@ final class PortalNodeConfigurationInstructionProcessorTest extends TestCase
     {
         $portalNodeKey = $this->createMock(PortalNodeKeyInterface::class);
         $logger = $this->createMock(LoggerInterface::class);
-        $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
+        $storageKeyGenerator = $this->createMock(StorageKeySerializerContract::class);
         $portalRegistry = $this->createMock(PortalRegistryInterface::class);
         $instructionLoader = $this->createMock(InstructionLoaderInterface::class);
 

@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Storage\Base\Test;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(StorageKeyGeneratorContract::class)]
+#[CoversClass(StorageKeySerializerContract::class)]
 final class ContractTest extends TestCase
 {
     public function testExtendingStorageKeyGenerator(): void
     {
         $this->expectNotToPerformAssertions();
-        new class() extends StorageKeyGeneratorContract {
+        new class() extends StorageKeySerializerContract {
             #[\Override]
             public function serialize(StorageKeyInterface $key): string
             {

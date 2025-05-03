@@ -11,7 +11,7 @@ use Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Filesystem;
 use Heptacom\HeptaConnect\Core\Portal\File\Filesystem\FilesystemFactory;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Http\Discovery\Psr17FactoryDiscovery;
 use League\Flysystem\Filesystem as FlysystemFilesystem;
 use League\Flysystem\Local\LocalFilesystemAdapter;
@@ -27,7 +27,7 @@ final class FilesystemFactoryTest extends TestCase
 {
     public function testFileAccessLifecycle(): void
     {
-        $storageKeyGenerator = new class() extends StorageKeyGeneratorContract {
+        $storageKeyGenerator = new class() extends StorageKeySerializerContract {
             #[\Override]
             public function serialize(StorageKeyInterface $key): string
             {

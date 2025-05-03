@@ -21,7 +21,7 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverStackInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract;
 use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract;
@@ -53,7 +53,7 @@ final class ReceiveServiceTest extends TestCase
     {
         $receiveContextFactory = $this->createMock(ReceiveContextFactoryInterface::class);
         $logger = $this->createMock(LoggerInterface::class);
-        $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
+        $storageKeyGenerator = $this->createMock(StorageKeySerializerContract::class);
 
         $stack = $this->createMock(ReceiverStackInterface::class);
         $stack->expects(static::never())->method('next')->willReturn([]);
@@ -101,7 +101,7 @@ final class ReceiveServiceTest extends TestCase
         $stackBuilderFactory->method('createReceiverStackBuilder')->willReturn($stackBuilder);
 
         $portalNodeKey = $this->createMock(PortalNodeKeyInterface::class);
-        $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
+        $storageKeyGenerator = $this->createMock(StorageKeySerializerContract::class);
 
         $receiveService = new ReceiveService(
             $receiveContextFactory,

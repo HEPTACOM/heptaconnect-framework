@@ -19,7 +19,7 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitContextInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\TypedMappingComponentCollection;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract;
 use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract;
@@ -64,7 +64,7 @@ final class EmitServiceTest extends TestCase
         $emitService = new EmitService(
             $this->createMock(EmitContextFactoryInterface::class),
             $this->createMock(LoggerInterface::class),
-            $this->createMock(StorageKeyGeneratorContract::class),
+            $this->createMock(StorageKeySerializerContract::class),
             $stackBuilderFactory,
             $this->createMock(EmissionFlowEmittersFactoryInterface::class),
             $this->createMock(EmitterStackProcessorInterface::class),
@@ -102,7 +102,7 @@ final class EmitServiceTest extends TestCase
         $emitService = new EmitService(
             $emitContextFactory,
             $logger,
-            $this->createMock(StorageKeyGeneratorContract::class),
+            $this->createMock(StorageKeySerializerContract::class),
             $stackBuilderFactory,
             $this->createMock(EmissionFlowEmittersFactoryInterface::class),
             $this->createMock(EmitterStackProcessorInterface::class),

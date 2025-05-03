@@ -60,7 +60,7 @@ use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageFormatterCont
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageMultiPartFormDataBuilderInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageRawHttpFormatterContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerUrlProviderInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
 use Heptacom\HeptaConnect\Utility\Collection\AbstractObjectCollection;
 use HeptacomFixture\Portal\A\AutomaticService\ExceptionNotInContainer;
@@ -338,7 +338,7 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
             $this->createMock(PortalStorageFactory::class),
             $this->createMock(ResourceLockingContract::class),
             $this->createMock(ProfilerFactoryContract::class),
-            $this->createMock(StorageKeyGeneratorContract::class),
+            $this->createMock(StorageKeySerializerContract::class),
             $configurationService,
             $this->createMock(PublisherInterface::class),
             $httpHandlerUrlProviderFactory,
