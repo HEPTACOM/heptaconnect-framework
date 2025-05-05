@@ -36,10 +36,10 @@ abstract class PortalNodeTestContract extends TestCase
         $overviewAction = $facade->getPortalNodeOverviewAction();
 
         $createPayloads = new PortalNodeCreatePayloads([
-            new PortalNodeCreatePayload(PortalA::class()),
-            new PortalNodeCreatePayload(PortalA::class()),
-            new PortalNodeCreatePayload(PortalB::class()),
-            new PortalNodeCreatePayload(PortalC::class()),
+            new PortalNodeCreatePayload(PortalA::class(), 'PortalA1'),
+            new PortalNodeCreatePayload(PortalA::class(), 'PortalA2'),
+            new PortalNodeCreatePayload(PortalB::class(), 'PortalB'),
+            new PortalNodeCreatePayload(PortalC::class(), 'PortalC'),
         ]);
         $createResults = $createAction->create($createPayloads);
 

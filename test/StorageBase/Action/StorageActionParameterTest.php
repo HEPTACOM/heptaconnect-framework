@@ -347,7 +347,7 @@ class StorageActionParameterTest extends TestCase
         yield new PortalExtensionDeactivateResult(new PortalExtensionTypeCollection(), new PortalExtensionTypeCollection());
         yield new PortalExtensionFindResult();
         yield new PortalNodeCreatePayloads();
-        yield new PortalNodeCreatePayload($portalClass::class());
+        yield new PortalNodeCreatePayload($portalClass::class(), 'Alias');
         yield new PortalNodeCreateResults();
         yield new PortalNodeCreateResult($portalNodeKey);
         yield new PortalNodeDeleteCriteria($portalNodeKeys);
@@ -376,7 +376,7 @@ class StorageActionParameterTest extends TestCase
         yield new PortalNodeAliasGetResult($portalNodeKey, '');
         yield new PortalNodeAliasOverviewCriteria();
         yield new PortalNodeAliasOverviewResult($portalNodeKey, '');
-        yield new PortalNodeAliasSetPayload($portalNodeKey, null);
+        yield new PortalNodeAliasSetPayload($portalNodeKey, 'Abc');
         yield new PortalNodeAliasSetPayloads();
         yield new RouteCreatePayload($portalNodeKey, $portalNodeKey, $entityType::class());
         yield new RouteCreatePayloads();

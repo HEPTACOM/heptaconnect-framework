@@ -15,7 +15,7 @@ final class PortalNodeAliasSetPayload implements AttachmentAwareInterface, Creat
 
     public function __construct(
         private PortalNodeKeyInterface $portalNodeKey,
-        private ?string $alias
+        private string $alias,
     ) {
     }
 
@@ -29,12 +29,12 @@ final class PortalNodeAliasSetPayload implements AttachmentAwareInterface, Creat
         $this->portalNodeKey = $portalNodeKey;
     }
 
-    public function getAlias(): ?string
+    public function getAlias(): string
     {
         return $this->alias;
     }
 
-    public function setAlias(?string $alias): void
+    public function setAlias(string $alias): void
     {
         $this->alias = $alias;
     }

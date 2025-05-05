@@ -77,9 +77,9 @@ abstract class IdentityMappingTestContract extends TestCase
         $this->identityRedirectDelete = $facade->getIdentityRedirectDeleteAction();
 
         $createPayloads = new PortalNodeCreatePayloads([
-            new PortalNodeCreatePayload(PortalA::class()),
-            new PortalNodeCreatePayload(PortalB::class()),
-            new PortalNodeCreatePayload(PortalC::class()),
+            new PortalNodeCreatePayload(PortalA::class(), PortalA::class),
+            new PortalNodeCreatePayload(PortalB::class(), PortalB::class),
+            new PortalNodeCreatePayload(PortalC::class(), PortalC::class),
         ]);
         $createResults = $portalNodeCreate->create($createPayloads);
         $getCriteria = new PortalNodeGetCriteria(new PortalNodeKeyCollection($createResults->map(

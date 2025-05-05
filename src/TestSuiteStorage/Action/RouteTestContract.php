@@ -82,8 +82,8 @@ abstract class RouteTestContract extends TestCase
         $this->routeOverviewAction = $facade->getRouteOverviewAction();
 
         $portalNodeCreateResult = $this->portalNodeCreateAction->create(new PortalNodeCreatePayloads([
-            new PortalNodeCreatePayload(PortalA::class()),
-            new PortalNodeCreatePayload(PortalB::class()),
+            new PortalNodeCreatePayload(PortalA::class(), 'PortalA'),
+            new PortalNodeCreatePayload(PortalB::class(), 'PortalB'),
         ]));
         $firstResult = $portalNodeCreateResult->first();
         $lastResult = $portalNodeCreateResult->last();
