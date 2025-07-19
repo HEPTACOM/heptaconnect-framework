@@ -19,7 +19,7 @@ abstract readonly class AbstractIterable implements IterableInterface
     use IterableImplementationTrait;
 
     /**
-     * @var array<int, T>
+     * @var array<T>
      */
     protected array $items;
 

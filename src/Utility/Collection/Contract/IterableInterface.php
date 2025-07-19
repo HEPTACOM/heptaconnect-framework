@@ -17,14 +17,14 @@ interface IterableInterface extends \IteratorAggregate, \Countable, \ArrayAccess
     /**
      * Create a new collection with the given items, which should already part of the original collection.
      *
-     * @param iterable<int, T> $items
+     * @param iterable<T> $items
      */
     public function withItems(iterable $items): static;
 
     /**
      * Create a new collection with the given items in addition to the already existing items.
      *
-     * @param iterable<int, T> $items
+     * @param iterable<T> $items
      */
     public function withAddedItems(iterable $items): static;
 
