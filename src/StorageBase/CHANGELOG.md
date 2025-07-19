@@ -46,6 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Rename method `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade::getStorageKeyGenerator` to `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade::getStorageKeySerializer` as return type has been renamed
 - Rename method `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade::createStorageKeyGenerator` to `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade::createStorageKeySerializer` as return type has been renamed
 - Rename method `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\Psr11StorageFacade::createStorageKeyGenerator` to `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\Psr11StorageFacade::createStorageKeySerializer` as return type has been renamed
+- Change value of `\Heptacom\HeptaConnect\Storage\Base\Enum\RouteCapability::RECEPTION` by adding prefix `core_capability:` to mark it as core specific capability
 
 ### Deprecated
 
