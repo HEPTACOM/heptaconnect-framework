@@ -32,13 +32,13 @@ abstract readonly class AbstractIterable implements IterableInterface
      */
     public function __construct(iterable $items = [])
     {
-        $this->items = \array_values(\iterable_to_array($this->validateItems($items)));
+        $this->items = [...$this->validateItems($items)];
     }
 
     #[\Override]
     public function jsonSerialize(): array
     {
-        return \array_values($this->items);
+        return $this->items;
     }
 
     /**
