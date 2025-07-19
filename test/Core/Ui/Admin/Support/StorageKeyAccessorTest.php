@@ -25,7 +25,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetA
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\JobKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection;
@@ -66,7 +66,7 @@ final class StorageKeyAccessorTest extends TestCase
 {
     public function testPortalNodeExists(): void
     {
-        $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
+        $storageKeyGenerator = $this->createMock(StorageKeySerializerContract::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
         $jobGetAction = $this->createMock(JobGetActionInterface::class);
@@ -86,7 +86,7 @@ final class StorageKeyAccessorTest extends TestCase
 
     public function testPortalNodeDoesntExists(): void
     {
-        $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
+        $storageKeyGenerator = $this->createMock(StorageKeySerializerContract::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
         $jobGetAction = $this->createMock(JobGetActionInterface::class);
@@ -104,7 +104,7 @@ final class StorageKeyAccessorTest extends TestCase
 
     public function testPortalNodeKeyIsIncompatibleWithStorageErrorInStorage(): void
     {
-        $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
+        $storageKeyGenerator = $this->createMock(StorageKeySerializerContract::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
         $jobGetAction = $this->createMock(JobGetActionInterface::class);
@@ -124,7 +124,7 @@ final class StorageKeyAccessorTest extends TestCase
 
     public function testPortalNodeKeyRaisesErrorInStorage(): void
     {
-        $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
+        $storageKeyGenerator = $this->createMock(StorageKeySerializerContract::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
         $jobGetAction = $this->createMock(JobGetActionInterface::class);
@@ -144,7 +144,7 @@ final class StorageKeyAccessorTest extends TestCase
 
     public function testRouteExists(): void
     {
-        $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
+        $storageKeyGenerator = $this->createMock(StorageKeySerializerContract::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
         $jobGetAction = $this->createMock(JobGetActionInterface::class);
@@ -170,7 +170,7 @@ final class StorageKeyAccessorTest extends TestCase
 
     public function testRouteDoesntExists(): void
     {
-        $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
+        $storageKeyGenerator = $this->createMock(StorageKeySerializerContract::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
         $jobGetAction = $this->createMock(JobGetActionInterface::class);
@@ -188,7 +188,7 @@ final class StorageKeyAccessorTest extends TestCase
 
     public function testRouteKeyIsIncompatibleWithStorageErrorInStorage(): void
     {
-        $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
+        $storageKeyGenerator = $this->createMock(StorageKeySerializerContract::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
         $jobGetAction = $this->createMock(JobGetActionInterface::class);
@@ -208,7 +208,7 @@ final class StorageKeyAccessorTest extends TestCase
 
     public function testJobExists(): void
     {
-        $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
+        $storageKeyGenerator = $this->createMock(StorageKeySerializerContract::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
         $jobGetAction = $this->createMock(JobGetActionInterface::class);
@@ -233,7 +233,7 @@ final class StorageKeyAccessorTest extends TestCase
 
     public function testJobDoesntExists(): void
     {
-        $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
+        $storageKeyGenerator = $this->createMock(StorageKeySerializerContract::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
         $jobGetAction = $this->createMock(JobGetActionInterface::class);
@@ -251,7 +251,7 @@ final class StorageKeyAccessorTest extends TestCase
 
     public function testRouteIsIncompatibleWithStorageErrorInStorage(): void
     {
-        $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
+        $storageKeyGenerator = $this->createMock(StorageKeySerializerContract::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
         $jobGetAction = $this->createMock(JobGetActionInterface::class);
@@ -274,7 +274,7 @@ final class StorageKeyAccessorTest extends TestCase
     {
         $key = $this->createMock($keyClass);
 
-        $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
+        $storageKeyGenerator = $this->createMock(StorageKeySerializerContract::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
         $jobGetAction = $this->createMock(JobGetActionInterface::class);
@@ -294,7 +294,7 @@ final class StorageKeyAccessorTest extends TestCase
     {
         $key = $this->createMock($keyClass);
 
-        $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
+        $storageKeyGenerator = $this->createMock(StorageKeySerializerContract::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
         $jobGetAction = $this->createMock(JobGetActionInterface::class);
@@ -317,7 +317,7 @@ final class StorageKeyAccessorTest extends TestCase
     {
         $key = $this->createMock($keyClass);
 
-        $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
+        $storageKeyGenerator = $this->createMock(StorageKeySerializerContract::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
         $jobGetAction = $this->createMock(JobGetActionInterface::class);
@@ -334,7 +334,7 @@ final class StorageKeyAccessorTest extends TestCase
 
     public function testKeyDeserializeFailsInImplementation(): void
     {
-        $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
+        $storageKeyGenerator = $this->createMock(StorageKeySerializerContract::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $routeGetAction = $this->createMock(RouteGetActionInterface::class);
         $jobGetAction = $this->createMock(JobGetActionInterface::class);

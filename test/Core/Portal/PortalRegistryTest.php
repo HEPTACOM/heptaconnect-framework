@@ -22,7 +22,7 @@ use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetCriter
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringContract;
 use Heptacom\HeptaConnect\Utility\ClassString\Contract\ClassStringReferenceContract;
 use Heptacom\HeptaConnect\Utility\ClassString\Contract\SubtypeClassStringContract;
@@ -71,7 +71,7 @@ final class PortalRegistryTest extends TestCase
     {
         $portalFactory = $this->createMock(PortalFactoryContract::class);
         $portalLoader = $this->createMock(PortalLoaderInterface::class);
-        $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
+        $storageKeyGenerator = $this->createMock(StorageKeySerializerContract::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $portalExtensionFindAction = $this->createMock(PortalExtensionFindActionInterface::class);
         $portalNodeKey = $this->createMock(PortalNodeKeyInterface::class);
@@ -100,7 +100,7 @@ final class PortalRegistryTest extends TestCase
     {
         $portalFactory = $this->createMock(PortalFactoryContract::class);
         $portalLoader = $this->createMock(PortalLoaderInterface::class);
-        $storageKeyGenerator = $this->createMock(StorageKeyGeneratorContract::class);
+        $storageKeyGenerator = $this->createMock(StorageKeySerializerContract::class);
         $portalNodeGetAction = $this->createMock(PortalNodeGetActionInterface::class);
         $portalExtensionFindAction = $this->createMock(PortalExtensionFindActionInterface::class);
         $portalNodeKey = $this->createMock(PortalNodeKeyInterface::class);

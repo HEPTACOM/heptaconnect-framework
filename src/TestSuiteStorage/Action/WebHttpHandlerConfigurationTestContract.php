@@ -35,7 +35,7 @@ abstract class WebHttpHandlerConfigurationTestContract extends TestCase
         $configSet = $facade->getWebHttpHandlerConfigurationSetAction();
 
         $createPayloads = new PortalNodeCreatePayloads([
-            new PortalNodeCreatePayload(PortalA::class()),
+            new PortalNodeCreatePayload(PortalA::class(), 'PortalA'),
         ]);
         $createResults = $createAction->create($createPayloads);
         $portalNodeKeys = new PortalNodeKeyCollection(\iterable_map(

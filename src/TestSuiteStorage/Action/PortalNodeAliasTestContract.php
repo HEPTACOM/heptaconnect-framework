@@ -39,8 +39,8 @@ abstract class PortalNodeAliasTestContract extends TestCase
         $overviewAlias = $facade->getPortalNodeAliasOverviewAction();
 
         $createPayloads = new PortalNodeCreatePayloads([
-            new PortalNodeCreatePayload(PortalA::class()),
-            new PortalNodeCreatePayload(PortalB::class()),
+            new PortalNodeCreatePayload(PortalA::class(), PortalA::class),
+            new PortalNodeCreatePayload(PortalB::class(), PortalB::class),
         ]);
         $portalNodeCreateResults = $createAction->create($createPayloads);
         $portalNodeKeys = new PortalNodeKeyCollection($portalNodeCreateResults->map(
@@ -80,11 +80,21 @@ abstract class PortalNodeAliasTestContract extends TestCase
         }
 
         $setAlias->set(new PortalNodeAliasSetPayloads([
-            new PortalNodeAliasSetPayload($portalA, null),
-            new PortalNodeAliasSetPayload($portalB, null),
+            new PortalNodeAliasSetPayload($portalA, 'PortalA'),
+            new PortalNodeAliasSetPayload($portalB, 'PortalB'),
         ]));
 
-        static::assertEmpty(\iterable_to_array($getAlias->get($aliasGetCriteria)));
+        static::assertCount(2, \iterable_to_array($getAlias->get($aliasGetCriteria)));
+
+        foreach ($getAlias->get($aliasGetCriteria) as $getResult) {
+            if ($getResult->getPortalNodeKey()->equals($portalA)) {
+                static::assertSame('PortalA', $getResult->getAlias());
+            } elseif ($getResult->getPortalNodeKey()->equals($portalB)) {
+                static::assertSame('PortalB', $getResult->getAlias());
+            } else {
+                static::fail();
+            }
+        }
 
         $setAlias->set(new PortalNodeAliasSetPayloads([
             new PortalNodeAliasSetPayload($portalA, 'portal-a'),

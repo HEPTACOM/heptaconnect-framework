@@ -15,7 +15,7 @@ final class PortalNodeCreatePayload implements CreatePayloadInterface, Attachmen
 
     public function __construct(
         private PortalType $portalClass,
-        private ?string $alias = null
+        private string $alias,
     ) {
     }
 
@@ -29,12 +29,12 @@ final class PortalNodeCreatePayload implements CreatePayloadInterface, Attachmen
         $this->portalClass = $portalClass;
     }
 
-    public function getAlias(): ?string
+    public function getAlias(): string
     {
         return $this->alias;
     }
 
-    public function setAlias(?string $alias): void
+    public function setAlias(string $alias): void
     {
         $this->alias = $alias;
     }

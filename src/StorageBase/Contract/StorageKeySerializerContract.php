@@ -10,9 +10,9 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 
 /**
- * Central service to generate, serialize and deserialize storage keys.
+ * Central service to serialize and deserialize storage keys.
  */
-abstract class StorageKeyGeneratorContract
+abstract class StorageKeySerializerContract
 {
     /**
      * Convert a storage key into a string.

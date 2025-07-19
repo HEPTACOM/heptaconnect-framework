@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Change test process to always set a portal node alias in `\Heptacom\HeptaConnect\TestSuite\Storage\Action\IdentityMappingTestContract`, `\Heptacom\HeptaConnect\TestSuite\Storage\Action\JobTestContract`, `\Heptacom\HeptaConnect\TestSuite\Storage\Action\PortalExtensionTestContract`, `\Heptacom\HeptaConnect\TestSuite\Storage\Action\PortalNodeAliasTestContract`, `\Heptacom\HeptaConnect\TestSuite\Storage\Action\PortalNodeConfigurationTestContract`, `\Heptacom\HeptaConnect\TestSuite\Storage\Action\PortalNodeStorageTestContract`, `\Heptacom\HeptaConnect\TestSuite\Storage\Action\PortalNodeTestContract`, `\Heptacom\HeptaConnect\TestSuite\Storage\Action\RouteTestContract` and `\Heptacom\HeptaConnect\TestSuite\Storage\Action\WebHttpHandlerConfigurationTestContract` as portal node aliases cannot be null anymore
+
 ### Deprecated
 
 ### Removed

@@ -46,7 +46,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExt
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Psr\Log\LoggerInterface;
@@ -75,7 +75,7 @@ abstract class AbstractTestCase extends TestCase
         $portalRegistry = new PortalRegistry(
             new PortalFactory(),
             $this->getPortalLoader(),
-            $this->createMock(StorageKeyGeneratorContract::class),
+            $this->createMock(StorageKeySerializerContract::class),
             $this->createMock(PortalNodeGetActionInterface::class),
             $this->createMock(PortalExtensionFindActionInterface::class)
         );
@@ -129,7 +129,7 @@ abstract class AbstractTestCase extends TestCase
             $services[PortalStorageFactory::class] ?? $this->createMock(PortalStorageFactory::class),
             $services[ResourceLockingContract::class] ?? $this->createMock(ResourceLockingContract::class),
             $services[ProfilerFactoryContract::class] ?? $this->getProfilerFactory(),
-            $services[StorageKeyGeneratorContract::class] ?? $this->createMock(StorageKeyGeneratorContract::class),
+            $services[StorageKeySerializerContract::class] ?? $this->createMock(StorageKeySerializerContract::class),
             $services[ConfigurationServiceInterface::class] ?? $this->getConfigurationService(),
             $services[PublisherInterface::class] ?? $this->createMock(PublisherInterface::class),
             $services[HttpHandlerUrlProviderFactoryInterface::class] ?? $httpHandlerUrlProviderFactory,

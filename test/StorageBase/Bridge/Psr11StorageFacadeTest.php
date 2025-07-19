@@ -277,7 +277,7 @@ class Psr11StorageFacadeTest extends TestCase
         }
 
         try {
-            $facade->getStorageKeyGenerator();
+            $facade->getStorageKeySerializer();
             static::fail();
         } catch (StorageFacadeServiceExceptionInterface $throwable) {
             static::assertSame('Action not found', $throwable->getPrevious()->getMessage());
@@ -336,7 +336,7 @@ class Psr11StorageFacadeTest extends TestCase
         $facade->getPortalNodeStorageGetAction();
         $facade->getPortalNodeStorageListAction();
         $facade->getPortalNodeStorageSetAction();
-        $facade->getStorageKeyGenerator();
+        $facade->getStorageKeySerializer();
         $facade->getRouteCapabilityOverviewAction();
 
         static::assertTrue(true, 'We just do not expect an exception');

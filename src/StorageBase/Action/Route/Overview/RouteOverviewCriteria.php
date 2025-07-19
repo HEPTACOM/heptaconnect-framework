@@ -36,8 +36,6 @@ final class RouteOverviewCriteria extends OverviewCriteriaContract implements At
 
     private ?PortalNodeKeyCollection $targetPortalNodeKeyFilter = null;
 
-    private ?StringCollection $capabilityFilter = null;
-
     public function getEntityTypeFilter(): ?ClassStringReferenceCollection
     {
         return $this->entityTypeFilter;
@@ -66,15 +64,5 @@ final class RouteOverviewCriteria extends OverviewCriteriaContract implements At
     public function setTargetPortalNodeKeyFilter(?PortalNodeKeyCollection $targetPortalNodeKeyFilter): void
     {
         $this->targetPortalNodeKeyFilter = $targetPortalNodeKeyFilter;
-    }
-
-    public function getCapabilityFilter(): ?StringCollection
-    {
-        return $this->capabilityFilter;
-    }
-
-    public function setCapabilityFilter(?StringCollection $capabilityFilter): void
-    {
-        $this->capabilityFilter = $capabilityFilter;
     }
 }

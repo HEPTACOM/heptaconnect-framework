@@ -58,7 +58,7 @@ abstract class JobTestContract extends TestCase
         $jobStart = $facade->getJobStartAction();
 
         $firstPortalNode = $portalNodeCreate->create(new PortalNodeCreatePayloads([
-            new PortalNodeCreatePayload(PortalA::class()),
+            new PortalNodeCreatePayload(PortalA::class(), PortalA::class),
         ]))->first();
 
         static::assertInstanceOf(PortalNodeCreateResult::class, $firstPortalNode);
@@ -149,7 +149,7 @@ abstract class JobTestContract extends TestCase
         $jobStart = $facade->getJobStartAction();
 
         $firstPortalNode = $portalNodeCreate->create(new PortalNodeCreatePayloads([
-            new PortalNodeCreatePayload(PortalA::class()),
+            new PortalNodeCreatePayload(PortalA::class(), PortalA::class),
         ]))->first();
 
         static::assertInstanceOf(PortalNodeCreateResult::class, $firstPortalNode);

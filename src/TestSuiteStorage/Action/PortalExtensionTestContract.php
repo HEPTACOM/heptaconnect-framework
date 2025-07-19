@@ -35,7 +35,7 @@ abstract class PortalExtensionTestContract extends TestCase
         $portalExtensionFind = $facade->getPortalExtensionFindAction();
 
         $firstPortalNode = $portalNodeCreate->create(new PortalNodeCreatePayloads([
-            new PortalNodeCreatePayload(PortalA::class()),
+            new PortalNodeCreatePayload(PortalA::class(), PortalA::class),
         ]))->first();
 
         static::assertInstanceOf(PortalNodeCreateResult::class, $firstPortalNode);
