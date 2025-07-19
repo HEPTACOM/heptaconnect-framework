@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Utility\Collection;
 
 use Heptacom\HeptaConnect\Utility\Collection\Contract\IterableInterface;
-use Heptacom\HeptaConnect\Utility\Php\SetStateTrait;
 
 /**
  * @template T
@@ -18,7 +17,6 @@ abstract readonly class AbstractIterable implements IterableInterface
      * @use IterableImplementationTrait<T>
      */
     use IterableImplementationTrait;
-    use SetStateTrait;
 
     /**
      * @var array<int, T>
@@ -35,19 +33,6 @@ abstract readonly class AbstractIterable implements IterableInterface
     public function __construct(iterable $items = [])
     {
         $this->items = \array_values(\iterable_to_array($this->validateItems($items)));
-    }
-
-    public static function __set_state(array $an_array): static
-    {
-        $result = self::createStaticFromArray($an_array);
-        /** @var array|mixed $items */
-        $items = $an_array['items'] ?? [];
-
-        if (\is_array($items) && $items !== []) {
-            $result->items = $items;
-        }
-
-        return $result;
     }
 
     #[\Override]
