@@ -48,7 +48,6 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionIn
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\RouteCapability\RouteCapabilityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
@@ -317,12 +316,6 @@ class Psr11StorageFacade extends AbstractSingletonStorageFacade
     protected function createRouteOverviewAction(): RouteOverviewActionInterface
     {
         return $this->getInstanceFromContainer(RouteOverviewActionInterface::class);
-    }
-
-    #[\Override]
-    protected function createRouteCapabilityOverviewAction(): RouteCapabilityOverviewActionInterface
-    {
-        return $this->getInstanceFromContainer(RouteCapabilityOverviewActionInterface::class);
     }
 
     #[\Override]

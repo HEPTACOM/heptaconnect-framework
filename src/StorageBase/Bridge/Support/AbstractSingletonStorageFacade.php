@@ -50,7 +50,6 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionIn
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\RouteCapability\RouteCapabilityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
@@ -142,8 +141,6 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     private ?PortalNodeStorageListActionInterface $portalNodeStorageListAction = null;
 
     private ?PortalNodeStorageSetActionInterface $portalNodeStorageSetAction = null;
-
-    private ?RouteCapabilityOverviewActionInterface $routeCapabilityOverviewAction = null;
 
     private ?StorageKeySerializerContract $storageKeyGenerator = null;
 
@@ -668,18 +665,6 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
     }
 
     #[\Override]
-    public function getRouteCapabilityOverviewAction(): RouteCapabilityOverviewActionInterface
-    {
-        try {
-            return $this->routeCapabilityOverviewAction ??= $this->createRouteCapabilityOverviewAction();
-        } catch (StorageFacadeServiceExceptionInterface $throwable) {
-            throw $throwable;
-        } catch (\Throwable $throwable) {
-            throw new StorageFacadeServiceException(RouteCapabilityOverviewActionInterface::class, $throwable);
-        }
-    }
-
-    #[\Override]
     public function getStorageKeySerializer(): StorageKeySerializerContract
     {
         try {
@@ -929,11 +914,6 @@ abstract class AbstractSingletonStorageFacade implements StorageFacadeInterface
      * @throws \Throwable
      */
     abstract protected function createRouteOverviewAction(): RouteOverviewActionInterface;
-
-    /**
-     * @throws \Throwable
-     */
-    abstract protected function createRouteCapabilityOverviewAction(): RouteCapabilityOverviewActionInterface;
 
     /**
      * @throws \Throwable

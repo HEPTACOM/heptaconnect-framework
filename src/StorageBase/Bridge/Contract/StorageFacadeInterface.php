@@ -47,7 +47,6 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionIn
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\RouteCapability\RouteCapabilityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
@@ -358,13 +357,6 @@ interface StorageFacadeInterface
      * @throws StorageFacadeServiceExceptionInterface
      */
     public function getRouteOverviewAction(): RouteOverviewActionInterface;
-
-    /**
-     * Provides storage action to paginate over all route capabilities.
-     *
-     * @throws StorageFacadeServiceExceptionInterface
-     */
-    public function getRouteCapabilityOverviewAction(): RouteCapabilityOverviewActionInterface;
 
     /**
      * Provides a service to generate and translate string from/to object representation of @see StorageKeyInterface
