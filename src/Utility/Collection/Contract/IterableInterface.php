@@ -15,6 +15,20 @@ namespace Heptacom\HeptaConnect\Utility\Collection\Contract;
 interface IterableInterface extends \IteratorAggregate, \Countable, \ArrayAccess, \JsonSerializable
 {
     /**
+     * Create a new collection with the given items, which should already part of the original collection.
+     *
+     * @param iterable<int, T> $items
+     */
+    public function withItems(iterable $items): static;
+
+    /**
+     * Create a new collection with the given items in addition to the already existing items.
+     *
+     * @param iterable<int, T> $items
+     */
+    public function withAddedItems(iterable $items): static;
+
+    /**
      * Returns true, when no entry is in the collection, otherwise false.
      */
     public function isEmpty(): bool;

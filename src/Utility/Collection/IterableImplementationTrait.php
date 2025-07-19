@@ -16,6 +16,16 @@ use Heptacom\HeptaConnect\Utility\Collection\Contract\IterableInterface;
  */
 trait IterableImplementationTrait
 {
+    public function withItems(iterable $items): static
+    {
+        return new static($items);
+    }
+
+    public function withAddedItems(iterable $items): static
+    {
+        return $this->withItems([...$this->items, ...$items]);
+    }
+
     #[\Override]
     public function isEmpty(): bool
     {
@@ -84,7 +94,7 @@ trait IterableImplementationTrait
     #[\Override]
     public function filter(callable $filterFn): static
     {
-        return $this->recreateWithNewItems(\array_values(\array_filter($this->items, $filterFn)));
+        return $this->withItems(\array_values(\array_filter($this->items, $filterFn)));
     }
 
     #[\Override]
@@ -112,13 +122,13 @@ trait IterableImplementationTrait
             $buffer[$chunkIndex++] = $item;
 
             if (($chunkIndex % $size) === 0) {
-                yield $this->recreateWithNewItems(\array_values($buffer));
+                yield $this->withItems(\array_values($buffer));
                 $buffer = [];
             }
         }
 
         if ($buffer !== []) {
-            yield $this->recreateWithNewItems(\array_values($buffer));
+            yield $this->withItems(\array_values($buffer));
         }
     }
 
@@ -140,11 +150,11 @@ trait IterableImplementationTrait
     #[\Override]
     public function asUnique(): static
     {
-        $result = $this->recreateWithNewItems([]);
+        $result = $this->withItems([]);
 
         foreach ($this->items as $item) {
             if (!$result->contains($item)) {
-                $result = $this->recreateWithNewItems([...$result, $item]);
+                $result = $result->withAddedItems([$item]);
             }
         }
 
@@ -229,13 +239,5 @@ trait IterableImplementationTrait
         }
 
         return false;
-    }
-
-    /**
-     * Create a new collection with the given items, which should already part of the original collection.
-     */
-    protected function recreateWithNewItems(iterable $items): static
-    {
-        return new static($items);
     }
 }

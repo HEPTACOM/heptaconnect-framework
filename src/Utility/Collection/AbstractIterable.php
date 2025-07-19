@@ -24,7 +24,7 @@ abstract readonly class AbstractIterable implements IterableInterface
     protected array $items;
 
     /**
-     * Make sure to override @see recreateWithNewItems when changing the constructor signature.
+     * Make sure to override @see withItems when changing the constructor signature.
      *
      * @param iterable<T> $items
      *

@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add method `\Heptacom\HeptaConnect\Utility\Collection\AbstractCollection::asArray` from implementation into the interface `\Heptacom\HeptaConnect\Utility\Collection\Contract\CollectionInterface::asArray`
 - Add method `\Heptacom\HeptaConnect\Utility\Collection\AbstractCollection::reverse` from implementation into the interface `\Heptacom\HeptaConnect\Utility\Collection\Contract\CollectionInterface::reverse`
 - Add method `\Heptacom\HeptaConnect\Utility\Collection\AbstractCollection::isEmpty` from implementation into the interface `\Heptacom\HeptaConnect\Utility\Collection\Contract\CollectionInterface::isEmpty`
+- Add method `\Heptacom\HeptaConnect\Utility\Collection\AbstractCollection::withItems` to create a new instance of the collection with the given items instead
+- Add method `\Heptacom\HeptaConnect\Utility\Collection\AbstractCollection::withAddedItems` to create a new instance of the collection with the given items in addition
 - Add method `\Heptacom\HeptaConnect\Utility\Collection\AbstractCollection::contains` to check whether the given item is in the collection
 - Add method `\Heptacom\HeptaConnect\Utility\Collection\AbstractCollection::containsByEqualsCheck` for any extending class to build alternative contains implementations based upon comparison
 - Add method `\Heptacom\HeptaConnect\Utility\Collection\AbstractCollection::asUnique` to build a collection with items that are not identical to the other items in the collection

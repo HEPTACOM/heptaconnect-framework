@@ -26,7 +26,7 @@ abstract class AbstractCollection implements CollectionInterface
     protected array $items = [];
 
     /**
-     * Make sure to override @see recreateWithNewItems when changing the constructor signature.
+     * Make sure to override @see withItems when changing the constructor signature.
      *
      * @param iterable<T> $items
      *
@@ -54,6 +54,18 @@ abstract class AbstractCollection implements CollectionInterface
     public function jsonSerialize(): array
     {
         return \array_values($this->items);
+    }
+
+    /**
+     * Overrides trait
+     */
+    public function withItems(iterable $items): static
+    {
+        $result = $this->withoutItems();
+
+        $result->push($items);
+
+        return $result;
     }
 
     #[\Override]
@@ -149,14 +161,5 @@ abstract class AbstractCollection implements CollectionInterface
         $that->clear();
 
         return $that;
-    }
-
-    protected function recreateWithNewItems(iterable $items): static
-    {
-        $result = $this->withoutItems();
-
-        $result->push($items);
-
-        return $result;
     }
 }
