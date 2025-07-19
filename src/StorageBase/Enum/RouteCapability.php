@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Storage\Base\Enum;
 
 abstract class RouteCapability
 {
-    public const RECEPTION = 'reception';
+    public const RECEPTION = 'core_capability:reception';
 
     public const ALL = [
         self::RECEPTION,

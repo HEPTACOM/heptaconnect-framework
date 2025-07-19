@@ -46,6 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Rename method `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade::getStorageKeyGenerator` to `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade::getStorageKeySerializer` as return type has been renamed
 - Rename method `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade::createStorageKeyGenerator` to `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\AbstractSingletonStorageFacade::createStorageKeySerializer` as return type has been renamed
 - Rename method `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\Psr11StorageFacade::createStorageKeyGenerator` to `\Heptacom\HeptaConnect\Storage\Base\Bridge\Support\Psr11StorageFacade::createStorageKeySerializer` as return type has been renamed
+- Change value of `\Heptacom\HeptaConnect\Storage\Base\Enum\RouteCapability::RECEPTION` by adding prefix `core_capability:` to mark it as core specific capability
 
 ### Deprecated
 
@@ -54,6 +55,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 - Remove support for `php: 7.4` as it will not receive any updates anymore, it is unlikely to be used. By raising the minimum PHP version to `php: ^8.3` we also make use of features introduced by PHP 8.0, which mainly have no effect on public API
+- Remove `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\RouteCapability\RouteCapabilityOverviewActionInterface`, `\Heptacom\HeptaConnect\Storage\Base\Action\RouteCapability\Overview\RouteCapabilityOverviewCriteria` and `\Heptacom\HeptaConnect\Storage\Base\Action\RouteCapability\Overview\RouteCapabilityOverviewResult` as browsing possible route capabilities is not intended anymore
+- Remove `\Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview\RouteOverviewCriteria::setCapabilityFilter` and `\Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview\RouteOverviewCriteria::getCapabilityFilter` as filtering by capabilities is not intended anymore
 - Remove deprecated `Heptacom\HeptaConnect\Dataset\Base\Support\AttachmentAwareTrait::unattach`
 - Remove method `\Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract::generateKeys` as only the storage layer should generate keys on writing data
 - Remove ability to have null as portal node alias from `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload` and `\Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Set\PortalNodeAliasSetPayload`
