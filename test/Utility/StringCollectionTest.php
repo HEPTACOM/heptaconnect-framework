@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Utility\Test;
 
 use Heptacom\HeptaConnect\Utility\Collection\AbstractCollection;
+use Heptacom\HeptaConnect\Utility\Collection\AbstractIterable;
+use Heptacom\HeptaConnect\Utility\Collection\IterableImplementationTrait;
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(AbstractCollection::class)]
+#[CoversClass(AbstractIterable::class)]
+#[CoversClass(IterableImplementationTrait::class)]
 #[CoversClass(StringCollection::class)]
 final class StringCollectionTest extends TestCase
 {
@@ -50,5 +54,41 @@ final class StringCollectionTest extends TestCase
     {
         $collection = new StringCollection(['php', 'is', 'nice']);
         static::assertSame('php;is;nice', $collection->join(';'));
+    }
+
+    #[DataProvider('provideValidStringTestCases')]
+    public function testInsertTypeInTypeIterable(string $item): void
+    {
+        $collection = new readonly class () extends AbstractIterable {
+            #[\Override]
+            protected function isValidItem(mixed $item): bool
+            {
+                return \is_string($item);
+            }
+        };
+        static::assertFalse($collection->contains($item));
+        $collection = new readonly class ([$item]) extends AbstractIterable {
+            #[\Override]
+            protected function isValidItem(mixed $item): bool
+            {
+                return \is_string($item);
+            }
+        };
+        static::assertCount(1, $collection);
+        static::assertEquals($item, $collection[0]);
+        static::assertTrue($collection->contains($item));
+    }
+
+    #[DataProvider('provideInvalidTestCases')]
+    public function testFailInsertOtherTypeInTypeIterable($item): void
+    {
+        static::expectException(\InvalidArgumentException::class);
+        new readonly class ([$item]) extends AbstractIterable {
+            #[\Override]
+            protected function isValidItem(mixed $item): bool
+            {
+                return \is_string($item);
+            }
+        };
     }
 }

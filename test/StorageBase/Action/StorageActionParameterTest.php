@@ -109,8 +109,6 @@ use Heptacom\HeptaConnect\Storage\Base\Action\Route\Listing\ReceptionRouteListCr
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Listing\ReceptionRouteListResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview\RouteOverviewCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview\RouteOverviewResult;
-use Heptacom\HeptaConnect\Storage\Base\Action\RouteCapability\Overview\RouteCapabilityOverviewCriteria;
-use Heptacom\HeptaConnect\Storage\Base\Action\RouteCapability\Overview\RouteCapabilityOverviewResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload;
@@ -224,8 +222,6 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(PortalNodeListResult::class)]
 #[CoversClass(PortalNodeOverviewCriteria::class)]
 #[CoversClass(PortalNodeOverviewResult::class)]
-#[CoversClass(RouteCapabilityOverviewCriteria::class)]
-#[CoversClass(RouteCapabilityOverviewResult::class)]
 #[CoversClass(RouteCreatePayload::class)]
 #[CoversClass(RouteCreatePayloads::class)]
 #[CoversClass(RouteCreateResult::class)]
@@ -401,8 +397,6 @@ class StorageActionParameterTest extends TestCase
         yield new RouteOverviewResult($routeKey, $unsafeClass, $portalNodeKey, $portalClass::class(), $portalNodeKey, $unsafeClass, $createdAt, $stringCollection);
         yield new RouteOverviewResult($routeKey, $unsafeClass, $portalNodeKey, $unsafeClass, $portalNodeKey, $portalClass::class(), $createdAt, $stringCollection);
         yield new RouteOverviewResult($routeKey, $unsafeClass, $portalNodeKey, $unsafeClass, $portalNodeKey, $unsafeClass, $createdAt, $stringCollection);
-        yield new RouteCapabilityOverviewCriteria();
-        yield new RouteCapabilityOverviewResult('', $createdAt);
         yield new WebHttpHandlerConfigurationFindCriteria($httpStackIdentifier, '');
         yield new WebHttpHandlerConfigurationFindResult(null);
         yield new WebHttpHandlerConfigurationSetPayload($httpStackIdentifier, '');
