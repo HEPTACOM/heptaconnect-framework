@@ -58,8 +58,8 @@
         "symfony/yaml": "^4.4 || ^5.0"
     },
     "require-dev": {
+        "heptacom/flysystem-stream-wrapper": "^1.0",
         "infection/infection": ">=0.21",
-        "kor3k/flysystem-stream-wrapper": "^1.0.11",
         "nyholm/psr7": ">=1",
         "php-http/curl-client": ">=2",
         "symfony/cache": ">=3.2"
