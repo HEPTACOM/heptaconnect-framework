@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Expand constraint for composer dependency `psr/log: ^1.0 || ^2.0 || ^3.0`
+- Expand constraint for composer dependency `symfony/config: ^4.4 || ^5.0 || ^6.0`
+- Expand constraint for composer dependency `symfony/dependency-injection: ^4.4 || ^5.0 || ^6.0`
+
 ### Deprecated
 
 ### Removed

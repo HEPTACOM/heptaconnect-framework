@@ -42,3 +42,12 @@ parameters:
 			# never trust user input
 			message: '#Instanceof between Heptacom\\HeptaConnect\\Portal\\Base\\Mapping\\Contract\\MappingInterface and Heptacom\\HeptaConnect\\Portal\\Base\\Mapping\\Contract\\MappingInterface will always evaluate to true.#'
 			path: ../src/StorageBase/TypedMappingCollection.php
+		-
+			# psr/log 3 types the $message parameter of LoggerInterface::log() as string|Stringable, but this
+			# package still supports PHP 7.4 where union types are a parse error, so these log() overrides must
+			# keep $message untyped. Contravariant-safe (no runtime break) — phpstan strictness only.
+			message: '#^Method [a-zA-Z0-9\\_]+::log\(\) has parameter \$message with no type specified\.$#'
+			paths:
+				- ../src/Core/Component/Logger/ExceptionCodeLogger.php
+				- ../src/Core/Component/Logger/FlowComponentCodeOriginFinderLogger.php
+				- ../src/Core/Portal/PortalLogger.php
