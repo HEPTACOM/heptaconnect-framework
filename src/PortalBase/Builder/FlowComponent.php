@@ -34,11 +34,6 @@ class FlowComponent implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
-
     private ?int $defaultPriority = null;
 
     /**
@@ -279,11 +274,13 @@ class FlowComponent implements LoggerAwareInterface
         $format = '%sBuilder: You implement both "%s" and "%s". The "%s" method will not be executed.';
         $message = \sprintf($format, $builder, $method, $dropped, $dropped);
 
-        $this->logger->warning($message, [
-            'code' => 1636791700,
-            'builder' => $builder,
-            'method' => $method,
-            'dropped' => $dropped,
-        ]);
+        if ($this->logger instanceof LoggerInterface) {
+            $this->logger->warning($message, [
+                'code' => 1636791700,
+                'builder' => $builder,
+                'method' => $method,
+                'dropped' => $dropped,
+            ]);
+        }
     }
 }
