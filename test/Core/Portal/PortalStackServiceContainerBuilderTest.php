@@ -13,6 +13,7 @@ use Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory;
 use Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract;
 use Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory;
 use Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector;
+use Heptacom\HeptaConnect\Core\Support\Psr17FactoryRegistry;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarStatusReporter;
 use Heptacom\HeptaConnect\Core\Test\Fixture\HttpClientInterfaceDecorator;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface;
@@ -55,7 +56,11 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestFactoryInterface;
+use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Message\UploadedFileFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -108,7 +113,22 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
 
     public function testServiceRetrieval(): void
     {
-        $container = $this->getContainerBuilder();
+        $requestFactory = $this->createMock(RequestFactoryInterface::class);
+        $responseFactory = $this->createMock(ResponseFactoryInterface::class);
+        $serverRequestFactory = $this->createMock(ServerRequestFactoryInterface::class);
+        $streamFactory = $this->createMock(StreamFactoryInterface::class);
+        $uploadedFileFactory = $this->createMock(UploadedFileFactoryInterface::class);
+        $uriFactory = $this->createMock(UriFactoryInterface::class);
+
+        $psr17FactoryRegistry = $this->createMock(Psr17FactoryRegistry::class);
+        $psr17FactoryRegistry->method('getRequestFactory')->willReturn($requestFactory);
+        $psr17FactoryRegistry->method('getResponseFactory')->willReturn($responseFactory);
+        $psr17FactoryRegistry->method('getServerRequestFactory')->willReturn($serverRequestFactory);
+        $psr17FactoryRegistry->method('getStreamFactory')->willReturn($streamFactory);
+        $psr17FactoryRegistry->method('getUploadedFileFactory')->willReturn($uploadedFileFactory);
+        $psr17FactoryRegistry->method('getUriFactory')->willReturn($uriFactory);
+
+        $container = $this->getContainerBuilder($psr17FactoryRegistry);
         $container->compile();
 
         static::assertTrue($container->has(ClientInterface::class));
@@ -130,6 +150,14 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
         static::assertTrue($container->has(ResourceLockFacade::class));
         static::assertTrue($container->has(UriFactoryInterface::class));
         static::assertTrue($container->has(HttpClientContract::class));
+        static::assertTrue($container->has(Psr17FactoryRegistry::class));
+
+        static::assertSame($requestFactory, $container->get(RequestFactoryInterface::class));
+        static::assertSame($responseFactory, $container->get(ResponseFactoryInterface::class));
+        static::assertSame($serverRequestFactory, $container->get(ServerRequestFactoryInterface::class));
+        static::assertSame($streamFactory, $container->get(StreamFactoryInterface::class));
+        static::assertSame($uploadedFileFactory, $container->get(UploadedFileFactoryInterface::class));
+        static::assertSame($uriFactory, $container->get(UriFactoryInterface::class));
 
         static::assertTrue($container->has(HttpHandlerUrlProviderInterface::class));
 
@@ -297,7 +325,7 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
         ], $report);
     }
 
-    private function getContainerBuilder(): ContainerBuilder
+    private function getContainerBuilder(?Psr17FactoryRegistry $psr17FactoryRegistry = null): ContainerBuilder
     {
         $configurationService = $this->createMock(ConfigurationServiceInterface::class);
         $configurationService->expects(static::atLeastOnce())
@@ -324,6 +352,7 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
             $this->createMock(Psr7MessageCurlShellFormatterContract::class),
             $this->createMock(Psr7MessageRawHttpFormatterContract::class),
             $this->createMock(Psr7MessageMultiPartFormDataBuilderInterface::class),
+            $psr17FactoryRegistry
         );
         $builder->setDirectEmissionFlow($this->createMock(DirectEmissionFlowContract::class));
         $builder->setFileReferenceResolver($this->createMock(FileReferenceResolverContract::class));
