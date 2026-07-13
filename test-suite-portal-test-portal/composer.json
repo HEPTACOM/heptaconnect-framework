@@ -16,7 +16,8 @@
         "phpunit/phpunit": ">=9.3 <10",
         "symfony/cache": "^5",
         "php-http/discovery": "^1.11",
-        "nyholm/psr7": "^1"
+        "nyholm/psr7": "^1",
+        "guzzlehttp/guzzle": "^7.14"
     },
     "repositories": {
         "heptaconnect-sources": {
