@@ -14,6 +14,7 @@ use Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract;
 use Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory;
 use Heptacom\HeptaConnect\Core\Support\HttpMiddlewareCollector;
 use Heptacom\HeptaConnect\Core\Support\Psr17FactoryRegistry;
+use Heptacom\HeptaConnect\Core\Support\Psr18ClientRegistry;
 use Heptacom\HeptaConnect\Core\Test\Fixture\FooBarStatusReporter;
 use Heptacom\HeptaConnect\Core\Test\Fixture\HttpClientInterfaceDecorator;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface;
@@ -128,7 +129,12 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
         $psr17FactoryRegistry->method('getUploadedFileFactory')->willReturn($uploadedFileFactory);
         $psr17FactoryRegistry->method('getUriFactory')->willReturn($uriFactory);
 
-        $container = $this->getContainerBuilder($psr17FactoryRegistry);
+        $psr18Client = $this->createMock(ClientInterface::class);
+        $psr18Client->expects(static::once())->method('sendRequest');
+        $psr18ClientRegistry = $this->createMock(Psr18ClientRegistry::class);
+        $psr18ClientRegistry->method('getClient')->willReturn($psr18Client);
+
+        $container = $this->getContainerBuilder($psr17FactoryRegistry, $psr18ClientRegistry);
         $container->compile();
 
         static::assertTrue($container->has(ClientInterface::class));
@@ -151,6 +157,7 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
         static::assertTrue($container->has(UriFactoryInterface::class));
         static::assertTrue($container->has(HttpClientContract::class));
         static::assertTrue($container->has(Psr17FactoryRegistry::class));
+        static::assertTrue($container->has(Psr18ClientRegistry::class));
 
         static::assertSame($requestFactory, $container->get(RequestFactoryInterface::class));
         static::assertSame($responseFactory, $container->get(ResponseFactoryInterface::class));
@@ -158,6 +165,9 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
         static::assertSame($streamFactory, $container->get(StreamFactoryInterface::class));
         static::assertSame($uploadedFileFactory, $container->get(UploadedFileFactoryInterface::class));
         static::assertSame($uriFactory, $container->get(UriFactoryInterface::class));
+
+        $actualPsr18Client = $container->get(ClientInterface::class);
+        $actualPsr18Client->sendRequest($this->createMock(RequestInterface::class));
 
         static::assertTrue($container->has(HttpHandlerUrlProviderInterface::class));
 
@@ -325,8 +335,10 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
         ], $report);
     }
 
-    private function getContainerBuilder(?Psr17FactoryRegistry $psr17FactoryRegistry = null): ContainerBuilder
-    {
+    private function getContainerBuilder(
+        ?Psr17FactoryRegistry $psr17FactoryRegistry = null,
+        ?Psr18ClientRegistry $psr18ClientRegistry = null
+    ): ContainerBuilder {
         $configurationService = $this->createMock(ConfigurationServiceInterface::class);
         $configurationService->expects(static::atLeastOnce())
             ->method('getPortalNodeConfiguration')
@@ -352,7 +364,8 @@ final class PortalStackServiceContainerBuilderTest extends TestCase
             $this->createMock(Psr7MessageCurlShellFormatterContract::class),
             $this->createMock(Psr7MessageRawHttpFormatterContract::class),
             $this->createMock(Psr7MessageMultiPartFormDataBuilderInterface::class),
-            $psr17FactoryRegistry
+            $psr17FactoryRegistry,
+            $psr18ClientRegistry
         );
         $builder->setDirectEmissionFlow($this->createMock(DirectEmissionFlowContract::class));
         $builder->setFileReferenceResolver($this->createMock(FileReferenceResolverContract::class));
