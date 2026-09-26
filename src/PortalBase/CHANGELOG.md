@@ -11,20 +11,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Expand constraint for composer dependency `psr/log: ^1.0 || ^2.0 || ^3.0`
-- Expand constraint for composer dependency `symfony/config: ^4.4 || ^5.0 || ^6.0`
-- Expand constraint for composer dependency `symfony/dependency-injection: ^4.4 || ^5.0 || ^6.0`
-
 ### Deprecated
 
 ### Removed
 
 ### Fixed
 
+### Security
+
+## [0.9.8.0] - 2026-09-26
+
+### Changed
+
+- Expand constraint for composer dependency `psr/log: ^1.0 || ^2.0 || ^3.0`
+- Expand constraint for composer dependency `symfony/config: ^4.4 || ^5.0 || ^6.0`
+- Expand constraint for composer dependency `symfony/dependency-injection: ^4.4 || ^5.0 || ^6.0`
+
+### Fixed
+
 - Fix `\Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract` to treat objects of classes that implement `\Iterator` as both iterables and key-value-objects
 - Fix `\Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract` to also iterate over properties of parent classes
-
-### Security
 
 ## [0.9.7.0] - 2024-02-10
 
