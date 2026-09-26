@@ -557,7 +557,7 @@ abstract class IdentityMappingTestContract extends TestCase
     /**
      * Provide a list of FQCNs of entity classes.
      */
-    public function provideEntityClasses(): iterable
+    public static function provideEntityClasses(): iterable
     {
         yield [EntityA::class];
         yield [EntityB::class];

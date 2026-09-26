@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Change `\Heptacom\HeptaConnect\TestSuite\Storage\Action\IdentityMappingTestContract::provideEntityClasses` to a static method, to support newer PHPUnit versions
+
 ### Deprecated
 
 ### Removed
